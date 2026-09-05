@@ -26,7 +26,6 @@ body.light-mode{
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;font-family:'Cairo',Arial,sans-serif;background:var(--bg);direction:rtl;-webkit-font-smoothing:antialiased;transition:background .4s}
 
-/* SPLASH */
 #splash{position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at 50% 40%,#162060 0%,#070d2a 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .9s,visibility .9s}
 #splash.hide{opacity:0;visibility:hidden;pointer-events:none}
 .splash-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
@@ -38,12 +37,11 @@ html,body{height:100%;overflow:hidden;font-family:'Cairo',Arial,sans-serif;backg
 .splash-logo{width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,#1a237e,#3949ab);border:2px solid rgba(245,200,66,.4);display:flex;align-items:center;justify-content:center;font-size:34px;color:var(--gold);animation:logo-p 1.5s ease-in-out infinite}
 @keyframes logo-p{0%,100%{box-shadow:0 0 30px rgba(245,200,66,.2)}50%{box-shadow:0 0 55px rgba(245,200,66,.5)}}
 .splash-title{font-size:20px;font-weight:900;color:#fff;letter-spacing:1px;text-align:center}
-.splash-sub{font-size:12px;color:var(--text2);text-align:center}
-/* Splash counters */
-.splash-counters{display:flex;gap:16px;margin:4px 0}
-.splash-counter{text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(245,200,66,.2);border-radius:12px;padding:8px 16px}
+.splash-sub{font-size:12px;color:#8899cc;text-align:center}
+.splash-counters{display:flex;gap:14px;margin:4px 0}
+.splash-counter{text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(245,200,66,.2);border-radius:12px;padding:8px 14px}
 .splash-counter-val{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:var(--gold);line-height:1}
-.splash-counter-lbl{font-size:10px;color:var(--text2);margin-top:2px}
+.splash-counter-lbl{font-size:10px;color:#8899cc;margin-top:2px}
 .splash-bar{width:220px;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
 .splash-fill{height:100%;background:linear-gradient(90deg,var(--royal3),var(--gold),var(--gold2));border-radius:2px;width:0;animation:fill-b 2.3s cubic-bezier(.4,0,.2,1) forwards}
 @keyframes fill-b{0%{width:0}70%{width:82%}100%{width:100%}}
@@ -53,31 +51,19 @@ html,body{height:100%;overflow:hidden;font-family:'Cairo',Arial,sans-serif;backg
 .splash-dot:nth-child(3){animation-delay:.4s}
 @keyframes d-blink{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;background:var(--gold);transform:scale(1.2)}}
 
-/* NOTIFICATION BANNER */
-#notif-banner{
-  position:fixed;top:0;left:0;right:0;z-index:8000;
-  background:linear-gradient(135deg,var(--royal2),var(--royal3));
-  color:#fff;font-size:13px;font-weight:700;font-family:'Cairo',sans-serif;
-  padding:calc(var(--safe-top) + 10px) 16px 10px;
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  transform:translateY(-100%);transition:transform .5s cubic-bezier(.32,1,.42,1);
-  border-bottom:2px solid var(--gold);
-}
+#notif-banner{position:fixed;top:0;left:0;right:0;z-index:8000;background:linear-gradient(135deg,var(--royal2),var(--royal3));color:#fff;font-size:13px;font-weight:700;font-family:'Cairo',sans-serif;padding:calc(var(--safe-top) + 10px) 16px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;transform:translateY(-100%);transition:transform .5s cubic-bezier(.32,1,.42,1);border-bottom:2px solid var(--gold)}
 #notif-banner.show{transform:translateY(0)}
 .notif-text{display:flex;align-items:center;gap:8px}
 .notif-text i{color:var(--gold);font-size:14px}
 .notif-close{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;flex-shrink:0}
 
-/* STARS */
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .star{position:absolute;border-radius:50%;background:#fff;animation:twinkle linear infinite}
 @keyframes twinkle{0%,100%{opacity:.04}50%{opacity:.35}}
 
-/* APP */
 .app{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;position:relative;z-index:1}
 
-/* HEADER */
-.header{flex-shrink:0;padding:calc(var(--safe-top) + 13px) 14px 11px;border-bottom:1px solid rgba(245,200,66,.2);position:relative;overflow:hidden;transition:background .4s}
+.header{flex-shrink:0;padding:calc(var(--safe-top) + 12px) 14px 10px;border-bottom:1px solid rgba(245,200,66,.2);position:relative;overflow:hidden;transition:background .4s}
 .header.mode-perm{background:linear-gradient(135deg,#0b1437 0%,#162060 50%,#1a237e 100%)}
 .header.mode-cont{background:linear-gradient(135deg,#00251a 0%,#004d40 50%,#00695c 100%)}
 body.light-mode .header.mode-perm{background:linear-gradient(135deg,#3949ab,#5c6bc0)}
@@ -85,15 +71,13 @@ body.light-mode .header.mode-cont{background:linear-gradient(135deg,#00695c,#008
 .gold-line{position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(245,200,66,.2) 20%,var(--gold) 50%,rgba(245,200,66,.2) 80%,transparent);animation:gflow 4s ease-in-out infinite}
 @keyframes gflow{0%,100%{opacity:.5}50%{opacity:1}}
 .header-row{display:flex;align-items:center;gap:10px;position:relative}
-/* Ministry logo area */
-.header-logo{width:44px;height:44px;flex-shrink:0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all .4s;position:relative}
+.header-logo{width:44px;height:44px;flex-shrink:0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all .4s}
 .header.mode-perm .header-logo{background:linear-gradient(135deg,rgba(245,200,66,.15),rgba(245,200,66,.04));border:1.5px solid rgba(245,200,66,.3);color:var(--gold)}
 .header.mode-cont .header-logo{background:linear-gradient(135deg,rgba(0,172,193,.2),rgba(0,172,193,.05));border:1.5px solid rgba(0,172,193,.35);color:var(--teal3)}
 .header-text{flex:1;min-width:0}
-.hdr-min{font-size:9px;color:rgba(255,255,255,.7);font-weight:700;letter-spacing:1.5px;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-min{font-size:9px;color:rgba(255,255,255,.7);font-weight:700;letter-spacing:1.5px;margin-bottom:1px}
 .hdr-dept{font-size:10px;color:rgba(255,255,255,.5);margin-bottom:1px}
 .hdr-title{font-size:15px;font-weight:900;color:#fff;line-height:1.2}
-/* Header right controls */
 .hdr-controls{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .hdr-btn{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:all .2s;border:none;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
 .hdr-btn:active{transform:scale(.9)}
@@ -104,23 +88,19 @@ body.light-mode .header.mode-cont{background:linear-gradient(135deg,#00695c,#008
 .header.mode-perm .hdr-num{color:var(--gold)}
 .header.mode-cont .hdr-num{color:var(--teal3)}
 .hdr-lbl{font-size:8px;color:rgba(255,255,255,.5);margin-top:1px}
-/* Date bar */
-.date-bar{display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08)}
-.date-item{display:flex;align-items:center;gap:4px;font-size:10px;color:rgba(255,255,255,.6)}
+.date-bar{display:flex;align-items:center;gap:6px;margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,.07)}
+.date-item{display:flex;align-items:center;gap:4px;font-size:10px;color:rgba(255,255,255,.55)}
 .date-item i{font-size:9px;color:var(--gold);opacity:.7}
-.date-sep{flex:1;height:1px;background:rgba(255,255,255,.08)}
+.date-sep{flex:1;height:1px;background:rgba(255,255,255,.07)}
 
-/* MAIN TABS */
 .main-tabs{flex-shrink:0;display:flex;background:#050b20;border-bottom:2px solid rgba(245,200,66,.08)}
 body.light-mode .main-tabs{background:#dde4ff}
 .main-tab{flex:1;padding:10px 8px;text-align:center;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;transition:all .3s;font-family:'Cairo',sans-serif;display:flex;align-items:center;justify-content:center;gap:5px;border-bottom:3px solid transparent;margin-bottom:-2px;position:relative}
-.main-tab i{font-size:12px}
 .main-tab.perm-active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(245,200,66,.04)}
 .main-tab.cont-active{color:var(--teal3);border-bottom-color:var(--teal3);background:rgba(0,172,193,.04)}
 .tab-badge{background:var(--royal3);color:#fff;font-size:9px;font-weight:700;font-family:'Oswald',sans-serif;padding:1px 5px;border-radius:7px;line-height:1.5}
 .cont-active .tab-badge{background:var(--teal)}
 
-/* STATS */
 .stats-row{flex-shrink:0;display:grid;grid-template-columns:repeat(3,1fr);background:var(--bg2);border-bottom:1px solid rgba(245,200,66,.06);padding:6px 9px;gap:5px}
 .stat-box{border-radius:11px;padding:7px 5px;text-align:center;position:relative;overflow:hidden;transition:all .3s}
 .stat-box.perm-style{background:linear-gradient(135deg,var(--bg3),var(--bg4));border:1px solid rgba(92,107,192,.22)}
@@ -135,27 +115,25 @@ body.light-mode .stat-box.cont-style{background:linear-gradient(135deg,#b2dfdb,#
 .stat-box.cont-style .stat-v{color:var(--teal3)}
 .stat-l{font-size:9px;color:var(--text2);margin-top:2px}
 
-/* SUB TABS */
 .sub-tabs{flex-shrink:0;display:flex;background:var(--bg2);border-bottom:1px solid rgba(92,107,192,.12);overflow-x:auto;scrollbar-width:none}
 .sub-tabs::-webkit-scrollbar{display:none}
 .sub-tab{flex-shrink:0;padding:9px 14px;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .25s;white-space:nowrap;font-family:'Cairo',sans-serif;display:flex;align-items:center;gap:5px}
 .sub-tab.perm-sub-active{color:var(--gold);border-bottom-color:var(--gold)}
 .sub-tab.cont-sub-active{color:var(--teal3);border-bottom-color:var(--teal3)}
 
-/* SEARCH */
 .search-sec{flex-shrink:0;background:var(--bg2);padding:8px 10px;border-bottom:1px solid rgba(92,107,192,.1)}
 .search-row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
 .s-wrap{flex:1;position:relative}
 .s-wrap i.s-icon{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;transition:color .3s}
 .s-wrap.perm-s i.s-icon{color:var(--gold)}
 .s-wrap.cont-s i.s-icon{color:var(--teal3)}
-/* Mic button inside search */
-.mic-btn{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;cursor:pointer;transition:all .2s;padding:2px;border:none;background:none}
+.mic-btn{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:15px;cursor:pointer;transition:all .2s;padding:4px;border:none;background:none;border-radius:50%}
 .s-wrap.perm-s .mic-btn{color:rgba(245,200,66,.5)}
 .s-wrap.cont-s .mic-btn{color:rgba(38,198,218,.5)}
-.mic-btn.listening{color:var(--gold);animation:mic-pulse 1s ease-in-out infinite}
-@keyframes mic-pulse{0%,100%{transform:translateY(-50%) scale(1)}50%{transform:translateY(-50%) scale(1.3)}}
-.s-wrap input{width:100%;padding:10px 34px 10px 34px;border-radius:11px;border:1px solid rgba(92,107,192,.25);background:var(--bg3);color:var(--text);font-size:14px;font-family:'Cairo',sans-serif;outline:none;direction:rtl;-webkit-appearance:none;transition:all .25s}
+.mic-btn.listening{color:var(--gold) !important;animation:mic-pulse 0.8s ease-in-out infinite}
+.mic-btn.listening i{color:var(--gold) !important}
+@keyframes mic-pulse{0%,100%{transform:translateY(-50%) scale(1);opacity:1}50%{transform:translateY(-50%) scale(1.4);opacity:.7}}
+.s-wrap input{width:100%;padding:10px 34px 10px 36px;border-radius:11px;border:1px solid rgba(92,107,192,.25);background:var(--bg3);color:var(--text);font-size:14px;font-family:'Cairo',sans-serif;outline:none;direction:rtl;-webkit-appearance:none;transition:all .25s}
 .s-wrap.perm-s input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,200,66,.1)}
 .s-wrap.cont-s input:focus{border-color:var(--teal3);box-shadow:0 0 0 3px rgba(0,172,193,.1)}
 .s-wrap input::placeholder{color:rgba(136,153,204,.35)}
@@ -168,10 +146,8 @@ body.light-mode .stat-box.cont-style{background:linear-gradient(135deg,#b2dfdb,#
 .lf-btn.cont-lf{background:linear-gradient(135deg,#004d40,#00695c);color:var(--teal3);border-color:rgba(0,172,193,.3);box-shadow:0 0 8px rgba(0,172,193,.3)}
 .lf-btn:active{transform:scale(.88)}
 
-/* SCROLL */
 .scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 
-/* CARDS */
 .card-list{padding:7px 9px;display:flex;flex-direction:column;gap:5px}
 .emp-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border-radius:14px;overflow:hidden;transition:all .2s;animation:cIn .3s ease both;position:relative;cursor:pointer}
 .emp-card.perm-card{border:1px solid rgba(92,107,192,.18)}
@@ -237,12 +213,40 @@ body.light-mode .cont-modal .m-row{background:linear-gradient(135deg,#e0f2f1,#f1
 .m-val.big{font-family:'Oswald',sans-serif;font-size:24px;letter-spacing:3px}
 .perm-modal .m-val.big{color:var(--gold)}
 .cont-modal .m-val.big{color:var(--teal3)}
-/* Modal action buttons */
 .m-actions{display:flex;gap:8px;padding:0 16px;margin-top:4px}
 .m-action-btn{flex:1;padding:11px 8px;border-radius:13px;border:none;font-size:12px;font-weight:700;font-family:'Cairo',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s}
 .m-action-btn:active{transform:scale(.95)}
 .btn-share{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff}
 .btn-pdf{background:linear-gradient(135deg,#e53935,#c62828);color:#fff}
+
+/* PDF PREVIEW MODAL */
+.pdf-ov{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;padding:16px}
+.pdf-ov.open{opacity:1;visibility:visible}
+.pdf-box{background:#fff;border-radius:20px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;animation:pdf-in .35s cubic-bezier(.32,1,.42,1)}
+@keyframes pdf-in{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.pdf-toolbar{display:flex;gap:8px;padding:12px 16px;background:#f5f5f5;border-radius:20px 20px 0 0;border-bottom:1px solid #e0e0e0;position:sticky;top:0;z-index:1}
+.pdf-btn{flex:1;padding:10px;border-radius:10px;border:none;font-size:13px;font-weight:700;font-family:'Cairo',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s}
+.pdf-btn:active{transform:scale(.95)}
+.pdf-print-btn{background:linear-gradient(135deg,#1a237e,#3949ab);color:#fff}
+.pdf-share-btn{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff}
+.pdf-close-btn{background:#e0e0e0;color:#333;flex:0;padding:10px 14px}
+.pdf-content{padding:20px;font-family:Arial,sans-serif;direction:rtl}
+.pdf-header-box{background:linear-gradient(135deg,#1a237e,#3949ab);color:#fff;padding:18px;border-radius:14px;text-align:center;margin-bottom:16px}
+.pdf-header-box h2{font-size:16px;margin:0 0 4px;font-family:'Cairo',sans-serif}
+.pdf-header-box p{font-size:11px;margin:0;opacity:.8}
+.pdf-field{background:#f8f9ff;border:1px solid #e0e4ff;border-radius:10px;padding:10px 14px;margin-bottom:10px}
+.pdf-field-label{font-size:10px;color:#666;margin-bottom:3px;font-family:'Cairo',sans-serif}
+.pdf-field-value{font-size:15px;font-weight:700;color:#1a237e;font-family:'Cairo',sans-serif}
+.pdf-field-value.big-num{font-family:'Oswald',sans-serif;font-size:28px;letter-spacing:3px}
+.pdf-badge{display:inline-block;background:#1a237e;color:#fff;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;font-family:'Cairo',sans-serif}
+.pdf-badge.cont-badge{background:#00695c}
+.pdf-footer{text-align:center;padding:10px;background:#f0f0f0;border-radius:0 0 14px 14px;font-size:10px;color:#888;font-family:'Cairo',sans-serif;margin-top:6px}
+
+/* MIC STATUS */
+.mic-status{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(10,20,60,.95);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-family:'Cairo',sans-serif;opacity:0;transition:all .3s;pointer-events:none;z-index:5000;white-space:nowrap;border:1px solid rgba(245,200,66,.3);display:flex;align-items:center;gap:8px}
+.mic-status.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.mic-status-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:mic-pulse 0.8s ease-in-out infinite}
+@keyframes mic-anim{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
 
 /* STATS PAGE */
 .stats-page{padding:12px 10px;display:flex;flex-direction:column;gap:9px}
@@ -288,7 +292,6 @@ body.light-mode .cont-panel .big-stat{background:#b2dfdb}
 .perm-panel .l-num{color:var(--gold)}
 .cont-panel .l-num{color:var(--teal3)}
 
-/* PAGINATION */
 .pg-wrap{flex-shrink:0;display:flex;gap:5px;align-items:center;justify-content:center;flex-wrap:wrap;padding:8px 10px calc(var(--safe-bottom) + 8px);background:var(--bg2);border-top:1px solid rgba(92,107,192,.1)}
 .pg-btn{font-family:'Cairo',sans-serif;background:var(--bg3);color:var(--text2);border:1px solid rgba(92,107,192,.18);border-radius:9px;padding:7px 11px;font-size:13px;cursor:pointer;transition:all .2s;min-width:36px;text-align:center}
 .pg-btn:active{transform:scale(.9)}
@@ -296,32 +299,26 @@ body.light-mode .cont-panel .big-stat{background:#b2dfdb}
 .pg-btn.cont-pg-active{background:linear-gradient(135deg,#004d40,#00695c);color:var(--teal3);border-color:rgba(0,172,193,.3);font-weight:700;box-shadow:0 3px 12px rgba(0,172,193,.3)}
 .pg-info{font-size:11px;color:var(--text2);padding:0 4px;white-space:nowrap}
 
-/* NO RESULTS */
 .no-res{display:none;flex-direction:column;align-items:center;justify-content:center;padding:50px 20px;gap:10px;color:var(--text2)}
 .no-res i{font-size:44px;opacity:.18}
 .no-res p{font-size:14px}
-
-/* MIC TOAST */
-#mic-toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(0,0,0,.85);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-family:'Cairo',sans-serif;opacity:0;transition:all .3s;pointer-events:none;z-index:5000;white-space:nowrap;border:1px solid rgba(245,200,66,.3)}
-#mic-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 <div id="stars"></div>
 
-<!-- NOTIFICATION BANNER -->
 <div id="notif-banner">
-  <div class="notif-text">
-    <i class="fas fa-info-circle"></i>
-    <span id="notif-text">مرحباً! يحتوي السجل على 1051 موظف — 854 دائم و197 عقد</span>
+  <div class="notif-text"><i class="fas fa-info-circle"></i>
+    <span>مرحباً! إجمالي الموظفين: 1051 — 854 دائم و197 عقد</span>
   </div>
   <div class="notif-close" onclick="closeNotif()"><i class="fas fa-times"></i></div>
 </div>
 
-<!-- MIC TOAST -->
-<div id="mic-toast">🎤 تحدث الآن...</div>
+<div class="mic-status" id="mic-status">
+  <div class="mic-status-dot"></div>
+  <span id="mic-status-text">تحدث الآن...</span>
+</div>
 
-<!-- SPLASH -->
 <div id="splash">
   <div class="splash-wrap">
     <div class="splash-rings"></div>
@@ -330,46 +327,48 @@ body.light-mode .cont-panel .big-stat{background:#b2dfdb}
   <div class="splash-title">سجل الموظفين</div>
   <div class="splash-sub">مديرية زراعة صلاح الدين</div>
   <div class="splash-counters">
-    <div class="splash-counter">
-      <div class="splash-counter-val" id="sc-perm">0</div>
-      <div class="splash-counter-lbl">دائمون</div>
-    </div>
-    <div class="splash-counter" style="border-color:rgba(0,172,193,.3)">
-      <div class="splash-counter-val" id="sc-cont" style="color:var(--teal3)">0</div>
-      <div class="splash-counter-lbl">عقود</div>
-    </div>
-    <div class="splash-counter" style="border-color:rgba(255,255,255,.15)">
-      <div class="splash-counter-val" id="sc-all" style="color:#fff">0</div>
-      <div class="splash-counter-lbl">الإجمالي</div>
-    </div>
+    <div class="splash-counter"><div class="splash-counter-val" id="sc-perm">0</div><div class="splash-counter-lbl">دائمون</div></div>
+    <div class="splash-counter" style="border-color:rgba(0,172,193,.3)"><div class="splash-counter-val" id="sc-cont" style="color:var(--teal3)">0</div><div class="splash-counter-lbl">عقود</div></div>
+    <div class="splash-counter" style="border-color:rgba(255,255,255,.15)"><div class="splash-counter-val" id="sc-all" style="color:#fff">0</div><div class="splash-counter-lbl">الإجمالي</div></div>
   </div>
   <div class="splash-bar"><div class="splash-fill"></div></div>
   <div class="splash-dots"><div class="splash-dot"></div><div class="splash-dot"></div><div class="splash-dot"></div></div>
 </div>
 
-<!-- MODAL -->
+<!-- PDF PREVIEW MODAL -->
+<div class="pdf-ov" id="pdf-modal">
+  <div class="pdf-box">
+    <div class="pdf-toolbar">
+      <button class="pdf-btn pdf-print-btn" id="pdf-print-btn"><i class="fas fa-print"></i> طباعة</button>
+      <button class="pdf-btn pdf-share-btn" id="pdf-wa-btn"><i class="fab fa-whatsapp"></i> واتساب</button>
+      <button class="pdf-btn pdf-close-btn" id="pdf-close-btn"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pdf-content" id="pdf-content"></div>
+  </div>
+</div>
+
+<!-- EMPLOYEE MODAL -->
 <div class="modal-ov" id="modal">
   <div class="modal perm-modal" id="modal-inner">
     <div class="modal-bar"></div>
     <div class="modal-top">
       <div class="m-close" id="m-close"><i class="fas fa-times"></i></div>
-      <div class="m-avatar" id="m-avatar"><i class="fas fa-user-tie"></i></div>
+      <div class="m-avatar"><i class="fas fa-user-tie"></i></div>
       <div class="m-name" id="m-name"></div>
       <div class="m-type-tag" id="m-type-tag">موظف دائمي</div>
     </div>
     <div class="m-body">
       <div class="m-row"><div class="m-ico"><i class="fas fa-id-badge"></i></div><div><div class="m-lbl">رقم الاضبارة</div><div class="m-val big" id="m-num"></div></div></div>
       <div class="m-row"><div class="m-ico"><i class="fas fa-briefcase"></i></div><div><div class="m-lbl">نوع التوظيف</div><div class="m-val" id="m-emp-type"></div></div></div>
-      <div class="m-row"><div class="m-ico"><i class="fas fa-landmark"></i></div><div><div class="m-lbl">الجهة</div><div class="m-val">مديرية زراعة صلاح الدين – وزارة الزراعة</div></div></div>
+      <div class="m-row"><div class="m-ico"><i class="fas fa-landmark"></i></div><div><div class="m-lbl">الجهة</div><div class="m-val">مديرية زراعة صلاح الدين</div></div></div>
     </div>
     <div class="m-actions">
       <button class="m-action-btn btn-share" id="btn-share"><i class="fab fa-whatsapp"></i> مشاركة واتساب</button>
-      <button class="m-action-btn btn-pdf" id="btn-pdf"><i class="fas fa-print"></i> طباعة / PDF</button>
+      <button class="m-action-btn btn-pdf" id="btn-pdf"><i class="fas fa-id-card"></i> بطاقة الموظف</button>
     </div>
   </div>
 </div>
 
-<!-- APP -->
 <div class="app">
   <div class="header mode-perm" id="main-header">
     <div class="header-row">
@@ -380,7 +379,7 @@ body.light-mode .cont-panel .big-stat{background:#b2dfdb}
         <div class="hdr-title" id="hdr-title">سجل الموظفين الدائميين</div>
       </div>
       <div class="hdr-controls">
-        <button class="hdr-btn" id="theme-btn" title="تبديل الوضع"><i class="fas fa-moon"></i></button>
+        <button class="hdr-btn" id="theme-btn"><i class="fas fa-moon"></i></button>
         <div class="hdr-count">
           <div class="hdr-num" id="hdr-num">854</div>
           <div class="hdr-lbl">موظف</div>
@@ -422,7 +421,7 @@ body.light-mode .cont-panel .big-stat{background:#b2dfdb}
       <div class="s-wrap perm-s" id="s-wrap">
         <i class="fas fa-search s-icon"></i>
         <input type="text" id="q" placeholder="ابحث بالاسم أو رقم الاضبارة..." oninput="doFilter()" autocomplete="off" spellcheck="false">
-        <button class="mic-btn" id="mic-btn" title="بحث صوتي"><i class="fas fa-microphone"></i></button>
+        <button class="mic-btn" id="mic-btn"><i class="fas fa-microphone"></i></button>
       </div>
       <select class="pp-s" id="pp" onchange="doFilter()">
         <option value="30">30</option>
@@ -443,380 +442,431 @@ body.light-mode .cont-panel .big-stat{background:#b2dfdb}
       <div class="stats-page" id="stats-page"></div>
     </div>
   </div>
-
   <div class="pg-wrap" id="pg"></div>
 </div>
 
-<!-- PRINT IFRAME (hidden) -->
-<iframe id="print-frame" style="display:none"></iframe>
-
 <script>
-// ---- Stars ----
+// Stars
 (function(){
-  var c = document.getElementById('stars');
+  var c=document.getElementById('stars');
   for(var i=0;i<55;i++){
-    var s = document.createElement('div'); s.className='star';
-    var sz = Math.random()*2+0.4;
-    s.style.cssText = 'width:'+sz+'px;height:'+sz+'px;top:'+(Math.random()*100)+'%;left:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*5)+'s';
+    var s=document.createElement('div');s.className='star';
+    var sz=Math.random()*2+0.4;
+    s.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+(Math.random()*100)+'%;left:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*5)+'s';
     c.appendChild(s);
   }
 })();
 
-// ---- Data ----
-var DATA = {
-  perm: { all: [{"name": "ابراهيم حسن كريم عمر العبيدي", "num": 1}, {"name": "ابراهيم حسين سليم عزيز القيسي", "num": 2}, {"name": "ابراهيم رجب محمد رجب الجبوري", "num": 3}, {"name": "ابراهيم سرحان علي عنيزان الحمداني", "num": 4}, {"name": "ابراهيم عبدالله سبهان خلف الجبوري", "num": 5}, {"name": "ابراهيم غالب هاشم محمد الاوسي", "num": 6}, {"name": "ابراهيم محمد عواد مدكوك اللهيبي", "num": 7}, {"name": "ابراهيم محمود صالح حماد الجميلي", "num": 8}, {"name": "ابراهيم موسى ابراهيم حمد المجمعي", "num": 9}, {"name": "ابراهيم ياسين محمد علي رياشي", "num": 10}, {"name": "اثير غازي محمد رمضان العزاوي", "num": 11}, {"name": "اثير محمود محمد علي العبيدي", "num": 12}, {"name": "اثير ياس خضر عبدالله الجبوري", "num": 13}, {"name": "احسان علي اسويد على الجبوري", "num": 14}, {"name": "احمد ادريس احمد عميري اللهيبي", "num": 15}, {"name": "احمد ازهر عبدالله محمد السلامي", "num": 16}, {"name": "احمد تركي احمد علي الحشماوي", "num": 65}, {"name": "احمد جاسم خلف اجدع الجميلي", "num": 17}, {"name": "احمد جاسم صالح محمد الجبوري", "num": 18}, {"name": "احمد جاسم محمد جابر الجميلي", "num": 19}, {"name": "احمد جزاع احمد صالح المنديل", "num": 20}, {"name": "احمد حامد مسرهد رشيد العزاوي", "num": 21}, {"name": "احمد حروش جاسم شلال الخزرجي", "num": 22}, {"name": "احمد حسن رمضان عبدالله العزاوي", "num": 23}, {"name": "احمد حسن محمد خلف الدوري", "num": 24}, {"name": "احمد حمود دهدي صالح الحمره", "num": 25}, {"name": "احمد حمود صالح محي الجميلي", "num": 26}, {"name": "احمد خالد سليمان شعبان التكريتي", "num": 27}, {"name": "احمد خضير عباس صالح السامرائي", "num": 28}, {"name": "احمد خلف سليمان حسين الجبوري", "num": 29}, {"name": "احمد خلف عبدالله سحاب الجبوري", "num": 30}, {"name": "احمد سعد شبيب كردي الجنابي", "num": 31}, {"name": "احمد سعيد احمد جاسم اطعيمه", "num": 32}, {"name": "احمد شاكر محمود خليفه الحمد", "num": 33}, {"name": "احمد شهاب عبد حسين التميمي", "num": 34}, {"name": "احمد صالح حدوشه خلف الجبوري", "num": 35}, {"name": "احمد صالح خلف حمد الجبوري", "num": 36}, {"name": "احمد صالح محمد مسير اطعيمه", "num": 37}, {"name": "احمد طالب محمد باقر برزنجي", "num": 38}, {"name": "احمد طه حميدي خلف اللهيبي", "num": 39}, {"name": "احمد ظاهر محمد عبد الجواري", "num": 40}, {"name": "احمد عبد محمد عبدالله القيسي", "num": 41}, {"name": "احمد عبدالسلام علوان نجم الناصري", "num": 42}, {"name": "احمد عبدالقادر داود نايف الجبوري", "num": 43}, {"name": "احمد عبدالله جاسم محمد الجبوري", "num": 44}, {"name": "احمد عبدالله علي محمد العبدالله", "num": 45}, {"name": "احمد عبدالله محمد مطلك الجبوري", "num": 46}, {"name": "احمد عبدالوهاب عبدالكريم علي البدري", "num": 47}, {"name": "احمد عبود زيدان حمادي المكدمي", "num": 48}, {"name": "احمد فتح الله دحام مهدي المشهداني", "num": 49}, {"name": "احمد فواز اسود عبدالله الحمداني", "num": 50}, {"name": "احمد محمد حسن جاسم النجم", "num": 51}, {"name": "احمد محمد رشيد بهلول الجبوري", "num": 52}, {"name": "احمد محمد سامي حسين العاصي", "num": 53}, {"name": "احمد محمد عبدالله حسين القيسي", "num": 54}, {"name": "احمد محمد عبود يوسف اللويزي", "num": 55}, {"name": "احمد محمد وهيب جاسم الدوري", "num": 56}, {"name": "احمد محمود علي محمود الاسودي", "num": 57}, {"name": "احمد مريف حسين علي اطعيمه", "num": 58}, {"name": "احمد مظهر شعلان ثامر الخزجي", "num": 59}, {"name": "احمد منديل خليل محمد الجبوري", "num": 60}, {"name": "احمد مهدي صالح احمد الدوري", "num": 61}, {"name": "احمد مهدي صالح حسن طرفه", "num": 62}, {"name": "احمد نجاح احمد عبد العجيلي", "num": 63}, {"name": "احمد هايس ابراهيم عبيد الجبوري", "num": 64}, {"name": "احمد يوسف ايدن سلمان البياتي", "num": 66}, {"name": "ادهم عبدالله خلف عبدالله العباسي", "num": 67}, {"name": "اديب اسماعيل خلف عبد الجبوري", "num": 68}, {"name": "اركان خليل ابراهيم حسين الجبوري", "num": 69}, {"name": "اركان كريم ياسين مهدي الناصري", "num": 70}, {"name": "اركان مخلف حديد عبد العجيلي", "num": 71}, {"name": "اريج محمد سحاب محمد البدري", "num": 72}, {"name": "ازهار جاسم محمد علي البياتي", "num": 73}, {"name": "اسامه احمد خلف احمد الدليمي", "num": 74}, {"name": "اسامه صالح مولود سلمان النعيمي", "num": 75}, {"name": "اسامه عباس حسين عماش الامهيدي", "num": 76}, {"name": "استبرق فيصل نعمان عياده الدوري", "num": 85}, {"name": "اسراء ناطق عزت لطيف الدوري", "num": 77}, {"name": "اسعد ابراهيم حسن احمد الجبوري", "num": 78}, {"name": "اسماء عباس عبدالله علي السامرائي", "num": 79}, {"name": "اسماء فوزي ابراهيم جاسم الحديثي", "num": 80}, {"name": "اسماعيل بدر محمد حمد السامرائي", "num": 81}, {"name": "اسماعيل قاسم محمد حميد الداودي", "num": 82}, {"name": "اسماعيل محمد محمود رحيم النعيمي", "num": 83}, {"name": "اسماعيل محمد مطلك خلف السعدون", "num": 84}, {"name": "اكرام طاهر مخيلف داغر البيضائي", "num": 86}, {"name": "اكرم عطيه علي حمد الجميلي", "num": 87}, {"name": "اكرم نهاد محمد محمود البياتي", "num": 88}, {"name": "الامين عارف الطيف محمد الدوري", "num": 89}, {"name": "الحمزه شمس الدين محمد بيدر الجميلي", "num": 90}, {"name": "المعتصم بالله يونس جديع بردي الدليمي", "num": 91}, {"name": "الياس خضير محمد عبدالرحمن الرملي", "num": 92}, {"name": "امال جمال يوسف محمود البياتي", "num": 93}, {"name": "امال حسين عبعوب سميسم الجبوري", "num": 94}, {"name": "امجد حميد رشيد جميل المشايخي", "num": 95}, {"name": "امجد سمير محمد نايف المكدمي", "num": 96}, {"name": "امجد شهاب احمد حسن السامرائي", "num": 97}, {"name": "امجد نايف سبهان خلف الجبوري", "num": 98}, {"name": "امل حسن محمد محمود الجبوري", "num": 99}, {"name": "انتصار عبدالحسن عباس عبيد الدرويش", "num": 107}, {"name": "انس جاسم نايف عبدالرحمن الاحسين", "num": 100}, {"name": "انس جمعه حسين محمد الجميلي", "num": 101}, {"name": "انغام منذر خليل جاسم الحديثي", "num": 102}, {"name": "انمار حامد سلمان مراد الجنابي", "num": 103}, {"name": "انمار حميد عبدالكريم جاسم البوبدري", "num": 104}, {"name": "انمار ضرار مولود جابر النعيمي", "num": 105}, {"name": "انمار ليث صالح علاوي العلاوي", "num": 106}, {"name": "انوار عايد دحل كليب الشمري", "num": 108}, {"name": "انور صدام خلف متعب المعماري", "num": 109}, {"name": "انور ليث صالح علاوي الجميلي", "num": 110}, {"name": "اواز مهدي خورشيد محمد الداودي", "num": 111}, {"name": "اوس حامد ياسين احمد النيساني", "num": 112}, {"name": "ايات نعيم محمود خلف ال فارس", "num": 115}, {"name": "اياد حسين عبيد حسين الجبوري", "num": 113}, {"name": "اياد عطاالله نصيف جاسم الجبوري", "num": 114}, {"name": "ايسر ثامر مهدي غايب", "num": 116}, {"name": "ايسل عادل عبدالرحمن محمد البياتي", "num": 117}, {"name": "ايلاف سعدي رحيم جاسم الخزرجي", "num": 118}, {"name": "ايلاف عبد فيحان ياس المحمدي", "num": 119}, {"name": "ايمان احمد ظاهر حسين العكيدي", "num": 120}, {"name": "ايمان فليح حبيتر نهار النزال", "num": 121}, {"name": "ايمن احمد عبدالائمه جاسم العبيدي", "num": 122}, {"name": "ايمن حردان عبدالله مطر العبيدي", "num": 123}, {"name": "ايمن خلف سعيد هويد الجبوري", "num": 124}, {"name": "ايمن كريم خزعل هزاع خارمانلو", "num": 125}, {"name": "ايمن مظهر سالم عبد الله البواسود", "num": 126}, {"name": "ايمن هادي صالح جاسم الاحبابي", "num": 127}, {"name": "اينور ملك محمد رضا البياتي", "num": 128}, {"name": "ايه ابراهيم فرج نادر البدري", "num": 129}, {"name": "ايه سلام طه هزاع العلاوي", "num": 130}, {"name": "ايوب هلوش جاسم محمد المجمعي", "num": 131}, {"name": "باتع عيد جاسم حركان الصايحي", "num": 139}, {"name": "بارق ستار نامق توفيق البياتي", "num": 132}, {"name": "باسم عواد علي موسى الجبوري", "num": 133}, {"name": "باسم محمد خلف جاسم الدوري", "num": 134}, {"name": "باسم محمد سلمان فرج الجبوري", "num": 135}, {"name": "باسم محمد عبدالله حسين القيسي", "num": 136}, {"name": "باسم محمد نايف علوان المكدمي", "num": 137}, {"name": "بان مجيد صالح عكيل الدليمي", "num": 138}, {"name": "بثينه محمد خلف حرج الزيدي", "num": 140}, {"name": "بثينه محمود محمد محمود البوبدري", "num": 141}, {"name": "براء سامر جاسم محمد المجمعي", "num": 142}, {"name": "براء كاظم حسين شاطي الخزرجي", "num": 143}, {"name": "براء مصحب جمعه زعيتر العبيدي", "num": 144}, {"name": "برهان مهدي صالح عطيه الجبوري", "num": 145}, {"name": "بسمه هاشم عباس شكور ال ياسين", "num": 146}, {"name": "بشائر حميد شهاب حمد الجواري", "num": 150}, {"name": "بشار حميد رشيد خضير الجبوري", "num": 147}, {"name": "بشار رافع نوفان فرحان الفرحان", "num": 148}, {"name": "بشار عبدالله غدير حسن العيساوي", "num": 149}, {"name": "بلال حمزه صالح جداع البدري", "num": 151}, {"name": "بهاء ابراهيم خلف حمد الجبوري", "num": 152}, {"name": "بهاء عدنان جاسم محمد الحمداني", "num": 153}, {"name": "بهاء علي مهدي صالح الجبوري", "num": 154}, {"name": "تحرير جاسم محمد عود الجبوري", "num": 797}, {"name": "تحسين عبدالله وسمي حبيب المجرص", "num": 798}, {"name": "تقي اسماعيل عبدربه كنيص اعذيه", "num": 804}, {"name": "تماره رعد نافع عبد الطائي", "num": 805}, {"name": "تيجاني عدنان سالم محمد الجنابي", "num": 817}, {"name": "ثائر محمود حميد حمادي الجنابي", "num": 156}, {"name": "ثامر ابراهيم مرعي هايس الجبوري", "num": 155}, {"name": "جابر احمد ابراهيم طايس الشمري", "num": 157}, {"name": "جاسم محمد احمد عبدالله شيخاني", "num": 158}, {"name": "جاسم محمد رجب شيخ الجبوري", "num": 159}, {"name": "جاسم محمد محمود فرج الجبوري", "num": 160}, {"name": "جلال جمال عبد اللطيف محمد الجبوري", "num": 161}, {"name": "جلال حمدي نصيف شرعان المجمعي", "num": 162}, {"name": "جنان انور محمد احمد ليلاني", "num": 163}, {"name": "جنان عبدالهادي جدوع علي العزاوي", "num": 164}, {"name": "حاتم محمد سليم عزيز العويسي", "num": 170}, {"name": "حاجم فلاح اسماعيل جلود الياسين", "num": 165}, {"name": "حارث مثنى حميد محمد الدوري", "num": 166}, {"name": "حارث مهدي احمد عبدان المكدمي", "num": 167}, {"name": "حارث موفق جهاد علي الحساني", "num": 168}, {"name": "حازم احمد اسماعيل عبدالله القيسي", "num": 169}, {"name": "حذام صلاح مهدي محمد الحياني", "num": 171}, {"name": "حذيفه نمير ناظم مصطفى الناصري", "num": 172}, {"name": "حسام حمدان صباح حمود الجدعان", "num": 173}, {"name": "حسام محمد نجم عبدالله الدليمي", "num": 174}, {"name": "حسام يوسف احمد سلطان العزاوي", "num": 175}, {"name": "حسان لازم جمعه رجب الجبوري", "num": 176}, {"name": "حسن ابراهيم سالم حسن الجبوري", "num": 177}, {"name": "حسن ابراهيم هويدي درويش الجبوري", "num": 178}, {"name": "حسن اسماعيل ابراهيم هويدي الجبوري", "num": 179}, {"name": "حسن حسين عليوي خليفه الحميد", "num": 180}, {"name": "حسن حواس حاجم حسن التغلبي", "num": 181}, {"name": "حسن خلف عبدالله مدكوك اللهيبي", "num": 182}, {"name": "حسن خلف هليم ربع الجبوري", "num": 183}, {"name": "حسن محمد خلف جاسم الجبوري", "num": 184}, {"name": "حسن مشعان جبار جاسم الخزرجي", "num": 185}, {"name": "حسن هادي نصيف جاسم المجمعي", "num": 186}, {"name": "حسين بهجت حسين بهجت الهاشمي", "num": 187}, {"name": "حسين حميد حاتم سلمان الخزرجي", "num": 188}, {"name": "حسين داود سلمان فهد العجيلي", "num": 189}, {"name": "حسين علي خلف حسين العزاوي", "num": 190}, {"name": "حسين علي شاكر هادي العزاوي", "num": 191}, {"name": "حسين علي محمد شريف الداوودي", "num": 192}, {"name": "حسين محمد حسين مطلك الجميلي", "num": 193}, {"name": "حسين مخلف محمد احمد الدليمي", "num": 194}, {"name": "حسين هلال مطلك جرجيس الجمياي", "num": 195}, {"name": "حمد حسين محمد خضر الجبوري", "num": 196}, {"name": "حمد زناد جاسم محمد الجبوري", "num": 197}, {"name": "حمد سالم ظاهر حسن الجبوري", "num": 198}, {"name": "حمزه قاسم مهدي حمد الخزرجي", "num": 199}, {"name": "حمودي احمد تركي عبدالله الجميلي", "num": 200}, {"name": "حميد محمد هاشم خليل القيسي", "num": 201}, {"name": "حميد ياسين محمود علي البومهدي", "num": 202}, {"name": "حنان كريم محمد علي العباسي", "num": 203}, {"name": "حنان محمد حسين علي المرسومي", "num": 204}, {"name": "حنان محمد علي يوسف العجيلي", "num": 205}, {"name": "حنين خلف سليمان محمد الجبوري", "num": 206}, {"name": "حنين مهدي حبيب محمد الخزعلي", "num": 207}, {"name": "حيدر خلف داود رميض المزروعي", "num": 208}, {"name": "حيدر شاهين ابراهيم زين العابدين بابا", "num": 209}, {"name": "خالد احميد دويح فرحان الدليمي", "num": 210}, {"name": "خالد حاتم حماد امين البياتي", "num": 211}, {"name": "خالد حمد سليم عزيز القيسي", "num": 212}, {"name": "خالد خلف ذياب حمزه السبعاوي", "num": 213}, {"name": "خالد سعدي محمود خلف الدراجي", "num": 214}, {"name": "خالد صباح حسن حمدي الجبوري", "num": 215}, {"name": "خالد عبد فرحان فاضل الدوري", "num": 216}, {"name": "خالد عزالدين بصاص يوسف البياتي", "num": 217}, {"name": "خالد علي عبد احمد الجبوري", "num": 218}, {"name": "خالد محارب خلف محمد الجبوري", "num": 219}, {"name": "خالد محمد عبدالوهاب حسن الشيخلي", "num": 220}, {"name": "خالد مولود علوان حسين اطعيمه", "num": 221}, {"name": "خضر سالم عبدالله محمد الجبوري", "num": 222}, {"name": "خضير عبدالعباس عبد صالح الجميلي", "num": 223}, {"name": "خلف جاسم محمد نجم الجبوري", "num": 224}, {"name": "خلف حسين حمد حسين اطعيمه", "num": 225}, {"name": "خليل ابراهيم جعفر جواد السامرائي", "num": 226}, {"name": "خليل ابراهيم حسين نجم الجنابي", "num": 227}, {"name": "خليل ابراهيم كيطان عزيز اعذيه", "num": 228}, {"name": "خليل خلف محمد محمود البياتي", "num": 229}, {"name": "خوله ابراهيم غفور محمد البياتي", "num": 230}, {"name": "خوله عبدالعزيز لطيف محمد الحماده", "num": 231}, {"name": "داليا غالب حسين علي البياتي", "num": 232}, {"name": "داود حسن احميد جراد العكيدي", "num": 233}, {"name": "داود سليمان مطلق خلف الجبوري", "num": 234}, {"name": "دبلان وكاع بديع حشاش الشمري", "num": 235}, {"name": "دريد حميد ابراهيم عطيه الجبوري", "num": 236}, {"name": "دعاء جميل توفيق عبد الله الدوري", "num": 237}, {"name": "دعاء ضياء حسين محمد الحيالي", "num": 238}, {"name": "دلال جابر عبود علوان الخزرجي", "num": 239}, {"name": "دنيا فتح الله دحام مهدي المشهداني", "num": 240}, {"name": "دهش علوان لواخ محيميد الشمري", "num": 241}, {"name": "ذكرى كاظم عبدالله حمد الجبوري", "num": 242}, {"name": "رئاب مشعل يوسف محمد الجبوري", "num": 278}, {"name": "رائد اسماعيل محمد حاجم البدراني", "num": 248}, {"name": "رائد بشير منصور محمد الدوري", "num": 249}, {"name": "رائد خليل خلف محمد البياتي", "num": 250}, {"name": "رائد محمد كردي محاسن المجمعي", "num": 251}, {"name": "رافد حمد حسن عطيه الجبوري", "num": 243}, {"name": "رافد ماهر غانم مانع المكدمي", "num": 244}, {"name": "رافع محمد خلف محمد الجبوري", "num": 245}, {"name": "رانية زيدان رشيد عبدالله", "num": 246}, {"name": "راويه حسن شريف قاسم البياتي", "num": 247}, {"name": "رؤى جمال داود عوده الباوي", "num": 277}, {"name": "رجاء سامي صالح محمد اطعيمه", "num": 252}, {"name": "رحاب عامر زيدان نصيف الخفاجي", "num": 253}, {"name": "رحمه كاظم عليوي عيسى الدليمي", "num": 254}, {"name": "رسول ظافر كاظم علي الخزرجي", "num": 255}, {"name": "رشا رجب سلطان صالح الديبو", "num": 256}, {"name": "رشدي حميد محمد قره كله محمد", "num": 257}, {"name": "رشيد مظفر رشيد جميل المشايخي", "num": 258}, {"name": "رعد ابراهيم يوسف يعقوب الحمداني", "num": 259}, {"name": "رعد بحر محجوب جبل الجنابي", "num": 260}, {"name": "رعد داود سلمان فهد العجيلي", "num": 261}, {"name": "رعد فهد صالح محمد الجبوري", "num": 262}, {"name": "رغد سعد جمعه موسى العبل", "num": 263}, {"name": "رغد فرج عبد غنام الجبوري", "num": 264}, {"name": "رغد منهل عبدالجبار سعيد الحيالي", "num": 265}, {"name": "رغيد اياد مجيد عباس الاحبابي", "num": 266}, {"name": "رفل احمد علي محمد الجبوري", "num": 267}, {"name": "رفل خلف غضبان خلف الجبوري", "num": 268}, {"name": "رقيه محسن علوان سلمان المفرجي", "num": 269}, {"name": "رمضان رميض عبيد خلف الجبوري", "num": 270}, {"name": "رمضان محمد شهاب احمد الجميلي", "num": 271}, {"name": "رواء قيس قاسم نعمه السوداني", "num": 272}, {"name": "رواد جمهور حسن صالح البياتي", "num": 273}, {"name": "رواد خلف علوان الطيف الجبوري", "num": 274}, {"name": "روان رعد مكي علي الناصري", "num": 275}, {"name": "روكان عوض خلف زراو الحمداني", "num": 276}, {"name": "رياض ابراهيم خميس نخيلان الجبوري", "num": 279}, {"name": "ريام ريكان خلف نجم الجغيفي", "num": 280}, {"name": "زاهده مصطفى مردان غائب توتونجي", "num": 281}, {"name": "زهراء حميد محاو عباس المولى", "num": 282}, {"name": "زهراء شاكر محمود عباس الحدادي", "num": 283}, {"name": "زهراء مهدي صالح احمد الدوري", "num": 284}, {"name": "زهره حميد عباس احمد العبيدي", "num": 285}, {"name": "زهره محمد جمعه ابراهيم الجبوري", "num": 286}, {"name": "زهير مهدي حمد عبدالله الجميلي", "num": 287}, {"name": "زياد احمد علوان غريب المشايخي", "num": 288}, {"name": "زياد خلف حسن حماده الجبوري", "num": 289}, {"name": "زياد خلف عبداللطيف احمد الجبوري", "num": 290}, {"name": "زياد كمال علي مخلف الجميلي", "num": 291}, {"name": "زياد محمود سليمان عليج الجميلي", "num": 292}, {"name": "زياد مزهر عبد صالح الدراجي", "num": 293}, {"name": "زيد حامد احمد دخيل العبيدي", "num": 294}, {"name": "زيد فيصل مهدي احمد المكدمي", "num": 295}, {"name": "زيدان معروف لفته يونس الجنابي", "num": 296}, {"name": "زيدون حاتم هواس محمد البو اسود", "num": 297}, {"name": "زينب اياد عمر رزوقي الدوري", "num": 298}, {"name": "ساره جمال كاظم حاتم الزبيدي", "num": 299}, {"name": "ساره عامر عبدالرحمن طه الحديثي", "num": 300}, {"name": "ساره محمد حسن درويش الجميلي", "num": 301}, {"name": "ساره محمود كديمي حسن الدجيلي", "num": 302}, {"name": "ساره مهدي احمد عبدالله البرزنجي", "num": 303}, {"name": "ساره نجيب محمود سلمان الجبوري", "num": 304}, {"name": "سالم علي محمد جرجيس الجميلي", "num": 305}, {"name": "سامي احمد سلمان عجاج الجميلي", "num": 306}, {"name": "سانيه رياض عبدالله محمد العباسي", "num": 307}, {"name": "ساهر نايف محمد عبدالله السحل", "num": 308}, {"name": "سبهان احمد حسين علي البياتي", "num": 309}, {"name": "سبهان زيد مريف حسين اطعيمه", "num": 310}, {"name": "سجى احمد ابراهيم حسن الدليمي", "num": 311}, {"name": "سجى احمد عواد فياض الجنابي", "num": 312}, {"name": "سرمد فرهاد رضا حسن نجار", "num": 313}, {"name": "سرمد هاشم حسين عطيه الجبوري", "num": 314}, {"name": "سرى محمود عبدالله محمد الجبوري", "num": 315}, {"name": "سعاد محمود حسن عباس البازي", "num": 316}, {"name": "سعد بندر اسماعيل احمد العجيلي", "num": 317}, {"name": "سعد حسين علي ابراهيم الخزرجي", "num": 318}, {"name": "سعد خلف حسين ناصر اللهيبي", "num": 319}, {"name": "سعد خيرالله عبدالله داود التكريتي", "num": 320}, {"name": "سعد راشد حماد زوين الشمري", "num": 321}, {"name": "سعد رافع خليف احمد الجبوري", "num": 322}, {"name": "سعد عبدالرضا بليل عكيل الدليمي", "num": 323}, {"name": "سعد عبدالله طلب حماده الحمداني", "num": 324}, {"name": "سعد علي مطلك سليمان العجيلي", "num": 325}, {"name": "سعد كامل تركي عبدالله الجميلي", "num": 326}, {"name": "سعد محمود ظاهر مطلك الجميلي", "num": 327}, {"name": "سعد مطر حنيفش حمادي اللهيبي", "num": 328}, {"name": "سعد مولود وهيب رزيق التكريتي", "num": 329}, {"name": "سعد ناصر عبدالحميد رزيق الناصري", "num": 330}, {"name": "سعدون خلف حميد جراد العكيدي", "num": 331}, {"name": "سعدي خضير حديد عبد العجيلي", "num": 332}, {"name": "سفيان اياد جاسم حمادة الجبوري", "num": 333}, {"name": "سفيان حمزه صالح جداع السامرائي", "num": 334}, {"name": "سفيان صالح رشيد خلف الدراجي", "num": 335}, {"name": "سفيان فرج سليمان حسين الجبوري", "num": 336}, {"name": "سلام احمد جمعه جلعوط الجبوري", "num": 337}, {"name": "سلطان مطلك احمد نعمه الجبوري", "num": 338}, {"name": "سلطان مولود سلطان صالح الذيبو", "num": 339}, {"name": "سلمان عبدالله علي لطيف الجبوري", "num": 340}, {"name": "سلوان خوام محمد عواد الرهاوي", "num": 341}, {"name": "سلوان عدنان حماده صالح الجبوري", "num": 342}, {"name": "سمر بشير طه عمر التكريتي", "num": 343}, {"name": "سمر حامد ياسين عبدالله الكربولي", "num": 344}, {"name": "سمر خالد طالب كاظم العزاوي", "num": 345}, {"name": "سمير حمد مجيد حمد الجبوري", "num": 346}, {"name": "سميره عبدالامير محمد عبد الجبوري", "num": 347}, {"name": "سناء سعدي محمود مضحي التكريتي", "num": 348}, {"name": "سناء ياسين خليل ابراهيم كنه", "num": 349}, {"name": "سندس مطلق سليم محمد الدليمي", "num": 350}, {"name": "سهاد عامر مكي علي الناصري", "num": 351}, {"name": "سهام عبدالوهاب محمد علي الخطيب", "num": 352}, {"name": "سهر ميسر احمد سليمان التكريتي", "num": 353}, {"name": "سهير كامل لعيبي علي الجنابي", "num": 354}, {"name": "سيروان وسمي محمود عبدالله الجبوري", "num": 355}, {"name": "سيف انور جاسم محمد الجميلي", "num": 356}, {"name": "سيف حسيب عفتيان علي الجبوري", "num": 357}, {"name": "سيف سعد تركي مهدي الحلواني", "num": 358}, {"name": "سيف عمر علي صالح البومهدي", "num": 359}, {"name": "شاكر احمود عبدالله صالح الجبوري", "num": 360}, {"name": "شاكر محمود عواد سلمان السامرائي", "num": 361}, {"name": "شعلان سعدون حسين نومان الجبوري", "num": 362}, {"name": "شيماء جاسم هجول عباس الخزرجي", "num": 363}, {"name": "شيماء سلام عبدالجبار حسن الالوسي", "num": 364}, {"name": "شيماء عبدين حسن غني البياتي", "num": 365}, {"name": "شيماء عواد ياسين يوسف العلكاوي", "num": 366}, {"name": "شيماء مهند عصام محمد العزاوي", "num": 367}, {"name": "شيماء هاشم حسين موسى الموسوي", "num": 368}, {"name": "صابر صالح مخلف حمد اللهيبي", "num": 369}, {"name": "صادق دخيل مهدي صالح الدراجي", "num": 370}, {"name": "صالح احمد غضيب حسن الجبوري", "num": 371}, {"name": "صالح اسماعيل هويد خلف الخلف", "num": 372}, {"name": "صالح مهدي صالح شهاب الجميلي", "num": 373}, {"name": "صالح نجم عبد صالح شايع", "num": 374}, {"name": "صبا حامد محسن علي المعموري", "num": 375}, {"name": "صباح حسن خلف اجدع الجميلي", "num": 376}, {"name": "صباح خورشيد شكور جرو البياتي", "num": 377}, {"name": "صباح طاهر احمد عبدالله الشيخاني", "num": 378}, {"name": "صبار ستار صالح اسماعيل العبيدي", "num": 379}, {"name": "صفا عبدالله عزاوي رشيد الحمداني", "num": 380}, {"name": "صفاء حمود نايف عبدالرحمن الاحسين", "num": 381}, {"name": "صفاء رشيد مريف حسين اطعيمه", "num": 382}, {"name": "صفاء شاكر حميد خلف الدليمي", "num": 383}, {"name": "صفاء صالح مولود فرحان القيسي", "num": 384}, {"name": "صفاء عادل جمعه خلف البياتي", "num": 385}, {"name": "صفاء نوفل محمد طه السلماني", "num": 386}, {"name": "صفاء هاشم ابراهيم احمد العلوش", "num": 387}, {"name": "صفوان احمد حسين علي الجبوري", "num": 388}, {"name": "صفوان جمال جواد حافظ اللطيفي", "num": 389}, {"name": "صفوان صالح محمد عزاوي الصحن", "num": 390}, {"name": "صقر عامر حميد محمد الناصري", "num": 391}, {"name": "صقر عبدالعزيز عبدالله احمد العميري", "num": 392}, {"name": "صلاح حسين عويد وسمي الجبوري", "num": 393}, {"name": "صلاح عبدالامير عبدالكريم احمد الدجيلي", "num": 394}, {"name": "صهيب بدر عباس ياسين العباسي", "num": 395}, {"name": "صهيب خالد شهاب احمد ملا خليل", "num": 396}, {"name": "ضاحي احمد محمد حميد الجبوري", "num": 397}, {"name": "ضاحي رمضان جمعه ابراهيم الجبوري", "num": 398}, {"name": "ضامن حدوشه خلف رجا الجبوري", "num": 399}, {"name": "ضحى حميد علوان خاطر اطعيمه", "num": 400}, {"name": "ضرار ساجد خلف خالد الجبوري", "num": 401}, {"name": "ضياء عبد عباس يونس الجبوري", "num": 402}, {"name": "طارق تحسين عبد محمد الجميلي", "num": 404}, {"name": "طارق حسن حمد صالح الجبوري", "num": 403}, {"name": "طارق يونس حياوي حميد اللويزي", "num": 405}, {"name": "طالب ارحيم علي كاظم التميمي", "num": 406}, {"name": "طالب حسن عبد يوسف المجمعي", "num": 407}, {"name": "طالب صبار ابراهيم داوي العكيدي", "num": 408}, {"name": "طلب رزوق فتحي محمد الجبوري", "num": 409}, {"name": "ظافر تركي منفي حسين الحمداني", "num": 410}, {"name": "ظاهر داود سلوم عبدالله العزاوي", "num": 411}, {"name": "عائشه رشيد صعب رزوقي الدوري", "num": 421}, {"name": "عادل محمد عايد عبدالله الجميلي", "num": 412}, {"name": "عارف داود محمود عبد الجبوري", "num": 413}, {"name": "عامر احمد جاسم شتر الجميلي", "num": 414}, {"name": "عامر حسين مطلك سعد القيسي", "num": 415}, {"name": "عامر عباس صالح جدوع العجيلي", "num": 416}, {"name": "عامر لطيف عبدالجبار جمار الجنابي", "num": 417}, {"name": "عامر مجيد حميد جواد الرفيعي", "num": 418}, {"name": "عامر محمد ظاهر علي الجميلي", "num": 419}, {"name": "عايد حاضر حامد عبيد الجبوري", "num": 420}, {"name": "عباس امين بيرام علي البياتي", "num": 422}, {"name": "عباس حسين علي مهدي البو مهدي", "num": 423}, {"name": "عباس سامي حسن عبد الحمداني", "num": 424}, {"name": "عباس شاكر حامد نايل الخزرجي", "num": 425}, {"name": "عباس طه عباس محمود البو اسود", "num": 426}, {"name": "عباس علي عبد احمد الكيلاني", "num": 427}, {"name": "عباس قادر شكور صمد العزي", "num": 428}, {"name": "عباس محسن علي صالح المشايخي", "num": 429}, {"name": "عباس محمود شهباز احمد الاسدي", "num": 430}, {"name": "عبد ابراهيم محمد سحل الجبوري", "num": 431}, {"name": "عبد احمد سليمان رمضان السليمان", "num": 432}, {"name": "عبد حسن سعدون حسين الجبوري", "num": 433}, {"name": "عبد صباح حمود جدعان الجدعان", "num": 434}, {"name": "عبد محمد صالح محمود الجبوري", "num": 435}, {"name": "عبد ناصر حسين جاسم عدوش", "num": 436}, {"name": "عبدالباسط عليج عبد محمد الجبوري", "num": 437}, {"name": "عبدالجبار سعيد عبدالعزيز زيدان الخزرجي", "num": 438}, {"name": "عبدالجبار طه ياسين احمد الدوري", "num": 439}, {"name": "عبدالحق اسماعيل جاسم محمد الدوري", "num": 440}, {"name": "عبدالرحمن سعدي عبدالرحمن عباس السامرائي", "num": 441}, {"name": "عبدالرحمن عبدالله كامل تركي الجميلي", "num": 442}, {"name": "عبدالرحمن عبدالله محمد حسين المكدمي", "num": 443}, {"name": "عبدالرحمن محمود محسن الصحن", "num": 444}, {"name": "عبدالرزاق فتحي مصطاف سالم الجبوري", "num": 445}, {"name": "عبدالسلام رجب احمد صالح الجميلي", "num": 446}, {"name": "عبدالسلام عبدالكريم خليفه فرحان اطعيمه", "num": 447}, {"name": "عبدالعزيز علي محمد عبدالله الجبوري", "num": 448}, {"name": "عبدالعزيز وهاب صالح ابراهيم الدليمي", "num": 449}, {"name": "عبدالغني عبدالله حسن محمد جايرلي", "num": 450}, {"name": "عبدالقادر عبدالله احمد عميري اللهيبي", "num": 451}, {"name": "عبدالقدوس لاصف مزهر محمد الجبوري", "num": 452}, {"name": "عبدالقهار مازن مصطفى علي العلي", "num": 453}, {"name": "عبدالكريم سعران عبدالله محمد الجميلي", "num": 454}, {"name": "عبدالله حسين اسويد علي الجبوري", "num": 455}, {"name": "عبدالله خلف دعيجان رجا الشمري", "num": 456}, {"name": "عبدالله خوام دليل حبتر المكدمي", "num": 457}, {"name": "عبدالله سعيد عبدالله جاسم المحمدي", "num": 458}, {"name": "عبدالله صبحي صوان مصلح الدليمي", "num": 459}, {"name": "عبدالله صلاح فاضل عبدالجبار السامرائي", "num": 460}, {"name": "عبدالله فرحان جاد مسعود الجبوري", "num": 461}, {"name": "عبدالله محمد مؤيد طه الرفاعي", "num": 462}, {"name": "عبدالله محمود خلف عجل الجبوري", "num": 463}, {"name": "عبدالملك هاشم محمد طياوي الجبوري", "num": 464}, {"name": "عبدالمنعم علي شعبان علي الجبوري", "num": 465}, {"name": "عبدالهادي مبارك رمضان محيميد الجبوري", "num": 466}, {"name": "عبدالوهاب عبد محمود صالح الجميلي", "num": 467}, {"name": "عبود احمد عبود يوسف اللويزي", "num": 468}, {"name": "عبيد خلف دعيجان رجا الشمري", "num": 469}, {"name": "عبير حسين عباس ذيبيان الطائي", "num": 470}, {"name": "عبير خضر ياسين عليوي الدليمي", "num": 471}, {"name": "عبير ياسين محمد مدلي المجمعي", "num": 472}, {"name": "عثمان اياد جاسم داحور الجبوري", "num": 473}, {"name": "عثمان اياد محمود يعكوب الجبوري", "num": 474}, {"name": "عثمان شحاذه حسين شحاذه الجبوري", "num": 475}, {"name": "عثمان عبدالواحد ابراهيم محمد العاني", "num": 476}, {"name": "عدنان محمود هليم ربع الجبوري", "num": 477}, {"name": "عدنان مخلف حديد عبد", "num": 478}, {"name": "عراق غانم منصور جابر النعيمي", "num": 479}, {"name": "عروبه عطيه حمد عبدالله جعاطه", "num": 480}, {"name": "عزام محمد صالح محي الجميلي", "num": 481}, {"name": "عزه فرج عطوان كريم الدوري", "num": 482}, {"name": "عسل محمود خلف حمود الرملي", "num": 483}, {"name": "عصام سعد جابر احمد الدليمي", "num": 484}, {"name": "عصام محسن زيد حسن الحنظل", "num": 485}, {"name": "عصام نجم عبدالله علي اللهيبي", "num": 486}, {"name": "عطا نصيف هندي لطيف الاحبابي", "num": 487}, {"name": "عطالله حلو عبد خضر الجبوري", "num": 488}, {"name": "عطيه علي ابراهيم سليمان البياتي", "num": 489}, {"name": "عفاف سعيد حميد مهدي الدجيلي", "num": 490}, {"name": "عقيل رشيد خورشيد حسن البياتي", "num": 491}, {"name": "عقيل علي عزت غني العسافي", "num": 492}, {"name": "علاء الدين عبدالله احمد خشان اللهيبي", "num": 493}, {"name": "علاء جاسم عباس حسن الرزوقي", "num": 494}, {"name": "علاء معوبر حمد مخلف الرهاوي", "num": 495}, {"name": "علاء ياسين حسان خلف البو مهدي", "num": 496}, {"name": "علاء ياسين خضير حسن السلامي", "num": 497}, {"name": "علي احمد جاسم علي اطعيمه", "num": 498}, {"name": "علي اسماعيل مصلح محيميد الجبوري", "num": 499}, {"name": "علي ثامر فارس محمد السراج", "num": 500}, {"name": "علي جاسم لطيف صالح المرسومي", "num": 501}, {"name": "علي جلال محمد حسن النجار", "num": 502}, {"name": "علي حسين علي حسن العزاوي", "num": 503}, {"name": "علي خلف تركي عبدالله الجميلي", "num": 504}, {"name": "علي سالم حمد عبدالله القيسي", "num": 505}, {"name": "علي سعد جابر علوان الطائي", "num": 506}, {"name": "علي سمير قاسم عبداللطيف البياتي", "num": 507}, {"name": "علي صباح سليمان احمد العزاوي", "num": 508}, {"name": "علي عباس تركي محمد الخزرجي", "num": 509}, {"name": "علي عدنان علي محمد البرزنجي", "num": 510}, {"name": "علي عنتر حسين علي الفراجي", "num": 511}, {"name": "علي عواد علي موسى الجبوري", "num": 512}, {"name": "علي عيسى علي طه الجميلي", "num": 513}, {"name": "علي فاضل كاظم علي العنزي", "num": 514}, {"name": "علي فاضل مهدي حسن الجحيشي", "num": 515}, {"name": "علي محسن محمد تجره اللويزي", "num": 516}, {"name": "علي محمد احمد نجم الجبوري", "num": 517}, {"name": "علي محمد صالح خلف الجبوري", "num": 518}, {"name": "علي محمد عبدالله حسين القيسي", "num": 519}, {"name": "علي محمد عجاج جرجيس الجميلي", "num": 520}, {"name": "عماد ابراهيم علاوي شطب الجنابي", "num": 521}, {"name": "عماد احمد ياسين حسين الجبوري", "num": 522}, {"name": "عماد جاسم عبدالله صالح العباسي", "num": 523}, {"name": "عماد حديد هاشم بدوي الفراجي", "num": 524}, {"name": "عماد حمود جدوع خلف الجبوري", "num": 525}, {"name": "عماد حميدي خلف علي اللهيبي", "num": 526}, {"name": "عمار ابراهيم حسن محمد الدوري", "num": 527}, {"name": "عمار ابراهيم هادي حسن الجميلي", "num": 528}, {"name": "عمار عادل صالح مهدي الكلابي", "num": 529}, {"name": "عمار عبدالرسول محمد جاسم الدوري", "num": 530}, {"name": "عمار كريم ياسين مهدي الناصري", "num": 531}, {"name": "عمار نامس دحام دحام", "num": 532}, {"name": "عمر احمد خليل دخيل الجبوري", "num": 533}, {"name": "عمر احمد دليل حبتر المكدمي", "num": 534}, {"name": "عمر احمد صالح فلفل الفراجي", "num": 535}, {"name": "عمر اياد ياسين اسماعيل الشيشاوي", "num": 536}, {"name": "عمر جمعه مجيد محمد الابليبل", "num": 537}, {"name": "عمر حامد محمد سلمان اللهيبي", "num": 538}, {"name": "عمر خضر حسون محمد اللويزي", "num": 539}, {"name": "عمر دوخي عبدالله محمد الجبوري", "num": 540}, {"name": "عمر ذياب مهيدي سليمان المرسومي", "num": 541}, {"name": "عمر زهير عبدالمجيد شكر الدليمي", "num": 542}, {"name": "عمر علي عواد علي الجبوري", "num": 543}, {"name": "عمر مظهر سرحان ذياب السامرائي", "num": 544}, {"name": "عمر منذر نعمان نجم التكريتي", "num": 545}, {"name": "عمر ناجح حجاب علاوي الجنابي", "num": 546}, {"name": "عمر هلال جزاع خلف الجميلي", "num": 547}, {"name": "عمر يوسف خلف حميد الجبوري", "num": 548}, {"name": "عمران بدر فاضل حمود الجنابي", "num": 549}, {"name": "عوني سلطان عساف خليفه اللهيبي", "num": 550}, {"name": "عيد خلف دعيجان رجا الشمري", "num": 551}, {"name": "عيد عبدالمجيد عوض شلال الجبوري", "num": 552}, {"name": "عيدان فايز عجيل حبيب الجميلي", "num": 553}, {"name": "عيسى جاسم خليل عبد الجبوري", "num": 554}, {"name": "غازي عباس صالح جدوع العجيلي", "num": 555}, {"name": "غازي محمد رمضان محيميد العزاوي", "num": 556}, {"name": "غفران صباح ابراهيم احمد اللهيبي", "num": 557}, {"name": "غيث حسن ثامر زنزل الاسودي", "num": 558}, {"name": "فؤاد محمد بريسم مرعي القيسي", "num": 583}, {"name": "فائزه مهدي صالح مهدي الربيعي", "num": 568}, {"name": "فائق عبدالله شطر حمد العزاوي", "num": 569}, {"name": "فاديه محمود عباس اجدع الجبوري", "num": 559}, {"name": "فارس صباح عواد مخلف الدليمي", "num": 560}, {"name": "فارس علي محمد عبد الجميلي", "num": 561}, {"name": "فاضل ساقي كوثر تقي تعينلي", "num": 562}, {"name": "فاضل محمد رمضان ابراهيم الجبوري", "num": 563}, {"name": "فاطمه طه شكري محمود تتونجي", "num": 564}, {"name": "فاطمه عبدالله علي احمد العبيدي", "num": 565}, {"name": "فاطمه علي بهجت جهاد الهاشمي", "num": 566}, {"name": "فاطمه ناظم عبدالله علي البياتي", "num": 567}, {"name": "فتاح عباس ايوب يوسف الخزرجي", "num": 581}, {"name": "فداء احمد ياسين خليفه المشهداني", "num": 570}, {"name": "فراس ابراهيم حسن هويد الخلف", "num": 571}, {"name": "فراس احمد سلمان عجاج الجميلي", "num": 572}, {"name": "فرح فوزي علي حسين الخزرجي", "num": 573}, {"name": "فرحان حميد احمد فرحان العجيلي", "num": 574}, {"name": "فرحان دحام عبدالله ناصر الجبوري", "num": 575}, {"name": "فرحان كاظم سرحان مهوس المكدمي", "num": 576}, {"name": "فردوس مهدي محمد صالح الربيعي", "num": 577}, {"name": "فرقد صفاء صبري عجيل المخلف", "num": 578}, {"name": "فلاح احميد نواف فدعم الفدعم", "num": 579}, {"name": "فلاح عبدالقادر سعيد مهدي البياتي", "num": 580}, {"name": "فهد احمد عبود يوسف الويزي", "num": 582}, {"name": "فواز ربيع عايد فنخ الجبوري", "num": 584}, {"name": "فواز ناطق فيزي محمد الهزاع", "num": 585}, {"name": "فيصل رفاعي ابراهيم طه الجبوري", "num": 586}, {"name": "قائد كامل كوشان معروف المعروف", "num": 588}, {"name": "قاسم خضير حسن حسين الجبوري", "num": 587}, {"name": "قصي داود سليمان شرقي القيسي", "num": 589}, {"name": "قصي محمد مزعل مطر الفراجي", "num": 590}, {"name": "قصي معوبر حمد مخلف الرهاوي", "num": 591}, {"name": "قيس خليل عطيه علي العبيدي", "num": 592}, {"name": "قيصر سليمان فياض علي العجيلي", "num": 593}, {"name": "كرار علي محمد رضا عزاوي", "num": 594}, {"name": "كمال عبدالله احمد عواد الجبوري", "num": 595}, {"name": "لافي زعال حماد بجاي الشمري", "num": 596}, {"name": "لؤي مرير صبار جياد الصجري", "num": 600}, {"name": "لبنى اياد جمعه خضر الدوري", "num": 597}, {"name": "لفته عبد يوسف مغامس المجمعي", "num": 598}, {"name": "لقمان محيسن غربي شفلح الجبوري", "num": 599}, {"name": "ليث حسن ثامر زنزل الاسودي", "num": 601}, {"name": "ليث كامل حسن صالح الجراد", "num": 602}, {"name": "ماجد زيدان خلف محمود البياتي", "num": 603}, {"name": "مازن عبدالسلام طه عباس البواسود", "num": 604}, {"name": "مازن عبدالله محمود عكيل الدليمي", "num": 605}, {"name": "مازن عمير نوار زويد الرهاوي", "num": 606}, {"name": "مؤمن حسن محمد خلف الدوري", "num": 734}, {"name": "مانع عبدالهادي عواد نومان الجبوري", "num": 607}, {"name": "ماهر جاسم حمد خليف الجبوري", "num": 608}, {"name": "ماهر خضر فارس دخيل الجبوري", "num": 609}, {"name": "ماهر عبدالله خلف عبدالواحد الرملي", "num": 610}, {"name": "مؤيد حسن حميد محمد الدليمي", "num": 735}, {"name": "مؤيد حكيم خلف محمود البياتي", "num": 736}, {"name": "مؤيد خلف صالح خلف الجبوري", "num": 737}, {"name": "مؤيد سلمان عجاج جرجيس الجميلي", "num": 738}, {"name": "مؤيد محمد خضير عليوي الدليمي", "num": 739}, {"name": "مؤيد موسى جميل حسين الجبوري", "num": 740}, {"name": "مبارك رمضان محيميد عبدالله الجبوري", "num": 611}, {"name": "مثنى زيدان خلف محمود البياتي", "num": 612}, {"name": "مثنى ناظم جاسم محمد العيساوي", "num": 613}, {"name": "محسن علي ابراهيم حسين الجبوري", "num": 614}, {"name": "محسن علي محمد خلف السحل", "num": 615}, {"name": "محسن ياس محسن كليب طرفه", "num": 616}, {"name": "محمد ابراهيم عواد علي الجميلي", "num": 617}, {"name": "محمد احمد حميد كاظم اللهيبي", "num": 618}, {"name": "محمد احمد صالح عباس العباسي", "num": 619}, {"name": "محمد احمد ظاهر حسين العكيدي", "num": 620}, {"name": "محمد احمد فاضل مدهاس اللهيبي", "num": 621}, {"name": "محمد احمد كامل تركي الجميلي", "num": 622}, {"name": "محمد احميد حديد عصفور الحمداني", "num": 623}, {"name": "محمد انور نهاب صالح الحمداني", "num": 624}, {"name": "محمد اياد صابر علوان الطائي", "num": 625}, {"name": "محمد اياد محمود يعكوب الجبوري", "num": 626}, {"name": "محمد جاسم شحاذه حسين الجبوري", "num": 627}, {"name": "محمد جاسم عباس صالح السامرائي", "num": 628}, {"name": "محمد جاسم عواد خلف العباسي", "num": 629}, {"name": "محمد جاسم محمد دلي الجنابي", "num": 630}, {"name": "محمد جاسم محمد عبد الفراجي", "num": 631}, {"name": "محمد جاسم محمد كنهر المحمدي", "num": 632}, {"name": "محمد جاسم محمد نجم الاسودي", "num": 633}, {"name": "محمد حسن حسين سلمان التميمي", "num": 634}, {"name": "محمد حسن محمد محمود الجبوري", "num": 635}, {"name": "محمد حسن محمد محمود الجبوري", "num": 636}, {"name": "محمد حسين شكور جمعه القصاب", "num": 637}, {"name": "محمد حمد برجس دخيل الجبوري", "num": 638}, {"name": "محمد حمد عواد عمر الجميلي", "num": 639}, {"name": "محمد خلف نجم عبدالله الجبوري", "num": 640}, {"name": "محمد خليف حميد محمد الدليمي", "num": 641}, {"name": "محمد خليل ابراهيم حسن الدوري", "num": 642}, {"name": "محمد رافع نوفان فرحان الفرحان", "num": 643}, {"name": "محمد رجب حدوشه خلف الجبوري", "num": 644}, {"name": "محمد زين العابدين مهدي سليمان قوشجي", "num": 645}, {"name": "محمد سالم حمد عبدالله القيسي", "num": 646}, {"name": "محمد سامي حسين علي العاصي", "num": 647}, {"name": "محمد صباح طه عمر التكريتي", "num": 648}, {"name": "محمد عامر محمد رمضان العزاوي", "num": 649}, {"name": "محمد عبدالرحمن علوان عليوي الجبوري", "num": 650}, {"name": "محمد عبدالرزاق شاكر علي الطائي", "num": 651}, {"name": "محمد عبدالله حسن محمد جايرلي", "num": 652}, {"name": "محمد علي احمد عمير الجبوري", "num": 653}, {"name": "محمد علي شاكر هادي العزاوي", "num": 654}, {"name": "محمد علي محمود سلطان الفهداوي", "num": 655}, {"name": "محمد عواد حميد سلطان الجميلي", "num": 656}, {"name": "محمد عواد عثمان شاهين الجبوري", "num": 657}, {"name": "محمد عواد علي صالح البوباز", "num": 658}, {"name": "محمد فاضل محمد حسين الرملي", "num": 659}, {"name": "محمد قحطان رشاد جاسم الهاشمي", "num": 660}, {"name": "محمد موسى بطوش عراك الجبوري", "num": 661}, {"name": "محمد موسى عبش بنيان القيسي", "num": 662}, {"name": "محمد ناظم عمر عبد الغني الدوري", "num": 663}, {"name": "محمد هادي عباس علي الخوجه", "num": 664}, {"name": "محمد وهيب جاسم حميد الدوري", "num": 665}, {"name": "محمد ياسين كاظم صالح النعيمي", "num": 666}, {"name": "محمود ابراهيم حسين درويش الجبوري", "num": 667}, {"name": "محمود ازهر عبدالله محمد السلامي", "num": 668}, {"name": "محمود جمال خيرالله محمود التكريتي", "num": 669}, {"name": "محمود حردان عبدالله مطر العبيدي", "num": 670}, {"name": "محمود سامي عبد حمد الدوري", "num": 671}, {"name": "محمود سعيد عبد صالح الجبوري", "num": 672}, {"name": "محمود عبدالله محمد خضر الجبوري", "num": 673}, {"name": "محمود محمد خالد عمر الباشا", "num": 674}, {"name": "محمود محمد غربي حمادي اللهيبي", "num": 675}, {"name": "محمود مهدي احمد عيدان المكدمي", "num": 676}, {"name": "محمود ياسين حمد دخيل الجبوري", "num": 677}, {"name": "مروان ذياب غانم مجذاب الجبوري", "num": 678}, {"name": "مروان صبحي علي صايل اللهيبي", "num": 679}, {"name": "مروان عامر حسين مطلك القيسي", "num": 680}, {"name": "مروان عبدالكريم خضير مرموص الجبوري", "num": 681}, {"name": "مروان عمير نوار زويد الرهاوي", "num": 682}, {"name": "مروان مخلف حديد عبد العجيلي", "num": 683}, {"name": "مروج سري شاكر محمود الدوري", "num": 684}, {"name": "مروه احمد طه حسن البو اسود", "num": 685}, {"name": "مروه عبدالله مهدي حسين الطالبي", "num": 686}, {"name": "مروه ياسين محمد مدلي المجمعي", "num": 687}, {"name": "مريم عامر حسين مطلك القيسي", "num": 688}, {"name": "مزاحم عبدالمالك جياد غربي الجبوري", "num": 689}, {"name": "مزهر خلف صالح محمد الجبوري", "num": 690}, {"name": "مسلم محمد حسين عبد البياتي", "num": 691}, {"name": "مشتاق حماده احمد ذياب الجبوري", "num": 692}, {"name": "مشتاق خليل ابراهيم جواد الجبوري", "num": 693}, {"name": "مشتاق شهاب احمد حسين القيسي", "num": 694}, {"name": "مصطفى ابراهيم صالح سليم الحيالي", "num": 695}, {"name": "مصطفى اديب حسن رمضان العزاوي", "num": 696}, {"name": "مصطفى خليل علي محسن صحن", "num": 697}, {"name": "مصطفى زياد عبود سعيد الكعيد", "num": 698}, {"name": "مصطفى طه محمد حاجم العباسي", "num": 699}, {"name": "مصطفى عبدالله صالح محمد العبيدي", "num": 700}, {"name": "مصطفى علي خلف حسين العزاوي", "num": 701}, {"name": "مصطفى علي مجيد حميد", "num": 702}, {"name": "مصطفى قصي خالد عايد الناصري", "num": 703}, {"name": "مصطفى كامل حسن صالح الجراد", "num": 704}, {"name": "مصطفى محمد رشيد حميد السامرائي", "num": 705}, {"name": "مصطفى محمد شامل اسماعيل الخزرجي", "num": 706}, {"name": "مصطفى محمد عبد محمد الجعب", "num": 707}, {"name": "مصطفى محمود نصيف مخلف السامرائي", "num": 708}, {"name": "مصطفى منير جدوع عجيل الخشماني", "num": 709}, {"name": "مظهر عدنان سالم محمد الجنابي", "num": 710}, {"name": "معتز نيسان محمد عباس الدوري", "num": 712}, {"name": "معتصم جمال طالب صحن الصحن", "num": 713}, {"name": "معروف فرج زعيان فرج اللهيبي", "num": 711}, {"name": "مقداد ابراهبم سعيد علي الدليمي", "num": 714}, {"name": "مقداد محمد عبدالكريم علي العلوش", "num": 715}, {"name": "مقداد محمود محمد محمود الرملي", "num": 716}, {"name": "مكتوم حماد خليل ابراهيم التكريتي", "num": 717}, {"name": "منار حازم علي كريم سامرائي", "num": 718}, {"name": "منتصر رضوان فرحان علي الخزرجي", "num": 720}, {"name": "منتظر محمد سالم مهدي الخير", "num": 721}, {"name": "منتهى خلف حسين عوض الجبوري", "num": 722}, {"name": "منصور علي كرم جسام الحبابي", "num": 719}, {"name": "مهتاب خليل سليمان سعدالله سقا", "num": 730}, {"name": "مهدي سعدي اسماعيل عبدالله الجبوري", "num": 723}, {"name": "مهدي عباس عبيد احمد الكيلاني", "num": 724}, {"name": "مهند ابراهيم محمود خليفه الجبوري", "num": 725}, {"name": "مهند صبيح صبري مصطفى الطالبي", "num": 726}, {"name": "مهند طارق حسن جواد المكدمي", "num": 727}, {"name": "مهند مهدي عبدالله احمد الدليمي", "num": 728}, {"name": "مهند يونس محمد هاشم القيسي", "num": 729}, {"name": "مهيمن حسن محمد شريف البياتي", "num": 731}, {"name": "موج ثائر حاتم احمد الهزاع", "num": 732}, {"name": "موفق يونس محمد هاشم القيسي", "num": 733}, {"name": "ميثاق طالب محمد مصطفى الرفاعي", "num": 741}, {"name": "ميس صائب مكي نجم التكريتي", "num": 742}, {"name": "ميسر ابراهيم خلف حمد الجبوري", "num": 743}, {"name": "ميسر موسى راشد برجس الجنابي", "num": 744}, {"name": "ميسره عبدالله حسين سالم الصهيد", "num": 745}, {"name": "ميعاد محمود محمد شهاب المولى", "num": 746}, {"name": "مينه هشام محمدعلي هاشم السامرائي", "num": 747}, {"name": "ناطق صالح رشيد خلف الدراجي", "num": 748}, {"name": "ناطق فائق علي حمد اطعيمه", "num": 749}, {"name": "ناظر محمد جدوع خلف الجبوري", "num": 750}, {"name": "ناظم احمد عبدالله حسين القيسي", "num": 751}, {"name": "ناظم مزعل مطر حميد الفراجي", "num": 752}, {"name": "نافع احمد مصطو جمعه الجميلي", "num": 753}, {"name": "نامس احمد محمد مصطفى السلامي", "num": 754}, {"name": "نامس صالح خليل دخيل الجبوري", "num": 755}, {"name": "نايف محمد هاشم خليل القيسي", "num": 756}, {"name": "نبا سهاد محمود سلمان القيسي", "num": 757}, {"name": "نبراس صباح عواد مخلف الدليمي", "num": 758}, {"name": "نبهان عواد محمد خلف الحمداني", "num": 759}, {"name": "نجاح هادي خلف جاسم البياتي", "num": 760}, {"name": "نجاد عامر عياش عبد الجبوري", "num": 761}, {"name": "نداء شاكر محمود محي الطائي", "num": 762}, {"name": "نداء عيدان حمد خلف الدليمي", "num": 763}, {"name": "ندوان حسن محمد سعدون طعيمه", "num": 764}, {"name": "ندى صباح علي ظاهر السامرائي", "num": 765}, {"name": "ندى نزهت صبيح صادق الربيعي", "num": 766}, {"name": "نزار سالم حسين حمد الجبوري", "num": 767}, {"name": "نسرين صبيح حسن محمد", "num": 768}, {"name": "نسيم كردي جميل محمد المكدمي", "num": 769}, {"name": "نشوان داود سلمان عجاج الجميلي", "num": 770}, {"name": "نصار احمد محمد خلف الهيبي", "num": 771}, {"name": "نصرالدين مشعل دخيل عبد الله الجبوري", "num": 772}, {"name": "نصير جميل سعيد زغير العبيدي", "num": 773}, {"name": "نضال حسين علي تايح الواسطي", "num": 774}, {"name": "نضال عبدالستار حماد سمير البوريشه", "num": 775}, {"name": "نغم عبدالرسول مالك حسن الخزرجي", "num": 776}, {"name": "نغم غانم عايد محمد المعماري", "num": 777}, {"name": "نهاد شرقي خلف حسين اللهيبي", "num": 778}, {"name": "نهله محمد عبدالله محمد الجبوري", "num": 779}, {"name": "نور اسماعيل محمد حاجم البدراني", "num": 780}, {"name": "نور عادل ابراهيم زيدان الناصري", "num": 781}, {"name": "نور عماد عبدالله كوان الجبوري", "num": 782}, {"name": "نور كريم اسماعيل زامل الخفاجي", "num": 783}, {"name": "نورا تحسين شكري محمود البياتي", "num": 785}, {"name": "نورا حيدر جواد موسى البياتي", "num": 784}, {"name": "نورس علاء عبدالهادي حسن الدجيلي", "num": 786}, {"name": "نورهان عريان رفعت صفر البياتي", "num": 787}, {"name": "نوري علي كريم سلمان البياتي", "num": 788}, {"name": "نوفل ميثم نواف عبدالله البو اسود", "num": 789}, {"name": "نيران حمد هزاع صالح العباسي", "num": 790}, {"name": "هاشم محمد بريسم مرعي القيسي", "num": 791}, {"name": "هاله قاسم محمد جابر الدوري", "num": 792}, {"name": "هاني عبدالرضا كاظم جويد", "num": 793}, {"name": "هاني عبدالعزيز سعيد خلف السامرائي", "num": 794}, {"name": "هاني قيس عبدالله مضحي اعذيه", "num": 795}, {"name": "هبه نايف طه خنفر العجيلي", "num": 796}, {"name": "هديل محمود يوسف محمود السامرائي", "num": 799}, {"name": "هشام ابراهيم عواد علي الجميلي", "num": 800}, {"name": "هشام احمد صالح محمد العبدالله", "num": 801}, {"name": "هشام احمود احمد محمد الجبوري", "num": 802}, {"name": "هشام علاء حسين فلاح الجبوري", "num": 803}, {"name": "همام احمد مريف حسين اطعيمه", "num": 806}, {"name": "همام جاسم نعمه جاسم الهارون", "num": 807}, {"name": "همسه ناظم عبد داود الدوري", "num": 808}, {"name": "هند صالح دبيس خاطر اطعيمه", "num": 809}, {"name": "هند فارس اسماعيل حسين الناصري", "num": 810}, {"name": "هند معد عبدالقادر محمود الجبوري", "num": 811}, {"name": "هند هادي عباس سوادي الدحيدحاوي", "num": 812}, {"name": "هيام ابراهيم خليل عثمان البزوني", "num": 813}, {"name": "هيثم صادق عبدالكريم خضير الجبوري", "num": 814}, {"name": "هيثم صفاء زكريا بكر الصباغ", "num": 815}, {"name": "هيثم كريم حسين محمد المكدمي", "num": 816}, {"name": "وائل عاصم خلف عبد الجبوري", "num": 818}, {"name": "وائل عمر عطا رشيد البدري", "num": 819}, {"name": "ورقاء حميد علوان خاطر اطعيمه", "num": 820}, {"name": "ورقاء زبن صالح عيث القيسي", "num": 821}, {"name": "وزه صالح علي محمد جعاطه", "num": 822}, {"name": "وسام بدر صالح محمد الحبابي", "num": 823}, {"name": "وسام جميل احمد حمادي الجنابي", "num": 824}, {"name": "وسام حامد جاسم محمد النيساني", "num": 825}, {"name": "وسام خلف صيهود جادر البياتي", "num": 826}, {"name": "وسام طه محمد ابراهيم الدراجي", "num": 827}, {"name": "وسام ظاهر احمد جويد الجويد", "num": 828}, {"name": "وسام وعد لطيف محمود القاسمي", "num": 829}, {"name": "وسناء قيس حجوكي حمد العبيدي", "num": 830}, {"name": "وصال محمد شويل حسين البنجيم", "num": 831}, {"name": "وضاح عبدالحميد ابراهيم عبدالحميد الجبوري", "num": 832}, {"name": "وضاح مولود علوان حسين اطعيمه", "num": 833}, {"name": "وطبان عمير نوار زويد الرهاوي", "num": 834}, {"name": "وعدالله حسن عبدالله صالح الجميلي", "num": 835}, {"name": "وفاء عبدالعزيز عسل محمود الجبوري", "num": 836}, {"name": "ولاء حسين شطب محمد البواسود", "num": 837}, {"name": "ولاء فيصل راضي فهد التميمي", "num": 838}, {"name": "وليد حاتم حماد امين البياتي", "num": 839}, {"name": "وليد حسن جاسم حماده الجبوري", "num": 840}, {"name": "وليد خالد احمد حسن الجميلي", "num": 841}, {"name": "وليد خلدون حسن حمو ال وهب", "num": 842}, {"name": "وليد زكي محمود محمد القيسي", "num": 843}, {"name": "وليد طلاع مصطفى لزام الجنابي", "num": 844}, {"name": "وليد نجم كريم محمد البياتي", "num": 845}, {"name": "وليد يونس جهاد ياسين الركابي", "num": 846}, {"name": "ياسر علي محمود خضر العجيلي", "num": 847}, {"name": "ياسين عبداللطيف ياسين جاسم الدوري", "num": 848}, {"name": "ياسين عبدالله درويش حمادي اللهيبي", "num": 849}, {"name": "يحيى حامد صلبوخ حمد الخالدي", "num": 850}, {"name": "يسر جمال عكاب احمد الدليمي", "num": 851}, {"name": "يمامه خالد خلف نوفان العزاوي", "num": 852}, {"name": "يوسف جاسم حميد عبدالله الجنابي", "num": 853}, {"name": "يوسف حميد محمود احمد الجبوري", "num": 854}], letters: ["ا", "ب", "ت", "ث", "ج", "ح", "خ", "د", "ذ", "ر", "ز", "س", "ش", "ص", "ض", "ط", "ظ", "ع", "غ", "ف", "ق", "ك", "ل", "م", "ن", "ه", "و", "ي"], total: 854 },
-  cont: { all: [{"name": "ابراهيم بسام علوان احمد الجبوري", "num": 1}, {"name": "ابراهيم عادل رشيد شاهر الجميلي", "num": 2}, {"name": "ابراهيم فاضل صلبي سعيد الجميلي", "num": 3}, {"name": "ابوبكر مؤيد عبدالعزيز", "num": 4}, {"name": "احمد حبيب عباس محيميد الجبوري", "num": 5}, {"name": "احمد راضي حسين ناصر اللهيبي", "num": 6}, {"name": "احمد رياض عزيز صبح الحمداني", "num": 7}, {"name": "احمد شهاب احمد سلمان البواسود", "num": 8}, {"name": "احمد عبدالله مطر حداد العيساوي", "num": 9}, {"name": "احمد علي احمد عبدالله القيسي", "num": 10}, {"name": "احمد محمود خلف صالح الجبوري", "num": 11}, {"name": "احمد مهدي رمضان حسن القيسي", "num": 12}, {"name": "احمد نايف احمد حسين الغريري", "num": 13}, {"name": "احمد هزاع ذياب كواد العزاوي", "num": 14}, {"name": "احمد ياسين عباس", "num": 15}, {"name": "اركان وليد بهار خشان الجبوري", "num": 16}, {"name": "اسامه فلاح محمود عباس العباسي", "num": 17}, {"name": "اسامه محمد دخيل ماجد الجبوري", "num": 18}, {"name": "اسراء كريم سدخان جبر البلعوطي", "num": 19}, {"name": "اسعد حميد سلمان محمود البو اسود", "num": 20}, {"name": "اسماعيل خميس موسى جاسم اعذيه", "num": 21}, {"name": "امير محل عبدالكريم حسن السامرائي", "num": 22}, {"name": "انفال خالد مهدي احمد العباسي", "num": 23}, {"name": "انمار خليل خلف مطلك المجمعي", "num": 24}, {"name": "اياد خلف فدعير حمد الجغيفي", "num": 25}, {"name": "اياد عيدان حمدان انصيف اعذي", "num": 26}, {"name": "باسم متعب حسين علي الخزرجي", "num": 27}, {"name": "بسمه سعد احمد وساك النيساني", "num": 28}, {"name": "بشار عبدالواحد عليوي طعمه النيساني", "num": 29}, {"name": "بشير حسين محمد احميد الجبوري", "num": 30}, {"name": "بكر عبدالوهاب جاسم حمود الصباغ", "num": 31}, {"name": "تبارك عمر اسود خلف الجبوري", "num": 184}, {"name": "جاسم عطيه سليمان محمد الجميلي", "num": 32}, {"name": "حاتم كريم علي عبد اعذيه", "num": 36}, {"name": "حارث ثامر حواس صالح الجبوري", "num": 33}, {"name": "حازم إبراهيم عباس محمود اعذي", "num": 34}, {"name": "حامد ربيع مساعد عتار القيسي", "num": 35}, {"name": "حسام ناظم مزعل مطر الفراجي", "num": 37}, {"name": "حسين عثمان حسين", "num": 38}, {"name": "حسين عطيه جبار جبل العزاوي", "num": 39}, {"name": "حكيم ممدوح مطر اسماعيل المكدمي", "num": 40}, {"name": "حمد احمد خليل دخيل الجبوري", "num": 41}, {"name": "حمزه ثاني لطيف جمعه العبيدي", "num": 42}, {"name": "حمزه مجيد جاسم", "num": 43}, {"name": "حمزه هاشم محمد محل العكيدي", "num": 44}, {"name": "خالد ياسر إبراهيم خلف الجبوري", "num": 45}, {"name": "خضير عباس احمد سلمان البو اسود", "num": 46}, {"name": "خليل خلف عبداللطيف احمد الجبوري", "num": 47}, {"name": "خليل نوري سليمان عبدالله الجميلي", "num": 48}, {"name": "دخيل علي حسين حبيب الجبوري", "num": 49}, {"name": "ديانا علي حسين محمد الجبوري", "num": 50}, {"name": "رائد اسود حسين ججو الطياوي", "num": 51}, {"name": "ربيع خليل إبراهيم حسن الفراجي", "num": 52}, {"name": "رجاء صالح عدوان إبراهيم الجميلي", "num": 53}, {"name": "رداد حسن سلوم حسن العجيلي", "num": 54}, {"name": "رسل طارق علي محمد الجبوري", "num": 55}, {"name": "رسول سعيد محمد عباس البو اسود", "num": 56}, {"name": "رشيد رائد كامل حميد التميمي", "num": 57}, {"name": "رضوان داود سليمان عجاج الجميلي", "num": 58}, {"name": "رفاه سلمان لفته محمد الجبوري", "num": 59}, {"name": "رنا نجيب علوان خلف الجبوري", "num": 60}, {"name": "رياض احمد حلو بدي الجبوري", "num": 61}, {"name": "ريم عبدالله محمود عكيل الدليمي", "num": 62}, {"name": "زمن احمد حكمت إسماعيل السامرائي", "num": 63}, {"name": "زهراء ابراهيم شامل إسماعيل الخزرجي", "num": 64}, {"name": "زهراء حميد عويد محمد الجميلي", "num": 65}, {"name": "زيد فياض عبدالله حميد العبيدي", "num": 66}, {"name": "زينب طاهر طارق محمد طعيمه", "num": 67}, {"name": "زينب فاضل صلبي سعيد الجميلي", "num": 68}, {"name": "ساره ياسين عباس", "num": 69}, {"name": "سالم رمضان حسين محمد الجميلي", "num": 70}, {"name": "سامال صباح احمد خزام اللهيبي", "num": 71}, {"name": "سجى علي سلمان درويش الجبوري", "num": 72}, {"name": "سحر حسين عبد حسن المكدمي", "num": 73}, {"name": "سعاد عبدالله محمد", "num": 74}, {"name": "سعد سلوم كعيد حسن الشاروكي", "num": 75}, {"name": "سعد محمود خلف حموش الفراجي", "num": 76}, {"name": "سفيان سعد محمود محمد الجبوري", "num": 77}, {"name": "سفيان ماهر جاسم حمد الجبوري", "num": 78}, {"name": "سلطان إبراهيم عجاج جرجيس الجميلي", "num": 79}, {"name": "سميه محمود عواد شحاذه الجبوري", "num": 80}, {"name": "سيف سعد محمد سلمان البو اسود", "num": 81}, {"name": "سيف شاهر مجيد نجرس الجبوري", "num": 82}, {"name": "سيف نايف احمد حسين الغريري", "num": 83}, {"name": "شاهر علي عواد", "num": 84}, {"name": "شهاب احمد ذياب سلمان البو اسود", "num": 85}, {"name": "شيماء فاضل عباس محيميد الجبوري", "num": 86}, {"name": "صباح معيوف حسن مربد الدليمي", "num": 87}, {"name": "صبحه سليمان خالد", "num": 88}, {"name": "صدام فلاح حسن علي الاسودي", "num": 89}, {"name": "صهيب صابر صالح نجم الجيشي", "num": 90}, {"name": "صهيب عوف عبدالرحمن محمود التكريتي", "num": 91}, {"name": "ظافر محمد عزاوي علي المرسومي", "num": 92}, {"name": "عامر علي حسين شحاذه الجبوري", "num": 93}, {"name": "عبدالحق عيدان حمدان انصيف اعذي", "num": 94}, {"name": "عبدالرحمن ادهام محمود", "num": 95}, {"name": "عبدالرحمن ثامر كريم حسن النيساني", "num": 96}, {"name": "عبدالرحمن محمد عبيد داوود الجبوري", "num": 97}, {"name": "عبدالرحمن محمود ياس خضر الجبوري", "num": 98}, {"name": "عبدالعزيز خلف شنيار مله الجبوري", "num": 99}, {"name": "عبدالعزيز عزيز مخيف جاسم الجبوري", "num": 100}, {"name": "عبدالعليم طه احمد سلمان البو اسود", "num": 101}, {"name": "عبدالعليم كريم علي عبد اعذيه", "num": 102}, {"name": "عبدالله عبدالواحد عليوي طعمه النيساني", "num": 103}, {"name": "عبدالله فارس ادهام داود الجبوري", "num": 104}, {"name": "عبله مالك محمد حسين الجبوري", "num": 105}, {"name": "عثمان ابراهيم جعفر جواد البازي", "num": 106}, {"name": "عصام ابراهيم عواد علي الجميلي", "num": 107}, {"name": "عقبه عمار عبد عبدالله الجبوري", "num": 108}, {"name": "علي جاسم محمد حسن السلاوي", "num": 109}, {"name": "علي حسين خضير جمعه الجبوري", "num": 110}, {"name": "علي رفعت إبراهيم خليل الجبوري", "num": 111}, {"name": "علي سامي عبيد حماد الفراجي", "num": 112}, {"name": "علي سعدون مرعي حسن البو اسود", "num": 113}, {"name": "علي ماجد حسن طعمه العيساوي", "num": 114}, {"name": "علي محمد صالح علي المجمعي", "num": 115}, {"name": "علي محمد عبيد داود الجميلي", "num": 116}, {"name": "علي محمد مهدي موسى اعذيه", "num": 117}, {"name": "عمار حسن عبدالله حسين القيسي", "num": 118}, {"name": "عمار ذياب خلف ذياب السبعاوي", "num": 119}, {"name": "عمر حسين عمر حماده الاسودي", "num": 120}, {"name": "عمر سمير سعيد دحام الخشماني", "num": 121}, {"name": "عمر عبود عزاوي صحن الجبوري", "num": 122}, {"name": "غازي احمد محمد حمد السلامي", "num": 123}, {"name": "غزوان شلاش خلف عياش الجبوري", "num": 124}, {"name": "غسق مهدي محمد كفطان الجبوري", "num": 125}, {"name": "غيد صالح محمد عبدالله الجبوري", "num": 126}, {"name": "غيداء ماجد سعد زيدان الحمداني", "num": 127}, {"name": "فائزه عيدان حمدان انصيف اعذي", "num": 131}, {"name": "فارس احمد عليوي عباس القيسي", "num": 128}, {"name": "فاطمه ابراهيم جاسم", "num": 129}, {"name": "فاطمه بيات اكبر محمد البياتي", "num": 130}, {"name": "فراس احمد حسين حميد الجميلي", "num": 132}, {"name": "فراس عامر احمد حسين الجميلي", "num": 133}, {"name": "فلاح عبدالله مهدي صالح اعذيه", "num": 134}, {"name": "قتيبه عادل معيدي سبع المكدمي", "num": 135}, {"name": "قيصر نزار محسن حمزه اغضيب", "num": 136}, {"name": "كبرياء محمد جياد مناور الرهاوي", "num": 137}, {"name": "كرم ليث كامل حسن الجراد", "num": 138}, {"name": "كريم طه احمد سلمان البو اسود", "num": 139}, {"name": "ليث عبدالله عيدان علي الجبوري", "num": 140}, {"name": "مؤيد محمد جمعه حسين الجميلي", "num": 176}, {"name": "محمد احمد عبدالله حسن القيسي", "num": 141}, {"name": "محمد باسم محمد جاسم الدراجي", "num": 142}, {"name": "محمد جابر احمد حسن السامرائي", "num": 143}, {"name": "محمد جمعه فرج", "num": 144}, {"name": "محمد راضي طه خضير الجميلي", "num": 145}, {"name": "محمد شلاش جاسم داحور الجبوري", "num": 146}, {"name": "محمد صالح خلف عوض الدليمي", "num": 147}, {"name": "محمد طه محمد حاجم العباسي", "num": 148}, {"name": "محمد عبدالكريم مسلط حمد الجميلي", "num": 149}, {"name": "محمد عبدالله مطر حداد العيساوي", "num": 150}, {"name": "محمد علي خلف اجدع الجميلي", "num": 151}, {"name": "محمد فاهم ذياب صالح الجبوري", "num": 152}, {"name": "محمد فياض عبدالله حميد العبيدي", "num": 153}, {"name": "محمد لورنس حسن فرحان العزاوي", "num": 154}, {"name": "محمد مشعان لهيب يحيى الجبوري", "num": 155}, {"name": "محمود نعمه خلف عبدالله القيسي", "num": 156}, {"name": "مراد مزهر حمود خلف الحمداني", "num": 157}, {"name": "مرعي عبدالعليم جعيدي حمزه محمد العلوم", "num": 158}, {"name": "مروان نزار محمد عبدالكريم العبدالله", "num": 159}, {"name": "مروه اياد عبدالرسول عبو الخزرجي", "num": 160}, {"name": "مروه حمد محمود امحيميد الجنابي", "num": 161}, {"name": "مروه سمير صادق خضير المرسومي", "num": 162}, {"name": "مصطفى احمد فرج خليل الجبوري", "num": 163}, {"name": "مصطفى سعيد سامي عبود الاسودي", "num": 164}, {"name": "مصطفى صالح علي دهش الكرعي", "num": 165}, {"name": "مصطفى علي سلمان صالح المرسومي", "num": 166}, {"name": "مصطفى فوزي عبدالكريم حسين البواسود", "num": 167}, {"name": "مصلح محمد حمدان سمير اعذيه", "num": 168}, {"name": "مطلك صدام مطلك", "num": 169}, {"name": "منار جمال عبود", "num": 170}, {"name": "منار علوان نجم حسين الجبوري", "num": 171}, {"name": "منال صالح ابراهيم سليمان المرسومي", "num": 172}, {"name": "مهدي صالح حمود مهدي الجبوري", "num": 173}, {"name": "مهند عياش جاسم حمود الجواري", "num": 174}, {"name": "موج حميد رشيد حميد السامرائي", "num": 175}, {"name": "ميثاق فواز احمد عبدالله القيسي", "num": 177}, {"name": "ميلاد صائب عويد حميد الجميلي", "num": 178}, {"name": "نداء غتران عبدالله محمد الجميلي", "num": 179}, {"name": "نشوان إبراهيم عجاج جرجيس الجميلي", "num": 180}, {"name": "نمير عبيد جاسم محمد الجبوري", "num": 181}, {"name": "نهاد غانم سبع خميس البو اسود", "num": 182}, {"name": "نيزك مهدي صالح عدوان الجميلي", "num": 183}, {"name": "هبه حامد فليح حسن السامرائي", "num": 185}, {"name": "هبه محمد عبيد داود الجميلي", "num": 186}, {"name": "هدى عبدالسلام شبل عبدالله الجميلي", "num": 187}, {"name": "هند هادي جابر ذويب المفرجي", "num": 188}, {"name": "هودان بدر إبراهيم هودان السامرائي", "num": 189}, {"name": "هيثم جبار قدوري حسين الدليمي", "num": 190}, {"name": "هيثم حسين محمد خلف الجبوري", "num": 191}, {"name": "هيفاء درويش عجيل صالح القيسي", "num": 192}, {"name": "وسام محمد حسن عزيز المشهداني", "num": 193}, {"name": "وليد خالد علي عبدالرزاق التكريتي", "num": 194}, {"name": "وليد شهاب احمد خلف الجبوري", "num": 195}, {"name": "وليد محمد عبيد داوود الجميلي", "num": 196}, {"name": "يوسف علي محمد حسين الجبوري", "num": 197}], letters: ["ا", "ب", "ت", "ج", "ح", "خ", "د", "ر", "ز", "س", "ش", "ص", "ظ", "ع", "غ", "ف", "ق", "ك", "ل", "م", "ن", "ه", "و", "ي"], total: 197 }
+var DATA={
+  perm:{all:[{"name": "ابراهيم حسن كريم عمر العبيدي", "num": 1}, {"name": "ابراهيم حسين سليم عزيز القيسي", "num": 2}, {"name": "ابراهيم رجب محمد رجب الجبوري", "num": 3}, {"name": "ابراهيم سرحان علي عنيزان الحمداني", "num": 4}, {"name": "ابراهيم عبدالله سبهان خلف الجبوري", "num": 5}, {"name": "ابراهيم غالب هاشم محمد الاوسي", "num": 6}, {"name": "ابراهيم محمد عواد مدكوك اللهيبي", "num": 7}, {"name": "ابراهيم محمود صالح حماد الجميلي", "num": 8}, {"name": "ابراهيم موسى ابراهيم حمد المجمعي", "num": 9}, {"name": "ابراهيم ياسين محمد علي رياشي", "num": 10}, {"name": "اثير غازي محمد رمضان العزاوي", "num": 11}, {"name": "اثير محمود محمد علي العبيدي", "num": 12}, {"name": "اثير ياس خضر عبدالله الجبوري", "num": 13}, {"name": "احسان علي اسويد على الجبوري", "num": 14}, {"name": "احمد ادريس احمد عميري اللهيبي", "num": 15}, {"name": "احمد ازهر عبدالله محمد السلامي", "num": 16}, {"name": "احمد تركي احمد علي الحشماوي", "num": 65}, {"name": "احمد جاسم خلف اجدع الجميلي", "num": 17}, {"name": "احمد جاسم صالح محمد الجبوري", "num": 18}, {"name": "احمد جاسم محمد جابر الجميلي", "num": 19}, {"name": "احمد جزاع احمد صالح المنديل", "num": 20}, {"name": "احمد حامد مسرهد رشيد العزاوي", "num": 21}, {"name": "احمد حروش جاسم شلال الخزرجي", "num": 22}, {"name": "احمد حسن رمضان عبدالله العزاوي", "num": 23}, {"name": "احمد حسن محمد خلف الدوري", "num": 24}, {"name": "احمد حمود دهدي صالح الحمره", "num": 25}, {"name": "احمد حمود صالح محي الجميلي", "num": 26}, {"name": "احمد خالد سليمان شعبان التكريتي", "num": 27}, {"name": "احمد خضير عباس صالح السامرائي", "num": 28}, {"name": "احمد خلف سليمان حسين الجبوري", "num": 29}, {"name": "احمد خلف عبدالله سحاب الجبوري", "num": 30}, {"name": "احمد سعد شبيب كردي الجنابي", "num": 31}, {"name": "احمد سعيد احمد جاسم اطعيمه", "num": 32}, {"name": "احمد شاكر محمود خليفه الحمد", "num": 33}, {"name": "احمد شهاب عبد حسين التميمي", "num": 34}, {"name": "احمد صالح حدوشه خلف الجبوري", "num": 35}, {"name": "احمد صالح خلف حمد الجبوري", "num": 36}, {"name": "احمد صالح محمد مسير اطعيمه", "num": 37}, {"name": "احمد طالب محمد باقر برزنجي", "num": 38}, {"name": "احمد طه حميدي خلف اللهيبي", "num": 39}, {"name": "احمد ظاهر محمد عبد الجواري", "num": 40}, {"name": "احمد عبد محمد عبدالله القيسي", "num": 41}, {"name": "احمد عبدالسلام علوان نجم الناصري", "num": 42}, {"name": "احمد عبدالقادر داود نايف الجبوري", "num": 43}, {"name": "احمد عبدالله جاسم محمد الجبوري", "num": 44}, {"name": "احمد عبدالله علي محمد العبدالله", "num": 45}, {"name": "احمد عبدالله محمد مطلك الجبوري", "num": 46}, {"name": "احمد عبدالوهاب عبدالكريم علي البدري", "num": 47}, {"name": "احمد عبود زيدان حمادي المكدمي", "num": 48}, {"name": "احمد فتح الله دحام مهدي المشهداني", "num": 49}, {"name": "احمد فواز اسود عبدالله الحمداني", "num": 50}, {"name": "احمد محمد حسن جاسم النجم", "num": 51}, {"name": "احمد محمد رشيد بهلول الجبوري", "num": 52}, {"name": "احمد محمد سامي حسين العاصي", "num": 53}, {"name": "احمد محمد عبدالله حسين القيسي", "num": 54}, {"name": "احمد محمد عبود يوسف اللويزي", "num": 55}, {"name": "احمد محمد وهيب جاسم الدوري", "num": 56}, {"name": "احمد محمود علي محمود الاسودي", "num": 57}, {"name": "احمد مريف حسين علي اطعيمه", "num": 58}, {"name": "احمد مظهر شعلان ثامر الخزجي", "num": 59}, {"name": "احمد منديل خليل محمد الجبوري", "num": 60}, {"name": "احمد مهدي صالح احمد الدوري", "num": 61}, {"name": "احمد مهدي صالح حسن طرفه", "num": 62}, {"name": "احمد نجاح احمد عبد العجيلي", "num": 63}, {"name": "احمد هايس ابراهيم عبيد الجبوري", "num": 64}, {"name": "احمد يوسف ايدن سلمان البياتي", "num": 66}, {"name": "ادهم عبدالله خلف عبدالله العباسي", "num": 67}, {"name": "اديب اسماعيل خلف عبد الجبوري", "num": 68}, {"name": "اركان خليل ابراهيم حسين الجبوري", "num": 69}, {"name": "اركان كريم ياسين مهدي الناصري", "num": 70}, {"name": "اركان مخلف حديد عبد العجيلي", "num": 71}, {"name": "اريج محمد سحاب محمد البدري", "num": 72}, {"name": "ازهار جاسم محمد علي البياتي", "num": 73}, {"name": "اسامه احمد خلف احمد الدليمي", "num": 74}, {"name": "اسامه صالح مولود سلمان النعيمي", "num": 75}, {"name": "اسامه عباس حسين عماش الامهيدي", "num": 76}, {"name": "استبرق فيصل نعمان عياده الدوري", "num": 85}, {"name": "اسراء ناطق عزت لطيف الدوري", "num": 77}, {"name": "اسعد ابراهيم حسن احمد الجبوري", "num": 78}, {"name": "اسماء عباس عبدالله علي السامرائي", "num": 79}, {"name": "اسماء فوزي ابراهيم جاسم الحديثي", "num": 80}, {"name": "اسماعيل بدر محمد حمد السامرائي", "num": 81}, {"name": "اسماعيل قاسم محمد حميد الداودي", "num": 82}, {"name": "اسماعيل محمد محمود رحيم النعيمي", "num": 83}, {"name": "اسماعيل محمد مطلك خلف السعدون", "num": 84}, {"name": "اكرام طاهر مخيلف داغر البيضائي", "num": 86}, {"name": "اكرم عطيه علي حمد الجميلي", "num": 87}, {"name": "اكرم نهاد محمد محمود البياتي", "num": 88}, {"name": "الامين عارف الطيف محمد الدوري", "num": 89}, {"name": "الحمزه شمس الدين محمد بيدر الجميلي", "num": 90}, {"name": "المعتصم بالله يونس جديع بردي الدليمي", "num": 91}, {"name": "الياس خضير محمد عبدالرحمن الرملي", "num": 92}, {"name": "امال جمال يوسف محمود البياتي", "num": 93}, {"name": "امال حسين عبعوب سميسم الجبوري", "num": 94}, {"name": "امجد حميد رشيد جميل المشايخي", "num": 95}, {"name": "امجد سمير محمد نايف المكدمي", "num": 96}, {"name": "امجد شهاب احمد حسن السامرائي", "num": 97}, {"name": "امجد نايف سبهان خلف الجبوري", "num": 98}, {"name": "امل حسن محمد محمود الجبوري", "num": 99}, {"name": "انتصار عبدالحسن عباس عبيد الدرويش", "num": 107}, {"name": "انس جاسم نايف عبدالرحمن الاحسين", "num": 100}, {"name": "انس جمعه حسين محمد الجميلي", "num": 101}, {"name": "انغام منذر خليل جاسم الحديثي", "num": 102}, {"name": "انمار حامد سلمان مراد الجنابي", "num": 103}, {"name": "انمار حميد عبدالكريم جاسم البوبدري", "num": 104}, {"name": "انمار ضرار مولود جابر النعيمي", "num": 105}, {"name": "انمار ليث صالح علاوي العلاوي", "num": 106}, {"name": "انوار عايد دحل كليب الشمري", "num": 108}, {"name": "انور صدام خلف متعب المعماري", "num": 109}, {"name": "انور ليث صالح علاوي الجميلي", "num": 110}, {"name": "اواز مهدي خورشيد محمد الداودي", "num": 111}, {"name": "اوس حامد ياسين احمد النيساني", "num": 112}, {"name": "ايات نعيم محمود خلف ال فارس", "num": 115}, {"name": "اياد حسين عبيد حسين الجبوري", "num": 113}, {"name": "اياد عطاالله نصيف جاسم الجبوري", "num": 114}, {"name": "ايسر ثامر مهدي غايب", "num": 116}, {"name": "ايسل عادل عبدالرحمن محمد البياتي", "num": 117}, {"name": "ايلاف سعدي رحيم جاسم الخزرجي", "num": 118}, {"name": "ايلاف عبد فيحان ياس المحمدي", "num": 119}, {"name": "ايمان احمد ظاهر حسين العكيدي", "num": 120}, {"name": "ايمان فليح حبيتر نهار النزال", "num": 121}, {"name": "ايمن احمد عبدالائمه جاسم العبيدي", "num": 122}, {"name": "ايمن حردان عبدالله مطر العبيدي", "num": 123}, {"name": "ايمن خلف سعيد هويد الجبوري", "num": 124}, {"name": "ايمن كريم خزعل هزاع خارمانلو", "num": 125}, {"name": "ايمن مظهر سالم عبد الله البواسود", "num": 126}, {"name": "ايمن هادي صالح جاسم الاحبابي", "num": 127}, {"name": "اينور ملك محمد رضا البياتي", "num": 128}, {"name": "ايه ابراهيم فرج نادر البدري", "num": 129}, {"name": "ايه سلام طه هزاع العلاوي", "num": 130}, {"name": "ايوب هلوش جاسم محمد المجمعي", "num": 131}, {"name": "باتع عيد جاسم حركان الصايحي", "num": 139}, {"name": "بارق ستار نامق توفيق البياتي", "num": 132}, {"name": "باسم عواد علي موسى الجبوري", "num": 133}, {"name": "باسم محمد خلف جاسم الدوري", "num": 134}, {"name": "باسم محمد سلمان فرج الجبوري", "num": 135}, {"name": "باسم محمد عبدالله حسين القيسي", "num": 136}, {"name": "باسم محمد نايف علوان المكدمي", "num": 137}, {"name": "بان مجيد صالح عكيل الدليمي", "num": 138}, {"name": "بثينه محمد خلف حرج الزيدي", "num": 140}, {"name": "بثينه محمود محمد محمود البوبدري", "num": 141}, {"name": "براء سامر جاسم محمد المجمعي", "num": 142}, {"name": "براء كاظم حسين شاطي الخزرجي", "num": 143}, {"name": "براء مصحب جمعه زعيتر العبيدي", "num": 144}, {"name": "برهان مهدي صالح عطيه الجبوري", "num": 145}, {"name": "بسمه هاشم عباس شكور ال ياسين", "num": 146}, {"name": "بشائر حميد شهاب حمد الجواري", "num": 150}, {"name": "بشار حميد رشيد خضير الجبوري", "num": 147}, {"name": "بشار رافع نوفان فرحان الفرحان", "num": 148}, {"name": "بشار عبدالله غدير حسن العيساوي", "num": 149}, {"name": "بلال حمزه صالح جداع البدري", "num": 151}, {"name": "بهاء ابراهيم خلف حمد الجبوري", "num": 152}, {"name": "بهاء عدنان جاسم محمد الحمداني", "num": 153}, {"name": "بهاء علي مهدي صالح الجبوري", "num": 154}, {"name": "تحرير جاسم محمد عود الجبوري", "num": 797}, {"name": "تحسين عبدالله وسمي حبيب المجرص", "num": 798}, {"name": "تقي اسماعيل عبدربه كنيص اعذيه", "num": 804}, {"name": "تماره رعد نافع عبد الطائي", "num": 805}, {"name": "تيجاني عدنان سالم محمد الجنابي", "num": 817}, {"name": "ثائر محمود حميد حمادي الجنابي", "num": 156}, {"name": "ثامر ابراهيم مرعي هايس الجبوري", "num": 155}, {"name": "جابر احمد ابراهيم طايس الشمري", "num": 157}, {"name": "جاسم محمد احمد عبدالله شيخاني", "num": 158}, {"name": "جاسم محمد رجب شيخ الجبوري", "num": 159}, {"name": "جاسم محمد محمود فرج الجبوري", "num": 160}, {"name": "جلال جمال عبد اللطيف محمد الجبوري", "num": 161}, {"name": "جلال حمدي نصيف شرعان المجمعي", "num": 162}, {"name": "جنان انور محمد احمد ليلاني", "num": 163}, {"name": "جنان عبدالهادي جدوع علي العزاوي", "num": 164}, {"name": "حاتم محمد سليم عزيز العويسي", "num": 170}, {"name": "حاجم فلاح اسماعيل جلود الياسين", "num": 165}, {"name": "حارث مثنى حميد محمد الدوري", "num": 166}, {"name": "حارث مهدي احمد عبدان المكدمي", "num": 167}, {"name": "حارث موفق جهاد علي الحساني", "num": 168}, {"name": "حازم احمد اسماعيل عبدالله القيسي", "num": 169}, {"name": "حذام صلاح مهدي محمد الحياني", "num": 171}, {"name": "حذيفه نمير ناظم مصطفى الناصري", "num": 172}, {"name": "حسام حمدان صباح حمود الجدعان", "num": 173}, {"name": "حسام محمد نجم عبدالله الدليمي", "num": 174}, {"name": "حسام يوسف احمد سلطان العزاوي", "num": 175}, {"name": "حسان لازم جمعه رجب الجبوري", "num": 176}, {"name": "حسن ابراهيم سالم حسن الجبوري", "num": 177}, {"name": "حسن ابراهيم هويدي درويش الجبوري", "num": 178}, {"name": "حسن اسماعيل ابراهيم هويدي الجبوري", "num": 179}, {"name": "حسن حسين عليوي خليفه الحميد", "num": 180}, {"name": "حسن حواس حاجم حسن التغلبي", "num": 181}, {"name": "حسن خلف عبدالله مدكوك اللهيبي", "num": 182}, {"name": "حسن خلف هليم ربع الجبوري", "num": 183}, {"name": "حسن محمد خلف جاسم الجبوري", "num": 184}, {"name": "حسن مشعان جبار جاسم الخزرجي", "num": 185}, {"name": "حسن هادي نصيف جاسم المجمعي", "num": 186}, {"name": "حسين بهجت حسين بهجت الهاشمي", "num": 187}, {"name": "حسين حميد حاتم سلمان الخزرجي", "num": 188}, {"name": "حسين داود سلمان فهد العجيلي", "num": 189}, {"name": "حسين علي خلف حسين العزاوي", "num": 190}, {"name": "حسين علي شاكر هادي العزاوي", "num": 191}, {"name": "حسين علي محمد شريف الداوودي", "num": 192}, {"name": "حسين محمد حسين مطلك الجميلي", "num": 193}, {"name": "حسين مخلف محمد احمد الدليمي", "num": 194}, {"name": "حسين هلال مطلك جرجيس الجمياي", "num": 195}, {"name": "حمد حسين محمد خضر الجبوري", "num": 196}, {"name": "حمد زناد جاسم محمد الجبوري", "num": 197}, {"name": "حمد سالم ظاهر حسن الجبوري", "num": 198}, {"name": "حمزه قاسم مهدي حمد الخزرجي", "num": 199}, {"name": "حمودي احمد تركي عبدالله الجميلي", "num": 200}, {"name": "حميد محمد هاشم خليل القيسي", "num": 201}, {"name": "حميد ياسين محمود علي البومهدي", "num": 202}, {"name": "حنان كريم محمد علي العباسي", "num": 203}, {"name": "حنان محمد حسين علي المرسومي", "num": 204}, {"name": "حنان محمد علي يوسف العجيلي", "num": 205}, {"name": "حنين خلف سليمان محمد الجبوري", "num": 206}, {"name": "حنين مهدي حبيب محمد الخزعلي", "num": 207}, {"name": "حيدر خلف داود رميض المزروعي", "num": 208}, {"name": "حيدر شاهين ابراهيم زين العابدين بابا", "num": 209}, {"name": "خالد احميد دويح فرحان الدليمي", "num": 210}, {"name": "خالد حاتم حماد امين البياتي", "num": 211}, {"name": "خالد حمد سليم عزيز القيسي", "num": 212}, {"name": "خالد خلف ذياب حمزه السبعاوي", "num": 213}, {"name": "خالد سعدي محمود خلف الدراجي", "num": 214}, {"name": "خالد صباح حسن حمدي الجبوري", "num": 215}, {"name": "خالد عبد فرحان فاضل الدوري", "num": 216}, {"name": "خالد عزالدين بصاص يوسف البياتي", "num": 217}, {"name": "خالد علي عبد احمد الجبوري", "num": 218}, {"name": "خالد محارب خلف محمد الجبوري", "num": 219}, {"name": "خالد محمد عبدالوهاب حسن الشيخلي", "num": 220}, {"name": "خالد مولود علوان حسين اطعيمه", "num": 221}, {"name": "خضر سالم عبدالله محمد الجبوري", "num": 222}, {"name": "خضير عبدالعباس عبد صالح الجميلي", "num": 223}, {"name": "خلف جاسم محمد نجم الجبوري", "num": 224}, {"name": "خلف حسين حمد حسين اطعيمه", "num": 225}, {"name": "خليل ابراهيم جعفر جواد السامرائي", "num": 226}, {"name": "خليل ابراهيم حسين نجم الجنابي", "num": 227}, {"name": "خليل ابراهيم كيطان عزيز اعذيه", "num": 228}, {"name": "خليل خلف محمد محمود البياتي", "num": 229}, {"name": "خوله ابراهيم غفور محمد البياتي", "num": 230}, {"name": "خوله عبدالعزيز لطيف محمد الحماده", "num": 231}, {"name": "داليا غالب حسين علي البياتي", "num": 232}, {"name": "داود حسن احميد جراد العكيدي", "num": 233}, {"name": "داود سليمان مطلق خلف الجبوري", "num": 234}, {"name": "دبلان وكاع بديع حشاش الشمري", "num": 235}, {"name": "دريد حميد ابراهيم عطيه الجبوري", "num": 236}, {"name": "دعاء جميل توفيق عبد الله الدوري", "num": 237}, {"name": "دعاء ضياء حسين محمد الحيالي", "num": 238}, {"name": "دلال جابر عبود علوان الخزرجي", "num": 239}, {"name": "دنيا فتح الله دحام مهدي المشهداني", "num": 240}, {"name": "دهش علوان لواخ محيميد الشمري", "num": 241}, {"name": "ذكرى كاظم عبدالله حمد الجبوري", "num": 242}, {"name": "رئاب مشعل يوسف محمد الجبوري", "num": 278}, {"name": "رائد اسماعيل محمد حاجم البدراني", "num": 248}, {"name": "رائد بشير منصور محمد الدوري", "num": 249}, {"name": "رائد خليل خلف محمد البياتي", "num": 250}, {"name": "رائد محمد كردي محاسن المجمعي", "num": 251}, {"name": "رافد حمد حسن عطيه الجبوري", "num": 243}, {"name": "رافد ماهر غانم مانع المكدمي", "num": 244}, {"name": "رافع محمد خلف محمد الجبوري", "num": 245}, {"name": "رانية زيدان رشيد عبدالله", "num": 246}, {"name": "راويه حسن شريف قاسم البياتي", "num": 247}, {"name": "رؤى جمال داود عوده الباوي", "num": 277}, {"name": "رجاء سامي صالح محمد اطعيمه", "num": 252}, {"name": "رحاب عامر زيدان نصيف الخفاجي", "num": 253}, {"name": "رحمه كاظم عليوي عيسى الدليمي", "num": 254}, {"name": "رسول ظافر كاظم علي الخزرجي", "num": 255}, {"name": "رشا رجب سلطان صالح الديبو", "num": 256}, {"name": "رشدي حميد محمد قره كله محمد", "num": 257}, {"name": "رشيد مظفر رشيد جميل المشايخي", "num": 258}, {"name": "رعد ابراهيم يوسف يعقوب الحمداني", "num": 259}, {"name": "رعد بحر محجوب جبل الجنابي", "num": 260}, {"name": "رعد داود سلمان فهد العجيلي", "num": 261}, {"name": "رعد فهد صالح محمد الجبوري", "num": 262}, {"name": "رغد سعد جمعه موسى العبل", "num": 263}, {"name": "رغد فرج عبد غنام الجبوري", "num": 264}, {"name": "رغد منهل عبدالجبار سعيد الحيالي", "num": 265}, {"name": "رغيد اياد مجيد عباس الاحبابي", "num": 266}, {"name": "رفل احمد علي محمد الجبوري", "num": 267}, {"name": "رفل خلف غضبان خلف الجبوري", "num": 268}, {"name": "رقيه محسن علوان سلمان المفرجي", "num": 269}, {"name": "رمضان رميض عبيد خلف الجبوري", "num": 270}, {"name": "رمضان محمد شهاب احمد الجميلي", "num": 271}, {"name": "رواء قيس قاسم نعمه السوداني", "num": 272}, {"name": "رواد جمهور حسن صالح البياتي", "num": 273}, {"name": "رواد خلف علوان الطيف الجبوري", "num": 274}, {"name": "روان رعد مكي علي الناصري", "num": 275}, {"name": "روكان عوض خلف زراو الحمداني", "num": 276}, {"name": "رياض ابراهيم خميس نخيلان الجبوري", "num": 279}, {"name": "ريام ريكان خلف نجم الجغيفي", "num": 280}, {"name": "زاهده مصطفى مردان غائب توتونجي", "num": 281}, {"name": "زهراء حميد محاو عباس المولى", "num": 282}, {"name": "زهراء شاكر محمود عباس الحدادي", "num": 283}, {"name": "زهراء مهدي صالح احمد الدوري", "num": 284}, {"name": "زهره حميد عباس احمد العبيدي", "num": 285}, {"name": "زهره محمد جمعه ابراهيم الجبوري", "num": 286}, {"name": "زهير مهدي حمد عبدالله الجميلي", "num": 287}, {"name": "زياد احمد علوان غريب المشايخي", "num": 288}, {"name": "زياد خلف حسن حماده الجبوري", "num": 289}, {"name": "زياد خلف عبداللطيف احمد الجبوري", "num": 290}, {"name": "زياد كمال علي مخلف الجميلي", "num": 291}, {"name": "زياد محمود سليمان عليج الجميلي", "num": 292}, {"name": "زياد مزهر عبد صالح الدراجي", "num": 293}, {"name": "زيد حامد احمد دخيل العبيدي", "num": 294}, {"name": "زيد فيصل مهدي احمد المكدمي", "num": 295}, {"name": "زيدان معروف لفته يونس الجنابي", "num": 296}, {"name": "زيدون حاتم هواس محمد البو اسود", "num": 297}, {"name": "زينب اياد عمر رزوقي الدوري", "num": 298}, {"name": "ساره جمال كاظم حاتم الزبيدي", "num": 299}, {"name": "ساره عامر عبدالرحمن طه الحديثي", "num": 300}, {"name": "ساره محمد حسن درويش الجميلي", "num": 301}, {"name": "ساره محمود كديمي حسن الدجيلي", "num": 302}, {"name": "ساره مهدي احمد عبدالله البرزنجي", "num": 303}, {"name": "ساره نجيب محمود سلمان الجبوري", "num": 304}, {"name": "سالم علي محمد جرجيس الجميلي", "num": 305}, {"name": "سامي احمد سلمان عجاج الجميلي", "num": 306}, {"name": "سانيه رياض عبدالله محمد العباسي", "num": 307}, {"name": "ساهر نايف محمد عبدالله السحل", "num": 308}, {"name": "سبهان احمد حسين علي البياتي", "num": 309}, {"name": "سبهان زيد مريف حسين اطعيمه", "num": 310}, {"name": "سجى احمد ابراهيم حسن الدليمي", "num": 311}, {"name": "سجى احمد عواد فياض الجنابي", "num": 312}, {"name": "سرمد فرهاد رضا حسن نجار", "num": 313}, {"name": "سرمد هاشم حسين عطيه الجبوري", "num": 314}, {"name": "سرى محمود عبدالله محمد الجبوري", "num": 315}, {"name": "سعاد محمود حسن عباس البازي", "num": 316}, {"name": "سعد بندر اسماعيل احمد العجيلي", "num": 317}, {"name": "سعد حسين علي ابراهيم الخزرجي", "num": 318}, {"name": "سعد خلف حسين ناصر اللهيبي", "num": 319}, {"name": "سعد خيرالله عبدالله داود التكريتي", "num": 320}, {"name": "سعد راشد حماد زوين الشمري", "num": 321}, {"name": "سعد رافع خليف احمد الجبوري", "num": 322}, {"name": "سعد عبدالرضا بليل عكيل الدليمي", "num": 323}, {"name": "سعد عبدالله طلب حماده الحمداني", "num": 324}, {"name": "سعد علي مطلك سليمان العجيلي", "num": 325}, {"name": "سعد كامل تركي عبدالله الجميلي", "num": 326}, {"name": "سعد محمود ظاهر مطلك الجميلي", "num": 327}, {"name": "سعد مطر حنيفش حمادي اللهيبي", "num": 328}, {"name": "سعد مولود وهيب رزيق التكريتي", "num": 329}, {"name": "سعد ناصر عبدالحميد رزيق الناصري", "num": 330}, {"name": "سعدون خلف حميد جراد العكيدي", "num": 331}, {"name": "سعدي خضير حديد عبد العجيلي", "num": 332}, {"name": "سفيان اياد جاسم حمادة الجبوري", "num": 333}, {"name": "سفيان حمزه صالح جداع السامرائي", "num": 334}, {"name": "سفيان صالح رشيد خلف الدراجي", "num": 335}, {"name": "سفيان فرج سليمان حسين الجبوري", "num": 336}, {"name": "سلام احمد جمعه جلعوط الجبوري", "num": 337}, {"name": "سلطان مطلك احمد نعمه الجبوري", "num": 338}, {"name": "سلطان مولود سلطان صالح الذيبو", "num": 339}, {"name": "سلمان عبدالله علي لطيف الجبوري", "num": 340}, {"name": "سلوان خوام محمد عواد الرهاوي", "num": 341}, {"name": "سلوان عدنان حماده صالح الجبوري", "num": 342}, {"name": "سمر بشير طه عمر التكريتي", "num": 343}, {"name": "سمر حامد ياسين عبدالله الكربولي", "num": 344}, {"name": "سمر خالد طالب كاظم العزاوي", "num": 345}, {"name": "سمير حمد مجيد حمد الجبوري", "num": 346}, {"name": "سميره عبدالامير محمد عبد الجبوري", "num": 347}, {"name": "سناء سعدي محمود مضحي التكريتي", "num": 348}, {"name": "سناء ياسين خليل ابراهيم كنه", "num": 349}, {"name": "سندس مطلق سليم محمد الدليمي", "num": 350}, {"name": "سهاد عامر مكي علي الناصري", "num": 351}, {"name": "سهام عبدالوهاب محمد علي الخطيب", "num": 352}, {"name": "سهر ميسر احمد سليمان التكريتي", "num": 353}, {"name": "سهير كامل لعيبي علي الجنابي", "num": 354}, {"name": "سيروان وسمي محمود عبدالله الجبوري", "num": 355}, {"name": "سيف انور جاسم محمد الجميلي", "num": 356}, {"name": "سيف حسيب عفتيان علي الجبوري", "num": 357}, {"name": "سيف سعد تركي مهدي الحلواني", "num": 358}, {"name": "سيف عمر علي صالح البومهدي", "num": 359}, {"name": "شاكر احمود عبدالله صالح الجبوري", "num": 360}, {"name": "شاكر محمود عواد سلمان السامرائي", "num": 361}, {"name": "شعلان سعدون حسين نومان الجبوري", "num": 362}, {"name": "شيماء جاسم هجول عباس الخزرجي", "num": 363}, {"name": "شيماء سلام عبدالجبار حسن الالوسي", "num": 364}, {"name": "شيماء عبدين حسن غني البياتي", "num": 365}, {"name": "شيماء عواد ياسين يوسف العلكاوي", "num": 366}, {"name": "شيماء مهند عصام محمد العزاوي", "num": 367}, {"name": "شيماء هاشم حسين موسى الموسوي", "num": 368}, {"name": "صابر صالح مخلف حمد اللهيبي", "num": 369}, {"name": "صادق دخيل مهدي صالح الدراجي", "num": 370}, {"name": "صالح احمد غضيب حسن الجبوري", "num": 371}, {"name": "صالح اسماعيل هويد خلف الخلف", "num": 372}, {"name": "صالح مهدي صالح شهاب الجميلي", "num": 373}, {"name": "صالح نجم عبد صالح شايع", "num": 374}, {"name": "صبا حامد محسن علي المعموري", "num": 375}, {"name": "صباح حسن خلف اجدع الجميلي", "num": 376}, {"name": "صباح خورشيد شكور جرو البياتي", "num": 377}, {"name": "صباح طاهر احمد عبدالله الشيخاني", "num": 378}, {"name": "صبار ستار صالح اسماعيل العبيدي", "num": 379}, {"name": "صفا عبدالله عزاوي رشيد الحمداني", "num": 380}, {"name": "صفاء حمود نايف عبدالرحمن الاحسين", "num": 381}, {"name": "صفاء رشيد مريف حسين اطعيمه", "num": 382}, {"name": "صفاء شاكر حميد خلف الدليمي", "num": 383}, {"name": "صفاء صالح مولود فرحان القيسي", "num": 384}, {"name": "صفاء عادل جمعه خلف البياتي", "num": 385}, {"name": "صفاء نوفل محمد طه السلماني", "num": 386}, {"name": "صفاء هاشم ابراهيم احمد العلوش", "num": 387}, {"name": "صفوان احمد حسين علي الجبوري", "num": 388}, {"name": "صفوان جمال جواد حافظ اللطيفي", "num": 389}, {"name": "صفوان صالح محمد عزاوي الصحن", "num": 390}, {"name": "صقر عامر حميد محمد الناصري", "num": 391}, {"name": "صقر عبدالعزيز عبدالله احمد العميري", "num": 392}, {"name": "صلاح حسين عويد وسمي الجبوري", "num": 393}, {"name": "صلاح عبدالامير عبدالكريم احمد الدجيلي", "num": 394}, {"name": "صهيب بدر عباس ياسين العباسي", "num": 395}, {"name": "صهيب خالد شهاب احمد ملا خليل", "num": 396}, {"name": "ضاحي احمد محمد حميد الجبوري", "num": 397}, {"name": "ضاحي رمضان جمعه ابراهيم الجبوري", "num": 398}, {"name": "ضامن حدوشه خلف رجا الجبوري", "num": 399}, {"name": "ضحى حميد علوان خاطر اطعيمه", "num": 400}, {"name": "ضرار ساجد خلف خالد الجبوري", "num": 401}, {"name": "ضياء عبد عباس يونس الجبوري", "num": 402}, {"name": "طارق تحسين عبد محمد الجميلي", "num": 404}, {"name": "طارق حسن حمد صالح الجبوري", "num": 403}, {"name": "طارق يونس حياوي حميد اللويزي", "num": 405}, {"name": "طالب ارحيم علي كاظم التميمي", "num": 406}, {"name": "طالب حسن عبد يوسف المجمعي", "num": 407}, {"name": "طالب صبار ابراهيم داوي العكيدي", "num": 408}, {"name": "طلب رزوق فتحي محمد الجبوري", "num": 409}, {"name": "ظافر تركي منفي حسين الحمداني", "num": 410}, {"name": "ظاهر داود سلوم عبدالله العزاوي", "num": 411}, {"name": "عائشه رشيد صعب رزوقي الدوري", "num": 421}, {"name": "عادل محمد عايد عبدالله الجميلي", "num": 412}, {"name": "عارف داود محمود عبد الجبوري", "num": 413}, {"name": "عامر احمد جاسم شتر الجميلي", "num": 414}, {"name": "عامر حسين مطلك سعد القيسي", "num": 415}, {"name": "عامر عباس صالح جدوع العجيلي", "num": 416}, {"name": "عامر لطيف عبدالجبار جمار الجنابي", "num": 417}, {"name": "عامر مجيد حميد جواد الرفيعي", "num": 418}, {"name": "عامر محمد ظاهر علي الجميلي", "num": 419}, {"name": "عايد حاضر حامد عبيد الجبوري", "num": 420}, {"name": "عباس امين بيرام علي البياتي", "num": 422}, {"name": "عباس حسين علي مهدي البو مهدي", "num": 423}, {"name": "عباس سامي حسن عبد الحمداني", "num": 424}, {"name": "عباس شاكر حامد نايل الخزرجي", "num": 425}, {"name": "عباس طه عباس محمود البو اسود", "num": 426}, {"name": "عباس علي عبد احمد الكيلاني", "num": 427}, {"name": "عباس قادر شكور صمد العزي", "num": 428}, {"name": "عباس محسن علي صالح المشايخي", "num": 429}, {"name": "عباس محمود شهباز احمد الاسدي", "num": 430}, {"name": "عبد ابراهيم محمد سحل الجبوري", "num": 431}, {"name": "عبد احمد سليمان رمضان السليمان", "num": 432}, {"name": "عبد حسن سعدون حسين الجبوري", "num": 433}, {"name": "عبد صباح حمود جدعان الجدعان", "num": 434}, {"name": "عبد محمد صالح محمود الجبوري", "num": 435}, {"name": "عبد ناصر حسين جاسم عدوش", "num": 436}, {"name": "عبدالباسط عليج عبد محمد الجبوري", "num": 437}, {"name": "عبدالجبار سعيد عبدالعزيز زيدان الخزرجي", "num": 438}, {"name": "عبدالجبار طه ياسين احمد الدوري", "num": 439}, {"name": "عبدالحق اسماعيل جاسم محمد الدوري", "num": 440}, {"name": "عبدالرحمن سعدي عبدالرحمن عباس السامرائي", "num": 441}, {"name": "عبدالرحمن عبدالله كامل تركي الجميلي", "num": 442}, {"name": "عبدالرحمن عبدالله محمد حسين المكدمي", "num": 443}, {"name": "عبدالرحمن محمود محسن الصحن", "num": 444}, {"name": "عبدالرزاق فتحي مصطاف سالم الجبوري", "num": 445}, {"name": "عبدالسلام رجب احمد صالح الجميلي", "num": 446}, {"name": "عبدالسلام عبدالكريم خليفه فرحان اطعيمه", "num": 447}, {"name": "عبدالعزيز علي محمد عبدالله الجبوري", "num": 448}, {"name": "عبدالعزيز وهاب صالح ابراهيم الدليمي", "num": 449}, {"name": "عبدالغني عبدالله حسن محمد جايرلي", "num": 450}, {"name": "عبدالقادر عبدالله احمد عميري اللهيبي", "num": 451}, {"name": "عبدالقدوس لاصف مزهر محمد الجبوري", "num": 452}, {"name": "عبدالقهار مازن مصطفى علي العلي", "num": 453}, {"name": "عبدالكريم سعران عبدالله محمد الجميلي", "num": 454}, {"name": "عبدالله حسين اسويد علي الجبوري", "num": 455}, {"name": "عبدالله خلف دعيجان رجا الشمري", "num": 456}, {"name": "عبدالله خوام دليل حبتر المكدمي", "num": 457}, {"name": "عبدالله سعيد عبدالله جاسم المحمدي", "num": 458}, {"name": "عبدالله صبحي صوان مصلح الدليمي", "num": 459}, {"name": "عبدالله صلاح فاضل عبدالجبار السامرائي", "num": 460}, {"name": "عبدالله فرحان جاد مسعود الجبوري", "num": 461}, {"name": "عبدالله محمد مؤيد طه الرفاعي", "num": 462}, {"name": "عبدالله محمود خلف عجل الجبوري", "num": 463}, {"name": "عبدالملك هاشم محمد طياوي الجبوري", "num": 464}, {"name": "عبدالمنعم علي شعبان علي الجبوري", "num": 465}, {"name": "عبدالهادي مبارك رمضان محيميد الجبوري", "num": 466}, {"name": "عبدالوهاب عبد محمود صالح الجميلي", "num": 467}, {"name": "عبود احمد عبود يوسف اللويزي", "num": 468}, {"name": "عبيد خلف دعيجان رجا الشمري", "num": 469}, {"name": "عبير حسين عباس ذيبيان الطائي", "num": 470}, {"name": "عبير خضر ياسين عليوي الدليمي", "num": 471}, {"name": "عبير ياسين محمد مدلي المجمعي", "num": 472}, {"name": "عثمان اياد جاسم داحور الجبوري", "num": 473}, {"name": "عثمان اياد محمود يعكوب الجبوري", "num": 474}, {"name": "عثمان شحاذه حسين شحاذه الجبوري", "num": 475}, {"name": "عثمان عبدالواحد ابراهيم محمد العاني", "num": 476}, {"name": "عدنان محمود هليم ربع الجبوري", "num": 477}, {"name": "عدنان مخلف حديد عبد", "num": 478}, {"name": "عراق غانم منصور جابر النعيمي", "num": 479}, {"name": "عروبه عطيه حمد عبدالله جعاطه", "num": 480}, {"name": "عزام محمد صالح محي الجميلي", "num": 481}, {"name": "عزه فرج عطوان كريم الدوري", "num": 482}, {"name": "عسل محمود خلف حمود الرملي", "num": 483}, {"name": "عصام سعد جابر احمد الدليمي", "num": 484}, {"name": "عصام محسن زيد حسن الحنظل", "num": 485}, {"name": "عصام نجم عبدالله علي اللهيبي", "num": 486}, {"name": "عطا نصيف هندي لطيف الاحبابي", "num": 487}, {"name": "عطالله حلو عبد خضر الجبوري", "num": 488}, {"name": "عطيه علي ابراهيم سليمان البياتي", "num": 489}, {"name": "عفاف سعيد حميد مهدي الدجيلي", "num": 490}, {"name": "عقيل رشيد خورشيد حسن البياتي", "num": 491}, {"name": "عقيل علي عزت غني العسافي", "num": 492}, {"name": "علاء الدين عبدالله احمد خشان اللهيبي", "num": 493}, {"name": "علاء جاسم عباس حسن الرزوقي", "num": 494}, {"name": "علاء معوبر حمد مخلف الرهاوي", "num": 495}, {"name": "علاء ياسين حسان خلف البو مهدي", "num": 496}, {"name": "علاء ياسين خضير حسن السلامي", "num": 497}, {"name": "علي احمد جاسم علي اطعيمه", "num": 498}, {"name": "علي اسماعيل مصلح محيميد الجبوري", "num": 499}, {"name": "علي ثامر فارس محمد السراج", "num": 500}, {"name": "علي جاسم لطيف صالح المرسومي", "num": 501}, {"name": "علي جلال محمد حسن النجار", "num": 502}, {"name": "علي حسين علي حسن العزاوي", "num": 503}, {"name": "علي خلف تركي عبدالله الجميلي", "num": 504}, {"name": "علي سالم حمد عبدالله القيسي", "num": 505}, {"name": "علي سعد جابر علوان الطائي", "num": 506}, {"name": "علي سمير قاسم عبداللطيف البياتي", "num": 507}, {"name": "علي صباح سليمان احمد العزاوي", "num": 508}, {"name": "علي عباس تركي محمد الخزرجي", "num": 509}, {"name": "علي عدنان علي محمد البرزنجي", "num": 510}, {"name": "علي عنتر حسين علي الفراجي", "num": 511}, {"name": "علي عواد علي موسى الجبوري", "num": 512}, {"name": "علي عيسى علي طه الجميلي", "num": 513}, {"name": "علي فاضل كاظم علي العنزي", "num": 514}, {"name": "علي فاضل مهدي حسن الجحيشي", "num": 515}, {"name": "علي محسن محمد تجره اللويزي", "num": 516}, {"name": "علي محمد احمد نجم الجبوري", "num": 517}, {"name": "علي محمد صالح خلف الجبوري", "num": 518}, {"name": "علي محمد عبدالله حسين القيسي", "num": 519}, {"name": "علي محمد عجاج جرجيس الجميلي", "num": 520}, {"name": "عماد ابراهيم علاوي شطب الجنابي", "num": 521}, {"name": "عماد احمد ياسين حسين الجبوري", "num": 522}, {"name": "عماد جاسم عبدالله صالح العباسي", "num": 523}, {"name": "عماد حديد هاشم بدوي الفراجي", "num": 524}, {"name": "عماد حمود جدوع خلف الجبوري", "num": 525}, {"name": "عماد حميدي خلف علي اللهيبي", "num": 526}, {"name": "عمار ابراهيم حسن محمد الدوري", "num": 527}, {"name": "عمار ابراهيم هادي حسن الجميلي", "num": 528}, {"name": "عمار عادل صالح مهدي الكلابي", "num": 529}, {"name": "عمار عبدالرسول محمد جاسم الدوري", "num": 530}, {"name": "عمار كريم ياسين مهدي الناصري", "num": 531}, {"name": "عمار نامس دحام دحام", "num": 532}, {"name": "عمر احمد خليل دخيل الجبوري", "num": 533}, {"name": "عمر احمد دليل حبتر المكدمي", "num": 534}, {"name": "عمر احمد صالح فلفل الفراجي", "num": 535}, {"name": "عمر اياد ياسين اسماعيل الشيشاوي", "num": 536}, {"name": "عمر جمعه مجيد محمد الابليبل", "num": 537}, {"name": "عمر حامد محمد سلمان اللهيبي", "num": 538}, {"name": "عمر خضر حسون محمد اللويزي", "num": 539}, {"name": "عمر دوخي عبدالله محمد الجبوري", "num": 540}, {"name": "عمر ذياب مهيدي سليمان المرسومي", "num": 541}, {"name": "عمر زهير عبدالمجيد شكر الدليمي", "num": 542}, {"name": "عمر علي عواد علي الجبوري", "num": 543}, {"name": "عمر مظهر سرحان ذياب السامرائي", "num": 544}, {"name": "عمر منذر نعمان نجم التكريتي", "num": 545}, {"name": "عمر ناجح حجاب علاوي الجنابي", "num": 546}, {"name": "عمر هلال جزاع خلف الجميلي", "num": 547}, {"name": "عمر يوسف خلف حميد الجبوري", "num": 548}, {"name": "عمران بدر فاضل حمود الجنابي", "num": 549}, {"name": "عوني سلطان عساف خليفه اللهيبي", "num": 550}, {"name": "عيد خلف دعيجان رجا الشمري", "num": 551}, {"name": "عيد عبدالمجيد عوض شلال الجبوري", "num": 552}, {"name": "عيدان فايز عجيل حبيب الجميلي", "num": 553}, {"name": "عيسى جاسم خليل عبد الجبوري", "num": 554}, {"name": "غازي عباس صالح جدوع العجيلي", "num": 555}, {"name": "غازي محمد رمضان محيميد العزاوي", "num": 556}, {"name": "غفران صباح ابراهيم احمد اللهيبي", "num": 557}, {"name": "غيث حسن ثامر زنزل الاسودي", "num": 558}, {"name": "فؤاد محمد بريسم مرعي القيسي", "num": 583}, {"name": "فائزه مهدي صالح مهدي الربيعي", "num": 568}, {"name": "فائق عبدالله شطر حمد العزاوي", "num": 569}, {"name": "فاديه محمود عباس اجدع الجبوري", "num": 559}, {"name": "فارس صباح عواد مخلف الدليمي", "num": 560}, {"name": "فارس علي محمد عبد الجميلي", "num": 561}, {"name": "فاضل ساقي كوثر تقي تعينلي", "num": 562}, {"name": "فاضل محمد رمضان ابراهيم الجبوري", "num": 563}, {"name": "فاطمه طه شكري محمود تتونجي", "num": 564}, {"name": "فاطمه عبدالله علي احمد العبيدي", "num": 565}, {"name": "فاطمه علي بهجت جهاد الهاشمي", "num": 566}, {"name": "فاطمه ناظم عبدالله علي البياتي", "num": 567}, {"name": "فتاح عباس ايوب يوسف الخزرجي", "num": 581}, {"name": "فداء احمد ياسين خليفه المشهداني", "num": 570}, {"name": "فراس ابراهيم حسن هويد الخلف", "num": 571}, {"name": "فراس احمد سلمان عجاج الجميلي", "num": 572}, {"name": "فرح فوزي علي حسين الخزرجي", "num": 573}, {"name": "فرحان حميد احمد فرحان العجيلي", "num": 574}, {"name": "فرحان دحام عبدالله ناصر الجبوري", "num": 575}, {"name": "فرحان كاظم سرحان مهوس المكدمي", "num": 576}, {"name": "فردوس مهدي محمد صالح الربيعي", "num": 577}, {"name": "فرقد صفاء صبري عجيل المخلف", "num": 578}, {"name": "فلاح احميد نواف فدعم الفدعم", "num": 579}, {"name": "فلاح عبدالقادر سعيد مهدي البياتي", "num": 580}, {"name": "فهد احمد عبود يوسف الويزي", "num": 582}, {"name": "فواز ربيع عايد فنخ الجبوري", "num": 584}, {"name": "فواز ناطق فيزي محمد الهزاع", "num": 585}, {"name": "فيصل رفاعي ابراهيم طه الجبوري", "num": 586}, {"name": "قائد كامل كوشان معروف المعروف", "num": 588}, {"name": "قاسم خضير حسن حسين الجبوري", "num": 587}, {"name": "قصي داود سليمان شرقي القيسي", "num": 589}, {"name": "قصي محمد مزعل مطر الفراجي", "num": 590}, {"name": "قصي معوبر حمد مخلف الرهاوي", "num": 591}, {"name": "قيس خليل عطيه علي العبيدي", "num": 592}, {"name": "قيصر سليمان فياض علي العجيلي", "num": 593}, {"name": "كرار علي محمد رضا عزاوي", "num": 594}, {"name": "كمال عبدالله احمد عواد الجبوري", "num": 595}, {"name": "لافي زعال حماد بجاي الشمري", "num": 596}, {"name": "لؤي مرير صبار جياد الصجري", "num": 600}, {"name": "لبنى اياد جمعه خضر الدوري", "num": 597}, {"name": "لفته عبد يوسف مغامس المجمعي", "num": 598}, {"name": "لقمان محيسن غربي شفلح الجبوري", "num": 599}, {"name": "ليث حسن ثامر زنزل الاسودي", "num": 601}, {"name": "ليث كامل حسن صالح الجراد", "num": 602}, {"name": "ماجد زيدان خلف محمود البياتي", "num": 603}, {"name": "مازن عبدالسلام طه عباس البواسود", "num": 604}, {"name": "مازن عبدالله محمود عكيل الدليمي", "num": 605}, {"name": "مازن عمير نوار زويد الرهاوي", "num": 606}, {"name": "مؤمن حسن محمد خلف الدوري", "num": 734}, {"name": "مانع عبدالهادي عواد نومان الجبوري", "num": 607}, {"name": "ماهر جاسم حمد خليف الجبوري", "num": 608}, {"name": "ماهر خضر فارس دخيل الجبوري", "num": 609}, {"name": "ماهر عبدالله خلف عبدالواحد الرملي", "num": 610}, {"name": "مؤيد حسن حميد محمد الدليمي", "num": 735}, {"name": "مؤيد حكيم خلف محمود البياتي", "num": 736}, {"name": "مؤيد خلف صالح خلف الجبوري", "num": 737}, {"name": "مؤيد سلمان عجاج جرجيس الجميلي", "num": 738}, {"name": "مؤيد محمد خضير عليوي الدليمي", "num": 739}, {"name": "مؤيد موسى جميل حسين الجبوري", "num": 740}, {"name": "مبارك رمضان محيميد عبدالله الجبوري", "num": 611}, {"name": "مثنى زيدان خلف محمود البياتي", "num": 612}, {"name": "مثنى ناظم جاسم محمد العيساوي", "num": 613}, {"name": "محسن علي ابراهيم حسين الجبوري", "num": 614}, {"name": "محسن علي محمد خلف السحل", "num": 615}, {"name": "محسن ياس محسن كليب طرفه", "num": 616}, {"name": "محمد ابراهيم عواد علي الجميلي", "num": 617}, {"name": "محمد احمد حميد كاظم اللهيبي", "num": 618}, {"name": "محمد احمد صالح عباس العباسي", "num": 619}, {"name": "محمد احمد ظاهر حسين العكيدي", "num": 620}, {"name": "محمد احمد فاضل مدهاس اللهيبي", "num": 621}, {"name": "محمد احمد كامل تركي الجميلي", "num": 622}, {"name": "محمد احميد حديد عصفور الحمداني", "num": 623}, {"name": "محمد انور نهاب صالح الحمداني", "num": 624}, {"name": "محمد اياد صابر علوان الطائي", "num": 625}, {"name": "محمد اياد محمود يعكوب الجبوري", "num": 626}, {"name": "محمد جاسم شحاذه حسين الجبوري", "num": 627}, {"name": "محمد جاسم عباس صالح السامرائي", "num": 628}, {"name": "محمد جاسم عواد خلف العباسي", "num": 629}, {"name": "محمد جاسم محمد دلي الجنابي", "num": 630}, {"name": "محمد جاسم محمد عبد الفراجي", "num": 631}, {"name": "محمد جاسم محمد كنهر المحمدي", "num": 632}, {"name": "محمد جاسم محمد نجم الاسودي", "num": 633}, {"name": "محمد حسن حسين سلمان التميمي", "num": 634}, {"name": "محمد حسن محمد محمود الجبوري", "num": 635}, {"name": "محمد حسن محمد محمود الجبوري", "num": 636}, {"name": "محمد حسين شكور جمعه القصاب", "num": 637}, {"name": "محمد حمد برجس دخيل الجبوري", "num": 638}, {"name": "محمد حمد عواد عمر الجميلي", "num": 639}, {"name": "محمد خلف نجم عبدالله الجبوري", "num": 640}, {"name": "محمد خليف حميد محمد الدليمي", "num": 641}, {"name": "محمد خليل ابراهيم حسن الدوري", "num": 642}, {"name": "محمد رافع نوفان فرحان الفرحان", "num": 643}, {"name": "محمد رجب حدوشه خلف الجبوري", "num": 644}, {"name": "محمد زين العابدين مهدي سليمان قوشجي", "num": 645}, {"name": "محمد سالم حمد عبدالله القيسي", "num": 646}, {"name": "محمد سامي حسين علي العاصي", "num": 647}, {"name": "محمد صباح طه عمر التكريتي", "num": 648}, {"name": "محمد عامر محمد رمضان العزاوي", "num": 649}, {"name": "محمد عبدالرحمن علوان عليوي الجبوري", "num": 650}, {"name": "محمد عبدالرزاق شاكر علي الطائي", "num": 651}, {"name": "محمد عبدالله حسن محمد جايرلي", "num": 652}, {"name": "محمد علي احمد عمير الجبوري", "num": 653}, {"name": "محمد علي شاكر هادي العزاوي", "num": 654}, {"name": "محمد علي محمود سلطان الفهداوي", "num": 655}, {"name": "محمد عواد حميد سلطان الجميلي", "num": 656}, {"name": "محمد عواد عثمان شاهين الجبوري", "num": 657}, {"name": "محمد عواد علي صالح البوباز", "num": 658}, {"name": "محمد فاضل محمد حسين الرملي", "num": 659}, {"name": "محمد قحطان رشاد جاسم الهاشمي", "num": 660}, {"name": "محمد موسى بطوش عراك الجبوري", "num": 661}, {"name": "محمد موسى عبش بنيان القيسي", "num": 662}, {"name": "محمد ناظم عمر عبد الغني الدوري", "num": 663}, {"name": "محمد هادي عباس علي الخوجه", "num": 664}, {"name": "محمد وهيب جاسم حميد الدوري", "num": 665}, {"name": "محمد ياسين كاظم صالح النعيمي", "num": 666}, {"name": "محمود ابراهيم حسين درويش الجبوري", "num": 667}, {"name": "محمود ازهر عبدالله محمد السلامي", "num": 668}, {"name": "محمود جمال خيرالله محمود التكريتي", "num": 669}, {"name": "محمود حردان عبدالله مطر العبيدي", "num": 670}, {"name": "محمود سامي عبد حمد الدوري", "num": 671}, {"name": "محمود سعيد عبد صالح الجبوري", "num": 672}, {"name": "محمود عبدالله محمد خضر الجبوري", "num": 673}, {"name": "محمود محمد خالد عمر الباشا", "num": 674}, {"name": "محمود محمد غربي حمادي اللهيبي", "num": 675}, {"name": "محمود مهدي احمد عيدان المكدمي", "num": 676}, {"name": "محمود ياسين حمد دخيل الجبوري", "num": 677}, {"name": "مروان ذياب غانم مجذاب الجبوري", "num": 678}, {"name": "مروان صبحي علي صايل اللهيبي", "num": 679}, {"name": "مروان عامر حسين مطلك القيسي", "num": 680}, {"name": "مروان عبدالكريم خضير مرموص الجبوري", "num": 681}, {"name": "مروان عمير نوار زويد الرهاوي", "num": 682}, {"name": "مروان مخلف حديد عبد العجيلي", "num": 683}, {"name": "مروج سري شاكر محمود الدوري", "num": 684}, {"name": "مروه احمد طه حسن البو اسود", "num": 685}, {"name": "مروه عبدالله مهدي حسين الطالبي", "num": 686}, {"name": "مروه ياسين محمد مدلي المجمعي", "num": 687}, {"name": "مريم عامر حسين مطلك القيسي", "num": 688}, {"name": "مزاحم عبدالمالك جياد غربي الجبوري", "num": 689}, {"name": "مزهر خلف صالح محمد الجبوري", "num": 690}, {"name": "مسلم محمد حسين عبد البياتي", "num": 691}, {"name": "مشتاق حماده احمد ذياب الجبوري", "num": 692}, {"name": "مشتاق خليل ابراهيم جواد الجبوري", "num": 693}, {"name": "مشتاق شهاب احمد حسين القيسي", "num": 694}, {"name": "مصطفى ابراهيم صالح سليم الحيالي", "num": 695}, {"name": "مصطفى اديب حسن رمضان العزاوي", "num": 696}, {"name": "مصطفى خليل علي محسن صحن", "num": 697}, {"name": "مصطفى زياد عبود سعيد الكعيد", "num": 698}, {"name": "مصطفى طه محمد حاجم العباسي", "num": 699}, {"name": "مصطفى عبدالله صالح محمد العبيدي", "num": 700}, {"name": "مصطفى علي خلف حسين العزاوي", "num": 701}, {"name": "مصطفى علي مجيد حميد", "num": 702}, {"name": "مصطفى قصي خالد عايد الناصري", "num": 703}, {"name": "مصطفى كامل حسن صالح الجراد", "num": 704}, {"name": "مصطفى محمد رشيد حميد السامرائي", "num": 705}, {"name": "مصطفى محمد شامل اسماعيل الخزرجي", "num": 706}, {"name": "مصطفى محمد عبد محمد الجعب", "num": 707}, {"name": "مصطفى محمود نصيف مخلف السامرائي", "num": 708}, {"name": "مصطفى منير جدوع عجيل الخشماني", "num": 709}, {"name": "مظهر عدنان سالم محمد الجنابي", "num": 710}, {"name": "معتز نيسان محمد عباس الدوري", "num": 712}, {"name": "معتصم جمال طالب صحن الصحن", "num": 713}, {"name": "معروف فرج زعيان فرج اللهيبي", "num": 711}, {"name": "مقداد ابراهبم سعيد علي الدليمي", "num": 714}, {"name": "مقداد محمد عبدالكريم علي العلوش", "num": 715}, {"name": "مقداد محمود محمد محمود الرملي", "num": 716}, {"name": "مكتوم حماد خليل ابراهيم التكريتي", "num": 717}, {"name": "منار حازم علي كريم سامرائي", "num": 718}, {"name": "منتصر رضوان فرحان علي الخزرجي", "num": 720}, {"name": "منتظر محمد سالم مهدي الخير", "num": 721}, {"name": "منتهى خلف حسين عوض الجبوري", "num": 722}, {"name": "منصور علي كرم جسام الحبابي", "num": 719}, {"name": "مهتاب خليل سليمان سعدالله سقا", "num": 730}, {"name": "مهدي سعدي اسماعيل عبدالله الجبوري", "num": 723}, {"name": "مهدي عباس عبيد احمد الكيلاني", "num": 724}, {"name": "مهند ابراهيم محمود خليفه الجبوري", "num": 725}, {"name": "مهند صبيح صبري مصطفى الطالبي", "num": 726}, {"name": "مهند طارق حسن جواد المكدمي", "num": 727}, {"name": "مهند مهدي عبدالله احمد الدليمي", "num": 728}, {"name": "مهند يونس محمد هاشم القيسي", "num": 729}, {"name": "مهيمن حسن محمد شريف البياتي", "num": 731}, {"name": "موج ثائر حاتم احمد الهزاع", "num": 732}, {"name": "موفق يونس محمد هاشم القيسي", "num": 733}, {"name": "ميثاق طالب محمد مصطفى الرفاعي", "num": 741}, {"name": "ميس صائب مكي نجم التكريتي", "num": 742}, {"name": "ميسر ابراهيم خلف حمد الجبوري", "num": 743}, {"name": "ميسر موسى راشد برجس الجنابي", "num": 744}, {"name": "ميسره عبدالله حسين سالم الصهيد", "num": 745}, {"name": "ميعاد محمود محمد شهاب المولى", "num": 746}, {"name": "مينه هشام محمدعلي هاشم السامرائي", "num": 747}, {"name": "ناطق صالح رشيد خلف الدراجي", "num": 748}, {"name": "ناطق فائق علي حمد اطعيمه", "num": 749}, {"name": "ناظر محمد جدوع خلف الجبوري", "num": 750}, {"name": "ناظم احمد عبدالله حسين القيسي", "num": 751}, {"name": "ناظم مزعل مطر حميد الفراجي", "num": 752}, {"name": "نافع احمد مصطو جمعه الجميلي", "num": 753}, {"name": "نامس احمد محمد مصطفى السلامي", "num": 754}, {"name": "نامس صالح خليل دخيل الجبوري", "num": 755}, {"name": "نايف محمد هاشم خليل القيسي", "num": 756}, {"name": "نبا سهاد محمود سلمان القيسي", "num": 757}, {"name": "نبراس صباح عواد مخلف الدليمي", "num": 758}, {"name": "نبهان عواد محمد خلف الحمداني", "num": 759}, {"name": "نجاح هادي خلف جاسم البياتي", "num": 760}, {"name": "نجاد عامر عياش عبد الجبوري", "num": 761}, {"name": "نداء شاكر محمود محي الطائي", "num": 762}, {"name": "نداء عيدان حمد خلف الدليمي", "num": 763}, {"name": "ندوان حسن محمد سعدون طعيمه", "num": 764}, {"name": "ندى صباح علي ظاهر السامرائي", "num": 765}, {"name": "ندى نزهت صبيح صادق الربيعي", "num": 766}, {"name": "نزار سالم حسين حمد الجبوري", "num": 767}, {"name": "نسرين صبيح حسن محمد", "num": 768}, {"name": "نسيم كردي جميل محمد المكدمي", "num": 769}, {"name": "نشوان داود سلمان عجاج الجميلي", "num": 770}, {"name": "نصار احمد محمد خلف الهيبي", "num": 771}, {"name": "نصرالدين مشعل دخيل عبد الله الجبوري", "num": 772}, {"name": "نصير جميل سعيد زغير العبيدي", "num": 773}, {"name": "نضال حسين علي تايح الواسطي", "num": 774}, {"name": "نضال عبدالستار حماد سمير البوريشه", "num": 775}, {"name": "نغم عبدالرسول مالك حسن الخزرجي", "num": 776}, {"name": "نغم غانم عايد محمد المعماري", "num": 777}, {"name": "نهاد شرقي خلف حسين اللهيبي", "num": 778}, {"name": "نهله محمد عبدالله محمد الجبوري", "num": 779}, {"name": "نور اسماعيل محمد حاجم البدراني", "num": 780}, {"name": "نور عادل ابراهيم زيدان الناصري", "num": 781}, {"name": "نور عماد عبدالله كوان الجبوري", "num": 782}, {"name": "نور كريم اسماعيل زامل الخفاجي", "num": 783}, {"name": "نورا تحسين شكري محمود البياتي", "num": 785}, {"name": "نورا حيدر جواد موسى البياتي", "num": 784}, {"name": "نورس علاء عبدالهادي حسن الدجيلي", "num": 786}, {"name": "نورهان عريان رفعت صفر البياتي", "num": 787}, {"name": "نوري علي كريم سلمان البياتي", "num": 788}, {"name": "نوفل ميثم نواف عبدالله البو اسود", "num": 789}, {"name": "نيران حمد هزاع صالح العباسي", "num": 790}, {"name": "هاشم محمد بريسم مرعي القيسي", "num": 791}, {"name": "هاله قاسم محمد جابر الدوري", "num": 792}, {"name": "هاني عبدالرضا كاظم جويد", "num": 793}, {"name": "هاني عبدالعزيز سعيد خلف السامرائي", "num": 794}, {"name": "هاني قيس عبدالله مضحي اعذيه", "num": 795}, {"name": "هبه نايف طه خنفر العجيلي", "num": 796}, {"name": "هديل محمود يوسف محمود السامرائي", "num": 799}, {"name": "هشام ابراهيم عواد علي الجميلي", "num": 800}, {"name": "هشام احمد صالح محمد العبدالله", "num": 801}, {"name": "هشام احمود احمد محمد الجبوري", "num": 802}, {"name": "هشام علاء حسين فلاح الجبوري", "num": 803}, {"name": "همام احمد مريف حسين اطعيمه", "num": 806}, {"name": "همام جاسم نعمه جاسم الهارون", "num": 807}, {"name": "همسه ناظم عبد داود الدوري", "num": 808}, {"name": "هند صالح دبيس خاطر اطعيمه", "num": 809}, {"name": "هند فارس اسماعيل حسين الناصري", "num": 810}, {"name": "هند معد عبدالقادر محمود الجبوري", "num": 811}, {"name": "هند هادي عباس سوادي الدحيدحاوي", "num": 812}, {"name": "هيام ابراهيم خليل عثمان البزوني", "num": 813}, {"name": "هيثم صادق عبدالكريم خضير الجبوري", "num": 814}, {"name": "هيثم صفاء زكريا بكر الصباغ", "num": 815}, {"name": "هيثم كريم حسين محمد المكدمي", "num": 816}, {"name": "وائل عاصم خلف عبد الجبوري", "num": 818}, {"name": "وائل عمر عطا رشيد البدري", "num": 819}, {"name": "ورقاء حميد علوان خاطر اطعيمه", "num": 820}, {"name": "ورقاء زبن صالح عيث القيسي", "num": 821}, {"name": "وزه صالح علي محمد جعاطه", "num": 822}, {"name": "وسام بدر صالح محمد الحبابي", "num": 823}, {"name": "وسام جميل احمد حمادي الجنابي", "num": 824}, {"name": "وسام حامد جاسم محمد النيساني", "num": 825}, {"name": "وسام خلف صيهود جادر البياتي", "num": 826}, {"name": "وسام طه محمد ابراهيم الدراجي", "num": 827}, {"name": "وسام ظاهر احمد جويد الجويد", "num": 828}, {"name": "وسام وعد لطيف محمود القاسمي", "num": 829}, {"name": "وسناء قيس حجوكي حمد العبيدي", "num": 830}, {"name": "وصال محمد شويل حسين البنجيم", "num": 831}, {"name": "وضاح عبدالحميد ابراهيم عبدالحميد الجبوري", "num": 832}, {"name": "وضاح مولود علوان حسين اطعيمه", "num": 833}, {"name": "وطبان عمير نوار زويد الرهاوي", "num": 834}, {"name": "وعدالله حسن عبدالله صالح الجميلي", "num": 835}, {"name": "وفاء عبدالعزيز عسل محمود الجبوري", "num": 836}, {"name": "ولاء حسين شطب محمد البواسود", "num": 837}, {"name": "ولاء فيصل راضي فهد التميمي", "num": 838}, {"name": "وليد حاتم حماد امين البياتي", "num": 839}, {"name": "وليد حسن جاسم حماده الجبوري", "num": 840}, {"name": "وليد خالد احمد حسن الجميلي", "num": 841}, {"name": "وليد خلدون حسن حمو ال وهب", "num": 842}, {"name": "وليد زكي محمود محمد القيسي", "num": 843}, {"name": "وليد طلاع مصطفى لزام الجنابي", "num": 844}, {"name": "وليد نجم كريم محمد البياتي", "num": 845}, {"name": "وليد يونس جهاد ياسين الركابي", "num": 846}, {"name": "ياسر علي محمود خضر العجيلي", "num": 847}, {"name": "ياسين عبداللطيف ياسين جاسم الدوري", "num": 848}, {"name": "ياسين عبدالله درويش حمادي اللهيبي", "num": 849}, {"name": "يحيى حامد صلبوخ حمد الخالدي", "num": 850}, {"name": "يسر جمال عكاب احمد الدليمي", "num": 851}, {"name": "يمامه خالد خلف نوفان العزاوي", "num": 852}, {"name": "يوسف جاسم حميد عبدالله الجنابي", "num": 853}, {"name": "يوسف حميد محمود احمد الجبوري", "num": 854}],letters:["ا", "ب", "ت", "ث", "ج", "ح", "خ", "د", "ذ", "ر", "ز", "س", "ش", "ص", "ض", "ط", "ظ", "ع", "غ", "ف", "ق", "ك", "ل", "م", "ن", "ه", "و", "ي"],total:854},
+  cont:{all:[{"name": "ابراهيم بسام علوان احمد الجبوري", "num": 1}, {"name": "ابراهيم عادل رشيد شاهر الجميلي", "num": 2}, {"name": "ابراهيم فاضل صلبي سعيد الجميلي", "num": 3}, {"name": "ابوبكر مؤيد عبدالعزيز", "num": 4}, {"name": "احمد حبيب عباس محيميد الجبوري", "num": 5}, {"name": "احمد راضي حسين ناصر اللهيبي", "num": 6}, {"name": "احمد رياض عزيز صبح الحمداني", "num": 7}, {"name": "احمد شهاب احمد سلمان البواسود", "num": 8}, {"name": "احمد عبدالله مطر حداد العيساوي", "num": 9}, {"name": "احمد علي احمد عبدالله القيسي", "num": 10}, {"name": "احمد محمود خلف صالح الجبوري", "num": 11}, {"name": "احمد مهدي رمضان حسن القيسي", "num": 12}, {"name": "احمد نايف احمد حسين الغريري", "num": 13}, {"name": "احمد هزاع ذياب كواد العزاوي", "num": 14}, {"name": "احمد ياسين عباس", "num": 15}, {"name": "اركان وليد بهار خشان الجبوري", "num": 16}, {"name": "اسامه فلاح محمود عباس العباسي", "num": 17}, {"name": "اسامه محمد دخيل ماجد الجبوري", "num": 18}, {"name": "اسراء كريم سدخان جبر البلعوطي", "num": 19}, {"name": "اسعد حميد سلمان محمود البو اسود", "num": 20}, {"name": "اسماعيل خميس موسى جاسم اعذيه", "num": 21}, {"name": "امير محل عبدالكريم حسن السامرائي", "num": 22}, {"name": "انفال خالد مهدي احمد العباسي", "num": 23}, {"name": "انمار خليل خلف مطلك المجمعي", "num": 24}, {"name": "اياد خلف فدعير حمد الجغيفي", "num": 25}, {"name": "اياد عيدان حمدان انصيف اعذي", "num": 26}, {"name": "باسم متعب حسين علي الخزرجي", "num": 27}, {"name": "بسمه سعد احمد وساك النيساني", "num": 28}, {"name": "بشار عبدالواحد عليوي طعمه النيساني", "num": 29}, {"name": "بشير حسين محمد احميد الجبوري", "num": 30}, {"name": "بكر عبدالوهاب جاسم حمود الصباغ", "num": 31}, {"name": "تبارك عمر اسود خلف الجبوري", "num": 184}, {"name": "جاسم عطيه سليمان محمد الجميلي", "num": 32}, {"name": "حاتم كريم علي عبد اعذيه", "num": 36}, {"name": "حارث ثامر حواس صالح الجبوري", "num": 33}, {"name": "حازم إبراهيم عباس محمود اعذي", "num": 34}, {"name": "حامد ربيع مساعد عتار القيسي", "num": 35}, {"name": "حسام ناظم مزعل مطر الفراجي", "num": 37}, {"name": "حسين عثمان حسين", "num": 38}, {"name": "حسين عطيه جبار جبل العزاوي", "num": 39}, {"name": "حكيم ممدوح مطر اسماعيل المكدمي", "num": 40}, {"name": "حمد احمد خليل دخيل الجبوري", "num": 41}, {"name": "حمزه ثاني لطيف جمعه العبيدي", "num": 42}, {"name": "حمزه مجيد جاسم", "num": 43}, {"name": "حمزه هاشم محمد محل العكيدي", "num": 44}, {"name": "خالد ياسر إبراهيم خلف الجبوري", "num": 45}, {"name": "خضير عباس احمد سلمان البو اسود", "num": 46}, {"name": "خليل خلف عبداللطيف احمد الجبوري", "num": 47}, {"name": "خليل نوري سليمان عبدالله الجميلي", "num": 48}, {"name": "دخيل علي حسين حبيب الجبوري", "num": 49}, {"name": "ديانا علي حسين محمد الجبوري", "num": 50}, {"name": "رائد اسود حسين ججو الطياوي", "num": 51}, {"name": "ربيع خليل إبراهيم حسن الفراجي", "num": 52}, {"name": "رجاء صالح عدوان إبراهيم الجميلي", "num": 53}, {"name": "رداد حسن سلوم حسن العجيلي", "num": 54}, {"name": "رسل طارق علي محمد الجبوري", "num": 55}, {"name": "رسول سعيد محمد عباس البو اسود", "num": 56}, {"name": "رشيد رائد كامل حميد التميمي", "num": 57}, {"name": "رضوان داود سليمان عجاج الجميلي", "num": 58}, {"name": "رفاه سلمان لفته محمد الجبوري", "num": 59}, {"name": "رنا نجيب علوان خلف الجبوري", "num": 60}, {"name": "رياض احمد حلو بدي الجبوري", "num": 61}, {"name": "ريم عبدالله محمود عكيل الدليمي", "num": 62}, {"name": "زمن احمد حكمت إسماعيل السامرائي", "num": 63}, {"name": "زهراء ابراهيم شامل إسماعيل الخزرجي", "num": 64}, {"name": "زهراء حميد عويد محمد الجميلي", "num": 65}, {"name": "زيد فياض عبدالله حميد العبيدي", "num": 66}, {"name": "زينب طاهر طارق محمد طعيمه", "num": 67}, {"name": "زينب فاضل صلبي سعيد الجميلي", "num": 68}, {"name": "ساره ياسين عباس", "num": 69}, {"name": "سالم رمضان حسين محمد الجميلي", "num": 70}, {"name": "سامال صباح احمد خزام اللهيبي", "num": 71}, {"name": "سجى علي سلمان درويش الجبوري", "num": 72}, {"name": "سحر حسين عبد حسن المكدمي", "num": 73}, {"name": "سعاد عبدالله محمد", "num": 74}, {"name": "سعد سلوم كعيد حسن الشاروكي", "num": 75}, {"name": "سعد محمود خلف حموش الفراجي", "num": 76}, {"name": "سفيان سعد محمود محمد الجبوري", "num": 77}, {"name": "سفيان ماهر جاسم حمد الجبوري", "num": 78}, {"name": "سلطان إبراهيم عجاج جرجيس الجميلي", "num": 79}, {"name": "سميه محمود عواد شحاذه الجبوري", "num": 80}, {"name": "سيف سعد محمد سلمان البو اسود", "num": 81}, {"name": "سيف شاهر مجيد نجرس الجبوري", "num": 82}, {"name": "سيف نايف احمد حسين الغريري", "num": 83}, {"name": "شاهر علي عواد", "num": 84}, {"name": "شهاب احمد ذياب سلمان البو اسود", "num": 85}, {"name": "شيماء فاضل عباس محيميد الجبوري", "num": 86}, {"name": "صباح معيوف حسن مربد الدليمي", "num": 87}, {"name": "صبحه سليمان خالد", "num": 88}, {"name": "صدام فلاح حسن علي الاسودي", "num": 89}, {"name": "صهيب صابر صالح نجم الجيشي", "num": 90}, {"name": "صهيب عوف عبدالرحمن محمود التكريتي", "num": 91}, {"name": "ظافر محمد عزاوي علي المرسومي", "num": 92}, {"name": "عامر علي حسين شحاذه الجبوري", "num": 93}, {"name": "عبدالحق عيدان حمدان انصيف اعذي", "num": 94}, {"name": "عبدالرحمن ادهام محمود", "num": 95}, {"name": "عبدالرحمن ثامر كريم حسن النيساني", "num": 96}, {"name": "عبدالرحمن محمد عبيد داوود الجبوري", "num": 97}, {"name": "عبدالرحمن محمود ياس خضر الجبوري", "num": 98}, {"name": "عبدالعزيز خلف شنيار مله الجبوري", "num": 99}, {"name": "عبدالعزيز عزيز مخيف جاسم الجبوري", "num": 100}, {"name": "عبدالعليم طه احمد سلمان البو اسود", "num": 101}, {"name": "عبدالعليم كريم علي عبد اعذيه", "num": 102}, {"name": "عبدالله عبدالواحد عليوي طعمه النيساني", "num": 103}, {"name": "عبدالله فارس ادهام داود الجبوري", "num": 104}, {"name": "عبله مالك محمد حسين الجبوري", "num": 105}, {"name": "عثمان ابراهيم جعفر جواد البازي", "num": 106}, {"name": "عصام ابراهيم عواد علي الجميلي", "num": 107}, {"name": "عقبه عمار عبد عبدالله الجبوري", "num": 108}, {"name": "علي جاسم محمد حسن السلاوي", "num": 109}, {"name": "علي حسين خضير جمعه الجبوري", "num": 110}, {"name": "علي رفعت إبراهيم خليل الجبوري", "num": 111}, {"name": "علي سامي عبيد حماد الفراجي", "num": 112}, {"name": "علي سعدون مرعي حسن البو اسود", "num": 113}, {"name": "علي ماجد حسن طعمه العيساوي", "num": 114}, {"name": "علي محمد صالح علي المجمعي", "num": 115}, {"name": "علي محمد عبيد داود الجميلي", "num": 116}, {"name": "علي محمد مهدي موسى اعذيه", "num": 117}, {"name": "عمار حسن عبدالله حسين القيسي", "num": 118}, {"name": "عمار ذياب خلف ذياب السبعاوي", "num": 119}, {"name": "عمر حسين عمر حماده الاسودي", "num": 120}, {"name": "عمر سمير سعيد دحام الخشماني", "num": 121}, {"name": "عمر عبود عزاوي صحن الجبوري", "num": 122}, {"name": "غازي احمد محمد حمد السلامي", "num": 123}, {"name": "غزوان شلاش خلف عياش الجبوري", "num": 124}, {"name": "غسق مهدي محمد كفطان الجبوري", "num": 125}, {"name": "غيد صالح محمد عبدالله الجبوري", "num": 126}, {"name": "غيداء ماجد سعد زيدان الحمداني", "num": 127}, {"name": "فائزه عيدان حمدان انصيف اعذي", "num": 131}, {"name": "فارس احمد عليوي عباس القيسي", "num": 128}, {"name": "فاطمه ابراهيم جاسم", "num": 129}, {"name": "فاطمه بيات اكبر محمد البياتي", "num": 130}, {"name": "فراس احمد حسين حميد الجميلي", "num": 132}, {"name": "فراس عامر احمد حسين الجميلي", "num": 133}, {"name": "فلاح عبدالله مهدي صالح اعذيه", "num": 134}, {"name": "قتيبه عادل معيدي سبع المكدمي", "num": 135}, {"name": "قيصر نزار محسن حمزه اغضيب", "num": 136}, {"name": "كبرياء محمد جياد مناور الرهاوي", "num": 137}, {"name": "كرم ليث كامل حسن الجراد", "num": 138}, {"name": "كريم طه احمد سلمان البو اسود", "num": 139}, {"name": "ليث عبدالله عيدان علي الجبوري", "num": 140}, {"name": "مؤيد محمد جمعه حسين الجميلي", "num": 176}, {"name": "محمد احمد عبدالله حسن القيسي", "num": 141}, {"name": "محمد باسم محمد جاسم الدراجي", "num": 142}, {"name": "محمد جابر احمد حسن السامرائي", "num": 143}, {"name": "محمد جمعه فرج", "num": 144}, {"name": "محمد راضي طه خضير الجميلي", "num": 145}, {"name": "محمد شلاش جاسم داحور الجبوري", "num": 146}, {"name": "محمد صالح خلف عوض الدليمي", "num": 147}, {"name": "محمد طه محمد حاجم العباسي", "num": 148}, {"name": "محمد عبدالكريم مسلط حمد الجميلي", "num": 149}, {"name": "محمد عبدالله مطر حداد العيساوي", "num": 150}, {"name": "محمد علي خلف اجدع الجميلي", "num": 151}, {"name": "محمد فاهم ذياب صالح الجبوري", "num": 152}, {"name": "محمد فياض عبدالله حميد العبيدي", "num": 153}, {"name": "محمد لورنس حسن فرحان العزاوي", "num": 154}, {"name": "محمد مشعان لهيب يحيى الجبوري", "num": 155}, {"name": "محمود نعمه خلف عبدالله القيسي", "num": 156}, {"name": "مراد مزهر حمود خلف الحمداني", "num": 157}, {"name": "مرعي عبدالعليم جعيدي حمزه محمد العلوم", "num": 158}, {"name": "مروان نزار محمد عبدالكريم العبدالله", "num": 159}, {"name": "مروه اياد عبدالرسول عبو الخزرجي", "num": 160}, {"name": "مروه حمد محمود امحيميد الجنابي", "num": 161}, {"name": "مروه سمير صادق خضير المرسومي", "num": 162}, {"name": "مصطفى احمد فرج خليل الجبوري", "num": 163}, {"name": "مصطفى سعيد سامي عبود الاسودي", "num": 164}, {"name": "مصطفى صالح علي دهش الكرعي", "num": 165}, {"name": "مصطفى علي سلمان صالح المرسومي", "num": 166}, {"name": "مصطفى فوزي عبدالكريم حسين البواسود", "num": 167}, {"name": "مصلح محمد حمدان سمير اعذيه", "num": 168}, {"name": "مطلك صدام مطلك", "num": 169}, {"name": "منار جمال عبود", "num": 170}, {"name": "منار علوان نجم حسين الجبوري", "num": 171}, {"name": "منال صالح ابراهيم سليمان المرسومي", "num": 172}, {"name": "مهدي صالح حمود مهدي الجبوري", "num": 173}, {"name": "مهند عياش جاسم حمود الجواري", "num": 174}, {"name": "موج حميد رشيد حميد السامرائي", "num": 175}, {"name": "ميثاق فواز احمد عبدالله القيسي", "num": 177}, {"name": "ميلاد صائب عويد حميد الجميلي", "num": 178}, {"name": "نداء غتران عبدالله محمد الجميلي", "num": 179}, {"name": "نشوان إبراهيم عجاج جرجيس الجميلي", "num": 180}, {"name": "نمير عبيد جاسم محمد الجبوري", "num": 181}, {"name": "نهاد غانم سبع خميس البو اسود", "num": 182}, {"name": "نيزك مهدي صالح عدوان الجميلي", "num": 183}, {"name": "هبه حامد فليح حسن السامرائي", "num": 185}, {"name": "هبه محمد عبيد داود الجميلي", "num": 186}, {"name": "هدى عبدالسلام شبل عبدالله الجميلي", "num": 187}, {"name": "هند هادي جابر ذويب المفرجي", "num": 188}, {"name": "هودان بدر إبراهيم هودان السامرائي", "num": 189}, {"name": "هيثم جبار قدوري حسين الدليمي", "num": 190}, {"name": "هيثم حسين محمد خلف الجبوري", "num": 191}, {"name": "هيفاء درويش عجيل صالح القيسي", "num": 192}, {"name": "وسام محمد حسن عزيز المشهداني", "num": 193}, {"name": "وليد خالد علي عبدالرزاق التكريتي", "num": 194}, {"name": "وليد شهاب احمد خلف الجبوري", "num": 195}, {"name": "وليد محمد عبيد داوود الجميلي", "num": 196}, {"name": "يوسف علي محمد حسين الجبوري", "num": 197}],letters:["ا", "ب", "ت", "ج", "ح", "خ", "د", "ر", "ز", "س", "ش", "ص", "ظ", "ع", "غ", "ف", "ق", "ك", "ل", "م", "ن", "ه", "و", "ي"],total:197}
 };
-var TOTAL_ALL = 1051;
+var TOTAL_ALL=1051;
+var mode='perm',subView='list',filt=DATA.perm.all,pg=1,activeLetter='';
+var currentEmp=null,lightMode=false;
 
-var mode = 'perm', subView = 'list', filt = DATA.perm.all, pg = 1, activeLetter = '';
-var currentEmp = null;
-var lightMode = false;
-
-// ---- Date & Time ----
+// Clock
 function updateClock(){
-  var now = new Date();
-  var days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-  var d = now.getDate(), m = now.getMonth()+1, y = now.getFullYear();
-  var h = now.getHours(), mn = now.getMinutes();
-  var dateEl = document.getElementById('today-date');
-  var timeEl = document.getElementById('today-time');
-  if(dateEl) dateEl.textContent = days[now.getDay()] + ' ' + d + '/' + m + '/' + y;
-  if(timeEl) timeEl.textContent = (h<10?'0':'')+h+':'+(mn<10?'0':'')+mn;
+  var now=new Date();
+  var days=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  var d=now.getDate(),m=now.getMonth()+1,y=now.getFullYear();
+  var h=now.getHours(),mn=now.getMinutes();
+  var de=document.getElementById('today-date');
+  var te=document.getElementById('today-time');
+  if(de) de.textContent=days[now.getDay()]+' '+d+'/'+m+'/'+y;
+  if(te) te.textContent=(h<10?'0':'')+h+':'+(mn<10?'0':'')+mn;
 }
-updateClock(); setInterval(updateClock, 30000);
+updateClock();setInterval(updateClock,30000);
 
-// ---- Theme toggle ----
-document.getElementById('theme-btn').addEventListener('click', function(){
-  lightMode = !lightMode;
-  document.body.classList.toggle('light-mode', lightMode);
-  this.querySelector('i').className = lightMode ? 'fas fa-moon' : 'fas fa-sun';
+// Theme
+document.getElementById('theme-btn').addEventListener('click',function(){
+  lightMode=!lightMode;
+  document.body.classList.toggle('light-mode',lightMode);
+  this.querySelector('i').className=lightMode?'fas fa-sun':'fas fa-moon';
 });
 
-// ---- Notification ----
-function closeNotif(){
-  document.getElementById('notif-banner').classList.remove('show');
-}
+// Notif
+function closeNotif(){ document.getElementById('notif-banner').classList.remove('show'); }
 
-// ---- Splash counters ----
-function splashCount(id, target, color){
-  var el = document.getElementById(id);
-  if(!el) return;
-  var dur = 1800, start = Date.now();
+// Splash count
+function splashCount(id,target){
+  var el=document.getElementById(id);
+  if(!el)return;
+  var dur=1800,start=Date.now();
   (function run(){
-    var p = Math.min(1,(Date.now()-start)/dur);
-    var ease = 1-Math.pow(1-p,3);
-    el.textContent = Math.round(target*ease);
-    if(p<1) requestAnimationFrame(run);
+    var p=Math.min(1,(Date.now()-start)/dur);
+    var ease=1-Math.pow(1-p,3);
+    el.textContent=Math.round(target*ease);
+    if(p<1)requestAnimationFrame(run);
   })();
 }
 
-// ---- Count up ----
-function countUp(id, target){
-  var el = document.getElementById(id);
-  if(!el || isNaN(target)) return;
-  var dur = 500, start = Date.now();
+function countUp(id,target){
+  var el=document.getElementById(id);
+  if(!el||isNaN(target))return;
+  var dur=500,start=Date.now();
   (function run(){
-    var p = Math.min(1,(Date.now()-start)/dur);
-    var ease = 1-Math.pow(1-p,3);
-    el.textContent = Math.round(target*ease);
-    if(p<1) requestAnimationFrame(run);
+    var p=Math.min(1,(Date.now()-start)/dur);
+    el.textContent=Math.round(target*(1-Math.pow(1-p,3)));
+    if(p<1)requestAnimationFrame(run);
   })();
 }
 
-function pp(){ return parseInt(document.getElementById('pp').value); }
+function pp(){return parseInt(document.getElementById('pp').value);}
 
-// ---- Build letters ----
 function buildLetters(){
-  var lf = document.getElementById('lf');
-  lf.innerHTML = '';
-  var isPerm = mode === 'perm';
-  var activeCls = isPerm ? 'perm-lf' : 'cont-lf';
-  var all = document.createElement('div');
-  all.className = 'lf-btn lf-all ' + activeCls;
-  all.textContent = 'الكل';
-  all.onclick = function(){ filterLetter('', all); };
+  var lf=document.getElementById('lf');
+  lf.innerHTML='';
+  var isPerm=mode==='perm';
+  var ac=isPerm?'perm-lf':'cont-lf';
+  var all=document.createElement('div');
+  all.className='lf-btn lf-all '+ac;
+  all.textContent='الكل';
+  all.onclick=function(){filterLetter('',all);};
   lf.appendChild(all);
   DATA[mode].letters.forEach(function(l){
-    var b = document.createElement('div'); b.className = 'lf-btn'; b.textContent = l;
-    b.onclick = function(){ filterLetter(l, b); };
+    var b=document.createElement('div');b.className='lf-btn';b.textContent=l;
+    b.onclick=function(){filterLetter(l,b);};
     lf.appendChild(b);
   });
 }
 
-// ---- Build stats ----
 function buildStats(){
-  var isPerm = mode === 'perm';
-  var cls = isPerm ? 'perm-panel' : 'cont-panel';
-  var dataset = DATA[mode].all;
-  var tot = DATA[mode].total;
-  var fams = {};
-  dataset.forEach(function(e){
-    var parts = e.name.trim().split(' ');
-    var f = parts[parts.length-1];
-    fams[f] = (fams[f]||0)+1;
-  });
-  var sorted = Object.keys(fams).map(function(k){ return [k,fams[k]]; });
-  sorted.sort(function(a,b){ return b[1]-a[1]; });
-  sorted = sorted.slice(0,8);
-  var max = sorted[0][1];
-  var ls = {};
-  dataset.forEach(function(e){ var l=e.name.trim()[0]; ls[l]=(ls[l]||0)+1; });
-  var lsorted = Object.keys(ls).map(function(k){ return [k,ls[k]]; });
-  lsorted.sort(function(a,b){ return b[1]-a[1]; });
-  lsorted = lsorted.slice(0,10);
-  var lmax = lsorted[0][1];
-  var html = '<div class="s-panel '+cls+'"><div class="big-grid">';
-  html += '<div class="big-stat"><div class="big-stat-v">'+tot+'</div><div class="big-stat-l">مجموع الموظفين</div></div>';
-  html += '<div class="big-stat"><div class="big-stat-v">1 – '+tot+'</div><div class="big-stat-l">نطاق الأرقام</div></div>';
-  html += '</div></div>';
-  html += '<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-trophy"></i> أكثر الأسماء العائلية</div>';
+  var isPerm=mode==='perm';
+  var cls=isPerm?'perm-panel':'cont-panel';
+  var ds=DATA[mode].all,tot=DATA[mode].total;
+  var fams={};
+  ds.forEach(function(e){var parts=e.name.trim().split(' ');var f=parts[parts.length-1];fams[f]=(fams[f]||0)+1;});
+  var sorted=Object.keys(fams).map(function(k){return[k,fams[k]];});
+  sorted.sort(function(a,b){return b[1]-a[1];});sorted=sorted.slice(0,8);var max=sorted[0][1];
+  var ls={};
+  ds.forEach(function(e){var l=e.name.trim()[0];ls[l]=(ls[l]||0)+1;});
+  var lsorted=Object.keys(ls).map(function(k){return[k,ls[k]];});
+  lsorted.sort(function(a,b){return b[1]-a[1];});lsorted=lsorted.slice(0,10);var lmax=lsorted[0][1];
+  var html='<div class="s-panel '+cls+'"><div class="big-grid">';
+  html+='<div class="big-stat"><div class="big-stat-v">'+tot+'</div><div class="big-stat-l">مجموع الموظفين</div></div>';
+  html+='<div class="big-stat"><div class="big-stat-v">1 - '+tot+'</div><div class="big-stat-l">نطاق الأرقام</div></div>';
+  html+='</div></div>';
+  html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-trophy"></i> أكثر الأسماء العائلية</div>';
   sorted.forEach(function(item){
-    var pct = (item[1]/max*100).toFixed(1);
-    html += '<div class="bar-row"><div class="bar-top"><span class="bar-name">'+item[0]+'</span><span class="bar-val">'+item[1]+'</span></div>';
-    html += '<div class="bar-track"><div class="bar-fill" data-w="'+pct+'%" style="width:0"></div></div></div>';
+    var pct=(item[1]/max*100).toFixed(1);
+    html+='<div class="bar-row"><div class="bar-top"><span class="bar-name">'+item[0]+'</span><span class="bar-val">'+item[1]+'</span></div><div class="bar-track"><div class="bar-fill" data-w="'+pct+'%" style="width:0"></div></div></div>';
   });
-  html += '</div><div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-font"></i> توزيع الحرف الأول</div>';
+  html+='</div><div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-font"></i> توزيع الحرف الأول</div>';
   lsorted.forEach(function(item){
-    var pct = (item[1]/lmax*100).toFixed(1);
-    html += '<div class="l-row"><div class="l-chip">'+item[0]+'</div>';
-    html += '<div class="l-track"><div class="l-fill" data-w="'+pct+'%" style="width:0"></div></div>';
-    html += '<span class="l-num">'+item[1]+'</span></div>';
+    var pct=(item[1]/lmax*100).toFixed(1);
+    html+='<div class="l-row"><div class="l-chip">'+item[0]+'</div><div class="l-track"><div class="l-fill" data-w="'+pct+'%" style="width:0"></div></div><span class="l-num">'+item[1]+'</span></div>';
   });
-  html += '</div>';
-  document.getElementById('stats-page').innerHTML = html;
-  setTimeout(function(){
-    document.querySelectorAll('[data-w]').forEach(function(el){ el.style.width = el.getAttribute('data-w'); });
-  }, 120);
+  html+='</div>';
+  document.getElementById('stats-page').innerHTML=html;
+  setTimeout(function(){document.querySelectorAll('[data-w]').forEach(function(el){el.style.width=el.getAttribute('data-w');});},120);
 }
 
-// ---- Switch main tab ----
 function switchMain(m){
-  mode = m; activeLetter = ''; subView = 'list';
-  document.getElementById('q').value = '';
-  var isPerm = m === 'perm';
-  document.getElementById('main-header').className = 'header '+(isPerm?'mode-perm':'mode-cont');
-  document.getElementById('hdr-title').textContent = isPerm ? 'سجل الموظفين الدائميين' : 'سجل موظفي العقود';
-  document.getElementById('hdr-num').textContent = DATA[m].total;
-  document.getElementById('mtab-perm').className = 'main-tab'+(isPerm?' perm-active':'');
-  document.getElementById('mtab-cont').className = 'main-tab'+(isPerm?'':' cont-active');
-  var stl = isPerm ? 'perm-style' : 'cont-style';
-  document.getElementById('sb1').className = 'stat-box '+stl;
-  document.getElementById('sb2').className = 'stat-box '+stl;
-  document.getElementById('sb3').className = 'stat-box '+stl;
-  var subA = isPerm ? 'perm-sub-active' : 'cont-sub-active';
-  document.getElementById('stab-list').className = 'sub-tab '+subA;
-  document.getElementById('stab-stats').className = 'sub-tab';
-  document.getElementById('s-wrap').className = 's-wrap '+(isPerm?'perm-s':'cont-s');
-  document.getElementById('view-list').style.display = 'block';
-  document.getElementById('view-stats').style.display = 'none';
-  filt = DATA[m].all;
+  mode=m;activeLetter='';subView='list';
+  document.getElementById('q').value='';
+  var isPerm=m==='perm';
+  document.getElementById('main-header').className='header '+(isPerm?'mode-perm':'mode-cont');
+  document.getElementById('hdr-title').textContent=isPerm?'سجل الموظفين الدائميين':'سجل موظفي العقود';
+  document.getElementById('hdr-num').textContent=DATA[m].total;
+  document.getElementById('mtab-perm').className='main-tab'+(isPerm?' perm-active':'');
+  document.getElementById('mtab-cont').className='main-tab'+(isPerm?'':' cont-active');
+  var stl=isPerm?'perm-style':'cont-style';
+  document.getElementById('sb1').className='stat-box '+stl;
+  document.getElementById('sb2').className='stat-box '+stl;
+  document.getElementById('sb3').className='stat-box '+stl;
+  var subA=isPerm?'perm-sub-active':'cont-sub-active';
+  document.getElementById('stab-list').className='sub-tab '+subA;
+  document.getElementById('stab-stats').className='sub-tab';
+  document.getElementById('s-wrap').className='s-wrap '+(isPerm?'perm-s':'cont-s');
+  document.getElementById('view-list').style.display='block';
+  document.getElementById('view-stats').style.display='none';
+  filt=DATA[m].all;
   buildLetters();
-  countUp('sv-total', DATA[m].total);
-  countUp('sv-shown', DATA[m].total);
-  pg = 1; render();
+  countUp('sv-total',DATA[m].total);
+  countUp('sv-shown',DATA[m].total);
+  pg=1;render();
 }
 
-// ---- Switch sub tab ----
 function switchSub(v){
-  subView = v;
-  var isPerm = mode === 'perm';
-  var subA = isPerm ? 'perm-sub-active' : 'cont-sub-active';
-  document.getElementById('stab-list').className = 'sub-tab'+(v==='list'?' '+subA:'');
-  document.getElementById('stab-stats').className = 'sub-tab'+(v==='stats'?' '+subA:'');
-  document.getElementById('view-list').style.display = v==='stats'?'none':'block';
-  document.getElementById('view-stats').style.display = v==='stats'?'block':'none';
-  if(v==='stats') buildStats();
+  subView=v;
+  var isPerm=mode==='perm';
+  var subA=isPerm?'perm-sub-active':'cont-sub-active';
+  document.getElementById('stab-list').className='sub-tab'+(v==='list'?' '+subA:'');
+  document.getElementById('stab-stats').className='sub-tab'+(v==='stats'?' '+subA:'');
+  document.getElementById('view-list').style.display=v==='stats'?'none':'block';
+  document.getElementById('view-stats').style.display=v==='stats'?'block':'none';
+  if(v==='stats')buildStats();
 }
 
-// ---- Filter letter ----
-function filterLetter(l, el){
-  activeLetter = l;
-  document.querySelectorAll('.lf-btn').forEach(function(b){ b.classList.remove('perm-lf','cont-lf'); });
+function filterLetter(l,el){
+  activeLetter=l;
+  document.querySelectorAll('.lf-btn').forEach(function(b){b.classList.remove('perm-lf','cont-lf');});
   el.classList.add(mode==='perm'?'perm-lf':'cont-lf');
   doFilter();
 }
 
-// ---- Filter ----
 function doFilter(){
-  var q = document.getElementById('q').value.trim();
-  filt = DATA[mode].all.filter(function(e){
-    var mQ = !q || (e.name.indexOf(q)>=0 || String(e.num).indexOf(q)>=0);
-    var mL = !activeLetter || e.name.trim().indexOf(activeLetter)===0;
-    return mQ && mL;
+  var q=document.getElementById('q').value.trim();
+  filt=DATA[mode].all.filter(function(e){
+    var mQ=!q||(e.name.indexOf(q)>=0||String(e.num).indexOf(q)>=0);
+    var mL=!activeLetter||e.name.trim().indexOf(activeLetter)===0;
+    return mQ&&mL;
   });
-  countUp('sv-shown', filt.length);
-  pg = 1; render();
+  countUp('sv-shown',filt.length);
+  pg=1;render();
 }
 
-// ---- Render ----
 function render(){
-  var isPerm = mode === 'perm';
-  var p = pp(), tot = filt.length, pages = Math.max(1,Math.ceil(tot/p));
-  pg = Math.min(pg, pages);
-  var s = (pg-1)*p, slice = filt.slice(s, s+p);
-  document.getElementById('sv-page').textContent = pg+'/'+pages;
-  var cardCls = isPerm?'perm-card':'cont-card';
-  var serCls  = isPerm?'perm-ser':'cont-ser';
-  var dotCls  = isPerm?'perm-dot':'cont-dot';
-  var numCls  = isPerm?'perm-num':'cont-num';
-  var subLbl  = isPerm?'موظف دائمي':'موظف عقد';
-  var html = '';
+  var isPerm=mode==='perm';
+  var p=pp(),tot=filt.length,pages=Math.max(1,Math.ceil(tot/p));
+  pg=Math.min(pg,pages);
+  var s=(pg-1)*p,slice=filt.slice(s,s+p);
+  document.getElementById('sv-page').textContent=pg+'/'+pages;
+  var cardCls=isPerm?'perm-card':'cont-card';
+  var serCls=isPerm?'perm-ser':'cont-ser';
+  var dotCls=isPerm?'perm-dot':'cont-dot';
+  var numCls=isPerm?'perm-num':'cont-num';
+  var subLbl=isPerm?'موظف دائمي':'موظف عقد';
+  var html='';
   slice.forEach(function(e,i){
-    var idx = s+i+1;
-    var delay = (i%20)*0.028;
-    var safeName = e.name.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
-    html += '<div class="emp-card '+cardCls+'" data-name="'+safeName+'" data-num="'+e.num+'" style="animation-delay:'+delay+'s">';
-    html += '<div class="c-inner">';
-    html += '<div class="c-ser '+serCls+'">'+idx+'</div>';
-    html += '<div class="c-info"><div class="c-name">'+e.name+'</div>';
-    html += '<div class="c-sub"><div class="c-dot '+dotCls+'"></div><span>'+subLbl+'</span></div></div>';
-    html += '<div class="c-id"><div class="c-num '+numCls+'">'+e.num+'</div><div class="c-lbl">اضبارة</div></div>';
-    html += '</div></div>';
+    var idx=s+i+1;
+    var delay=(i%20)*0.028;
+    var safeName=e.name.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    html+='<div class="emp-card '+cardCls+'" data-name="'+safeName+'" data-num="'+e.num+'" style="animation-delay:'+delay+'s">';
+    html+='<div class="c-inner"><div class="c-ser '+serCls+'">'+idx+'</div>';
+    html+='<div class="c-info"><div class="c-name">'+e.name+'</div>';
+    html+='<div class="c-sub"><div class="c-dot '+dotCls+'"></div><span>'+subLbl+'</span></div></div>';
+    html+='<div class="c-id"><div class="c-num '+numCls+'">'+e.num+'</div><div class="c-lbl">اضبارة</div></div>';
+    html+='</div></div>';
   });
-  var cards = document.getElementById('cards');
-  cards.innerHTML = html;
+  var cards=document.getElementById('cards');
+  cards.innerHTML=html;
   cards.querySelectorAll('.emp-card').forEach(function(el){
-    el.addEventListener('click', function(){
-      openModal(el.getAttribute('data-name'), el.getAttribute('data-num'));
-    });
+    el.addEventListener('click',function(){openModal(el.getAttribute('data-name'),el.getAttribute('data-num'));});
   });
-  document.getElementById('nores').style.display = filt.length?'none':'flex';
-  cards.style.display = filt.length?'':'none';
+  document.getElementById('nores').style.display=filt.length?'none':'flex';
+  cards.style.display=filt.length?'':'none';
   buildPg(pages);
 }
 
-// ---- Pagination ----
 function buildPg(pages){
-  var isPerm = mode === 'perm';
-  var el = document.getElementById('pg');
-  if(pages<=1){ el.innerHTML=''; return; }
-  var activeCls = isPerm?'perm-pg-active':'cont-pg-active';
-  var html = '';
-  if(pg>1) html += '<button class="pg-btn" onclick="go(1)"><i class="fas fa-angle-double-right"></i></button><button class="pg-btn" onclick="go('+(pg-1)+')"><i class="fas fa-angle-right"></i></button>';
-  var a=Math.max(1,pg-1), b=Math.min(pages,pg+1);
-  for(var i=a;i<=b;i++) html += '<button class="pg-btn'+(i===pg?' '+activeCls:'')+'" onclick="go('+i+')">'+i+'</button>';
-  if(pg<pages) html += '<button class="pg-btn" onclick="go('+(pg+1)+')"><i class="fas fa-angle-left"></i></button><button class="pg-btn" onclick="go('+pages+')"><i class="fas fa-angle-double-left"></i></button>';
-  html += '<span class="pg-info">'+filt.length+' موظف</span>';
-  el.innerHTML = html;
+  var isPerm=mode==='perm';
+  var el=document.getElementById('pg');
+  if(pages<=1){el.innerHTML='';return;}
+  var ac=isPerm?'perm-pg-active':'cont-pg-active';
+  var html='';
+  if(pg>1)html+='<button class="pg-btn" onclick="go(1)"><i class="fas fa-angle-double-right"></i></button><button class="pg-btn" onclick="go('+(pg-1)+')"><i class="fas fa-angle-right"></i></button>';
+  var a=Math.max(1,pg-1),b=Math.min(pages,pg+1);
+  for(var i=a;i<=b;i++)html+='<button class="pg-btn'+(i===pg?' '+ac:'')+'" onclick="go('+i+')">'+i+'</button>';
+  if(pg<pages)html+='<button class="pg-btn" onclick="go('+(pg+1)+')"><i class="fas fa-angle-left"></i></button><button class="pg-btn" onclick="go('+pages+')"><i class="fas fa-angle-double-left"></i></button>';
+  html+='<span class="pg-info">'+filt.length+' موظف</span>';
+  el.innerHTML=html;
 }
-function go(p){ pg=p; render(); document.getElementById('scroll').scrollTo({top:0,behavior:'smooth'}); }
+function go(p){pg=p;render();document.getElementById('scroll').scrollTo({top:0,behavior:'smooth'});}
 
-// ---- Modal ----
-function openModal(name, num){
-  var isPerm = mode === 'perm';
-  currentEmp = { name: name, num: num, type: isPerm?'موظف دائمي':'موظف عقد' };
-  document.getElementById('modal-inner').className = 'modal '+(isPerm?'perm-modal':'cont-modal');
-  document.getElementById('m-name').textContent = name;
-  document.getElementById('m-num').textContent = num;
-  document.getElementById('m-type-tag').textContent = isPerm?'موظف دائمي':'موظف عقد';
-  document.getElementById('m-emp-type').textContent = isPerm?'موظف دائمي':'موظف بعقد';
+// Modal
+function openModal(name,num){
+  var isPerm=mode==='perm';
+  currentEmp={name:name,num:num,type:isPerm?'موظف دائمي':'موظف عقد',isPerm:isPerm};
+  document.getElementById('modal-inner').className='modal '+(isPerm?'perm-modal':'cont-modal');
+  document.getElementById('m-name').textContent=name;
+  document.getElementById('m-num').textContent=num;
+  document.getElementById('m-type-tag').textContent=isPerm?'موظف دائمي':'موظف عقد';
+  document.getElementById('m-emp-type').textContent=isPerm?'موظف دائمي':'موظف بعقد';
   document.getElementById('modal').classList.add('open');
 }
-function closeModal(){ document.getElementById('modal').classList.remove('open'); }
-document.getElementById('modal').addEventListener('click', function(ev){ if(ev.target===this) closeModal(); });
-document.getElementById('m-close').addEventListener('click', closeModal);
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+document.getElementById('modal').addEventListener('click',function(ev){if(ev.target===this)closeModal();});
+document.getElementById('m-close').addEventListener('click',closeModal);
 
-// ---- Share via WhatsApp ----
-document.getElementById('btn-share').addEventListener('click', function(){
-  if(!currentEmp) return;
-  var text = "بيانات الموظف\n" + "الاسم: " + currentEmp.name + "\n" + "رقم الاضبارة: " + currentEmp.num + "\n" + "النوع: " + currentEmp.type + "\n" + "الجهة: مديرية زراعة صلاح الدين - وزارة الزراعة";
-  var url = 'https://wa.me/?text=' + encodeURIComponent(text);
-  window.open(url, '_blank');
+// WhatsApp Share
+document.getElementById('btn-share').addEventListener('click',function(){
+  if(!currentEmp)return;
+  var lines=[
+    'بيانات الموظف',
+    'الاسم: '+currentEmp.name,
+    'رقم الاضبارة: '+currentEmp.num,
+    'النوع: '+currentEmp.type,
+    'الجهة: مديرية زراعة صلاح الدين - وزارة الزراعة'
+  ];
+  var text=lines.join('%0A');
+  window.open('https://wa.me/?text='+text,'_blank');
 });
 
-// ---- Print / PDF ----
-document.getElementById('btn-pdf').addEventListener('click', function(){
-  if(!currentEmp) return;
-  var isPerm = mode === 'perm';
-  var color = isPerm ? '#1a237e' : '#00695c';
-  var accentColor = isPerm ? '#f5c842' : '#26c6da';
-  var html = '<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8">';
-  html += '<style>body{font-family:Arial,sans-serif;direction:rtl;margin:0;padding:0;background:#fff}';
-  html += '.card{max-width:350px;margin:40px auto;border:2px solid '+color+';border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.15)}';
-  html += '.card-header{background:'+color+';padding:20px;text-align:center;color:#fff}';
-  html += '.card-header h2{margin:0 0 4px;font-size:18px}';
-  html += '.card-header p{margin:0;opacity:.8;font-size:12px}';
-  html += '.card-body{padding:20px;display:flex;flex-direction:column;gap:12px}';
-  html += '.info-row{display:flex;align-items:center;gap:10px;padding:10px;background:#f8f9ff;border-radius:10px;border:1px solid #e0e4ff}';
-  html += '.info-label{font-size:11px;color:#666;margin-bottom:2px}';
-  html += '.info-value{font-size:15px;font-weight:700;color:'+color+'}';
-  html += '.num-big{font-size:28px;letter-spacing:3px;color:'+color+'}';
-  html += '.badge{display:inline-block;background:'+color+';color:#fff;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-top:4px}';
-  html += '.footer{text-align:center;padding:12px;background:#f0f0f0;font-size:10px;color:#666}';
-  html += '@media print{body{margin:0}}</style></head><body>';
-  html += '<div class="card">';
-  html += '<div class="card-header"><h2>مديرية زراعة صلاح الدين</h2><p>وزارة الزراعة – جمهورية العراق</p></div>';
-  html += '<div class="card-body">';
-  html += '<div class="info-row"><div><div class="info-label">الاسم الكامل</div><div class="info-value">'+currentEmp.name+'</div></div></div>';
-  html += '<div class="info-row"><div><div class="info-label">رقم الاضبارة</div><div class="num-big">'+currentEmp.num+'</div></div></div>';
-  html += '<div class="info-row"><div><div class="info-label">نوع التوظيف</div><span class="badge">'+currentEmp.type+'</span></div></div>';
-  html += '</div>';
-  html += '<div class="footer">وثيقة رسمية – يُعتمد بختم الجهة المختصة</div>';
-  html += '</div></body></html>';
-  var frame = document.getElementById('print-frame');
-  frame.contentDocument.open();
-  frame.contentDocument.write(html);
-  frame.contentDocument.close();
-  setTimeout(function(){ frame.contentWindow.print(); }, 400);
+// PDF Card - builds inside the app, then uses window.print()
+function buildPdfContent(emp){
+  var isPerm=emp.isPerm;
+  var color=isPerm?'#1a237e':'#00695c';
+  var badgeClass=isPerm?'pdf-badge':'pdf-badge cont-badge';
+  var html='<div class="pdf-header-box" style="background:linear-gradient(135deg,'+color+','+(isPerm?'#3949ab':'#00897b')+')">';
+  html+='<h2>مديرية زراعة صلاح الدين</h2><p>وزارة الزراعة - جمهورية العراق</p></div>';
+  html+='<div class="pdf-field"><div class="pdf-field-label">الاسم الكامل</div><div class="pdf-field-value">'+emp.name+'</div></div>';
+  html+='<div class="pdf-field"><div class="pdf-field-label">رقم الاضبارة</div><div class="pdf-field-value big-num" style="color:'+color+'">'+emp.num+'</div></div>';
+  html+='<div class="pdf-field"><div class="pdf-field-label">نوع التوظيف</div><span class="'+badgeClass+'">'+emp.type+'</span></div>';
+  html+='<div class="pdf-footer">وثيقة رسمية - يعتمد بختم الجهة المختصة</div>';
+  return html;
+}
+
+document.getElementById('btn-pdf').addEventListener('click',function(){
+  if(!currentEmp)return;
+  document.getElementById('pdf-content').innerHTML=buildPdfContent(currentEmp);
+  document.getElementById('pdf-modal').classList.add('open');
+  closeModal();
 });
 
-// ---- Voice Search ----
-var recognition = null;
-var isListening = false;
-if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
-  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SR();
-  recognition.lang = 'ar-IQ';
-  recognition.continuous = false;
-  recognition.interimResults = false;
-  recognition.onresult = function(e){
-    var transcript = e.results[0][0].transcript;
-    document.getElementById('q').value = transcript;
-    doFilter();
-    stopMic();
+document.getElementById('pdf-close-btn').addEventListener('click',function(){
+  document.getElementById('pdf-modal').classList.remove('open');
+});
+document.getElementById('pdf-modal').addEventListener('click',function(ev){
+  if(ev.target===this)this.classList.remove('open');
+});
+
+// Print - uses window.print with a special print stylesheet
+document.getElementById('pdf-print-btn').addEventListener('click',function(){
+  var emp=currentEmp;
+  if(!emp)return;
+  var isPerm=emp.isPerm;
+  var color=isPerm?'#1a237e':'#00695c';
+  var accent=isPerm?'#3949ab':'#00897b';
+  var printContent='<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8">'
+    +'<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;direction:rtl;padding:20px;background:#fff}'
+    +'.card{max-width:360px;margin:0 auto;border:2px solid '+color+';border-radius:16px;overflow:hidden}'
+    +'.hdr{background:linear-gradient(135deg,'+color+','+accent+');padding:18px;text-align:center;color:#fff}'
+    +'.hdr h2{font-size:16px;margin:0 0 4px}.hdr p{font-size:11px;margin:0;opacity:.8}'
+    +'.body{padding:16px;display:flex;flex-direction:column;gap:10px}'
+    +'.field{background:#f8f9ff;border:1px solid #e0e4ff;border-radius:10px;padding:10px 14px}'
+    +'.label{font-size:10px;color:#666;margin-bottom:3px}.value{font-size:15px;font-weight:700;color:'+color+'}'
+    +'.big{font-size:28px;letter-spacing:3px}.badge{display:inline-block;background:'+color+';color:#fff;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700}'
+    +'.footer{text-align:center;padding:10px;background:#f5f5f5;font-size:10px;color:#888}'
+    +'@media print{body{padding:0}}'
+    +'</style></head><body>'
+    +'<div class="card"><div class="hdr"><h2>مديرية زراعة صلاح الدين</h2><p>وزارة الزراعة - جمهورية العراق</p></div>'
+    +'<div class="body">'
+    +'<div class="field"><div class="label">الاسم الكامل</div><div class="value">'+emp.name+'</div></div>'
+    +'<div class="field"><div class="label">رقم الاضبارة</div><div class="value big">'+emp.num+'</div></div>'
+    +'<div class="field"><div class="label">نوع التوظيف</div><span class="badge">'+emp.type+'</span></div>'
+    +'</div><div class="footer">وثيقة رسمية - يعتمد بختم الجهة المختصة</div></div>'
+    +'</body></html>';
+  var w=window.open('','_blank','width=420,height=600');
+  if(w){w.document.write(printContent);w.document.close();w.focus();setTimeout(function(){w.print();},400);}
+  else{
+    // Fallback for WebView - use blob URL
+    var blob=new Blob([printContent],{type:'text/html'});
+    var url=URL.createObjectURL(blob);
+    window.open(url,'_blank');
+  }
+});
+
+// WhatsApp from PDF view
+document.getElementById('pdf-wa-btn').addEventListener('click',function(){
+  if(!currentEmp)return;
+  var lines=[
+    'بيانات الموظف',
+    'الاسم: '+currentEmp.name,
+    'رقم الاضبارة: '+currentEmp.num,
+    'النوع: '+currentEmp.type,
+    'الجهة: مديرية زراعة صلاح الدين - وزارة الزراعة'
+  ];
+  window.open('https://wa.me/?text='+lines.join('%0A'),'_blank');
+});
+
+// VOICE SEARCH - Fixed for WebView & Mobile
+var recognition=null;
+var isListening=false;
+
+function showMicStatus(msg){
+  var el=document.getElementById('mic-status');
+  document.getElementById('mic-status-text').textContent=msg;
+  el.classList.add('show');
+}
+function hideMicStatus(){
+  setTimeout(function(){document.getElementById('mic-status').classList.remove('show');},1500);
+}
+
+function initRecognition(){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR)return null;
+  var r=new SR();
+  r.lang='ar-IQ';
+  r.continuous=false;
+  r.interimResults=true;
+  r.maxAlternatives=3;
+  r.onstart=function(){
+    showMicStatus('تحدث الآن...');
   };
-  recognition.onerror = function(){ stopMic(); };
-  recognition.onend = function(){ stopMic(); };
+  r.onresult=function(e){
+    var transcript='';
+    for(var i=e.resultIndex;i<e.results.length;i++){
+      transcript=e.results[i][0].transcript;
+    }
+    if(transcript){
+      document.getElementById('q').value=transcript;
+      doFilter();
+    }
+    if(e.results[e.results.length-1].isFinal){
+      showMicStatus('تم البحث: '+transcript);
+      hideMicStatus();
+      stopMic();
+    }
+  };
+  r.onerror=function(e){
+    var msg='خطأ في المايكروفون';
+    if(e.error==='not-allowed')msg='يرجى السماح للمتصفح باستخدام المايكروفون';
+    else if(e.error==='no-speech')msg='لم يتم سماع أي كلام';
+    else if(e.error==='network')msg='خطأ في الشبكة';
+    showMicStatus(msg);hideMicStatus();stopMic();
+  };
+  r.onend=function(){stopMic();};
+  return r;
 }
-function showToast(msg){
-  var t = document.getElementById('mic-toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2500);
-}
+
 function stopMic(){
-  isListening = false;
-  var btn = document.getElementById('mic-btn');
+  isListening=false;
+  var btn=document.getElementById('mic-btn');
   btn.classList.remove('listening');
-  btn.querySelector('i').className = 'fas fa-microphone';
+  btn.querySelector('i').className='fas fa-microphone';
+  if(recognition){try{recognition.stop();}catch(e){}}
 }
-document.getElementById('mic-btn').addEventListener('click', function(){
-  if(!recognition){ showToast('المتصفح لا يدعم البحث الصوتي'); return; }
-  if(isListening){ recognition.stop(); stopMic(); return; }
-  isListening = true;
+
+document.getElementById('mic-btn').addEventListener('click',function(){
+  if(isListening){stopMic();hideMicStatus();return;}
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    showMicStatus('المتصفح لا يدعم البحث الصوتي');
+    hideMicStatus();
+    return;
+  }
+  isListening=true;
   this.classList.add('listening');
-  this.querySelector('i').className = 'fas fa-microphone-slash';
-  showToast('🎤 تحدث الآن...');
-  try{ recognition.start(); } catch(e){ stopMic(); }
+  this.querySelector('i').className='fas fa-microphone-slash';
+  recognition=initRecognition();
+  if(recognition){
+    try{recognition.start();}
+    catch(e){
+      showMicStatus('يرجى السماح بالوصول للمايكروفون');
+      hideMicStatus();stopMic();
+    }
+  }
 });
 
-// ---- Init ----
-window.addEventListener('load', function(){
-  splashCount('sc-perm', 854);
-  splashCount('sc-cont', 197);
-  splashCount('sc-all', 1051);
+// Init
+window.addEventListener('load',function(){
+  splashCount('sc-perm',854);
+  splashCount('sc-cont',197);
+  splashCount('sc-all',1051);
   buildLetters();
-  filt = DATA.perm.all;
-  countUp('sv-total', 854);
-  countUp('sv-shown', 854);
+  filt=DATA.perm.all;
+  countUp('sv-total',854);
+  countUp('sv-shown',854);
   render();
   setTimeout(function(){
     document.getElementById('splash').classList.add('hide');
     setTimeout(function(){
       document.getElementById('notif-banner').classList.add('show');
-      setTimeout(function(){ document.getElementById('notif-banner').classList.remove('show'); }, 5000);
-    }, 300);
-  }, 2600);
+      setTimeout(closeNotif,5000);
+    },300);
+  },2600);
 });
 </script>
 </body>
