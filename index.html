@@ -720,7 +720,8 @@ body.light-mode .excel-master-card{background:linear-gradient(135deg,#e3f2fd,#e0
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R5-EXCEL-MASTER';
+var APP_RELEASE = 'R5.1-DIRECT-SYNC';
+var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
 var EXCEL_MASTER_MIGRATION_KEY = 'emp_excel_master_migrated_v1';
@@ -936,7 +937,11 @@ async function undoLastOperation(){
 }
 
 async function fetchJSON(url){
-  var res = await fetch(url, {cache:'no-store'});
+  var resolved=url;
+  // Central Excel Master data is read directly from the GitHub main branch.
+  // This avoids GitHub Pages deployment lag after Actions-generated commits.
+  if(/^data\//.test(url)) resolved=CENTRAL_DATA_BASE+url;
+  var res = await fetch(resolved, {cache:'no-store', mode:'cors'});
   if(!res.ok) throw new Error('HTTP '+res.status);
   return await res.json();
 }
@@ -986,9 +991,9 @@ async function loadCentralData(forceRefresh){
     if(central && applyDataset(central)){
       var summary=await fetchChangeSummary(remoteVersion.version);
       if(hasNew && summary && summary.counts){
-        LAST_DATA_STATUS='تم تنزيل تحديث Excel المركزي: '+summary.counts.added+' جديد • '+summary.counts.modified+' معدل • '+summary.counts.missing+' للمراجعة';
-      }else if(hasNew) LAST_DATA_STATUS='تم تنزيل أحدث إصدار مركزي من Excel/GitHub';
-      else LAST_DATA_STATUS='أنت تستخدم آخر إصدار مركزي من Excel/GitHub';
+        LAST_DATA_STATUS='تم تنزيل تحديث Excel مباشرة من GitHub:  '+summary.counts.added+' جديد • '+summary.counts.modified+' معدل • '+summary.counts.missing+' للمراجعة';
+      }else if(hasNew) LAST_DATA_STATUS='تم تنزيل أحدث إصدار Excel مباشرة من GitHub';
+      else LAST_DATA_STATUS='أنت تستخدم آخر إصدار Excel الموجود على GitHub';
       updateExcelMasterUI();
       return;
     }
@@ -1019,7 +1024,7 @@ function updateVersionUI(){
 function updateExcelMasterUI(){
   var v=document.getElementById('excel-master-version');
   var a=document.getElementById('excel-added'),m=document.getElementById('excel-modified'),x=document.getElementById('excel-missing'),n=document.getElementById('excel-master-note');
-  if(v) v.textContent=(DATA_VERSION||'—')+' • آخر مصدر: Excel/GitHub';
+  if(v) v.textContent=(DATA_VERSION||'—')+' • المصدر: Excel → GitHub مباشر';
   var c=LAST_CHANGE_SUMMARY&&LAST_CHANGE_SUMMARY.counts;
   if(a) a.textContent=c?c.added:0;if(m) m.textContent=c?c.modified:0;if(x) x.textContent=c?c.missing:(DATA_META.missingFromExcelCount||0);
   if(n){

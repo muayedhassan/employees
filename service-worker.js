@@ -1,12 +1,9 @@
-const CACHE_NAME = 'employee-registry-r5-excel-master-2026.09.06';
+const CACHE_NAME = 'employee-registry-r5-1-direct-sync-2026.09.06';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './data/fallback-data.js',
-  './data/version.json',
-  './data/employees.json',
-  './data/change-summary.json'
+  './data/fallback-data.js'
 ];
 
 self.addEventListener('install', event => {
