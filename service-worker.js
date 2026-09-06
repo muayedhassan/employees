@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-v2-2026.09.06.4.1-voice-sync';
+const CACHE_NAME = 'employee-registry-v2-2026.09.06.4.2-no-voice';
 const APP_SHELL = [
   './',
   './index.html',

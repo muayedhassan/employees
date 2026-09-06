@@ -396,8 +396,6 @@ body.light-mode .cont-panel .big-stat{background:#b2dfdb}
 .no-res i{font-size:44px;opacity:.18}
 .no-res p{font-size:14px}
 
-.mic-status{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(10,20,60,.95);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-family:'Cairo',sans-serif;opacity:0;transition:all .3s;pointer-events:none;z-index:5000;white-space:nowrap;border:1px solid rgba(245,200,66,.3);display:flex;align-items:center;gap:8px}
-.mic-status.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 
 /* ── R4 SEARCH / FILTERS ─────────────────────────────────────────────────── */
@@ -464,7 +462,6 @@ body.light-mode .card-modal-box{background:#f4f6ff}.light-mode .emp-id-card{box-
 <body>
 <div id="stars"></div>
 <div id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
-<div class="mic-status" id="mic-status"><span id="mic-status-text"></span></div>
 
 <!-- SPLASH -->
 <div id="splash">
@@ -613,7 +610,6 @@ body.light-mode .card-modal-box{background:#f4f6ff}.light-mode .emp-id-card{box-
       </select>
       <div class="search-tools">
         <button class="search-tool-btn" id="filter-toggle-btn" type="button" title="الفلاتر"><i class="fas fa-sliders"></i><span class="filter-badge" id="filter-count-badge">0</span></button>
-        <button class="search-tool-btn" id="mic-btn" type="button" title="بحث صوتي"><i class="fas fa-microphone"></i></button>
       </div>
       <select class="pp-s" id="pp" onchange="doFilter()">
         <option value="30">30</option>
@@ -721,7 +717,7 @@ window.FALLBACK_EMPLOYEE_DATA = {"meta":{"schemaVersion":2,"version":"2026.09.06
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R4.1-VOICE-SYNC';
+var APP_RELEASE = 'R4.2-NO-VOICE';
 var DATA_META = {};
 var CENTRAL_CACHE_KEY = 'emp_central_cache_v2';
 var LOCAL_SNAPSHOT_KEY = 'emp_local_snapshot_v2';
@@ -1764,168 +1760,6 @@ document.getElementById('clear-search-btn').addEventListener('click',function(){
 document.getElementById('filter-toggle-btn').addEventListener('click',function(){document.getElementById('adv-filters').classList.toggle('open');updateFilterBadge();});
 document.getElementById('filter-reset-btn').addEventListener('click',function(){['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});activeLetter='';buildLetters();doFilter();showToast('تم مسح الفلاتر');});
 ['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var e=document.getElementById(id);if(e)e.addEventListener('change',function(){doFilter();});});
-
-// ── VOICE SEARCH (R4.1: Arabic name matching + clearer permissions) ───────────
-var isListening=false, recognition=null, voiceLangFallbackTried=false;
-function showMicStatus(msg,keep){
-  var el=document.getElementById('mic-status');
-  document.getElementById('mic-status-text').textContent=msg;
-  el.classList.add('show');
-  if(!keep)setTimeout(function(){el.classList.remove('show');},3000);
-}
-function stopMic(){
-  isListening=false;
-  var btn=document.getElementById('mic-btn');
-  if(btn){btn.classList.remove('listening');btn.querySelector('i').className='fas fa-microphone';}
-  try{if(recognition)recognition.abort();}catch(e){}
-  recognition=null;
-}
-function cleanVoiceTranscript(s){
-  s=String(s||'').replace(/[،,.!?؟:;؛]/g,' ').replace(/\s+/g,' ').trim();
-  // Remove common spoken commands without touching the actual employee name.
-  s=s.replace(/^(?:ابحث|إبحث|بحث|دور|دوّر|فتش|أبحث)(?:\s+لي)?(?:\s+عن)?\s+/i,'');
-  s=s.replace(/^(?:اسم\s+)?(?:الموظف|الموظفة)\s+/i,'');
-  return s.trim();
-}
-function voiceCompact(s){
-  return normalizeAr(cleanVoiceTranscript(s))
-    .replace(/[ؤ]/g,'و').replace(/[ئ]/g,'ي').replace(/[ء]/g,'')
-    .replace(/\s+/g,'');
-}
-function voiceNameScore(spoken,name){
-  var q=normalizeAr(cleanVoiceTranscript(spoken)), n=normalizeAr(name||'');
-  if(!q||!n)return 999;
-  if(q===n)return 0;
-  if(n.indexOf(q)===0)return .03;
-  if(n.indexOf(q)>=0)return .07;
-  var qc=voiceCompact(q), nc=voiceCompact(n);
-  if(qc===nc)return .01;
-  if(nc.indexOf(qc)===0)return .04;
-  if(nc.indexOf(qc)>=0)return .08;
-  var qWords=q.split(' ').filter(Boolean), nWords=n.split(' ').filter(Boolean);
-  var wordPenalty=0;
-  qWords.forEach(function(qw){
-    var best=Infinity;
-    nWords.forEach(function(nw){
-      var d=levenshtein(qw,nw)/Math.max(qw.length,nw.length,1);
-      if(d<best)best=d;
-    });
-    wordPenalty+=best;
-  });
-  wordPenalty/=Math.max(qWords.length,1);
-  var whole=levenshtein(qc,nc)/Math.max(qc.length,nc.length,1);
-  // Prefer matching spoken name words, while allowing one recognition mistake.
-  return wordPenalty*.68 + whole*.32;
-}
-function bestVoiceEmployee(alternatives){
-  var ds=(BASE[mode]||[]), best=null;
-  alternatives.forEach(function(t){
-    ds.forEach(function(emp){
-      var score=voiceNameScore(t,emp.name);
-      if(!best||score<best.score)best={emp:emp,score:score,heard:t};
-    });
-  });
-  return best;
-}
-function resetFiltersForVoice(){
-  activeLetter='';
-  ['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
-  var scope=document.getElementById('search-scope');if(scope)scope.value='name';
-  buildLetters();updateFilterBadge();
-}
-function applyVoiceResult(alternatives){
-  alternatives=alternatives.map(cleanVoiceTranscript).filter(Boolean);
-  if(!alternatives.length){showMicStatus('لم أتمكن من فهم الاسم');return;}
-  resetFiltersForVoice();
-  var best=bestVoiceEmployee(alternatives);
-  var q=document.getElementById('q');
-  // <= 0.34 works well for Iraqi Arabic names with one or two ASR mistakes.
-  if(best && best.score<=0.34){
-    q.value=best.emp.name;
-    doFilter();
-    showMicStatus('تم التعرف: '+best.emp.name);
-  }else{
-    q.value=alternatives[0];
-    doFilter();
-    showMicStatus('سمعت: '+alternatives[0]+' — يمكنك تعديل النص');
-  }
-}
-function createRecognition(SR,lang){
-  var r=new SR();
-  r.lang=lang;
-  r.continuous=false;
-  r.interimResults=true;
-  r.maxAlternatives=5;
-  r.onresult=function(e){
-    var finalAlts=[], interim='';
-    for(var i=e.resultIndex;i<e.results.length;i++){
-      var res=e.results[i];
-      if(res.isFinal){
-        for(var j=0;j<res.length;j++)finalAlts.push(res[j].transcript.trim());
-      }else if(res[0]) interim=res[0].transcript.trim();
-    }
-    if(interim)showMicStatus('أسمع: '+interim,true);
-    if(finalAlts.length){
-      applyVoiceResult(finalAlts);
-      stopMic();
-    }
-  };
-  r.onerror=function(ev){
-    // Some Android engines accept ar-SA more reliably than ar-IQ.
-    if((ev.error==='language-not-supported'||ev.error==='network') && !voiceLangFallbackTried){
-      voiceLangFallbackTried=true;
-      try{recognition=createRecognition(SR,'ar-SA');recognition.start();showMicStatus('أعد نطق الاسم...',true);return;}catch(x){}
-    }
-    var msgs={
-      'not-allowed':'اسمح للمتصفح باستخدام المايكروفون ثم حاول مجددًا',
-      'service-not-allowed':'خدمة التعرف الصوتي غير مسموحة على هذا الجهاز',
-      'no-speech':'لم يُسمع صوت — قرّب الهاتف وانطق الاسم بوضوح',
-      'audio-capture':'تعذر الوصول إلى المايكروفون',
-      'network':'تعذر الوصول لخدمة التعرف الصوتي',
-      'aborted':''
-    };
-    var m=msgs[ev.error]||('تعذر البحث الصوتي: '+ev.error);
-    if(m)showMicStatus(m);
-    stopMic();
-  };
-  r.onend=function(){if(isListening && recognition===r){stopMic();}};
-  return r;
-}
-async function requestMicPermission(){
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)return true;
-  try{
-    var stream=await navigator.mediaDevices.getUserMedia({audio:true});
-    stream.getTracks().forEach(function(t){t.stop();});
-    return true;
-  }catch(e){
-    showMicStatus('يجب السماح بالمايكروفون من إعدادات الموقع','warn');
-    return false;
-  }
-}
-var micBtn=document.getElementById('mic-btn');
-if(micBtn){
-  micBtn.addEventListener('click',async function(){
-    if(isListening){stopMic();return;}
-    var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-    if(!SR){
-      showMicStatus('البحث الصوتي غير مدعوم هنا — جرّبه من Chrome/المتصفح الأصلي');
-      return;
-    }
-    if(!window.isSecureContext && location.protocol!=='file:'){
-      showMicStatus('البحث الصوتي يحتاج اتصال HTTPS آمن');return;
-    }
-    if(!(await requestMicPermission()))return;
-    isListening=true;voiceLangFallbackTried=false;
-    this.classList.add('listening');
-    this.querySelector('i').className='fas fa-microphone-slash';
-    showMicStatus('انطق اسم الموظف فقط...',true);
-    try{
-      recognition=createRecognition(SR,'ar-IQ');
-      recognition.start();
-    }catch(e){showMicStatus('تعذر بدء المايكروفون — أغلقه وحاول مرة أخرى');stopMic();}
-  });
-}
-
 
 // ── CONFIRM DIALOG ────────────────────────────────────────────────────────────
 var confirmCallback = null;
