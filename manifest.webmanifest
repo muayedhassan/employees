@@ -1,0 +1,11 @@
+{
+  "name": "سجل الموظفين – مديرية زراعة صلاح الدين",
+  "short_name": "سجل الموظفين",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#070d2a",
+  "theme_color": "#0b1437",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين مع تحديث مركزي عبر GitHub."
+}

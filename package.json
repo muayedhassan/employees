@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:data": "node scripts/build-data.mjs"
+  },
+  "dependencies": {
+    "xlsx": "0.18.5"
+  }
+}
