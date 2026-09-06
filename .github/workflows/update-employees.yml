@@ -1,0 +1,77 @@
+name: Excel Master - Update employee data
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data-source/employees.xlsx'
+      - '.github/workflows/update-employees.yml'
+      - 'scripts/build-data.mjs'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: employee-data-update
+  cancel-in-progress: false
+
+jobs:
+  validate-build-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install converter
+        run: npm install --no-audit --no-fund
+
+      - name: Validate Excel and build central data
+        run: npm run build:data
+
+      - name: Add concise result to Actions summary
+        if: always()
+        run: |
+          node - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          const fs=require('fs');
+          console.log('## Excel Master');
+          if(fs.existsSync('data/validation-report.json')){
+            const v=JSON.parse(fs.readFileSync('data/validation-report.json','utf8'));
+            console.log(`- Validation: **${v.ok ? 'PASSED ✅' : 'FAILED ❌'}**`);
+            console.log(`- Excel rows: **${v.excelRows ?? 0}**`);
+            console.log(`- Errors: **${(v.errors||[]).length}**`);
+            console.log(`- Warnings: **${(v.warnings||[]).length}**`);
+            for(const e of (v.errors||[]).slice(0,20)) console.log(`  - ❌ ${e}`);
+            for(const w of (v.warnings||[]).slice(0,10)) console.log(`  - ⚠️ ${w}`);
+          }
+          if(fs.existsSync('data/change-summary.json')){
+            const c=JSON.parse(fs.readFileSync('data/change-summary.json','utf8'));
+            console.log('### Changes');
+            console.log(`- Version: **${c.version}**`);
+            console.log(`- Added: **${c.counts.added}**`);
+            console.log(`- Modified: **${c.counts.modified}**`);
+            console.log(`- Missing / review: **${c.counts.missing}**`);
+            console.log(`- Unchanged: **${c.counts.unchanged}**`);
+          }
+          NODE
+
+      - name: Commit generated central data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/employees.json data/fallback-data.js data/version.json data/change-summary.json data/validation-report.json
+          if git diff --cached --quiet; then
+            echo "No generated changes"
+          else
+            git commit -m "Excel Master: publish employee data"
+            git push
+          fi
