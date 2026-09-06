@@ -462,6 +462,62 @@ body.light-mode .card-modal-box{background:#f4f6ff}.light-mode .emp-id-card{box-
 .excel-master-card{border-radius:15px;padding:14px;background:linear-gradient(135deg,rgba(21,101,192,.12),rgba(0,137,123,.10));border:1px solid rgba(100,181,246,.22);margin-bottom:8px}
 .excel-master-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}.excel-master-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(21,101,192,.18);color:#64b5f6;font-size:17px}.excel-master-title{font-size:14px;font-weight:900;color:var(--text)}.excel-master-sub{font-size:10px;color:var(--text2);margin-top:2px}.excel-master-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.excel-kpi{padding:9px 5px;border-radius:10px;text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}.excel-kpi-v{font-family:'Oswald',sans-serif;font-size:21px;font-weight:700;color:#64b5f6}.excel-kpi-l{font-size:9px;color:var(--text2);margin-top:2px}.excel-master-note{margin-top:10px;padding:9px 10px;border-radius:10px;font-size:10px;line-height:1.8;color:var(--text2);background:rgba(0,0,0,.12)}.excel-master-note i{color:var(--gold);margin-left:4px}.excel-warning{color:var(--orange)!important}.read-only-badge{font-size:9px;padding:2px 7px;border-radius:7px;color:#81c784;border:1px solid rgba(129,199,132,.25);background:rgba(129,199,132,.08)}
 body.light-mode .excel-master-card{background:linear-gradient(135deg,#e3f2fd,#e0f2f1);border-color:rgba(21,101,192,.15)}body.light-mode .excel-kpi{background:rgba(255,255,255,.7)}
+
+/* ── R6 DASHBOARD & REPORTING ───────────────────────────────────────────── */
+.r6-context{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.r6-context-title{font-size:13px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:7px}
+.r6-context-badge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:8px;border:1px solid rgba(245,200,66,.24);background:rgba(245,200,66,.08);color:var(--gold)}
+.cont-panel .r6-context-badge{border-color:rgba(38,198,218,.25);background:rgba(38,198,218,.08);color:var(--teal3)}
+.r6-kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.r6-kpi{border-radius:12px;padding:11px 7px;text-align:center;background:rgba(255,255,255,.035);border:1px solid rgba(92,107,192,.15);min-width:0}
+.cont-panel .r6-kpi{border-color:rgba(0,172,193,.13)}
+.r6-kpi-v{font-family:'Oswald',sans-serif;font-size:25px;font-weight:700;color:var(--gold);line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cont-panel .r6-kpi-v{color:var(--teal3)}
+.r6-kpi-l{font-size:9px;color:var(--text2);margin-top:4px;line-height:1.4}
+.r6-dist{display:flex;flex-direction:column;gap:7px}
+.r6-dist-row{display:grid;grid-template-columns:minmax(95px,1fr) 3fr 42px;align-items:center;gap:7px}
+.r6-dist-name{font-size:10px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r6-dist-track{height:8px;background:rgba(92,107,192,.11);border-radius:5px;overflow:hidden}
+.cont-panel .r6-dist-track{background:rgba(0,172,193,.08)}
+.r6-dist-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--royal3),var(--gold));transition:width .8s cubic-bezier(.4,0,.2,1)}
+.cont-panel .r6-dist-fill{background:linear-gradient(90deg,var(--teal),var(--teal3))}
+.r6-dist-num{font-family:'Oswald',sans-serif;font-size:12px;text-align:left;color:var(--gold)}
+.cont-panel .r6-dist-num{color:var(--teal3)}
+.r6-empty{padding:18px;text-align:center;color:var(--text2);font-size:11px}
+.r6-update-card{border-radius:14px;padding:13px;background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(245,200,66,.15)}
+body.light-mode .r6-update-card{background:#fff}
+.r6-update-title{font-size:12px;font-weight:900;color:var(--gold);display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.r6-update-meta{font-size:10px;color:var(--text2);line-height:1.8}
+.r6-change-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.r6-change{padding:8px 4px;text-align:center;border-radius:10px;background:rgba(255,255,255,.035);border:1px solid rgba(92,107,192,.12)}
+.r6-change-v{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--gold)}
+.r6-change-l{font-size:8px;color:var(--text2)}
+.reports-page{padding:12px 10px;display:flex;flex-direction:column;gap:9px}
+.report-hero{border-radius:16px;padding:14px;background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(92,107,192,.18)}
+body.light-mode .report-hero{background:#fff}
+.report-hero-title{font-size:15px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:8px}
+.report-hero-sub{font-size:10px;color:var(--text2);margin-top:5px;line-height:1.7}
+.report-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
+.report-btn{border:none;border-radius:12px;padding:11px 8px;font-family:'Cairo',sans-serif;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .2s}
+.report-btn:active{transform:scale(.97)}
+.report-btn.excel{background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff}
+.report-btn.print{background:linear-gradient(135deg,var(--royal2),var(--royal3));color:#fff}
+.report-filter-summary{margin-top:9px;font-size:9px;color:var(--text2);line-height:1.7;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.025)}
+.report-preview{border-radius:14px;overflow:hidden;background:var(--bg2);border:1px solid rgba(92,107,192,.16)}
+body.light-mode .report-preview{background:#fff}
+.report-preview-head{display:flex;align-items:center;justify-content:space-between;padding:11px 12px;border-bottom:1px solid rgba(92,107,192,.12)}
+.report-preview-title{font-size:12px;font-weight:800;color:var(--text)}
+.report-preview-note{font-size:9px;color:var(--text2)}
+.report-table-wrap{overflow:auto;max-height:420px}
+.report-table{width:100%;border-collapse:collapse;min-width:720px;direction:rtl}
+.report-table th{position:sticky;top:0;z-index:1;background:var(--bg3);color:var(--gold);font-size:9px;padding:8px 7px;text-align:right;white-space:nowrap}
+.report-table td{color:var(--text);font-size:9px;padding:8px 7px;border-bottom:1px solid rgba(92,107,192,.08);white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis}
+.report-table tr:last-child td{border-bottom:none}
+.report-scope-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:7px;background:rgba(245,200,66,.08);color:var(--gold);border:1px solid rgba(245,200,66,.18);font-size:8px;font-weight:700}
+.r6-mini-list{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.r6-mini-item{font-size:9px;color:var(--text2);padding:6px 8px;border-radius:8px;background:rgba(255,255,255,.025);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:390px){.r6-kpi-grid{grid-template-columns:repeat(2,1fr)}.r6-change-grid{grid-template-columns:repeat(2,1fr)}.report-actions{grid-template-columns:1fr}.r6-dist-row{grid-template-columns:90px 1fr 35px}}
+
 </style>
 </head>
 <body>
@@ -594,7 +650,8 @@ body.light-mode .excel-master-card{background:linear-gradient(135deg,#e3f2fd,#e0
 
   <div class="sub-tabs" id="sub-tabs">
     <div class="sub-tab perm-sub-active" id="stab-list" onclick="switchSub('list')"><i class="fas fa-list-ul"></i> القائمة</div>
-    <div class="sub-tab" id="stab-stats" onclick="switchSub('stats')"><i class="fas fa-chart-bar"></i> إحصائيات</div>
+    <div class="sub-tab" id="stab-stats" onclick="switchSub('stats')"><i class="fas fa-chart-column"></i> لوحة الإحصائيات</div>
+    <div class="sub-tab" id="stab-reports" onclick="switchSub('reports')"><i class="fas fa-file-lines"></i> التقارير</div>
   </div>
 
   <div class="search-sec" id="search-sec">
@@ -641,6 +698,7 @@ body.light-mode .excel-master-card{background:linear-gradient(135deg,#e3f2fd,#e0
       <div class="no-res" id="nores"><i class="fas fa-search-minus"></i><p>لا توجد نتائج مطابقة</p></div>
     </div>
     <div id="view-stats" style="display:none"><div class="stats-page" id="stats-page"></div></div>
+    <div id="view-reports" style="display:none"><div class="reports-page" id="reports-page"></div></div>
     <div id="view-admin" style="display:none">
       <div class="admin-panel">
         <div class="admin-summary">
@@ -720,7 +778,7 @@ body.light-mode .excel-master-card{background:linear-gradient(135deg,#e3f2fd,#e0
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R5.1-DIRECT-SYNC';
+var APP_RELEASE = 'R6-DASHBOARD-REPORTS';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -1271,35 +1329,109 @@ function updateFilterBadge(){
 }
 
 // ── STATS ─────────────────────────────────────────────────────────────────────
+function metricClean(field,value){
+  var v=value===undefined||value===null?'':String(value).trim();
+  if(!v||v==='—'||v==='-'||v==='–')return 'غير متوفر';
+  if(['gender','division','education','jobTitle','specialization','birthDate','hireDate','notes'].indexOf(field)>=0 && v==='36')return 'غير متوفر';
+  return v;
+}
+function metricCounts(ds,field){
+  var o={};(ds||[]).forEach(function(e){var v=metricClean(field,e[field]);o[v]=(o[v]||0)+1;});return o;
+}
+function sortedMetrics(obj,limit){
+  return Object.keys(obj||{}).map(function(k){return [k,obj[k]];}).sort(function(a,b){return b[1]-a[1]||a[0].localeCompare(b[0],'ar');}).slice(0,limit||10);
+}
+function uniqueMetricCount(ds,field){var s={};(ds||[]).forEach(function(e){var v=metricClean(field,e[field]);if(v!=='غير متوفر')s[v]=1;});return Object.keys(s).length;}
+function validSalaryAverage(ds){var a=(ds||[]).map(function(e){var n=Number(String(e.salary||'').replace(/[^0-9.]/g,''));return isFinite(n)&&n>0?n:null;}).filter(function(x){return x!==null;});return a.length?Math.round(a.reduce(function(x,y){return x+y;},0)/a.length):0;}
+function hasActiveFilterContext(){var q=document.getElementById('q').value.trim();return !!q||!!activeLetter||Object.keys(getActiveFilters()).length>0;}
+function currentFilterDescription(){
+  var parts=[],q=document.getElementById('q').value.trim(),scope=document.getElementById('search-scope');
+  if(q)parts.push('بحث '+(scope?scope.options[scope.selectedIndex].text:'')+': «'+q+'»');
+  if(activeLetter)parts.push('الحرف الأول: '+activeLetter);
+  var af=getActiveFilters(),labels={gender:'الجنس',employmentStatus:'الحالة',division:'الشعبة',education:'التحصيل',grade:'الدرجة'};
+  Object.keys(af).forEach(function(k){parts.push((labels[k]||k)+': '+af[k]);});
+  return parts.length?parts.join(' • '):'بدون فلاتر — جميع سجلات '+(mode==='perm'?'الدائميين':'العقود');
+}
+function distHTML(ds,field,limit,cls){
+  var arr=sortedMetrics(metricCounts(ds,field),limit||8);if(!arr.length)return '<div class="r6-empty">لا توجد بيانات كافية</div>';
+  var max=arr[0][1]||1;return '<div class="r6-dist">'+arr.map(function(x){var p=(x[1]/max*100).toFixed(1);return '<div class="r6-dist-row"><div class="r6-dist-name" title="'+escapeHTML(x[0])+'">'+escapeHTML(x[0])+'</div><div class="r6-dist-track"><div class="r6-dist-fill" style="width:'+p+'%"></div></div><div class="r6-dist-num">'+x[1]+'</div></div>';}).join('')+'</div>';
+}
 function buildStats(){
-  var isPerm=mode==='perm';
-  var cls=isPerm?'perm-panel':'cont-panel';
-  var ds=BASE[mode], tot=ds.length;
-  var fams={};
-  ds.forEach(function(e){var p=e.name.trim().split(' ');fams[p[p.length-1]]=(fams[p[p.length-1]]||0)+1;});
-  var sorted=Object.keys(fams).map(function(k){return[k,fams[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
-  var max=sorted[0][1];
-  var ls={};
-  ds.forEach(function(e){var l=e.name.trim()[0];ls[l]=(ls[l]||0)+1;});
-  var lsorted=Object.keys(ls).map(function(k){return[k,ls[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,10);
-  var lmax=lsorted[0][1];
-  var html='<div class="s-panel '+cls+'"><div class="big-grid">';
-  html+='<div class="big-stat"><div class="big-stat-v">'+tot+'</div><div class="big-stat-l">مجموع الموظفين</div></div>';
-  html+='<div class="big-stat"><div class="big-stat-v">1-'+tot+'</div><div class="big-stat-l">نطاق الأرقام</div></div>';
-  html+='</div></div>';
-  html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-trophy"></i> أكثر الأسماء العائلية</div>';
-  sorted.forEach(function(item){
-    var pct=(item[1]/max*100).toFixed(1);
-    html+='<div class="bar-row"><div class="bar-top"><span class="bar-name">'+item[0]+'</span><span class="bar-val">'+item[1]+'</span></div><div class="bar-track"><div class="bar-fill" data-w="'+pct+'%" style="width:0"></div></div></div>';
-  });
-  html+='</div><div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-font"></i> توزيع الحرف الأول</div>';
-  lsorted.forEach(function(item){
-    var pct=(item[1]/lmax*100).toFixed(1);
-    html+='<div class="l-row"><div class="l-chip">'+item[0]+'</div><div class="l-track"><div class="l-fill" data-w="'+pct+'%" style="width:0"></div></div><span class="l-num">'+item[1]+'</span></div>';
-  });
-  html+='</div>';
+  var isPerm=mode==='perm', cls=isPerm?'perm-panel':'cont-panel', all=BASE[mode]||[], ds=(filt||[]).slice(), filtered=hasActiveFilterContext();
+  var html='<div class="s-panel '+cls+'"><div class="r6-context"><div class="r6-context-title"><i class="fas fa-chart-line"></i> لوحة مؤشرات '+(isPerm?'الموظفين الدائميين':'موظفي العقود')+'</div><span class="r6-context-badge">'+(filtered?'حسب الفلاتر الحالية':'كل البيانات')+'</span></div>';
+  if(isPerm){
+    var gender=metricCounts(ds,'gender'),male=gender['ذكر']||0,female=gender['انثى']||gender['أنثى']||0,avg=validSalaryAverage(ds);
+    html+='<div class="r6-kpi-grid">'+
+      '<div class="r6-kpi"><div class="r6-kpi-v">'+ds.length+'</div><div class="r6-kpi-l">النتائج الحالية من '+all.length+'</div></div>'+
+      '<div class="r6-kpi"><div class="r6-kpi-v">'+male+'</div><div class="r6-kpi-l">ذكور</div></div>'+
+      '<div class="r6-kpi"><div class="r6-kpi-v">'+female+'</div><div class="r6-kpi-l">إناث</div></div>'+
+      '<div class="r6-kpi"><div class="r6-kpi-v">'+uniqueMetricCount(ds,'division')+'</div><div class="r6-kpi-l">شعبة / قسم</div></div>'+
+      '<div class="r6-kpi"><div class="r6-kpi-v">'+uniqueMetricCount(ds,'jobTitle')+'</div><div class="r6-kpi-l">عنوان وظيفي</div></div>'+
+      '<div class="r6-kpi"><div class="r6-kpi-v">'+(avg?Number(avg).toLocaleString('en-US'):'—')+'</div><div class="r6-kpi-l">متوسط الراتب د.ع</div></div></div>';
+  }else{
+    var nums=ds.map(function(e){return Number(e.num)||0;}).filter(Boolean),min=nums.length?Math.min.apply(null,nums):0,max=nums.length?Math.max.apply(null,nums):0;
+    html+='<div class="r6-kpi-grid"><div class="r6-kpi"><div class="r6-kpi-v">'+ds.length+'</div><div class="r6-kpi-l">النتائج الحالية من '+all.length+'</div></div><div class="r6-kpi"><div class="r6-kpi-v">'+(min||'—')+'</div><div class="r6-kpi-l">أدنى رقم اضبارة</div></div><div class="r6-kpi"><div class="r6-kpi-v">'+(max||'—')+'</div><div class="r6-kpi-l">أعلى رقم اضبارة</div></div></div>';
+  }
+  html+='<div style="font-size:9px;color:var(--text2);margin-top:9px;line-height:1.7">'+escapeHTML(currentFilterDescription())+'</div></div>';
+  if(isPerm){
+    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-sitemap"></i> التوزيع حسب الشعبة / القسم</div>'+distHTML(ds,'division',10)+'</div>';
+    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-user-check"></i> الحالة الوظيفية</div>'+distHTML(ds,'employmentStatus',8)+'</div>';
+    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-graduation-cap"></i> التحصيل الدراسي</div>'+distHTML(ds,'education',8)+'</div>';
+    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-layer-group"></i> الدرجات الوظيفية</div>'+distHTML(ds,'grade',10)+'</div>';
+    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-user-tie"></i> أكثر العناوين الوظيفية</div>'+distHTML(ds,'jobTitle',10)+'</div>';
+  }else{
+    var ls={};ds.forEach(function(e){var n=normalizeAr((e.name||'').trim());if(n)ls[n[0]]=(ls[n[0]]||0)+1;});
+    var arr=sortedMetrics(ls,15),mx=arr.length?arr[0][1]:1;
+    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-font"></i> توزيع الحرف الأول</div><div class="r6-dist">'+(arr.length?arr.map(function(x){return '<div class="r6-dist-row"><div class="r6-dist-name">'+escapeHTML(x[0])+'</div><div class="r6-dist-track"><div class="r6-dist-fill" style="width:'+(x[1]/mx*100).toFixed(1)+'%"></div></div><div class="r6-dist-num">'+x[1]+'</div></div>';}).join(''):'<div class="r6-empty">لا توجد بيانات كافية</div>')+'</div></div>';
+  }
   document.getElementById('stats-page').innerHTML=html;
-  setTimeout(function(){document.querySelectorAll('[data-w]').forEach(function(el){el.style.width=el.getAttribute('data-w');});},120);
+}
+
+function reportColumns(){
+  if(mode==='cont')return [{k:'num',l:'الاضبارة'},{k:'name',l:'الاسم الكامل'},{k:'employmentStatus',l:'نوع التوظيف'}];
+  return [
+    {k:'num',l:'الاضبارة'},{k:'employeeNo',l:'الرقم الوظيفي'},{k:'name',l:'الاسم الكامل'},
+    {k:'division',l:'الشعبة / القسم'},{k:'employmentStatus',l:'الحالة الوظيفية'},
+    {k:'education',l:'التحصيل'},{k:'jobTitle',l:'العنوان الوظيفي'},{k:'grade',l:'الدرجة'},
+    {k:'step',l:'المرحلة'},{k:'salary',l:'الراتب'},{k:'hireDate',l:'تاريخ التعيين'}
+  ];
+}
+function reportValue(e,k){var v=metricClean(k,e[k]);if(k==='salary'&&v!=='غير متوفر'&&/^\d+$/.test(v))return Number(v).toLocaleString('en-US');return v;}
+function changeSummaryHTML(){
+  var c=LAST_CHANGE_SUMMARY&&LAST_CHANGE_SUMMARY.counts||{},s=LAST_CHANGE_SUMMARY||{};
+  var updated=s.updatedAt?new Date(s.updatedAt).toLocaleString('ar-IQ'):'—';
+  var h='<div class="r6-update-card"><div class="r6-update-title"><i class="fas fa-cloud-arrow-down"></i> آخر تحديث مركزي من Excel</div><div class="r6-update-meta"><strong>'+escapeHTML(DATA_VERSION||'—')+'</strong><br>تاريخ البناء: '+escapeHTML(updated)+'</div><div class="r6-change-grid">'+
+    '<div class="r6-change"><div class="r6-change-v">'+(c.added||0)+'</div><div class="r6-change-l">جديد</div></div>'+
+    '<div class="r6-change"><div class="r6-change-v">'+(c.modified||0)+'</div><div class="r6-change-l">معدل</div></div>'+
+    '<div class="r6-change"><div class="r6-change-v">'+(c.missing||0)+'</div><div class="r6-change-l">للمراجعة</div></div>'+
+    '<div class="r6-change"><div class="r6-change-v">'+(c.unchanged||0)+'</div><div class="r6-change-l">بدون تغيير</div></div></div>';
+  var changes=(s.modified||[]).slice(0,8),fieldLabels={employeeNo:'الرقم الوظيفي',name:'الاسم',motherName:'اسم الأم',gender:'الجنس',identityNo:'رقم الهوية',identityIssueDate:'تاريخ إصدار الهوية',identityIssuer:'جهة إصدار الهوية',division:'الشعبة',employmentStatus:'الحالة الوظيفية',education:'التحصيل',jobTitle:'العنوان الوظيفي',specialization:'الاختصاص',grade:'الدرجة',step:'المرحلة',salary:'الراتب',birthDate:'تاريخ التولد',hireDate:'تاريخ التعيين',notes:'الملاحظات',num:'رقم الاضبارة'};if(changes.length){h+='<div class="r6-mini-list">'+changes.map(function(x){var fs=(x.changes||[]).map(function(y){return fieldLabels[y.field]||y.field;}).join('، ');return '<div class="r6-mini-item">'+escapeHTML(x.name||'—')+' • '+escapeHTML(fs||'تم التعديل')+'</div>';}).join('')+'</div>';}
+  h+='</div>';return h;
+}
+function buildReports(){
+  var ds=(filt||[]).slice(),cols=reportColumns(),preview=ds.slice(0,100),filtered=hasActiveFilterContext();
+  var h='<div class="report-hero"><div class="report-hero-title"><i class="fas fa-file-chart-column"></i> تقرير '+(mode==='perm'?'الموظفين الدائميين':'موظفي العقود')+'</div><div class="report-hero-sub">الإصدار: <strong>'+escapeHTML(DATA_VERSION||'—')+'</strong> • عدد النتائج: <strong>'+ds.length+'</strong> • '+(filtered?'التقرير مبني على الفلاتر الحالية':'التقرير يشمل جميع السجلات الحالية')+'</div><div class="report-actions"><button class="report-btn excel" id="report-csv-btn"><i class="fas fa-file-excel"></i> تصدير النتائج إلى Excel CSV</button><button class="report-btn print" id="report-print-btn"><i class="fas fa-print"></i> طباعة / حفظ PDF</button></div><div class="report-filter-summary"><span class="report-scope-pill"><i class="fas fa-filter"></i> نطاق التقرير</span> '+escapeHTML(currentFilterDescription())+'</div></div>';
+  h+=changeSummaryHTML();
+  h+='<div class="report-preview"><div class="report-preview-head"><div class="report-preview-title">معاينة التقرير</div><div class="report-preview-note">عرض أول '+preview.length+' من '+ds.length+' سجل</div></div><div class="report-table-wrap"><table class="report-table"><thead><tr>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+(preview.length?preview.map(function(e){return '<tr>'+cols.map(function(c){return '<td title="'+escapeHTML(reportValue(e,c.k))+'">'+escapeHTML(reportValue(e,c.k))+'</td>';}).join('')+'</tr>';}).join(''):'<tr><td colspan="'+cols.length+'" style="text-align:center">لا توجد نتائج</td></tr>')+'</tbody></table></div></div>';
+  var page=document.getElementById('reports-page');page.innerHTML=h;
+  var csv=document.getElementById('report-csv-btn');if(csv)csv.addEventListener('click',exportCurrentReportCSV);
+  var pr=document.getElementById('report-print-btn');if(pr)pr.addEventListener('click',printCurrentReport);
+}
+function csvCell(v){v=String(v===undefined||v===null?'':v);return '"'+v.replace(/"/g,'""')+'"';}
+function exportCurrentReportCSV(){
+  var ds=(filt||[]).slice(),cols=reportColumns();if(!ds.length){showToast('لا توجد نتائج لتصديرها','warn');return;}
+  var lines=[cols.map(function(c){return csvCell(c.l);}).join(',')];
+  ds.forEach(function(e){lines.push(cols.map(function(c){return csvCell(reportValue(e,c.k));}).join(','));});
+  var blob=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='employee-report-'+(mode==='perm'?'permanent':'contracts')+'-'+String(DATA_VERSION||'data').replace(/[^A-Za-z0-9_.-]/g,'-')+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1000);showToast('تم تجهيز ملف التقرير لـ Excel');
+}
+function printCurrentReport(){
+  var ds=(filt||[]).slice(),cols=reportColumns();if(!ds.length){showToast('لا توجد نتائج للطباعة','warn');return;}
+  var w=window.open('','_blank','width=1100,height=850');if(!w){showToast('اسمح بالنوافذ المنبثقة للطباعة','warn');return;}
+  var rows=ds.map(function(e){return '<tr>'+cols.map(function(c){return '<td>'+escapeHTML(reportValue(e,c.k))+'</td>';}).join('')+'</tr>';}).join('');
+  var c=LAST_CHANGE_SUMMARY&&LAST_CHANGE_SUMMARY.counts||{};
+  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>تقرير الموظفين</title><style>@page{size:A4 landscape;margin:9mm}body{font-family:Arial,sans-serif;color:#111;margin:0}.head{text-align:center;margin-bottom:12px}.min{font-size:11px;color:#555}.title{font-size:20px;font-weight:700;margin:5px 0}.meta{font-size:10px;line-height:1.8;margin:8px 0;padding:7px;border:1px solid #ddd}.summary{display:flex;gap:8px;justify-content:center;margin:8px 0}.s{border:1px solid #ddd;padding:6px 10px;border-radius:6px;font-size:10px}table{border-collapse:collapse;width:100%;font-size:8px}th,td{border:1px solid #ccc;padding:5px;text-align:right}th{background:#eee;font-weight:700}tr{page-break-inside:avoid}.foot{margin-top:7px;font-size:8px;color:#666}@media print{button{display:none}}</style></head><body><div class="head"><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — تقرير '+(mode==='perm'?'الموظفين الدائميين':'موظفي العقود')+'</div><div class="min">'+escapeHTML(DATA_VERSION||'—')+'</div></div><div class="meta"><strong>نطاق التقرير:</strong> '+escapeHTML(currentFilterDescription())+'<br><strong>عدد النتائج:</strong> '+ds.length+'</div><div class="summary"><div class="s">جديد: '+(c.added||0)+'</div><div class="s">معدل: '+(c.modified||0)+'</div><div class="s">للمراجعة: '+(c.missing||0)+'</div></div><table><thead><tr>'+cols.map(function(x){return '<th>'+escapeHTML(x.l)+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table><div class="foot">تم إنشاء التقرير من سجل الموظفين — '+new Date().toLocaleString('ar-IQ')+'</div><script>setTimeout(function(){window.print()},600)<\/script></body></html>';
+  w.document.open();w.document.write(doc);w.document.close();
 }
 
 // ── ADMIN LIST ────────────────────────────────────────────────────────────────
@@ -1512,12 +1644,14 @@ function switchMain(m){
   var subA=isAdmin?'admin-sub-active':isPerm?'perm-sub-active':'cont-sub-active';
   document.getElementById('stab-list').className='sub-tab '+subA;
   document.getElementById('stab-stats').className='sub-tab';
+  document.getElementById('stab-reports').className='sub-tab';
   // Show/hide admin vs list
   document.getElementById('search-sec').style.display=isAdmin?'none':'';
   document.getElementById('sub-tabs').style.display=isAdmin?'none':'';
   document.getElementById('pg').style.display=isAdmin?'none':'';
   document.getElementById('view-list').style.display=isAdmin?'none':'block';
   document.getElementById('view-stats').style.display='none';
+  document.getElementById('view-reports').style.display='none';
   document.getElementById('view-admin').style.display=isAdmin?'block':'none';
   if(isAdmin){ renderAdminList(); updateAdminCounts(); refreshSafetyUI(); return; }
   ['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
@@ -1536,9 +1670,12 @@ function switchSub(v){
   var subA=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';
   document.getElementById('stab-list').className='sub-tab'+(v==='list'?' '+subA:'');
   document.getElementById('stab-stats').className='sub-tab'+(v==='stats'?' '+subA:'');
-  document.getElementById('view-list').style.display=v==='stats'?'none':'block';
+  document.getElementById('stab-reports').className='sub-tab'+(v==='reports'?' '+subA:'');
+  document.getElementById('view-list').style.display=v==='list'?'block':'none';
   document.getElementById('view-stats').style.display=v==='stats'?'block':'none';
+  document.getElementById('view-reports').style.display=v==='reports'?'block':'none';
   if(v==='stats')buildStats();
+  if(v==='reports')buildReports();
 }
 
 function filterLetter(l,el){
@@ -1565,6 +1702,8 @@ function doFilter(){
   countUp('sv-shown',filt.length);
   updateFilterBadge();
   pg=1;render();
+  if(subView==='stats')buildStats();
+  if(subView==='reports')buildReports();
 }
 
 // ── RENDER ─────────────────────────────────────────────────────────────────────
