@@ -721,7 +721,7 @@ window.FALLBACK_EMPLOYEE_DATA = {"meta":{"schemaVersion":2,"version":"2026.09.06
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R4-SEARCH-CARD';
+var APP_RELEASE = 'R4.1-VOICE-SYNC';
 var DATA_META = {};
 var CENTRAL_CACHE_KEY = 'emp_central_cache_v2';
 var LOCAL_SNAPSHOT_KEY = 'emp_local_snapshot_v2';
@@ -954,7 +954,7 @@ async function loadCentralData(forceRefresh){
   // Load the embedded packaged dataset immediately so the app never starts at zero.
   if(location.protocol==='file:' && fallback && applyDataset(fallback)){
     cacheCentral(fallback);
-    LAST_DATA_STATUS = 'تم تحميل البيانات المرفقة داخل الملف';
+    LAST_DATA_STATUS = 'تم تشغيل البيانات المرفقة داخل الملف';
     return;
   }
 
@@ -974,7 +974,7 @@ async function loadCentralData(forceRefresh){
     if(localSnap && localSnap.baseVersion === remoteVersion.version &&
        Array.isArray(localSnap.perm) && Array.isArray(localSnap.cont) && !forceRefresh){
       applyDataset({meta:remoteVersion, perm:localSnap.perm, cont:localSnap.cont});
-      LAST_DATA_STATUS = 'تم تحميل البيانات مع التعديلات المحلية';
+      LAST_DATA_STATUS = 'لا يوجد تحديث مركزي جديد — تم تشغيل نسخة هذا الهاتف مع تعديلاته المحلية';
       return;
     }
 
@@ -998,7 +998,7 @@ async function loadCentralData(forceRefresh){
     }
 
     if(central && applyDataset(central)){
-      if(!LAST_DATA_STATUS) LAST_DATA_STATUS = 'البيانات محدثة من GitHub';
+      if(!LAST_DATA_STATUS) LAST_DATA_STATUS = 'تم تنزيل أحدث بيانات GitHub المركزية إلى هذا الهاتف';
       return;
     }
   }
@@ -1008,19 +1008,19 @@ async function loadCentralData(forceRefresh){
     var packagedVersion = fallback && fallback.meta ? fallback.meta.version : null;
     if(!packagedVersion || localSnap.baseVersion === packagedVersion){
       applyDataset({meta:(fallback&&fallback.meta)||{version:localSnap.baseVersion}, perm:localSnap.perm, cont:localSnap.cont});
-      LAST_DATA_STATUS = 'وضع عدم الاتصال — آخر تعديلات محفوظة على الجهاز';
+      LAST_DATA_STATUS = 'بدون إنترنت — تم تشغيل نسخة هذا الهاتف المحفوظة مع تعديلاته المحلية';
       return;
     }
   }
 
   if(cached && applyDataset(cached)){
-    LAST_DATA_STATUS = 'وضع عدم الاتصال — آخر نسخة مركزية محفوظة';
+    LAST_DATA_STATUS = 'بدون إنترنت — تم تشغيل آخر نسخة GitHub المحفوظة على هذا الهاتف';
     return;
   }
 
   if(fallback && applyDataset(fallback)){
     cacheCentral(fallback);
-    LAST_DATA_STATUS = 'تم تحميل النسخة المرفقة مع التطبيق';
+    LAST_DATA_STATUS = 'تم تشغيل نسخة البيانات المرفقة داخل التطبيق';
     return;
   }
 
@@ -1765,13 +1765,13 @@ document.getElementById('filter-toggle-btn').addEventListener('click',function()
 document.getElementById('filter-reset-btn').addEventListener('click',function(){['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});activeLetter='';buildLetters();doFilter();showToast('تم مسح الفلاتر');});
 ['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var e=document.getElementById(id);if(e)e.addEventListener('change',function(){doFilter();});});
 
-// ── VOICE SEARCH ──────────────────────────────────────────────────────────────
-var isListening=false, recognition=null;
+// ── VOICE SEARCH (R4.1: Arabic name matching + clearer permissions) ───────────
+var isListening=false, recognition=null, voiceLangFallbackTried=false;
 function showMicStatus(msg,keep){
   var el=document.getElementById('mic-status');
   document.getElementById('mic-status-text').textContent=msg;
   el.classList.add('show');
-  if(!keep)setTimeout(function(){el.classList.remove('show');},2200);
+  if(!keep)setTimeout(function(){el.classList.remove('show');},3000);
 }
 function stopMic(){
   isListening=false;
@@ -1780,39 +1780,149 @@ function stopMic(){
   try{if(recognition)recognition.abort();}catch(e){}
   recognition=null;
 }
+function cleanVoiceTranscript(s){
+  s=String(s||'').replace(/[،,.!?؟:;؛]/g,' ').replace(/\s+/g,' ').trim();
+  // Remove common spoken commands without touching the actual employee name.
+  s=s.replace(/^(?:ابحث|إبحث|بحث|دور|دوّر|فتش|أبحث)(?:\s+لي)?(?:\s+عن)?\s+/i,'');
+  s=s.replace(/^(?:اسم\s+)?(?:الموظف|الموظفة)\s+/i,'');
+  return s.trim();
+}
+function voiceCompact(s){
+  return normalizeAr(cleanVoiceTranscript(s))
+    .replace(/[ؤ]/g,'و').replace(/[ئ]/g,'ي').replace(/[ء]/g,'')
+    .replace(/\s+/g,'');
+}
+function voiceNameScore(spoken,name){
+  var q=normalizeAr(cleanVoiceTranscript(spoken)), n=normalizeAr(name||'');
+  if(!q||!n)return 999;
+  if(q===n)return 0;
+  if(n.indexOf(q)===0)return .03;
+  if(n.indexOf(q)>=0)return .07;
+  var qc=voiceCompact(q), nc=voiceCompact(n);
+  if(qc===nc)return .01;
+  if(nc.indexOf(qc)===0)return .04;
+  if(nc.indexOf(qc)>=0)return .08;
+  var qWords=q.split(' ').filter(Boolean), nWords=n.split(' ').filter(Boolean);
+  var wordPenalty=0;
+  qWords.forEach(function(qw){
+    var best=Infinity;
+    nWords.forEach(function(nw){
+      var d=levenshtein(qw,nw)/Math.max(qw.length,nw.length,1);
+      if(d<best)best=d;
+    });
+    wordPenalty+=best;
+  });
+  wordPenalty/=Math.max(qWords.length,1);
+  var whole=levenshtein(qc,nc)/Math.max(qc.length,nc.length,1);
+  // Prefer matching spoken name words, while allowing one recognition mistake.
+  return wordPenalty*.68 + whole*.32;
+}
+function bestVoiceEmployee(alternatives){
+  var ds=(BASE[mode]||[]), best=null;
+  alternatives.forEach(function(t){
+    ds.forEach(function(emp){
+      var score=voiceNameScore(t,emp.name);
+      if(!best||score<best.score)best={emp:emp,score:score,heard:t};
+    });
+  });
+  return best;
+}
+function resetFiltersForVoice(){
+  activeLetter='';
+  ['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
+  var scope=document.getElementById('search-scope');if(scope)scope.value='name';
+  buildLetters();updateFilterBadge();
+}
+function applyVoiceResult(alternatives){
+  alternatives=alternatives.map(cleanVoiceTranscript).filter(Boolean);
+  if(!alternatives.length){showMicStatus('لم أتمكن من فهم الاسم');return;}
+  resetFiltersForVoice();
+  var best=bestVoiceEmployee(alternatives);
+  var q=document.getElementById('q');
+  // <= 0.34 works well for Iraqi Arabic names with one or two ASR mistakes.
+  if(best && best.score<=0.34){
+    q.value=best.emp.name;
+    doFilter();
+    showMicStatus('تم التعرف: '+best.emp.name);
+  }else{
+    q.value=alternatives[0];
+    doFilter();
+    showMicStatus('سمعت: '+alternatives[0]+' — يمكنك تعديل النص');
+  }
+}
+function createRecognition(SR,lang){
+  var r=new SR();
+  r.lang=lang;
+  r.continuous=false;
+  r.interimResults=true;
+  r.maxAlternatives=5;
+  r.onresult=function(e){
+    var finalAlts=[], interim='';
+    for(var i=e.resultIndex;i<e.results.length;i++){
+      var res=e.results[i];
+      if(res.isFinal){
+        for(var j=0;j<res.length;j++)finalAlts.push(res[j].transcript.trim());
+      }else if(res[0]) interim=res[0].transcript.trim();
+    }
+    if(interim)showMicStatus('أسمع: '+interim,true);
+    if(finalAlts.length){
+      applyVoiceResult(finalAlts);
+      stopMic();
+    }
+  };
+  r.onerror=function(ev){
+    // Some Android engines accept ar-SA more reliably than ar-IQ.
+    if((ev.error==='language-not-supported'||ev.error==='network') && !voiceLangFallbackTried){
+      voiceLangFallbackTried=true;
+      try{recognition=createRecognition(SR,'ar-SA');recognition.start();showMicStatus('أعد نطق الاسم...',true);return;}catch(x){}
+    }
+    var msgs={
+      'not-allowed':'اسمح للمتصفح باستخدام المايكروفون ثم حاول مجددًا',
+      'service-not-allowed':'خدمة التعرف الصوتي غير مسموحة على هذا الجهاز',
+      'no-speech':'لم يُسمع صوت — قرّب الهاتف وانطق الاسم بوضوح',
+      'audio-capture':'تعذر الوصول إلى المايكروفون',
+      'network':'تعذر الوصول لخدمة التعرف الصوتي',
+      'aborted':''
+    };
+    var m=msgs[ev.error]||('تعذر البحث الصوتي: '+ev.error);
+    if(m)showMicStatus(m);
+    stopMic();
+  };
+  r.onend=function(){if(isListening && recognition===r){stopMic();}};
+  return r;
+}
+async function requestMicPermission(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)return true;
+  try{
+    var stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    stream.getTracks().forEach(function(t){t.stop();});
+    return true;
+  }catch(e){
+    showMicStatus('يجب السماح بالمايكروفون من إعدادات الموقع','warn');
+    return false;
+  }
+}
 var micBtn=document.getElementById('mic-btn');
 if(micBtn){
-  micBtn.addEventListener('click',function(){
+  micBtn.addEventListener('click',async function(){
     if(isListening){stopMic();return;}
     var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
     if(!SR){
-      var val=prompt('اكتب اسم الموظف للبحث:');
-      if(val&&val.trim()){document.getElementById('q').value=val.trim();doFilter();}
+      showMicStatus('البحث الصوتي غير مدعوم هنا — جرّبه من Chrome/المتصفح الأصلي');
       return;
     }
-    isListening=true;
+    if(!window.isSecureContext && location.protocol!=='file:'){
+      showMicStatus('البحث الصوتي يحتاج اتصال HTTPS آمن');return;
+    }
+    if(!(await requestMicPermission()))return;
+    isListening=true;voiceLangFallbackTried=false;
     this.classList.add('listening');
     this.querySelector('i').className='fas fa-microphone-slash';
-    showMicStatus('تحدث الآن...',true);
-    recognition=new SR();
-    recognition.lang='ar-IQ';
-    recognition.continuous=false;
-    recognition.interimResults=false;
-    recognition.onresult=function(e){
-      var t=e.results[0][0].transcript.trim();
-      document.getElementById('q').value=t;
-      doFilter();
-      showMicStatus('تم: '+t);
-      stopMic();
-    };
-    recognition.onerror=function(ev){
-      var msgs={'not-allowed':'اسمح للتطبيق بالمايكروفون','no-speech':'لم يُسمع صوت','aborted':''};
-      var m=msgs[ev.error]||('خطأ: '+ev.error);
-      if(m)showMicStatus(m);
-      stopMic();
-    };
-    recognition.onend=function(){if(isListening)stopMic();};
-    try{recognition.start();}catch(e){showMicStatus('يرجى السماح بالمايكروفون');stopMic();}
+    showMicStatus('انطق اسم الموظف فقط...',true);
+    try{
+      recognition=createRecognition(SR,'ar-IQ');
+      recognition.start();
+    }catch(e){showMicStatus('تعذر بدء المايكروفون — أغلقه وحاول مرة أخرى');stopMic();}
   });
 }
 
