@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-v2-2026.09.06.3-safety';
+const CACHE_NAME = 'employee-registry-v2-2026.09.06.4-search-card';
 const APP_SHELL = [
   './',
   './index.html',

@@ -1,0 +1,32 @@
+رفع الإصدار R4-SEARCH-CARD إلى GitHub
+=====================================
+
+هذا الإصدار لا يغيّر بيانات الموظفين. المطلوب استبدال ملفين فقط:
+1) index.html
+2) service-worker.js
+
+الخطوات:
+1. خذ نسخة احتياطية من المستودع الحالي (Code > Download ZIP).
+2. افتح:
+   https://github.com/muayedhassan/employees/upload/main
+3. اسحب index.html و service-worker.js من حزمة R4_UPDATE_ONLY.
+4. في Commit message اكتب:
+   Employee Registry R4 Search Card Update
+5. اختر Commit directly to the main branch ثم Commit changes.
+6. افتح:
+   https://github.com/muayedhassan/employees/actions
+   وانتظر حتى تكون العملية خضراء.
+7. افتح رابط GitHub Pages على الكمبيوتر أولاً، وتحقق من ظهور R4-SEARCH-CARD في شريط الإصدار.
+8. اختبر البحث: اكتب حرف (م) ثم (مح) ثم (محم) ويجب أن تتغير النتائج فوراً.
+9. افتح موظفاً واضغط بطاقة، ثم جرّب طباعة / PDF.
+10. على الهاتف: أغلق التطبيق وافتحه من جديد. إذا بقيت النسخة القديمة، نفّذ Refresh مرة واحدة ثم أغلق وافتح.
+
+لا ترفع أو تغيّر هذه الملفات في هذا التحديث:
+- data/employees.json
+- data/version.json
+- data-source/employees.xlsx
+- scripts/build-data.mjs
+- .github/workflows/update-employees.yml
+
+ملاحظة:
+QR في هذا الإصدار يحتاج إنترنت عند توليده لأنه يستخدم خدمة QR خارجية. بقية بيانات التطبيق المخزنة تستمر بالعمل دون اتصال.

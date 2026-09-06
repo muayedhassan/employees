@@ -398,6 +398,67 @@ body.light-mode .cont-panel .big-stat{background:#b2dfdb}
 
 .mic-status{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(10,20,60,.95);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-family:'Cairo',sans-serif;opacity:0;transition:all .3s;pointer-events:none;z-index:5000;white-space:nowrap;border:1px solid rgba(245,200,66,.3);display:flex;align-items:center;gap:8px}
 .mic-status.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+
+/* ── R4 SEARCH / FILTERS ─────────────────────────────────────────────────── */
+.search-tools{display:flex;gap:6px;align-items:center}
+.search-tool-btn{width:38px;height:38px;border-radius:10px;border:1px solid rgba(92,107,192,.25);background:var(--bg3);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;flex-shrink:0;transition:.2s}
+.search-tool-btn:active{transform:scale(.92)}
+.search-tool-btn.active{color:var(--gold);border-color:rgba(245,200,66,.45);background:rgba(245,200,66,.08)}
+.search-tool-btn.listening{color:#fff;background:#c62828;border-color:#ef5350;animation:micPulse 1s infinite}
+@keyframes micPulse{50%{box-shadow:0 0 0 6px rgba(239,83,80,.15)}}
+.filter-badge{position:absolute;top:-5px;left:-5px;min-width:17px;height:17px;border-radius:9px;background:var(--gold);color:#111;font:700 9px 'Oswald',sans-serif;display:none;align-items:center;justify-content:center;padding:0 4px}
+.search-scope{height:38px;border-radius:10px;border:1px solid rgba(92,107,192,.25);background:var(--bg3);color:var(--text);font:11px 'Cairo',sans-serif;padding:0 8px;outline:none;max-width:90px}
+.clear-search{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:24px;height:24px;border:none;border-radius:50%;background:rgba(255,255,255,.08);color:var(--text2);cursor:pointer;display:none;align-items:center;justify-content:center;font-size:10px;z-index:2}
+.s-wrap.has-query .clear-search{display:flex}
+.s-wrap.has-query .smart-badge{display:none}
+.adv-filters{display:none;margin-top:7px;padding:9px;border-radius:12px;background:var(--bg3);border:1px solid rgba(92,107,192,.16);grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.adv-filters.open{display:grid}
+.filter-select{width:100%;min-width:0;padding:8px 7px;border-radius:9px;border:1px solid rgba(92,107,192,.2);background:var(--bg2);color:var(--text);font:11px 'Cairo',sans-serif;outline:none}
+.filter-reset{grid-column:1/-1;border:none;border-radius:9px;padding:8px;background:rgba(239,83,80,.1);color:#ef9a9a;font:700 11px 'Cairo',sans-serif;cursor:pointer}
+.search-hint{font-size:9px;color:var(--text2);padding-top:5px;display:flex;justify-content:space-between;gap:8px}
+.search-hint strong{color:var(--gold);font-weight:700}
+.lf-btn .lf-count{font:600 8px 'Oswald',sans-serif;opacity:.65;margin-right:2px}
+body.light-mode .search-tool-btn,body.light-mode .search-scope{background:#fff}
+body.light-mode .adv-filters{background:#fff}
+body.light-mode .filter-select{background:#f4f6ff}
+
+/* ── R4 PROFILE TABS ─────────────────────────────────────────────────────── */
+.profile-tabs{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:0 16px 9px;border-bottom:1px solid rgba(92,107,192,.1)}
+.profile-tabs::-webkit-scrollbar{display:none}
+.profile-tab{flex-shrink:0;border:none;border-radius:9px;padding:7px 10px;background:rgba(255,255,255,.05);color:var(--text2);font:700 10px 'Cairo',sans-serif;cursor:pointer}
+.perm-modal .profile-tab.active{background:rgba(245,200,66,.12);color:var(--gold);box-shadow:inset 0 0 0 1px rgba(245,200,66,.22)}
+.cont-modal .profile-tab.active{background:rgba(0,172,193,.12);color:var(--teal3);box-shadow:inset 0 0 0 1px rgba(0,172,193,.22)}
+.profile-tab-panel{display:none}
+.profile-tab-panel.active{display:block;animation:cIn .2s ease}
+
+/* ── R4 EMPLOYEE CARD ────────────────────────────────────────────────────── */
+.card-modal-ov{position:fixed;inset:0;z-index:2600;background:rgba(2,7,25,.92);display:flex;align-items:center;justify-content:center;padding:18px;opacity:0;visibility:hidden;transition:.25s;backdrop-filter:blur(8px)}
+.card-modal-ov.open{opacity:1;visibility:visible}
+.card-modal-box{width:100%;max-width:390px;max-height:94dvh;overflow:auto;border-radius:24px;background:linear-gradient(180deg,#0d1640,#070d2a);border:1px solid rgba(245,200,66,.25);box-shadow:0 24px 60px rgba(0,0,0,.45);padding:14px;transform:scale(.95);transition:.25s}
+.card-modal-ov.open .card-modal-box{transform:scale(1)}
+.emp-id-card{position:relative;overflow:hidden;border-radius:20px;background:linear-gradient(145deg,#18246d 0%,#111a50 52%,#0b1238 100%);border:1px solid rgba(245,200,66,.38);padding:18px;color:#fff;box-shadow:0 12px 32px rgba(0,0,0,.3)}
+.emp-id-card.cont-id-card{background:linear-gradient(145deg,#00695c,#004d40 55%,#002a23);border-color:rgba(38,198,218,.42)}
+.emp-id-card::after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;border:26px solid rgba(255,255,255,.025);left:-80px;top:-70px}
+.idcard-head{display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.12);position:relative;z-index:1}
+.idcard-logo{width:48px;height:48px;border-radius:14px;border:1px solid rgba(245,200,66,.4);background:rgba(245,200,66,.08);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.cont-id-card .idcard-logo{color:var(--teal3);border-color:rgba(38,198,218,.4);background:rgba(38,198,218,.08)}
+.idcard-min{font-size:9px;opacity:.72;font-weight:700}.idcard-org{font-size:13px;font-weight:900}.idcard-sub{font-size:9px;opacity:.62}
+.idcard-person{display:flex;gap:12px;align-items:center;padding:15px 0 10px;position:relative;z-index:1}
+.idcard-avatar{width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:var(--gold);flex-shrink:0}
+.cont-id-card .idcard-avatar{color:var(--teal3)}
+.idcard-name{font-size:15px;line-height:1.6;font-weight:900}.idcard-title{font-size:10px;opacity:.65;margin-top:2px}
+.idcard-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:5px;position:relative;z-index:1}
+.idcard-field{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:8px 9px;min-width:0}
+.idcard-field.wide{grid-column:1/-1}.idcard-label{font-size:8px;opacity:.58}.idcard-value{font-size:11px;font-weight:800;margin-top:2px;word-break:break-word}
+.idcard-bottom{display:flex;align-items:center;gap:11px;margin-top:13px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);position:relative;z-index:1}
+.idcard-qr{width:78px;height:78px;border-radius:10px;background:#fff;padding:5px;object-fit:contain;flex-shrink:0}.idcard-qr-fallback{width:78px;height:78px;border-radius:10px;background:#fff;color:#111;display:none;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.idcard-code{flex:1;min-width:0}.idcard-code-title{font-size:9px;opacity:.6}.idcard-code-value{font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;letter-spacing:1px;color:var(--gold);overflow:hidden;text-overflow:ellipsis}.cont-id-card .idcard-code-value{color:var(--teal3)}
+.idcard-verify{font-size:8px;opacity:.52;line-height:1.5;margin-top:3px}
+.card-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}.card-action{border:none;border-radius:11px;padding:10px;color:#fff;font:700 11px 'Cairo',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}.card-action.primary{background:linear-gradient(135deg,#3949ab,#1a237e)}.card-action.green{background:linear-gradient(135deg,#00897b,#00695c)}.card-action.secondary{background:rgba(255,255,255,.08);color:var(--text2);border:1px solid rgba(255,255,255,.1)}.card-action.close-card{background:rgba(239,83,80,.12);color:#ef9a9a;border:1px solid rgba(239,83,80,.18)}
+.card-note{font-size:9px;color:var(--text2);text-align:center;padding:8px 2px 0;line-height:1.6}
+body.light-mode .card-modal-box{background:#f4f6ff}.light-mode .emp-id-card{box-shadow:0 12px 30px rgba(26,35,126,.2)}
+
 </style>
 </head>
 <body>
@@ -472,6 +533,20 @@ body.light-mode .cont-panel .big-stat{background:#b2dfdb}
   </div>
 </div>
 
+<!-- R4 EMPLOYEE CARD -->
+<div class="card-modal-ov" id="card-modal">
+  <div class="card-modal-box">
+    <div id="employee-id-card" class="emp-id-card"></div>
+    <div class="card-actions">
+      <button class="card-action primary" id="card-print-btn"><i class="fas fa-print"></i> طباعة / PDF</button>
+      <button class="card-action green" id="card-share-btn"><i class="fas fa-share-nodes"></i> مشاركة الرابط</button>
+      <button class="card-action secondary" id="card-copy-btn"><i class="fas fa-link"></i> نسخ الرابط</button>
+      <button class="card-action close-card" id="card-close-btn"><i class="fas fa-times"></i> إغلاق</button>
+    </div>
+    <div class="card-note"><i class="fas fa-qrcode"></i> رمز QR يفتح ملف الموظف نفسه عند استخدام رابط GitHub المنشور.</div>
+  </div>
+</div>
+
 <!-- APP -->
 <div class="app">
   <div class="header mode-perm" id="main-header">
@@ -524,8 +599,21 @@ body.light-mode .cont-panel .big-stat{background:#b2dfdb}
     <div class="search-row">
       <div class="s-wrap perm-s" id="s-wrap">
         <i class="fas fa-search s-icon"></i>
-        <input type="text" id="q" placeholder="ابحث — يتعرف على الأخطاء الإملائية..." oninput="doFilter()" autocomplete="off" spellcheck="false">
-        <span class="smart-badge" id="smart-badge">ذكي</span>
+        <input type="text" id="q" placeholder="اكتب أي حرف من الاسم..." oninput="doFilter()" autocomplete="off" spellcheck="false">
+        <button class="clear-search" id="clear-search-btn" type="button" title="مسح البحث"><i class="fas fa-times"></i></button>
+        <span class="smart-badge" id="smart-badge">مباشر</span>
+      </div>
+      <select class="search-scope" id="search-scope" onchange="doFilter()" title="مجال البحث">
+        <option value="name" selected>الاسم</option>
+        <option value="all">الكل</option>
+        <option value="employeeNo">الرقم الوظيفي</option>
+        <option value="num">الاضبارة</option>
+        <option value="division">الشعبة</option>
+        <option value="jobTitle">العنوان</option>
+      </select>
+      <div class="search-tools">
+        <button class="search-tool-btn" id="filter-toggle-btn" type="button" title="الفلاتر"><i class="fas fa-sliders"></i><span class="filter-badge" id="filter-count-badge">0</span></button>
+        <button class="search-tool-btn" id="mic-btn" type="button" title="بحث صوتي"><i class="fas fa-microphone"></i></button>
       </div>
       <select class="pp-s" id="pp" onchange="doFilter()">
         <option value="30">30</option>
@@ -535,6 +623,15 @@ body.light-mode .cont-panel .big-stat{background:#b2dfdb}
       </select>
     </div>
     <div class="lf-strip" id="lf"></div>
+    <div class="adv-filters" id="adv-filters">
+      <select class="filter-select" id="filter-gender" onchange="doFilter()"><option value="">كل الأجناس</option></select>
+      <select class="filter-select" id="filter-status" onchange="doFilter()"><option value="">كل الحالات</option></select>
+      <select class="filter-select" id="filter-division" onchange="doFilter()"><option value="">كل الشعب</option></select>
+      <select class="filter-select" id="filter-education" onchange="doFilter()"><option value="">كل التحصيلات</option></select>
+      <select class="filter-select" id="filter-grade" onchange="doFilter()"><option value="">كل الدرجات</option></select>
+      <button class="filter-reset" id="filter-reset-btn" type="button"><i class="fas fa-rotate-left"></i> مسح جميع الفلاتر</button>
+    </div>
+    <div class="search-hint"><span>النتائج تتغير <strong>مع كل حرف</strong> مباشرة</span><span id="active-filter-text"></span></div>
   </div>
 
   <div class="scroll-area" id="scroll">
@@ -624,7 +721,7 @@ window.FALLBACK_EMPLOYEE_DATA = {"meta":{"schemaVersion":2,"version":"2026.09.06
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R3-SAFETY';
+var APP_RELEASE = 'R4-SEARCH-CARD';
 var DATA_META = {};
 var CENTRAL_CACHE_KEY = 'emp_central_cache_v2';
 var LOCAL_SNAPSHOT_KEY = 'emp_local_snapshot_v2';
@@ -1051,56 +1148,67 @@ function levenshtein(a, b) {
 }
 
 // Smart search: exact substring first, then fuzzy on words
+function searchableText(e,scope){
+  function val(k){return normalizeAr(e[k]===null||e[k]===undefined?'':String(e[k]));}
+  if(scope==='name') return val('name');
+  if(scope==='employeeNo') return val('employeeNo');
+  if(scope==='num') return val('num');
+  if(scope==='division') return val('division');
+  if(scope==='jobTitle') return val('jobTitle');
+  return [e.name,e.employeeNo,e.num,e.motherName,e.gender,e.identityNo,e.division,e.employmentStatus,e.education,e.jobTitle,e.specialization,e.grade,e.step,e.birthDate,e.hireDate]
+    .filter(function(v){return v!==null&&v!==undefined&&String(v).trim()!==''&&String(v).trim()!=='36';})
+    .map(function(v){return normalizeAr(String(v));}).join(' | ');
+}
 function smartSearch(query, dataset) {
-  var q = normalizeAr(query);
-  var isNum = /^[0-9]+$/.test(q.trim());
-
-  // Number search: always exact
-  if(isNum) {
-    return dataset.filter(function(e){ return String(e.num).indexOf(q.trim())===0; });
-  }
-
-  var qWords = q.split(' ').filter(function(w){return w.length>0;});
-  var results = [];
-
+  var q=normalizeAr(query||'').trim();
+  if(!q) return dataset.slice();
+  var scopeEl=document.getElementById('search-scope');
+  var scope=scopeEl?scopeEl.value:'name';
+  var isNum=/^[0-9]+$/.test(q);
+  var ranked=[];
   dataset.forEach(function(e){
-    var name = normalizeAr(e.name);
+    var name=normalizeAr(e.name||'');
+    var nameWords=name.split(' ').filter(Boolean);
+    var empNo=normalizeAr(String(e.employeeNo||''));
+    var fileNo=normalizeAr(String(e.num||''));
+    var hay=searchableText(e,scope);
+    var score=999;
 
-    // 1. Exact substring match — highest priority
-    if(name.indexOf(q) >= 0) {
-      results.push({e:e, score:0, exact:true});
-      return;
+    // Numeric searches always understand file number and employee number.
+    if(isNum){
+      if(fileNo===q) score=0;
+      else if(empNo===q) score=0;
+      else if(fileNo.indexOf(q)===0) score=1;
+      else if(empNo.indexOf(q)===0) score=1;
+      else if(scope==='all' && hay.indexOf(q)>=0) score=3;
+    } else {
+      // Direct character-by-character filtering is the default behavior.
+      if(scope==='name' || scope==='all'){
+        if(name.indexOf(q)===0) score=0;
+        else if(nameWords.some(function(w){return w.indexOf(q)===0;})) score=1;
+        else if(name.indexOf(q)>=0) score=2;
+      }
+      if(score===999 && hay.indexOf(q)>=0) score=3;
+
+      // Fuzzy fallback only for 3+ characters, never for a single letter.
+      if(score===999 && q.length>=3 && (scope==='name'||scope==='all')){
+        var qWords=q.split(' ').filter(Boolean), total=0, matched=0;
+        qWords.forEach(function(qw){
+          var best=Infinity;
+          nameWords.forEach(function(nw){
+            if(Math.abs(nw.length-qw.length)>2)return;
+            var d=levenshtein(qw,nw); if(d<best)best=d;
+          });
+          var threshold=Math.max(1,Math.floor(qw.length/5));
+          if(best<=threshold){matched++;total+=best;}
+        });
+        if(matched===qWords.length)score=10+total;
+      }
     }
-
-    // 2. All query words appear anywhere in name
-    var allMatch = qWords.every(function(w){ return name.indexOf(w)>=0; });
-    if(allMatch) { results.push({e:e, score:1, exact:false}); return; }
-
-    // 3. Fuzzy: check each query word against each name word
-    var nameWords = name.split(' ');
-    var totalDist = 0;
-    var matched = 0;
-    qWords.forEach(function(qw){
-      if(qw.length < 2) return;
-      var best = Infinity;
-      nameWords.forEach(function(nw){
-        if(Math.abs(nw.length-qw.length)>3) return; // skip impossible
-        var d = levenshtein(qw, nw);
-        if(d < best) best = d;
-      });
-      // Allow 1 error per 4 chars
-      var threshold = Math.floor(qw.length / 4) + 1;
-      if(best <= threshold) { totalDist += best; matched++; }
-    });
-
-    if(matched >= Math.ceil(qWords.length * 0.6)) {
-      results.push({e:e, score:2+totalDist, exact:false});
-    }
+    if(score<999) ranked.push({e:e,score:score});
   });
-
-  // Sort: exact first, then by score
-  results.sort(function(a,b){ return a.score - b.score; });
-  return results.map(function(r){return r.e;});
+  ranked.sort(function(a,b){return a.score-b.score || Number(a.e.num||0)-Number(b.e.num||0);});
+  return ranked.map(function(x){return x.e;});
 }
 
 // Highlight matched text
@@ -1120,15 +1228,47 @@ function pp(){return parseInt(document.getElementById('pp').value);}
 // ── LETTERS ──────────────────────────────────────────────────────────────────
 function buildLetters(){
   var lf=document.getElementById('lf'); lf.innerHTML='';
-  var ac=mode==='perm'?'perm-lf':mode==='cont'?'cont-lf':'admin-lf';
+  if(mode!=='perm'&&mode!=='cont')return;
+  var ds=BASE[mode]||[], counts={};
+  ds.forEach(function(e){var n=normalizeAr((e.name||'').trim());if(n){var l=n[0];counts[l]=(counts[l]||0)+1;}});
+  var ordered=['ا','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي'];
+  var ac=mode==='perm'?'perm-lf':'cont-lf';
   var all=document.createElement('div');
-  all.className='lf-btn lf-all '+ac; all.textContent='الكل';
-  all.onclick=function(){filterLetter('',all);}; lf.appendChild(all);
-  var letters = mode==='perm'?LETTERS_PERM:LETTERS_CONT;
-  letters.forEach(function(l){
-    var b=document.createElement('div');b.className='lf-btn';b.textContent=l;
-    b.onclick=function(){filterLetter(l,b);}; lf.appendChild(b);
+  all.className='lf-btn lf-all'+(activeLetter===''?' '+ac:'');all.innerHTML='الكل <span class="lf-count">'+ds.length+'</span>';
+  all.onclick=function(){filterLetter('',all);};lf.appendChild(all);
+  ordered.forEach(function(l){
+    if(!counts[l])return;
+    var b=document.createElement('div');b.className='lf-btn'+(activeLetter===l?' '+ac:'');b.innerHTML=l+' <span class="lf-count">'+counts[l]+'</span>';
+    b.onclick=function(){filterLetter(l,b);};lf.appendChild(b);
   });
+}
+
+function fillFilterSelect(id,values,label){
+  var el=document.getElementById(id);if(!el)return;
+  var prev=el.value;
+  var clean=Array.from(new Set(values.filter(function(v){return v!==null&&v!==undefined&&String(v).trim()!==''&&String(v).trim()!=='36'&&String(v).trim()!=='—';}).map(function(v){return String(v).trim();}))).sort(function(a,b){return a.localeCompare(b,'ar');});
+  el.innerHTML='<option value="">'+label+'</option>'+clean.map(function(v){return '<option value="'+escapeHTML(v)+'">'+escapeHTML(v)+'</option>';}).join('');
+  if(clean.indexOf(prev)>=0)el.value=prev;
+}
+function buildAdvancedFilters(){
+  if(mode!=='perm'&&mode!=='cont')return;
+  var ds=BASE[mode]||[];
+  fillFilterSelect('filter-gender',ds.map(function(e){return e.gender;}),'كل الأجناس');
+  fillFilterSelect('filter-status',ds.map(function(e){return e.employmentStatus;}),'كل الحالات');
+  fillFilterSelect('filter-division',ds.map(function(e){return e.division;}),'كل الشعب');
+  fillFilterSelect('filter-education',ds.map(function(e){return e.education;}),'كل التحصيلات');
+  fillFilterSelect('filter-grade',ds.map(function(e){return e.grade;}),'كل الدرجات');
+  updateFilterBadge();
+}
+function getActiveFilters(){
+  var map={gender:'filter-gender',employmentStatus:'filter-status',division:'filter-division',education:'filter-education',grade:'filter-grade'},out={};
+  Object.keys(map).forEach(function(k){var el=document.getElementById(map[k]);if(el&&el.value)out[k]=el.value;});return out;
+}
+function updateFilterBadge(){
+  var n=Object.keys(getActiveFilters()).length,b=document.getElementById('filter-count-badge'),t=document.getElementById('active-filter-text');
+  if(b){b.textContent=n;b.style.display=n?'flex':'none';}
+  if(t)t.textContent=n?('فلاتر نشطة: '+n):'';
+  var btn=document.getElementById('filter-toggle-btn');if(btn)btn.classList.toggle('active',n>0||document.getElementById('adv-filters').classList.contains('open'));
 }
 
 // ── STATS ─────────────────────────────────────────────────────────────────────
@@ -1408,9 +1548,11 @@ function switchMain(m){
   document.getElementById('view-stats').style.display='none';
   document.getElementById('view-admin').style.display=isAdmin?'block':'none';
   if(isAdmin){ renderAdminList(); updateAdminCounts(); refreshSafetyUI(); return; }
+  ['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  var scopeEl=document.getElementById('search-scope');if(scopeEl)scopeEl.value='name';
   var sw=document.getElementById('s-wrap');
   sw.className='s-wrap '+(isPerm?'perm-s':isCont?'cont-s':'admin-s');
-  filt=BASE[m]; buildLetters();
+  filt=BASE[m]; buildLetters(); buildAdvancedFilters();
   countUp('sv-total',BASE[m].length);
   countUp('sv-shown',BASE[m].length);
   pg=1; render();
@@ -1436,18 +1578,21 @@ function filterLetter(l,el){
 
 // ── FILTER ────────────────────────────────────────────────────────────────────
 function doFilter(){
+  if(mode!=='perm'&&mode!=='cont')return;
   var q=document.getElementById('q').value.trim();
-  var ds=BASE[mode];
-  if(activeLetter) ds=ds.filter(function(e){return e.name.trim().indexOf(activeLetter)===0;});
-  if(q){
-    filt=smartSearch(q,ds);
-    document.getElementById('smart-badge').style.opacity=filt.length<ds.length?'1':'0.4';
-  } else {
-    filt=ds;
-    document.getElementById('smart-badge').style.opacity='0.4';
+  var sw=document.getElementById('s-wrap');if(sw)sw.classList.toggle('has-query',!!q);
+  var ds=(BASE[mode]||[]).slice();
+  if(activeLetter){
+    var letter=normalizeAr(activeLetter);
+    ds=ds.filter(function(e){return normalizeAr((e.name||'').trim()).indexOf(letter)===0;});
   }
+  var af=getActiveFilters();
+  Object.keys(af).forEach(function(k){ds=ds.filter(function(e){return String(e[k]||'').trim()===af[k];});});
+  filt=q?smartSearch(q,ds):ds;
+  var badge=document.getElementById('smart-badge');if(badge)badge.style.opacity=q?'1':'.45';
   countUp('sv-shown',filt.length);
-  pg=1; render();
+  updateFilterBadge();
+  pg=1;render();
 }
 
 // ── RENDER ─────────────────────────────────────────────────────────────────────
@@ -1527,56 +1672,44 @@ function openModalById(id){
   if(!emp){showToast('تعذر العثور على بيانات الموظف','error');return;}
   openModal(emp);
 }
+function profilePanel(id,content,active){return '<div class="profile-tab-panel'+(active?' active':'')+'" data-profile-panel="'+id+'">'+content+'</div>';}
+function bindProfileTabs(){
+  document.querySelectorAll('#modal-inner .profile-tab').forEach(function(btn){btn.addEventListener('click',function(){var id=this.getAttribute('data-profile-tab');document.querySelectorAll('#modal-inner .profile-tab').forEach(function(x){x.classList.toggle('active',x===btn);});document.querySelectorAll('#modal-inner .profile-tab-panel').forEach(function(p){p.classList.toggle('active',p.getAttribute('data-profile-panel')===id);});document.getElementById('m-profile-body').scrollTop=0;});});
+}
 function openModal(emp){
   var isPerm=emp.type==='perm';
-  currentEmp=emp;
-  currentEmp.isPerm=isPerm;
-  currentEmp.typeLabel=isPerm?'موظف دائمي':'موظف عقد';
+  currentEmp=emp;currentEmp.isPerm=isPerm;currentEmp.typeLabel=isPerm?'موظف دائمي':'موظف عقد';
   document.getElementById('modal-inner').className='modal '+(isPerm?'perm-modal':'cont-modal');
   document.getElementById('m-name').textContent=emp.name||'—';
   document.getElementById('m-type-tag').textContent=currentEmp.typeLabel;
-  var html='';
+  var html='',tabs='';
   if(isPerm){
-    html+=profileSection('البيانات الأساسية','fas fa-address-card',
-      '<div class="profile-grid">'+
+    tabs='<div class="profile-tabs">'+
+      '<button class="profile-tab active" data-profile-tab="basic"><i class="fas fa-user"></i> أساسية</button>'+
+      '<button class="profile-tab" data-profile-tab="job"><i class="fas fa-briefcase"></i> وظيفية</button>'+
+      '<button class="profile-tab" data-profile-tab="identity"><i class="fas fa-id-card"></i> الهوية</button>'+
+      '<button class="profile-tab" data-profile-tab="more"><i class="fas fa-circle-info"></i> إضافية</button></div>';
+    var basic=profileSection('البيانات الأساسية','fas fa-address-card','<div class="profile-grid">'+
       profileRow('fas fa-id-badge','رقم الاضبارة','num',emp.num,false,true)+
       profileRow('fas fa-fingerprint','الرقم الوظيفي','employeeNo',emp.employeeNo,false,false)+
       profileRow('fas fa-venus-mars','الجنس','gender',emp.gender,false,false)+
-      profileRow('fas fa-person','اسم الأم','motherName',emp.motherName,false,false)+
-      '</div>');
-    html+=profileSection('الهوية الشخصية','fas fa-id-card',
-      '<div class="profile-grid">'+
-      profileRow('fas fa-hashtag','رقم الهوية','identityNo',emp.identityNo,false,false)+
-      profileRow('fas fa-calendar-day','تاريخ إصدار الهوية','identityIssueDate',emp.identityIssueDate,false,false)+
-      '</div>'+profileRow('fas fa-building','جهة إصدار الهوية','identityIssuer',emp.identityIssuer,true,false));
-    html+=profileSection('البيانات الوظيفية','fas fa-briefcase',
-      profileRow('fas fa-sitemap','الشعبة / القسم','division',emp.division,true,false)+
-      '<div class="profile-grid">'+
+      profileRow('fas fa-person','اسم الأم','motherName',emp.motherName,false,false)+'</div>');
+    var job=profileSection('البيانات الوظيفية','fas fa-briefcase',
+      profileRow('fas fa-sitemap','الشعبة / القسم','division',emp.division,true,false)+'<div class="profile-grid">'+
       profileRow('fas fa-user-check','الحالة الوظيفية','employmentStatus',emp.employmentStatus,false,false)+
-      profileRow('fas fa-graduation-cap','التحصيل الدراسي','education',emp.education,false,false)+
-      '</div>'+profileRow('fas fa-user-tie','العنوان الوظيفي','jobTitle',emp.jobTitle,true,false)+
-      profileRow('fas fa-book-open','الاختصاص','specialization',emp.specialization,true,false));
-    html+=profileSection('الدرجة والراتب','fas fa-coins',
-      '<div class="profile-grid">'+
-      profileRow('fas fa-layer-group','الدرجة','grade',emp.grade,false,false)+
-      profileRow('fas fa-stairs','المرحلة','step',emp.step,false,false)+
-      profileRow('fas fa-money-bill-wave','الراتب','salary',emp.salary,false,false)+
-      profileRow('fas fa-calendar-alt','تاريخ التعيين','hireDate',emp.hireDate,false,false)+
-      '</div>');
-    html+=profileSection('معلومات إضافية','fas fa-circle-info',
-      '<div class="profile-grid">'+profileRow('fas fa-cake-candles','تاريخ التولد','birthDate',emp.birthDate,false,false)+
-      profileRow('fas fa-landmark','الجهة','org','مديرية زراعة صلاح الدين',false,false)+'</div>'+ 
-      profileRow('fas fa-note-sticky','الملاحظات','notes',emp.notes,true,false));
+      profileRow('fas fa-graduation-cap','التحصيل الدراسي','education',emp.education,false,false)+'</div>'+profileRow('fas fa-user-tie','العنوان الوظيفي','jobTitle',emp.jobTitle,true,false)+profileRow('fas fa-book-open','الاختصاص','specialization',emp.specialization,true,false))+
+      profileSection('الدرجة والراتب','fas fa-coins','<div class="profile-grid">'+profileRow('fas fa-layer-group','الدرجة','grade',emp.grade,false,false)+profileRow('fas fa-stairs','المرحلة','step',emp.step,false,false)+profileRow('fas fa-money-bill-wave','الراتب','salary',emp.salary,false,false)+profileRow('fas fa-calendar-alt','تاريخ التعيين','hireDate',emp.hireDate,false,false)+'</div>');
+    var identity=profileSection('الهوية الشخصية','fas fa-id-card','<div class="profile-grid">'+profileRow('fas fa-hashtag','رقم الهوية','identityNo',emp.identityNo,false,false)+profileRow('fas fa-calendar-day','تاريخ إصدار الهوية','identityIssueDate',emp.identityIssueDate,false,false)+'</div>'+profileRow('fas fa-building','جهة إصدار الهوية','identityIssuer',emp.identityIssuer,true,false));
+    var more=profileSection('معلومات إضافية','fas fa-circle-info','<div class="profile-grid">'+profileRow('fas fa-cake-candles','تاريخ التولد','birthDate',emp.birthDate,false,false)+profileRow('fas fa-landmark','الجهة','org','مديرية زراعة صلاح الدين',false,false)+'</div>'+profileRow('fas fa-note-sticky','الملاحظات','notes',emp.notes,true,false));
+    html=profilePanel('basic',basic,true)+profilePanel('job',job,false)+profilePanel('identity',identity,false)+profilePanel('more',more,false);
   } else {
-    html+=profileSection('البيانات المتوفرة','fas fa-address-card',
-      '<div class="profile-grid">'+
-      profileRow('fas fa-id-badge','رقم الاضبارة','num',emp.num,false,true)+
-      profileRow('fas fa-briefcase','نوع التوظيف','employmentStatus',emp.employmentStatus||'عقد',false,false)+
-      '</div>'+profileRow('fas fa-landmark','الجهة','org','مديرية زراعة صلاح الدين',true,false));
-    html+='<div style="padding:9px 12px;margin:0 2px 5px;border-radius:11px;background:rgba(255,255,255,.04);color:var(--text2);font-size:11px;line-height:1.7"><i class="fas fa-circle-info" style="margin-left:5px"></i>ملف العقود الحالي يحتوي الاسم ورقم الاضبارة فقط. عند توفير Excel تفصيلي للعقود ستظهر بقية الحقول هنا تلقائيًا.</div>';
+    tabs='<div class="profile-tabs"><button class="profile-tab active" data-profile-tab="basic">البيانات المتوفرة</button></div>';
+    html=profilePanel('basic',profileSection('البيانات المتوفرة','fas fa-address-card','<div class="profile-grid">'+profileRow('fas fa-id-badge','رقم الاضبارة','num',emp.num,false,true)+profileRow('fas fa-briefcase','نوع التوظيف','employmentStatus',emp.employmentStatus||'عقد',false,false)+'</div>'+profileRow('fas fa-landmark','الجهة','org','مديرية زراعة صلاح الدين',true,false))+'<div style="padding:9px 12px;margin:0 2px 5px;border-radius:11px;background:rgba(255,255,255,.04);color:var(--text2);font-size:11px;line-height:1.7"><i class="fas fa-circle-info" style="margin-left:5px"></i>عند توفير Excel تفصيلي للعقود ستظهر بقية الحقول تلقائيًا.</div>',true);
   }
-  document.getElementById('m-profile-body').innerHTML=html;
-  document.getElementById('m-profile-body').scrollTop=0;
+  var oldTabs=document.getElementById('profile-tabs-live');if(oldTabs)oldTabs.remove();
+  var wrap=document.createElement('div');wrap.id='profile-tabs-live';wrap.innerHTML=tabs;
+  var body=document.getElementById('m-profile-body');body.parentNode.insertBefore(wrap,body);
+  body.innerHTML=html;body.scrollTop=0;bindProfileTabs();
   document.getElementById('modal').classList.add('open');
 }
 function closeModal(){document.getElementById('modal').classList.remove('open');}
@@ -1593,22 +1726,44 @@ document.getElementById('btn-share').addEventListener('click',function(){
 });
 
 // Employee card (inline display)
-document.getElementById('btn-card').addEventListener('click',function(){
-  if(!currentEmp)return;
-  var isPerm=currentEmp.isPerm;
-  var color=isPerm?'#1a237e':'#00695c';
-  var cardLines=['بطاقة موظف - مديرية زراعة صلاح الدين','الاسم: '+currentEmp.name,'رقم الاضبارة: '+currentEmp.num];
-  if(currentEmp.employeeNo) cardLines.push('الرقم الوظيفي: '+currentEmp.employeeNo);
-  cardLines.push('النوع: '+(currentEmp.typeLabel||currentEmp.employmentStatus||''),'الجهة: وزارة الزراعة - جمهورية العراق');
-  var shareText=cardLines.join('\n');
-  if(navigator.share){
-    navigator.share({title:'بطاقة موظف',text:shareText}).catch(function(){});
-  } else if(navigator.clipboard){
-    navigator.clipboard.writeText(shareText).then(function(){showToast('تم نسخ بيانات الموظف');}).catch(function(){showToast('شارك عبر واتساب');});
-  } else {
-    showToast('استخدم زر المشاركة للإرسال عبر واتساب');
-  }
-});
+function employeeDeepLink(emp){
+  try{var u=new URL(location.href);u.search='';u.hash='';u.searchParams.set('employee',emp.id);u.searchParams.set('type',emp.type||'perm');return u.href;}catch(e){return location.href;}
+}
+function cardInitials(name){var w=(name||'').trim().split(/\s+/).filter(Boolean);return ((w[0]||'؟')[0]+(w[1]||'')[0]).trim();}
+function qrImageUrl(text){return 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data='+encodeURIComponent(text);}
+function renderEmployeeCard(emp){
+  var isPerm=emp.type==='perm', link=employeeDeepLink(emp), cls=isPerm?'emp-id-card':'emp-id-card cont-id-card';
+  var job=profileDisplayValue('jobTitle',emp.jobTitle);if(job==='غير متوفر')job=isPerm?'موظف دائمي':'موظف عقد';
+  var empNo=profileDisplayValue('employeeNo',emp.employeeNo), div=profileDisplayValue('division',emp.division);
+  var h='<div class="idcard-head"><div class="idcard-logo"><i class="fas fa-seedling"></i></div><div><div class="idcard-min">جمهورية العراق • وزارة الزراعة</div><div class="idcard-org">مديرية زراعة صلاح الدين</div><div class="idcard-sub">بطاقة تعريف الموظف</div></div></div>';
+  h+='<div class="idcard-person"><div class="idcard-avatar">'+escapeHTML(cardInitials(emp.name))+'</div><div><div class="idcard-name">'+escapeHTML(emp.name||'—')+'</div><div class="idcard-title">'+escapeHTML(job)+'</div></div></div>';
+  h+='<div class="idcard-grid"><div class="idcard-field"><div class="idcard-label">رقم الاضبارة</div><div class="idcard-value">'+escapeHTML(emp.num||'—')+'</div></div><div class="idcard-field"><div class="idcard-label">الرقم الوظيفي</div><div class="idcard-value">'+escapeHTML(empNo)+'</div></div>';
+  if(isPerm)h+='<div class="idcard-field wide"><div class="idcard-label">الشعبة / القسم</div><div class="idcard-value">'+escapeHTML(div)+'</div></div>';
+  h+='</div><div class="idcard-bottom"><img class="idcard-qr" id="idcard-qr-img" src="'+qrImageUrl(link)+'" alt="QR"><div class="idcard-qr-fallback" id="idcard-qr-fallback"><i class="fas fa-qrcode"></i></div><div class="idcard-code"><div class="idcard-code-title">المعرّف الثابت</div><div class="idcard-code-value">'+escapeHTML(emp.id||emp.employeeNo||'—')+'</div><div class="idcard-verify">امسح QR لفتح سجل الموظف مباشرة من النسخة المنشورة للنظام.</div></div></div>';
+  var card=document.getElementById('employee-id-card');card.className=cls;card.innerHTML=h;
+  var img=document.getElementById('idcard-qr-img');if(img)img.onerror=function(){this.style.display='none';document.getElementById('idcard-qr-fallback').style.display='flex';};
+}
+function openEmployeeCard(emp){if(!emp)return;currentEmp=emp;renderEmployeeCard(emp);document.getElementById('card-modal').classList.add('open');}
+function closeEmployeeCard(){document.getElementById('card-modal').classList.remove('open');}
+function printEmployeeCard(emp){
+  if(!emp)return;var link=employeeDeepLink(emp),isPerm=emp.type==='perm',job=profileDisplayValue('jobTitle',emp.jobTitle);if(job==='غير متوفر')job=isPerm?'موظف دائمي':'موظف عقد';
+  var div=profileDisplayValue('division',emp.division), empNo=profileDisplayValue('employeeNo',emp.employeeNo), qr=qrImageUrl(link);
+  var w=window.open('','_blank','width=700,height=900');if(!w){showToast('اسمح بالنوافذ المنبثقة للطباعة','warn');return;}
+  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>بطاقة '+escapeHTML(emp.name)+'</title><style>@page{size:A5;margin:12mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#fff;color:#111}.card{width:100%;max-width:520px;margin:auto;border:2px solid '+(isPerm?'#1a237e':'#00695c')+';border-radius:20px;padding:22px}.head{border-bottom:1px solid #ccc;padding-bottom:12px}.min{font-size:12px;color:#555}.org{font-size:20px;font-weight:700;margin:4px 0}.name{font-size:22px;font-weight:700;margin:22px 0 5px}.job{font-size:14px;color:#555}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.f{border:1px solid #ddd;border-radius:10px;padding:10px}.f.w{grid-column:1/-1}.l{font-size:11px;color:#777}.v{font-size:15px;font-weight:700;margin-top:4px}.bottom{display:flex;align-items:center;gap:15px;border-top:1px solid #ddd;margin-top:18px;padding-top:15px}.qr{width:110px;height:110px}.code{font-size:18px;font-weight:700}@media print{body{padding:0}.card{box-shadow:none}}</style></head><body><div class="card"><div class="head"><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="org">مديرية زراعة صلاح الدين</div><div class="min">بطاقة تعريف الموظف</div></div><div class="name">'+escapeHTML(emp.name)+'</div><div class="job">'+escapeHTML(job)+'</div><div class="grid"><div class="f"><div class="l">رقم الاضبارة</div><div class="v">'+escapeHTML(emp.num||'—')+'</div></div><div class="f"><div class="l">الرقم الوظيفي</div><div class="v">'+escapeHTML(empNo)+'</div></div>'+(isPerm?'<div class="f w"><div class="l">الشعبة / القسم</div><div class="v">'+escapeHTML(div)+'</div></div>':'')+'</div><div class="bottom"><img class="qr" src="'+qr+'"><div><div class="l">المعرّف الثابت</div><div class="code">'+escapeHTML(emp.id||emp.employeeNo||'—')+'</div><div class="l">يمكن اختيار Save as PDF من نافذة الطباعة.</div></div></div></div><script>setTimeout(function(){window.print()},900)<\/script></body></html>';
+  w.document.open();w.document.write(html);w.document.close();
+}
+document.getElementById('btn-card').addEventListener('click',function(){if(currentEmp)openEmployeeCard(currentEmp);});
+document.getElementById('card-close-btn').addEventListener('click',closeEmployeeCard);
+document.getElementById('card-modal').addEventListener('click',function(e){if(e.target===this)closeEmployeeCard();});
+document.getElementById('card-print-btn').addEventListener('click',function(){printEmployeeCard(currentEmp);});
+document.getElementById('card-copy-btn').addEventListener('click',function(){if(!currentEmp)return;var u=employeeDeepLink(currentEmp);if(navigator.clipboard)navigator.clipboard.writeText(u).then(function(){showToast('تم نسخ رابط الموظف');});else showToast('تعذر النسخ','error');});
+document.getElementById('card-share-btn').addEventListener('click',function(){if(!currentEmp)return;var u=employeeDeepLink(currentEmp);if(navigator.share)navigator.share({title:'ملف الموظف - '+currentEmp.name,text:currentEmp.name,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(u).then(function(){showToast('تم نسخ الرابط للمشاركة');});});
+
+// ── R4 SEARCH UI EVENTS ─────────────────────────────────────────────────────
+document.getElementById('clear-search-btn').addEventListener('click',function(){document.getElementById('q').value='';doFilter();document.getElementById('q').focus();});
+document.getElementById('filter-toggle-btn').addEventListener('click',function(){document.getElementById('adv-filters').classList.toggle('open');updateFilterBadge();});
+document.getElementById('filter-reset-btn').addEventListener('click',function(){['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});activeLetter='';buildLetters();doFilter();showToast('تم مسح الفلاتر');});
+['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var e=document.getElementById(id);if(e)e.addEventListener('change',function(){doFilter();});});
 
 // ── VOICE SEARCH ──────────────────────────────────────────────────────────────
 var isListening=false, recognition=null;
@@ -1693,10 +1848,13 @@ window.addEventListener('load',async function(){
   splashCount('sc-perm',BASE.perm.length);
   splashCount('sc-cont',BASE.cont.length);
   splashCount('sc-all',BASE.perm.length+BASE.cont.length);
-  filt=BASE.perm; buildLetters();
+  filt=BASE.perm; buildLetters(); buildAdvancedFilters();
   countUp('sv-total',BASE.perm.length);
   countUp('sv-shown',BASE.perm.length);
   render();
+
+  // Open a specific employee when arriving from a QR/deep link.
+  try{var qp=new URLSearchParams(location.search),eid=qp.get('employee'),etype=qp.get('type')||'perm';if(eid){var ds=BASE[etype]||[],found=ds.find(function(e){return String(e.id)===String(eid);});if(found){switchMain(etype);setTimeout(function(){openModal(found);},120);}}}catch(e){}
 
   if('serviceWorker' in navigator && location.protocol!=='file:'){
     navigator.serviceWorker.register('service-worker.js',{updateViaCache:'none'}).then(function(reg){
