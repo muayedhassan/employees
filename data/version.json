@@ -1,9 +1,15 @@
 {
-  "schemaVersion": 2,
-  "version": "2026.09.06.2",
-  "updatedAt": "2026-09-06T11:10:00+03:00",
+  "schemaVersion": 3,
+  "mode": "excel-master",
+  "version": "DATA-2026.09.06-183000",
+  "updatedAt": "2026-09-06T15:30:00.000Z",
+  "appDataSource": "Excel/GitHub",
   "permCount": 855,
   "contCount": 197,
   "totalCount": 1052,
+  "addedCount": 0,
+  "modifiedCount": 0,
+  "missingCount": 0,
+  "warningCount": 17,
   "source": "data-source/employees.xlsx"
 }

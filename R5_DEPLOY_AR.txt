@@ -1,0 +1,51 @@
+طريقة رفع R5 لأول مرة إلى GitHub
+=================================
+
+لا تحذف المستودع ولا سجل Commits.
+استخدم نفس المستودع ونفس فرع main حتى يبقى رابط الهواتف كما هو.
+
+الملفات التي يجب استبدالها/إضافتها في تحديث R5:
+------------------------------------------------
+index.html
+service-worker.js
+package.json
+manifest.webmanifest
+scripts/build-data.mjs
+.github/workflows/update-employees.yml
+data/employees.json
+data/fallback-data.js
+data/version.json
+data/change-summary.json
+data/validation-report.json
+README_R5_EXCEL_MASTER_AR.txt
+R5_DEPLOY_AR.txt
+R5_EXCEL_UPDATE_AR.txt
+
+مهم: لا تحتاج إلى استبدال data-source/employees.xlsx عند رفع كود R5 الأول إذا كان ملف Excel الموجود على GitHub هو آخر نسخة صحيحة لديك.
+
+خطوات الرفع:
+------------
+1) خذ Download ZIP من المستودع الحالي كنسخة احتياطية.
+2) فك ضغط حزمة R5 UPDATE ONLY.
+3) افتح:
+   https://github.com/muayedhassan/employees/upload/main
+4) اسحب محتويات الحزمة مع الحفاظ على المجلدات.
+5) اكتب Commit message:
+   Employee Registry R5 Excel Master
+6) اختر Commit directly to the main branch.
+7) اضغط Commit changes.
+8) افتح:
+   https://github.com/muayedhassan/employees/actions
+9) تأكد أن عمليات النشر انتهت بعلامة خضراء.
+10) افتح التطبيق من الكمبيوتر أولاً وتأكد أن أعلى الشاشة يعرض:
+    R5-EXCEL-MASTER
+11) أغلق التطبيق على الهاتف وافتحه. إذا بقي الإصدار القديم، اعمل Refresh مرة واحدة فقط.
+
+اختبار R5 بعد الرفع:
+-------------------
+- البحث والفلاتر تعمل.
+- الضغط على الموظف يظهر بياناته.
+- البطاقة وQR والطباعة تعمل.
+- قسم الإدارة يعرض Excel Master وعبارة "قراءة فقط".
+- لا توجد أزرار إضافة/تعديل/حذف للموظفين.
+- يظهر DATA VERSION مستقلاً عن R5.

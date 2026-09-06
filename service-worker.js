@@ -1,11 +1,12 @@
-const CACHE_NAME = 'employee-registry-v2-2026.09.06.4.2-no-voice';
+const CACHE_NAME = 'employee-registry-r5-excel-master-2026.09.06';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './data/fallback-data.js',
   './data/version.json',
-  './data/employees.json'
+  './data/employees.json',
+  './data/change-summary.json'
 ];
 
 self.addEventListener('install', event => {
@@ -26,11 +27,17 @@ self.addEventListener('fetch', event => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // Always prefer the network for central version/data so GitHub updates are seen quickly.
-  if (url.origin === self.location.origin &&
-      (url.pathname.endsWith('/data/version.json') || url.pathname.endsWith('/data/employees.json'))) {
+  const centralData = url.origin === self.location.origin && (
+    url.pathname.endsWith('/data/version.json') ||
+    url.pathname.endsWith('/data/employees.json') ||
+    url.pathname.endsWith('/data/change-summary.json') ||
+    url.pathname.endsWith('/data/fallback-data.js')
+  );
+
+  // Excel Master files: network first so new GitHub versions are detected quickly.
+  if (centralData) {
     event.respondWith(
-      fetch(req).then(res => {
+      fetch(req, {cache:'no-store'}).then(res => {
         const copy = res.clone();
         caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
         return res;
@@ -39,7 +46,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Navigation: network first, cached app shell as fallback.
+  // Navigation: network first, app shell as offline fallback.
   if (req.mode === 'navigate') {
     event.respondWith(
       fetch(req).then(res => {
@@ -51,7 +58,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Same-origin static resources: cache first.
   if (url.origin === self.location.origin) {
     event.respondWith(
       caches.match(req).then(hit => hit || fetch(req).then(res => {
