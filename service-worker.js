@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-r7-0-administrative-suite-2026.09.07';
+const CACHE_NAME = 'employee-registry-r7-0-1-quick-search-refinement-2026.09.07';
 const APP_SHELL = [
   './',
   './index.html',
