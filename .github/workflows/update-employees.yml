@@ -61,6 +61,10 @@ jobs:
             console.log(`- Modified: **${c.counts.modified}**`);
             console.log(`- Missing / review: **${c.counts.missing}**`);
             console.log(`- Unchanged: **${c.counts.unchanged}**`);
+            if(fs.existsSync('data/change-history.json')){
+              const h=JSON.parse(fs.readFileSync('data/change-history.json','utf8'));
+              console.log(`- Saved history versions: **${(h.versions||[]).length}**`);
+            }
           }
           NODE
 
@@ -68,7 +72,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/employees.json data/fallback-data.js data/version.json data/change-summary.json data/validation-report.json
+          git add data/employees.json data/fallback-data.js data/version.json data/change-summary.json data/change-history.json data/validation-report.json
           if git diff --cached --quiet; then
             echo "No generated changes"
           else
