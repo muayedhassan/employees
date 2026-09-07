@@ -81,8 +81,14 @@ function semanticValue(key,value){
   }
   return s;
 }
-function isRealFieldChange(key,before,after){
+function isAnyFieldChange(key,before,after){
   return semanticValue(key,before)!==semanticValue(key,after);
+}
+// A real edit is only a change between two meaningful existing values.
+// Missing/placeholder -> value and value -> missing are data-quality changes, not edits.
+function isRealFieldChange(key,before,after){
+  const a=semanticValue(key,before), b=semanticValue(key,after);
+  return a!=='' && b!=='' && a!==b;
 }
 function sanitizeModifiedEntries(list){
   return (Array.isArray(list)?list:[]).map(item=>{
@@ -128,6 +134,13 @@ function diffRecord(before, after){
     if(isRealFieldChange(key,before?.[key],after?.[key])){
       changes.push({field:key, oldValue:auditValue(key,before?.[key]), newValue:auditValue(key,after?.[key])});
     }
+  }
+  return changes;
+}
+function diffRecordAll(before, after){
+  const changes=[];
+  for(const key of COMPARE_FIELDS){
+    if(isAnyFieldChange(key,before?.[key],after?.[key])) changes.push(key);
   }
   return changes;
 }
@@ -219,28 +232,39 @@ if(errors.length){
 
 const oldPerm=Array.isArray(previous.perm)?previous.perm:[];
 const oldById=new Map(oldPerm.map(x=>[String(x.id||stableId(x)),x]));
+const oldByFileNo=new Map(oldPerm.filter(x=>Number.isInteger(Number(x.num))).map(x=>[Number(x.num),x]));
 const newById=new Map(perm.map(x=>[String(x.id),x]));
+const matchedOldIds=new Set();
 const added=[];
 const modified=[];
+const qualityChanged=[];
 const unchanged=[];
 const missing=[];
 
 for(const rec of perm){
-  const old=oldById.get(String(rec.id));
+  let old=oldById.get(String(rec.id));
+  // If a previously missing employee number is completed later, keep it as the same employee.
+  if(!old){
+    const byFile=oldByFileNo.get(Number(rec.num));
+    if(byFile && !cleanEmployeeNo(byFile.employeeNo)) old=byFile;
+  }
   if(!old){
     added.push({id:rec.id,employeeNo:rec.employeeNo,name:rec.name,num:rec.num});
     continue;
   }
+  matchedOldIds.add(String(old.id||stableId(old)));
+  const allChanges=diffRecordAll(old,rec);
   const changes=diffRecord(old,rec);
   if(changes.length) modified.push({id:rec.id,employeeNo:rec.employeeNo,name:rec.name,num:rec.num,changes});
-  else unchanged.push(rec.id);
+  if(allChanges.length && !changes.length) qualityChanged.push(rec.id);
+  if(!allChanges.length) unchanged.push(rec.id);
 }
 
 // Safety rule: a row disappearing from Excel is NOT deleted automatically.
 // It is retained from the previous central dataset and marked for review.
 for(const old of oldPerm){
   const oid=String(old.id||stableId(old));
-  if(newById.has(oid)) continue;
+  if(newById.has(oid) || matchedOldIds.has(oid)) continue;
   const kept=clone(old);
   kept.syncStatus='missingFromExcel';
   kept.syncWarning='غير موجود في ملف Excel الحالي — لم يتم حذفه تلقائياً';
@@ -251,7 +275,7 @@ for(const old of oldPerm){
 perm.sort((a,b)=>Number(a.num)-Number(b.num));
 
 const cont=Array.isArray(previous.cont)?previous.cont:[];
-const hasDataChanges = added.length>0 || modified.length>0 || missing.length>0;
+const hasDataChanges = added.length>0 || modified.length>0 || qualityChanged.length>0 || missing.length>0;
 const version = hasDataChanges ? makeVersion() : (previous?.meta?.version || makeVersion());
 const updatedAt = hasDataChanges ? new Date().toISOString() : (previous?.meta?.updatedAt || new Date().toISOString());
 const dataset={
@@ -280,6 +304,7 @@ const summaryCandidate={
     excelRows:rows.length,
     added:added.length,
     modified:modified.length,
+    qualityChanged:qualityChanged.length,
     missing:missing.length,
     unchanged:unchanged.length,
     warnings:warnings.length,
@@ -330,6 +355,7 @@ const versionMeta={
   totalCount:perm.length+cont.length,
   addedCount:added.length,
   modifiedCount:modified.length,
+  qualityChangedCount:qualityChanged.length,
   missingCount:missing.length,
   warningCount:warnings.length,
   source:'data-source/employees.xlsx'
@@ -344,6 +370,6 @@ fs.writeFileSync(HISTORY_FILE,JSON.stringify(history,null,2));
 console.log(`\n✓ Excel Master build succeeded`);
 console.log(`Version: ${version}${hasDataChanges?'':' (no employee-data changes)'}`);
 console.log(`Excel rows: ${rows.length}`);
-console.log(`Added: ${added.length} | Modified: ${modified.length} | Missing kept for review: ${missing.length} | Unchanged: ${unchanged.length}`);
+console.log(`Added: ${added.length} | Real edits: ${modified.length} | Data-quality changes: ${qualityChanged.length} | Missing kept for review: ${missing.length} | Unchanged: ${unchanged.length}`);
 console.log(`Warnings: ${warnings.length}`);
 console.log(`Published: ${perm.length} permanent + ${cont.length} contract = ${perm.length+cont.length}`);
