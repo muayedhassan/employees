@@ -540,6 +540,11 @@ body.light-mode .updates-section,body.light-mode .version-card,body.light-mode .
 
 
 /* ── R6.3 VISUAL UPDATES / PREMIUM REPORTS ───────────────────────────────── */
+/* R6.4: each sub-tab owns its workspace. Search/pagination belong only to the list tab. */
+body.subview-updates #search-sec,body.subview-updates #pg,body.subview-reports #search-sec,body.subview-reports #pg{display:none!important}
+body.subview-list #search-sec{display:block}
+.isolated-view-banner{display:flex;align-items:center;gap:9px;padding:9px 12px;border-bottom:1px solid rgba(92,107,192,.10);background:linear-gradient(90deg,rgba(57,73,171,.07),transparent);font-size:10px;color:var(--text2)}
+.isolated-view-banner i{color:var(--gold)}
 :root{--chg-blue:#42a5f5;--chg-blue2:#1565c0;--chg-green:#66bb6a;--chg-green2:#2e7d32;--chg-orange:#ffa726;--chg-orange2:#ef6c00;--chg-red:#ef5350;--chg-red2:#c62828;--chg-gray:#90a4ae}
 .updates-hero{background:linear-gradient(145deg,#0c1748 0%,#16276f 52%,#3148a8 100%);box-shadow:0 18px 42px rgba(2,8,34,.34);border-color:rgba(245,200,66,.30)}
 .updates-hero::after{content:'';position:absolute;inset:auto -80px -105px auto;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(66,165,245,.22),transparent 68%);pointer-events:none}
@@ -567,7 +572,7 @@ body.light-mode .report-builder,body.light-mode .compare-card{background:#fff}.l
 
 </style>
 </head>
-<body>
+<body class="subview-list">
 <div id="stars"></div>
 <div id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
 
@@ -824,7 +829,7 @@ body.light-mode .report-builder,body.light-mode .compare-card{background:#fff}.l
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R6.3-VISUAL-UPDATES-REPORTS';
+var APP_RELEASE = 'R6.4-ISOLATED-TABS-REAL-CHANGES';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -1403,12 +1408,28 @@ function updateFilterBadge(){
 
 
 var CHANGE_FIELD_LABELS={employeeNo:'الرقم الوظيفي',name:'الاسم',motherName:'اسم الأم',gender:'الجنس',identityNo:'رقم الهوية',identityIssueDate:'تاريخ إصدار الهوية',identityIssuer:'جهة إصدار الهوية',division:'الشعبة / القسم',employmentStatus:'الحالة الوظيفية',education:'التحصيل الدراسي',jobTitle:'العنوان الوظيفي',specialization:'الاختصاص',grade:'الدرجة',step:'المرحلة',salary:'الراتب',birthDate:'تاريخ التولد',hireDate:'تاريخ التعيين',notes:'الملاحظات',num:'رقم الاضبارة'};
+var HISTORY_MISSING_36_FIELDS={motherName:1,gender:1,identityNo:1,identityIssueDate:1,identityIssuer:1,division:1,education:1,jobTitle:1,specialization:1,birthDate:1,hireDate:1,notes:1};
+function historySemanticValue(field,v){
+  var s=(v===null||v===undefined)?'':String(v).replace(/ /g,' ').replace(/\s+/g,' ').trim();
+  if(!s||s==='—'||s==='-'||s==='–'||s==='غير متوفر')return '';
+  if(HISTORY_MISSING_36_FIELDS[field]&&s==='36')return '';
+  if(['num','salary','grade','step'].indexOf(field)>=0){var n=Number(s.replace(/,/g,''));if(Number.isFinite(n))return String(n);}
+  return s;
+}
+function realHistoryChanges(changes){return (Array.isArray(changes)?changes:[]).filter(function(c){return historySemanticValue(c.field,c.oldValue)!==historySemanticValue(c.field,c.newValue);});}
+function sanitizeHistorySummaryClient(v){
+  if(!v)return v;var x=JSON.parse(JSON.stringify(v));x.added=Array.isArray(x.added)?x.added:[];x.missing=Array.isArray(x.missing)?x.missing:[];
+  x.modified=(Array.isArray(x.modified)?x.modified:[]).map(function(m){m.changes=realHistoryChanges(m.changes);return m;}).filter(function(m){return m.changes.length>0;});
+  x.counts=Object.assign({},x.counts||{},{added:x.added.length,modified:x.modified.length,missing:x.missing.length});
+  if(Number.isFinite(Number(x.counts.excelRows)))x.counts.unchanged=Math.max(0,Number(x.counts.excelRows)-x.added.length-x.modified.length);
+  return x;
+}
 function historyVersions(){
   var arr=(CHANGE_HISTORY&&Array.isArray(CHANGE_HISTORY.versions))?CHANGE_HISTORY.versions.slice():[];
   if(LAST_CHANGE_SUMMARY&&LAST_CHANGE_SUMMARY.version&&!arr.some(function(x){return x.version===LAST_CHANGE_SUMMARY.version;})){
     arr.push({version:LAST_CHANGE_SUMMARY.version,previousVersion:LAST_CHANGE_SUMMARY.previousVersion,updatedAt:LAST_CHANGE_SUMMARY.updatedAt,counts:LAST_CHANGE_SUMMARY.counts||{},added:LAST_CHANGE_SUMMARY.added||[],modified:LAST_CHANGE_SUMMARY.modified||[],missing:LAST_CHANGE_SUMMARY.missing||[]});
   }
-  return arr.sort(function(a,b){return String(a.updatedAt||'').localeCompare(String(b.updatedAt||''));});
+  return arr.map(sanitizeHistorySummaryClient).sort(function(a,b){return String(a.updatedAt||'').localeCompare(String(b.updatedAt||''));});
 }
 function changeVersionDate(v){try{return v?new Date(v).toLocaleString('ar-IQ'):'—';}catch(e){return '—';}}
 function cleanHistoryValue(field,v){
@@ -1420,7 +1441,7 @@ function cleanHistoryValue(field,v){
 function employeeHistoryEvents(emp){
   var out=[],id=String(emp.id||''),eno=String(emp.employeeNo||'');
   historyVersions().forEach(function(ver){
-    (ver.modified||[]).forEach(function(x){if(String(x.id||'')===id||(eno&&String(x.employeeNo||'')===eno))out.push({kind:'modified',version:ver.version,updatedAt:ver.updatedAt,changes:x.changes||[]});});
+    (ver.modified||[]).forEach(function(x){var rc=realHistoryChanges(x.changes);if(rc.length&&(String(x.id||'')===id||(eno&&String(x.employeeNo||'')===eno)))out.push({kind:'modified',version:ver.version,updatedAt:ver.updatedAt,changes:rc});});
     (ver.added||[]).forEach(function(x){if(String(x.id||'')===id||(eno&&String(x.employeeNo||'')===eno))out.push({kind:'added',version:ver.version,updatedAt:ver.updatedAt,changes:[]});});
     (ver.missing||[]).forEach(function(x){if(String(x.id||'')===id||(eno&&String(x.employeeNo||'')===eno))out.push({kind:'missing',version:ver.version,updatedAt:ver.updatedAt,changes:[]});});
   });
@@ -1441,7 +1462,7 @@ function employeeHistoryHTML(emp){
 function latestUpdateSummary(){
   var versions=historyVersions(),last=versions.length?versions[versions.length-1]:null;
   if(last)return last;
-  if(LAST_CHANGE_SUMMARY)return LAST_CHANGE_SUMMARY;
+  if(LAST_CHANGE_SUMMARY)return sanitizeHistorySummaryClient(LAST_CHANGE_SUMMARY);
   return {version:DATA_VERSION,updatedAt:null,counts:{},added:[],modified:[],missing:[]};
 }
 function openUpdateEmployee(id){
@@ -1872,6 +1893,7 @@ document.getElementById('create-backup-btn').addEventListener('click',async func
 // ── SWITCH MAIN ───────────────────────────────────────────────────────────────
 function switchMain(m){
   mode=m; activeLetter=''; subView='list';
+  document.body.classList.remove('subview-updates','subview-reports');document.body.classList.add('subview-list');
   REPORT_STATE.type='current'; REPORT_STATE.title=''; REPORT_STATE.columns=null; REPORT_STATE.includeSensitive=false;
   document.getElementById('q').value='';DIRECT_NUMERIC_MATCH=null;var dh=document.getElementById('direct-search-hit');if(dh){dh.classList.remove('show');dh.innerHTML='';}
   var isPerm=m==='perm', isCont=m==='cont', isAdmin=m==='admin';
@@ -1909,6 +1931,8 @@ function switchMain(m){
 function switchSub(v){
   if(v!=='list'&&v!=='updates'&&v!=='reports')v='list';
   subView=v;
+  document.body.classList.remove('subview-list','subview-updates','subview-reports');
+  document.body.classList.add('subview-'+v);
   var isPerm=mode==='perm', isCont=mode==='cont';
   var subA=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';
   document.getElementById('stab-list').className='sub-tab'+(v==='list'?' '+subA:'');
@@ -1917,8 +1941,12 @@ function switchSub(v){
   document.getElementById('view-list').style.display=v==='list'?'block':'none';
   document.getElementById('view-updates').style.display=v==='updates'?'block':'none';
   document.getElementById('view-reports').style.display=v==='reports'?'block':'none';
+  // Search, letter filters, page-size controls and pagination belong to the list tab only.
+  document.getElementById('search-sec').style.display=v==='list'?'':'none';
+  document.getElementById('pg').style.display=v==='list'?'':'none';
   if(v==='updates')buildUpdates();
   if(v==='reports')buildReports();
+  var sc=document.getElementById('scroll');if(sc)sc.scrollTo({top:0,behavior:'smooth'});
 }
 
 function filterLetter(l,el){
