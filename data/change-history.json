@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-07T14:03:34.065Z",
+  "updatedAt": "2026-09-07T14:23:41.277Z",
   "versions": [
     {
       "version": "DATA-2026.09.06-205947",
@@ -10,53 +10,14 @@
       "counts": {
         "excelRows": 855,
         "added": 0,
-        "modified": 8,
+        "modified": 1,
         "missing": 0,
-        "unchanged": 847,
+        "unchanged": 854,
         "warnings": 17,
         "totalPublished": 1052
       },
       "added": [],
       "modified": [
-        {
-          "id": "TEMP-PERM-0116",
-          "employeeNo": null,
-          "name": "ايسر ثامر مهدي غايب",
-          "num": 116,
-          "changes": [
-            {
-              "field": "identityNo",
-              "oldValue": "****",
-              "newValue": ""
-            }
-          ]
-        },
-        {
-          "id": "TEMP-PERM-0805",
-          "employeeNo": null,
-          "name": "تماره رعد نافع عبد الطائي",
-          "num": 805,
-          "changes": [
-            {
-              "field": "identityNo",
-              "oldValue": "****",
-              "newValue": ""
-            }
-          ]
-        },
-        {
-          "id": "TEMP-PERM-0318",
-          "employeeNo": null,
-          "name": "سعد حسين علي ابراهيم الخزرجي",
-          "num": 318,
-          "changes": [
-            {
-              "field": "identityNo",
-              "oldValue": "****",
-              "newValue": ""
-            }
-          ]
-        },
         {
           "id": "118997115",
           "employeeNo": "118997115",
@@ -67,58 +28,6 @@
               "field": "name",
               "oldValue": "مؤيد حسن حميد محمد الدليمي",
               "newValue": "مؤيد خالد احمد صالح الدليمي"
-            }
-          ]
-        },
-        {
-          "id": "TEMP-PERM-0740",
-          "employeeNo": null,
-          "name": "مؤيد موسى جميل حسين الجبوري",
-          "num": 740,
-          "changes": [
-            {
-              "field": "identityNo",
-              "oldValue": "****",
-              "newValue": ""
-            }
-          ]
-        },
-        {
-          "id": "TEMP-PERM-0664",
-          "employeeNo": null,
-          "name": "محمد هادي عباس علي الخوجه",
-          "num": 664,
-          "changes": [
-            {
-              "field": "identityNo",
-              "oldValue": "****",
-              "newValue": ""
-            }
-          ]
-        },
-        {
-          "id": "TEMP-PERM-0793",
-          "employeeNo": null,
-          "name": "هاني عبدالرضا كاظم جويد",
-          "num": 793,
-          "changes": [
-            {
-              "field": "identityNo",
-              "oldValue": "****",
-              "newValue": ""
-            }
-          ]
-        },
-        {
-          "id": "TEMP-PERM-0812",
-          "employeeNo": null,
-          "name": "هند هادي عباس سوادي الدحيدحاوي",
-          "num": 812,
-          "changes": [
-            {
-              "field": "identityNo",
-              "oldValue": "****",
-              "newValue": ""
             }
           ]
         }
