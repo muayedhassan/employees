@@ -610,7 +610,7 @@ body.subview-updates #search-sec,body.subview-quality #search-sec,body.subview-r
 @media(max-width:430px){.r7-kpis{grid-template-columns:repeat(2,1fr)}.r7-report-meta-row{grid-template-columns:1fr 1fr}.quality-category-grid{grid-template-columns:1fr}.profile-status-live{grid-template-columns:repeat(3,1fr)}}
 
 
-/* ── R7.0.1 — UNIFIED QUICK SEARCH + FILTERS ───────────────────────────── */
+/* ── R7.0.2 — SEARCH / FILTER UX + LUMINOUS ICONS ───────────────────────────── */
 .r701-hidden-control{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important}
 .search-r701{padding-top:8px}.admin-quick-search-r701{position:relative;overflow:visible;border:1px solid rgba(92,107,192,.22);background:linear-gradient(145deg,rgba(25,34,82,.92),rgba(19,27,65,.86));box-shadow:0 14px 32px rgba(0,0,0,.16);border-radius:18px;padding:13px}
 body.light-mode .admin-quick-search-r701{background:linear-gradient(145deg,#fff,#f6f8ff);box-shadow:0 10px 26px rgba(58,67,118,.10)}
@@ -635,6 +635,47 @@ body.light-mode .r701-filter-btn,body.light-mode .r701-page-size,body.light-mode
 .r701-search-foot{display:flex;align-items:flex-start;gap:6px;margin-top:7px;color:var(--text2);font-size:7.5px;line-height:1.55}.r701-search-foot i{color:#90caf9;margin-top:2px}
 @media(max-width:520px){.admin-quick-search-r701{padding:11px;border-radius:16px}.admin-quick-search-r701 .aqs-title{font-size:12px}.admin-quick-search-r701 .aqs-ready{font-size:6.5px}.r701-search-toolbar{grid-template-columns:1fr 1fr}.r701-live-status{grid-column:1/-1;min-height:34px}.adv-filters.r701-filters{grid-template-columns:1fr 1fr}.r701-filter-head{grid-column:1/-1}.aqs-main-input{height:46px!important}.admin-quick-search-r701 .aqs-type{padding:6px 8px}}
 @media(max-width:370px){.adv-filters.r701-filters{grid-template-columns:1fr}.r701-filter-head,.r701-filters .filter-reset{grid-column:1}.r701-search-toolbar{grid-template-columns:1fr}.r701-live-status{grid-column:1}.admin-quick-search-r701 .aqs-sub{max-width:225px}}
+
+
+/* ── R7.0.2 — SEARCH / FILTER UX + LUMINOUS ICON SYSTEM ─────────────────── */
+.search-r701{padding:8px 10px 7px;transition:max-height .25s ease}
+.search-r701.r702-filter-open{max-height:min(64dvh,610px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.search-r701.r702-filter-open::-webkit-scrollbar{width:4px}.search-r701.r702-filter-open::-webkit-scrollbar-thumb{background:rgba(144,202,249,.28);border-radius:99px}
+.admin-quick-search-r701{overflow:hidden;border-color:rgba(108,126,255,.24);background:radial-gradient(circle at 92% -12%,rgba(41,121,255,.12),transparent 36%),linear-gradient(145deg,rgba(19,29,77,.96),rgba(10,19,51,.96));box-shadow:0 14px 34px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.025)}
+.admin-quick-search-r701::after{content:'';position:absolute;right:-80px;bottom:-105px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,255,.07),transparent 68%);pointer-events:none}
+body.light-mode .admin-quick-search-r701{background:radial-gradient(circle at 92% -12%,rgba(41,121,255,.08),transparent 38%),linear-gradient(145deg,#fff,#f4f7ff)}
+.r702-scope-stack{display:block!important;margin:10px 0 9px!important;padding:0!important;overflow:visible!important}
+.r702-id-searches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:7px}
+.admin-quick-search-r701 .r702-id-searches .aqs-type{width:100%;min-width:0;justify-content:center;gap:6px;min-height:43px;padding:6px 7px;border:1px solid rgba(121,134,203,.18);background:rgba(255,255,255,.025);color:var(--text2);box-shadow:none}
+.admin-quick-search-r701 .r702-id-searches .aqs-type.active{color:#fff;border-color:rgba(100,181,246,.50);background:linear-gradient(135deg,rgba(30,70,150,.78),rgba(34,103,190,.62));box-shadow:0 8px 22px rgba(33,150,243,.18),inset 0 0 18px rgba(100,181,246,.06)}
+.r702-type-icon{width:25px;height:25px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;border:1px solid rgba(255,255,255,.08);transition:.2s}
+.id-employee .r702-type-icon{color:#80d8ff;background:rgba(3,169,244,.10);box-shadow:0 0 14px rgba(3,169,244,.16)}
+.id-file .r702-type-icon{color:#ffd180;background:rgba(255,171,64,.10);box-shadow:0 0 14px rgba(255,171,64,.15)}
+.id-identity .r702-type-icon{color:#b9f6ca;background:rgba(0,230,118,.09);box-shadow:0 0 14px rgba(0,230,118,.13)}
+.aqs-type.active .r702-type-icon{transform:translateY(-1px);filter:brightness(1.18)}
+.r702-name-mode{width:100%!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;text-align:right!important;gap:9px!important;min-height:47px!important;padding:7px 10px!important;border-radius:13px!important;border:1px solid rgba(126,87,194,.23)!important;background:linear-gradient(135deg,rgba(126,87,194,.08),rgba(63,81,181,.07))!important;color:var(--text)!important}
+.r702-name-mode .r702-type-icon{width:31px;height:31px;border-radius:10px;color:#e1bee7;background:rgba(171,71,188,.10);box-shadow:0 0 18px rgba(171,71,188,.17)}
+.r702-name-mode.active{border-color:rgba(206,147,216,.46)!important;background:linear-gradient(135deg,rgba(106,27,154,.23),rgba(57,73,171,.20))!important;box-shadow:0 8px 22px rgba(103,58,183,.13)!important}
+.r702-name-copy{display:flex;flex-direction:column;gap:1px;flex:1}.r702-name-copy b{font-size:10px}.r702-name-copy small{font-size:7px;color:var(--text2);font-weight:600}.r702-mode-check{font-size:12px;color:#81c784;opacity:.28;filter:drop-shadow(0 0 5px rgba(129,199,132,.25))}.r702-name-mode.active .r702-mode-check{opacity:1}
+.r702-main-input{height:50px!important;border-color:rgba(100,181,246,.24)!important;background:linear-gradient(135deg,rgba(4,11,33,.34),rgba(16,25,63,.30))!important}.r702-main-input:focus-within{border-color:rgba(100,181,246,.60)!important;box-shadow:0 0 0 3px rgba(33,150,243,.08),0 8px 22px rgba(0,0,0,.10)!important}.r702-input-icon{width:31px;height:31px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#82b1ff;background:rgba(68,138,255,.10);box-shadow:0 0 17px rgba(68,138,255,.18);flex:0 0 auto}.r702-main-input>i{display:none}
+.r701-search-toolbar{grid-template-columns:minmax(125px,.8fr) minmax(95px,.55fr) minmax(125px,1fr);margin-top:8px}
+.r701-filter-btn-main i{color:#80d8ff;filter:drop-shadow(0 0 5px rgba(3,169,244,.35))}.r701-page-size i{color:#b9f6ca;filter:drop-shadow(0 0 5px rgba(0,230,118,.26))}.r701-live-status{border-color:rgba(126,87,194,.16);background:linear-gradient(135deg,rgba(126,87,194,.04),rgba(63,81,181,.035))}
+.r702-filters{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;padding:10px!important;border-radius:15px!important;background:linear-gradient(145deg,rgba(7,13,36,.45),rgba(20,28,67,.32))!important;border:1px solid rgba(100,181,246,.15)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.02)}body.light-mode .r702-filters{background:linear-gradient(145deg,#f8faff,#eef3ff)!important}
+.r702-filter-head{align-items:center!important;padding:1px 1px 4px!important}.r702-filter-head b{font-size:10px!important}.r702-filter-head b i{color:#80d8ff!important;filter:drop-shadow(0 0 5px rgba(3,169,244,.30))}.r702-filter-head-actions{display:flex;align-items:center;justify-content:flex-end;gap:6px;max-width:48%}.r702-filter-close{width:28px;height:28px;border-radius:9px;border:1px solid rgba(100,181,246,.16);background:rgba(100,181,246,.06);color:#90caf9;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.r702-filter-item{display:flex;flex-direction:column;gap:5px;padding:8px;border-radius:12px;border:1px solid rgba(121,134,203,.12);background:rgba(255,255,255,.023);min-width:0}.light-mode .r702-filter-item{background:#fff}.r702-filter-item>span{font-size:7.5px;font-weight:800;color:var(--text2);display:flex;align-items:center;gap:5px}.r702-filter-item>span i{width:18px;text-align:center;font-size:9px}.r702-filter-item:nth-of-type(2)>span i{color:#f48fb1;filter:drop-shadow(0 0 5px rgba(244,143,177,.28))}.r702-filter-item:nth-of-type(3)>span i{color:#80cbc4;filter:drop-shadow(0 0 5px rgba(128,203,196,.28))}.r702-filter-item:nth-of-type(4)>span i{color:#90caf9;filter:drop-shadow(0 0 5px rgba(144,202,249,.28))}.r702-filter-item:nth-of-type(5)>span i{color:#ffe082;filter:drop-shadow(0 0 5px rgba(255,224,130,.28))}.r702-filter-item:nth-of-type(6)>span i{color:#ce93d8;filter:drop-shadow(0 0 5px rgba(206,147,216,.28))}.r702-filter-item .filter-select{width:100%;min-height:38px!important;margin:0!important;border-radius:9px!important;background:rgba(255,255,255,.035)!important}.light-mode .r702-filter-item .filter-select{background:#f6f8ff!important}
+.r702-filter-reset{grid-column:1/-1!important;min-height:39px!important;border-radius:11px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;background:rgba(239,83,80,.055)!important;color:#ff8a80!important}.r702-filter-reset i{filter:drop-shadow(0 0 5px rgba(239,83,80,.25))}
+.r701-search-foot{margin-top:6px;padding:0 2px}.r701-search-foot i{color:#80d8ff;filter:drop-shadow(0 0 5px rgba(3,169,244,.24))}
+/* Luminous but restrained icon language across the app */
+.header-logo{box-shadow:0 0 22px rgba(105,240,174,.18),inset 0 0 16px rgba(245,200,66,.06)}.header-logo i{color:#b9f6ca!important;filter:drop-shadow(0 0 6px rgba(105,240,174,.42))}
+.hdr-btn i{filter:drop-shadow(0 0 5px rgba(144,202,249,.30))}.hdr-btn:nth-child(2) i{color:#ffe082}
+.main-tab i,.sub-tab i{transition:.2s;filter:drop-shadow(0 0 5px currentColor)}
+#mtab-perm i{color:#ffd54f}#mtab-cont i{color:#64ffda}#mtab-admin i{color:#ea80fc}
+#stab-list i{color:#82b1ff}#stab-updates i{color:#ffd180}#stab-quality i{color:#64ffda}#stab-reports i{color:#b388ff}#stab-alerts>i{color:#ff80ab}
+.sub-tab:hover i,.main-tab:hover i,.sub-tab.perm-sub-active i,.sub-tab.cont-sub-active i{transform:translateY(-1px) scale(1.06)}
+.r7-hero-icon,.updates-hero-icon,.report-brand-ico,.quality-cat-icon,.gap-person-ico,.aqs-result-icon,.m-ico{box-shadow:0 0 18px rgba(100,181,246,.12),inset 0 0 12px rgba(255,255,255,.025)}
+.profile-section-title i{filter:drop-shadow(0 0 5px currentColor)}
+@media(max-width:520px){.search-r701.r702-filter-open{max-height:62dvh}.r702-id-searches{gap:5px}.admin-quick-search-r701 .r702-id-searches .aqs-type{min-height:40px;padding:5px 4px;font-size:7.6px}.r702-type-icon{width:23px;height:23px}.r702-filters{grid-template-columns:1fr 1fr!important}.r701-search-toolbar{grid-template-columns:1fr 1fr}.r701-live-status{grid-column:1/-1}.r702-name-mode{min-height:44px!important}.r702-main-input{height:47px!important}}
+@media(max-width:360px){.r702-id-searches{grid-template-columns:1fr}.r702-filters{grid-template-columns:1fr!important}.r702-filter-reset{grid-column:1!important}.r702-filter-head-actions{max-width:42%}}
 
 </style>
 </head>
@@ -778,36 +819,33 @@ body.light-mode .r701-filter-btn,body.light-mode .r701-page-size,body.light-mode
       <div class="aqs-head">
         <div>
           <div class="aqs-title"><i class="fas fa-bolt"></i> البحث الإداري السريع</div>
-          <div class="aqs-sub">بحث واحد موحّد للقائمة: اختر نوع البيان، اكتب القيمة، ثم استخدم الفلاتر عند الحاجة.</div>
+          <div class="aqs-sub">البحث بالاسم هو الوضع الافتراضي، ويمكن الانتقال سريعًا إلى الرقم الوظيفي أو الاضبارة أو رقم الهوية.</div>
         </div>
         <span class="aqs-ready"><i class="fas fa-wand-magic-sparkles"></i> بحث + فلترة</span>
       </div>
 
-      <div class="aqs-types" id="aqs-types">
-        <button class="aqs-type active" data-aqs-field="employeeNo"><i class="fas fa-hashtag"></i> الرقم الوظيفي</button>
-        <button class="aqs-type" data-aqs-field="num"><i class="fas fa-folder-open"></i> الاضبارة</button>
-        <button class="aqs-type" data-aqs-field="identityNo"><i class="fas fa-id-card"></i> رقم الهوية</button>
-        <button class="aqs-type" data-aqs-field="name"><i class="fas fa-user"></i> الاسم</button>
-        <button class="aqs-type" data-aqs-field="specialization"><i class="fas fa-seedling"></i> الاختصاص</button>
+      <div class="aqs-types r702-scope-stack" id="aqs-types">
+        <div class="r702-id-searches" aria-label="البحث بالأرقام">
+          <button class="aqs-type id-employee" data-aqs-field="employeeNo"><span class="r702-type-icon"><i class="fas fa-hashtag"></i></span><span>الرقم الوظيفي</span></button>
+          <button class="aqs-type id-file" data-aqs-field="num"><span class="r702-type-icon"><i class="fas fa-folder-open"></i></span><span>رقم الاضبارة</span></button>
+          <button class="aqs-type id-identity" data-aqs-field="identityNo"><span class="r702-type-icon"><i class="fas fa-id-card"></i></span><span>رقم الهوية</span></button>
+        </div>
+        <button class="aqs-type r702-name-mode active" data-aqs-field="name"><span class="r702-type-icon"><i class="fas fa-user-magnifying-glass"></i></span><span class="r702-name-copy"><b>البحث بالاسم</b><small>الوضع الافتراضي</small></span><i class="fas fa-check-circle r702-mode-check"></i></button>
       </div>
 
-      <div class="aqs-input-row aqs-main-input">
-        <i class="fas fa-magnifying-glass"></i>
-        <input id="aqs-input" type="text" inputmode="search" autocomplete="off" spellcheck="false" placeholder="اكتب الرقم الوظيفي...">
+      <div class="aqs-input-row aqs-main-input r702-main-input">
+        <span class="r702-input-icon"><i class="fas fa-magnifying-glass"></i></span>
+        <input id="aqs-input" type="text" inputmode="search" autocomplete="off" spellcheck="false" placeholder="اكتب اسم الموظف...">
         <button id="aqs-clear" type="button" title="مسح البحث"><i class="fas fa-xmark"></i></button>
       </div>
 
       <!-- حقول داخلية للمحرك القديم: غير ظاهرة للمستخدم لضمان توافق كل الوظائف والتقارير. -->
       <input type="hidden" id="q" value="">
       <select id="search-scope" class="r701-hidden-control" aria-hidden="true" tabindex="-1">
-        <option value="name">الاسم</option>
-        <option value="all">كل الحقول</option>
-        <option value="employeeNo" selected>الرقم الوظيفي</option>
+        <option value="name" selected>الاسم</option>
+        <option value="employeeNo">الرقم الوظيفي</option>
         <option value="identityNo">رقم الهوية</option>
         <option value="num">الاضبارة</option>
-        <option value="division">الشعبة</option>
-        <option value="jobTitle">العنوان الوظيفي</option>
-        <option value="specialization">الاختصاص</option>
       </select>
 
       <div class="aqs-results" id="aqs-results"></div>
@@ -827,22 +865,17 @@ body.light-mode .r701-filter-btn,body.light-mode .r701-page-size,body.light-mode
         <div class="r701-live-status" id="page-live-status">المعروض: 0 من 0</div>
       </div>
 
-      <div class="r701-letter-wrap">
-        <div class="r701-section-label"><i class="fas fa-font"></i> الحرف الأول من الاسم</div>
-        <div class="lf-strip" id="lf"></div>
-      </div>
-
-      <div class="adv-filters r701-filters" id="adv-filters">
-        <div class="r701-filter-head">
-          <div><b><i class="fas fa-filter"></i> فلترة القائمة</b><small>يمكن دمج أكثر من فلتر مع البحث الحالي.</small></div>
-          <span id="active-filter-text"></span>
+      <div class="adv-filters r701-filters r702-filters" id="adv-filters">
+        <div class="r701-filter-head r702-filter-head">
+          <div><b><i class="fas fa-sliders"></i> فلاتر البحث</b><small>خصص النتائج بدون مغادرة بطاقة البحث.</small></div>
+          <div class="r702-filter-head-actions"><span id="active-filter-text"></span><button type="button" id="filter-close-btn" class="r702-filter-close" title="إغلاق الفلاتر"><i class="fas fa-chevron-up"></i></button></div>
         </div>
-        <select class="filter-select" id="filter-gender" onchange="doFilter()"><option value="">كل الأجناس</option></select>
-        <select class="filter-select" id="filter-status" onchange="doFilter()"><option value="">كل الحالات</option></select>
-        <select class="filter-select" id="filter-division" onchange="doFilter()"><option value="">كل الشعب</option></select>
-        <select class="filter-select" id="filter-education" onchange="doFilter()"><option value="">كل التحصيلات</option></select>
-        <select class="filter-select" id="filter-grade" onchange="doFilter()"><option value="">كل الدرجات</option></select>
-        <button class="filter-reset" id="filter-reset-btn" type="button"><i class="fas fa-rotate-left"></i> مسح جميع الفلاتر</button>
+        <label class="r702-filter-item"><span><i class="fas fa-venus-mars"></i> الجنس</span><select class="filter-select" id="filter-gender" onchange="doFilter()"><option value="">كل الأجناس</option></select></label>
+        <label class="r702-filter-item"><span><i class="fas fa-user-check"></i> الحالة الوظيفية</span><select class="filter-select" id="filter-status" onchange="doFilter()"><option value="">كل الحالات</option></select></label>
+        <label class="r702-filter-item"><span><i class="fas fa-sitemap"></i> الشعبة / القسم</span><select class="filter-select" id="filter-division" onchange="doFilter()"><option value="">كل الشعب</option></select></label>
+        <label class="r702-filter-item"><span><i class="fas fa-graduation-cap"></i> التحصيل</span><select class="filter-select" id="filter-education" onchange="doFilter()"><option value="">كل التحصيلات</option></select></label>
+        <label class="r702-filter-item"><span><i class="fas fa-layer-group"></i> الدرجة</span><select class="filter-select" id="filter-grade" onchange="doFilter()"><option value="">كل الدرجات</option></select></label>
+        <button class="filter-reset r702-filter-reset" id="filter-reset-btn" type="button"><i class="fas fa-rotate-left"></i><span>مسح جميع الفلاتر</span></button>
       </div>
 
       <div class="r701-search-foot"><i class="fas fa-circle-info"></i><span>النتائج تتغيّر مع الكتابة، والضغط على نتيجة البحث يفتح بطاقة الموظف مباشرة.</span></div>
@@ -937,7 +970,7 @@ body.light-mode .r701-filter-btn,body.light-mode .r701-page-size,body.light-mode
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R7.0.1-QUICK-SEARCH-REFINEMENT';
+var APP_RELEASE = 'R7.0.2-SEARCH-FILTERS-POLISH';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -1480,7 +1513,9 @@ function pp(){return parseInt(document.getElementById('pp').value);}
 
 // ── LETTERS ──────────────────────────────────────────────────────────────────
 function buildLetters(){
-  var lf=document.getElementById('lf'); lf.innerHTML='';
+  var lf=document.getElementById('lf');
+  if(!lf){activeLetter='';return;}
+  lf.innerHTML='';
   if(mode!=='perm'&&mode!=='cont')return;
   var ds=BASE[mode]||[], counts={};
   ds.forEach(function(e){var n=normalizeAr((e.name||'').trim());if(n){var l=n[0];counts[l]=(counts[l]||0)+1;}});
@@ -2247,8 +2282,14 @@ document.getElementById('card-share-btn').addEventListener('click',function(){if
 // ── R7.0.1 UNIFIED SEARCH / FILTER EVENTS ───────────────────────────────────
 var r701FilterToggle=document.getElementById('filter-toggle-btn');
 if(r701FilterToggle)r701FilterToggle.addEventListener('click',function(){
-  var box=document.getElementById('adv-filters'),open=box&&box.classList.toggle('open');
-  this.classList.toggle('open',!!open);this.title=open?'إغلاق الفلاتر المتقدمة':'فتح الفلاتر المتقدمة';updateFilterBadge();
+  var box=document.getElementById('adv-filters'),sec=document.getElementById('search-sec'),open=box&&box.classList.toggle('open');
+  this.classList.toggle('open',!!open);if(sec)sec.classList.toggle('r702-filter-open',!!open);this.title=open?'إغلاق الفلاتر المتقدمة':'فتح الفلاتر المتقدمة';updateFilterBadge();
+  if(open&&sec){setTimeout(function(){sec.scrollTo({top:Math.max(0,box.offsetTop-10),behavior:'smooth'});},90);}
+});
+var r702FilterClose=document.getElementById('filter-close-btn');
+if(r702FilterClose)r702FilterClose.addEventListener('click',function(){
+  var box=document.getElementById('adv-filters'),sec=document.getElementById('search-sec'),btn=document.getElementById('filter-toggle-btn');
+  if(box)box.classList.remove('open');if(sec){sec.classList.remove('r702-filter-open');sec.scrollTo({top:0,behavior:'smooth'});}if(btn){btn.classList.remove('open');btn.title='فتح الفلاتر المتقدمة';}updateFilterBadge();
 });
 var r701FilterReset=document.getElementById('filter-reset-btn');
 if(r701FilterReset)r701FilterReset.addEventListener('click',function(){
@@ -2276,7 +2317,7 @@ document.getElementById('confirm-no-btn').addEventListener('click', function(){
 
 
 // ── R7.0 ADMINISTRATIVE SUITE ───────────────────────────────────────────────
-var QUICK_SEARCH_FIELD='employeeNo';
+var QUICK_SEARCH_FIELD='name';
 var QUALITY_FILTER='all';
 var QUALITY_TEXT='';
 var LAST_SUCCESS_SYNC_KEY='emp_last_success_sync_r7';
@@ -2307,7 +2348,7 @@ loadCentralData=async function(forceRefresh){
   return true;
 };
 
-function quickSearchLabel(field){return {employeeNo:'الرقم الوظيفي',num:'رقم الاضبارة',identityNo:'رقم الهوية',name:'الاسم',specialization:'الاختصاص'}[field]||field;}
+function quickSearchLabel(field){return {employeeNo:'الرقم الوظيفي',num:'رقم الاضبارة',identityNo:'رقم الهوية',name:'الاسم'}[field]||field;}
 function quickSearchPlaceholder(field){return 'اكتب '+quickSearchLabel(field)+'...';}
 function quickSearchMatches(q){
   q=r7Clean(q);if(!q)return [];
