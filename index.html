@@ -677,6 +677,40 @@ body.light-mode .admin-quick-search-r701{background:radial-gradient(circle at 92
 @media(max-width:520px){.search-r701.r702-filter-open{max-height:62dvh}.r702-id-searches{gap:5px}.admin-quick-search-r701 .r702-id-searches .aqs-type{min-height:40px;padding:5px 4px;font-size:7.6px}.r702-type-icon{width:23px;height:23px}.r702-filters{grid-template-columns:1fr 1fr!important}.r701-search-toolbar{grid-template-columns:1fr 1fr}.r701-live-status{grid-column:1/-1}.r702-name-mode{min-height:44px!important}.r702-main-input{height:47px!important}}
 @media(max-width:360px){.r702-id-searches{grid-template-columns:1fr}.r702-filters{grid-template-columns:1fr!important}.r702-filter-reset{grid-column:1!important}.r702-filter-head-actions{max-width:42%}}
 
+
+/* ── R7.0.3 — WEBVIEW LIST SCROLL / FILTER HEIGHT FIX ───────────────────── */
+.app{min-height:0!important}
+.search-sec.search-r701{flex:0 1 auto!important;min-height:0!important;max-height:38dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;touch-action:pan-y}
+.search-sec.search-r701.r702-filter-open{max-height:46dvh!important;overflow-y:auto!important}
+.scroll-area{flex:1 1 0!important;min-height:175px!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;touch-action:pan-y!important;position:relative}
+#view-list{min-height:100%}.card-list{padding-bottom:84px!important}
+.admin-quick-search-r701 .aqs-results:empty{display:none!important;padding:0!important;border:0!important;box-shadow:none!important}
+@media(max-width:520px){
+  .admin-quick-search-r701 .aqs-sub,.r701-search-foot{display:none!important}
+  .admin-quick-search-r701{padding:9px!important}
+  .admin-quick-search-r701 .aqs-head{margin-bottom:2px!important}
+  .r702-scope-stack{margin:6px 0 6px!important}
+  .r702-id-searches{gap:5px!important;margin-bottom:5px!important}
+  .admin-quick-search-r701 .r702-id-searches .aqs-type{min-height:39px!important;padding:5px!important}
+  .r702-name-mode{min-height:43px!important;padding:6px 9px!important}
+  .r702-main-input{height:46px!important}
+  .r701-search-toolbar{margin-top:6px!important;gap:5px!important}
+  .r701-filter-btn,.r701-page-size,.r701-live-status{min-height:38px!important}
+  .search-sec.search-r701{max-height:36dvh!important}
+  .search-sec.search-r701.r702-filter-open{max-height:43dvh!important}
+  .scroll-area{min-height:190px!important}
+}
+@media(max-height:700px){
+  .search-sec.search-r701{max-height:34dvh!important}
+  .search-sec.search-r701.r702-filter-open{max-height:40dvh!important}
+  .scroll-area{min-height:165px!important}
+}
+@media(max-height:600px){
+  .search-sec.search-r701{max-height:31dvh!important}
+  .search-sec.search-r701.r702-filter-open{max-height:37dvh!important}
+  .scroll-area{min-height:145px!important}
+}
+
 </style>
 </head>
 <body class="subview-list">
@@ -970,7 +1004,7 @@ body.light-mode .admin-quick-search-r701{background:radial-gradient(circle at 92
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R7.0.2-SEARCH-FILTERS-POLISH';
+var APP_RELEASE = 'R7.0.3-WEBVIEW-SCROLL-FIX';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;

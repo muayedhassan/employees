@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-r7-0-2-search-filters-polish-2026.09.07';
+const CACHE_NAME = 'employee-registry-r7-0-3-webview-scroll-fix-2026.09.07';
 const APP_SHELL = [
   './',
   './index.html',
