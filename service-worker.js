@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-r6-dashboard-reports-2026.09.06';
+const CACHE_NAME = 'employee-registry-r6-1-search-ux-2026.09.07';
 const APP_SHELL = [
   './',
   './index.html',

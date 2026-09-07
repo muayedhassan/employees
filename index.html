@@ -518,6 +518,14 @@ body.light-mode .report-preview{background:#fff}
 .r6-mini-item{font-size:9px;color:var(--text2);padding:6px 8px;border-radius:8px;background:rgba(255,255,255,.025);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:390px){.r6-kpi-grid{grid-template-columns:repeat(2,1fr)}.r6-change-grid{grid-template-columns:repeat(2,1fr)}.report-actions{grid-template-columns:1fr}.r6-dist-row{grid-template-columns:90px 1fr 35px}}
 
+
+/* R6.1 SEARCH UX */
+.stats-row{display:none!important}
+.search-sec.compact-search{padding:10px 12px 8px;background:linear-gradient(180deg,var(--bg2),rgba(11,20,55,.96));}
+.search-primary-row{display:flex;align-items:center;gap:8px}.search-primary-row .s-wrap{flex:1}.search-primary-row .s-wrap input{font-size:15px;padding-top:13px;padding-bottom:13px;border-radius:14px}.search-expand-btn{width:44px;height:44px;flex:0 0 44px;border-radius:13px;border:1px solid rgba(92,107,192,.28);background:var(--bg3);color:var(--text2);font-size:15px;cursor:pointer;transition:.25s}.search-expand-btn.open{color:var(--gold);border-color:rgba(245,200,66,.35);transform:translateY(1px)}
+.page-live-status{font-size:10px;color:var(--text2);padding:5px 4px 0;text-align:right}.search-expand-panel{max-height:0;overflow:hidden;opacity:0;transform:translateY(-4px);transition:max-height .35s ease,opacity .25s ease,transform .3s ease}.search-sec.search-expanded .search-expand-panel{max-height:520px;opacity:1;transform:translateY(0);padding-top:8px}.search-controls-row{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:7px;align-items:stretch}.search-controls-row .search-scope,.page-size-box,.wide-filter-btn{min-height:42px;border-radius:11px}.wide-filter-btn{width:100%;display:flex;gap:7px}.page-size-box{display:flex;align-items:center;justify-content:space-between;padding:0 9px;background:var(--bg3);border:1px solid rgba(92,107,192,.22);color:var(--text2);font-size:10px}.page-size-box .pp-s{border:0;background:transparent;padding:7px 3px}.search-expand-panel .lf-strip{margin-top:7px}.search-expand-panel .adv-filters{margin-top:7px}
+@media(max-width:520px){.search-controls-row{grid-template-columns:1fr 1fr}.page-size-box{grid-column:1/-1}.search-primary-row .s-wrap input{font-size:14px}.smart-badge{display:none}}
+.quality-card{margin-top:10px;border:1px solid rgba(92,107,192,.2);background:linear-gradient(135deg,var(--bg2),var(--bg3));border-radius:16px;padding:14px}.quality-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}.quality-title{font-size:14px;font-weight:900;color:var(--text)}.quality-title i{color:var(--gold);margin-left:5px}.quality-sub{font-size:10px;color:var(--text2);margin-top:3px}.quality-score{padding:5px 10px;border-radius:10px;font-size:10px;font-weight:800}.quality-score.good{background:rgba(102,187,106,.12);color:var(--green);border:1px solid rgba(102,187,106,.25)}.quality-score.warn{background:rgba(255,167,38,.12);color:var(--orange);border:1px solid rgba(255,167,38,.25)}.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.quality-item{background:rgba(255,255,255,.03);border:1px solid rgba(92,107,192,.13);border-radius:11px;padding:9px;text-align:center}.quality-num{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--gold)}.quality-label{font-size:9px;color:var(--text2);margin-top:2px}
 </style>
 </head>
 <body>
@@ -642,45 +650,41 @@ body.light-mode .report-preview{background:#fff}
     <div class="main-tab" id="mtab-admin" onclick="switchMain('admin')"><i class="fas fa-shield-alt"></i> إدارة</div>
   </div>
 
-  <div class="stats-row" id="stats-row">
-    <div class="stat-box perm-style" id="sb1"><div class="stat-ico"><i class="fas fa-users"></i></div><div class="stat-v" id="sv-total">0</div><div class="stat-l">الإجمالي</div></div>
-    <div class="stat-box perm-style" id="sb2"><div class="stat-ico"><i class="fas fa-filter"></i></div><div class="stat-v" id="sv-shown">0</div><div class="stat-l">نتائج</div></div>
-    <div class="stat-box perm-style" id="sb3"><div class="stat-ico"><i class="fas fa-book-open"></i></div><div class="stat-v" id="sv-page">1/1</div><div class="stat-l">الصفحة</div></div>
-  </div>
-
   <div class="sub-tabs" id="sub-tabs">
     <div class="sub-tab perm-sub-active" id="stab-list" onclick="switchSub('list')"><i class="fas fa-list-ul"></i> القائمة</div>
-    <div class="sub-tab" id="stab-stats" onclick="switchSub('stats')"><i class="fas fa-chart-column"></i> لوحة الإحصائيات</div>
     <div class="sub-tab" id="stab-reports" onclick="switchSub('reports')"><i class="fas fa-file-lines"></i> التقارير</div>
   </div>
 
-  <div class="search-sec" id="search-sec">
-    <div class="search-row">
+  <div class="search-sec compact-search" id="search-sec">
+    <div class="search-primary-row">
       <div class="s-wrap perm-s" id="s-wrap">
         <i class="fas fa-search s-icon"></i>
-        <input type="text" id="q" placeholder="اكتب أي حرف من الاسم..." oninput="doFilter()" autocomplete="off" spellcheck="false">
+        <input type="text" id="q" placeholder="ابحث بالاسم أو الرقم..." oninput="doFilter()" autocomplete="off" spellcheck="false">
         <button class="clear-search" id="clear-search-btn" type="button" title="مسح البحث"><i class="fas fa-times"></i></button>
         <span class="smart-badge" id="smart-badge">مباشر</span>
       </div>
-      <select class="search-scope" id="search-scope" onchange="doFilter()" title="مجال البحث">
-        <option value="name" selected>الاسم</option>
-        <option value="all">الكل</option>
-        <option value="employeeNo">الرقم الوظيفي</option>
-        <option value="num">الاضبارة</option>
-        <option value="division">الشعبة</option>
-        <option value="jobTitle">العنوان</option>
-      </select>
-      <div class="search-tools">
-        <button class="search-tool-btn" id="filter-toggle-btn" type="button" title="الفلاتر"><i class="fas fa-sliders"></i><span class="filter-badge" id="filter-count-badge">0</span></button>
-      </div>
-      <select class="pp-s" id="pp" onchange="doFilter()">
-        <option value="30">30</option>
-        <option value="50" selected>50</option>
-        <option value="100">100</option>
-        <option value="99999">الكل</option>
-      </select>
+      <button class="search-expand-btn" id="search-expand-btn" type="button" title="توسيع أدوات البحث"><i class="fas fa-chevron-down"></i></button>
     </div>
-    <div class="lf-strip" id="lf"></div>
+    <div class="page-live-status" id="page-live-status">المعروض: 0 من 0</div>
+    <div class="search-expand-panel" id="search-expand-panel">
+      <div class="search-controls-row">
+        <select class="search-scope" id="search-scope" onchange="doFilter()" title="مجال البحث">
+          <option value="name" selected>الاسم</option>
+          <option value="all">كل الحقول</option>
+          <option value="employeeNo">الرقم الوظيفي</option>
+          <option value="num">الاضبارة</option>
+          <option value="division">الشعبة</option>
+          <option value="jobTitle">العنوان الوظيفي</option>
+        </select>
+        <button class="search-tool-btn wide-filter-btn" id="filter-toggle-btn" type="button" title="الفلاتر"><i class="fas fa-sliders"></i><span>الفلاتر</span><span class="filter-badge" id="filter-count-badge">0</span></button>
+        <label class="page-size-box"><span>لكل صفحة</span><select class="pp-s" id="pp" onchange="doFilter()">
+          <option value="30">30</option>
+          <option value="50" selected>50</option>
+          <option value="100">100</option>
+          <option value="99999">الكل</option>
+        </select></label>
+      </div>
+      <div class="lf-strip" id="lf"></div>
     <div class="adv-filters" id="adv-filters">
       <select class="filter-select" id="filter-gender" onchange="doFilter()"><option value="">كل الأجناس</option></select>
       <select class="filter-select" id="filter-status" onchange="doFilter()"><option value="">كل الحالات</option></select>
@@ -688,6 +692,7 @@ body.light-mode .report-preview{background:#fff}
       <select class="filter-select" id="filter-education" onchange="doFilter()"><option value="">كل التحصيلات</option></select>
       <select class="filter-select" id="filter-grade" onchange="doFilter()"><option value="">كل الدرجات</option></select>
       <button class="filter-reset" id="filter-reset-btn" type="button"><i class="fas fa-rotate-left"></i> مسح جميع الفلاتر</button>
+    </div>
     </div>
     <div class="search-hint"><span>النتائج تتغير <strong>مع كل حرف</strong> مباشرة</span><span id="active-filter-text"></span></div>
   </div>
@@ -697,7 +702,6 @@ body.light-mode .report-preview{background:#fff}
       <div class="card-list" id="cards"></div>
       <div class="no-res" id="nores"><i class="fas fa-search-minus"></i><p>لا توجد نتائج مطابقة</p></div>
     </div>
-    <div id="view-stats" style="display:none"><div class="stats-page" id="stats-page"></div></div>
     <div id="view-reports" style="display:none"><div class="reports-page" id="reports-page"></div></div>
     <div id="view-admin" style="display:none">
       <div class="admin-panel">
@@ -778,7 +782,7 @@ body.light-mode .report-preview{background:#fff}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R6-DASHBOARD-REPORTS';
+var APP_RELEASE = 'R6.1-SEARCH-UX';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -1408,10 +1412,23 @@ function changeSummaryHTML(){
   var changes=(s.modified||[]).slice(0,8),fieldLabels={employeeNo:'الرقم الوظيفي',name:'الاسم',motherName:'اسم الأم',gender:'الجنس',identityNo:'رقم الهوية',identityIssueDate:'تاريخ إصدار الهوية',identityIssuer:'جهة إصدار الهوية',division:'الشعبة',employmentStatus:'الحالة الوظيفية',education:'التحصيل',jobTitle:'العنوان الوظيفي',specialization:'الاختصاص',grade:'الدرجة',step:'المرحلة',salary:'الراتب',birthDate:'تاريخ التولد',hireDate:'تاريخ التعيين',notes:'الملاحظات',num:'رقم الاضبارة'};if(changes.length){h+='<div class="r6-mini-list">'+changes.map(function(x){var fs=(x.changes||[]).map(function(y){return fieldLabels[y.field]||y.field;}).join('، ');return '<div class="r6-mini-item">'+escapeHTML(x.name||'—')+' • '+escapeHTML(fs||'تم التعديل')+'</div>';}).join('')+'</div>';}
   h+='</div>';return h;
 }
+function dataQualityHTML(){
+  var ds=(BASE[mode]||[]), fields=mode==='perm'?['employeeNo','division','employmentStatus','education','jobTitle','hireDate']:['name'];
+  var labels={employeeNo:'الرقم الوظيفي',division:'الشعبة / القسم',employmentStatus:'الحالة الوظيفية',education:'التحصيل الدراسي',jobTitle:'العنوان الوظيفي',hireDate:'تاريخ التعيين',name:'الاسم'};
+  var items=fields.map(function(k){var n=ds.filter(function(e){var v=String(e[k]??'').trim();return !v||v==='—'||v==='36';}).length;return {k:k,n:n,l:labels[k]||k};});
+  var totalMissing=items.reduce(function(a,x){return a+x.n;},0);
+  var review=ds.filter(function(e){return e.syncStatus==='missingFromExcel';}).length;
+  var h='<div class="quality-card"><div class="quality-head"><div><div class="quality-title"><i class="fas fa-shield-check"></i> مركز جودة البيانات</div><div class="quality-sub">فحص سريع للنواقص التي تستحق المراجعة في ملف Excel</div></div><div class="quality-score '+(totalMissing===0&&review===0?'good':'warn')+'">'+(totalMissing===0&&review===0?'ممتاز':'مراجعة')+'</div></div><div class="quality-grid">';
+  items.forEach(function(x){h+='<div class="quality-item"><div class="quality-num">'+x.n+'</div><div class="quality-label">'+escapeHTML(x.l)+'</div></div>';});
+  h+='<div class="quality-item"><div class="quality-num">'+review+'</div><div class="quality-label">مفقود من Excel</div></div></div></div>';
+  return h;
+}
+
 function buildReports(){
   var ds=(filt||[]).slice(),cols=reportColumns(),preview=ds.slice(0,100),filtered=hasActiveFilterContext();
   var h='<div class="report-hero"><div class="report-hero-title"><i class="fas fa-file-chart-column"></i> تقرير '+(mode==='perm'?'الموظفين الدائميين':'موظفي العقود')+'</div><div class="report-hero-sub">الإصدار: <strong>'+escapeHTML(DATA_VERSION||'—')+'</strong> • عدد النتائج: <strong>'+ds.length+'</strong> • '+(filtered?'التقرير مبني على الفلاتر الحالية':'التقرير يشمل جميع السجلات الحالية')+'</div><div class="report-actions"><button class="report-btn excel" id="report-csv-btn"><i class="fas fa-file-excel"></i> تصدير النتائج إلى Excel CSV</button><button class="report-btn print" id="report-print-btn"><i class="fas fa-print"></i> طباعة / حفظ PDF</button></div><div class="report-filter-summary"><span class="report-scope-pill"><i class="fas fa-filter"></i> نطاق التقرير</span> '+escapeHTML(currentFilterDescription())+'</div></div>';
   h+=changeSummaryHTML();
+  h+=dataQualityHTML();
   h+='<div class="report-preview"><div class="report-preview-head"><div class="report-preview-title">معاينة التقرير</div><div class="report-preview-note">عرض أول '+preview.length+' من '+ds.length+' سجل</div></div><div class="report-table-wrap"><table class="report-table"><thead><tr>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+(preview.length?preview.map(function(e){return '<tr>'+cols.map(function(c){return '<td title="'+escapeHTML(reportValue(e,c.k))+'">'+escapeHTML(reportValue(e,c.k))+'</td>';}).join('')+'</tr>';}).join(''):'<tr><td colspan="'+cols.length+'" style="text-align:center">لا توجد نتائج</td></tr>')+'</tbody></table></div></div>';
   var page=document.getElementById('reports-page');page.innerHTML=h;
   var csv=document.getElementById('report-csv-btn');if(csv)csv.addEventListener('click',exportCurrentReportCSV);
@@ -1637,20 +1654,14 @@ function switchMain(m){
   document.getElementById('mtab-perm').className='main-tab'+(isPerm?' perm-active':'');
   document.getElementById('mtab-cont').className='main-tab'+(isCont?' cont-active':'');
   document.getElementById('mtab-admin').className='main-tab'+(isAdmin?' admin-active':'');
-  var stl=isAdmin?'admin-style':isPerm?'perm-style':'cont-style';
-  document.getElementById('sb1').className='stat-box '+stl;
-  document.getElementById('sb2').className='stat-box '+stl;
-  document.getElementById('sb3').className='stat-box '+stl;
   var subA=isAdmin?'admin-sub-active':isPerm?'perm-sub-active':'cont-sub-active';
   document.getElementById('stab-list').className='sub-tab '+subA;
-  document.getElementById('stab-stats').className='sub-tab';
   document.getElementById('stab-reports').className='sub-tab';
   // Show/hide admin vs list
   document.getElementById('search-sec').style.display=isAdmin?'none':'';
   document.getElementById('sub-tabs').style.display=isAdmin?'none':'';
   document.getElementById('pg').style.display=isAdmin?'none':'';
   document.getElementById('view-list').style.display=isAdmin?'none':'block';
-  document.getElementById('view-stats').style.display='none';
   document.getElementById('view-reports').style.display='none';
   document.getElementById('view-admin').style.display=isAdmin?'block':'none';
   if(isAdmin){ renderAdminList(); updateAdminCounts(); refreshSafetyUI(); return; }
@@ -1665,16 +1676,14 @@ function switchMain(m){
 }
 
 function switchSub(v){
+  if(v!=='list'&&v!=='reports')v='list';
   subView=v;
   var isPerm=mode==='perm', isCont=mode==='cont';
   var subA=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';
   document.getElementById('stab-list').className='sub-tab'+(v==='list'?' '+subA:'');
-  document.getElementById('stab-stats').className='sub-tab'+(v==='stats'?' '+subA:'');
   document.getElementById('stab-reports').className='sub-tab'+(v==='reports'?' '+subA:'');
   document.getElementById('view-list').style.display=v==='list'?'block':'none';
-  document.getElementById('view-stats').style.display=v==='stats'?'block':'none';
   document.getElementById('view-reports').style.display=v==='reports'?'block':'none';
-  if(v==='stats')buildStats();
   if(v==='reports')buildReports();
 }
 
@@ -1702,17 +1711,19 @@ function doFilter(){
   countUp('sv-shown',filt.length);
   updateFilterBadge();
   pg=1;render();
-  if(subView==='stats')buildStats();
   if(subView==='reports')buildReports();
 }
 
 // ── RENDER ─────────────────────────────────────────────────────────────────────
 function render(){
   var isPerm=mode==='perm';
-  var p=pp(), tot=filt.length, pages=Math.max(1,Math.ceil(tot/p));
-  pg=Math.min(pg,pages);
-  var s=(pg-1)*p, slice=filt.slice(s,s+p);
-  document.getElementById('sv-page').textContent=pg+'/'+pages;
+  var requested=pp(), tot=filt.length;
+  var p=requested>=99999?Math.max(1,tot):Math.max(1,requested);
+  var pages=Math.max(1,Math.ceil(tot/p));
+  pg=Math.min(Math.max(1,pg),pages);
+  var s=(pg-1)*p, end=Math.min(s+p,tot), slice=filt.slice(s,end);
+  var live=document.getElementById('page-live-status');
+  if(live)live.textContent='المعروض في هذه الصفحة: '+slice.length+' من '+tot+' • الصفحة '+pg+'/'+pages;
   var cardCls=isPerm?'perm-card':'cont-card';
   var serCls=isPerm?'perm-ser':'cont-ser';
   var dotCls=isPerm?'perm-dot':'cont-dot';
@@ -1754,7 +1765,8 @@ function buildPg(pages){
   var a=Math.max(1,pg-1),b=Math.min(pages,pg+1);
   for(var i=a;i<=b;i++)html+='<button class="pg-btn'+(i===pg?' '+ac:'')+'" onclick="go('+i+')">'+i+'</button>';
   if(pg<pages)html+='<button class="pg-btn" onclick="go('+(pg+1)+')"><i class="fas fa-angle-left"></i></button><button class="pg-btn" onclick="go('+pages+')"><i class="fas fa-angle-double-left"></i></button>';
-  html+='<span class="pg-info">'+filt.length+' موظف</span>';
+  var start=(pg-1)*pp(), shown=Math.max(0,Math.min(pp(),filt.length-start)); if(pp()>=99999)shown=filt.length;
+  html+='<span class="pg-info">المعروض '+shown+' من '+filt.length+'</span>';
   el.innerHTML=html;
 }
 function go(p){pg=p;render();document.getElementById('scroll').scrollTo({top:0,behavior:'smooth'});}
@@ -1875,6 +1887,14 @@ document.getElementById('card-share-btn').addEventListener('click',function(){if
 document.getElementById('clear-search-btn').addEventListener('click',function(){document.getElementById('q').value='';doFilter();document.getElementById('q').focus();});
 document.getElementById('filter-toggle-btn').addEventListener('click',function(){document.getElementById('adv-filters').classList.toggle('open');updateFilterBadge();});
 document.getElementById('filter-reset-btn').addEventListener('click',function(){['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});activeLetter='';buildLetters();doFilter();showToast('تم مسح الفلاتر');});
+
+var searchExpandBtn=document.getElementById('search-expand-btn');
+if(searchExpandBtn){searchExpandBtn.addEventListener('click',function(){
+  var sec=document.getElementById('search-sec'),open=sec.classList.toggle('search-expanded');
+  this.classList.toggle('open',open);
+  this.querySelector('i').className=open?'fas fa-chevron-up':'fas fa-chevron-down';
+  this.title=open?'طي أدوات البحث':'توسيع أدوات البحث';
+});}
 ['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var e=document.getElementById(id);if(e)e.addEventListener('change',function(){doFilter();});});
 
 // ── CONFIRM DIALOG ────────────────────────────────────────────────────────────
