@@ -37,6 +37,13 @@ const FIELD_MAP = {
 };
 const REQUIRED_HEADERS = Object.keys(FIELD_MAP);
 const COMPARE_FIELDS = Object.values(FIELD_MAP).filter(k => k !== 'num').concat(['num']);
+// Values that are only display placeholders must never be counted as real employee-data edits.
+// In the historical source, the value 36 was used as a placeholder for missing data in these fields.
+const MISSING_EQUIV_FIELDS = new Set([
+  'motherName','gender','identityNo','identityIssueDate','identityIssuer','division',
+  'education','jobTitle','specialization','birthDate','hireDate','notes'
+]);
+const NUMERIC_COMPARE_FIELDS = new Set(['num','salary','grade','step']);
 
 function text(v){
   if(v === undefined || v === null) return '';
@@ -64,7 +71,47 @@ function comparable(rec){
   for(const k of COMPARE_FIELDS) out[k] = rec?.[k] ?? '';
   return out;
 }
+function semanticValue(key,value){
+  let s=text(value);
+  if(!s || s==='—' || s==='-' || s==='–' || s==='غير متوفر') return '';
+  if(MISSING_EQUIV_FIELDS.has(key) && s==='36') return '';
+  if(NUMERIC_COMPARE_FIELDS.has(key)){
+    const n=Number(String(s).replace(/,/g,''));
+    if(Number.isFinite(n)) return String(n);
+  }
+  return s;
+}
+function isRealFieldChange(key,before,after){
+  return semanticValue(key,before)!==semanticValue(key,after);
+}
+function sanitizeModifiedEntries(list){
+  return (Array.isArray(list)?list:[]).map(item=>{
+    const changes=(Array.isArray(item.changes)?item.changes:[]).filter(c=>isRealFieldChange(c.field,c.oldValue,c.newValue));
+    return {...item,changes};
+  }).filter(item=>item.changes.length>0);
+}
+function sanitizeSummaryObject(src){
+  if(!src) return src;
+  const out=clone(src);
+  out.added=Array.isArray(out.added)?out.added:[];
+  out.missing=Array.isArray(out.missing)?out.missing:[];
+  out.modified=sanitizeModifiedEntries(out.modified);
+  out.counts={...(out.counts||{})};
+  out.counts.added=out.added.length;
+  out.counts.modified=out.modified.length;
+  out.counts.missing=out.missing.length;
+  if(Number.isFinite(Number(out.counts.excelRows))){
+    out.counts.unchanged=Math.max(0,Number(out.counts.excelRows)-out.counts.added-out.counts.modified);
+  }
+  return out;
+}
+function sanitizeHistoryObject(src){
+  const out={schemaVersion:1,updatedAt:src?.updatedAt||null,versions:[]};
+  out.versions=(Array.isArray(src?.versions)?src.versions:[]).map(v=>sanitizeSummaryObject(v));
+  return out;
+}
 function auditValue(key,value){
+  if(semanticValue(key,value)==='') return '';
   const v=value ?? '';
   // Keep historical identity-number changes useful without retaining the full old ID in the audit file.
   if(key==='identityNo'){
@@ -78,9 +125,9 @@ function auditValue(key,value){
 function diffRecord(before, after){
   const changes=[];
   for(const key of COMPARE_FIELDS){
-    const a = String(before?.[key] ?? '');
-    const b = String(after?.[key] ?? '');
-    if(a !== b) changes.push({field:key, oldValue:auditValue(key,before?.[key]), newValue:auditValue(key,after?.[key])});
+    if(isRealFieldChange(key,before?.[key],after?.[key])){
+      changes.push({field:key, oldValue:auditValue(key,before?.[key]), newValue:auditValue(key,after?.[key])});
+    }
   }
   return changes;
 }
@@ -92,8 +139,10 @@ if(!fs.existsSync(SOURCE)) throw new Error(`ملف Excel غير موجود: ${SO
 fs.mkdirSync(DATA_DIR,{recursive:true});
 
 const previous = fs.existsSync(DATA_FILE) ? JSON.parse(fs.readFileSync(DATA_FILE,'utf8')) : {meta:{},perm:[],cont:[]};
-const previousSummary = fs.existsSync(CHANGE_FILE) ? JSON.parse(fs.readFileSync(CHANGE_FILE,'utf8')) : null;
-const previousHistory = fs.existsSync(HISTORY_FILE) ? JSON.parse(fs.readFileSync(HISTORY_FILE,'utf8')) : {schemaVersion:1,versions:[]};
+const previousSummaryRaw = fs.existsSync(CHANGE_FILE) ? JSON.parse(fs.readFileSync(CHANGE_FILE,'utf8')) : null;
+const previousSummary = sanitizeSummaryObject(previousSummaryRaw);
+const previousHistoryRaw = fs.existsSync(HISTORY_FILE) ? JSON.parse(fs.readFileSync(HISTORY_FILE,'utf8')) : {schemaVersion:1,versions:[]};
+const previousHistory = sanitizeHistoryObject(previousHistoryRaw);
 const workbook = XLSX.readFile(SOURCE,{raw:false,cellDates:false});
 if(!workbook.SheetNames.length) throw new Error('ملف Excel لا يحتوي على أوراق');
 const sheet = workbook.Sheets[workbook.SheetNames[0]];
