@@ -11,6 +11,7 @@ const DATA_FILE = path.join(DATA_DIR, 'employees.json');
 const FALLBACK_FILE = path.join(DATA_DIR, 'fallback-data.js');
 const VERSION_FILE = path.join(DATA_DIR, 'version.json');
 const CHANGE_FILE = path.join(DATA_DIR, 'change-summary.json');
+const HISTORY_FILE = path.join(DATA_DIR, 'change-history.json');
 const VALIDATION_FILE = path.join(DATA_DIR, 'validation-report.json');
 
 const FIELD_MAP = {
@@ -63,12 +64,23 @@ function comparable(rec){
   for(const k of COMPARE_FIELDS) out[k] = rec?.[k] ?? '';
   return out;
 }
+function auditValue(key,value){
+  const v=value ?? '';
+  // Keep historical identity-number changes useful without retaining the full old ID in the audit file.
+  if(key==='identityNo'){
+    const t=String(v).trim();
+    if(!t) return '';
+    if(t.length<=4) return '****';
+    return '••••'+t.slice(-4);
+  }
+  return v;
+}
 function diffRecord(before, after){
   const changes=[];
   for(const key of COMPARE_FIELDS){
     const a = String(before?.[key] ?? '');
     const b = String(after?.[key] ?? '');
-    if(a !== b) changes.push({field:key, oldValue:before?.[key] ?? '', newValue:after?.[key] ?? ''});
+    if(a !== b) changes.push({field:key, oldValue:auditValue(key,before?.[key]), newValue:auditValue(key,after?.[key])});
   }
   return changes;
 }
@@ -80,6 +92,8 @@ if(!fs.existsSync(SOURCE)) throw new Error(`ملف Excel غير موجود: ${SO
 fs.mkdirSync(DATA_DIR,{recursive:true});
 
 const previous = fs.existsSync(DATA_FILE) ? JSON.parse(fs.readFileSync(DATA_FILE,'utf8')) : {meta:{},perm:[],cont:[]};
+const previousSummary = fs.existsSync(CHANGE_FILE) ? JSON.parse(fs.readFileSync(CHANGE_FILE,'utf8')) : null;
+const previousHistory = fs.existsSync(HISTORY_FILE) ? JSON.parse(fs.readFileSync(HISTORY_FILE,'utf8')) : {schemaVersion:1,versions:[]};
 const workbook = XLSX.readFile(SOURCE,{raw:false,cellDates:false});
 if(!workbook.SheetNames.length) throw new Error('ملف Excel لا يحتوي على أوراق');
 const sheet = workbook.Sheets[workbook.SheetNames[0]];
@@ -188,8 +202,9 @@ for(const old of oldPerm){
 perm.sort((a,b)=>Number(a.num)-Number(b.num));
 
 const cont=Array.isArray(previous.cont)?previous.cont:[];
-const version=makeVersion();
-const updatedAt=new Date().toISOString();
+const hasDataChanges = added.length>0 || modified.length>0 || missing.length>0;
+const version = hasDataChanges ? makeVersion() : (previous?.meta?.version || makeVersion());
+const updatedAt = hasDataChanges ? new Date().toISOString() : (previous?.meta?.updatedAt || new Date().toISOString());
 const dataset={
   meta:{
     schemaVersion:3,
@@ -205,7 +220,7 @@ const dataset={
   perm,
   cont
 };
-const summary={
+const summaryCandidate={
   schemaVersion:1,
   mode:'excel-master',
   previousVersion:previous?.meta?.version||null,
@@ -226,6 +241,35 @@ const summary={
   missing,
   warnings
 };
+// Code-only workflow runs must not create a fake employee-data version.
+// If Excel content is unchanged, keep the last real change summary/version.
+const summary = hasDataChanges || !previousSummary ? summaryCandidate : previousSummary;
+
+function historyEventFromSummary(x){
+  if(!x || !x.version) return null;
+  return {
+    version:x.version,
+    previousVersion:x.previousVersion||null,
+    updatedAt:x.updatedAt||null,
+    source:x.source||'data-source/employees.xlsx',
+    counts:x.counts||{},
+    added:Array.isArray(x.added)?x.added:[],
+    modified:Array.isArray(x.modified)?x.modified.map(m=>({...m,changes:Array.isArray(m.changes)?m.changes.map(c=>({field:c.field,oldValue:auditValue(c.field,c.oldValue),newValue:auditValue(c.field,c.newValue)})):[]})):[],
+    missing:Array.isArray(x.missing)?x.missing:[]
+  };
+}
+const history={schemaVersion:1,updatedAt:new Date().toISOString(),versions:Array.isArray(previousHistory?.versions)?previousHistory.versions.slice():[]};
+// On first installation, seed history with the last already-published Excel change.
+if(history.versions.length===0){
+  const seed=historyEventFromSummary(previousSummary);
+  if(seed && ((seed.counts?.added||0)+(seed.counts?.modified||0)+(seed.counts?.missing||0)>0)) history.versions.push(seed);
+}
+if(hasDataChanges){
+  const ev=historyEventFromSummary(summaryCandidate);
+  if(ev && !history.versions.some(x=>x.version===ev.version)) history.versions.push(ev);
+}
+// Keep a useful long-term audit trail without allowing the public JSON to grow forever.
+history.versions=history.versions.slice(-60);
 const versionMeta={
   schemaVersion:3,
   mode:'excel-master',
@@ -246,9 +290,10 @@ fs.writeFileSync(DATA_FILE,JSON.stringify(dataset,null,2));
 fs.writeFileSync(FALLBACK_FILE,'window.FALLBACK_EMPLOYEE_DATA = '+JSON.stringify(dataset)+';\n');
 fs.writeFileSync(VERSION_FILE,JSON.stringify(versionMeta,null,2));
 fs.writeFileSync(CHANGE_FILE,JSON.stringify(summary,null,2));
+fs.writeFileSync(HISTORY_FILE,JSON.stringify(history,null,2));
 
 console.log(`\n✓ Excel Master build succeeded`);
-console.log(`Version: ${version}`);
+console.log(`Version: ${version}${hasDataChanges?'':' (no employee-data changes)'}`);
 console.log(`Excel rows: ${rows.length}`);
 console.log(`Added: ${added.length} | Modified: ${modified.length} | Missing kept for review: ${missing.length} | Unchanged: ${unchanged.length}`);
 console.log(`Warnings: ${warnings.length}`);
