@@ -526,6 +526,18 @@ body.light-mode .report-preview{background:#fff}
 .page-live-status{font-size:10px;color:var(--text2);padding:5px 4px 0;text-align:right}.search-expand-panel{max-height:0;overflow:hidden;opacity:0;transform:translateY(-4px);transition:max-height .35s ease,opacity .25s ease,transform .3s ease}.search-sec.search-expanded .search-expand-panel{max-height:520px;opacity:1;transform:translateY(0);padding-top:8px}.search-controls-row{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:7px;align-items:stretch}.search-controls-row .search-scope,.page-size-box,.wide-filter-btn{min-height:42px;border-radius:11px}.wide-filter-btn{width:100%;display:flex;gap:7px}.page-size-box{display:flex;align-items:center;justify-content:space-between;padding:0 9px;background:var(--bg3);border:1px solid rgba(92,107,192,.22);color:var(--text2);font-size:10px}.page-size-box .pp-s{border:0;background:transparent;padding:7px 3px}.search-expand-panel .lf-strip{margin-top:7px}.search-expand-panel .adv-filters{margin-top:7px}
 @media(max-width:520px){.search-controls-row{grid-template-columns:1fr 1fr}.page-size-box{grid-column:1/-1}.search-primary-row .s-wrap input{font-size:14px}.smart-badge{display:none}}
 .quality-card{margin-top:10px;border:1px solid rgba(92,107,192,.2);background:linear-gradient(135deg,var(--bg2),var(--bg3));border-radius:16px;padding:14px}.quality-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}.quality-title{font-size:14px;font-weight:900;color:var(--text)}.quality-title i{color:var(--gold);margin-left:5px}.quality-sub{font-size:10px;color:var(--text2);margin-top:3px}.quality-score{padding:5px 10px;border-radius:10px;font-size:10px;font-weight:800}.quality-score.good{background:rgba(102,187,106,.12);color:var(--green);border:1px solid rgba(102,187,106,.25)}.quality-score.warn{background:rgba(255,167,38,.12);color:var(--orange);border:1px solid rgba(255,167,38,.25)}.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.quality-item{background:rgba(255,255,255,.03);border:1px solid rgba(92,107,192,.13);border-radius:11px;padding:9px;text-align:center}.quality-num{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--gold)}.quality-label{font-size:9px;color:var(--text2);margin-top:2px}
+
+
+/* ── R6.2 UPDATES / HISTORY / DIRECT NUMBER SEARCH ───────────────────────── */
+.direct-search-hit{display:none;margin-top:7px;border-radius:13px;padding:9px 10px;background:linear-gradient(135deg,rgba(245,200,66,.10),rgba(57,73,171,.12));border:1px solid rgba(245,200,66,.26);align-items:center;gap:9px;animation:cIn .2s ease}
+.direct-search-hit.show{display:flex}.direct-hit-ico{width:34px;height:34px;border-radius:10px;background:rgba(245,200,66,.12);color:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}.direct-hit-info{flex:1;min-width:0}.direct-hit-name{font-size:12px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.direct-hit-meta{font-size:9px;color:var(--text2);margin-top:2px}.direct-hit-btn{border:none;border-radius:9px;padding:8px 10px;background:linear-gradient(135deg,var(--royal2),var(--royal3));color:#fff;font:700 10px 'Cairo',sans-serif;cursor:pointer;white-space:nowrap}.direct-hit-key{font-family:'Oswald',sans-serif;color:var(--gold);font-weight:700}
+.updates-page{padding:11px 10px 18px;display:flex;flex-direction:column;gap:10px}.updates-hero{position:relative;overflow:hidden;border-radius:20px;padding:16px;background:linear-gradient(135deg,#101c55 0%,#17266d 55%,#243996 100%);border:1px solid rgba(245,200,66,.26);box-shadow:0 14px 32px rgba(0,0,0,.18)}.updates-hero::before{content:'';position:absolute;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(245,200,66,.18),transparent 70%);left:-55px;top:-70px}.updates-hero-top{display:flex;align-items:center;gap:11px;position:relative;z-index:1}.updates-hero-icon{width:48px;height:48px;border-radius:15px;background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.28);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 24px rgba(245,200,66,.12)}.updates-hero-title{font-size:17px;font-weight:900;color:#fff}.updates-hero-sub{font-size:10px;color:rgba(255,255,255,.62);margin-top:3px;line-height:1.6}.updates-version-pill{margin-right:auto;align-self:flex-start;border-radius:10px;padding:5px 8px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.10);color:var(--gold2);font:700 9px 'Oswald',sans-serif;direction:ltr}.updates-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px;position:relative;z-index:1}.updates-kpi{padding:9px 5px;border-radius:12px;text-align:center;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08)}.updates-kpi-v{font-family:'Oswald',sans-serif;font-size:23px;font-weight:700;color:#fff}.updates-kpi-l{font-size:8px;color:rgba(255,255,255,.58);margin-top:2px}.updates-kpi.changed .updates-kpi-v{color:var(--gold)}.updates-kpi.added .updates-kpi-v{color:#81c784}.updates-kpi.review .updates-kpi-v{color:#ffb74d}
+.updates-section{border-radius:16px;background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(92,107,192,.16);overflow:hidden}.updates-section-head{display:flex;align-items:center;justify-content:space-between;padding:12px 13px;border-bottom:1px solid rgba(92,107,192,.10)}.updates-section-title{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:900;color:var(--text)}.updates-section-title i{color:var(--gold)}.updates-section-note{font-size:9px;color:var(--text2)}.updates-list{padding:8px;display:flex;flex-direction:column;gap:7px}.update-person{padding:10px 11px;border-radius:13px;background:rgba(255,255,255,.025);border:1px solid rgba(92,107,192,.12);cursor:pointer;transition:.2s}.update-person:active{transform:scale(.985)}.update-person-top{display:flex;align-items:center;gap:8px}.update-person-ico{width:32px;height:32px;border-radius:10px;background:rgba(57,73,171,.16);color:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}.update-person-name{flex:1;min-width:0;font-size:12px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.update-person-no{font-family:'Oswald',sans-serif;font-size:11px;color:var(--text2)}.update-change-count{font-size:8px;padding:2px 6px;border-radius:7px;background:rgba(245,200,66,.09);color:var(--gold);border:1px solid rgba(245,200,66,.18)}.update-fields{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}.update-field-chip{font-size:8px;padding:3px 6px;border-radius:7px;background:rgba(255,255,255,.045);color:var(--text2);border:1px solid rgba(255,255,255,.055)}.update-more{padding:9px;text-align:center;font-size:9px;color:var(--text2)}
+.version-timeline{padding:9px 12px 12px}.version-event{display:grid;grid-template-columns:18px 1fr;gap:8px;position:relative;padding-bottom:10px}.version-event:last-child{padding-bottom:0}.version-event::before{content:'';position:absolute;right:8px;top:17px;bottom:-2px;width:1px;background:rgba(92,107,192,.22)}.version-event:last-child::before{display:none}.version-dot{width:17px;height:17px;border-radius:50%;background:var(--bg4);border:2px solid var(--royal4);z-index:1;margin-top:2px}.version-event:first-child .version-dot{border-color:var(--gold);box-shadow:0 0 0 4px rgba(245,200,66,.08)}.version-card{padding:9px 10px;border-radius:11px;background:rgba(255,255,255,.025);border:1px solid rgba(92,107,192,.10)}.version-card-top{display:flex;justify-content:space-between;gap:8px}.version-id{font:700 10px 'Oswald',sans-serif;color:var(--accent);direction:ltr}.version-date{font-size:8px;color:var(--text2)}.version-counts{display:flex;gap:8px;flex-wrap:wrap;margin-top:5px;font-size:8px;color:var(--text2)}.version-counts strong{color:var(--text)}
+.history-wrap{padding:2px 0}.history-empty{padding:28px 14px;text-align:center;color:var(--text2);font-size:11px}.history-empty i{font-size:28px;opacity:.28;display:block;margin-bottom:8px}.history-event{position:relative;padding:0 18px 12px 0}.history-event::before{content:'';position:absolute;right:6px;top:12px;bottom:-3px;width:1px;background:rgba(92,107,192,.22)}.history-event:last-child::before{display:none}.history-event::after{content:'';position:absolute;right:1px;top:7px;width:11px;height:11px;border-radius:50%;background:var(--bg3);border:2px solid var(--gold)}.history-event-head{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:6px}.history-version{font:700 9px 'Oswald',sans-serif;color:var(--gold);direction:ltr}.history-date{font-size:8px;color:var(--text2)}.history-kind{font-size:8px;padding:2px 6px;border-radius:6px;background:rgba(245,200,66,.08);color:var(--gold)}.history-changes{display:flex;flex-direction:column;gap:5px}.history-change{padding:7px 8px;border-radius:9px;background:rgba(255,255,255,.035);border:1px solid rgba(92,107,192,.10)}.history-field{font-size:9px;font-weight:800;color:var(--text);margin-bottom:4px}.history-values{display:grid;grid-template-columns:1fr 18px 1fr;align-items:center;gap:4px;font-size:8px}.history-old,.history-new{padding:5px 6px;border-radius:7px;white-space:normal;word-break:break-word}.history-old{background:rgba(239,83,80,.07);color:#ef9a9a;text-decoration:line-through}.history-new{background:rgba(102,187,106,.08);color:#a5d6a7}.history-arrow{text-align:center;color:var(--text2)}.profile-history-badge{display:inline-flex;min-width:16px;height:16px;padding:0 4px;border-radius:8px;align-items:center;justify-content:center;background:rgba(245,200,66,.14);color:var(--gold);font:700 8px 'Oswald',sans-serif;margin-right:3px}
+body.light-mode .updates-section,body.light-mode .version-card,body.light-mode .update-person{background:#fff}.light-mode .updates-hero{background:linear-gradient(135deg,#3949ab,#5c6bc0)}.light-mode .history-change{background:#f6f8ff}.light-mode .direct-search-hit{background:#fff8df}
+@media(max-width:430px){.updates-kpis{grid-template-columns:repeat(2,1fr)}.updates-version-pill{display:none}.updates-hero-title{font-size:15px}.history-values{grid-template-columns:1fr 14px 1fr}}
+
 </style>
 </head>
 <body>
@@ -652,6 +664,7 @@ body.light-mode .report-preview{background:#fff}
 
   <div class="sub-tabs" id="sub-tabs">
     <div class="sub-tab perm-sub-active" id="stab-list" onclick="switchSub('list')"><i class="fas fa-list-ul"></i> القائمة</div>
+    <div class="sub-tab" id="stab-updates" onclick="switchSub('updates')"><i class="fas fa-clock-rotate-left"></i> آخر التحديثات</div>
     <div class="sub-tab" id="stab-reports" onclick="switchSub('reports')"><i class="fas fa-file-lines"></i> التقارير</div>
   </div>
 
@@ -665,6 +678,7 @@ body.light-mode .report-preview{background:#fff}
       </div>
       <button class="search-expand-btn" id="search-expand-btn" type="button" title="توسيع أدوات البحث"><i class="fas fa-chevron-down"></i></button>
     </div>
+    <div class="direct-search-hit" id="direct-search-hit"></div>
     <div class="page-live-status" id="page-live-status">المعروض: 0 من 0</div>
     <div class="search-expand-panel" id="search-expand-panel">
       <div class="search-controls-row">
@@ -694,7 +708,7 @@ body.light-mode .report-preview{background:#fff}
       <button class="filter-reset" id="filter-reset-btn" type="button"><i class="fas fa-rotate-left"></i> مسح جميع الفلاتر</button>
     </div>
     </div>
-    <div class="search-hint"><span>النتائج تتغير <strong>مع كل حرف</strong> مباشرة</span><span id="active-filter-text"></span></div>
+    <div class="search-hint"><span>النتائج تتغير <strong>مع كل حرف</strong> • الرقم الكامل يفتح الموظف مباشرة عند الضغط على Enter</span><span id="active-filter-text"></span></div>
   </div>
 
   <div class="scroll-area" id="scroll">
@@ -702,6 +716,7 @@ body.light-mode .report-preview{background:#fff}
       <div class="card-list" id="cards"></div>
       <div class="no-res" id="nores"><i class="fas fa-search-minus"></i><p>لا توجد نتائج مطابقة</p></div>
     </div>
+    <div id="view-updates" style="display:none"><div class="updates-page" id="updates-page"></div></div>
     <div id="view-reports" style="display:none"><div class="reports-page" id="reports-page"></div></div>
     <div id="view-admin" style="display:none">
       <div class="admin-panel">
@@ -782,10 +797,14 @@ body.light-mode .report-preview{background:#fff}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R6.1-SEARCH-UX';
+var APP_RELEASE = 'R6.2-UPDATES-HISTORY';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
+var CHANGE_HISTORY = {schemaVersion:1,versions:[]};
+var CHANGE_SUMMARY_CACHE_KEY = 'emp_change_summary_cache_v1';
+var CHANGE_HISTORY_CACHE_KEY = 'emp_change_history_cache_v1';
+var DIRECT_NUMERIC_MATCH = null;
 var EXCEL_MASTER_MIGRATION_KEY = 'emp_excel_master_migrated_v1';
 var DATA_META = {};
 var CENTRAL_CACHE_KEY = 'emp_central_cache_v2';
@@ -1011,8 +1030,24 @@ async function fetchJSON(url){
 async function fetchChangeSummary(version){
   try{
     LAST_CHANGE_SUMMARY=await fetchJSON('data/change-summary.json?v='+encodeURIComponent(version||'')+'&_='+Date.now());
+    try{localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(LAST_CHANGE_SUMMARY));}catch(_e){}
     return LAST_CHANGE_SUMMARY;
-  }catch(e){LAST_CHANGE_SUMMARY=null;return null;}
+  }catch(e){
+    LAST_CHANGE_SUMMARY=safeParseJSON(localStorage.getItem(CHANGE_SUMMARY_CACHE_KEY));
+    return LAST_CHANGE_SUMMARY;
+  }
+}
+async function fetchChangeHistory(version){
+  try{
+    var h=await fetchJSON('data/change-history.json?v='+encodeURIComponent(version||'')+'&_='+Date.now());
+    if(h&&Array.isArray(h.versions))CHANGE_HISTORY=h;
+    try{localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(CHANGE_HISTORY));}catch(_e){}
+    return CHANGE_HISTORY;
+  }catch(e){
+    var cached=safeParseJSON(localStorage.getItem(CHANGE_HISTORY_CACHE_KEY));
+    if(cached&&Array.isArray(cached.versions))CHANGE_HISTORY=cached;
+    return CHANGE_HISTORY;
+  }
 }
 
 async function migrateOldLocalEdits(){
@@ -1052,6 +1087,7 @@ async function loadCentralData(forceRefresh){
     }
     if(central && applyDataset(central)){
       var summary=await fetchChangeSummary(remoteVersion.version);
+      await fetchChangeHistory(remoteVersion.version);
       if(hasNew && summary && summary.counts){
         LAST_DATA_STATUS='تم تنزيل تحديث Excel مباشرة من GitHub:  '+summary.counts.added+' جديد • '+summary.counts.modified+' معدل • '+summary.counts.missing+' للمراجعة';
       }else if(hasNew) LAST_DATA_STATUS='تم تنزيل أحدث إصدار Excel مباشرة من GitHub';
@@ -1062,12 +1098,15 @@ async function loadCentralData(forceRefresh){
   }
 
   if(cached && applyDataset(cached)){
+    await fetchChangeHistory(DATA_VERSION);
+    if(!LAST_CHANGE_SUMMARY)LAST_CHANGE_SUMMARY=safeParseJSON(localStorage.getItem(CHANGE_SUMMARY_CACHE_KEY));
     LAST_DATA_STATUS='بدون اتصال — تم تشغيل آخر إصدار مركزي محفوظ على هذا الهاتف';
     updateExcelMasterUI();
     return;
   }
   if(fallback && applyDataset(fallback)){
     cacheCentral(fallback);
+    await fetchChangeHistory(DATA_VERSION);
     LAST_DATA_STATUS='تم تشغيل نسخة Excel المرفقة داخل التطبيق';
     updateExcelMasterUI();
     return;
@@ -1332,6 +1371,95 @@ function updateFilterBadge(){
   var btn=document.getElementById('filter-toggle-btn');if(btn)btn.classList.toggle('active',n>0||document.getElementById('adv-filters').classList.contains('open'));
 }
 
+
+var CHANGE_FIELD_LABELS={employeeNo:'الرقم الوظيفي',name:'الاسم',motherName:'اسم الأم',gender:'الجنس',identityNo:'رقم الهوية',identityIssueDate:'تاريخ إصدار الهوية',identityIssuer:'جهة إصدار الهوية',division:'الشعبة / القسم',employmentStatus:'الحالة الوظيفية',education:'التحصيل الدراسي',jobTitle:'العنوان الوظيفي',specialization:'الاختصاص',grade:'الدرجة',step:'المرحلة',salary:'الراتب',birthDate:'تاريخ التولد',hireDate:'تاريخ التعيين',notes:'الملاحظات',num:'رقم الاضبارة'};
+function historyVersions(){
+  var arr=(CHANGE_HISTORY&&Array.isArray(CHANGE_HISTORY.versions))?CHANGE_HISTORY.versions.slice():[];
+  if(LAST_CHANGE_SUMMARY&&LAST_CHANGE_SUMMARY.version&&!arr.some(function(x){return x.version===LAST_CHANGE_SUMMARY.version;})){
+    arr.push({version:LAST_CHANGE_SUMMARY.version,previousVersion:LAST_CHANGE_SUMMARY.previousVersion,updatedAt:LAST_CHANGE_SUMMARY.updatedAt,counts:LAST_CHANGE_SUMMARY.counts||{},added:LAST_CHANGE_SUMMARY.added||[],modified:LAST_CHANGE_SUMMARY.modified||[],missing:LAST_CHANGE_SUMMARY.missing||[]});
+  }
+  return arr.sort(function(a,b){return String(a.updatedAt||'').localeCompare(String(b.updatedAt||''));});
+}
+function changeVersionDate(v){try{return v?new Date(v).toLocaleString('ar-IQ'):'—';}catch(e){return '—';}}
+function cleanHistoryValue(field,v){
+  if(v===null||v===undefined||String(v).trim()===''||String(v).trim()==='—')return 'غير متوفر';
+  if(['gender','division','education','jobTitle','specialization','birthDate','hireDate','notes','motherName','identityNo','identityIssueDate','identityIssuer'].indexOf(field)>=0&&String(v).trim()==='36')return 'غير متوفر';
+  if(field==='salary'&&/^\d+$/.test(String(v)))return Number(v).toLocaleString('en-US')+' د.ع';
+  return String(v);
+}
+function employeeHistoryEvents(emp){
+  var out=[],id=String(emp.id||''),eno=String(emp.employeeNo||'');
+  historyVersions().forEach(function(ver){
+    (ver.modified||[]).forEach(function(x){if(String(x.id||'')===id||(eno&&String(x.employeeNo||'')===eno))out.push({kind:'modified',version:ver.version,updatedAt:ver.updatedAt,changes:x.changes||[]});});
+    (ver.added||[]).forEach(function(x){if(String(x.id||'')===id||(eno&&String(x.employeeNo||'')===eno))out.push({kind:'added',version:ver.version,updatedAt:ver.updatedAt,changes:[]});});
+    (ver.missing||[]).forEach(function(x){if(String(x.id||'')===id||(eno&&String(x.employeeNo||'')===eno))out.push({kind:'missing',version:ver.version,updatedAt:ver.updatedAt,changes:[]});});
+  });
+  return out.sort(function(a,b){return String(b.updatedAt||'').localeCompare(String(a.updatedAt||''));});
+}
+function employeeHistoryHTML(emp){
+  var events=employeeHistoryEvents(emp);
+  if(!events.length)return '<div class="history-empty"><i class="fas fa-clock-rotate-left"></i>لا يوجد تغيير مسجل لهذا الموظف منذ تفعيل سجل التحديثات.</div>';
+  return '<div class="history-wrap">'+events.map(function(ev){
+    var kind=ev.kind==='added'?'إضافة للسجل':ev.kind==='missing'?'يحتاج مراجعة':'تعديل بيانات';
+    var body='';
+    if(ev.kind==='modified'&&ev.changes.length){body='<div class="history-changes">'+ev.changes.map(function(c){return '<div class="history-change"><div class="history-field">'+escapeHTML(CHANGE_FIELD_LABELS[c.field]||c.field)+'</div><div class="history-values"><div class="history-old">'+escapeHTML(cleanHistoryValue(c.field,c.oldValue))+'</div><div class="history-arrow"><i class="fas fa-arrow-left"></i></div><div class="history-new">'+escapeHTML(cleanHistoryValue(c.field,c.newValue))+'</div></div></div>';}).join('')+'</div>';}
+    else if(ev.kind==='added')body='<div class="history-change"><div class="history-field">تمت إضافة الموظف إلى ملف Excel المركزي في هذا الإصدار.</div></div>';
+    else body='<div class="history-change"><div class="history-field">السجل لم يظهر في ملف Excel لهذا الإصدار وتم الاحتفاظ به للمراجعة.</div></div>';
+    return '<div class="history-event"><div class="history-event-head"><span class="history-kind">'+kind+'</span><span class="history-version">'+escapeHTML(ev.version||'—')+'</span><span class="history-date">'+escapeHTML(changeVersionDate(ev.updatedAt))+'</span></div>'+body+'</div>';
+  }).join('')+'</div>';
+}
+function latestUpdateSummary(){
+  var versions=historyVersions(),last=versions.length?versions[versions.length-1]:null;
+  if(last)return last;
+  if(LAST_CHANGE_SUMMARY)return LAST_CHANGE_SUMMARY;
+  return {version:DATA_VERSION,updatedAt:null,counts:{},added:[],modified:[],missing:[]};
+}
+function openUpdateEmployee(id){
+  var emp=(BASE.perm||[]).find(function(e){return String(e.id)===String(id);});
+  if(!emp)return showToast('تعذر العثور على الموظف في السجل الحالي','warn');
+  if(mode!=='perm')switchMain('perm');
+  setTimeout(function(){openModal(emp);},80);
+}
+function buildUpdates(){
+  var page=document.getElementById('updates-page');if(!page)return;
+  var u=latestUpdateSummary(),c=u.counts||{},modified=u.modified||[],added=u.added||[],missing=u.missing||[],versions=historyVersions().slice().reverse();
+  var updated=changeVersionDate(u.updatedAt),changed=(c.modified||0)+(c.added||0)+(c.missing||0);
+  var h='<div class="updates-hero"><div class="updates-hero-top"><div class="updates-hero-icon"><i class="fas fa-arrows-rotate"></i></div><div><div class="updates-hero-title">مركز آخر التحديثات</div><div class="updates-hero-sub">عرض واضح لكل ما تغيّر في ملف Excel المركزي، مع إمكانية فتح ملف الموظف مباشرة.</div></div><div class="updates-version-pill">'+escapeHTML(u.version||DATA_VERSION||'—')+'</div></div><div class="updates-kpis"><div class="updates-kpi changed"><div class="updates-kpi-v">'+(c.modified||0)+'</div><div class="updates-kpi-l">معدل</div></div><div class="updates-kpi added"><div class="updates-kpi-v">'+(c.added||0)+'</div><div class="updates-kpi-l">جديد</div></div><div class="updates-kpi review"><div class="updates-kpi-v">'+(c.missing||0)+'</div><div class="updates-kpi-l">للمراجعة</div></div><div class="updates-kpi"><div class="updates-kpi-v">'+changed+'</div><div class="updates-kpi-l">إجمالي التغييرات</div></div></div><div class="updates-hero-sub" style="margin-top:10px"><i class="fas fa-clock" style="margin-left:5px"></i>آخر تحديث فعلي للبيانات: '+escapeHTML(updated)+'</div></div>';
+  h+='<div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-user-pen"></i> الموظفون الذين تغيرت بياناتهم</div><div class="updates-section-note">'+modified.length+' موظف</div></div><div class="updates-list">';
+  if(!modified.length)h+='<div class="history-empty"><i class="fas fa-circle-check"></i>لا توجد تعديلات على بيانات الموظفين في آخر إصدار.</div>';
+  else{
+    h+=modified.slice(0,20).map(function(x){var chips=(x.changes||[]).slice(0,5).map(function(ch){return '<span class="update-field-chip">'+escapeHTML(CHANGE_FIELD_LABELS[ch.field]||ch.field)+'</span>';}).join('');return '<div class="update-person" data-update-employee="'+escapeHTML(x.id||'')+'"><div class="update-person-top"><div class="update-person-ico"><i class="fas fa-user-pen"></i></div><div class="update-person-name">'+escapeHTML(x.name||'—')+'</div><span class="update-change-count">'+(x.changes||[]).length+' حقل</span><span class="update-person-no">اضبارة '+escapeHTML(x.num||'—')+'</span></div><div class="update-fields">'+chips+((x.changes||[]).length>5?'<span class="update-field-chip">+'+((x.changes||[]).length-5)+'</span>':'')+'</div></div>';}).join('');
+    if(modified.length>20)h+='<div class="update-more">يتم عرض أول 20 موظفًا من '+modified.length+' في آخر تحديث. سجل كل موظف يبقى متاحًا داخل ملفه.</div>';
+  }
+  h+='</div></div>';
+  if(added.length||missing.length){h+='<div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-bell"></i> حالات أخرى في آخر تحديث</div><div class="updates-section-note">جديد ومراجعة</div></div><div class="updates-list">';
+    added.slice(0,10).forEach(function(x){h+='<div class="update-person" data-update-employee="'+escapeHTML(x.id||'')+'"><div class="update-person-top"><div class="update-person-ico" style="color:#81c784"><i class="fas fa-user-plus"></i></div><div class="update-person-name">'+escapeHTML(x.name||'—')+'</div><span class="update-change-count" style="color:#81c784">موظف جديد</span><span class="update-person-no">اضبارة '+escapeHTML(x.num||'—')+'</span></div></div>';});
+    missing.slice(0,10).forEach(function(x){h+='<div class="update-person" data-update-employee="'+escapeHTML(x.id||'')+'"><div class="update-person-top"><div class="update-person-ico" style="color:#ffb74d"><i class="fas fa-triangle-exclamation"></i></div><div class="update-person-name">'+escapeHTML(x.name||'—')+'</div><span class="update-change-count" style="color:#ffb74d">مراجعة Excel</span><span class="update-person-no">اضبارة '+escapeHTML(x.num||'—')+'</span></div></div>';});h+='</div></div>';}
+  h+='<div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-code-branch"></i> سجل إصدارات البيانات</div><div class="updates-section-note">آخر '+Math.min(10,versions.length)+' إصدارات فعلية</div></div><div class="version-timeline">';
+  if(!versions.length)h+='<div class="history-empty"><i class="fas fa-code-branch"></i>سيبدأ سجل الإصدارات من أول تحديث بعد تفعيل هذه الميزة.</div>';
+  else h+=versions.slice(0,10).map(function(v){var vc=v.counts||{};return '<div class="version-event"><div class="version-dot"></div><div class="version-card"><div class="version-card-top"><span class="version-id">'+escapeHTML(v.version||'—')+'</span><span class="version-date">'+escapeHTML(changeVersionDate(v.updatedAt))+'</span></div><div class="version-counts"><span>معدل <strong>'+(vc.modified||0)+'</strong></span><span>جديد <strong>'+(vc.added||0)+'</strong></span><span>مراجعة <strong>'+(vc.missing||0)+'</strong></span></div></div></div>';}).join('');
+  h+='</div></div>';
+  page.innerHTML=h;
+  page.querySelectorAll('[data-update-employee]').forEach(function(el){el.addEventListener('click',function(){openUpdateEmployee(this.getAttribute('data-update-employee'));});});
+}
+function findDirectNumericMatch(q){
+  q=String(q||'').trim();if(!/^\d+$/.test(q))return null;
+  var ds=BASE[mode]||[], exact=ds.filter(function(e){return String(e.num||'')===q||String(e.employeeNo||'')===q;});
+  if(exact.length===1)return exact[0];
+  // If the same digits happen to equal both fields of two records, prefer an exact employee number only when unique.
+  var byEmp=ds.filter(function(e){return String(e.employeeNo||'')===q;});if(byEmp.length===1)return byEmp[0];
+  var byFile=ds.filter(function(e){return String(e.num||'')===q;});if(byFile.length===1)return byFile[0];
+  return null;
+}
+function updateDirectSearchHit(q){
+  var box=document.getElementById('direct-search-hit');if(!box)return;
+  DIRECT_NUMERIC_MATCH=findDirectNumericMatch(q);
+  if(!DIRECT_NUMERIC_MATCH){box.classList.remove('show');box.innerHTML='';return;}
+  var e=DIRECT_NUMERIC_MATCH,matched=String(e.employeeNo||'')===String(q)?'الرقم الوظيفي':'رقم الاضبارة';
+  box.innerHTML='<div class="direct-hit-ico"><i class="fas fa-bolt"></i></div><div class="direct-hit-info"><div class="direct-hit-name">'+escapeHTML(e.name||'—')+'</div><div class="direct-hit-meta">تطابق مباشر حسب '+matched+' • اضغط Enter أو الزر لفتح الملف</div></div><span class="direct-hit-key">'+escapeHTML(q)+'</span><button class="direct-hit-btn" type="button"><i class="fas fa-folder-open"></i> فتح مباشر</button>';
+  box.classList.add('show');var b=box.querySelector('.direct-hit-btn');if(b)b.onclick=function(){openModal(DIRECT_NUMERIC_MATCH);};
+}
+
 // ── STATS ─────────────────────────────────────────────────────────────────────
 function metricClean(field,value){
   var v=value===undefined||value===null?'':String(value).trim();
@@ -1409,7 +1537,7 @@ function changeSummaryHTML(){
     '<div class="r6-change"><div class="r6-change-v">'+(c.modified||0)+'</div><div class="r6-change-l">معدل</div></div>'+
     '<div class="r6-change"><div class="r6-change-v">'+(c.missing||0)+'</div><div class="r6-change-l">للمراجعة</div></div>'+
     '<div class="r6-change"><div class="r6-change-v">'+(c.unchanged||0)+'</div><div class="r6-change-l">بدون تغيير</div></div></div>';
-  var changes=(s.modified||[]).slice(0,8),fieldLabels={employeeNo:'الرقم الوظيفي',name:'الاسم',motherName:'اسم الأم',gender:'الجنس',identityNo:'رقم الهوية',identityIssueDate:'تاريخ إصدار الهوية',identityIssuer:'جهة إصدار الهوية',division:'الشعبة',employmentStatus:'الحالة الوظيفية',education:'التحصيل',jobTitle:'العنوان الوظيفي',specialization:'الاختصاص',grade:'الدرجة',step:'المرحلة',salary:'الراتب',birthDate:'تاريخ التولد',hireDate:'تاريخ التعيين',notes:'الملاحظات',num:'رقم الاضبارة'};if(changes.length){h+='<div class="r6-mini-list">'+changes.map(function(x){var fs=(x.changes||[]).map(function(y){return fieldLabels[y.field]||y.field;}).join('، ');return '<div class="r6-mini-item">'+escapeHTML(x.name||'—')+' • '+escapeHTML(fs||'تم التعديل')+'</div>';}).join('')+'</div>';}
+  var changes=(s.modified||[]).slice(0,8);if(changes.length){h+='<div class="r6-mini-list">'+changes.map(function(x){var fs=(x.changes||[]).map(function(y){return CHANGE_FIELD_LABELS[y.field]||y.field;}).join('، ');return '<div class="r6-mini-item">'+escapeHTML(x.name||'—')+' • '+escapeHTML(fs||'تم التعديل')+'</div>';}).join('')+'</div>';}
   h+='</div>';return h;
 }
 function dataQualityHTML(){
@@ -1644,7 +1772,7 @@ document.getElementById('create-backup-btn').addEventListener('click',async func
 // ── SWITCH MAIN ───────────────────────────────────────────────────────────────
 function switchMain(m){
   mode=m; activeLetter=''; subView='list';
-  document.getElementById('q').value='';
+  document.getElementById('q').value='';DIRECT_NUMERIC_MATCH=null;var dh=document.getElementById('direct-search-hit');if(dh){dh.classList.remove('show');dh.innerHTML='';}
   var isPerm=m==='perm', isCont=m==='cont', isAdmin=m==='admin';
   var hdr=document.getElementById('main-header');
   hdr.className='header '+(isAdmin?'mode-admin':isPerm?'mode-perm':'mode-cont');
@@ -1656,12 +1784,14 @@ function switchMain(m){
   document.getElementById('mtab-admin').className='main-tab'+(isAdmin?' admin-active':'');
   var subA=isAdmin?'admin-sub-active':isPerm?'perm-sub-active':'cont-sub-active';
   document.getElementById('stab-list').className='sub-tab '+subA;
+  document.getElementById('stab-updates').className='sub-tab';
   document.getElementById('stab-reports').className='sub-tab';
   // Show/hide admin vs list
   document.getElementById('search-sec').style.display=isAdmin?'none':'';
   document.getElementById('sub-tabs').style.display=isAdmin?'none':'';
   document.getElementById('pg').style.display=isAdmin?'none':'';
   document.getElementById('view-list').style.display=isAdmin?'none':'block';
+  document.getElementById('view-updates').style.display='none';
   document.getElementById('view-reports').style.display='none';
   document.getElementById('view-admin').style.display=isAdmin?'block':'none';
   if(isAdmin){ renderAdminList(); updateAdminCounts(); refreshSafetyUI(); return; }
@@ -1676,14 +1806,17 @@ function switchMain(m){
 }
 
 function switchSub(v){
-  if(v!=='list'&&v!=='reports')v='list';
+  if(v!=='list'&&v!=='updates'&&v!=='reports')v='list';
   subView=v;
   var isPerm=mode==='perm', isCont=mode==='cont';
   var subA=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';
   document.getElementById('stab-list').className='sub-tab'+(v==='list'?' '+subA:'');
+  document.getElementById('stab-updates').className='sub-tab'+(v==='updates'?' '+subA:'');
   document.getElementById('stab-reports').className='sub-tab'+(v==='reports'?' '+subA:'');
   document.getElementById('view-list').style.display=v==='list'?'block':'none';
+  document.getElementById('view-updates').style.display=v==='updates'?'block':'none';
   document.getElementById('view-reports').style.display=v==='reports'?'block':'none';
+  if(v==='updates')buildUpdates();
   if(v==='reports')buildReports();
 }
 
@@ -1708,6 +1841,7 @@ function doFilter(){
   Object.keys(af).forEach(function(k){ds=ds.filter(function(e){return String(e[k]||'').trim()===af[k];});});
   filt=q?smartSearch(q,ds):ds;
   var badge=document.getElementById('smart-badge');if(badge)badge.style.opacity=q?'1':'.45';
+  updateDirectSearchHit(q);
   countUp('sv-shown',filt.length);
   updateFilterBadge();
   pg=1;render();
@@ -1811,7 +1945,8 @@ function openModal(emp){
       '<button class="profile-tab active" data-profile-tab="basic"><i class="fas fa-user"></i> أساسية</button>'+
       '<button class="profile-tab" data-profile-tab="job"><i class="fas fa-briefcase"></i> وظيفية</button>'+
       '<button class="profile-tab" data-profile-tab="identity"><i class="fas fa-id-card"></i> الهوية</button>'+
-      '<button class="profile-tab" data-profile-tab="more"><i class="fas fa-circle-info"></i> إضافية</button></div>';
+      '<button class="profile-tab" data-profile-tab="more"><i class="fas fa-circle-info"></i> إضافية</button>'+
+      '<button class="profile-tab" data-profile-tab="history"><i class="fas fa-clock-rotate-left"></i> التغييرات <span class="profile-history-badge">'+employeeHistoryEvents(emp).length+'</span></button></div>';
     var basic=profileSection('البيانات الأساسية','fas fa-address-card','<div class="profile-grid">'+
       profileRow('fas fa-id-badge','رقم الاضبارة','num',emp.num,false,true)+
       profileRow('fas fa-fingerprint','الرقم الوظيفي','employeeNo',emp.employeeNo,false,false)+
@@ -1825,7 +1960,8 @@ function openModal(emp){
     var identity=profileSection('الهوية الشخصية','fas fa-id-card','<div class="profile-grid">'+profileRow('fas fa-hashtag','رقم الهوية','identityNo',emp.identityNo,false,false)+profileRow('fas fa-calendar-day','تاريخ إصدار الهوية','identityIssueDate',emp.identityIssueDate,false,false)+'</div>'+profileRow('fas fa-building','جهة إصدار الهوية','identityIssuer',emp.identityIssuer,true,false));
     var syncWarn=emp.syncStatus==='missingFromExcel'?'<div style="padding:9px 12px;margin-bottom:8px;border-radius:11px;background:rgba(255,167,38,.10);border:1px solid rgba(255,167,38,.25);color:var(--orange);font-size:11px"><i class="fas fa-triangle-exclamation" style="margin-left:5px"></i>هذا السجل غير موجود في ملف Excel الحالي وتم الاحتفاظ به للمراجعة ولم يُحذف تلقائيًا.</div>':'';
     var more=profileSection('معلومات إضافية','fas fa-circle-info',syncWarn+'<div class="profile-grid">'+profileRow('fas fa-cake-candles','تاريخ التولد','birthDate',emp.birthDate,false,false)+profileRow('fas fa-landmark','الجهة','org','مديرية زراعة صلاح الدين',false,false)+'</div>'+profileRow('fas fa-note-sticky','الملاحظات','notes',emp.notes,true,false));
-    html=profilePanel('basic',basic,true)+profilePanel('job',job,false)+profilePanel('identity',identity,false)+profilePanel('more',more,false);
+    var history=profileSection('سجل تغييرات الموظف','fas fa-clock-rotate-left',employeeHistoryHTML(emp));
+    html=profilePanel('basic',basic,true)+profilePanel('job',job,false)+profilePanel('identity',identity,false)+profilePanel('more',more,false)+profilePanel('history',history,false);
   } else {
     tabs='<div class="profile-tabs"><button class="profile-tab active" data-profile-tab="basic">البيانات المتوفرة</button></div>';
     html=profilePanel('basic',profileSection('البيانات المتوفرة','fas fa-address-card','<div class="profile-grid">'+profileRow('fas fa-id-badge','رقم الاضبارة','num',emp.num,false,true)+profileRow('fas fa-briefcase','نوع التوظيف','employmentStatus',emp.employmentStatus||'عقد',false,false)+'</div>'+profileRow('fas fa-landmark','الجهة','org','مديرية زراعة صلاح الدين',true,false))+'<div style="padding:9px 12px;margin:0 2px 5px;border-radius:11px;background:rgba(255,255,255,.04);color:var(--text2);font-size:11px;line-height:1.7"><i class="fas fa-circle-info" style="margin-left:5px"></i>عند توفير Excel تفصيلي للعقود ستظهر بقية الحقول تلقائيًا.</div>',true);
@@ -1885,6 +2021,7 @@ document.getElementById('card-share-btn').addEventListener('click',function(){if
 
 // ── R4 SEARCH UI EVENTS ─────────────────────────────────────────────────────
 document.getElementById('clear-search-btn').addEventListener('click',function(){document.getElementById('q').value='';doFilter();document.getElementById('q').focus();});
+document.getElementById('q').addEventListener('keydown',function(ev){if(ev.key==='Enter'&&DIRECT_NUMERIC_MATCH){ev.preventDefault();openModal(DIRECT_NUMERIC_MATCH);}});
 document.getElementById('filter-toggle-btn').addEventListener('click',function(){document.getElementById('adv-filters').classList.toggle('open');updateFilterBadge();});
 document.getElementById('filter-reset-btn').addEventListener('click',function(){['filter-gender','filter-status','filter-division','filter-education','filter-grade'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});activeLetter='';buildLetters();doFilter();showToast('تم مسح الفلاتر');});
 
