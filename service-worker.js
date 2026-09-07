@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-r6-4-isolated-tabs-real-changes-2026.09.07';
+const CACHE_NAME = 'employee-registry-r6-5-changes-gaps-premium-reports-2026.09.07';
 const APP_SHELL = [
   './',
   './index.html',
