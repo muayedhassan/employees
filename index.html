@@ -571,9 +571,11 @@ body.light-mode .report-builder,body.light-mode .compare-card{background:#fff}.l
 @media(max-width:470px){.report-template-grid{grid-template-columns:repeat(2,1fr)}.report-form-grid,.compare-grid{grid-template-columns:1fr}.report-document-head{align-items:flex-start}.report-document-meta{display:none}.report-studio-kpis{grid-template-columns:repeat(3,1fr)}.change-values{grid-template-columns:1fr 18px 1fr}.report-command-bar{grid-template-columns:1fr}}
 
 
-/* R6.5 — REAL CHANGES / DATA GAPS / EXECUTIVE REPORTS */
-.updates-inner-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:7px;background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(92,107,192,.16);border-radius:16px;position:sticky;top:0;z-index:6;box-shadow:0 10px 24px rgba(0,0,0,.12)}
+/* R6.6 — CLEAR UPDATES / MISSING CATEGORIES */
+.updates-inner-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:7px;background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(92,107,192,.16);border-radius:16px;position:sticky;top:0;z-index:6;box-shadow:0 10px 24px rgba(0,0,0,.12)}
 .updates-inner-tab{border:1px solid rgba(92,107,192,.16);background:rgba(255,255,255,.025);color:var(--text2);border-radius:11px;padding:9px 6px;font:800 10px 'Cairo',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:.2s}.updates-inner-tab i{font-size:12px}.updates-inner-tab.active.changes{background:linear-gradient(135deg,#1e3a8a,#3157c8);color:#fff;border-color:rgba(96,165,250,.45);box-shadow:0 5px 16px rgba(49,87,200,.24)}.updates-inner-tab.active.additions{background:linear-gradient(135deg,#166534,#2e9d54);color:#fff;border-color:rgba(129,199,132,.4)}.updates-inner-tab.active.gaps{background:linear-gradient(135deg,#9a5b0a,#e08a18);color:#fff;border-color:rgba(255,183,77,.5)}
+.updates-inner-tab.active.review{background:linear-gradient(135deg,#7f1d1d,#c24141);color:#fff;border-color:rgba(239,154,154,.5)}.updates-inner-tab{flex-direction:column;gap:2px;min-height:57px}.updates-tab-main{display:flex;align-items:center;justify-content:center;gap:5px;font-size:10px}.updates-tab-sub{font-size:7px;font-weight:600;opacity:.68;white-space:normal;line-height:1.35;text-align:center}.updates-inner-tab.active .updates-tab-sub{opacity:.85}.updates-tab-count{font:700 10px 'Oswald',sans-serif;margin-right:2px}
+.gap-category-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;padding:9px}.gap-category-card{border:1px solid rgba(255,183,77,.18);background:linear-gradient(135deg,rgba(255,167,38,.05),rgba(255,193,7,.025));border-radius:14px;padding:10px;cursor:pointer;display:flex;align-items:center;gap:9px;transition:.2s;min-width:0}.gap-category-card:active{transform:scale(.98)}.gap-category-card.active{background:linear-gradient(135deg,#7a4708,#c97610);border-color:rgba(255,224,130,.45);box-shadow:0 8px 20px rgba(158,95,13,.2)}.gap-category-ico{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(255,183,77,.09);border:1px solid rgba(255,183,77,.18);color:#ffcc80}.gap-category-card.active .gap-category-ico{background:rgba(255,255,255,.1);color:#fff}.gap-category-info{flex:1;min-width:0}.gap-category-title{font-size:10px;font-weight:900;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gap-category-card.active .gap-category-title{color:#fff}.gap-category-note{font-size:7px;color:var(--text2);margin-top:2px}.gap-category-card.active .gap-category-note{color:rgba(255,255,255,.7)}.gap-category-count{font:700 18px 'Oswald',sans-serif;color:#ffb74d;flex-shrink:0}.gap-category-card.active .gap-category-count{color:#fff}.gap-all-card{grid-column:1/-1}.section-mini-explainer{display:flex;align-items:center;gap:7px;border-radius:11px;padding:8px 10px;font-size:8px;line-height:1.65;margin:7px 0;background:rgba(92,107,192,.055);border:1px solid rgba(92,107,192,.14);color:var(--text2)}.section-mini-explainer i{font-size:10px}.section-mini-explainer.changes i{color:#90caf9}.section-mini-explainer.additions i{color:#a5d6a7}.section-mini-explainer.gaps i{color:#ffcc80}.section-mini-explainer.review i{color:#ef9a9a}.review-person{border-radius:14px;padding:11px;background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(239,83,80,.17);margin-bottom:7px;cursor:pointer}.review-person .update-person-ico{color:#ef9a9a;background:rgba(239,83,80,.08);border:1px solid rgba(239,83,80,.16)}
 .update-kpi-ribbon{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.update-ribbon-card{border-radius:12px;padding:9px 7px;text-align:center;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08)}.update-ribbon-v{font:700 23px 'Oswald',sans-serif;color:#fff}.update-ribbon-l{font-size:8px;color:rgba(255,255,255,.58)}
 .gaps-hero{border-radius:18px;padding:14px;background:linear-gradient(135deg,#3b2608,#6b4308 60%,#9a5b0a);border:1px solid rgba(255,183,77,.30);box-shadow:0 12px 26px rgba(0,0,0,.17);position:relative;overflow:hidden}.gaps-hero:before{content:'';position:absolute;left:-50px;top:-75px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(255,224,130,.18),transparent 70%)}.gaps-head{display:flex;align-items:center;gap:10px;position:relative;z-index:1}.gaps-icon{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,224,130,.12);border:1px solid rgba(255,224,130,.25);color:#ffe082;font-size:18px}.gaps-title{font-size:16px;font-weight:900;color:#fff}.gaps-sub{font-size:9px;color:rgba(255,255,255,.62);line-height:1.7;margin-top:3px}.gaps-badge{margin-right:auto;background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:5px 8px;color:#ffe082;font:700 10px 'Oswald',sans-serif}
 .gaps-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px;position:relative;z-index:1}.gap-kpi{border-radius:10px;padding:8px;text-align:center;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08)}.gap-kpi-v{font:700 22px 'Oswald',sans-serif;color:#fff}.gap-kpi-l{font-size:8px;color:rgba(255,255,255,.58)}
@@ -584,7 +586,7 @@ body.light-mode .report-builder,body.light-mode .compare-card{background:#fff}.l
 .report-studio-hero{background:linear-gradient(145deg,#071333 0%,#14275f 52%,#263f91 100%)!important;border-radius:24px!important;padding:18px!important;border:1px solid rgba(245,200,66,.34)!important;box-shadow:0 18px 42px rgba(0,0,0,.28)!important}.report-studio-hero:after{content:'تقارير إدارية';position:absolute;left:18px;bottom:-9px;font:900 38px 'Cairo',sans-serif;color:rgba(255,255,255,.025);transform:rotate(-7deg);pointer-events:none}.report-brand-ico{width:54px!important;height:54px!important;border-radius:17px!important;font-size:22px!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 8px 24px rgba(0,0,0,.2)}.report-brand-title{font-size:18px!important;letter-spacing:.2px}.report-status-ready{display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:3px 8px;border-radius:999px;background:rgba(102,187,106,.1);border:1px solid rgba(102,187,106,.22);color:#a5d6a7;font-size:8px;font-weight:800}.report-status-ready i{font-size:7px}.report-studio-kpis{grid-template-columns:repeat(4,1fr)!important}.report-studio-kpi{padding:9px 5px!important}.report-builder{border-radius:20px!important;padding:15px!important;box-shadow:0 12px 30px rgba(0,0,0,.09)}.report-template-grid{grid-template-columns:repeat(2,1fr)!important}.report-template{min-height:58px!important;border-radius:14px!important;gap:6px!important;font-size:10px!important}.report-template i{font-size:15px!important}.report-template.active{transform:translateY(-1px);box-shadow:0 10px 24px rgba(57,73,171,.25)!important}.report-command-bar{position:sticky;bottom:8px;z-index:5;background:rgba(7,13,42,.88);backdrop-filter:blur(12px);padding:8px;border-radius:15px;border:1px solid rgba(92,107,192,.16);box-shadow:0 12px 30px rgba(0,0,0,.25)}body.light-mode .report-command-bar{background:rgba(245,247,255,.94)}
 .report-document{border-radius:20px!important;border:1px solid rgba(245,200,66,.18)!important;background:linear-gradient(180deg,#fff,#fbfcff)!important;color:#18213d!important;box-shadow:0 18px 45px rgba(0,0,0,.18)!important;overflow:hidden;position:relative}.report-document:before{content:'';position:absolute;top:0;right:0;left:0;height:5px;background:linear-gradient(90deg,#1a237e,#3949ab,#f5c842,#3949ab,#1a237e)}.report-doc-watermark{position:absolute;left:18px;top:86px;font:900 28px 'Cairo',sans-serif;color:rgba(26,35,126,.035);transform:rotate(-10deg);pointer-events:none}.report-document-head{padding-top:18px!important;background:linear-gradient(135deg,#f7f8ff,#fff)!important}.report-document-emblem{box-shadow:0 6px 18px rgba(26,35,126,.12)}.report-doc-code{display:inline-flex;margin-top:5px;font:700 8px 'Oswald',sans-serif;color:#3949ab;border:1px solid #d9def4;border-radius:7px;padding:2px 6px;direction:ltr;background:#fff}.report-doc-ribbon{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:9px 12px;background:#f5f7ff;border-top:1px solid #eceffa;border-bottom:1px solid #e5e9f5}.report-doc-ribbon-item{text-align:center;padding:7px;border-radius:9px;background:#fff;border:1px solid #e5e8f2}.report-doc-ribbon-v{font:700 15px 'Oswald',sans-serif;color:#1a237e}.report-doc-ribbon-l{font-size:7px;color:#7c85a3}.report-doc-classification{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 12px;font-size:8px;color:#68739b;background:#fff}.report-doc-classification .safe{color:#2e7d32}.report-doc-classification .sensitive{color:#c62828}.report-document .report-table th{background:linear-gradient(180deg,#1a237e,#283593)!important;color:#fff!important}.report-document .report-table tbody tr:nth-child(even){background:#f8f9fd}.report-signature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:24px 26px 16px}.report-signature-box{text-align:center;color:#66718f;font-size:8px}.report-signature-line{border-top:1px solid #9ba4bd;padding-top:6px;margin-top:26px}.report-seal{width:58px;height:58px;border:1px dashed #aab1c5;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 5px;color:#9ba4bd;font-size:7px}
 .compare-card{border-radius:19px!important;background:linear-gradient(135deg,#17113d,#2a2465)!important;border-color:rgba(126,87,194,.28)!important;box-shadow:0 12px 28px rgba(0,0,0,.14)}.compare-title{color:#d1c4e9!important}.compare-result{background:rgba(255,255,255,.045)!important;border-color:rgba(255,255,255,.07)!important;color:#d9def2!important}
-@media(max-width:430px){.report-studio-kpis{grid-template-columns:repeat(2,1fr)!important}.updates-inner-tabs{grid-template-columns:1fr 1fr 1fr}.report-form-grid{grid-template-columns:1fr!important}.report-doc-ribbon{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:430px){.report-studio-kpis{grid-template-columns:repeat(2,1fr)!important}.updates-inner-tabs{grid-template-columns:1fr 1fr}.gap-category-grid{grid-template-columns:1fr 1fr}.report-form-grid{grid-template-columns:1fr!important}.report-doc-ribbon{grid-template-columns:repeat(2,1fr)}}
 
 </style>
 </head>
@@ -845,7 +847,7 @@ body.light-mode .report-builder,body.light-mode .compare-card{background:#fff}.l
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R6.5-CHANGES-GAPS-PREMIUM-REPORTS';
+var APP_RELEASE = 'R6.6-CLEAR-UPDATES-MISSING-CATEGORIES';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -1501,125 +1503,44 @@ function updateChangePreviewHTML(x){
 }
 function buildUpdates(){
   var page=document.getElementById('updates-page');if(!page)return;
-  var u=selectedUpdateSummary(),c=u.counts||{},modified=u.modified||[],added=u.added||[],missing=u.missing||[],versions=historyVersions().slice().reverse();
-  var updated=changeVersionDate(u.updatedAt),changed=(c.modified||modified.length||0)+(c.added||added.length||0)+(c.missing||missing.length||0),isLatest=!SELECTED_UPDATE_VERSION||u.version===latestUpdateSummary().version;
-  var h='<div class="updates-hero"><div class="updates-hero-top"><div class="updates-hero-icon"><i class="fas fa-arrows-rotate"></i></div><div><div class="updates-hero-title">مركز آخر التحديثات</div><div class="updates-hero-sub">سجل بصري واضح يبيّن ماذا تغير، وما القيمة السابقة والجديدة، مع الاحتفاظ بتاريخ الإصدارات.</div></div><div class="updates-version-pill">'+escapeHTML(u.version||DATA_VERSION||'—')+'</div></div>'+
-  '<div class="updates-kpis"><div class="updates-kpi changed"><div class="updates-kpi-v">'+(c.modified||modified.length||0)+'</div><div class="updates-kpi-l">معدل</div></div><div class="updates-kpi added"><div class="updates-kpi-v">'+(c.added||added.length||0)+'</div><div class="updates-kpi-l">جديد</div></div><div class="updates-kpi review"><div class="updates-kpi-v">'+(c.missing||missing.length||0)+'</div><div class="updates-kpi-l">للمراجعة</div></div><div class="updates-kpi total"><div class="updates-kpi-v">'+changed+'</div><div class="updates-kpi-l">إجمالي</div></div></div>'+
-  '<div class="update-version-nav"><div class="update-version-current"><i class="fas fa-clock" style="margin-left:5px"></i>'+escapeHTML(updated)+(isLatest?' • آخر إصدار فعلي':' • إصدار تاريخي')+'</div>'+(isLatest?'':'<button class="update-latest-btn" id="update-back-latest"><i class="fas fa-arrow-rotate-right"></i> العودة لآخر إصدار</button>')+'</div></div>';
-  h+='<div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-filter"></i> تصفية التغييرات</div><div class="updates-section-note">'+changed+' حالة</div></div><div style="padding:9px 10px"><div class="update-toolbar">'+
-    '<button class="update-filter-btn '+(UPDATE_VIEW_FILTER==='all'?'active':'')+'" data-filter="all"><i class="fas fa-layer-group"></i> الكل</button>'+
-    '<button class="update-filter-btn '+(UPDATE_VIEW_FILTER==='modified'?'active':'')+'" data-filter="modified"><i class="fas fa-user-pen"></i> المعدلة</button>'+
-    '<button class="update-filter-btn '+(UPDATE_VIEW_FILTER==='added'?'active':'')+'" data-filter="added"><i class="fas fa-user-plus"></i> الجديدة</button>'+
-    '<button class="update-filter-btn '+(UPDATE_VIEW_FILTER==='missing'?'active':'')+'" data-filter="missing"><i class="fas fa-triangle-exclamation"></i> المراجعة</button></div></div></div>';
-  h+='<div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-list-check"></i> تفاصيل الإصدار</div><div class="updates-section-note">القيمة القديمة ← الجديدة</div></div><div class="updates-list">';
-  var items=[];
-  if(UPDATE_VIEW_FILTER==='all'||UPDATE_VIEW_FILTER==='modified')modified.forEach(function(x){items.push({kind:'modified',x:x});});
-  if(UPDATE_VIEW_FILTER==='all'||UPDATE_VIEW_FILTER==='added')added.forEach(function(x){items.push({kind:'added',x:x});});
-  if(UPDATE_VIEW_FILTER==='all'||UPDATE_VIEW_FILTER==='missing')missing.forEach(function(x){items.push({kind:'missing',x:x});});
-  if(!items.length)h+='<div class="history-empty"><i class="fas fa-circle-check"></i>لا توجد حالات ضمن هذا النوع في الإصدار المحدد.</div>';
-  else h+=items.slice(0,30).map(function(item){var x=item.x,kind=item.kind,icon=kind==='modified'?'fa-user-pen':kind==='added'?'fa-user-plus':'fa-triangle-exclamation',badge=kind==='modified'?((x.changes||[]).length+' حقل'):kind==='added'?'موظف جديد':'مراجعة Excel';return '<div class="update-person '+kind+'" data-update-employee="'+escapeHTML(x.id||'')+'"><div class="update-person-top"><div class="update-person-ico"><i class="fas '+icon+'"></i></div><div class="update-person-name">'+escapeHTML(x.name||'—')+'</div><span class="update-change-count">'+escapeHTML(badge)+'</span><span class="update-person-no">اضبارة '+escapeHTML(x.num||'—')+'</span></div>'+(kind==='modified'?updateChangePreviewHTML(x):'<div class="update-fields"><span class="update-field-chip">'+(kind==='added'?'تمت إضافته إلى النسخة المركزية':'لم يظهر في Excel وتم الاحتفاظ به للمراجعة')+'</span></div>')+'</div>';}).join('');
-  if(items.length>30)h+='<div class="update-more">يتم عرض أول 30 حالة من '+items.length+'. بقية التفاصيل محفوظة في سجل الموظفين.</div>';
-  h+='</div></div>';
-  h+='<div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-code-branch"></i> سجل إصدارات البيانات</div><div class="updates-section-note">اضغط على إصدار لاستعراضه</div></div><div class="version-timeline">';
-  if(!versions.length)h+='<div class="history-empty">لا توجد إصدارات محفوظة بعد.</div>';
-  else h+=versions.slice(0,12).map(function(v,i){var vc=v.counts||{},sel=v.version===u.version;return '<div class="version-event"><div class="version-dot"></div><div class="version-card '+(sel?'selected':'')+'" data-update-version="'+escapeHTML(v.version||'')+'"><div class="version-card-top"><span class="version-id">'+escapeHTML(v.version||'—')+'</span><span class="version-date">'+escapeHTML(changeVersionDate(v.updatedAt))+'</span></div><div class="version-counts"><span class="version-count-chip m"><i class="fas fa-pen"></i> '+(vc.modified||0)+'</span><span class="version-count-chip a"><i class="fas fa-plus"></i> '+(vc.added||0)+'</span><span class="version-count-chip r"><i class="fas fa-triangle-exclamation"></i> '+(vc.missing||0)+'</span></div></div></div>';}).join('');
-  h+='</div></div>';
+  var u=selectedUpdateSummary(),modified=(u.modified||[]).map(function(x){var y=JSON.parse(JSON.stringify(x));y.changes=realHistoryChanges(y.changes);return y;}).filter(function(x){return x.changes.length>0;}),added=u.added||[],review=u.missing||[],versions=historyVersions().slice().reverse(),g=currentGapData();
+  var updated=changeVersionDate(u.updatedAt),isLatest=!SELECTED_UPDATE_VERSION||u.version===latestUpdateSummary().version;
+  var h='<div class="updates-hero"><div class="updates-hero-top"><div class="updates-hero-icon"><i class="fas fa-arrows-rotate"></i></div><div><div class="updates-hero-title">مركز التحديثات والبيانات</div><div class="updates-hero-sub">أربع حالات مستقلة: التعديل الحقيقي، الموظف الجديد، النقص في البيانات، والحالات التي تحتاج مراجعة يدوية.</div></div><div class="updates-version-pill">'+escapeHTML(u.version||DATA_VERSION||'—')+'</div></div><div class="update-kpi-ribbon"><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#90caf9">'+modified.length+'</div><div class="update-ribbon-l">تعديل حقيقي</div></div><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#a5d6a7">'+added.length+'</div><div class="update-ribbon-l">موظف جديد</div></div><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#ffcc80">'+g.employees+'</div><div class="update-ribbon-l">لديهم نواقص</div></div><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#ef9a9a">'+review.length+'</div><div class="update-ribbon-l">تحتاج مراجعة</div></div></div><div class="update-version-nav"><div class="update-version-current"><i class="fas fa-clock" style="margin-left:5px"></i>'+escapeHTML(updated)+(isLatest?' • آخر إصدار فعلي':' • إصدار تاريخي')+'</div>'+(isLatest?'':'<button class="update-latest-btn" id="update-back-latest"><i class="fas fa-arrow-rotate-right"></i> العودة لآخر إصدار</button>')+'</div></div>';
+  h+='<div class="updates-inner-tabs">'+
+    '<button class="updates-inner-tab changes '+(UPDATE_SECTION_VIEW==='changes'?'active':'')+'" data-update-section="changes"><div class="updates-tab-main"><i class="fas fa-pen-to-square"></i><b>التعديلات</b><span class="updates-tab-count">'+modified.length+'</span></div><div class="updates-tab-sub">تغيّر فعلي في بيانات موجودة</div></button>'+
+    '<button class="updates-inner-tab additions '+(UPDATE_SECTION_VIEW==='additions'?'active':'')+'" data-update-section="additions"><div class="updates-tab-main"><i class="fas fa-user-plus"></i><b>الجديد</b><span class="updates-tab-count">'+added.length+'</span></div><div class="updates-tab-sub">موظفون أضيفوا لأول مرة</div></button>'+
+    '<button class="updates-inner-tab gaps '+(UPDATE_SECTION_VIEW==='gaps'?'active':'')+'" data-update-section="gaps"><div class="updates-tab-main"><i class="fas fa-clipboard-list"></i><b>النواقص</b><span class="updates-tab-count">'+g.employees+'</span></div><div class="updates-tab-sub">حقول غير مكتملة في Excel</div></button>'+
+    '<button class="updates-inner-tab review '+(UPDATE_SECTION_VIEW==='review'?'active':'')+'" data-update-section="review"><div class="updates-tab-main"><i class="fas fa-triangle-exclamation"></i><b>المراجعة</b><span class="updates-tab-count">'+review.length+'</span></div><div class="updates-tab-sub">حالات تحتاج تحققًا يدويًا</div></button></div>';
+  if(UPDATE_SECTION_VIEW==='gaps'){
+    h+='<div class="section-mini-explainer gaps"><i class="fas fa-circle-info"></i><span><strong>النواقص:</strong> معلومات غير موجودة أصلًا، مثل رقم وظيفي أو هوية أو اختصاص مفقود. لا تُحسب كتعديلات.</span></div>'+gapsHTML();
+  }else if(UPDATE_SECTION_VIEW==='review'){
+    h+='<div class="section-mini-explainer review"><i class="fas fa-circle-info"></i><span><strong>المراجعة:</strong> حالات لا يحسمها النظام تلقائيًا، مثل سجل كان موجودًا سابقًا ولم يظهر في Excel الحالي.</span></div><div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-triangle-exclamation"></i> حالات تحتاج مراجعة</div><div class="updates-section-note">'+review.length+' حالة</div></div><div class="updates-list">';
+    if(!review.length)h+='<div class="history-empty"><i class="fas fa-circle-check"></i>لا توجد حالات تحتاج مراجعة في هذا الإصدار.</div>';
+    else h+=review.slice(0,80).map(function(x){return '<div class="review-person" data-update-employee="'+escapeHTML(x.id||'')+'"><div class="update-person-top"><div class="update-person-ico"><i class="fas fa-triangle-exclamation"></i></div><div class="update-person-name">'+escapeHTML(x.name||'—')+'</div><span class="update-person-no">اضبارة '+escapeHTML(x.num||'—')+'</span></div><div class="update-fields"><span class="update-field-chip">لم يظهر في ملف Excel الحالي — يحتاج تحققًا يدويًا</span></div></div>';}).join('');
+    h+='</div></div>';
+  }else if(UPDATE_SECTION_VIEW==='additions'){
+    h+='<div class="section-mini-explainer additions"><i class="fas fa-circle-info"></i><span><strong>الجديد:</strong> موظفون لم يكونوا موجودين في الإصدار السابق وظهروا لأول مرة في Excel الحالي.</span></div><div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-user-plus"></i> الموظفون الجدد</div><div class="updates-section-note">'+added.length+' موظف</div></div><div class="updates-list">';
+    if(!added.length)h+='<div class="history-empty"><i class="fas fa-circle-check"></i>لا توجد إضافات جديدة في هذا الإصدار.</div>';
+    else h+=added.map(function(x){return '<div class="update-person added" data-update-employee="'+escapeHTML(x.id||'')+'"><div class="update-person-top"><div class="update-person-ico"><i class="fas fa-user-plus"></i></div><div class="update-person-name">'+escapeHTML(x.name||'—')+'</div><span class="update-change-count">موظف جديد</span><span class="update-person-no">اضبارة '+escapeHTML(x.num||'—')+'</span></div><div class="update-fields"><span class="update-field-chip">تمت إضافته إلى النسخة المركزية</span></div></div>';}).join('');
+    h+='</div></div>';
+  }else{
+    h+='<div class="section-mini-explainer changes"><i class="fas fa-circle-info"></i><span><strong>التعديلات:</strong> يظهر هنا فقط التغيّر الحقيقي في قيمة أصلية موجودة، مثل الاسم أو الاختصاص أو الشعبة أو الراتب.</span></div><div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-user-pen"></i> التعديلات الفعلية</div><div class="updates-section-note">القيمة السابقة ← الجديدة</div></div><div class="updates-list">';
+    if(!modified.length)h+='<div class="history-empty"><i class="fas fa-circle-check"></i>لا توجد تعديلات فعلية على القيم الأصلية في هذا الإصدار.</div>';
+    else h+=modified.slice(0,80).map(function(x){return '<div class="update-person modified" data-update-employee="'+escapeHTML(x.id||'')+'"><div class="update-person-top"><div class="update-person-ico"><i class="fas fa-user-pen"></i></div><div class="update-person-name">'+escapeHTML(x.name||'—')+'</div><span class="update-change-count">'+x.changes.length+' حقل</span><span class="update-person-no">اضبارة '+escapeHTML(x.num||'—')+'</span></div>'+updateChangePreviewHTML(x)+'</div>';}).join('');
+    h+='</div></div>';
+  }
+  if(UPDATE_SECTION_VIEW!=='gaps'){
+    h+='<div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-code-branch"></i> سجل إصدارات البيانات</div><div class="updates-section-note">اضغط على إصدار لاستعراضه</div></div><div class="version-timeline">';
+    if(!versions.length)h+='<div class="history-empty">لا توجد إصدارات محفوظة بعد.</div>';else h+=versions.slice(0,12).map(function(v){var vc=v.counts||{},sel=v.version===u.version;return '<div class="version-event"><div class="version-dot"></div><div class="version-card '+(sel?'selected':'')+'" data-update-version="'+escapeHTML(v.version||'')+'"><div class="version-card-top"><span class="version-id">'+escapeHTML(v.version||'—')+'</span><span class="version-date">'+escapeHTML(changeVersionDate(v.updatedAt))+'</span></div><div class="version-counts"><span class="version-count-chip m"><i class="fas fa-pen"></i> '+(vc.modified||0)+'</span><span class="version-count-chip a"><i class="fas fa-plus"></i> '+(vc.added||0)+'</span><span class="version-count-chip r"><i class="fas fa-triangle-exclamation"></i> '+(vc.missing||0)+'</span></div></div></div>';}).join('');
+    h+='</div></div>';
+  }
   page.innerHTML=h;
-  page.querySelectorAll('[data-update-employee]').forEach(function(el){el.addEventListener('click',function(){openUpdateEmployee(this.getAttribute('data-update-employee'));});});
-  page.querySelectorAll('.update-filter-btn').forEach(function(btn){btn.addEventListener('click',function(){UPDATE_VIEW_FILTER=this.getAttribute('data-filter')||'all';buildUpdates();});});
-  page.querySelectorAll('[data-update-version]').forEach(function(el){el.addEventListener('click',function(){SELECTED_UPDATE_VERSION=this.getAttribute('data-update-version')||'';UPDATE_VIEW_FILTER='all';buildUpdates();document.getElementById('scroll').scrollTo({top:0,behavior:'smooth'});});});
-  var back=document.getElementById('update-back-latest');if(back)back.addEventListener('click',function(){SELECTED_UPDATE_VERSION='';UPDATE_VIEW_FILTER='all';buildUpdates();});
+  page.querySelectorAll('[data-update-section]').forEach(function(btn){btn.addEventListener('click',function(){UPDATE_SECTION_VIEW=this.getAttribute('data-update-section')||'changes';buildUpdates();document.getElementById('scroll').scrollTo({top:0,behavior:'smooth'});});});
+  page.querySelectorAll('[data-update-employee],[data-gap-employee]').forEach(function(el){el.addEventListener('click',function(){openUpdateEmployee(this.getAttribute('data-update-employee')||this.getAttribute('data-gap-employee'));});});
+  page.querySelectorAll('[data-gap-field]').forEach(function(btn){btn.addEventListener('click',function(){MISSING_FIELD_FILTER=this.getAttribute('data-gap-field')||'all';buildUpdates();document.getElementById('scroll').scrollTo({top:0,behavior:'smooth'});});});
+  page.querySelectorAll('[data-update-version]').forEach(function(el){el.addEventListener('click',function(){SELECTED_UPDATE_VERSION=this.getAttribute('data-update-version')||'';UPDATE_SECTION_VIEW='changes';buildUpdates();document.getElementById('scroll').scrollTo({top:0,behavior:'smooth'});});});
+  var back=document.getElementById('update-back-latest');if(back)back.addEventListener('click',function(){SELECTED_UPDATE_VERSION='';UPDATE_SECTION_VIEW='changes';buildUpdates();});
 }
-function findDirectNumericMatch(q){
-  q=String(q||'').trim();if(!/^\d+$/.test(q))return null;
-  var ds=BASE[mode]||[], exact=ds.filter(function(e){return String(e.num||'')===q||String(e.employeeNo||'')===q;});
-  if(exact.length===1)return exact[0];
-  // If the same digits happen to equal both fields of two records, prefer an exact employee number only when unique.
-  var byEmp=ds.filter(function(e){return String(e.employeeNo||'')===q;});if(byEmp.length===1)return byEmp[0];
-  var byFile=ds.filter(function(e){return String(e.num||'')===q;});if(byFile.length===1)return byFile[0];
-  return null;
-}
-function updateDirectSearchHit(q){
-  var box=document.getElementById('direct-search-hit');if(!box)return;
-  DIRECT_NUMERIC_MATCH=findDirectNumericMatch(q);
-  if(!DIRECT_NUMERIC_MATCH){box.classList.remove('show');box.innerHTML='';return;}
-  var e=DIRECT_NUMERIC_MATCH,matched=String(e.employeeNo||'')===String(q)?'الرقم الوظيفي':'رقم الاضبارة';
-  box.innerHTML='<div class="direct-hit-ico"><i class="fas fa-bolt"></i></div><div class="direct-hit-info"><div class="direct-hit-name">'+escapeHTML(e.name||'—')+'</div><div class="direct-hit-meta">تطابق مباشر حسب '+matched+' • اضغط Enter أو الزر لفتح الملف</div></div><span class="direct-hit-key">'+escapeHTML(q)+'</span><button class="direct-hit-btn" type="button"><i class="fas fa-folder-open"></i> فتح مباشر</button>';
-  box.classList.add('show');var b=box.querySelector('.direct-hit-btn');if(b)b.onclick=function(){openModal(DIRECT_NUMERIC_MATCH);};
-}
-
-// ── STATS ─────────────────────────────────────────────────────────────────────
-function metricClean(field,value){
-  var v=value===undefined||value===null?'':String(value).trim();
-  if(!v||v==='—'||v==='-'||v==='–')return 'غير متوفر';
-  if(['gender','division','education','jobTitle','specialization','birthDate','hireDate','notes'].indexOf(field)>=0 && v==='36')return 'غير متوفر';
-  return v;
-}
-function metricCounts(ds,field){
-  var o={};(ds||[]).forEach(function(e){var v=metricClean(field,e[field]);o[v]=(o[v]||0)+1;});return o;
-}
-function sortedMetrics(obj,limit){
-  return Object.keys(obj||{}).map(function(k){return [k,obj[k]];}).sort(function(a,b){return b[1]-a[1]||a[0].localeCompare(b[0],'ar');}).slice(0,limit||10);
-}
-function uniqueMetricCount(ds,field){var s={};(ds||[]).forEach(function(e){var v=metricClean(field,e[field]);if(v!=='غير متوفر')s[v]=1;});return Object.keys(s).length;}
-function validSalaryAverage(ds){var a=(ds||[]).map(function(e){var n=Number(String(e.salary||'').replace(/[^0-9.]/g,''));return isFinite(n)&&n>0?n:null;}).filter(function(x){return x!==null;});return a.length?Math.round(a.reduce(function(x,y){return x+y;},0)/a.length):0;}
-function hasActiveFilterContext(){var q=document.getElementById('q').value.trim();return !!q||!!activeLetter||Object.keys(getActiveFilters()).length>0;}
-function currentFilterDescription(){
-  var parts=[],q=document.getElementById('q').value.trim(),scope=document.getElementById('search-scope');
-  if(q)parts.push('بحث '+(scope?scope.options[scope.selectedIndex].text:'')+': «'+q+'»');
-  if(activeLetter)parts.push('الحرف الأول: '+activeLetter);
-  var af=getActiveFilters(),labels={gender:'الجنس',employmentStatus:'الحالة',division:'الشعبة',education:'التحصيل',grade:'الدرجة'};
-  Object.keys(af).forEach(function(k){parts.push((labels[k]||k)+': '+af[k]);});
-  return parts.length?parts.join(' • '):'بدون فلاتر — جميع سجلات '+(mode==='perm'?'الدائميين':'العقود');
-}
-function distHTML(ds,field,limit,cls){
-  var arr=sortedMetrics(metricCounts(ds,field),limit||8);if(!arr.length)return '<div class="r6-empty">لا توجد بيانات كافية</div>';
-  var max=arr[0][1]||1;return '<div class="r6-dist">'+arr.map(function(x){var p=(x[1]/max*100).toFixed(1);return '<div class="r6-dist-row"><div class="r6-dist-name" title="'+escapeHTML(x[0])+'">'+escapeHTML(x[0])+'</div><div class="r6-dist-track"><div class="r6-dist-fill" style="width:'+p+'%"></div></div><div class="r6-dist-num">'+x[1]+'</div></div>';}).join('')+'</div>';
-}
-function buildStats(){
-  var isPerm=mode==='perm', cls=isPerm?'perm-panel':'cont-panel', all=BASE[mode]||[], ds=(filt||[]).slice(), filtered=hasActiveFilterContext();
-  var html='<div class="s-panel '+cls+'"><div class="r6-context"><div class="r6-context-title"><i class="fas fa-chart-line"></i> لوحة مؤشرات '+(isPerm?'الموظفين الدائميين':'موظفي العقود')+'</div><span class="r6-context-badge">'+(filtered?'حسب الفلاتر الحالية':'كل البيانات')+'</span></div>';
-  if(isPerm){
-    var gender=metricCounts(ds,'gender'),male=gender['ذكر']||0,female=gender['انثى']||gender['أنثى']||0,avg=validSalaryAverage(ds);
-    html+='<div class="r6-kpi-grid">'+
-      '<div class="r6-kpi"><div class="r6-kpi-v">'+ds.length+'</div><div class="r6-kpi-l">النتائج الحالية من '+all.length+'</div></div>'+
-      '<div class="r6-kpi"><div class="r6-kpi-v">'+male+'</div><div class="r6-kpi-l">ذكور</div></div>'+
-      '<div class="r6-kpi"><div class="r6-kpi-v">'+female+'</div><div class="r6-kpi-l">إناث</div></div>'+
-      '<div class="r6-kpi"><div class="r6-kpi-v">'+uniqueMetricCount(ds,'division')+'</div><div class="r6-kpi-l">شعبة / قسم</div></div>'+
-      '<div class="r6-kpi"><div class="r6-kpi-v">'+uniqueMetricCount(ds,'jobTitle')+'</div><div class="r6-kpi-l">عنوان وظيفي</div></div>'+
-      '<div class="r6-kpi"><div class="r6-kpi-v">'+(avg?Number(avg).toLocaleString('en-US'):'—')+'</div><div class="r6-kpi-l">متوسط الراتب د.ع</div></div></div>';
-  }else{
-    var nums=ds.map(function(e){return Number(e.num)||0;}).filter(Boolean),min=nums.length?Math.min.apply(null,nums):0,max=nums.length?Math.max.apply(null,nums):0;
-    html+='<div class="r6-kpi-grid"><div class="r6-kpi"><div class="r6-kpi-v">'+ds.length+'</div><div class="r6-kpi-l">النتائج الحالية من '+all.length+'</div></div><div class="r6-kpi"><div class="r6-kpi-v">'+(min||'—')+'</div><div class="r6-kpi-l">أدنى رقم اضبارة</div></div><div class="r6-kpi"><div class="r6-kpi-v">'+(max||'—')+'</div><div class="r6-kpi-l">أعلى رقم اضبارة</div></div></div>';
-  }
-  html+='<div style="font-size:9px;color:var(--text2);margin-top:9px;line-height:1.7">'+escapeHTML(currentFilterDescription())+'</div></div>';
-  if(isPerm){
-    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-sitemap"></i> التوزيع حسب الشعبة / القسم</div>'+distHTML(ds,'division',10)+'</div>';
-    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-user-check"></i> الحالة الوظيفية</div>'+distHTML(ds,'employmentStatus',8)+'</div>';
-    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-graduation-cap"></i> التحصيل الدراسي</div>'+distHTML(ds,'education',8)+'</div>';
-    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-layer-group"></i> الدرجات الوظيفية</div>'+distHTML(ds,'grade',10)+'</div>';
-    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-user-tie"></i> أكثر العناوين الوظيفية</div>'+distHTML(ds,'jobTitle',10)+'</div>';
-  }else{
-    var ls={};ds.forEach(function(e){var n=normalizeAr((e.name||'').trim());if(n)ls[n[0]]=(ls[n[0]]||0)+1;});
-    var arr=sortedMetrics(ls,15),mx=arr.length?arr[0][1]:1;
-    html+='<div class="s-panel '+cls+'"><div class="s-panel-title"><i class="fas fa-font"></i> توزيع الحرف الأول</div><div class="r6-dist">'+(arr.length?arr.map(function(x){return '<div class="r6-dist-row"><div class="r6-dist-name">'+escapeHTML(x[0])+'</div><div class="r6-dist-track"><div class="r6-dist-fill" style="width:'+(x[1]/mx*100).toFixed(1)+'%"></div></div><div class="r6-dist-num">'+x[1]+'</div></div>';}).join(''):'<div class="r6-empty">لا توجد بيانات كافية</div>')+'</div></div>';
-  }
-  document.getElementById('stats-page').innerHTML=html;
-}
-
-var REPORT_COLUMN_DEFS=[
-  {k:'num',l:'الاضبارة',defaultOn:true},{k:'employeeNo',l:'الرقم الوظيفي',defaultOn:true},{k:'name',l:'الاسم الكامل',defaultOn:true},
-  {k:'division',l:'الشعبة / القسم',defaultOn:true},{k:'employmentStatus',l:'الحالة الوظيفية',defaultOn:true},{k:'education',l:'التحصيل',defaultOn:true},
-  {k:'jobTitle',l:'العنوان الوظيفي',defaultOn:true},{k:'specialization',l:'الاختصاص',defaultOn:false},{k:'grade',l:'الدرجة',defaultOn:true},{k:'step',l:'المرحلة',defaultOn:true},
-  {k:'salary',l:'الراتب',defaultOn:false,sensitive:true},{k:'hireDate',l:'تاريخ التعيين',defaultOn:true},{k:'birthDate',l:'تاريخ التولد',defaultOn:false,sensitive:true},
-  {k:'identityNo',l:'رقم الهوية',defaultOn:false,sensitive:true},{k:'identityIssueDate',l:'تاريخ إصدار الهوية',defaultOn:false,sensitive:true},{k:'identityIssuer',l:'جهة إصدار الهوية',defaultOn:false,sensitive:true},{k:'motherName',l:'اسم الأم',defaultOn:false,sensitive:true},{k:'notes',l:'الملاحظات',defaultOn:false}
-];
-function ensureReportState(){
-  if(!REPORT_STATE.title)REPORT_STATE.title='تقرير '+(mode==='perm'?'الموظفين الدائميين':'موظفي العقود');
-  if(!Array.isArray(REPORT_STATE.columns)){REPORT_STATE.columns=REPORT_COLUMN_DEFS.filter(function(c){return c.defaultOn&&!c.sensitive;}).map(function(c){return c.k;});}
-  var vs=historyVersions();if(vs.length){if(!REPORT_STATE.compareTo)REPORT_STATE.compareTo=vs[vs.length-1].version;if(!REPORT_STATE.compareFrom&&vs.length>1)REPORT_STATE.compareFrom=vs[vs.length-2].version;}
-}
-function reportTypeLabel(t){return {current:'النتائج الحالية',all:'جميع الموظفين',modified:'المعدلون في آخر تحديث',added:'الجدد في آخر تحديث',review:'حالات مراجعة Excel',quality:'نواقص البيانات'}[t]||'تقرير الموظفين';}
 function reportDataset(){
   var base=BASE[mode]||[],latest=latestUpdateSummary();
   if(REPORT_STATE.type==='all')return base.slice();
@@ -1719,12 +1640,12 @@ function printCompareReport(){
 }
 
 
-// ── R6.5: REAL EDITS / DATA GAPS / PREMIUM REPORTS ──────────────────────────
+// ── R6.6: REAL EDITS / ADDITIONS / GAPS / REVIEW ─────────────────────────────
 var GAP_FIELD_DEFS=[
-  {k:'employeeNo',l:'الرقم الوظيفي',critical:true},{k:'identityNo',l:'رقم الهوية',critical:true},{k:'identityIssueDate',l:'تاريخ إصدار الهوية'},{k:'identityIssuer',l:'جهة إصدار الهوية'},
-  {k:'motherName',l:'اسم الأم'},{k:'gender',l:'الجنس'},{k:'division',l:'الشعبة / القسم',critical:true},{k:'employmentStatus',l:'الحالة الوظيفية',critical:true},
-  {k:'education',l:'التحصيل الدراسي'},{k:'jobTitle',l:'العنوان الوظيفي',critical:true},{k:'specialization',l:'الاختصاص'},{k:'grade',l:'الدرجة'},{k:'step',l:'المرحلة'},
-  {k:'salary',l:'الراتب'},{k:'birthDate',l:'تاريخ التولد'},{k:'hireDate',l:'تاريخ التعيين',critical:true}
+  {k:'employeeNo',l:'الرقم الوظيفي',icon:'fas fa-hashtag',critical:true},{k:'identityNo',l:'رقم الهوية',icon:'fas fa-id-card',critical:true},{k:'identityIssueDate',l:'تاريخ إصدار الهوية',icon:'fas fa-calendar-check'},{k:'identityIssuer',l:'جهة إصدار الهوية',icon:'fas fa-building-columns'},
+  {k:'motherName',l:'اسم الأم',icon:'fas fa-person-dress'},{k:'gender',l:'الجنس',icon:'fas fa-venus-mars'},{k:'division',l:'الشعبة / القسم',icon:'fas fa-sitemap',critical:true},{k:'employmentStatus',l:'الحالة الوظيفية',icon:'fas fa-user-check',critical:true},
+  {k:'education',l:'التحصيل الدراسي',icon:'fas fa-graduation-cap'},{k:'jobTitle',l:'العنوان الوظيفي',icon:'fas fa-briefcase',critical:true},{k:'specialization',l:'الاختصاص',icon:'fas fa-seedling'},{k:'grade',l:'الدرجة',icon:'fas fa-layer-group'},{k:'step',l:'المرحلة',icon:'fas fa-stairs'},
+  {k:'salary',l:'الراتب',icon:'fas fa-money-bill-wave'},{k:'birthDate',l:'تاريخ التولد',icon:'fas fa-cake-candles'},{k:'hireDate',l:'تاريخ التعيين',icon:'fas fa-calendar-plus',critical:true}
 ];
 function gapValueMissing(field,v){return historySemanticValue(field,v)==='';}
 function employeeGapFields(emp){return GAP_FIELD_DEFS.filter(function(f){return gapValueMissing(f.k,emp?emp[f.k]:null);});}
@@ -1737,13 +1658,14 @@ function currentGapData(){
 function gapsHTML(){
   var g=currentGapData(),rows=g.people;
   if(MISSING_FIELD_FILTER!=='all')rows=rows.filter(function(x){return x.fields.some(function(f){return f.k===MISSING_FIELD_FILTER;});});
-  var top=GAP_FIELD_DEFS.map(function(f){return {k:f.k,l:f.l,n:g.fieldCounts[f.k]||0,critical:!!f.critical};}).filter(function(x){return x.n>0;}).sort(function(a,b){return b.n-a.n;});
-  var h='<div class="gaps-hero"><div class="gaps-head"><div class="gaps-icon"><i class="fas fa-clipboard-check"></i></div><div><div class="gaps-title">مركز النواقص الحالية</div><div class="gaps-sub">هذه ليست تعديلات. هي حقول غير مكتملة في النسخة الحالية من Excel وتظهر هنا للمراجعة والاستكمال فقط.</div></div><div class="gaps-badge">'+g.employees+' موظف</div></div><div class="gaps-kpis"><div class="gap-kpi"><div class="gap-kpi-v">'+g.employees+'</div><div class="gap-kpi-l">لديهم نواقص</div></div><div class="gap-kpi"><div class="gap-kpi-v">'+g.total+'</div><div class="gap-kpi-l">حقل ناقص</div></div><div class="gap-kpi"><div class="gap-kpi-v">'+g.critical+'</div><div class="gap-kpi-l">نقص أساسي</div></div></div></div>';
-  h+='<div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-filter-circle-xmark"></i> فلترة النواقص</div><div class="updates-section-note">حسب الحقل</div></div><div style="padding:8px 10px"><div class="gap-field-filter"><button class="gap-field-btn '+(MISSING_FIELD_FILTER==='all'?'active':'')+'" data-gap-field="all">الكل <span class="n">'+g.employees+'</span></button>'+top.map(function(x){return '<button class="gap-field-btn '+(MISSING_FIELD_FILTER===x.k?'active':'')+'" data-gap-field="'+x.k+'">'+escapeHTML(x.l)+' <span class="n">'+x.n+'</span></button>';}).join('')+'</div></div></div>';
-  h+='<div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-list-ul"></i> الموظفون ذوو البيانات الناقصة</div><div class="updates-section-note">'+rows.length+' حالة</div></div><div class="updates-list">';
-  if(!rows.length)h+='<div class="history-empty"><i class="fas fa-circle-check"></i>لا توجد نواقص ضمن هذا الفلتر.</div>';
-  else h+=rows.slice(0,60).map(function(r){var e=r.emp;return '<div class="gap-person" data-gap-employee="'+escapeHTML(e.id||'')+'"><div class="gap-person-top"><div class="gap-person-ico"><i class="fas fa-user-shield"></i></div><div class="gap-person-name">'+escapeHTML(e.name||'—')+'</div><span class="gap-person-no">اضبارة '+escapeHTML(e.num||'—')+'</span></div><div class="gap-chip-row">'+r.fields.map(function(f){return '<span class="gap-chip '+(f.critical?'critical':'')+'">'+escapeHTML(f.l)+'</span>';}).join('')+'</div></div>';}).join('');
-  if(rows.length>60)h+='<div class="update-more">يعرض أول 60 موظفًا من '+rows.length+'. استخدم فلتر الحقل لتضييق النتائج.</div>';
+  var cats=GAP_FIELD_DEFS.map(function(f){return {k:f.k,l:f.l,n:g.fieldCounts[f.k]||0,critical:!!f.critical,icon:f.icon||'fas fa-circle-exclamation'};}).filter(function(x){return x.n>0;}).sort(function(a,b){return b.n-a.n;});
+  var selected=cats.find(function(x){return x.k===MISSING_FIELD_FILTER;});
+  var h='<div class="gaps-hero"><div class="gaps-head"><div class="gaps-icon"><i class="fas fa-clipboard-check"></i></div><div><div class="gaps-title">مركز النواقص الحالية</div><div class="gaps-sub">كل نوع نقص معزول لوحده. اختر الحقل المطلوب لرؤية الموظفين الذين تنقصهم هذه المعلومة فقط.</div></div><div class="gaps-badge">'+g.employees+' موظف</div></div><div class="gaps-kpis"><div class="gap-kpi"><div class="gap-kpi-v">'+g.employees+'</div><div class="gap-kpi-l">لديهم نواقص</div></div><div class="gap-kpi"><div class="gap-kpi-v">'+g.total+'</div><div class="gap-kpi-l">حقل ناقص</div></div><div class="gap-kpi"><div class="gap-kpi-v">'+cats.length+'</div><div class="gap-kpi-l">أنواع نواقص</div></div></div></div>';
+  h+='<div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-table-cells-large"></i> أنواع النواقص</div><div class="updates-section-note">كل حقل مستقل</div></div><div class="gap-category-grid"><div class="gap-category-card gap-all-card '+(MISSING_FIELD_FILTER==='all'?'active':'')+'" data-gap-field="all"><div class="gap-category-ico"><i class="fas fa-layer-group"></i></div><div class="gap-category-info"><div class="gap-category-title">جميع النواقص</div><div class="gap-category-note">عرض كل الموظفين الذين لديهم أي معلومة ناقصة</div></div><div class="gap-category-count">'+g.employees+'</div></div>'+cats.map(function(x){return '<div class="gap-category-card '+(MISSING_FIELD_FILTER===x.k?'active':'')+'" data-gap-field="'+x.k+'"><div class="gap-category-ico"><i class="'+x.icon+'"></i></div><div class="gap-category-info"><div class="gap-category-title">'+escapeHTML(x.l)+'</div><div class="gap-category-note">'+(x.critical?'حقل أساسي':'معلومة غير مكتملة')+'</div></div><div class="gap-category-count">'+x.n+'</div></div>';}).join('')+'</div></div>';
+  h+='<div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-list-ul"></i> '+(selected?'ناقص: '+escapeHTML(selected.l):'الموظفون ذوو البيانات الناقصة')+'</div><div class="updates-section-note">'+rows.length+' موظف</div></div><div class="updates-list">';
+  if(!rows.length)h+='<div class="history-empty"><i class="fas fa-circle-check"></i>لا توجد حالات نقص ضمن هذا الحقل.</div>';
+  else h+=rows.slice(0,80).map(function(r){var e=r.emp,visibleFields=MISSING_FIELD_FILTER==='all'?r.fields:r.fields.filter(function(f){return f.k===MISSING_FIELD_FILTER;});return '<div class="gap-person" data-gap-employee="'+escapeHTML(e.id||'')+'"><div class="gap-person-top"><div class="gap-person-ico"><i class="fas fa-user-shield"></i></div><div class="gap-person-name">'+escapeHTML(e.name||'—')+'</div><span class="gap-person-no">اضبارة '+escapeHTML(e.num||'—')+'</span></div><div class="gap-chip-row">'+visibleFields.map(function(f){return '<span class="gap-chip '+(f.critical?'critical':'')+'">'+escapeHTML(f.l)+'</span>';}).join('')+'</div></div>';}).join('');
+  if(rows.length>80)h+='<div class="update-more">يعرض أول 80 موظفًا من '+rows.length+'. اختر نوع نقص محدد لعرض الحالات المرتبطة به.</div>';
   h+='</div></div>';return h;
 }
 function buildUpdates(){
