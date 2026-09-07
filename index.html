@@ -847,7 +847,7 @@ body.light-mode .report-builder,body.light-mode .compare-card{background:#fff}.l
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R6.6-CLEAR-UPDATES-MISSING-CATEGORIES';
+var APP_RELEASE = 'R6.6.1-REPORTS-FIX';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -1568,6 +1568,7 @@ function aggregateCompare(fromV,toV){
   evs.forEach(function(v){(v.modified||[]).forEach(function(x){mods.push({version:v.version,updatedAt:v.updatedAt,item:x});});(v.added||[]).forEach(function(x){adds.push({version:v.version,updatedAt:v.updatedAt,item:x});});(v.missing||[]).forEach(function(x){miss.push({version:v.version,updatedAt:v.updatedAt,item:x});});});
   return {events:evs,modified:mods,added:adds,missing:miss,counts:{modified:mods.length,added:adds.length,missing:miss.length}};
 }
+function reportTypeLabel(t){return {current:'النتائج الحالية',all:'جميع الموظفين',modified:'المعدلون في آخر تحديث',added:'الجدد في آخر تحديث',review:'حالات مراجعة Excel',quality:'نواقص البيانات'}[t]||'تقرير الموظفين';}
 function reportScopeText(){if(REPORT_STATE.type==='current')return currentFilterDescription();return reportTypeLabel(REPORT_STATE.type);}
 function reportDocumentHTML(ds,cols){
   var title=REPORT_STATE.title||reportTypeLabel(REPORT_STATE.type),latest=latestUpdateSummary(),avgSalary=0,sal=ds.map(function(e){var n=Number(String(e.salary||'').replace(/[^0-9.]/g,''));return isFinite(n)&&n>0?n:0;}).filter(Boolean);if(sal.length)avgSalary=Math.round(sal.reduce(function(a,b){return a+b;},0)/sal.length);

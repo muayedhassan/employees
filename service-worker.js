@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-r6-6-clear-updates-missing-categories-2026.09.07';
+const CACHE_NAME = 'employee-registry-r6-6-1-reports-fix-2026.09.07';
 const APP_SHELL = [
   './',
   './index.html',
