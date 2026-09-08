@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-r7-0-4-unified-search-results-2026.09.07';
+const CACHE_NAME = 'employee-registry-r7-1-system-update-center-2026.09.08';
 const APP_SHELL = [
   './',
   './index.html',
@@ -67,4 +67,9 @@ self.addEventListener('fetch', event => {
       })
     );
   }
+});
+
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
