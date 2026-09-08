@@ -101,6 +101,7 @@ function sanitizeSummaryObject(src){
   const out=clone(src);
   out.added=Array.isArray(out.added)?out.added:[];
   out.missing=Array.isArray(out.missing)?out.missing:[];
+  out.quality=Array.isArray(out.quality)?out.quality:[];
   out.modified=sanitizeModifiedEntries(out.modified);
   out.counts={...(out.counts||{})};
   out.counts.added=out.added.length;
@@ -112,7 +113,7 @@ function sanitizeSummaryObject(src){
   return out;
 }
 function sanitizeHistoryObject(src){
-  const out={schemaVersion:1,updatedAt:src?.updatedAt||null,versions:[]};
+  const out={schemaVersion:2,updatedAt:src?.updatedAt||null,versions:[]};
   out.versions=(Array.isArray(src?.versions)?src.versions:[]).map(v=>sanitizeSummaryObject(v));
   return out;
 }
@@ -141,6 +142,15 @@ function diffRecordAll(before, after){
   const changes=[];
   for(const key of COMPARE_FIELDS){
     if(isAnyFieldChange(key,before?.[key],after?.[key])) changes.push(key);
+  }
+  return changes;
+}
+function diffRecordQuality(before, after){
+  const changes=[];
+  for(const key of COMPARE_FIELDS){
+    const a=semanticValue(key,before?.[key]), b=semanticValue(key,after?.[key]);
+    if(a==='' && b!=='') changes.push({field:key,kind:'completed',oldValue:'',newValue:auditValue(key,after?.[key])});
+    else if(a!=='' && b==='') changes.push({field:key,kind:'missing',oldValue:auditValue(key,before?.[key]),newValue:''});
   }
   return changes;
 }
@@ -238,6 +248,7 @@ const matchedOldIds=new Set();
 const added=[];
 const modified=[];
 const qualityChanged=[];
+const qualityEvents=[];
 const unchanged=[];
 const missing=[];
 
@@ -255,8 +266,12 @@ for(const rec of perm){
   matchedOldIds.add(String(old.id||stableId(old)));
   const allChanges=diffRecordAll(old,rec);
   const changes=diffRecord(old,rec);
+  const qualityChanges=diffRecordQuality(old,rec);
   if(changes.length) modified.push({id:rec.id,employeeNo:rec.employeeNo,name:rec.name,num:rec.num,changes});
-  if(allChanges.length && !changes.length) qualityChanged.push(rec.id);
+  if(qualityChanges.length){
+    qualityChanged.push(rec.id);
+    qualityEvents.push({id:rec.id,employeeNo:rec.employeeNo,name:rec.name,num:rec.num,changes:qualityChanges});
+  }
   if(!allChanges.length) unchanged.push(rec.id);
 }
 
@@ -312,6 +327,7 @@ const summaryCandidate={
   },
   added,
   modified,
+  quality:qualityEvents,
   missing,
   warnings
 };
@@ -329,10 +345,11 @@ function historyEventFromSummary(x){
     counts:x.counts||{},
     added:Array.isArray(x.added)?x.added:[],
     modified:Array.isArray(x.modified)?x.modified.map(m=>({...m,changes:Array.isArray(m.changes)?m.changes.map(c=>({field:c.field,oldValue:auditValue(c.field,c.oldValue),newValue:auditValue(c.field,c.newValue)})):[]})):[],
+    quality:Array.isArray(x.quality)?x.quality.map(m=>({...m,changes:Array.isArray(m.changes)?m.changes.map(c=>({field:c.field,kind:c.kind,oldValue:auditValue(c.field,c.oldValue),newValue:auditValue(c.field,c.newValue)})):[]})):[],
     missing:Array.isArray(x.missing)?x.missing:[]
   };
 }
-const history={schemaVersion:1,updatedAt:new Date().toISOString(),versions:Array.isArray(previousHistory?.versions)?previousHistory.versions.slice():[]};
+const history={schemaVersion:2,updatedAt:new Date().toISOString(),versions:Array.isArray(previousHistory?.versions)?previousHistory.versions.slice():[]};
 // On first installation, seed history with the last already-published Excel change.
 if(history.versions.length===0){
   const seed=historyEventFromSummary(previousSummary);
