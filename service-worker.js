@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-r7-2-smart-history-2026.09.08';
+const CACHE_NAME = 'employee-registry-r7-1-2-windows-master-bridge-2026.09.08';
 const APP_SHELL = [
   './',
   './index.html',
@@ -46,7 +46,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Central Excel-Master JSON is read from raw GitHub. Cache the last successful
+  // Central HRSystem / SQL Server snapshot JSON is read from raw GitHub. Cache the last successful
   // responses as an extra offline layer; the app also keeps its own local snapshot.
   const isCentralData = url.hostname === 'raw.githubusercontent.com' &&
     url.pathname.indexOf('/muayedhassan/employees/main/data/') >= 0;
