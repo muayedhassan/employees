@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 1,
-  "updatedAt": "2026-09-07T14:23:41.277Z",
+  "schemaVersion": 2,
+  "updatedAt": "2026-09-08T07:20:55.390Z",
   "versions": [
     {
       "version": "DATA-2026.09.06-205947",
@@ -32,7 +32,8 @@
           ]
         }
       ],
-      "missing": []
+      "missing": [],
+      "quality": []
     }
   ]
 }
