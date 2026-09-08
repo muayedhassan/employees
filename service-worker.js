@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-r7-1-system-update-center-2026.09.08';
+const CACHE_NAME = 'employee-registry-r7-1-1-system-center-fix-2026.09.08';
 const APP_SHELL = [
   './',
   './index.html',
