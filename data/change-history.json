@@ -1,39 +1,5 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-08T07:20:55.390Z",
-  "versions": [
-    {
-      "version": "DATA-2026.09.06-205947",
-      "previousVersion": "DATA-2026.09.06-183000",
-      "updatedAt": "2026-09-06T17:59:47.450Z",
-      "source": "data-source/employees.xlsx",
-      "counts": {
-        "excelRows": 855,
-        "added": 0,
-        "modified": 1,
-        "missing": 0,
-        "unchanged": 854,
-        "warnings": 17,
-        "totalPublished": 1052
-      },
-      "added": [],
-      "modified": [
-        {
-          "id": "118997115",
-          "employeeNo": "118997115",
-          "name": "مؤيد خالد احمد صالح الدليمي",
-          "num": 735,
-          "changes": [
-            {
-              "field": "name",
-              "oldValue": "مؤيد حسن حميد محمد الدليمي",
-              "newValue": "مؤيد خالد احمد صالح الدليمي"
-            }
-          ]
-        }
-      ],
-      "missing": [],
-      "quality": []
-    }
-  ]
+  "updatedAt": "2026-09-08T20:04:17.5111024+00:00",
+  "versions": []
 }
