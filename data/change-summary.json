@@ -2,8 +2,8 @@
   "schemaVersion": 2,
   "mode": "hrsystem-master",
   "previousVersion": null,
-  "version": "DATA-2026.09.08-200417",
-  "updatedAt": "2026-09-08T20:04:17.5111024+00:00",
+  "version": "DATA-2026.09.09-054956",
+  "updatedAt": "2026-09-09T05:49:56.099141+00:00",
   "source": "HRSystem SQL Server",
   "baselineAvailable": false,
   "counts": {
