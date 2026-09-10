@@ -1,5 +1,154 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-09T05:49:56.099141+00:00",
-  "versions": []
+  "updatedAt": "2026-09-10T20:06:50.8521258+00:00",
+  "maxVersions": 60,
+  "versions": [
+    {
+      "version": "DATA-2026.09.10-145632",
+      "previousVersion": "DATA-2026.09.09-054956",
+      "updatedAt": "2026-09-10T14:56:32.1880723+00:00",
+      "counts": {
+        "published": 1052,
+        "added": 0,
+        "modified": 4,
+        "missing": 0,
+        "unchanged": 1048,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 492
+      },
+      "added": [],
+      "modified": [
+        {
+          "integrationId": "a5230239-0c9f-4fe1-8c60-ebd773933372",
+          "sourceEmployeeId": 216,
+          "id": "108002119",
+          "employeeNo": "108002119",
+          "num": 386,
+          "name": "صفاء نوفل محمد طه السلماني",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "مركز مديرية الزراعة",
+              "newValue": "شعبة زراعة الشيخ جميل"
+            }
+          ]
+        },
+        {
+          "integrationId": "c98a55d4-0f55-4efb-a6c5-162df6e3c1ec",
+          "sourceEmployeeId": 260,
+          "id": "108002601",
+          "employeeNo": "108002601",
+          "num": 458,
+          "name": "عبدالله سعيد عبدالله جاسم المحمدي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "مركز مديرية الزراعة",
+              "newValue": "شعبة زراعة الشيخ جميل"
+            }
+          ]
+        },
+        {
+          "integrationId": "0ebea808-abe4-4fd9-ac9a-f2cc02fcacb4",
+          "sourceEmployeeId": 1466,
+          "id": "118997115",
+          "employeeNo": "118997115",
+          "num": 735,
+          "name": "مؤيد احمد صالح خلف الدليمي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "name",
+              "oldValue": "مؤيد حسن حميد محمد الدليمي",
+              "newValue": "مؤيد احمد صالح خلف الدليمي"
+            }
+          ]
+        },
+        {
+          "integrationId": "893f580f-6130-45a4-b900-8e0f27815be9",
+          "sourceEmployeeId": 1456,
+          "id": "CONTRACT-0001",
+          "employeeNo": null,
+          "num": 1,
+          "name": "ابراهيم بسام علوان احمد الجبوري",
+          "type": "cont",
+          "changes": [
+            {
+              "field": "notes",
+              "oldValue": "فارغ",
+              "newValue": "يشغل منصب معاون مدير الشعبة"
+            }
+          ]
+        }
+      ],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.10-172022",
+      "previousVersion": "DATA-2026.09.10-145632",
+      "updatedAt": "2026-09-10T17:20:22.2719353+00:00",
+      "counts": {
+        "published": 1052,
+        "added": 0,
+        "modified": 1,
+        "missing": 0,
+        "unchanged": 1051,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 492
+      },
+      "added": [],
+      "modified": [
+        {
+          "integrationId": "0ebea808-abe4-4fd9-ac9a-f2cc02fcacb4",
+          "sourceEmployeeId": 1466,
+          "id": "118997115",
+          "employeeNo": "118997115",
+          "num": 735,
+          "name": "مؤيد حسن حميد محمد الدليمي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "name",
+              "oldValue": "مؤيد احمد صالح خلف الدليمي",
+              "newValue": "مؤيد حسن حميد محمد الدليمي"
+            },
+            {
+              "field": "motherName",
+              "oldValue": "كتبه محمد شنشل الدليمي",
+              "newValue": "كتبه محمد خلف الدليمي"
+            }
+          ]
+        }
+      ],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.10-200650",
+      "previousVersion": "DATA-2026.09.10-172022",
+      "updatedAt": "2026-09-10T20:06:50.8521258+00:00",
+      "counts": {
+        "published": 1052,
+        "added": 0,
+        "modified": 0,
+        "missing": 0,
+        "unchanged": 1052,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 492
+      },
+      "added": [],
+      "modified": [],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    }
+  ]
 }

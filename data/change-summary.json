@@ -1,21 +1,26 @@
 {
   "schemaVersion": 2,
   "mode": "hrsystem-master",
-  "previousVersion": null,
-  "version": "DATA-2026.09.09-054956",
-  "updatedAt": "2026-09-09T05:49:56.099141+00:00",
+  "previousVersion": "DATA-2026.09.10-172022",
+  "version": "DATA-2026.09.10-200650",
+  "updatedAt": "2026-09-10T20:06:50.8521258+00:00",
   "source": "HRSystem SQL Server",
-  "baselineAvailable": false,
+  "baselineAvailable": true,
+  "deltaEngine": "windows-snapshot-delta-v1",
   "counts": {
     "published": 1052,
     "added": 0,
     "modified": 0,
     "missing": 0,
-    "unchanged": 0,
+    "unchanged": 1052,
+    "completedGaps": 0,
+    "qualityRegressions": 0,
     "warnings": 492
   },
   "added": [],
   "modified": [],
   "missing": [],
-  "note": "هذه Snapshot تأسيسية من Windows؛ مقارنة الإصدارات ستُفعّل في مرحلة مستقلة."
+  "completedGaps": [],
+  "qualityRegressions": [],
+  "note": "مقارنة فعلية مع DATA-2026.09.10-172022: 0 معدل، 0 جديد، 0 للمراجعة، 0 تراجع جودة، 1052 بدون تغيير."
 }
