@@ -1,8 +1,10 @@
-const CACHE_NAME = 'employee-registry-r7-1-2-windows-master-bridge-2026.09.08';
+const CACHE_NAME = 'employee-registry-mobile-r1-2026.09.11';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './assets/icon-192.png',
+  './assets/icon-512.png',
   './data/fallback-data.js'
 ];
 
@@ -17,7 +19,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys.filter(k => k.startsWith('employee-registry-') && k !== CACHE_NAME).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
@@ -46,8 +48,8 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Central HRSystem / SQL Server snapshot JSON is read from raw GitHub. Cache the last successful
-  // responses as an extra offline layer; the app also keeps its own local snapshot.
+  // Central HRSystem / SQL Server snapshot JSON is read from raw GitHub.
+  // Cache the last successful response as an extra offline layer.
   const isCentralData = url.hostname === 'raw.githubusercontent.com' &&
     url.pathname.indexOf('/muayedhassan/employees/main/data/') >= 0;
   if (isCentralData) {
@@ -68,7 +70,6 @@ self.addEventListener('fetch', event => {
     );
   }
 });
-
 
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();

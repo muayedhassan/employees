@@ -1,0 +1,31 @@
+name: Mobile R1 - Verify static release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'index.html'
+      - 'service-worker.js'
+      - 'manifest.webmanifest'
+      - 'assets/**'
+      - 'data/**'
+      - 'scripts/verify-mobile-r1.mjs'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-mobile-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Verify static mobile release
+        run: node scripts/verify-mobile-r1.mjs

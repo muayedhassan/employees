@@ -4,8 +4,13 @@
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#070d2a",
   "theme_color": "#0b1437",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين – Excel Master مع تحديث مركزي آمن عبر GitHub."
+  "description": "سجل موظفي مديرية زراعة صلاح الدين – مرتبط مباشرة ببيانات HRSystem المنشورة عبر GitHub.",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
 }

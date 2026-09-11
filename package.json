@@ -2,7 +2,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:data": "node scripts/build-data.mjs"
+    "build:data": "node scripts/build-data.mjs",
+    "verify:mobile": "node scripts/verify-mobile-r1.mjs"
   },
   "dependencies": {
     "xlsx": "0.18.5"

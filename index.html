@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0b1437">
 <link rel="manifest" href="manifest.webmanifest">
-<title>سجل الموظفين – مديرية زراعة صلاح الدين</title>
+<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -785,8 +785,23 @@ body.light .sys71-hero{background:linear-gradient(145deg,#f9fffc,#f5f8ff);box-sh
 @media(max-width:380px){.sys71-hero-head{flex-wrap:wrap}.sys71-health{width:100%;display:flex;justify-content:center;gap:5px;align-items:center}.sys71-health strong,.sys71-health span{display:inline}}
 
 
-/* R7.1.2 Windows Master Bridge */
+/* Mobile R1.0 - HRSystem linked mobile release */
 .m-val.withheld{color:#81d4fa!important;font-style:normal!important}.m-val.withheld:before{content:"\f3ed";font-family:"Font Awesome 6 Free";font-weight:900;margin-left:5px;color:#4fc3f7}.bridge-sensitive-withheld .report-col-chip.sensitive{display:none}.bridge-sensitive-withheld .id-identity{display:none!important}
+
+/* Mobile R1.0 - HRSystem linked mobile polish */
+:root{--r1-cyan:#64d8ff;--r1-mint:#69f0ae;--r1-rose:#ff8a80;--r1-ink:#101936}
+.header-row::after{content:'Mobile R1';direction:ltr;font-family:'Oswald',sans-serif;font-size:9px;font-weight:700;color:rgba(255,255,255,.70);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:3px 7px;margin-right:auto}
+.main-tab,.sub-tab,.emp-card,.update-person,.version-card,.sys71-card{will-change:transform}
+.main-tab:active,.sub-tab:active,.update-person:active,.version-card:active{transform:scale(.985)}
+.updates-hero{border-color:rgba(100,216,255,.34)!important}
+.updates-hero-title::after{content:'Mobile R1';direction:ltr;display:inline-flex;margin-right:8px;font:700 9px 'Oswald',sans-serif;color:#64d8ff;background:rgba(100,216,255,.10);border:1px solid rgba(100,216,255,.22);border-radius:999px;padding:3px 7px;vertical-align:middle}
+.change-value.old{background:rgba(255,138,128,.075);border-color:rgba(255,138,128,.14)}
+.change-value.new{background:rgba(105,240,174,.075);border-color:rgba(105,240,174,.14)}
+.change-value.old:empty::after{content:'فارغ';color:#ffab91}
+.r1-sensitive-banner{display:flex;align-items:center;gap:9px;margin-top:10px;padding:9px 11px;border-radius:13px;background:rgba(255,183,77,.08);border:1px solid rgba(255,183,77,.18);color:#ffcc80;font-size:8px;line-height:1.7}.r1-sensitive-banner i{font-size:13px;color:#ffcc80}
+.sys71-row-v.info{direction:ltr;text-align:left}.hdr-min::after{content:' • Mobile R1';font-family:'Oswald',sans-serif;color:rgba(245,200,66,.85);font-weight:700}
+@media(max-width:430px){.header-row::after{display:none}.updates-hero-title::after{margin:5px 0 0;display:flex;width:max-content}.r1-sensitive-banner{align-items:flex-start}}
+
 </style>
 </head>
 <body class="subview-list">
@@ -797,7 +812,7 @@ body.light .sys71-hero{background:linear-gradient(145deg,#f9fffc,#f5f8ff);box-sh
 <div id="splash">
   <div class="splash-wrap"><div class="splash-rings"></div><div class="splash-logo"><i class="fas fa-seedling"></i></div></div>
   <div class="splash-title">سجل الموظفين</div>
-  <div class="splash-sub">مديرية زراعة صلاح الدين</div>
+  <div class="splash-sub">مديرية زراعة صلاح الدين • Mobile R1</div>
   <div class="splash-counters">
     <div class="splash-counter"><div class="splash-counter-val" id="sc-perm">0</div><div class="splash-counter-lbl">دائمون</div></div>
     <div class="splash-counter" style="border-color:rgba(0,172,193,.3)"><div class="splash-counter-val" id="sc-cont" style="color:var(--teal3)">0</div><div class="splash-counter-lbl">عقود</div></div>
@@ -1089,13 +1104,13 @@ body.light .sys71-hero{background:linear-gradient(145deg,#f9fffc,#f5f8ff);box-sh
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'R7.1.2-WINDOWS-MASTER-BRIDGE';
+var APP_RELEASE = 'MOBILE-R1.0-HRSYSTEM-LINKED';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
 var CHANGE_HISTORY = {schemaVersion:1,versions:[]};
-var CHANGE_SUMMARY_CACHE_KEY = 'emp_change_summary_cache_v1';
-var CHANGE_HISTORY_CACHE_KEY = 'emp_change_history_cache_v1';
+var CHANGE_SUMMARY_CACHE_KEY = 'emp_change_summary_cache_mobile_r1';
+var CHANGE_HISTORY_CACHE_KEY = 'emp_change_history_cache_mobile_r1';
 var DIRECT_NUMERIC_MATCH = null;
 var UPDATE_VIEW_FILTER = 'modified';
 var UPDATE_SECTION_VIEW = 'changes';
@@ -1748,7 +1763,7 @@ function historySemanticValue(field,v){
   if(['num','salary','grade','step'].indexOf(field)>=0){var n=Number(s.replace(/,/g,''));if(Number.isFinite(n))return String(n);}
   return s;
 }
-function realHistoryChanges(changes){return (Array.isArray(changes)?changes:[]).filter(function(c){var a=historySemanticValue(c.field,c.oldValue),b=historySemanticValue(c.field,c.newValue);return a!==''&&b!==''&&a!==b;});}
+function realHistoryChanges(changes){return (Array.isArray(changes)?changes:[]).filter(function(c){var a=historySemanticValue(c.field,c.oldValue),b=historySemanticValue(c.field,c.newValue);return a!==b && !(a===''&&b==='');});}
 function sanitizeHistorySummaryClient(v){
   if(!v)return v;var x=JSON.parse(JSON.stringify(v));x.added=Array.isArray(x.added)?x.added:[];x.missing=Array.isArray(x.missing)?x.missing:[];
   x.modified=(Array.isArray(x.modified)?x.modified:[]).map(function(m){m.changes=realHistoryChanges(m.changes);return m;}).filter(function(m){return m.changes.length>0;});
@@ -1765,8 +1780,8 @@ function historyVersions(){
 }
 function changeVersionDate(v){try{return v?new Date(v).toLocaleString('ar-IQ'):'—';}catch(e){return '—';}}
 function cleanHistoryValue(field,v){
-  if(v===null||v===undefined||String(v).trim()===''||String(v).trim()==='—')return 'غير متوفر';
-  if(['gender','division','education','jobTitle','specialization','birthDate','hireDate','notes','motherName','identityNo','identityIssueDate','identityIssuer'].indexOf(field)>=0&&String(v).trim()==='36')return 'غير متوفر';
+  if(v===null||v===undefined||String(v).trim()===''||String(v).trim()==='—')return 'فارغ';
+  if(['gender','division','education','jobTitle','specialization','birthDate','hireDate','notes','motherName','identityNo','identityIssueDate','identityIssuer'].indexOf(field)>=0&&String(v).trim()==='36')return 'فارغ';
   if(field==='salary'&&/^\d+$/.test(String(v)))return Number(v).toLocaleString('en-US')+' د.ع';
   return String(v);
 }
@@ -1817,7 +1832,7 @@ function buildUpdates(){
   var page=document.getElementById('updates-page');if(!page)return;
   var u=selectedUpdateSummary(),modified=(u.modified||[]).map(function(x){var y=JSON.parse(JSON.stringify(x));y.changes=realHistoryChanges(y.changes);return y;}).filter(function(x){return x.changes.length>0;}),added=u.added||[],review=u.missing||[],versions=historyVersions().slice().reverse(),g=currentGapData();
   var updated=changeVersionDate(u.updatedAt),isLatest=!SELECTED_UPDATE_VERSION||u.version===latestUpdateSummary().version;
-  var h='<div class="updates-hero"><div class="updates-hero-top"><div class="updates-hero-icon"><i class="fas fa-arrows-rotate"></i></div><div><div class="updates-hero-title">مركز التحديثات والبيانات</div><div class="updates-hero-sub">أربع حالات مستقلة: التعديل الحقيقي، الموظف الجديد، النقص في البيانات، والحالات التي تحتاج مراجعة يدوية.</div></div><div class="updates-version-pill">'+escapeHTML(u.version||DATA_VERSION||'—')+'</div></div><div class="update-kpi-ribbon"><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#90caf9">'+modified.length+'</div><div class="update-ribbon-l">تعديل حقيقي</div></div><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#a5d6a7">'+added.length+'</div><div class="update-ribbon-l">موظف جديد</div></div><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#ffcc80">'+g.employees+'</div><div class="update-ribbon-l">لديهم نواقص</div></div><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#ef9a9a">'+review.length+'</div><div class="update-ribbon-l">تحتاج مراجعة</div></div></div><div class="update-version-nav"><div class="update-version-current"><i class="fas fa-clock" style="margin-left:5px"></i>'+escapeHTML(updated)+(isLatest?' • آخر إصدار فعلي':' • إصدار تاريخي')+'</div>'+(isLatest?'':'<button class="update-latest-btn" id="update-back-latest"><i class="fas fa-arrow-rotate-right"></i> العودة لآخر إصدار</button>')+'</div></div>';
+  var h='<div class="updates-hero"><div class="updates-hero-top"><div class="updates-hero-icon"><i class="fas fa-arrows-rotate"></i></div><div><div class="updates-hero-title">مركز التحديثات والبيانات</div><div class="updates-hero-sub">أربع حالات مستقلة: التعديل الحقيقي، الموظف الجديد، النقص في البيانات، والحالات التي تحتاج مراجعة يدوية.</div></div><div class="updates-version-pill">'+escapeHTML(u.version||DATA_VERSION||'—')+'</div></div><div class="update-kpi-ribbon"><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#90caf9">'+modified.length+'</div><div class="update-ribbon-l">تعديل حقيقي</div></div><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#a5d6a7">'+added.length+'</div><div class="update-ribbon-l">موظف جديد</div></div><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#ffcc80">'+g.employees+'</div><div class="update-ribbon-l">لديهم نواقص</div></div><div class="update-ribbon-card"><div class="update-ribbon-v" style="color:#ef9a9a">'+review.length+'</div><div class="update-ribbon-l">تحتاج مراجعة</div></div></div><div class="update-version-nav"><div class="update-version-current"><i class="fas fa-clock" style="margin-left:5px"></i>'+escapeHTML(updated)+(isLatest?' • آخر إصدار فعلي':' • إصدار تاريخي')+'</div>'+(isLatest?'':'<button class="update-latest-btn" id="update-back-latest"><i class="fas fa-arrow-rotate-right"></i> العودة لآخر إصدار</button>')+'</div></div>'+(bridgeSensitiveIncluded()?'<div class="r1-sensitive-banner"><i class="fas fa-shield-halved"></i><span>هذه النسخة تعرض البيانات الكاملة المنشورة من HRSystem، بما فيها اسم الأم ورقم الهوية حسب إعداد النشر الحالي.</span></div>':'')+'</div>';
   h+='<div class="updates-inner-tabs">'+
     '<button class="updates-inner-tab changes '+(UPDATE_SECTION_VIEW==='changes'?'active':'')+'" data-update-section="changes"><div class="updates-tab-main"><i class="fas fa-pen-to-square"></i><b>التعديلات</b><span class="updates-tab-count">'+modified.length+'</span></div><div class="updates-tab-sub">تغيّر فعلي في بيانات موجودة</div></button>'+
     '<button class="updates-inner-tab additions '+(UPDATE_SECTION_VIEW==='additions'?'active':'')+'" data-update-section="additions"><div class="updates-tab-main"><i class="fas fa-user-plus"></i><b>الجديد</b><span class="updates-tab-count">'+added.length+'</span></div><div class="updates-tab-sub">موظفون أضيفوا لأول مرة</div></button>'+
@@ -1836,7 +1851,7 @@ function buildUpdates(){
     else h+=added.map(function(x){return '<div class="update-person added" data-update-employee="'+escapeHTML(x.id||'')+'"><div class="update-person-top"><div class="update-person-ico"><i class="fas fa-user-plus"></i></div><div class="update-person-name">'+escapeHTML(x.name||'—')+'</div><span class="update-change-count">موظف جديد</span><span class="update-person-no">اضبارة '+escapeHTML(x.num||'—')+'</span></div><div class="update-fields"><span class="update-field-chip">تمت إضافته إلى النسخة المركزية</span></div></div>';}).join('');
     h+='</div></div>';
   }else{
-    h+='<div class="section-mini-explainer changes"><i class="fas fa-circle-info"></i><span><strong>التعديلات:</strong> يظهر هنا فقط التغيّر الحقيقي في قيمة أصلية موجودة، مثل الاسم أو الاختصاص أو الشعبة أو الراتب.</span></div><div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-user-pen"></i> التعديلات الفعلية</div><div class="updates-section-note">القيمة السابقة ← الجديدة</div></div><div class="updates-list">';
+    h+='<div class="section-mini-explainer changes"><i class="fas fa-circle-info"></i><span><strong>التعديلات:</strong> يعرض آخر تغييرات Windows كما نُشرت إلى GitHub، ويظهر الحقل الفارغ سابقًا بكلمة «فارغ» مقابل القيمة الجديدة.</span></div><div class="updates-section"><div class="updates-section-head"><div class="updates-section-title"><i class="fas fa-user-pen"></i> التعديلات الفعلية</div><div class="updates-section-note">القيمة السابقة ← الجديدة</div></div><div class="updates-list">';
     if(!modified.length)h+='<div class="history-empty"><i class="fas fa-circle-check"></i>لا توجد تعديلات فعلية على القيم الأصلية في هذا الإصدار.</div>';
     else h+=modified.slice(0,80).map(function(x){return '<div class="update-person modified" data-update-employee="'+escapeHTML(x.id||'')+'"><div class="update-person-top"><div class="update-person-ico"><i class="fas fa-user-pen"></i></div><div class="update-person-name">'+escapeHTML(x.name||'—')+'</div><span class="update-change-count">'+x.changes.length+' حقل</span><span class="update-person-no">اضبارة '+escapeHTML(x.num||'—')+'</span></div>'+updateChangePreviewHTML(x)+'</div>';}).join('');
     h+='</div></div>';
@@ -2742,8 +2757,15 @@ window.addEventListener('load',async function(){
   try{var qp=new URLSearchParams(location.search),eid=qp.get('employee'),etype=qp.get('type')||'perm';if(eid){var found=bridgeFindEmployee(eid,etype)||bridgeFindEmployee(eid);if(found){switchMain(found.type||etype);setTimeout(function(){openModal(found);},120);}}}catch(e){}
 
   if('serviceWorker' in navigator && location.protocol!=='file:'){
+    var r1Reloaded=false;
+    navigator.serviceWorker.addEventListener('controllerchange',function(){
+      if(r1Reloaded)return;
+      r1Reloaded=true;
+      location.reload();
+    });
     navigator.serviceWorker.register('service-worker.js',{updateViaCache:'none'}).then(function(reg){
       try{reg.update();}catch(e){}
+      if(reg.waiting){try{reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}}
     }).catch(function(){});
   }
 
