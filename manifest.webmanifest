@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين – مديرية زراعة صلاح الدين",
-  "short_name": "سجل الموظفين",
+  "name": "HRSystem Mobile Registry",
+  "short_name": "HR Mobile",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#071024",
   "theme_color": "#10205a",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين – Mobile R1.3 بواجهة احترافية كاملة، بحث منظم، تفاصيل مرتبة، وتحديث تلقائي للكاش والبيانات.",
+  "description": "HRSystem linked mobile employee registry — Mobile R1.3.1 Clean Focused UX",
   "icons": [
     {
       "src": "assets/icon-192.png",
