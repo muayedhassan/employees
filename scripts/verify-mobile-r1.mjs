@@ -17,19 +17,19 @@ const version = JSON.parse(read('data/version.json'));
 const employees = JSON.parse(read('data/employees.json'));
 const summary = JSON.parse(read('data/change-summary.json'));
 
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.3.1-CLEAN-FOCUSED-UX'")) fail('APP_RELEASE is not Mobile R1.3.1');
-if (!index.includes('mobileR131BuildHome') || !index.includes('r131-home-hero') || !index.includes('CLEAN FOCUSED UX')) fail('Mobile R1.3.1 home UI is missing');
-if (!index.includes('r131-clean-card') || !index.includes('r131-seq') || !index.includes('r131-file')) fail('Mobile R1.3.1 compact list cards are missing');
-if (!index.includes('القائمة الرئيسية تعرض الاسم، التسلسل، ورقم الاضبارة فقط')) fail('Mobile R1.3.1 compact card rule is missing');
-if (!index.includes('mobileR131ProfileHero') || !index.includes('profileRow') || !index.includes('employeeHistoryHTML')) fail('Mobile R1.3.1 profile details are incomplete');
-if (!index.includes('r122RegisterServiceWorker') || !index.includes('r122RefreshAppAndData') || !index.includes('r122CheckForAppUpdate')) fail('auto update logic is missing');
-if (!sw.includes('employee-registry-mobile-r131-2026.09.11')) fail('service worker cache name is not Mobile R1.3.1');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4-COMPLETE-PROFESSIONAL-VISUAL-REDESIGN'")) fail('APP_RELEASE is not Mobile R1.4');
+for (const marker of ['Mobile R1.4 - Complete Professional Visual Redesign','r14-hero','r14-emp-card','r14-card-inner','mobileR14BuildHome','mobileR14ProfileHero','renderQuickSearch=function','تحديث التطبيق والبيانات']) {
+  if (!index.includes(marker)) fail(`Mobile R1.4 marker missing: ${marker}`);
+}
+if (!index.includes('اضغط لعرض التفاصيل الكاملة داخل بطاقة الموظف')) fail('focused employee card hint is missing');
+if (!sw.includes('employee-registry-mobile-r14-2026.09.11')) fail('service worker cache name is not Mobile R1.4');
 if (!sw.includes('clients.claim') || !sw.includes('skipWaiting') || !sw.includes('networkFirst')) fail('service worker update strategy is incomplete');
 if (!Array.isArray(manifest.icons) || manifest.icons.length < 2) fail('manifest icons are missing');
-if (!String(manifest.description || '').includes('Mobile R1.3.1')) fail('manifest description was not updated');
+if (!String(manifest.description || '').includes('Mobile R1.4')) fail('manifest description was not updated');
 if (!version.version || !String(version.version).startsWith('DATA-')) fail(`unexpected data version ${version.version}`);
 if (!Array.isArray(employees.perm) || !Array.isArray(employees.cont)) fail('employees.json format is invalid');
 if ((employees.perm.length + employees.cont.length) !== version.totalCount) fail('employee count mismatch');
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
+if (!index.includes('فارغ') || !index.includes('بحث شامل')) fail('search/detail display rules are missing');
 
-ok(`Mobile R1.3.1 verified: ${version.version}, employees=${version.totalCount}, modified=${summary.counts.modified}`);
+ok(`Mobile R1.4 verified: ${version.version}, employees=${version.totalCount}, modified=${summary.counts.modified}`);
