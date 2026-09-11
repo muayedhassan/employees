@@ -1,43 +1,26 @@
 {
   "schemaVersion": 2,
   "mode": "hrsystem-master",
-  "previousVersion": "DATA-2026.09.10-200650",
-  "version": "DATA-2026.09.11-054558",
-  "updatedAt": "2026-09-11T05:45:58.5857587+00:00",
+  "previousVersion": "DATA-2026.09.11-054558",
+  "version": "DATA-2026.09.11-065513",
+  "updatedAt": "2026-09-11T06:55:13.0025646+00:00",
   "source": "HRSystem SQL Server",
   "baselineAvailable": true,
   "deltaEngine": "windows-snapshot-delta-v1",
   "counts": {
     "published": 1052,
     "added": 0,
-    "modified": 1,
+    "modified": 0,
     "missing": 0,
-    "unchanged": 1051,
+    "unchanged": 1052,
     "completedGaps": 0,
     "qualityRegressions": 0,
     "warnings": 492
   },
   "added": [],
-  "modified": [
-    {
-      "integrationId": "0ebea808-abe4-4fd9-ac9a-f2cc02fcacb4",
-      "sourceEmployeeId": 1466,
-      "id": "118997115",
-      "employeeNo": "118997115",
-      "num": 735,
-      "name": "مؤيد حسن حميد محمد الدليمي",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "identityNo",
-          "oldValue": "195465665554",
-          "newValue": "195855565554"
-        }
-      ]
-    }
-  ],
+  "modified": [],
   "missing": [],
   "completedGaps": [],
   "qualityRegressions": [],
-  "note": "مقارنة فعلية مع DATA-2026.09.10-200650: 1 معدل، 0 جديد، 0 للمراجعة، 0 تراجع جودة، 1051 بدون تغيير."
+  "note": "مقارنة فعلية مع DATA-2026.09.11-054558: 0 معدل، 0 جديد، 0 للمراجعة، 0 تراجع جودة، 1052 بدون تغيير."
 }
