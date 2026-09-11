@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-10T20:06:50.8521258+00:00",
+  "updatedAt": "2026-09-11T05:45:58.5857587+00:00",
   "maxVersions": 60,
   "versions": [
     {
@@ -146,6 +146,43 @@
       },
       "added": [],
       "modified": [],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.11-054558",
+      "previousVersion": "DATA-2026.09.10-200650",
+      "updatedAt": "2026-09-11T05:45:58.5857587+00:00",
+      "counts": {
+        "published": 1052,
+        "added": 0,
+        "modified": 1,
+        "missing": 0,
+        "unchanged": 1051,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 492
+      },
+      "added": [],
+      "modified": [
+        {
+          "integrationId": "0ebea808-abe4-4fd9-ac9a-f2cc02fcacb4",
+          "sourceEmployeeId": 1466,
+          "id": "118997115",
+          "employeeNo": "118997115",
+          "num": 735,
+          "name": "مؤيد حسن حميد محمد الدليمي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityNo",
+              "oldValue": "195465665554",
+              "newValue": "195855565554"
+            }
+          ]
+        }
+      ],
       "missing": [],
       "completedGaps": [],
       "qualityRegressions": []
