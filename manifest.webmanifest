@@ -6,9 +6,9 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#070d2a",
+  "background_color": "#071024",
   "theme_color": "#10205a",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين – Mobile R1.2.2 مع تحديث تلقائي للواجهة والبيانات وتقليل الحاجة لمسح الكاش يدويًا.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين – Mobile R1.3 بواجهة احترافية كاملة، بحث منظم، تفاصيل مرتبة، وتحديث تلقائي للكاش والبيانات.",
   "icons": [
     {
       "src": "assets/icon-192.png",
