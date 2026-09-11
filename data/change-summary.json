@@ -1,26 +1,59 @@
 {
   "schemaVersion": 2,
   "mode": "hrsystem-master",
-  "previousVersion": "DATA-2026.09.11-071047",
-  "version": "DATA-2026.09.11-085404",
-  "updatedAt": "2026-09-11T08:54:04.8410673+00:00",
+  "previousVersion": "DATA-2026.09.11-085404",
+  "version": "DATA-2026.09.11-131725",
+  "updatedAt": "2026-09-11T13:17:25.9968442+00:00",
   "source": "HRSystem SQL Server",
   "baselineAvailable": true,
   "deltaEngine": "windows-snapshot-delta-v1",
   "counts": {
     "published": 1052,
     "added": 0,
-    "modified": 0,
+    "modified": 2,
     "missing": 0,
-    "unchanged": 1052,
+    "unchanged": 1050,
     "completedGaps": 0,
     "qualityRegressions": 0,
     "warnings": 492
   },
   "added": [],
-  "modified": [],
+  "modified": [
+    {
+      "integrationId": "e3e0f8d9-44ee-4929-813f-ce17e62f70f3",
+      "sourceEmployeeId": 803,
+      "id": "154886468",
+      "employeeNo": "154886468",
+      "num": 558,
+      "name": "غيث حسن ثامر زنزل الاسودي",
+      "type": "perm",
+      "changes": [
+        {
+          "field": "division",
+          "oldValue": "مركز مديرية الزراعة",
+          "newValue": "شعبة زراعة تلول الباج"
+        }
+      ]
+    },
+    {
+      "integrationId": "36368574-a356-4d68-be58-17c80fd886ad",
+      "sourceEmployeeId": 1459,
+      "id": "CONTRACT-0104",
+      "employeeNo": null,
+      "num": 104,
+      "name": "عبدالله فارس ادهام داود الجبوري",
+      "type": "cont",
+      "changes": [
+        {
+          "field": "division",
+          "oldValue": "شعبة زراعة تلول الباج",
+          "newValue": "مركز مديرية الزراعة"
+        }
+      ]
+    }
+  ],
   "missing": [],
   "completedGaps": [],
   "qualityRegressions": [],
-  "note": "مقارنة فعلية مع DATA-2026.09.11-071047: 0 معدل، 0 جديد، 0 للمراجعة، 0 تراجع جودة، 1052 بدون تغيير."
+  "note": "مقارنة فعلية مع DATA-2026.09.11-085404: 2 معدل، 0 جديد، 0 للمراجعة، 0 تراجع جودة، 1050 بدون تغيير."
 }
