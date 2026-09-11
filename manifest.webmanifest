@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#070d2a",
   "theme_color": "#10205a",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين – Mobile R1.1 بواجهة محسّنة ومرتبطة مباشرة ببيانات HRSystem المنشورة عبر GitHub.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين – Mobile R1.2 ببحث محسّن وتفاصيل موظف مرتبة ومرتبطة مباشرة ببيانات HRSystem المنشورة عبر GitHub.",
   "icons": [
     {
       "src": "assets/icon-192.png",
