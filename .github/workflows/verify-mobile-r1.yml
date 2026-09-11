@@ -1,4 +1,4 @@
-name: Mobile R1 - Verify static release
+name: Mobile R1.1 - Verify static release
 
 on:
   push:
@@ -11,6 +11,8 @@ on:
       - 'assets/**'
       - 'data/**'
       - 'scripts/verify-mobile-r1.mjs'
+      - 'VERSION.txt'
+      - 'MOBILE_R1_RELEASE_NOTES_AR.txt'
       - 'package.json'
   workflow_dispatch:
 
@@ -27,5 +29,5 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Verify static mobile release
+      - name: Verify Mobile R1.1 static release
         run: node scripts/verify-mobile-r1.mjs

@@ -1,2 +1,2 @@
-Mobile R1.0 - HRSystem Linked Release
-DATA-2026.09.11-071047
+Mobile R1.1 - Premium Employee UX
+DATA-2026.09.11-131725

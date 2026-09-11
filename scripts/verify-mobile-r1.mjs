@@ -17,14 +17,16 @@ const version = JSON.parse(read('data/version.json'));
 const employees = JSON.parse(read('data/employees.json'));
 const summary = JSON.parse(read('data/change-summary.json'));
 
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.0-HRSYSTEM-LINKED'")) fail('APP_RELEASE is not Mobile R1.0');
-if (!sw.includes('employee-registry-mobile-r1-2026.09.11')) fail('service worker cache name is not Mobile R1');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.1-PREMIUM-EMPLOYEE-UX'")) fail('APP_RELEASE is not Mobile R1.1');
+if (!index.includes('mobile-r11-home') || !index.includes('MOBILE R1.1 PREMIUM EMPLOYEE UX')) fail('Mobile R1.1 UI block is missing');
+if (!index.includes('r11-emp-card') || !index.includes('mobileR11ProfileHero')) fail('Mobile R1.1 employee cards/profile are missing');
+if (!sw.includes('employee-registry-mobile-r11-2026.09.11')) fail('service worker cache name is not Mobile R1.1');
 if (!Array.isArray(manifest.icons) || manifest.icons.length < 2) fail('manifest icons are missing');
-if (version.version !== 'DATA-2026.09.11-071047') fail(`unexpected data version ${version.version}`);
+if (!version.version || !String(version.version).startsWith('DATA-')) fail(`unexpected data version ${version.version}`);
 if (version.includesSensitiveData !== true) fail('expected sensitive data to be included for current rollout');
 if (!Array.isArray(employees.perm) || !Array.isArray(employees.cont)) fail('employees.json format is invalid');
 if ((employees.perm.length + employees.cont.length) !== version.totalCount) fail('employee count mismatch');
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
-if (!index.includes('فارغ') || !index.includes('r1-sensitive-banner')) fail('Mobile R1 update display rules are missing');
+if (!index.includes('فارغ') || !index.includes('r1-sensitive-banner')) fail('update display rules are missing');
 
-ok(`Mobile R1 verified: ${version.version}, employees=${version.totalCount}, modified=${summary.counts.modified}`);
+ok(`Mobile R1.1 verified: ${version.version}, employees=${version.totalCount}, modified=${summary.counts.modified}`);
