@@ -1,187 +1,26 @@
 {
   "schemaVersion": 2,
   "mode": "hrsystem-master",
-  "previousVersion": "DATA-2026.09.11-065513",
-  "version": "DATA-2026.09.11-071047",
-  "updatedAt": "2026-09-11T07:10:47.0056931+00:00",
+  "previousVersion": "DATA-2026.09.11-071047",
+  "version": "DATA-2026.09.11-085404",
+  "updatedAt": "2026-09-11T08:54:04.8410673+00:00",
   "source": "HRSystem SQL Server",
   "baselineAvailable": true,
   "deltaEngine": "windows-snapshot-delta-v1",
   "counts": {
     "published": 1052,
     "added": 0,
-    "modified": 10,
+    "modified": 0,
     "missing": 0,
-    "unchanged": 1042,
+    "unchanged": 1052,
     "completedGaps": 0,
     "qualityRegressions": 0,
     "warnings": 492
   },
   "added": [],
-  "modified": [
-    {
-      "integrationId": "7e1db078-fdf0-44fa-823a-811a34fb80c0",
-      "sourceEmployeeId": 5,
-      "id": "108072237",
-      "employeeNo": "108072237",
-      "num": 3,
-      "name": "ابراهيم رجب محمد رجب الجبوري",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة تلول الباج",
-          "newValue": "مركز مديرية الزراعة"
-        }
-      ]
-    },
-    {
-      "integrationId": "9d166553-7596-490b-9d66-2f0a10b5741e",
-      "sourceEmployeeId": 33,
-      "id": "108072521",
-      "employeeNo": "108072521",
-      "num": 68,
-      "name": "اديب اسماعيل خلف عبد الجبوري",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة تلول الباج",
-          "newValue": "مركز مديرية الزراعة"
-        }
-      ]
-    },
-    {
-      "integrationId": "6175af00-be37-4b1a-a9d3-10da4a7a9b3e",
-      "sourceEmployeeId": 50,
-      "id": "108072732",
-      "employeeNo": "108072732",
-      "num": 98,
-      "name": "امجد نايف سبهان خلف الجبوري",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة تلول الباج",
-          "newValue": "مركز مديرية الزراعة"
-        }
-      ]
-    },
-    {
-      "integrationId": "7ed222e5-a904-47be-82ea-4786bf321cf4",
-      "sourceEmployeeId": 589,
-      "id": "154884714",
-      "employeeNo": "154884714",
-      "num": 125,
-      "name": "ايمن كريم خزعل هزاع خارمانلو",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة تلول الباج",
-          "newValue": "مركز مديرية الزراعة"
-        }
-      ]
-    },
-    {
-      "integrationId": "1282fd61-8188-4618-8440-28d39050ad4c",
-      "sourceEmployeeId": 685,
-      "id": "111111111",
-      "employeeNo": "111111111",
-      "num": 306,
-      "name": "سامي احمد سلمان عجاج الجميلي",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة تلول الباج",
-          "newValue": "مركز مديرية الزراعة"
-        }
-      ]
-    },
-    {
-      "integrationId": "f8630333-bcdc-455f-8195-0f4d6798f26a",
-      "sourceEmployeeId": 693,
-      "id": "154884082",
-      "employeeNo": "154884082",
-      "num": 321,
-      "name": "سعد راشد حماد زوين الشمري",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة تلول الباج",
-          "newValue": "مركز مديرية الزراعة"
-        }
-      ]
-    },
-    {
-      "integrationId": "cb71ee0d-bb4c-42c5-8eef-69dbc544a6b5",
-      "sourceEmployeeId": 505,
-      "id": "148641451",
-      "employeeNo": "148641451",
-      "num": 433,
-      "name": "عبد حسن سعدون حسين الجبوري",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة تلول الباج",
-          "newValue": "مركز مديرية الزراعة"
-        }
-      ]
-    },
-    {
-      "integrationId": "de334df5-ad02-43e3-9ab3-b91cad2b2b01",
-      "sourceEmployeeId": 289,
-      "id": "108003071",
-      "employeeNo": "108003071",
-      "num": 518,
-      "name": "علي محمد صالح خلف الجبوري",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة تلول الباج",
-          "newValue": "مركز مديرية الزراعة"
-        }
-      ]
-    },
-    {
-      "integrationId": "e3e0f8d9-44ee-4929-813f-ce17e62f70f3",
-      "sourceEmployeeId": 803,
-      "id": "154886468",
-      "employeeNo": "154886468",
-      "num": 558,
-      "name": "غيث حسن ثامر زنزل الاسودي",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة تلول الباج",
-          "newValue": "مركز مديرية الزراعة"
-        }
-      ]
-    },
-    {
-      "integrationId": "b3422102-613a-4218-b593-291b291058f7",
-      "sourceEmployeeId": 869,
-      "id": "154884615",
-      "employeeNo": "154884615",
-      "num": 679,
-      "name": "مروان صبحي علي صايل اللهيبي",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة تلول الباج",
-          "newValue": "مركز مديرية الزراعة"
-        }
-      ]
-    }
-  ],
+  "modified": [],
   "missing": [],
   "completedGaps": [],
   "qualityRegressions": [],
-  "note": "مقارنة فعلية مع DATA-2026.09.11-065513: 10 معدل، 0 جديد، 0 للمراجعة، 0 تراجع جودة، 1042 بدون تغيير."
+  "note": "مقارنة فعلية مع DATA-2026.09.11-071047: 0 معدل، 0 جديد، 0 للمراجعة، 0 تراجع جودة، 1052 بدون تغيير."
 }
