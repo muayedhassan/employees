@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين – مديرية زراعة صلاح الدين",
-  "short_name": "سجل الموظفين",
+  "name": "سجل الموظفين - Mobile R1.4.4",
+  "short_name": "الموظفون R1.4.4",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.3 بواجهة احترافية مرنة وترتيب خطوط نهائي مضمّن محليًا، مع دعم Ya Modern Pro وZAIN وSultan وStencil وElfeera Script للنصوص الإنجليزية.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.4 صقل القراءة والتنسيق النهائي، مع واجهة أكثر مرونة على الهاتف، خطوط مضمّنة، ألوان أهدأ، وبطاقات أكثر وضوحًا.",
   "icons": [
     {
       "src": "assets/icon-192.png",

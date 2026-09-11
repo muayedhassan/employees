@@ -1,4 +1,4 @@
-/* HRMobile embedded font mapping - Mobile R1.4.3.
+/* HRMobile embedded font mapping - Mobile R1.4.4.
    No font binaries are bundled in this package. Install your licensed fonts locally
    by running INSTALL_HR_FONTS.cmd from the repository root.
 
@@ -24,3 +24,5 @@
   --hr-english-font:'HREnglish','Inter','Segoe UI',Arial,sans-serif;
   --hr-english-decor-font:'HREnglishDecor','HREnglish','Inter','Segoe UI',Arial,sans-serif;
 }
+
+/* Mobile R1.4.4: Elfeera Script is reserved for .english-decor/.brand-script only; release strings and UI labels use HREnglish for readability. */
