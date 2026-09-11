@@ -1,0 +1,26 @@
+/* HRMobile embedded font mapping - Mobile R1.4.3.
+   No font binaries are bundled in this package. Install your licensed fonts locally
+   by running INSTALL_HR_FONTS.cmd from the repository root.
+
+   Final font order:
+   - Arabic titles: Ya Modern Pro Bold
+   - Arabic body, names and details: ZAIN Mobile
+   - Arabic heavy accents only: Sultan Black
+   - Numbers, dates and versions: Stencil
+   - English decorative/Latin accents only: Elfeera Script
+*/
+@font-face{font-family:'HRTitleArabic';src:local('Ya Modern Pro'),local('YaModernPro'),url('./YaModernPro.woff2') format('woff2'),url('./YaModernPro-Bold.otf') format('opentype');font-weight:700 900;font-style:normal;font-display:swap;}
+@font-face{font-family:'HRBodyArabic';src:local('Zain'),local('ZAIN Mob'),url('./ZainMobile.woff2') format('woff2'),url('./ZainMobile.ttf') format('truetype');font-weight:200 900;font-style:normal;font-display:swap;}
+@font-face{font-family:'HRSultanArabic';src:local('SF Sultan'),local('Sultan Black'),url('./SFSultan.woff2') format('woff2'),url('./SFSultan-Black.ttf') format('truetype');font-weight:700 900;font-style:normal;font-display:swap;}
+@font-face{font-family:'HRNumberFont';src:local('Stencil'),url('./Stencil.woff2') format('woff2'),url('./Stencil.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'HREnglish';src:local('Inter'),local('Segoe UI'),url('./InterVariable.woff2') format('woff2');font-weight:400 900;font-style:normal;font-display:swap;}
+@font-face{font-family:'HREnglishDecor';src:local('Elfeera Script'),url('./ElfeeraScript.woff2') format('woff2'),url('./ElfeeraScript.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+
+:root{
+  --hr-title-font:'HRTitleArabic','Ya Modern Pro','Noto Kufi Arabic','Tajawal','Cairo',Arial,sans-serif;
+  --hr-body-font:'HRBodyArabic','Zain','Noto Sans Arabic','Tajawal','Cairo',Arial,sans-serif;
+  --hr-accent-arabic-font:'HRSultanArabic','HRTitleArabic','Noto Kufi Arabic','Tajawal','Cairo',Arial,sans-serif;
+  --hr-number-font:'HRNumberFont','Stencil','Oswald','Inter',Arial,sans-serif;
+  --hr-english-font:'HREnglish','Inter','Segoe UI',Arial,sans-serif;
+  --hr-english-decor-font:'HREnglishDecor','HREnglish','Inter','Segoe UI',Arial,sans-serif;
+}

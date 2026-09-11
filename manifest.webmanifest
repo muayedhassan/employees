@@ -6,9 +6,9 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#071023",
-  "theme_color": "#14275f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين – Mobile R1.4 بتصميم بصري احترافي كامل، بحث مركز، بطاقة موظف منظمة، وتحديث تلقائي للواجهة والبيانات.",
+  "background_color": "#061024",
+  "theme_color": "#10265f",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.3 بواجهة احترافية مرنة وترتيب خطوط نهائي مضمّن محليًا، مع دعم Ya Modern Pro وZAIN وSultan وStencil وElfeera Script للنصوص الإنجليزية.",
   "icons": [
     {
       "src": "assets/icon-192.png",

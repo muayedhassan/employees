@@ -1,3 +1,52 @@
+# HRMobileRepo - Mobile R1.4.3 Final Embedded Fonts UX
+
+هذه النسخة تعتمد ترتيب الخطوط النهائي داخل واجهة الهاتف مع المحافظة على تصميم Mobile R1.4 ومرونة R1.4.1 وتحديث الكاش من R1.2.2.
+
+## ترتيب الخطوط المعتمد
+
+- **Ya Modern Pro Bold**: العناوين العربية الرئيسية.
+- **ZAIN Mobile**: النصوص العربية الداخلية، أسماء الموظفين، البحث، التفاصيل.
+- **Sultan Black**: لمسات عربية ثقيلة محدودة فقط.
+- **Stencil**: الأرقام، التواريخ، الإصدارات، التسلسل، رقم الأضبارة.
+- **Elfeera Script**: النصوص الإنجليزية والزخرفية فقط، ولا يستخدم للعربية.
+
+## تثبيت الخطوط محليًا
+
+ضع الخطوط داخل مجلد مثل `C:\HR_Fonts` ثم شغل من داخل `C:\HRMobileRepo`:
+
+```bat
+INSTALL_HR_FONTS.cmd C:\HR_Fonts
+VERIFY_HR_FONTS.cmd
+VERIFY_MOBILE_R1.cmd
+```
+
+بعد نجاح الفحص ارفع التغييرات إلى GitHub.
+
+> لا تحتوي حزمة التحديث ملفات الخطوط نفسها؛ يتم نسخ الخطوط من جهازك فقط عند تشغيل المثبت.
+
+---
+
+# HRMobileRepo - Mobile R1.4.2 Embedded Font Installer UX
+
+هذه النسخة تحافظ على تصميم Mobile R1.4.1 وتضيف دعمًا عمليًا لتثبيت الخطوط المرخصة داخل `assets/fonts` حتى تظهر على الهاتف بشكل أقرب إلى الحاسبة.
+
+## تطبيق الخطوط
+
+1. ضع مجلد الخطوط مثل `HR_Fonts` في أي مسار واضح، مثل `C:\HR_Fonts`.
+2. من داخل `C:\HRMobileRepo` شغل:
+
+```bat
+INSTALL_HR_FONTS.cmd C:\HR_Fonts
+VERIFY_HR_FONTS.cmd
+VERIFY_MOBILE_R1.cmd
+```
+
+3. بعد نجاح الفحص ارفع الملفات إلى GitHub.
+
+> إذا لم تضف ملفات الخطوط، يعمل التطبيق طبيعيًا بخطوط بديلة.
+
+---
+
 # HRMobileRepo — Mobile R1.4
 
 هذه النسخة هي Mobile R1.4 Complete Professional Visual Redesign.
@@ -13,3 +62,9 @@ VERIFY_MOBILE_R1.cmd
 ```
 
 بعد نجاح الفحص يتم رفع التحديث إلى GitHub بالأوامر المعتادة.
+
+
+## Mobile R1.4.1 - Responsive Font Ready UX
+
+هذا الإصدار يحسن مرونة واجهة الهاتف على الشاشات المختلفة، ويضيف دعمًا اختياريًا للخطوط المضمنة عبر `assets/fonts/hr-fonts.css`.
+لا تحتوي الحزمة ملفات خطوط مدفوعة أو محمية؛ إذا كانت لديك خطوط مرخصة بصيغة WOFF2 ضعها داخل `assets/fonts` بالأسماء الموضحة في `assets/fonts/README_AR.txt`.

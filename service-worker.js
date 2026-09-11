@@ -1,10 +1,11 @@
-const CACHE_NAME = 'employee-registry-mobile-r14-2026.09.11';
+const CACHE_NAME = 'employee-registry-mobile-r143-2026.09.11';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './assets/icon-192.png',
   './assets/icon-512.png',
+  './assets/fonts/hr-fonts.css',
   './data/fallback-data.js'
 ];
 
@@ -69,6 +70,13 @@ self.addEventListener('fetch', event => {
     url.pathname.indexOf('/muayedhassan/employees/main/data/') >= 0;
   if (isCentralData) {
     event.respondWith(networkFirst(req));
+    return;
+  }
+
+  // Embedded fonts are same-origin static assets. They are cached at runtime
+  // after the first successful load so Android WebView keeps the same typography offline.
+  if (url.origin === self.location.origin && url.pathname.includes('/assets/fonts/')) {
+    event.respondWith(staleWhileRevalidate(req));
     return;
   }
 
