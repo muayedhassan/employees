@@ -840,7 +840,7 @@ body{font-family:var(--r11-body-font);background:radial-gradient(circle at 18% -
   --r12-glass:rgba(255,255,255,.065);--r12-line:rgba(255,255,255,.115);--r12-shadow:0 18px 44px rgba(0,0,0,.22);
 }
 body{background:radial-gradient(circle at 16% -10%,rgba(75,125,255,.22),transparent 36%),radial-gradient(circle at 94% 8%,rgba(66,230,164,.11),transparent 34%),radial-gradient(circle at 45% 108%,rgba(255,209,102,.08),transparent 38%),var(--bg)!important}
-.header-row::after{content:'Mobile R1.2.1'!important}.hdr-min::after{content:' • Mobile R1.2'!important}.updates-hero-title::after{content:'Mobile R1.2.1'!important}
+.header-row::after{content:'Mobile R1.2.2'!important}.hdr-min::after{content:' • Mobile R1.2.2'!important}.updates-hero-title::after{content:'Mobile R1.2.2'!important}
 .mobile-r12-hero{position:relative;overflow:hidden;border-radius:26px;padding:16px;background:linear-gradient(135deg,rgba(12,27,75,.98),rgba(22,48,125,.94) 58%,rgba(0,125,145,.86));border:1px solid rgba(66,214,255,.25);box-shadow:var(--r12-shadow),inset 0 1px 0 rgba(255,255,255,.04)}
 .mobile-r12-hero:before{content:'';position:absolute;right:-80px;top:-95px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(66,214,255,.22),transparent 68%)}.mobile-r12-hero:after{content:'';position:absolute;left:-85px;bottom:-110px;width:255px;height:255px;border-radius:50%;background:radial-gradient(circle,rgba(255,209,102,.18),transparent 68%)}
 .r12-hero-main{position:relative;z-index:1;display:flex;align-items:center;gap:12px}.r12-hero-icon{width:56px;height:56px;border-radius:19px;display:grid;place-items:center;color:#0b163c;background:linear-gradient(135deg,var(--r12-gold),#fff0a8);font-size:23px;box-shadow:0 14px 30px rgba(255,209,102,.22)}
@@ -867,7 +867,7 @@ body{background:radial-gradient(circle at 16% -10%,rgba(75,125,255,.22),transpar
 <div id="splash">
   <div class="splash-wrap"><div class="splash-rings"></div><div class="splash-logo"><i class="fas fa-seedling"></i></div></div>
   <div class="splash-title">سجل الموظفين</div>
-  <div class="splash-sub">مديرية زراعة صلاح الدين • Mobile R1.2.1</div>
+  <div class="splash-sub">مديرية زراعة صلاح الدين • Mobile R1.2.2</div>
   <div class="splash-counters">
     <div class="splash-counter"><div class="splash-counter-val" id="sc-perm">0</div><div class="splash-counter-lbl">دائمون</div></div>
     <div class="splash-counter" style="border-color:rgba(0,172,193,.3)"><div class="splash-counter-val" id="sc-cont" style="color:var(--teal3)">0</div><div class="splash-counter-lbl">عقود</div></div>
@@ -1162,13 +1162,13 @@ body{background:radial-gradient(circle at 16% -10%,rgba(75,125,255,.22),transpar
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.2.1-LOAD-HOTFIX';
+var APP_RELEASE = 'MOBILE-R1.2.2-AUTO-UPDATE-CACHE';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
 var CHANGE_HISTORY = {schemaVersion:1,versions:[]};
-var CHANGE_SUMMARY_CACHE_KEY = 'emp_change_summary_cache_mobile_r12';
-var CHANGE_HISTORY_CACHE_KEY = 'emp_change_history_cache_mobile_r12';
+var CHANGE_SUMMARY_CACHE_KEY = 'emp_change_summary_cache_mobile_r122';
+var CHANGE_HISTORY_CACHE_KEY = 'emp_change_history_cache_mobile_r122';
 var DIRECT_NUMERIC_MATCH = null;
 var UPDATE_VIEW_FILTER = 'modified';
 var UPDATE_SECTION_VIEW = 'changes';
@@ -2801,7 +2801,7 @@ function mobileR11BuildHome(){
   var u=latestUpdateSummary(),counts=(u.counts||{}),total=(BASE.perm.length+BASE.cont.length),shown=(filt||[]).length,modified=(u.modified||[]).filter(function(x){return realHistoryChanges(x.changes).length;}).length,added=(u.added||[]).length;
   var title=mode==='perm'?'سجل الموظفين الدائميين':'سجل موظفي العقود';
   var sub=mode==='perm'?'بحث سريع، بطاقات واضحة، وتحديثات مباشرة من HRSystem.':'عرض موظفي العقود بواجهة مختصرة ومتوافقة مع تحديثات HRSystem.';
-  el.innerHTML='<div class="mobile-r11-hero"><div class="mobile-r11-hero-head"><div class="mobile-r11-hero-ico"><i class="fas '+(mode==='perm'?'fa-seedling':'fa-file-contract')+'"></i></div><div class="mobile-r11-hero-copy"><div class="mobile-r11-eyebrow">MOBILE R1.2 • SEARCH + PROFILE UX</div><div class="mobile-r11-title">'+escapeHTML(title)+'</div><div class="mobile-r11-sub">'+escapeHTML(sub)+' آخر إصدار منشور: '+escapeHTML(DATA_VERSION||'—')+'</div></div><div class="mobile-r11-version"><b>'+escapeHTML(mobileR11ShortVersion(DATA_VERSION))+'</b><span>إصدار البيانات</span></div></div><div class="mobile-r11-kpis"><div class="mobile-r11-kpi"><i class="fas fa-users"></i><div class="mobile-r11-kpi-v">'+total+'</div><div class="mobile-r11-kpi-l">إجمالي الموظفين</div></div><div class="mobile-r11-kpi changed"><i class="fas fa-user-pen"></i><div class="mobile-r11-kpi-v">'+modified+'</div><div class="mobile-r11-kpi-l">معدل في آخر نشر</div></div><div class="mobile-r11-kpi added"><i class="fas fa-user-plus"></i><div class="mobile-r11-kpi-v">'+added+'</div><div class="mobile-r11-kpi-l">جديد</div></div><div class="mobile-r11-kpi warn"><i class="fas fa-filter"></i><div class="mobile-r11-kpi-v">'+shown+'</div><div class="mobile-r11-kpi-l">نتيجة معروضة</div></div></div><div class="mobile-r11-flow"><button type="button" class="mobile-r11-flow-btn primary" id="r11-focus-search"><i class="fas fa-magnifying-glass"></i> ابدأ بالبحث</button><button type="button" class="mobile-r11-flow-btn green" id="r11-open-updates"><i class="fas fa-clock-rotate-left"></i> آخر التحديثات</button><button type="button" class="mobile-r11-flow-btn amber" id="r11-open-system"><i class="fas fa-gauge-high"></i> حالة النظام</button></div></div>';
+  el.innerHTML='<div class="mobile-r11-hero"><div class="mobile-r11-hero-head"><div class="mobile-r11-hero-ico"><i class="fas '+(mode==='perm'?'fa-seedling':'fa-file-contract')+'"></i></div><div class="mobile-r11-hero-copy"><div class="mobile-r11-eyebrow">MOBILE R1.2.2 • AUTO UPDATE + CACHE</div><div class="mobile-r11-title">'+escapeHTML(title)+'</div><div class="mobile-r11-sub">'+escapeHTML(sub)+' آخر إصدار منشور: '+escapeHTML(DATA_VERSION||'—')+'</div></div><div class="mobile-r11-version"><b>'+escapeHTML(mobileR11ShortVersion(DATA_VERSION))+'</b><span>إصدار البيانات</span></div></div><div class="mobile-r11-kpis"><div class="mobile-r11-kpi"><i class="fas fa-users"></i><div class="mobile-r11-kpi-v">'+total+'</div><div class="mobile-r11-kpi-l">إجمالي الموظفين</div></div><div class="mobile-r11-kpi changed"><i class="fas fa-user-pen"></i><div class="mobile-r11-kpi-v">'+modified+'</div><div class="mobile-r11-kpi-l">معدل في آخر نشر</div></div><div class="mobile-r11-kpi added"><i class="fas fa-user-plus"></i><div class="mobile-r11-kpi-v">'+added+'</div><div class="mobile-r11-kpi-l">جديد</div></div><div class="mobile-r11-kpi warn"><i class="fas fa-filter"></i><div class="mobile-r11-kpi-v">'+shown+'</div><div class="mobile-r11-kpi-l">نتيجة معروضة</div></div></div><div class="mobile-r11-flow"><button type="button" class="mobile-r11-flow-btn primary" id="r11-focus-search"><i class="fas fa-magnifying-glass"></i> ابدأ بالبحث</button><button type="button" class="mobile-r11-flow-btn green" id="r11-open-updates"><i class="fas fa-clock-rotate-left"></i> آخر التحديثات</button><button type="button" class="mobile-r11-flow-btn amber" id="r11-open-system"><i class="fas fa-gauge-high"></i> حالة النظام</button></div></div>';
   var a=document.getElementById('r11-focus-search'),b=document.getElementById('r11-open-updates'),c=document.getElementById('r11-open-system');
   if(a)a.addEventListener('click',function(){var q=document.getElementById('aqs-input')||document.getElementById('q');if(q){q.focus();try{q.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}}});
   if(b)b.addEventListener('click',function(){UPDATE_SECTION_VIEW='changes';switchSub('updates');});
@@ -2885,7 +2885,7 @@ renderQuickSearch=function(){
 function mobileR12BuildHome(){
   var el=document.getElementById('mobile-r11-home');if(!el)return;var latest=latestUpdateSummary(),cnt=latest.counts||{},total=(BASE.perm||[]).length+(BASE.cont||[]).length,shown=(filt||[]).length,modified=cnt.modified||0,added=cnt.added||0;
   var title=mode==='cont'?'موظفو العقود':'سجل الموظفين الدائميين',sub=mode==='cont'?'بحث سريع وتفاصيل مختصرة لموظفي العقود.':'بحث شامل وتفاصيل موظف مرتبة حسب المصدر المركزي.';
-  el.innerHTML='<div class="mobile-r12-hero"><div class="r12-hero-main"><div class="r12-hero-icon"><i class="fas fa-magnifying-glass-chart"></i></div><div><div class="mobile-r11-eyebrow">MOBILE R1.2 • SEARCH + PROFILE UX</div><div class="r12-hero-title">'+escapeHTML(title)+'</div><div class="r12-hero-sub">'+escapeHTML(sub)+' آخر إصدار بيانات: '+escapeHTML(DATA_VERSION||'—')+'</div></div><div class="r12-version-pill"><b>'+escapeHTML(mobileR12ShortVersion(DATA_VERSION))+'</b><span>إصدار البيانات</span></div></div><div class="r12-kpis"><div class="r12-kpi"><i class="fas fa-users"></i><div class="r12-kpi-v">'+total+'</div><div class="r12-kpi-l">إجمالي الموظفين</div></div><div class="r12-kpi changed"><i class="fas fa-user-pen"></i><div class="r12-kpi-v">'+modified+'</div><div class="r12-kpi-l">معدل في آخر نشر</div></div><div class="r12-kpi added"><i class="fas fa-user-plus"></i><div class="r12-kpi-v">'+added+'</div><div class="r12-kpi-l">جديد</div></div><div class="r12-kpi shown"><i class="fas fa-list-check"></i><div class="r12-kpi-v">'+shown+'</div><div class="r12-kpi-l">نتائج حالية</div></div></div><div class="r12-guide"><button type="button" class="r12-guide-btn primary" id="r12-focus-search"><i class="fas fa-search"></i> بحث شامل</button><button type="button" class="r12-guide-btn green" id="r12-open-updates"><i class="fas fa-clock-rotate-left"></i> آخر التحديثات</button><button type="button" class="r12-guide-btn amber" id="r12-open-system"><i class="fas fa-gauge-high"></i> حالة النظام</button></div></div>';
+  el.innerHTML='<div class="mobile-r12-hero"><div class="r12-hero-main"><div class="r12-hero-icon"><i class="fas fa-magnifying-glass-chart"></i></div><div><div class="mobile-r11-eyebrow">MOBILE R1.2.2 • AUTO UPDATE + CACHE</div><div class="r12-hero-title">'+escapeHTML(title)+'</div><div class="r12-hero-sub">'+escapeHTML(sub)+' آخر إصدار بيانات: '+escapeHTML(DATA_VERSION||'—')+'</div></div><div class="r12-version-pill"><b>'+escapeHTML(mobileR12ShortVersion(DATA_VERSION))+'</b><span>إصدار البيانات</span></div></div><div class="r12-kpis"><div class="r12-kpi"><i class="fas fa-users"></i><div class="r12-kpi-v">'+total+'</div><div class="r12-kpi-l">إجمالي الموظفين</div></div><div class="r12-kpi changed"><i class="fas fa-user-pen"></i><div class="r12-kpi-v">'+modified+'</div><div class="r12-kpi-l">معدل في آخر نشر</div></div><div class="r12-kpi added"><i class="fas fa-user-plus"></i><div class="r12-kpi-v">'+added+'</div><div class="r12-kpi-l">جديد</div></div><div class="r12-kpi shown"><i class="fas fa-list-check"></i><div class="r12-kpi-v">'+shown+'</div><div class="r12-kpi-l">نتائج حالية</div></div></div><div class="r12-guide"><button type="button" class="r12-guide-btn primary" id="r12-focus-search"><i class="fas fa-search"></i> بحث شامل</button><button type="button" class="r12-guide-btn green" id="r12-open-updates"><i class="fas fa-clock-rotate-left"></i> آخر التحديثات</button><button type="button" class="r12-guide-btn amber" id="r12-open-system"><i class="fas fa-gauge-high"></i> حالة النظام</button></div></div>';
   var a=document.getElementById('r12-focus-search'),b=document.getElementById('r12-open-updates'),c=document.getElementById('r12-open-system');
   if(a)a.addEventListener('click',function(){var q=document.getElementById('aqs-input');if(q){q.focus();try{q.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}}});
   if(b)b.addEventListener('click',function(){switchSub('updates');}); if(c)c.addEventListener('click',function(){switchSub('system');});
@@ -2920,6 +2920,137 @@ openModal=function(emp){
 var mobileR12BaseSwitchMain=switchMain;switchMain=function(m){mobileR12BaseSwitchMain(m);mobileR12BuildHome();};
 var mobileR12BaseSwitchSub=switchSub;switchSub=function(v){mobileR12BaseSwitchSub(v);mobileR12BuildHome();};
 
+
+// ── MOBILE R1.2.2 AUTO UPDATE + CACHE CONTROL ──────────────────────────────
+var R122_APP_RELEASE_KEY='emp_mobile_app_release_seen_r122';
+var R122_LAST_AUTO_CHECK_KEY='emp_mobile_last_auto_check_r122';
+var R122_LAST_UI_REFRESH_KEY='emp_mobile_last_ui_refresh_r122';
+var R122_LAST_DATA_REFRESH_KEY='emp_mobile_last_data_refresh_r122';
+var R122_AUTO_CHECK_MS=5*60*1000;
+var R122_LAST_REMOTE_RELEASE='';
+var R122_AUTO_STATUS='جاهز';
+var R122_AUTO_WATCHERS_STARTED=false;
+var R122_SW_RELOADED=false;
+function r122NowISO(){return new Date().toISOString();}
+function r122Stored(k){try{return localStorage.getItem(k)||'';}catch(e){return '';}}
+function r122Store(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function r122Date(v){return v?r71DateTime(v):'—';}
+function r122MinutesSince(v){try{return v?(Date.now()-new Date(v).getTime())/60000:999999;}catch(e){return 999999;}}
+function r122RemoteIndexUrl(){var u=new URL('index.html',location.href);u.searchParams.set('_r122_release_check',Date.now());return u.toString();}
+async function r122FetchRemoteRelease(){
+  if(navigator.onLine===false)return '';
+  var res=await fetch(r122RemoteIndexUrl(),{cache:'no-store',headers:{'Cache-Control':'no-cache'}});
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  var txt=await res.text();
+  var m=txt.match(/APP_RELEASE\s*=\s*['\"]([^'\"]+)['\"]/);
+  return m?m[1]:'';
+}
+async function r122ClearAppShellCaches(){
+  if(!('caches' in window))return 0;
+  var keys=await caches.keys(),deleted=0;
+  await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0;}).map(function(k){deleted++;return caches.delete(k);}));
+  return deleted;
+}
+async function r122ApplyInterfaceUpdate(reason){
+  r122Store(R122_LAST_UI_REFRESH_KEY,r122NowISO());
+  try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.getRegistration();if(reg){try{await reg.update();}catch(e){} if(reg.waiting)try{reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}}}}catch(e){}
+  try{await r122ClearAppShellCaches();}catch(e){}
+  var u=new URL(location.href);u.searchParams.set('_mobile_r122_refresh',Date.now());if(reason)u.searchParams.set('_reason',reason);
+  location.replace(u.toString());
+}
+async function r122CheckForAppUpdate(silent){
+  if(navigator.onLine===false){R122_AUTO_STATUS='بدون إنترنت';return false;}
+  try{
+    r122Store(R122_LAST_AUTO_CHECK_KEY,r122NowISO());
+    var remote=await r122FetchRemoteRelease();
+    R122_LAST_REMOTE_RELEASE=remote||R122_LAST_REMOTE_RELEASE;
+    if(remote && remote!==APP_RELEASE){
+      R122_AUTO_STATUS='تحديث واجهة متوفر';
+      showToast('تم العثور على تحديث جديد للواجهة، سيتم تطبيقه تلقائيًا','warn');
+      setTimeout(function(){r122ApplyInterfaceUpdate('app-release');},650);
+      return true;
+    }
+    R122_AUTO_STATUS='محدث';
+    if(!silent)showToast('واجهة التطبيق محدثة');
+    return false;
+  }catch(e){R122_AUTO_STATUS='تعذر فحص الواجهة';if(!silent)showToast('تعذر فحص تحديث الواجهة','warn');return false;}
+}
+async function r122RefreshDataSilently(force){
+  if(navigator.onLine===false)return false;
+  if(!force && r122MinutesSince(r122Stored(R122_LAST_DATA_REFRESH_KEY))<5)return false;
+  var before=DATA_VERSION;
+  try{
+    await loadCentralData(!!force);
+    r122Store(R122_LAST_DATA_REFRESH_KEY,r122NowISO());
+    updateAdminCounts();
+    if(mode!=='admin')doFilter();
+    if(subView==='system')buildSystemCenter();
+    if(before && DATA_VERSION && before!==DATA_VERSION)showToast('تم تنزيل إصدار بيانات جديد: '+DATA_VERSION);
+    return before!==DATA_VERSION;
+  }catch(e){return false;}
+}
+async function r122RefreshAppAndData(){
+  var btn=document.getElementById('sys-r122-refresh-all');
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري التحديث...';}
+  try{
+    await r122CheckForAppUpdate(true);
+    await r122RefreshDataSilently(true);
+    await r71ReadCacheInfo();
+    buildSystemCenter();
+    showToast('تم فحص الواجهة والبيانات');
+  }catch(e){showToast('اكتمل التحديث مع وجود تنبيه في الاتصال','warn');}
+  finally{if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-cloud-arrow-down"></i> تحديث التطبيق والبيانات';}}
+}
+function r122EnhanceSystemCenter(){
+  var page=document.getElementById('system-page');if(!page)return;
+  var actions=page.querySelector('.sys71-actions');
+  if(actions && !document.getElementById('sys-r122-refresh-all')){
+    var btn=document.createElement('button');btn.className='sys71-action primary';btn.id='sys-r122-refresh-all';btn.innerHTML='<i class="fas fa-cloud-arrow-down"></i> تحديث التطبيق والبيانات';
+    actions.insertBefore(btn,actions.firstChild);btn.addEventListener('click',r122RefreshAppAndData);
+  }
+  if(!document.getElementById('r122-auto-card')){
+    var card=document.createElement('div');card.className='sys71-card';card.id='r122-auto-card';
+    card.innerHTML='<div class="sys71-card-head"><div class="sys71-card-ico" style="color:#69f0ae;background:rgba(105,240,174,.07);border-color:rgba(105,240,174,.13)"><i class="fas fa-arrows-rotate"></i></div><div><div class="sys71-card-title">التحديث التلقائي والكاش</div><div class="sys71-card-sub">يقلل الحاجة لمسح الكاش يدويًا عند تحديث الواجهة أو البيانات</div></div></div>'+ 
+      '<div class="sys71-row"><span class="sys71-row-l">حالة التحديث</span><span class="sys71-row-v ok">'+escapeHTML(R122_AUTO_STATUS||'جاهز')+'</span></div>'+ 
+      '<div class="sys71-row"><span class="sys71-row-l">الإصدار البعيد</span><span class="sys71-row-v">'+escapeHTML(R122_LAST_REMOTE_RELEASE||R71_REMOTE_RELEASE||'لم يفحص')+'</span></div>'+ 
+      '<div class="sys71-row"><span class="sys71-row-l">آخر فحص تلقائي</span><span class="sys71-row-v">'+escapeHTML(r122Date(r122Stored(R122_LAST_AUTO_CHECK_KEY)))+'</span></div>'+ 
+      '<div class="sys71-row"><span class="sys71-row-l">آخر تحديث بيانات</span><span class="sys71-row-v">'+escapeHTML(r122Date(r122Stored(R122_LAST_DATA_REFRESH_KEY)))+'</span></div>';
+    var grid=page.querySelector('.sys71-grid');if(grid)grid.appendChild(card);
+  }
+}
+var r122OriginalBuildSystemCenter=buildSystemCenter;
+buildSystemCenter=function(){r122OriginalBuildSystemCenter();r122EnhanceSystemCenter();};
+var r122OriginalCheckAll=r71CheckAll;
+r71CheckAll=async function(){await r122OriginalCheckAll();await r122CheckForAppUpdate(true);await r122RefreshDataSilently(true);if(subView==='system')buildSystemCenter();};
+var r122OriginalRefreshDataOnly=r71RefreshDataOnly;
+r71RefreshDataOnly=async function(){await r122OriginalRefreshDataOnly();r122Store(R122_LAST_DATA_REFRESH_KEY,r122NowISO());if(subView==='system')buildSystemCenter();};
+async function r122RegisterServiceWorker(){
+  if(!('serviceWorker' in navigator) || location.protocol==='file:')return;
+  navigator.serviceWorker.addEventListener('controllerchange',function(){
+    if(R122_SW_RELOADED)return;R122_SW_RELOADED=true;
+    var key='emp_mobile_controller_reload_'+APP_RELEASE;
+    if(sessionStorage.getItem(key)==='1')return;
+    sessionStorage.setItem(key,'1');
+    location.reload();
+  });
+  try{
+    var reg=await navigator.serviceWorker.register('service-worker.js',{updateViaCache:'none'});
+    function activateWaiting(){try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}}
+    reg.addEventListener('updatefound',function(){var nw=reg.installing;if(!nw)return;nw.addEventListener('statechange',function(){if(nw.state==='installed'&&navigator.serviceWorker.controller)activateWaiting();});});
+    await reg.update();activateWaiting();
+  }catch(e){}
+}
+function r122StartAutoUpdateWatchers(){
+  if(R122_AUTO_WATCHERS_STARTED)return;R122_AUTO_WATCHERS_STARTED=true;
+  try{r122Store(R122_APP_RELEASE_KEY,APP_RELEASE);}catch(e){}
+  setTimeout(function(){r122CheckForAppUpdate(true);},1800);
+  setTimeout(function(){r122RefreshDataSilently(false);},3200);
+  setInterval(function(){r122CheckForAppUpdate(true);r122RefreshDataSilently(false);},R122_AUTO_CHECK_MS);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden){r122CheckForAppUpdate(true);r122RefreshDataSilently(false);}});
+  window.addEventListener('focus',function(){r122CheckForAppUpdate(true);r122RefreshDataSilently(false);});
+  window.addEventListener('online',function(){r122CheckForAppUpdate(true);r122RefreshDataSilently(true);});
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 window.addEventListener('load',async function(){
   try{
@@ -2945,18 +3076,8 @@ window.addEventListener('load',async function(){
   // Open a specific employee when arriving from a QR/deep link.
   try{var qp=new URLSearchParams(location.search),eid=qp.get('employee'),etype=qp.get('type')||'perm';if(eid){var found=bridgeFindEmployee(eid,etype)||bridgeFindEmployee(eid);if(found){switchMain(found.type||etype);setTimeout(function(){openModal(found);},120);}}}catch(e){}
 
-  if('serviceWorker' in navigator && location.protocol!=='file:'){
-    var r1Reloaded=false;
-    navigator.serviceWorker.addEventListener('controllerchange',function(){
-      if(r1Reloaded)return;
-      r1Reloaded=true;
-      location.reload();
-    });
-    navigator.serviceWorker.register('service-worker.js',{updateViaCache:'none'}).then(function(reg){
-      try{reg.update();}catch(e){}
-      if(reg.waiting){try{reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}}
-    }).catch(function(){});
-  }
+  await r122RegisterServiceWorker();
+  r122StartAutoUpdateWatchers();
 
   setTimeout(function(){
     document.getElementById('splash').classList.add('hide');

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-mobile-r121-2026.09.11';
+const CACHE_NAME = 'employee-registry-mobile-r122-2026.09.11';
 const APP_SHELL = [
   './',
   './index.html',
@@ -19,8 +19,12 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k.startsWith('employee-registry-') && k !== CACHE_NAME).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys
+        .filter(k => k.startsWith('employee-registry-') && k !== CACHE_NAME)
+        .map(k => caches.delete(k))))
       .then(() => self.clients.claim())
+      .then(() => self.clients.matchAll({ type: 'window' }))
+      .then(clients => clients.forEach(client => client.postMessage({ type: 'APP_CACHE_READY', cacheName: CACHE_NAME })))
   );
 });
 
@@ -37,19 +41,30 @@ async function networkFirst(request, fallbackRequest) {
   }
 }
 
+async function staleWhileRevalidate(request) {
+  const cache = await caches.open(CACHE_NAME);
+  const hit = await cache.match(request, { ignoreSearch: true });
+  const fresh = fetch(request, { cache: 'no-store' }).then(response => {
+    if (response && response.ok) cache.put(request, response.clone()).catch(() => {});
+    return response;
+  }).catch(() => hit);
+  return hit || fresh;
+}
+
 self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // Always prefer the newest HTML. If the network fails, open the last cached shell.
-  if (req.mode === 'navigate') {
+  // Always fetch the newest HTML first. This prevents old WebView shells from
+  // staying stuck after a mobile UI release.
+  if (req.mode === 'navigate' || (url.origin === self.location.origin && /\/(index\.html)?$/.test(url.pathname))) {
     event.respondWith(networkFirst(req, './index.html'));
     return;
   }
 
   // Central HRSystem / SQL Server snapshot JSON is read from raw GitHub.
-  // Cache the last successful response as an extra offline layer.
+  // Keep a cached copy only as offline fallback.
   const isCentralData = url.hostname === 'raw.githubusercontent.com' &&
     url.pathname.indexOf('/muayedhassan/employees/main/data/') >= 0;
   if (isCentralData) {
@@ -57,20 +72,20 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Same-origin app shell: stale-while-revalidate for speed, with automatic refresh.
   if (url.origin === self.location.origin) {
-    event.respondWith(
-      caches.match(req).then(hit => {
-        const fresh = fetch(req).then(res => {
-          if (res && res.ok) caches.open(CACHE_NAME).then(cache => cache.put(req, res.clone())).catch(() => {});
-          return res;
-        }).catch(() => hit);
-        return hit || fresh;
-      })
-    );
+    event.respondWith(staleWhileRevalidate(req));
   }
 });
 
 self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
+  const data = event.data || {};
+  if (data.type === 'SKIP_WAITING') self.skipWaiting();
+  if (data.type === 'GET_CACHE_NAME' && event.source) {
+    event.source.postMessage({ type: 'CACHE_NAME', cacheName: CACHE_NAME });
+  }
+  if (data.type === 'CLEAR_OLD_CACHES') {
+    event.waitUntil(caches.keys().then(keys => Promise.all(keys
+      .filter(k => k.startsWith('employee-registry-') && k !== CACHE_NAME)
+      .map(k => caches.delete(k)))));
+  }
 });
