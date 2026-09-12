@@ -1108,6 +1108,16 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
   .r147-version-badge span,.r14-version span{font-size:7.2px!important}
 }
 
+
+
+/* ── MOBILE R1.4.10 PROFILE TAB SWITCH HOTFIX ─────────────────────────────
+   Fixes profile tab content switching after the R1.4.7 profile refactor.
+   The UI panels now expose data-profile-panel, and the tab binder remains
+   backward-compatible with any old data-panel markup.
+   ─────────────────────────────────────────────────────────────────────── */
+.profile-tab-panel[data-profile-panel]{min-height:120px}
+.profile-tab.r147-tab{cursor:pointer}
+.profile-tab.r147-tab:active{transform:scale(.98)}
 </style>
 </head>
 <body class="subview-list">
@@ -1422,7 +1432,7 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.9-CLEAN-DATA-BADGE-REFRESH-DEDUP';
+var APP_RELEASE = 'MOBILE-R1.4.10-PROFILE-TAB-SWITCH-HOTFIX';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -2703,7 +2713,7 @@ function openModalById(id){
 }
 function profilePanel(id,content,active){return '<div class="profile-tab-panel'+(active?' active':'')+'" data-profile-panel="'+id+'">'+content+'</div>';}
 function bindProfileTabs(){
-  document.querySelectorAll('#modal-inner .profile-tab').forEach(function(btn){btn.addEventListener('click',function(){var id=this.getAttribute('data-profile-tab');document.querySelectorAll('#modal-inner .profile-tab').forEach(function(x){x.classList.toggle('active',x===btn);});document.querySelectorAll('#modal-inner .profile-tab-panel').forEach(function(p){p.classList.toggle('active',p.getAttribute('data-profile-panel')===id);});document.getElementById('m-profile-body').scrollTop=0;});});
+  document.querySelectorAll('#modal-inner .profile-tab').forEach(function(btn){btn.addEventListener('click',function(){var id=this.getAttribute('data-profile-tab');document.querySelectorAll('#modal-inner .profile-tab').forEach(function(x){x.classList.toggle('active',x===btn);});document.querySelectorAll('#modal-inner .profile-tab-panel').forEach(function(p){var pid=p.getAttribute('data-profile-panel')||p.getAttribute('data-panel');p.classList.toggle('active',pid===id);});var body=document.getElementById('m-profile-body');if(body)body.scrollTop=0;});});
 }
 function openModal(emp){
   var isPerm=emp.type==='perm';
@@ -3423,7 +3433,7 @@ mobileR14BuildHome=function(){
 };
 function mobileR147ProfileHero(emp,hist){var ser=mobileR14Serial(emp),job=mobileR11SafeValue('jobTitle',emp.jobTitle,emp.type==='cont'?'موظف عقد':'موظف دائمي');return '<div class="r147-profile-hero"><div class="r147-profile-head"><div class="r147-profile-avatar">'+escapeHTML(cardInitials(emp.name))+'</div><div class="r147-profile-title"><div class="r147-profile-name">'+escapeHTML(emp.name||'—')+'</div><div class="r147-profile-role">'+escapeHTML(job)+' • المصدر المركزي HRSystem</div></div></div><div class="r147-profile-pills"><div class="r147-pill gold"><span>رقم الاضبارة</span><b>'+escapeHTML(emp.num||'—')+'</b></div><div class="r147-pill"><span>التسلسل</span><b>'+escapeHTML(ser)+'</b></div><div class="r147-pill"><span>التغييرات</span><b>'+escapeHTML((hist||[]).length)+'</b></div></div></div>';}
 function mobileR147Section(title,icon,content){return '<div class="profile-section r147-section"><div class="profile-section-title"><i class="fas '+icon+'"></i>'+title+'</div>'+content+'</div>';}
-function mobileR147Panel(id,html,active){return '<div class="profile-tab-panel '+(active?'active':'')+'" data-panel="'+id+'">'+html+'</div>';}
+function mobileR147Panel(id,html,active){return '<div class="profile-tab-panel '+(active?'active':'')+'" data-profile-panel="'+id+'">'+html+'</div>';}
 openModal=function(emp){
   var isPerm=emp.type==='perm';currentEmp=emp;currentEmp.isPerm=isPerm;currentEmp.typeLabel=isPerm?'موظف دائمي':'موظف عقد';document.getElementById('modal-inner').className='modal '+(isPerm?'perm-modal':'cont-modal');document.getElementById('m-name').textContent=emp.name||'—';document.getElementById('m-type-tag').textContent=currentEmp.typeLabel;
   var oldStatus=document.getElementById('profile-status-live');if(oldStatus)oldStatus.remove();var fullProfile=isPerm||bridgeIsWindowsMaster(),hist=employeeHistoryEvents(emp);
