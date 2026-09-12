@@ -17,15 +17,15 @@ const version = JSON.parse(read('data/version.json'));
 const employees = JSON.parse(read('data/employees.json'));
 const summary = JSON.parse(read('data/change-summary.json'));
 
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.6-FLEXIBLE-HEADER-KPI-SEARCH-POLISH'")) fail('APP_RELEASE is not Mobile R1.4.6');
-for (const marker of ['r14-hero','r14-emp-card','r14-card-inner','r146-kpi','mobile-chrome-toggle','chrome-collapsed','mobileR146SyncChrome','search-sec.compact-search','mobileR14BuildHome','mobileR14ProfileHero','renderQuickSearch=function','تحديث التطبيق والبيانات']) {
-  if (!index.includes(marker)) fail(`Mobile R1.4.6 marker missing: ${marker}`);
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.7-CARD-PROFILE-REFINEMENT'")) fail('APP_RELEASE is not Mobile R1.4.7');
+for (const marker of ['r14-hero','r14-emp-card','r14-card-inner','r147-kpi','r147-profile-hero','r147-tabs','mobileR147ProfileHero','mobileR147ActionButtons','mobile-chrome-toggle','chrome-collapsed','mobileR146SyncChrome','search-sec.compact-search','mobileR14BuildHome','mobileR14ProfileHero','renderQuickSearch=function','تحديث التطبيق والبيانات']) {
+  if (!index.includes(marker)) fail(`Mobile R1.4.7 marker missing: ${marker}`);
 }
 if (!index.includes('اضغط لعرض التفاصيل الكاملة داخل بطاقة الموظف')) fail('focused employee card hint is missing');
-if (!sw.includes('employee-registry-mobile-r146-2026.09.12')) fail('service worker cache name is not Mobile R1.4.6');
+if (!sw.includes('employee-registry-mobile-r147-2026.09.12')) fail('service worker cache name is not Mobile R1.4.7');
 if (!sw.includes('clients.claim') || !sw.includes('skipWaiting') || !sw.includes('networkFirst')) fail('service worker update strategy is incomplete');
 if (!Array.isArray(manifest.icons) || manifest.icons.length < 2) fail('manifest icons are missing');
-if (!String(manifest.description || '').includes('Mobile R1.4.6')) fail('manifest description was not updated');
+if (!String(manifest.description || '').includes('Mobile R1.4.7')) fail('manifest description was not updated');
 if (!fs.existsSync(path.join(root, 'assets/fonts/hr-fonts.css'))) fail('embedded font readiness stylesheet is missing');
 const fontCss = read('assets/fonts/hr-fonts.css');
 for (const marker of ['HRTitleArabic','HRBodyArabic','HRSultanArabic','HRNumberFont','HREnglishDecor','YaModernPro-Bold.otf','ZainMobile.ttf','SFSultan-Black.ttf','Stencil.ttf','ElfeeraScript.ttf','--hr-english-decor-font']) { if (!fontCss.includes(marker)) fail(`font readiness marker missing: ${marker}`); }
@@ -43,9 +43,10 @@ if (!summary.counts || summary.counts.modified === undefined) fail('change summa
 if (!index.includes('فارغ') || !index.includes('بحث شامل')) fail('search/detail display rules are missing');
 
 
-for (const marker of ['mobile-chrome-bar','r146-kpis','users-viewfinder','filter-circle-check','MOBILE_R1_4_6_RELEASE_NOTES_AR']) {
-  if (!index.includes(marker) && marker !== 'MOBILE_R1_4_6_RELEASE_NOTES_AR') fail(`R1.4.6 polish marker missing: ${marker}`);
+for (const marker of ['mobile-chrome-bar','r147-kpis','r147-kpi-icon','r147-profile-grid','MOBILE_R1_4_7_RELEASE_NOTES_AR']) {
+  if (!index.includes(marker) && marker !== 'MOBILE_R1_4_7_RELEASE_NOTES_AR') fail(`R1.4.7 polish marker missing: ${marker}`);
 }
-if (!fs.existsSync(path.join(root, 'MOBILE_R1_4_6_RELEASE_NOTES_AR.txt'))) fail('R1.4.6 release notes are missing');
+if (!fs.existsSync(path.join(root, 'MOBILE_R1_4_7_RELEASE_NOTES_AR.txt'))) fail('R1.4.7 release notes are missing');
+if (!index.includes('data-profile-tab="basic"><i class="fas fa-address-card"></i> البيانات')) fail('new profile data tab is missing');
 
-ok(`Mobile R1.4.6 verified: ${version.version}, employees=${version.totalCount}, modified=${summary.counts.modified}`);
+ok(`Mobile R1.4.7 verified: ${version.version}, employees=${version.totalCount}, modified=${summary.counts.modified}`);
