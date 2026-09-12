@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.14",
-  "short_name": "HR Mobile R1.4.14",
+  "name": "سجل الموظفين - Mobile R1.4.15",
+  "short_name": "HR Mobile R1.4.15",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.14 إصلاح تحميل مركز التحديثات بعد تنظيف بطاقات التصنيف، مع منع توقف الواجهة على أرقام صفرية.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.15: تحميل بطاقة الموظف PDF مع شريط حفظ واضح، وتنظيف تبويب الإدارة ليبقى للنسخ الاحتياطية وسجل العمليات فقط.",
   "icons": [
     {
       "src": "assets/icon-192.png",
