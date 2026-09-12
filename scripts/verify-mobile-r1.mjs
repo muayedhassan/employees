@@ -17,15 +17,15 @@ const version = JSON.parse(read('data/version.json'));
 const employees = JSON.parse(read('data/employees.json'));
 const summary = JSON.parse(read('data/change-summary.json'));
 
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.12-PDF-CARD-POLISH'")) fail('APP_RELEASE is not Mobile R1.4.12');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.13-UPDATES-CENTER-CLEAN-ACTIVE-TABS'")) fail('APP_RELEASE is not Mobile R1.4.13');
 for (const marker of ['r14-hero','r14-emp-card','r14-card-inner','r146-kpi','r147-kpi','r147-profile-hero','mobile-chrome-toggle','chrome-collapsed','mobileR146SyncChrome','search-sec.compact-search','mobileR14BuildHome','mobileR14ProfileHero','renderQuickSearch=function','تحديث التطبيق والبيانات']) {
-  if (!index.includes(marker)) fail(`Mobile R1.4.12 marker missing: ${marker}`);
+  if (!index.includes(marker)) fail(`Mobile R1.4.13 marker missing: ${marker}`);
 }
 if (!index.includes('اضغط لعرض التفاصيل الكاملة داخل بطاقة الموظف')) fail('focused employee card hint is missing');
-if (!sw.includes('employee-registry-mobile-r1412-2026.09.12')) fail('service worker cache name is not Mobile R1.4.12');
+if (!sw.includes('employee-registry-mobile-r1413-2026.09.12')) fail('service worker cache name is not Mobile R1.4.13');
 if (!sw.includes('clients.claim') || !sw.includes('skipWaiting') || !sw.includes('networkFirst')) fail('service worker update strategy is incomplete');
 if (!Array.isArray(manifest.icons) || manifest.icons.length < 2) fail('manifest icons are missing');
-if (!String(manifest.description || '').includes('Mobile R1.4.12')) fail('manifest description was not updated');
+if (!String(manifest.description || '').includes('Mobile R1.4.13')) fail('manifest description was not updated');
 if (!fs.existsSync(path.join(root, 'assets/fonts/hr-fonts.css'))) fail('embedded font readiness stylesheet is missing');
 const fontCss = read('assets/fonts/hr-fonts.css');
 for (const marker of ['HRTitleArabic','HRBodyArabic','HRSultanArabic','HRNumberFont','HREnglishDecor','YaModernPro-Bold.otf','ZainMobile.ttf','SFSultan-Black.ttf','Stencil.ttf','ElfeeraScript.ttf','--hr-english-decor-font']) { if (!fontCss.includes(marker)) fail(`font readiness marker missing: ${marker}`); }
@@ -58,7 +58,7 @@ if (!fs.existsSync(path.join(root, 'MOBILE_R1_4_10_RELEASE_NOTES_AR.txt'))) fail
 
 if (!fs.existsSync(path.join(root, 'MOBILE_R1_4_12_RELEASE_NOTES_AR.txt'))) fail('R1.4.12 release notes are missing');
 const r1412Block = index.slice(index.lastIndexOf('function r1412FieldSlug'));
-for (const marker of ['MOBILE-R1.4.12-PDF-CARD-POLISH','r1412FormatSalary','طباعة بطاقة الموظف PDF']) {
+for (const marker of ['r1412FormatSalary','طباعة بطاقة الموظف PDF']) {
   if (!index.includes(marker)) fail(`R1.4.12 PDF polish marker missing: ${marker}`);
 }
 if (!r1412Block.includes("r1411Field('رقم الهوية','identityNo',emp.identityNo,'🪪',true)")) fail('identity number must be wide in PDF card');
@@ -69,4 +69,15 @@ if (r1412Block.includes('<footer class=\"foot\"><div class=\"fmeta\">إصدار 
 if (r1412Block.includes('<img class=\"qr\"')) fail('R1.4.12 PDF QR block should be removed from employee card');
 
 
-ok(`Mobile R1.4.12 verified: ${version.version}, employees=${version.totalCount}, modified=${summary.counts.modified}`);
+
+if (!fs.existsSync(path.join(root, 'MOBILE_R1_4_13_RELEASE_NOTES_AR.txt'))) fail('R1.4.13 release notes are missing');
+const buildUpdatesBlock = index.slice(index.indexOf('function buildUpdates(){'), index.indexOf('// ── REPORT SUPPORT'));
+for (const marker of ['r1413-updates-hero','r1413-tabs-in-hero','data-update-section="changes"','data-update-section="additions"','data-update-section="gaps"','data-update-section="review"']) {
+  if (!buildUpdatesBlock.includes(marker)) fail(`R1.4.13 updates center marker missing: ${marker}`);
+}
+for (const removed of ['updates-version-pill','update-kpi-ribbon','r1-sensitive-banner','section-mini-explainer changes','section-mini-explainer additions','section-mini-explainer gaps','section-mini-explainer review']) {
+  if (buildUpdatesBlock.includes(removed)) fail(`R1.4.13 removed updates element still rendered: ${removed}`);
+}
+if (!sw.includes('employee-registry-mobile-r1413-2026.09.12')) fail('R1.4.13 cache marker missing');
+
+ok(`Mobile R1.4.13 verified: ${version.version}, employees=${version.totalCount}, modified=${summary.counts.modified}`);
