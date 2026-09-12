@@ -7,9 +7,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0b1437">
 <link rel="manifest" href="manifest.webmanifest">
-<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.4.6</title>
+<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.4.9</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/fonts/hr-fonts.css?v=r146">
+<link rel="stylesheet" href="assets/fonts/hr-fonts.css?v=r149">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root{
@@ -1081,6 +1081,33 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
 @media(max-width:370px){.r147-version-badge{display:none}.r147-hero-note{display:none}.r147-profile-pills{grid-template-columns:1fr 1fr}.r147-pill:first-child{grid-column:1/-1}.r14-card-inner{grid-template-columns:38px minmax(0,1fr) 54px!important}.r14-open{display:none!important}.r14-hint{display:none!important}.r14-name{font-size:13px!important}}
 
 
+
+
+/* ── MOBILE R1.4.9 CLEAN DATA BADGE + REFRESH DEDUP ───────────────────────
+   صقل بناء على ملاحظات الهاتف: إزالة النص المصغر غير الضروري، توحيد عرض إصدار
+   البيانات، وحذف أزرار التحديث المكررة من الهيدر لأن التحديث موجود في حالة النظام.
+   ───────────────────────────────────────────────────────────────────────── */
+.hdr-controls{gap:7px!important}
+#refresh-data-btn,#connection-refresh{display:none!important}
+.connection-strip{grid-template-columns:auto minmax(0,1fr)!important;gap:8px!important;align-items:center!important}
+.connection-detail{font-size:clamp(7.6px,2vw,9px)!important;opacity:.92!important}
+.mobile-chrome-copy small{display:none!important}
+.mobile-chrome-bar{padding-block:9px!important}
+.mobile-chrome-summary{gap:9px!important}
+.mobile-chrome-copy b{font-size:clamp(12px,3.4vw,14px)!important;letter-spacing:0!important}
+.r147-version-badge,.r14-version{min-width:150px!important;max-width:190px!important;padding:10px 11px!important;border-radius:18px!important;align-items:flex-start!important;text-align:right!important;background:linear-gradient(145deg,rgba(255,209,102,.13),rgba(255,255,255,.055))!important;border:1px solid rgba(255,209,102,.18)!important}
+.r147-version-badge b,.r14-version b{font-family:var(--r143-number)!important;font-size:clamp(9.2px,2.45vw,11.5px)!important;line-height:1.25!important;direction:ltr!important;unicode-bidi:isolate!important;white-space:normal!important;overflow-wrap:anywhere!important;color:#ffd166!important;text-align:left!important;width:100%!important}
+.r147-version-badge span,.r14-version span{font-family:var(--r14-body)!important;font-size:8px!important;color:rgba(255,255,255,.68)!important;margin-top:4px!important;text-align:right!important;width:100%!important}
+@media(max-width:520px){
+  .r147-version-badge,.r14-version{min-width:132px!important;max-width:150px!important;padding:9px 9px!important}
+  .r147-version-badge b,.r14-version b{font-size:8.4px!important}
+  .hdr-btn{width:33px!important;height:33px!important}
+}
+@media(max-width:380px){
+  .r147-version-badge,.r14-version{min-width:118px!important;max-width:132px!important}
+  .r147-version-badge span,.r14-version span{font-size:7.2px!important}
+}
+
 </style>
 </head>
 <body class="subview-list">
@@ -1179,7 +1206,6 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
         <div class="hdr-title" id="hdr-title">سجل الموظفين الدائميين</div>
       </div>
       <div class="hdr-controls">
-        <button class="hdr-btn" id="refresh-data-btn" title="التحقق من تحديث البيانات"><i class="fas fa-sync-alt"></i></button>
         <button class="hdr-btn" id="theme-btn"><i class="fas fa-moon"></i></button>
         <div class="hdr-count">
           <div class="hdr-num" id="hdr-num">0</div>
@@ -1199,7 +1225,6 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
     <div class="connection-strip online" id="connection-strip">
       <span class="connection-state"><i class="fas fa-wifi"></i><b id="connection-label">متصل</b></span>
       <span class="connection-detail" id="connection-detail">جاري التحقق من آخر مزامنة...</span>
-      <button class="connection-refresh" id="connection-refresh" type="button"><i class="fas fa-rotate"></i> تحديث</button>
     </div>
     <div class="gold-line"></div>
   </div>
@@ -1397,7 +1422,7 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.8-LOAD-RESTORE-HOTFIX';
+var APP_RELEASE = 'MOBILE-R1.4.9-CLEAN-DATA-BADGE-REFRESH-DEDUP';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -1846,7 +1871,8 @@ document.getElementById('theme-btn').addEventListener('click',function(){
   this.querySelector('i').className=lightMode?'fas fa-sun':'fas fa-moon';
 });
 
-document.getElementById('refresh-data-btn').addEventListener('click',async function(){
+var headerRefreshButton=document.getElementById('refresh-data-btn');
+if(headerRefreshButton){headerRefreshButton.addEventListener('click',async function(){
   var btn=this, icon=btn.querySelector('i');
   icon.className='fas fa-sync-alt fa-spin';
   try{
@@ -1861,7 +1887,7 @@ document.getElementById('refresh-data-btn').addEventListener('click',async funct
   }finally{
     icon.className='fas fa-sync-alt';
   }
-});
+});}
 
 // ── COUNT UP ─────────────────────────────────────────────────────────────────
 function countUp(id,target){
@@ -3289,7 +3315,7 @@ function r122StartAutoUpdateWatchers(){
 
 
 // ── MOBILE R1.4 COMPLETE PROFESSIONAL VISUAL REDESIGN ──────────────────────
-function mobileR14ShortVersion(v){return String(v||'—').replace(/^DATA-/,'');}
+function mobileR14ShortVersion(v){return String(v||'—');}
 function mobileR14TypeIcon(){return mode==='cont'?'fa-file-contract':'fa-seedling';}
 function mobileR14Title(){return mode==='cont'?'واجهة موظفي العقود':'واجهة الموظفين الدائميين';}
 function mobileR14Subtitle(){return mode==='cont'?'تصميم مركز وهادئ: الاسم والتسلسل والاضبارة في القائمة، وكل التفاصيل داخل بطاقة الموظف.':'تصميم احترافي متسلسل للبحث والاستعراض، مع تفاصيل كاملة عند فتح بطاقة الموظف.';}
@@ -3366,7 +3392,7 @@ function mobileR146SyncChrome(){
   var t=document.getElementById('mobile-chrome-title'),s=document.getElementById('mobile-chrome-sub'),btn=document.getElementById('mobile-chrome-toggle');
   var count=mode==='cont'?(BASE.cont||[]).length:mode==='admin'?((BASE.perm||[]).length+(BASE.cont||[]).length):(BASE.perm||[]).length;
   if(t)t.textContent=mobileR146SubLabel()+' • '+mobileR146ModeLabel();
-  if(s)s.textContent=count+' موظف • '+(DATA_VERSION||'بدون إصدار');
+  if(s)s.textContent='';
   if(btn){var c=document.body.classList.contains('chrome-collapsed');btn.innerHTML=(c?'<i class="fas fa-down-left-and-up-right-to-center"></i><span>إظهار الشريط العلوي</span>':'<i class="fas fa-up-right-and-down-left-from-center"></i><span>إخفاء الشريط العلوي</span>');}
 }
 (function mobileR146InitChrome(){
