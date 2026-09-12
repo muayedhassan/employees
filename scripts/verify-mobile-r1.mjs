@@ -17,15 +17,15 @@ const version = JSON.parse(read('data/version.json'));
 const employees = JSON.parse(read('data/employees.json'));
 const summary = JSON.parse(read('data/change-summary.json'));
 
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.11-PDF-CARD-NUMBER-FONT-POLISH'")) fail('APP_RELEASE is not Mobile R1.4.11');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.12-PDF-CARD-POLISH'")) fail('APP_RELEASE is not Mobile R1.4.12');
 for (const marker of ['r14-hero','r14-emp-card','r14-card-inner','r146-kpi','r147-kpi','r147-profile-hero','mobile-chrome-toggle','chrome-collapsed','mobileR146SyncChrome','search-sec.compact-search','mobileR14BuildHome','mobileR14ProfileHero','renderQuickSearch=function','تحديث التطبيق والبيانات']) {
-  if (!index.includes(marker)) fail(`Mobile R1.4.11 marker missing: ${marker}`);
+  if (!index.includes(marker)) fail(`Mobile R1.4.12 marker missing: ${marker}`);
 }
 if (!index.includes('اضغط لعرض التفاصيل الكاملة داخل بطاقة الموظف')) fail('focused employee card hint is missing');
-if (!sw.includes('employee-registry-mobile-r1411-2026.09.12')) fail('service worker cache name is not Mobile R1.4.11');
+if (!sw.includes('employee-registry-mobile-r1412-2026.09.12')) fail('service worker cache name is not Mobile R1.4.12');
 if (!sw.includes('clients.claim') || !sw.includes('skipWaiting') || !sw.includes('networkFirst')) fail('service worker update strategy is incomplete');
 if (!Array.isArray(manifest.icons) || manifest.icons.length < 2) fail('manifest icons are missing');
-if (!String(manifest.description || '').includes('Mobile R1.4.11')) fail('manifest description was not updated');
+if (!String(manifest.description || '').includes('Mobile R1.4.12')) fail('manifest description was not updated');
 if (!fs.existsSync(path.join(root, 'assets/fonts/hr-fonts.css'))) fail('embedded font readiness stylesheet is missing');
 const fontCss = read('assets/fonts/hr-fonts.css');
 for (const marker of ['HRTitleArabic','HRBodyArabic','HRSultanArabic','HRNumberFont','HREnglishDecor','YaModernPro-Bold.otf','ZainMobile.ttf','SFSultan-Black.ttf','Stencil.ttf','ElfeeraScript.ttf','--hr-english-decor-font']) { if (!fontCss.includes(marker)) fail(`font readiness marker missing: ${marker}`); }
@@ -56,4 +56,17 @@ if (!index.includes('data-profile-panel="')) fail('profile tab panels must use d
 if (!index.includes("pid=p.getAttribute('data-profile-panel')||p.getAttribute('data-panel')")) fail('profile tab binder must support current and legacy panel attributes');
 if (!fs.existsSync(path.join(root, 'MOBILE_R1_4_10_RELEASE_NOTES_AR.txt'))) fail('R1.4.10 release notes are missing');
 
-ok(`Mobile R1.4.11 verified: ${version.version}, employees=${version.totalCount}, modified=${summary.counts.modified}`);
+if (!fs.existsSync(path.join(root, 'MOBILE_R1_4_12_RELEASE_NOTES_AR.txt'))) fail('R1.4.12 release notes are missing');
+const r1412Block = index.slice(index.lastIndexOf('function r1412FieldSlug'));
+for (const marker of ['MOBILE-R1.4.12-PDF-CARD-POLISH','r1412FormatSalary','طباعة بطاقة الموظف PDF']) {
+  if (!index.includes(marker)) fail(`R1.4.12 PDF polish marker missing: ${marker}`);
+}
+if (!r1412Block.includes("r1411Field('رقم الهوية','identityNo',emp.identityNo,'🪪',true)")) fail('identity number must be wide in PDF card');
+if (!r1412Block.includes("return numeric+' د.ع';")) fail('salary currency should be after the number');
+if (!r1412Block.includes('identityIssuer b') || !r1412Block.includes('notes b')) fail('identity issuer and notes must use body typography in PDF card');
+if (r1412Block.includes('بطاقة موظف إلكترونية صادرة من HRSystem</div></header><section class=\"person\"')) fail('R1.4.12 PDF header subline should be removed');
+if (r1412Block.includes('<footer class=\"foot\"><div class=\"fmeta\">إصدار البيانات')) fail('R1.4.12 PDF footer metadata should be removed');
+if (r1412Block.includes('<img class=\"qr\"')) fail('R1.4.12 PDF QR block should be removed from employee card');
+
+
+ok(`Mobile R1.4.12 verified: ${version.version}, employees=${version.totalCount}, modified=${summary.counts.modified}`);

@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.11",
-  "short_name": "الموظفون R1.4.11",
+  "name": "سجل الموظفين - Mobile R1.4.12",
+  "short_name": "الموظفون R1.4.12",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.11 تثبيت خط الأرقام والتواريخ وإضافة طباعة بطاقة الموظف PDF بتصميم A4 احترافي.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.12 صقل بطاقة PDF وتثبيت خط Stencil للأرقام والتواريخ وترتيب خلايا الهوية والراتب.",
   "icons": [
     {
       "src": "assets/icon-192.png",
