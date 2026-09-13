@@ -10,7 +10,7 @@ const required = [
   'index.html','service-worker.js','manifest.webmanifest','VERSION.txt',
   'data/version.json','data/employees.json','data/change-summary.json',
   'data/change-history.json','data/validation-report.json','data/fallback-data.js',
-  'MOBILE_R1_4_15_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_16_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -23,10 +23,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.15-UPDATES-DETAILS-DRILLDOWN';
+const expectedRelease = 'MOBILE-R1.4.16-NAV-PDF-ADMIN-POLISH';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.15 Updates Details Drilldown');
-if (!String(manifest.description || '').includes('R1.4.15')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.16 Navigation PDF Admin Polish');
+if (!String(manifest.description || '').includes('R1.4.16')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -60,7 +60,7 @@ if (!index.includes("https://raw.githubusercontent.com/muayedhassan/employees/ma
 
 // Preserve R1.4.12 PDF card polish requested before R1.4.13.
 const pdfBlock = index.slice(index.lastIndexOf('function r1412FieldSlug'));
-for (const marker of ['r1412FormatSalary','طباعة بطاقة الموظف PDF',"r1411Field('رقم الهوية','identityNo',emp.identityNo,'🪪',true)","return numeric+' د.ع';",'identityIssuer b','notes b']) {
+for (const marker of ['r1412FormatSalary','عرض / تحميل بطاقة الموظف PDF',"r1411Field('رقم الهوية','identityNo',emp.identityNo,'🪪',true)","return numeric+' د.ع';",'identityIssuer b','notes b']) {
   if (!pdfBlock.includes(marker) && !index.includes(marker)) fail(`PDF polish marker missing: ${marker}`);
 }
 
@@ -73,7 +73,7 @@ if (!String(version.version || '').startsWith('DATA-')) fail(`unexpected data ve
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1415-updatesdetails-2026.09.13")) fail('R1.4.15 Updates Details cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1416-navpdfadmin-2026.09.13")) fail('R1.4.16 navigation/PDF/admin cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
@@ -88,4 +88,33 @@ if (!index.includes("openUpdateEmployee=function(ref,targetTab,versionContext)")
 if (!index.includes("r1415ActivateProfileTab(targetTab||'basic')")) fail('updated employee does not drill into requested profile tab');
 if (!index.includes("if(targetTab==='history'&&R1415_UPDATE_FOCUS_VERSION)")) fail('modified employee history context marker missing');
 
-ok(`Mobile R1.4.15 Updates Details verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
+
+// R1.4.16 navigation / PDF / admin cleanup guards.
+for (const marker of [
+  'Mobile R1.4.16 - professional navigation, mobile PDF save toolbar, admin safety-only',
+  'id="r1416-nav-card"','نطاق السجل','أقسام البرنامج','r1416SyncNavigation',
+  'عرض / تحميل بطاقة الموظف PDF','تحميل / حفظ PDF على الهاتف','id="pdf-save-btn"',
+  'r1416-hidden-compat','r1416-admin-only','حماية البيانات والاسترجاع'
+]) if (!index.includes(marker)) fail(`R1.4.16 marker missing: ${marker}`);
+
+const adminStart = index.indexOf('<div id="view-admin"');
+const adminEnd = index.indexOf('<div class="pg-wrap" id="pg">', adminStart);
+if (adminStart < 0 || adminEnd < 0) fail('admin view block not found');
+const adminBlock = index.slice(adminStart, adminEnd);
+for (const removedVisible of ['Windows Master <span','سجل الموظفين <span','admin-summary']) {
+  if (adminBlock.includes(removedVisible)) fail(`removed admin UI is still visible: ${removedVisible}`);
+}
+if (!adminBlock.includes('id="data-safety-section"')) fail('data safety section missing from admin');
+
+if (!index.includes("views.forEach(function(x){var el=document.getElementById('view-'+x);if(el)el.style.display=(mode!=='admin'&&subView===x)?'block':'none';});")) fail('exclusive content-view guard missing');
+if (!index.includes("if(mode==='admin')return;r1416SwitchSubBase(v);")) fail('admin subview overlap guard missing');
+if (!index.includes("el.className='sub-tab'+(selected?' '+subActive:'');")) fail('exclusive active-module class guard missing');
+if (!index.includes('body.chrome-collapsed .r1416-nav-card{display:none!important}')) fail('collapsed navigation-card guard missing');
+
+const lastPrint = index.lastIndexOf('printEmployeeCard=function(emp){');
+const printBlock = index.slice(lastPrint, index.indexOf('var r1411PrintBtn=', lastPrint));
+for (const marker of ['pdf-toolbar','pdf-save-btn','window.print()','@media print','تحميل / حفظ PDF على الهاتف','html2pdf.js/0.10.2/html2pdf.bundle.min.js','outputPdf("blob")','navigator.share']) {
+  if (!printBlock.includes(marker)) fail(`mobile PDF save marker missing: ${marker}`);
+}
+
+ok(`Mobile R1.4.16 Navigation/PDF/Admin verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);

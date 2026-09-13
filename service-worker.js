@@ -1,4 +1,4 @@
-const CACHE_NAME = 'employee-registry-mobile-r1415-updatesdetails-2026.09.13';
+const CACHE_NAME = 'employee-registry-mobile-r1416-navpdfadmin-2026.09.13';
 const APP_SHELL = [
   './',
   './index.html',

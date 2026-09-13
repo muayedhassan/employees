@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0b1437">
 <link rel="manifest" href="manifest.webmanifest">
-<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.4.14</title>
+<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.4.16</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/fonts/hr-fonts.css?v=r1411">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -1193,6 +1193,28 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
 .update-person.modified{cursor:pointer}.update-person.modified::after{content:'اضغط لفتح تفاصيل التغيير';display:block;margin-top:8px;padding-top:7px;border-top:1px dashed rgba(66,165,245,.16);font-size:8px;color:#90caf9}
 .update-person.added::after,.review-person::after,.gap-person::after{content:'اضغط لفتح بطاقة الموظف';display:block;margin-top:8px;padding-top:7px;border-top:1px dashed rgba(255,255,255,.08);font-size:8px;color:var(--text2)}
 .r1415-update-focus{margin:0 10px 10px;padding:8px 10px;border-radius:12px;background:rgba(66,165,245,.08);border:1px solid rgba(66,165,245,.18);color:#90caf9;font-size:9px;line-height:1.7}
+
+
+/* Mobile R1.4.16 - professional navigation, mobile PDF save toolbar, admin safety-only */
+.r1416-nav-card{margin:9px var(--r144-page-pad,10px) 0;padding:10px;border-radius:24px;background:linear-gradient(145deg,rgba(11,22,56,.94),rgba(8,17,44,.88));border:1px solid rgba(125,157,255,.16);box-shadow:0 16px 38px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.05);display:grid;gap:9px;overflow:hidden}
+.r1416-nav-section{display:grid;gap:7px;min-width:0}.r1416-nav-section+.r1416-nav-section{padding-top:9px;border-top:1px solid rgba(255,255,255,.07)}
+.r1416-nav-caption{display:flex;align-items:center;gap:7px;color:rgba(231,240,255,.72);font:800 9px var(--hr-body-font);padding:0 4px}.r1416-nav-caption i{color:#7ddfff;font-size:11px}.r1416-nav-caption small{margin-right:auto;color:rgba(231,240,255,.38);font:700 8px var(--hr-body-font)}
+.r1416-nav-card .main-tabs,.r1416-nav-card .sub-tabs{margin:0!important;border:0!important;box-shadow:none!important;background:transparent!important;padding:0!important;border-radius:0!important;overflow:visible!important;backdrop-filter:none!important}
+.r1416-nav-card .main-tabs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+.r1416-nav-card .main-tab{margin:0!important;min-height:43px!important;border-radius:15px!important;border:1px solid rgba(255,255,255,.07)!important;background:rgba(255,255,255,.035)!important;color:rgba(231,240,255,.68)!important;box-shadow:none!important;padding:9px 7px!important;transition:transform .18s ease,background .18s ease,border-color .18s ease,color .18s ease!important}
+.r1416-nav-card .main-tab.perm-active{background:rgba(245,200,66,.09)!important;border-color:rgba(245,200,66,.28)!important;color:#ffe08a!important}.r1416-nav-card .main-tab.cont-active{background:rgba(57,216,255,.09)!important;border-color:rgba(57,216,255,.27)!important;color:#8ce9ff!important}.r1416-nav-card .main-tab.admin-active{background:rgba(206,147,216,.09)!important;border-color:rgba(206,147,216,.27)!important;color:#e5b7ef!important}
+.r1416-nav-card .main-tab.perm-active:after,.r1416-nav-card .main-tab.cont-active:after,.r1416-nav-card .main-tab.admin-active:after{content:'';position:absolute;bottom:4px;right:24%;left:24%;height:2px;border-radius:999px;background:currentColor;opacity:.72}
+.r1416-nav-card .sub-tabs{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:6px!important}
+.r1416-nav-card .sub-tab{min-width:0!important;min-height:48px!important;margin:0!important;padding:7px 5px!important;border-radius:14px!important;border:1px solid rgba(255,255,255,.06)!important;background:rgba(255,255,255,.025)!important;color:rgba(226,237,255,.62)!important;white-space:normal!important;text-align:center!important;justify-content:center!important;line-height:1.25!important;font-size:9px!important;position:relative;overflow:hidden}
+.r1416-nav-card .sub-tab i{font-size:12px!important}.r1416-nav-card .sub-tab.perm-sub-active,.r1416-nav-card .sub-tab.cont-sub-active,.r1416-nav-card .sub-tab.admin-sub-active{background:linear-gradient(135deg,rgba(83,109,254,.94),rgba(45,184,220,.82))!important;border-color:rgba(126,201,255,.42)!important;color:#fff!important;box-shadow:0 10px 24px rgba(57,131,231,.18)!important}
+.r1416-nav-card .sub-tab .sub-alert-badge{position:absolute;top:5px;left:5px}.r1416-nav-card.admin-mode #r1416-module-section{display:none!important}.r1416-nav-card.admin-mode{padding-bottom:10px}
+body.chrome-collapsed .r1416-nav-card{display:none!important}
+.r1416-hidden-compat{display:none!important}.r1416-admin-only{padding:12px var(--r144-page-pad,10px) 18px!important}.r1416-admin-only .admin-section{margin:0!important;border-radius:22px!important;background:linear-gradient(145deg,rgba(14,26,60,.96),rgba(9,18,43,.94))!important;border:1px solid rgba(206,147,216,.15)!important;box-shadow:0 16px 36px rgba(0,0,0,.16)!important}.r1416-admin-only .admin-section-title{font-size:15px!important;padding-bottom:10px!important}.r1416-admin-only .admin-section-title i{color:#d6a7df!important}
+.r1416-admin-only .safety-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}.r1416-admin-only .safety-btn{min-height:47px!important;border-radius:15px!important}.r1416-admin-only .safety-panel{border-radius:17px!important}
+.r1416-print-actions{display:grid!important;grid-template-columns:1fr!important;gap:8px!important}.btn-print-pdf{position:relative!important}.btn-print-pdf .r1416-pdf-action-note{display:block;font:800 8px var(--hr-body-font);opacity:.68;margin-top:2px}.r1416-pdf-mobile-icon{margin-left:5px}
+@media(max-width:720px){.r1416-nav-card .sub-tabs{grid-template-columns:repeat(3,minmax(0,1fr))!important}.r1416-nav-caption small{display:none}.r1416-nav-card{padding:9px;gap:8px}.r1416-nav-card .sub-tab{min-height:46px!important}.r1416-admin-only{padding-top:10px!important}}
+@media(max-width:390px){.r1416-nav-card .main-tab{font-size:9.5px!important;padding:8px 4px!important}.r1416-nav-card .sub-tab{font-size:8.5px!important;padding:7px 3px!important}}
+body.light-mode .r1416-nav-card{background:linear-gradient(145deg,#f7f9ff,#eef3ff);border-color:rgba(57,74,171,.15)}body.light-mode .r1416-nav-caption{color:#536188}body.light-mode .r1416-nav-caption small{color:#8a95b3}body.light-mode .r1416-nav-card .main-tab,body.light-mode .r1416-nav-card .sub-tab{background:rgba(35,55,120,.035)!important;color:#637092!important;border-color:rgba(35,55,120,.08)!important}
 </style>
 </head>
 <body class="subview-list">
@@ -1259,8 +1281,8 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
       <div class="m-type-tag" id="m-type-tag">موظف دائمي</div>
     </div>
     <div class="m-body" id="m-profile-body"></div>
-    <div class="m-actions r1411-print-actions">
-      <button class="m-action-btn btn-print-pdf" id="btn-print-pdf"><i class="fas fa-file-pdf"></i> طباعة بطاقة الموظف PDF</button>
+    <div class="m-actions r1411-print-actions r1416-print-actions">
+      <button class="m-action-btn btn-print-pdf" id="btn-print-pdf"><i class="fas fa-download r1416-pdf-mobile-icon"></i> عرض / تحميل بطاقة الموظف PDF<span class="r1416-pdf-action-note">على الهاتف سيظهر زر حفظ PDF أعلى البطاقة</span></button>
     </div>
   </div>
 </div>
@@ -1270,7 +1292,7 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
   <div class="card-modal-box">
     <div id="employee-id-card" class="emp-id-card"></div>
     <div class="card-actions">
-      <button class="card-action primary" id="card-print-btn"><i class="fas fa-file-pdf"></i> طباعة بطاقة الموظف PDF</button>
+      <button class="card-action primary" id="card-print-btn"><i class="fas fa-download"></i> عرض / تحميل بطاقة الموظف PDF</button>
       <button class="card-action close-card" id="card-close-btn"><i class="fas fa-times"></i> إغلاق</button>
     </div>
     <div class="card-note"><i class="fas fa-qrcode"></i> رمز QR يفتح ملف الموظف نفسه عند استخدام رابط GitHub المنشور.</div>
@@ -1311,19 +1333,26 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
     <div class="gold-line"></div>
   </div>
 
-  <div class="main-tabs">
-    <div class="main-tab perm-active" id="mtab-perm" onclick="switchMain('perm')"><i class="fas fa-id-card"></i> دائمون <span class="tab-badge" id="badge-perm">0</span></div>
-    <div class="main-tab" id="mtab-cont" onclick="switchMain('cont')"><i class="fas fa-file-contract"></i> عقود <span class="tab-badge" id="badge-cont">0</span></div>
-    <div class="main-tab" id="mtab-admin" onclick="switchMain('admin')"><i class="fas fa-shield-alt"></i> إدارة</div>
-  </div>
-
-  <div class="sub-tabs" id="sub-tabs">
-    <div class="sub-tab perm-sub-active" id="stab-list" onclick="switchSub('list')"><i class="fas fa-list-ul"></i> القائمة</div>
-    <div class="sub-tab" id="stab-updates" onclick="switchSub('updates')"><i class="fas fa-clock-rotate-left"></i> آخر التحديثات</div>
-    <div class="sub-tab" id="stab-quality" onclick="switchSub('quality')"><i class="fas fa-shield-halved"></i> جودة البيانات</div>
-    <div class="sub-tab" id="stab-reports" onclick="switchSub('reports')"><i class="fas fa-file-lines"></i> التقارير</div>
-    <div class="sub-tab" id="stab-alerts" onclick="switchSub('alerts')"><i class="fas fa-bell"></i> التنبيهات <span class="sub-alert-badge" id="sub-alert-badge">0</span></div>
-    <div class="sub-tab" id="stab-system" onclick="switchSub('system')"><i class="fas fa-gauge-high"></i> حالة النظام <span class="system-dot" id="system-tab-dot"></span></div>
+  <div class="r1416-nav-card" id="r1416-nav-card">
+    <section class="r1416-nav-section">
+      <div class="r1416-nav-caption"><i class="fas fa-users-viewfinder"></i><span>نطاق السجل</span><small>اختيار واحد فقط</small></div>
+      <div class="main-tabs" role="tablist" aria-label="نطاق سجل الموظفين">
+        <div class="main-tab perm-active" id="mtab-perm" role="tab" aria-selected="true" onclick="switchMain('perm')"><i class="fas fa-id-card"></i> دائمون <span class="tab-badge" id="badge-perm">0</span></div>
+        <div class="main-tab" id="mtab-cont" role="tab" aria-selected="false" onclick="switchMain('cont')"><i class="fas fa-file-contract"></i> عقود <span class="tab-badge" id="badge-cont">0</span></div>
+        <div class="main-tab" id="mtab-admin" role="tab" aria-selected="false" onclick="switchMain('admin')"><i class="fas fa-shield-alt"></i> إدارة</div>
+      </div>
+    </section>
+    <section class="r1416-nav-section" id="r1416-module-section">
+      <div class="r1416-nav-caption"><i class="fas fa-table-cells-large"></i><span>أقسام البرنامج</span><small>يُفتح قسم واحد فقط</small></div>
+      <div class="sub-tabs" id="sub-tabs" role="tablist" aria-label="أقسام البرنامج">
+        <div class="sub-tab perm-sub-active" id="stab-list" role="tab" aria-selected="true" onclick="switchSub('list')"><i class="fas fa-list-ul"></i> القائمة</div>
+        <div class="sub-tab" id="stab-updates" role="tab" aria-selected="false" onclick="switchSub('updates')"><i class="fas fa-clock-rotate-left"></i> آخر التحديثات</div>
+        <div class="sub-tab" id="stab-quality" role="tab" aria-selected="false" onclick="switchSub('quality')"><i class="fas fa-shield-halved"></i> جودة البيانات</div>
+        <div class="sub-tab" id="stab-reports" role="tab" aria-selected="false" onclick="switchSub('reports')"><i class="fas fa-file-lines"></i> التقارير</div>
+        <div class="sub-tab" id="stab-alerts" role="tab" aria-selected="false" onclick="switchSub('alerts')"><i class="fas fa-bell"></i> التنبيهات <span class="sub-alert-badge" id="sub-alert-badge">0</span></div>
+        <div class="sub-tab" id="stab-system" role="tab" aria-selected="false" onclick="switchSub('system')"><i class="fas fa-gauge-high"></i> حالة النظام <span class="system-dot" id="system-tab-dot"></span></div>
+      </div>
+    </section>
   </div>
 
   <div class="mobile-chrome-bar" id="mobile-chrome-bar" aria-live="polite">
@@ -1426,36 +1455,13 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
     <div id="view-alerts" style="display:none"><div class="alerts-page-r7" id="alerts-page"></div></div>
     <div id="view-system" style="display:none"><div class="system-page-r71" id="system-page"></div></div>
     <div id="view-admin" style="display:none">
-      <div class="admin-panel">
-        <div class="admin-summary">
-          <div class="admin-sum-card"><div class="admin-sum-val" id="adm-perm-cnt">0</div><div class="admin-sum-lbl">موظف دائمي</div></div>
-          <div class="admin-sum-card" style="border-color:rgba(0,172,193,.2)"><div class="admin-sum-val" id="adm-cont-cnt" style="color:var(--teal3)">0</div><div class="admin-sum-lbl">موظف عقد</div></div>
-        </div>
-        <!-- EXCEL MASTER STATUS -->
-        <div class="admin-section">
-          <div class="admin-section-title"><i class="fas fa-server"></i> Windows Master <span class="read-only-badge">المصدر الرسمي</span></div>
-          <div class="excel-master-card">
-            <div class="excel-master-head"><div class="excel-master-icon"><i class="fas fa-database"></i></div><div><div class="excel-master-title">البيانات المركزية من HRSystem / SQL Server</div><div class="excel-master-sub" id="excel-master-version">جاري قراءة حالة البيانات...</div></div></div>
-            <div class="excel-master-grid">
-              <div class="excel-kpi"><div class="excel-kpi-v" id="excel-added">0</div><div class="excel-kpi-l">جديد</div></div>
-              <div class="excel-kpi"><div class="excel-kpi-v" id="excel-modified">0</div><div class="excel-kpi-l">معدل</div></div>
-              <div class="excel-kpi"><div class="excel-kpi-v" id="excel-missing">0</div><div class="excel-kpi-l">للمراجعة</div></div>
-            </div>
-            <div class="excel-master-note" id="excel-master-note"><i class="fas fa-circle-info"></i> بيانات الهاتف للقراءة فقط وتصل من HRSystem / SQL Server عبر نسخة النشر المركزية.</div>
-          </div>
-        </div>
-        <!-- hidden legacy inputs retained only to keep older handlers harmless -->
-        <div style="display:none" aria-hidden="true">
-          <input id="add-name"><input id="add-empid"><input id="add-num"><select id="add-type"><option value="perm">perm</option><option value="cont">cont</option></select><button id="add-btn"></button>
-        </div>
-        <!-- MANAGE LIST -->
-        <div class="admin-section">
-          <div class="admin-section-title"><i class="fas fa-users"></i> سجل الموظفين <span class="read-only-badge">قراءة فقط</span></div>
-          <input class="admin-search" id="admin-search" placeholder="ابحث بالاسم أو رقم الاضبارة أو الرقم الوظيفي..." oninput="renderAdminList()">
-          <div class="admin-list" id="admin-list"></div>
-        </div>
-
-        <!-- DATA SAFETY -->
+      <div class="r1416-hidden-compat" aria-hidden="true">
+        <span id="adm-perm-cnt">0</span><span id="adm-cont-cnt">0</span>
+        <span id="excel-master-version"></span><span id="excel-added">0</span><span id="excel-modified">0</span><span id="excel-missing">0</span><span id="excel-master-note"></span>
+        <input id="admin-search" value=""><div id="admin-list"></div>
+        <input id="add-name"><input id="add-empid"><input id="add-num"><select id="add-type"><option value="perm">perm</option><option value="cont">cont</option></select><button id="add-btn"></button>
+      </div>
+      <div class="admin-panel r1416-admin-only">
         <div class="admin-section" id="data-safety-section">
           <div class="admin-section-title"><i class="fas fa-shield-heart"></i> حماية البيانات والاسترجاع</div>
           <div class="safety-grid">
@@ -1504,7 +1510,7 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.15-UPDATES-DETAILS-DRILLDOWN';
+var APP_RELEASE = 'MOBILE-R1.4.16-NAV-PDF-ADMIN-POLISH';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -3093,6 +3099,23 @@ switchSub=function(v){
   var allowed=['list','updates','quality','reports','alerts','system'];if(allowed.indexOf(v)<0)v='list';subView=v;document.body.classList.remove('subview-list','subview-updates','subview-quality','subview-reports','subview-alerts','subview-system');document.body.classList.add('subview-'+v);var isPerm=mode==='perm',isCont=mode==='cont',subA=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';allowed.forEach(function(x){var t=document.getElementById('stab-'+x);if(t)t.className='sub-tab'+(v===x?' '+subA:'');var view=document.getElementById('view-'+x);if(view)view.style.display=v===x?'block':'none';});document.getElementById('search-sec').style.display=v==='list'?'':'none';document.getElementById('pg').style.display=v==='list'?'':'none';if(v==='updates')buildUpdates();if(v==='quality')buildQualityCenter();if(v==='reports'){try{buildReports();}catch(err){console.error('R7 reports error',err);var rp=document.getElementById('reports-page');if(rp)rp.innerHTML='<div class="history-empty"><i class="fas fa-triangle-exclamation"></i>تعذر فتح استوديو التقارير. أعد فتح التطبيق وحاول مرة أخرى.</div>';showToast('تعذر فتح التقارير','error');}}if(v==='alerts')buildAlerts();if(v==='system'){try{buildSystemCenter();}catch(err){console.error('R7.1.1 system center error',err);var sp=document.getElementById('system-page');if(sp)sp.innerHTML='<div class="history-empty"><i class="fas fa-triangle-exclamation"></i>تعذر تحميل معلومات حالة النظام. أعد فتح التطبيق، وإذا استمرت المشكلة استخدم أحدث إصدار.</div>';showToast('تعذر تحميل حالة النظام','error');}}var sc=document.getElementById('scroll');if(sc)sc.scrollTo({top:0,behavior:'smooth'});
 };
 
+// Mobile R1.4.16 - navigation is strictly exclusive at both levels and only one content view may be visible.
+function r1416SyncNavigation(){
+  var nav=document.getElementById('r1416-nav-card');if(nav)nav.classList.toggle('admin-mode',mode==='admin');
+  ['perm','cont','admin'].forEach(function(x){var el=document.getElementById('mtab-'+x);if(el)el.setAttribute('aria-selected',String(mode===x));});
+  var subActive=mode==='perm'?'perm-sub-active':mode==='cont'?'cont-sub-active':'admin-sub-active';
+  ['list','updates','quality','reports','alerts','system'].forEach(function(x){var el=document.getElementById('stab-'+x);if(el){var selected=mode!=='admin'&&subView===x;el.setAttribute('aria-selected',String(selected));el.className='sub-tab'+(selected?' '+subActive:'');}});
+  var views=['list','updates','quality','reports','alerts','system'];
+  views.forEach(function(x){var el=document.getElementById('view-'+x);if(el)el.style.display=(mode!=='admin'&&subView===x)?'block':'none';});
+  var admin=document.getElementById('view-admin');if(admin)admin.style.display=mode==='admin'?'block':'none';
+}
+var r1416SwitchMainBase=switchMain;
+switchMain=function(m){r1416SwitchMainBase(m);r1416SyncNavigation();};
+var r1416SwitchSubBase=switchSub;
+switchSub=function(v){if(mode==='admin')return;r1416SwitchSubBase(v);r1416SyncNavigation();};
+setTimeout(r1416SyncNavigation,0);
+
+
 var r7ConnRefresh=document.getElementById('connection-refresh');if(r7ConnRefresh)r7ConnRefresh.addEventListener('click',async function(){var i=this.querySelector('i');i.className='fas fa-rotate fa-spin';try{await loadCentralData(true);updateAdminCounts();if(mode!=='admin')doFilter();showToast(LAST_DATA_STATUS||'تم التحقق من البيانات');}catch(e){showToast('تعذر الاتصال، ستبقى النسخة المحفوظة متاحة','warn');}finally{i.className='fas fa-rotate';updateConnectivityUI();}});
 
 
@@ -3624,13 +3647,14 @@ printEmployeeCard=function(emp){
     r1411Field('العنوان الوظيفي','jobTitle',emp.jobTitle,'🏷️',true)+r1411Field('الشعبة / القسم','division',emp.division,'🏢',true)+r1411Field('الحالة الوظيفية','employmentStatus',emp.employmentStatus,'✅',false)+r1411Field('تاريخ التعيين','hireDate',emp.hireDate,'📆',false)+r1411Field('الدرجة','grade',emp.grade,'◆',false)+r1411Field('المرحلة','step',emp.step,'▰',false)+r1411Field('التحصيل الدراسي','education',emp.education,'🎓',false)+r1411Field('الاختصاص','specialization',emp.specialization,'📘',false)+r1411Field('الراتب','salary',emp.salary,'💰',false)+'</div></section>';
   sections+='<section class="pdf-section wide"><h2><span>🪪</span> الهوية والملاحظات</h2><div class="pdf-grid identity-grid">'+
     r1411Field('رقم الهوية','identityNo',emp.identityNo,'🪪',true)+r1411Field('تاريخ إصدار الهوية','identityIssueDate',emp.identityIssueDate,'📅',false)+r1411Field('جهة إصدار الهوية','identityIssuer',emp.identityIssuer,'🏛️',true)+r1411Field('الملاحظات','notes',emp.notes,'📝',true)+'</div></section>';
-  var hist=employeeHistoryEvents(emp).slice(0,3).map(function(h){var oldv=h.oldValue==null||h.oldValue===''?'فارغ':h.oldValue,newv=h.newValue==null||h.newValue===''?'فارغ':h.newValue;return '<div class="pdf-change"><strong>'+escapeHTML(h.fieldLabel||h.field||'تغيير')+'</strong><span>'+escapeHTML(oldv)+'</span><em>←</em><span>'+escapeHTML(newv)+'</span></div>';}).join('')||'<div class="pdf-empty">لا توجد تغييرات حديثة لهذا الموظف ضمن آخر إصدار منشور.</div>';
-  sections+='<section class="pdf-section changes"><h2><span>↻</span> آخر التغييرات</h2>'+hist+'</section>';
-  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>بطاقة '+escapeHTML(emp.name||'الموظف')+'</title><style>@page{size:A4;margin:10mm}*{box-sizing:border-box}body{margin:0;background:#eef3ff;color:#102047;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:HRBody,Arial,sans-serif}@font-face{font-family:HRTitle;src:url("'+r1411FontUrl('YaModernPro-Bold.otf')+'") format("opentype");font-display:swap}@font-face{font-family:HRBody;src:url("'+r1411FontUrl('ZainMobile.ttf')+'") format("truetype");font-display:swap}@font-face{font-family:HRNum;src:url("'+r1411FontUrl('Stencil.ttf')+'") format("truetype");font-display:swap}.sheet{width:190mm;min-height:277mm;margin:0 auto;background:#fff;border-radius:8mm;overflow:hidden;box-shadow:0 20px 70px rgba(20,40,80,.18);border:1px solid #dce5f5}.top{position:relative;padding:11mm 12mm 9mm;background:linear-gradient(135deg,#132a63,#15416e 62%,#0c7a88);color:#fff}.top:before{content:"";position:absolute;left:-35mm;top:-40mm;width:85mm;height:85mm;border-radius:50%;background:radial-gradient(circle,rgba(255,214,107,.28),transparent 70%)}.min{font-size:8.5pt;color:rgba(255,255,255,.78)}.title{font:900 20pt HRTitle,Arial;margin:1mm 0 0}.badge{position:absolute;left:12mm;top:12mm;width:22mm;height:22mm;border-radius:7mm;background:linear-gradient(135deg,#ffd66b,#fff2a8);color:#102047;display:grid;place-items:center;font-size:20pt;box-shadow:0 0 25px rgba(255,214,107,.28)}.person{display:grid;grid-template-columns:1fr 33mm;gap:8mm;padding:8mm 12mm;background:linear-gradient(180deg,#f9fbff,#eef4ff);border-bottom:1px solid #dfe7f5}.pname{font:900 18pt HRTitle,Arial;color:#102047;line-height:1.35}.prole{font-size:9pt;color:#5f6e90;margin-top:2mm}.pid{display:grid;gap:2mm}.pill{border:1px solid #dbe4f4;border-radius:4mm;background:#fff;padding:2.5mm 3mm;text-align:center}.pill span{display:block;font-size:6.7pt;color:#7a86a4}.pill b{display:block;font:900 13pt HRNum,Arial;color:#d49a14;direction:ltr;margin-top:1mm}.content{padding:7mm 10mm 7mm;display:grid;grid-template-columns:1fr 1fr;gap:4mm}.pdf-section{border:1px solid #dfe6f2;border-radius:5mm;background:#fbfdff;padding:4mm;break-inside:avoid}.pdf-section.wide,.pdf-section.changes{grid-column:1/-1}h2{margin:0 0 3mm;font:900 11pt HRTitle,Arial;color:#163b7a;display:flex;align-items:center;gap:2mm}h2 span{width:8mm;height:8mm;border-radius:50%;display:grid;place-items:center;background:rgba(255,214,107,.20);color:#a67808;box-shadow:0 0 14px rgba(255,214,107,.20)}.pdf-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm}.pdf-field{display:flex;gap:2.5mm;align-items:center;border:1px solid #e3e9f4;border-radius:3.5mm;background:#fff;padding:2.4mm 2.7mm;min-height:13mm}.pdf-field.wide{grid-column:1/-1}.pdf-field.identityNo{min-height:14mm}.pdf-field.identityNo b{white-space:nowrap;font-size:10.3pt}.pdf-field-body{min-width:0;flex:1}.pdf-ico{width:8mm;height:8mm;border-radius:3mm;background:linear-gradient(135deg,rgba(255,214,107,.28),rgba(255,214,107,.08));color:#b17b09;display:grid;place-items:center;box-shadow:0 0 14px rgba(255,214,107,.18);font-size:9pt;flex-shrink:0}.pdf-field span{display:block;font-size:6.7pt;color:#74809e;margin-bottom:.8mm}.pdf-field b{display:block;font-size:9.2pt;color:#17274f;line-height:1.35;word-break:normal;overflow-wrap:anywhere}.pdf-num{font-family:HRNum,Arial!important;color:#d49a14!important;direction:ltr;unicode-bidi:plaintext;font-variant-numeric:tabular-nums}.pdf-field.identityIssuer b,.pdf-field.notes b{font-family:HRBody,Arial!important;color:#17274f!important;direction:rtl!important;letter-spacing:0!important}.pdf-salary{display:inline-flex;align-items:baseline;gap:1mm;direction:ltr;unicode-bidi:plaintext;white-space:nowrap}.pdf-currency{font-family:HRBody,Arial;color:#17274f;font-size:8.2pt}.pdf-change{display:grid;grid-template-columns:1.15fr 1fr 7mm 1fr;gap:2mm;align-items:center;border:1px solid #e4eaf4;border-radius:3.5mm;background:#fff;padding:2.4mm;margin-top:2mm}.pdf-change strong{font-size:8pt;color:#173b78}.pdf-change span{font-size:8pt;background:#f2f6ff;border-radius:3mm;padding:1.8mm;word-break:break-word}.pdf-change em{font-style:normal;color:#16996f;text-align:center}.pdf-empty{font-size:8pt;color:#7d88a4;background:#fff;border:1px dashed #d6deee;border-radius:4mm;padding:5mm;text-align:center}@media print{body{background:#fff}.sheet{box-shadow:none;border-radius:0;width:100%;min-height:auto}}</style></head><body><main class="sheet"><header class="top"><div class="badge">🌱</div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين</div></header><section class="person"><div><div class="pname">'+escapeHTML(emp.name||'—')+'</div><div class="prole">'+escapeHTML(job)+' • '+escapeHTML(isPerm?'موظف دائمي':'موظف عقد')+'</div></div><div class="pid"><div class="pill"><span>رقم الأضبارة</span><b>'+escapeHTML(emp.num||'—')+'</b></div><div class="pill"><span>التسلسل</span><b>'+escapeHTML(serial)+'</b></div></div></section><section class="content">'+sections+'</section></main><script>setTimeout(function(){window.print()},700)<\/script></body></html>';
+  var safeName=String(emp.name||'employee').replace(/[\\/:*?"<>|]+/g,'-').slice(0,55);
+  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>بطاقة '+escapeHTML(emp.name||'الموظف')+'</title><style>@page{size:A4;margin:10mm}*{box-sizing:border-box}body{margin:0;background:#eef3ff;color:#102047;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:HRBody,Arial,sans-serif}@font-face{font-family:HRTitle;src:url("'+r1411FontUrl('YaModernPro-Bold.otf')+'") format("opentype");font-display:swap}@font-face{font-family:HRBody;src:url("'+r1411FontUrl('ZainMobile.ttf')+'") format("truetype");font-display:swap}@font-face{font-family:HRNum;src:url("'+r1411FontUrl('Stencil.ttf')+'") format("truetype");font-display:swap}.pdf-toolbar{position:sticky;top:0;z-index:50;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px max(10px,env(safe-area-inset-right)) 10px max(10px,env(safe-area-inset-left));background:linear-gradient(135deg,#10265f,#0d7285);box-shadow:0 10px 30px rgba(0,0,0,.24)}.pdf-save{border:0;border-radius:14px;min-height:46px;padding:10px 14px;background:linear-gradient(135deg,#ffd66b,#ffb42d);color:#102047;font:900 13px HRBody,Arial;cursor:pointer}.pdf-close{border:1px solid rgba(255,255,255,.18);border-radius:14px;min-height:46px;padding:10px 13px;background:rgba(255,255,255,.10);color:#fff;font:900 12px HRBody,Arial;cursor:pointer}.pdf-help{grid-column:1/-1;text-align:center;color:rgba(255,255,255,.76);font:800 9px/1.6 HRBody,Arial}.sheet{width:190mm;min-height:277mm;margin:10px auto;background:#fff;border-radius:8mm;overflow:hidden;box-shadow:0 20px 70px rgba(20,40,80,.18);border:1px solid #dce5f5}.top{position:relative;padding:11mm 12mm 9mm;background:linear-gradient(135deg,#132a63,#15416e 62%,#0c7a88);color:#fff}.top:before{content:"";position:absolute;left:-35mm;top:-40mm;width:85mm;height:85mm;border-radius:50%;background:radial-gradient(circle,rgba(255,214,107,.28),transparent 70%)}.min{font-size:8.5pt;color:rgba(255,255,255,.78)}.title{font:900 20pt HRTitle,Arial;margin:1mm 0 0}.badge{position:absolute;left:12mm;top:12mm;width:22mm;height:22mm;border-radius:7mm;background:linear-gradient(135deg,#ffd66b,#fff2a8);color:#102047;display:grid;place-items:center;font-size:20pt;box-shadow:0 0 25px rgba(255,214,107,.28)}.person{display:grid;grid-template-columns:1fr 33mm;gap:8mm;padding:8mm 12mm;background:linear-gradient(180deg,#f9fbff,#eef4ff);border-bottom:1px solid #dfe7f5}.pname{font:900 18pt HRTitle,Arial;color:#102047;line-height:1.35}.prole{font-size:9pt;color:#5f6e90;margin-top:2mm}.pid{display:grid;gap:2mm}.pill{border:1px solid #dbe4f4;border-radius:4mm;background:#fff;padding:2.5mm 3mm;text-align:center}.pill span{display:block;font-size:6.7pt;color:#7a86a4}.pill b{display:block;font:900 13pt HRNum,Arial;color:#d49a14;direction:ltr;margin-top:1mm}.content{padding:7mm 10mm 7mm;display:grid;grid-template-columns:1fr 1fr;gap:4mm}.pdf-section{border:1px solid #dfe6f2;border-radius:5mm;background:#fbfdff;padding:4mm;break-inside:avoid}.pdf-section.wide,.pdf-section.changes{grid-column:1/-1}h2{margin:0 0 3mm;font:900 11pt HRTitle,Arial;color:#163b7a;display:flex;align-items:center;gap:2mm}h2 span{width:8mm;height:8mm;border-radius:50%;display:grid;place-items:center;background:rgba(255,214,107,.20);color:#a67808;box-shadow:0 0 14px rgba(255,214,107,.20)}.pdf-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm}.pdf-field{display:flex;gap:2.5mm;align-items:center;border:1px solid #e3e9f4;border-radius:3.5mm;background:#fff;padding:2.4mm 2.7mm;min-height:13mm}.pdf-field.wide{grid-column:1/-1}.pdf-field.identityNo{min-height:14mm}.pdf-field.identityNo b{white-space:nowrap;font-size:10.3pt}.pdf-field-body{min-width:0;flex:1}.pdf-ico{width:8mm;height:8mm;border-radius:3mm;background:linear-gradient(135deg,rgba(255,214,107,.28),rgba(255,214,107,.08));color:#b17b09;display:grid;place-items:center;box-shadow:0 0 14px rgba(255,214,107,.18);font-size:9pt;flex-shrink:0}.pdf-field span{display:block;font-size:6.7pt;color:#74809e;margin-bottom:.8mm}.pdf-field b{display:block;font-size:9.2pt;color:#17274f;line-height:1.35;word-break:normal;overflow-wrap:anywhere}.pdf-num{font-family:HRNum,Arial!important;color:#d49a14!important;direction:ltr;unicode-bidi:plaintext;font-variant-numeric:tabular-nums}.pdf-field.identityIssuer b,.pdf-field.notes b{font-family:HRBody,Arial!important;color:#17274f!important;direction:rtl!important;letter-spacing:0!important}.pdf-salary{display:inline-flex;align-items:baseline;gap:1mm;direction:ltr;unicode-bidi:plaintext;white-space:nowrap}.pdf-currency{font-family:HRBody,Arial;color:#17274f;font-size:8.2pt}@media(max-width:720px){body{background:#fff}.sheet{width:100%;min-height:auto;margin:0;border-radius:0;box-shadow:none}.content{grid-template-columns:1fr;padding:5mm}.person{grid-template-columns:1fr;gap:4mm}.pdf-help{font-size:8.5px}}body.pdf-capture{background:#fff!important;width:210mm!important;overflow:visible!important}body.pdf-capture .pdf-toolbar{display:none!important}body.pdf-capture .sheet{width:190mm!important;min-height:277mm!important;margin:0 auto!important;border-radius:0!important;box-shadow:none!important}body.pdf-capture .content{grid-template-columns:1fr 1fr!important;padding:7mm 10mm 7mm!important}body.pdf-capture .person{grid-template-columns:1fr 33mm!important;gap:8mm!important}@media print{body{background:#fff}.pdf-toolbar{display:none!important}.sheet{box-shadow:none;border-radius:0;width:100%;min-height:auto;margin:0}}</style></head><body><div class="pdf-toolbar"><button class="pdf-save" id="pdf-save-btn">⬇ تحميل / حفظ PDF على الهاتف</button><button class="pdf-close" id="pdf-close-btn">إغلاق</button><div class="pdf-help">على الهاتف اضغط «تحميل / حفظ PDF» ثم اختر «حفظ كملف PDF» من نافذة النظام.</div></div><main class="sheet"><header class="top"><div class="badge">🌱</div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين</div></header><section class="person"><div><div class="pname">'+escapeHTML(emp.name||'—')+'</div><div class="prole">'+escapeHTML(job)+' • '+escapeHTML(isPerm?'موظف دائمي':'موظف عقد')+'</div></div><div class="pid"><div class="pill"><span>رقم الأضبارة</span><b>'+escapeHTML(emp.num||'—')+'</b></div><div class="pill"><span>التسلسل</span><b>'+escapeHTML(serial)+'</b></div></div></section><section class="content">'+sections+'</section></main><script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"><\/script><script>(function(){var filename="EmployeeCard-'+escapeHTML(safeName)+'.pdf";document.title=filename.replace(/\.pdf$/i,"");var save=document.getElementById("pdf-save-btn"),close=document.getElementById("pdf-close-btn"),sheet=document.querySelector(".sheet");function restoreBtn(){if(save){save.disabled=false;save.innerHTML="⬇ تحميل / حفظ PDF على الهاتف";}}async function savePdf(){if(!save||!sheet)return;save.disabled=true;save.innerHTML="جاري تجهيز PDF...";try{if(document.fonts&&document.fonts.ready)await document.fonts.ready;if(typeof html2pdf==="function"){document.body.classList.add("pdf-capture");var opt={margin:0,filename:filename,image:{type:"jpeg",quality:.985},html2canvas:{scale:2.4,useCORS:true,backgroundColor:"#ffffff",logging:false,scrollX:0,scrollY:0},jsPDF:{unit:"mm",format:"a4",orientation:"portrait",compress:true},pagebreak:{mode:["avoid-all","css","legacy"]}};var blob=await html2pdf().set(opt).from(sheet).outputPdf("blob");document.body.classList.remove("pdf-capture");if(typeof File==="function"&&navigator.share){var file=new File([blob],filename,{type:"application/pdf"});if(!navigator.canShare||navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:"بطاقة الموظف PDF"});restoreBtn();return}catch(shareErr){if(shareErr&&shareErr.name==="AbortError"){restoreBtn();return;}}}}var url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},2500);restoreBtn();return;}throw new Error("pdf library unavailable");}catch(err){document.body.classList.remove("pdf-capture");restoreBtn();try{window.print()}catch(e){}}}if(save)save.addEventListener("click",savePdf);if(close)close.addEventListener("click",function(){try{window.close()}catch(e){history.back()}});var mobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);if(!mobile)setTimeout(function(){try{window.print()}catch(e){}},700)})();<\/script></body></html>';
   var w=window.open('','_blank','width=980,height=1200');
-  if(!w){showToast('اسمح بالنوافذ المنبثقة لطباعة بطاقة PDF','warn');return;}
+  if(!w){showToast('اسمح بفتح نافذة بطاقة PDF','warn');return;}
   w.document.open();w.document.write(html);w.document.close();
+  showToast(/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)?'اضغط تحميل / حفظ PDF أعلى البطاقة':'تم فتح بطاقة PDF للطباعة والحفظ');
 };
+
 var r1411PrintBtn=document.getElementById('btn-print-pdf');
 if(r1411PrintBtn)r1411PrintBtn.addEventListener('click',function(){printEmployeeCard(currentEmp);});
 
