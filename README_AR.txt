@@ -1,4 +1,4 @@
-# HRMobileRepo — Mobile R1.4.18 PDF WebView Download Fix
+# HRMobileRepo — Mobile R1.4.19 Native PDF Download Bridge
 
 إصلاح تنزيل بطاقة الموظف على Android WebView: زران مختصران «معاينة البطاقة» و«تحميل البطاقة»، مع تأكيد قبل التحميل ومسار same-origin attachment عبر Service Worker بدل الاعتماد على blob: URL. لا تغيير على البيانات أو Windows Master Bridge.
 
@@ -60,3 +60,10 @@ git push
 
 ## Mobile R1.4.9
 صقل واجهة الهاتف بإزالة النص المصغر غير الضروري، توحيد عرض إصدار البيانات، وحذف أزرار التحديث المكررة من الهيدر. التحديث الرسمي يبقى من حالة النظام.
+
+
+## R1.4.19 — Native PDF Download Bridge
+- زر «معاينة البطاقة» للعرض فقط، وزر «تحميل البطاقة» للتنزيل بعد التأكيد.
+- على تطبيق Android Median يتم تمرير Blob الـPDF إلى `median.share.downloadFile` بدل الاعتماد على رابط Service Worker فقط.
+- يستخدم APK الحالي جسر Median المدمج وBlobDownloader الأصلي، لذلك لا يحتاج هذا التحديث إلى تعديل APK.
+- يبقى مسار R1.4.18 كحل احتياطي للمتصفح أو عند غياب الجسر الأصلي.

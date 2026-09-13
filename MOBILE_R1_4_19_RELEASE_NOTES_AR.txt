@@ -1,0 +1,23 @@
+Mobile R1.4.19 — Native PDF Download Bridge
+============================================
+
+الأساس: Mobile R1.4.18 PDF WebView Download Fix.
+
+سبب الإصلاح:
+- فحص APK الحالي أثبت أنه مبني على Median ويحتوي JavaScript Bridge الأصلي وBlobDownloader.
+- مسار R1.4.18 كان يجهز PDF بنجاح، لكن Android WebView لم يسلّم رابط Service Worker إلى مدير التنزيل الأصلي، لذلك بقيت شاشة «جاري الإرسال» دون ملف.
+
+التغييرات:
+- استخدام `median.share.downloadFile()` عند تشغيل النظام داخل تطبيق Median/Android.
+- تمرير ملف PDF المتولد كـ Blob URL إلى جسر التطبيق الأصلي، مع اسم الملف و`open:false`.
+- جسر Median داخل APK يتولى نقل الـBlob إلى الطبقة الأصلية بدل اعتماد WebView على ضغط رابط `<a download>`.
+- إغلاق نافذة التجهيز بعد قبول الطبقة الأصلية للملف بدل بقائها معلقة.
+- الإبقاء على مسار R1.4.18 Service Worker كحل احتياطي خارج التطبيق أو عند غياب جسر Median.
+- الأزرار تبقى: «معاينة البطاقة» و«تحميل البطاقة» فقط.
+- لا تغيير على data/ أو Excel أو Windows Master Bridge أو مركز التحديثات أو الإدارة.
+
+ملاحظة APK:
+- APK الحالي يحتوي `androidDownloadToPublicStorage: false`. هذا لا يمنع نقل الملف عبر جسر Median، لكنه قد يجعل Android يفتح/يحفظ الملف ضمن مساحة التطبيق بدل تنزيل صامت إلى مجلد Downloads العام حسب إعدادات Median. التحميل المباشر إلى Downloads العام يتطلب تفعيل Downloads Folder عند إعادة بناء APK من Median.
+
+نطاق الإصدار:
+UPDATE ONLY / CLEAN
