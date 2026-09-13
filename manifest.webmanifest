@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.16",
-  "short_name": "HR Mobile R1.4.16",
+  "name": "سجل الموظفين - Mobile R1.4.17",
+  "short_name": "HR Mobile R1.4.17",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.16 Navigation PDF Admin Polish: تنقل احترافي مقسم يمنع تداخل الأقسام، زر حفظ PDF ظاهر على الهاتف، وقسم الإدارة مخصص لحماية البيانات والاسترجاع فقط.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.17 PDF View Direct Download: فصل معاينة بطاقة الموظف عن تنزيلها، مع تأكيد قبل التحميل وتنزيل PDF مباشر، مع الحفاظ على استقرار R1.4.16.",
   "icons": [
     {
       "src": "assets/icon-192.png",
