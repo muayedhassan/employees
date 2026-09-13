@@ -6,54 +6,77 @@ const read = p => fs.readFileSync(path.join(root, p), 'utf8');
 const fail = msg => { console.error('VERIFY FAILED:', msg); process.exit(1); };
 const ok = msg => console.log('OK:', msg);
 
-for (const f of ['index.html','service-worker.js','manifest.webmanifest','data/version.json','data/employees.json','data/change-summary.json','data/change-history.json','data/validation-report.json','data/fallback-data.js']) {
-  if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
-}
+const required = [
+  'index.html','service-worker.js','manifest.webmanifest','VERSION.txt',
+  'data/version.json','data/employees.json','data/change-summary.json',
+  'data/change-history.json','data/validation-report.json','data/fallback-data.js',
+  'MOBILE_R1_4_14_RELEASE_NOTES_AR.txt'
+];
+for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
 const index = read('index.html');
 const sw = read('service-worker.js');
-const manifest = JSON.parse(read('manifest.webmanifest'));
-const version = JSON.parse(read('data/version.json'));
-const employees = JSON.parse(read('data/employees.json'));
-const summary = JSON.parse(read('data/change-summary.json'));
+const release = read('VERSION.txt').trim();
+let manifest, version, employees, summary;
+try { manifest = JSON.parse(read('manifest.webmanifest')); } catch (e) { fail(`manifest JSON invalid: ${e.message}`); }
+try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/version.json invalid: ${e.message}`); }
+try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
+try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.11-PDF-CARD-NUMBER-FONT-POLISH'")) fail('APP_RELEASE is not Mobile R1.4.11');
-for (const marker of ['r14-hero','r14-emp-card','r14-card-inner','r146-kpi','r147-kpi','r147-profile-hero','mobile-chrome-toggle','chrome-collapsed','mobileR146SyncChrome','search-sec.compact-search','mobileR14BuildHome','mobileR14ProfileHero','renderQuickSearch=function','تحديث التطبيق والبيانات']) {
-  if (!index.includes(marker)) fail(`Mobile R1.4.11 marker missing: ${marker}`);
+const expectedRelease = 'MOBILE-R1.4.14-LOAD-RESTORE-HOTFIX';
+if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.14 Load Restore Hotfix');
+if (!String(manifest.description || '').includes('R1.4.14')) fail('manifest description was not updated');
+
+// Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
+// the updates CSS block being injected into inline JS / printable HTML builders.
+const inlineScripts = Array.from(index.matchAll(/<script(?![^>]*src)[^>]*>([\s\S]*?)<\/script>/gi)).map(m => m[1]).join('\n;\n');
+try { new Function(inlineScripts); } catch (err) { fail(`index.html inline JavaScript syntax error: ${err.message}`); }
+try { new Function(read('data/fallback-data.js')); } catch (err) { fail(`fallback-data.js syntax error: ${err.message}`); }
+
+const updateCssMarker = '/* Mobile R1.4.14 - Updates center clean active cards */';
+const updateCssCount = index.split(updateCssMarker).length - 1;
+if (updateCssCount !== 1) fail(`updates CSS marker must appear exactly once, found ${updateCssCount}`);
+if (inlineScripts.includes(updateCssMarker)) fail('updates CSS block was injected inside JavaScript again');
+
+const start = index.indexOf('function buildUpdates(){');
+const end = index.indexOf('// ── REPORT SUPPORT', start);
+if (start < 0 || end < 0) fail('buildUpdates block not found');
+const buildUpdatesBlock = index.slice(start, end);
+for (const marker of [
+  'r1414-updates-hero','r1414-tabs-in-hero',
+  'data-update-section="changes"','data-update-section="additions"',
+  'data-update-section="gaps"','data-update-section="review"'
+]) if (!buildUpdatesBlock.includes(marker)) fail(`updates center marker missing: ${marker}`);
+for (const removed of ['updates-version-pill','update-kpi-ribbon','r1-sensitive-banner','section-mini-explainer changes','section-mini-explainer additions','section-mini-explainer gaps','section-mini-explainer review']) {
+  if (buildUpdatesBlock.includes(removed)) fail(`removed updates element still rendered: ${removed}`);
 }
-if (!index.includes('اضغط لعرض التفاصيل الكاملة داخل بطاقة الموظف')) fail('focused employee card hint is missing');
-if (!sw.includes('employee-registry-mobile-r1411-2026.09.12')) fail('service worker cache name is not Mobile R1.4.11');
-if (!sw.includes('clients.claim') || !sw.includes('skipWaiting') || !sw.includes('networkFirst')) fail('service worker update strategy is incomplete');
-if (!Array.isArray(manifest.icons) || manifest.icons.length < 2) fail('manifest icons are missing');
-if (!String(manifest.description || '').includes('Mobile R1.4.11')) fail('manifest description was not updated');
-if (!fs.existsSync(path.join(root, 'assets/fonts/hr-fonts.css'))) fail('embedded font readiness stylesheet is missing');
-const fontCss = read('assets/fonts/hr-fonts.css');
-for (const marker of ['HRTitleArabic','HRBodyArabic','HRSultanArabic','HRNumberFont','HREnglishDecor','YaModernPro-Bold.otf','ZainMobile.ttf','SFSultan-Black.ttf','Stencil.ttf','ElfeeraScript.ttf','--hr-english-decor-font']) { if (!fontCss.includes(marker)) fail(`font readiness marker missing: ${marker}`); }
-const optionalFonts = ['assets/fonts/YaModernPro-Bold.otf','assets/fonts/ZainMobile.ttf','assets/fonts/SFSultan-Black.ttf','assets/fonts/Stencil.ttf','assets/fonts/ElfeeraScript.ttf'];
-const presentFonts = optionalFonts.filter(f => fs.existsSync(path.join(root, f)));
-if (presentFonts.length > 0) {
-  ok(`embedded fonts present: ${presentFonts.length}/5`);
-} else {
-  console.warn('WARN: custom font files are not installed yet. Run INSTALL_HR_FONTS.cmd before final push if you want identical mobile typography.');
+
+// Load path must remain fallback -> central -> counts/render.
+for (const marker of ['await loadFileFallback();','await loadCentralData(false);',"splashCount('sc-perm',BASE.perm.length)","splashCount('sc-cont',BASE.cont.length)","splashCount('sc-all',BASE.perm.length+BASE.cont.length)",'filt=BASE.perm; buildLetters(); buildAdvancedFilters();','render();']) {
+  if (!index.includes(marker)) fail(`load/boot marker missing: ${marker}`);
 }
-if (!version.version || !String(version.version).startsWith('DATA-')) fail(`unexpected data version ${version.version}`);
+if (!index.includes("https://raw.githubusercontent.com/muayedhassan/employees/main/") || !index.includes("fetchJSON('data/employees.json")) fail('central GitHub data endpoint marker missing');
+
+// Preserve R1.4.12 PDF card polish requested before R1.4.13.
+const pdfBlock = index.slice(index.lastIndexOf('function r1412FieldSlug'));
+for (const marker of ['r1412FormatSalary','طباعة بطاقة الموظف PDF',"r1411Field('رقم الهوية','identityNo',emp.identityNo,'🪪',true)","return numeric+' د.ع';",'identityIssuer b','notes b']) {
+  if (!pdfBlock.includes(marker) && !index.includes(marker)) fail(`PDF polish marker missing: ${marker}`);
+}
+
+// Data integrity: do not hard-code one dataset version, but the counts must agree.
 if (!Array.isArray(employees.perm) || !Array.isArray(employees.cont)) fail('employees.json format is invalid');
-if ((employees.perm.length + employees.cont.length) !== version.totalCount) fail('employee count mismatch');
+const total = employees.perm.length + employees.cont.length;
+if (total !== version.totalCount) fail(`employee count mismatch: JSON=${total}, version=${version.totalCount}`);
+if (employees.perm.length !== version.permCount || employees.cont.length !== version.contCount) fail('perm/cont counts mismatch');
+if (!String(version.version || '').startsWith('DATA-')) fail(`unexpected data version: ${version.version}`);
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
-if (!index.includes('فارغ') || !index.includes('بحث شامل')) fail('search/detail display rules are missing');
 
-
-for (const marker of ['mobile-chrome-bar','r146-kpis','r147-kpis','r147-profile-grid','users-viewfinder','filter-circle-check']) {
-  if (!index.includes(marker) && marker !== 'MOBILE_R1_4_6_RELEASE_NOTES_AR') fail(`R1.4.6 polish marker missing: ${marker}`);
+// Service worker must force a fresh app shell while keeping central data network-first.
+if (!sw.includes("employee-registry-mobile-r1414-loadrestore-2026.09.13")) fail('R1.4.14 Load Restore cache marker missing');
+for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
+  if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
-if (!fs.existsSync(path.join(root, 'MOBILE_R1_4_6_RELEASE_NOTES_AR.txt'))) fail('R1.4.6 release notes are missing');
+if (!Array.isArray(manifest.icons) || manifest.icons.length < 2) fail('manifest icons are missing');
 
-if (index.includes('id="refresh-data-btn"')) fail('duplicate header refresh button must be removed');
-if (index.includes('id="connection-refresh"')) fail('duplicate connection refresh button must be removed');
-if (!index.includes("function mobileR14ShortVersion(v){return String(v||'—');}")) fail('data version should be displayed in full DATA-* order');
-if (!index.includes("if(s)s.textContent='';")) fail('mini chrome subtitle should be empty to avoid crowded DATA text');
-if (!index.includes('data-profile-panel="')) fail('profile tab panels must use data-profile-panel for reliable switching');
-if (!index.includes("pid=p.getAttribute('data-profile-panel')||p.getAttribute('data-panel')")) fail('profile tab binder must support current and legacy panel attributes');
-if (!fs.existsSync(path.join(root, 'MOBILE_R1_4_10_RELEASE_NOTES_AR.txt'))) fail('R1.4.10 release notes are missing');
-
-ok(`Mobile R1.4.11 verified: ${version.version}, employees=${version.totalCount}, modified=${summary.counts.modified}`);
+ok(`Mobile R1.4.14 Load Restore verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
