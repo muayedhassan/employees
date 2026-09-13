@@ -1,3 +1,7 @@
+# HRMobileRepo — Mobile R1.4.18 PDF WebView Download Fix
+
+إصلاح تنزيل بطاقة الموظف على Android WebView: زران مختصران «معاينة البطاقة» و«تحميل البطاقة»، مع تأكيد قبل التحميل ومسار same-origin attachment عبر Service Worker بدل الاعتماد على blob: URL. لا تغيير على البيانات أو Windows Master Bridge.
+
 # HRMobileRepo — Mobile R1.4.17 PDF View / Direct Download
 
 تطوير صغير فوق R1.4.16 المستقرة: تم فصل بطاقة الموظف PDF إلى زرين مستقلين، «عرض بطاقة PDF» للمعاينة فقط و«تحميل بطاقة PDF» للتنزيل المباشر بعد رسالة تأكيد. لا تغيير على تصميم البطاقة أو البيانات أو Windows Master Bridge.

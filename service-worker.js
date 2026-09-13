@@ -1,4 +1,6 @@
-const CACHE_NAME = 'employee-registry-mobile-r1417-pdfactions-2026.09.13';
+const CACHE_NAME = 'employee-registry-mobile-r1418-pdf-webview-download-2026.09.13';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1418';
+const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',
   './index.html',
@@ -21,8 +23,9 @@ self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
       .then(keys => Promise.all(keys
-        .filter(k => k.startsWith('employee-registry-') && k !== CACHE_NAME)
+        .filter(k => k.startsWith('employee-registry-') && k !== CACHE_NAME && k !== PDF_CACHE_NAME)
         .map(k => caches.delete(k))))
+      .then(() => caches.delete(PDF_CACHE_NAME).catch(() => false))
       .then(() => self.clients.claim())
       .then(() => self.clients.matchAll({ type: 'window' }))
       .then(clients => clients.forEach(client => client.postMessage({ type: 'APP_CACHE_READY', cacheName: CACHE_NAME })))
@@ -52,10 +55,51 @@ async function staleWhileRevalidate(request) {
   return hit || fresh;
 }
 
+function contentDisposition(filename) {
+  const encoded = encodeURIComponent(filename || 'EmployeeCard.pdf')
+    .replace(/['()*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase());
+  return `attachment; filename="EmployeeCard.pdf"; filename*=UTF-8''${encoded}`;
+}
+
+async function stagePdfDownload(data) {
+  if (!data || !data.url || !data.blob) throw new Error('invalid pdf download payload');
+  const url = new URL(data.url, self.location.origin);
+  if (url.origin !== self.location.origin || !url.pathname.includes(PDF_ROUTE_MARKER)) {
+    throw new Error('invalid pdf download url');
+  }
+  const filename = String(data.filename || 'EmployeeCard.pdf');
+  const response = new Response(data.blob, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': contentDisposition(filename),
+      'Cache-Control': 'no-store, max-age=0',
+      'X-Content-Type-Options': 'nosniff'
+    }
+  });
+  const cache = await caches.open(PDF_CACHE_NAME);
+  await cache.put(url.href, response);
+  return url.href;
+}
+
 self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+
+  // R1.4.18: serve staged PDF as a normal same-origin HTTPS attachment.
+  // Android WebView can hand this response to its download handler, unlike blob: URLs.
+  if (url.origin === self.location.origin && url.pathname.includes(PDF_ROUTE_MARKER)) {
+    event.respondWith((async () => {
+      const cache = await caches.open(PDF_CACHE_NAME);
+      const hit = await cache.match(req.url);
+      if (!hit) return new Response('PDF download expired', { status: 404 });
+      const out = hit.clone();
+      event.waitUntil(cache.delete(req.url).catch(() => false));
+      return out;
+    })());
+    return;
+  }
 
   // Always fetch the newest HTML first. This prevents old WebView shells from
   // staying stuck after a mobile UI release.
@@ -93,7 +137,13 @@ self.addEventListener('message', event => {
   }
   if (data.type === 'CLEAR_OLD_CACHES') {
     event.waitUntil(caches.keys().then(keys => Promise.all(keys
-      .filter(k => k.startsWith('employee-registry-') && k !== CACHE_NAME)
+      .filter(k => k.startsWith('employee-registry-') && k !== CACHE_NAME && k !== PDF_CACHE_NAME)
       .map(k => caches.delete(k)))));
+  }
+  if (data.type === 'STORE_PDF_DOWNLOAD') {
+    const port = event.ports && event.ports[0];
+    event.waitUntil(stagePdfDownload(data)
+      .then(url => { if (port) port.postMessage({ ok: true, url }); })
+      .catch(err => { if (port) port.postMessage({ ok: false, error: String(err && err.message || err) }); }));
   }
 });

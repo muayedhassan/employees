@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.17",
-  "short_name": "HR Mobile R1.4.17",
+  "name": "سجل الموظفين - Mobile R1.4.18",
+  "short_name": "HR Mobile R1.4.18",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.17 PDF View Direct Download: فصل معاينة بطاقة الموظف عن تنزيلها، مع تأكيد قبل التحميل وتنزيل PDF مباشر، مع الحفاظ على استقرار R1.4.16.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.18 PDF WebView Download Fix: معاينة البطاقة وتحميل البطاقة بزرين مختصرين، مع مسار تنزيل PDF متوافق مع Android WebView عبر Service Worker واستجابة attachment عادية، مع الحفاظ على استقرار R1.4.17.",
   "icons": [
     {
       "src": "assets/icon-192.png",
