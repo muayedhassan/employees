@@ -10,7 +10,7 @@ const required = [
   'index.html','service-worker.js','manifest.webmanifest','VERSION.txt',
   'data/version.json','data/employees.json','data/change-summary.json',
   'data/change-history.json','data/validation-report.json','data/fallback-data.js',
-  'MOBILE_R1_4_14_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_15_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -23,10 +23,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.14-LOAD-RESTORE-HOTFIX';
+const expectedRelease = 'MOBILE-R1.4.15-UPDATES-DETAILS-DRILLDOWN';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.14 Load Restore Hotfix');
-if (!String(manifest.description || '').includes('R1.4.14')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.15 Updates Details Drilldown');
+if (!String(manifest.description || '').includes('R1.4.15')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -73,10 +73,19 @@ if (!String(version.version || '').startsWith('DATA-')) fail(`unexpected data ve
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1414-loadrestore-2026.09.13")) fail('R1.4.14 Load Restore cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1415-updatesdetails-2026.09.13")) fail('R1.4.15 Updates Details cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
 if (!Array.isArray(manifest.icons) || manifest.icons.length < 2) fail('manifest icons are missing');
 
-ok(`Mobile R1.4.14 Load Restore verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
+
+// R1.4.15 update-detail drilldown guards.
+for (const marker of ['Mobile R1.4.15 - Updates details drilldown','r1415UpdateRef','r1415EmployeeRef','r1415GapTarget','r1415EmptyUpdateState','r1415ActivateProfileTab','data-update-target=\"history\"','data-update-jump-version']) {
+  if (!index.includes(marker)) fail(`R1.4.15 updates detail marker missing: ${marker}`);
+}
+if (!index.includes("openUpdateEmployee=function(ref,targetTab,versionContext)")) fail('R1.4.15 openUpdateEmployee override missing');
+if (!index.includes("r1415ActivateProfileTab(targetTab||'basic')")) fail('updated employee does not drill into requested profile tab');
+if (!index.includes("if(targetTab==='history'&&R1415_UPDATE_FOCUS_VERSION)")) fail('modified employee history context marker missing');
+
+ok(`Mobile R1.4.15 Updates Details verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
