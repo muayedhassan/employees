@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-11T13:17:25.9968442+00:00",
+  "updatedAt": "2026-09-13T17:37:33.7163181+00:00",
   "maxVersions": 60,
   "versions": [
     {
@@ -457,6 +457,26 @@
           ]
         }
       ],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.13-173733",
+      "previousVersion": "DATA-2026.09.11-131725",
+      "updatedAt": "2026-09-13T17:37:33.7163181+00:00",
+      "counts": {
+        "published": 1052,
+        "added": 0,
+        "modified": 0,
+        "missing": 0,
+        "unchanged": 1052,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 492
+      },
+      "added": [],
+      "modified": [],
       "missing": [],
       "completedGaps": [],
       "qualityRegressions": []
