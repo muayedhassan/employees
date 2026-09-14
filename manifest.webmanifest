@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.20",
-  "short_name": "HR Mobile R1.4.20",
+  "name": "سجل الموظفين - Mobile R1.4.21",
+  "short_name": "HR Mobile R1.4.21",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.20 PDF Single Page + Download Status: إنشاء بطاقة الموظف PDF كاملة في صفحة A4 واحدة دون قص أو انقسام، مع حالة تنزيل دقيقة داخل Android والإبقاء على زري «معاينة البطاقة» و«تحميل البطاقة».",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.21 PDF Fit Worker Hotfix: إصلاح فشل «تعذر بدء التنزيل المباشر» عبر توليد البطاقة بمرحلتين باستخدام html2pdf Worker فقط، ثم احتواء الصورة كاملة داخل صفحة A4 واحدة قبل تسليمها إلى Android، مع الإبقاء على زري «معاينة البطاقة» و«تحميل البطاقة».",
   "icons": [
     {
       "src": "assets/icon-192.png",

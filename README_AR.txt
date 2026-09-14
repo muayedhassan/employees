@@ -1,3 +1,7 @@
+# HRMobileRepo — Mobile R1.4.21 PDF Fit Worker Hotfix
+
+إصلاح فوق R1.4.20 لمعالجة رسالة «تعذر بدء التنزيل المباشر» التي ظهرت لأن حزمة html2pdf لا تضمن إتاحة html2canvas وjsPDF كمتغيرات عامة داخل WebView. الإصدار الجديد يستخدم html2pdf Worker نفسه لالتقاط البطاقة، ثم يضع الصورة الكاملة داخل إطار A4 آمن ويُنشئ PDF من صفحة واحدة قبل تسليمه إلى جسر Android. لا تغيير على البيانات أو Windows Master Bridge.
+
 # HRMobileRepo — Mobile R1.4.20 PDF Single Page + Download Status
 
 إصلاح بطاقة الموظف PDF لتظهر كاملة داخل صفحة A4 واحدة دون قص أو انقسام، مع رسالة تنزيل دقيقة على Android. لا تغيير على البيانات أو Windows Master Bridge.
