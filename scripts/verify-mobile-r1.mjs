@@ -18,7 +18,8 @@ const required = [
   'MOBILE_R1_4_22_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_23_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_24_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_25_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_25_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_26_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -31,10 +32,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.25-REPORTS-POLISH';
+const expectedRelease = 'MOBILE-R1.4.26-PDF-DIRECT-CANVAS';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.25 Reports Polish');
-if (!String(manifest.description || '').includes('R1.4.25')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.26 PDF Direct Canvas');
+if (!String(manifest.description || '').includes('R1.4.26')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -81,7 +82,7 @@ if (!String(version.version || '').startsWith('DATA-')) fail(`unexpected data ve
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1425-reports-polish-2026.09.14")) fail('R1.4.24 app-shell cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1426-pdf-direct-canvas-2026.09.14")) fail('R1.4.26 app-shell cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
@@ -167,8 +168,8 @@ for (const marker of [
   "filename:filename||'EmployeeCard.pdf'",'open:false',
   'window.r1419ReceiveGeneratedPdf=r1419ReceiveGeneratedPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.19 native PDF marker missing: ${marker}`);
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.25-REPORTS-POLISH'")) fail('R1.4.25 APP_RELEASE marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1425')) fail('R1.4.25 PDF cache marker missing');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.26-PDF-DIRECT-CANVAS'")) fail('R1.4.26 APP_RELEASE marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1426')) fail('R1.4.26 PDF cache marker missing');
 
 // R1.4.20 status/native bridge remains, while R1.4.21 replaces only the failing generator.
 for (const marker of [
@@ -178,29 +179,24 @@ for (const marker of [
   'اكتمل تنزيل الملف داخل التطبيق. اختر قارئ PDF لفتح البطاقة.'
 ]) if (!index.includes(marker)) fail(`R1.4.20 preserved marker missing: ${marker}`);
 
-// R1.4.21 fit-worker generator must not depend on globals that failed in WebView.
+// R1.4.26: capture the real card once, then write that canvas directly into jsPDF.
+// This avoids the second DOM/image capture that produced a valid but blank PDF in Android WebView.
 for (const marker of [
-  'Mobile R1.4.21 - PDF fit-worker hotfix: avoid unavailable html2canvas/jsPDF globals',
+  'Mobile R1.4.26 - PDF direct canvas-to-jsPDF: eliminate blank second WebView capture',
+  'jspdf/2.5.2/jspdf.umd.min.js',
   'var captureWorker=html2pdf().set(',
   '.from(sheet).toCanvas()',
   'var canvas=await captureWorker.get("canvas")',
-  'data-r1421-fit',
-  'width:188mm;height:270mm',
-  'var finalWorker=html2pdf().set(',
-  'var blob=await finalWorker.outputPdf("blob")',
+  'var JsPdfCtor=window.jspdf&&window.jspdf.jsPDF',
+  'var pdf=new JsPdfCtor(',
+  'pdf.addImage(imageUrl,"JPEG"',
+  'var blob=pdf.output("blob")',
+  'captured card is blank',
   'r1420ReceiveGeneratedPdf(blob,filename,window)'
-]) if (!index.includes(marker)) fail(`R1.4.21 PDF marker missing: ${marker}`);
-if (printBlock.includes('html2canvas(sheet')) fail('R1.4.21 must not call a global html2canvas function directly');
-if (printBlock.includes('window.jspdf') || printBlock.includes('window.jsPDF')) fail('R1.4.21 must not depend on global jsPDF');
-
-// R1.4.22: final fitted image must be rendered on-screen during html2canvas conversion.
-for (const marker of [
-  'Mobile R1.4.22 - PDF blank-page fix: render fitted capture on-screen before final PDF conversion',
-  'data-r1422-onscreen',
-  'left:0;top:0;z-index:2147483000',
-  'pointer-events:none'
-]) if (!index.includes(marker)) fail(`R1.4.22 PDF blank-page marker missing: ${marker}`);
-if (printBlock.includes('left:-10000px')) fail('R1.4.22 must not capture the fitted PDF image far outside the WebView viewport');
+]) if (!index.includes(marker)) fail(`R1.4.26 PDF direct-canvas marker missing: ${marker}`);
+if (printBlock.includes('var finalWorker=html2pdf().set(')) fail('R1.4.26 must not perform a second html2pdf DOM capture');
+if (printBlock.includes('data-r1421-fit') || printBlock.includes('data-r1422-onscreen')) fail('R1.4.26 must not use the legacy fitted-image DOM recapture');
+if (!printBlock.includes('window.jspdf&&window.jspdf.jsPDF')) fail('R1.4.26 explicit jsPDF bridge missing');
 
 // R1.4.23: standalone Data Quality navigation is removed and unique audits are merged into Updates > Gaps.
 for (const removed of ['id="stab-quality"','id="view-quality"']) {
@@ -262,4 +258,4 @@ if (index.includes("showToast((LAST_DATA_STATUS?LAST_DATA_STATUS+' — ':'') + (
 if (index.includes('id="report-scope-input" value="'+"'+escapeHTML(reportScopeText())+'"+'" disabled')) fail('R1.4.25 report scope is still disabled');
 if (!index.includes("REPORT_STATE.scope='';buildReports();")) fail('R1.4.25 report type/segment scope reset missing');
 
-ok(`Mobile R1.4.25 Reports Polish verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
+ok(`Mobile R1.4.26 PDF Direct Canvas verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
