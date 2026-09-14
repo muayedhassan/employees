@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-13T17:37:33.7163181+00:00",
+  "updatedAt": "2026-09-14T17:19:24.9633099+00:00",
   "maxVersions": 60,
   "versions": [
     {
@@ -474,6 +474,191 @@
         "completedGaps": 0,
         "qualityRegressions": 0,
         "warnings": 492
+      },
+      "added": [],
+      "modified": [],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.14-171759",
+      "previousVersion": "DATA-2026.09.13-173733",
+      "updatedAt": "2026-09-14T17:17:59.7696771+00:00",
+      "counts": {
+        "published": 1052,
+        "added": 0,
+        "modified": 9,
+        "missing": 0,
+        "unchanged": 1043,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 491
+      },
+      "added": [],
+      "modified": [
+        {
+          "integrationId": "aa89802a-2775-4e2e-b476-bffec34d6286",
+          "sourceEmployeeId": 25,
+          "id": "108072493",
+          "employeeNo": "108072493",
+          "num": 23,
+          "name": "احمد حسن رمضان عبدالله العزاوي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة حمرين",
+              "newValue": "شعبة زراعة العلم"
+            }
+          ]
+        },
+        {
+          "integrationId": "b264e09f-1bff-4088-be60-cff90c9fb103",
+          "sourceEmployeeId": 98,
+          "id": "108073342",
+          "employeeNo": "108073342",
+          "num": 190,
+          "name": "حسين علي خلف حسين العزاوي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة العلم",
+              "newValue": "مركز مديرية الزراعة"
+            }
+          ]
+        },
+        {
+          "integrationId": "83050976-58ec-446c-99da-e2473b2d0db6",
+          "sourceEmployeeId": 663,
+          "id": "154885410",
+          "employeeNo": "154885410",
+          "num": 254,
+          "name": "رحمه كاظم عليوي عيسى الدليمي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "مركز مديرية الزراعة",
+              "newValue": "شعبة زراعة العلم"
+            }
+          ]
+        },
+        {
+          "integrationId": "d2589889-0a60-41bd-9358-50e55b582a50",
+          "sourceEmployeeId": 182,
+          "id": "108001736",
+          "employeeNo": "108001736",
+          "num": 336,
+          "name": "سفيان فرج سليمان حسين الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "مركز مديرية الزراعة",
+              "newValue": "شعبة زراعة العلم"
+            }
+          ]
+        },
+        {
+          "integrationId": "4f30ecfd-ff04-444e-aaea-93caa84d4162",
+          "sourceEmployeeId": 217,
+          "id": "108002094",
+          "employeeNo": "108002094",
+          "num": 385,
+          "name": "صفاء عادل جمعه خلف البياتي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة العلم",
+              "newValue": "مركز مديرية الزراعة"
+            }
+          ]
+        },
+        {
+          "integrationId": "f4688022-c4da-4ebb-80a0-99898b15bb79",
+          "sourceEmployeeId": 313,
+          "id": "108038523",
+          "employeeNo": "108038523",
+          "num": 554,
+          "name": "عيسى جاسم خليل عبد الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "مركز مديرية الزراعة",
+              "newValue": "شعبة زراعة العلم"
+            }
+          ]
+        },
+        {
+          "integrationId": "46f14697-58ae-4b43-8f43-bfd722c309ad",
+          "sourceEmployeeId": 1501,
+          "id": "154884293",
+          "employeeNo": "154884293",
+          "num": 559,
+          "name": "فاديه محمود عباس اجدع الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "فارغ",
+              "newValue": "شعبة زراعة العلم"
+            }
+          ]
+        },
+        {
+          "integrationId": "7379f648-1b9c-483c-8997-52d93ba16398",
+          "sourceEmployeeId": 810,
+          "id": "154884561",
+          "employeeNo": "154884561",
+          "num": 569,
+          "name": "فائق عبدالله شطر حمد العزاوي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "مركز المديرية - قسم الخدمات الادارية",
+              "newValue": "شعبة زراعة العلم"
+            }
+          ]
+        },
+        {
+          "integrationId": "3f1be196-558b-4456-8c85-341f710affeb",
+          "sourceEmployeeId": 854,
+          "id": "154885704",
+          "employeeNo": "154885704",
+          "num": 649,
+          "name": "محمد عامر محمد رمضان العزاوي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "مركز المديرية - قسم الأراضي والمساحة",
+              "newValue": "شعبة زراعة العلم"
+            }
+          ]
+        }
+      ],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.14-171924",
+      "previousVersion": "DATA-2026.09.14-171759",
+      "updatedAt": "2026-09-14T17:19:24.9633099+00:00",
+      "counts": {
+        "published": 1052,
+        "added": 0,
+        "modified": 0,
+        "missing": 0,
+        "unchanged": 1052,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 491
       },
       "added": [],
       "modified": [],
