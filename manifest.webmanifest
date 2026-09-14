@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.21",
-  "short_name": "HR Mobile R1.4.21",
+  "name": "سجل الموظفين - Mobile R1.4.22",
+  "short_name": "HR Mobile R1.4.22",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.21 PDF Fit Worker Hotfix: إصلاح فشل «تعذر بدء التنزيل المباشر» عبر توليد البطاقة بمرحلتين باستخدام html2pdf Worker فقط، ثم احتواء الصورة كاملة داخل صفحة A4 واحدة قبل تسليمها إلى Android، مع الإبقاء على زري «معاينة البطاقة» و«تحميل البطاقة».",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.22 PDF Blank Page Fix: إصلاح ملف PDF الأبيض داخل Android WebView عبر إبقاء صورة البطاقة الملائمة داخل مساحة A4 مرئية أثناء التحويل النهائي، بدل التقاط عنصر موضوع خارج الشاشة، مع الحفاظ على المعاينة والتنزيل الأصليين.",
   "icons": [
     {
       "src": "assets/icon-192.png",

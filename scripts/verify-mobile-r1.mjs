@@ -14,7 +14,8 @@ const required = [
   'MOBILE_R1_4_18_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_19_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_20_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_21_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_21_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_22_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -27,10 +28,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.21-PDF-FIT-WORKER-HOTFIX';
+const expectedRelease = 'MOBILE-R1.4.22-PDF-BLANK-PAGE-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.21 PDF Fit Worker Hotfix');
-if (!String(manifest.description || '').includes('R1.4.21')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.22 PDF Blank Page Fix');
+if (!String(manifest.description || '').includes('R1.4.22')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -77,7 +78,7 @@ if (!String(version.version || '').startsWith('DATA-')) fail(`unexpected data ve
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1421-pdf-fit-worker-2026.09.14")) fail('R1.4.21 PDF Fit Worker cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1422-pdf-blank-page-fix-2026.09.14")) fail('R1.4.22 PDF Blank Page cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
@@ -163,8 +164,8 @@ for (const marker of [
   "filename:filename||'EmployeeCard.pdf'",'open:false',
   'window.r1419ReceiveGeneratedPdf=r1419ReceiveGeneratedPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.19 native PDF marker missing: ${marker}`);
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.21-PDF-FIT-WORKER-HOTFIX'")) fail('R1.4.21 APP_RELEASE marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1421')) fail('R1.4.21 PDF cache marker missing');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.22-PDF-BLANK-PAGE-FIX'")) fail('R1.4.22 APP_RELEASE marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1422')) fail('R1.4.22 PDF cache marker missing');
 
 // R1.4.20 status/native bridge remains, while R1.4.21 replaces only the failing generator.
 for (const marker of [
@@ -189,4 +190,13 @@ for (const marker of [
 if (printBlock.includes('html2canvas(sheet')) fail('R1.4.21 must not call a global html2canvas function directly');
 if (printBlock.includes('window.jspdf') || printBlock.includes('window.jsPDF')) fail('R1.4.21 must not depend on global jsPDF');
 
-ok(`Mobile R1.4.21 PDF Fit Worker Hotfix verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
+// R1.4.22: final fitted image must be rendered on-screen during html2canvas conversion.
+for (const marker of [
+  'Mobile R1.4.22 - PDF blank-page fix: render fitted capture on-screen before final PDF conversion',
+  'data-r1422-onscreen',
+  'left:0;top:0;z-index:2147483000',
+  'pointer-events:none'
+]) if (!index.includes(marker)) fail(`R1.4.22 PDF blank-page marker missing: ${marker}`);
+if (printBlock.includes('left:-10000px')) fail('R1.4.22 must not capture the fitted PDF image far outside the WebView viewport');
+
+ok(`Mobile R1.4.22 PDF Blank Page Fix verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
