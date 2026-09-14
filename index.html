@@ -1578,7 +1578,7 @@ body.subview-reports #reports-page{padding:10px 9px 28px;gap:12px}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.28-PDF-LIBRARY-LOADER-FIX';
+var APP_RELEASE = 'MOBILE-R1.4.29-PDF-ARABIC-TYPOGRAPHY-FIX';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -3922,19 +3922,24 @@ async function r1427FontBase64(file){
   var b64=r1427ArrayBufferToBase64(await res.arrayBuffer());
   R1427_FONT_CACHE[file]=b64;return b64;
 }
+/* Mobile R1.4.29 - Arabic PDF typography: single shaping pass + full presentation-form font */
 async function r1427InstallFonts(pdf){
-  var body=await r1427FontBase64('ZainMobile.ttf');
-  var head=await r1427FontBase64('SFSultan-Black.ttf');
+  // jsPDF's Arabic plugin converts Arabic letters to presentation forms before writing.
+  // SFSultan contains the complete forms needed by that plugin; ZainMobile misses some
+  // isolated/presentation glyphs, so it is intentionally not used for the vector PDF.
+  var arabic=await r1427FontBase64('SFSultan-Black.ttf');
   var num=await r1427FontBase64('Stencil.ttf');
-  pdf.addFileToVFS('ZainMobile.ttf',body);pdf.addFont('ZainMobile.ttf','HRBody','normal');
-  pdf.addFileToVFS('SFSultan-Black.ttf',head);pdf.addFont('SFSultan-Black.ttf','HRHead','normal');
+  pdf.addFileToVFS('SFSultan-Black.ttf',arabic);pdf.addFont('SFSultan-Black.ttf','HRBody','normal');
+  pdf.addFont('SFSultan-Black.ttf','HRHead','normal');
   pdf.addFileToVFS('Stencil.ttf',num);pdf.addFont('Stencil.ttf','HRNum','normal');
 }
 function r1427Display(field,value){return profileDisplayValue(field,value);}
 function r1427Arabic(pdf,value){
-  var t=String(value==null||value===''?'—':value);
-  try{if(typeof pdf.processArabic==='function')t=pdf.processArabic(t);}catch(e){}
-  return t;
+  // IMPORTANT: pass logical Unicode text unchanged. jsPDF already registers an Arabic
+  // preProcessText hook that calls processArabic() automatically. Calling processArabic()
+  // here as well shaped every string twice and caused the mangled/reversed glyphs seen
+  // in R1.4.28. setR2L(true) below handles visual RTL ordering after the single shape pass.
+  return String(value==null||value===''?'—':value);
 }
 function r1427IsStrictNumeric(value){
   var t=String(value==null?'':value).trim();
@@ -3994,6 +3999,7 @@ function r1427EmployeePdfData(emp){
 async function r1427BuildEmployeePdf(emp){
   var JsPdfCtor=await r1427EnsurePdfLib();
   var pdf=new JsPdfCtor({orientation:'portrait',unit:'mm',format:'a4',compress:true,putOnlyUsedFonts:true});
+  try{if(typeof pdf.setLanguage==='function')pdf.setLanguage('ar-IQ');}catch(e){}
   await r1427InstallFonts(pdf);
   var d=r1427EmployeePdfData(emp),pageW=210,pageH=297,margin=10,fullW=190;
   pdf.setFillColor(255,255,255);pdf.rect(0,0,pageW,pageH,'F');
