@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.29",
-  "short_name": "HR Mobile R1.4.29",
+  "name": "سجل الموظفين - Mobile R1.4.30",
+  "short_name": "HR Mobile R1.4.30",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.29 Arabic PDF Typography Fix: إصلاح تشكيل واتجاه الخط العربي داخل بطاقة PDF المتجهية بمنع التشكيل المزدوج واستخدام خط عربي كامل Presentation Forms، مع إبقاء الأرقام والتواريخ بخط Stencil والتنزيل المباشر إلى Downloads.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.30 Browser-Shaped Arabic PDF: حل جذري للعربية داخل بطاقة PDF عبر رسم البطاقة نهائيًا بمحرك النص في Android WebView على Canvas 2D ثم إدراجها كصورة واحدة عالية الدقة داخل PDF، بدون أي تشكيل عربي من jsPDF.",
   "icons": [
     {
       "src": "assets/icon-192.png",
