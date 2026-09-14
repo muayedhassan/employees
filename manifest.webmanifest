@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.27",
-  "short_name": "HR Mobile R1.4.27",
+  "name": "سجل الموظفين - Mobile R1.4.28",
+  "short_name": "HR Mobile R1.4.28",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.27 PDF Vector No Canvas: إنشاء بطاقة PDF مباشرة من بيانات الموظف باستخدام jsPDF وخطوط المشروع دون أي تصوير DOM/Canvas داخل Android WebView، مع الحفظ المباشر في Downloads.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.28 PDF Vector No Canvas: إنشاء بطاقة PDF مباشرة من بيانات الموظف باستخدام jsPDF وخطوط المشروع دون أي تصوير DOM/Canvas داخل Android WebView، مع الحفظ المباشر في Downloads.",
   "icons": [
     {
       "src": "assets/icon-192.png",

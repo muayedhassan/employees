@@ -1578,7 +1578,7 @@ body.subview-reports #reports-page{padding:10px 9px 28px;gap:12px}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.27-PDF-VECTOR-NO-CANVAS';
+var APP_RELEASE = 'MOBILE-R1.4.28-PDF-LIBRARY-LOADER-FIX';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -3883,6 +3883,7 @@ async function r1420ReceiveGeneratedPdf(blob,filename,downloadWindow){
 }
 window.r1420ReceiveGeneratedPdf=r1420ReceiveGeneratedPdf;
 
+/* Mobile R1.4.28 - fix jsPDF loader: cdnjs 2.5.2 is unavailable; use 2.5.1 with unpkg fallback */
 /* Mobile R1.4.27 - vector PDF generator: no DOM/canvas capture inside Android WebView */
 var R1427_PDF_LIB_PROMISE=null;
 var R1427_FONT_CACHE={};
@@ -3897,10 +3898,15 @@ function r1427LoadScript(src,id){
 function r1427EnsurePdfLib(){
   if(window.jspdf&&window.jspdf.jsPDF)return Promise.resolve(window.jspdf.jsPDF);
   if(!R1427_PDF_LIB_PROMISE){
-    R1427_PDF_LIB_PROMISE=r1427LoadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js','r1427-jspdf-lib').then(function(){
-      if(!window.jspdf||!window.jspdf.jsPDF)throw new Error('jsPDF unavailable');
+    var cdnPrimary='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    var cdnFallback='https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
+    R1427_PDF_LIB_PROMISE=r1427LoadScript(cdnPrimary,'r1428-jspdf-primary').catch(function(){
+      var old=document.getElementById('r1428-jspdf-primary');if(old)old.remove();
+      return r1427LoadScript(cdnFallback,'r1428-jspdf-fallback');
+    }).then(function(){
+      if(!window.jspdf||!window.jspdf.jsPDF)throw new Error('jsPDF unavailable after fallback');
       return window.jspdf.jsPDF;
-    });
+    }).catch(function(err){R1427_PDF_LIB_PROMISE=null;throw err;});
   }
   return R1427_PDF_LIB_PROMISE;
 }
@@ -4044,7 +4050,7 @@ async function r1427DownloadEmployeePdf(emp){
     return false;
   }catch(err){
     console.error('R1.4.27 PDF generation error',err);
-    showToast('تعذر إنشاء بطاقة PDF مباشرة. حاول مرة أخرى بعد التأكد من الاتصال.','error');
+    showToast('تعذر تجهيز مكتبة PDF أو الخطوط. أعد المحاولة بعد لحظات.','error');
     return false;
   }
 }

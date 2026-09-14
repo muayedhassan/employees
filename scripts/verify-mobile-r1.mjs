@@ -20,7 +20,8 @@ const required = [
   'MOBILE_R1_4_24_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_25_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_26_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_27_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_27_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_28_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -33,10 +34,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.27-PDF-VECTOR-NO-CANVAS';
+const expectedRelease = 'MOBILE-R1.4.28-PDF-LIBRARY-LOADER-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
 if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.27 PDF Vector No Canvas');
-if (!String(manifest.description || '').includes('R1.4.27')) fail('manifest description was not updated');
+if (!String(manifest.description || '').includes('R1.4.28')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -83,7 +84,7 @@ if (!String(version.version || '').startsWith('DATA-')) fail(`unexpected data ve
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1427-pdf-vector-2026.09.14")) fail('R1.4.27 app-shell cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1428-pdf-libfix-2026.09.14")) fail('R1.4.27 app-shell cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
@@ -171,8 +172,8 @@ for (const marker of [
   "filename:filename||'EmployeeCard.pdf'",'open:false',
   'window.r1419ReceiveGeneratedPdf=r1419ReceiveGeneratedPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.19 native PDF marker missing: ${marker}`);
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.27-PDF-VECTOR-NO-CANVAS'")) fail('R1.4.27 APP_RELEASE marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1427')) fail('R1.4.27 PDF cache marker missing');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.28-PDF-LIBRARY-LOADER-FIX'")) fail('R1.4.28 APP_RELEASE marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1428')) fail('R1.4.28 PDF cache marker missing');
 
 // R1.4.20 status/native bridge remains, while R1.4.21 replaces only the failing generator.
 for (const marker of [
@@ -195,7 +196,10 @@ for (const marker of [
 for (const forbidden of ['.toCanvas()','captured card is blank','var captureWorker=html2pdf().set(','html2canvas:{scale:']) {
   if (printBlock.includes(forbidden)) fail(`R1.4.27 must not use DOM/canvas capture: ${forbidden}`);
 }
-if (!printBlock.includes('jspdf/2.5.2/jspdf.umd.min.js')) fail('R1.4.27 jsPDF loader missing');
+if (!printBlock.includes('jspdf/2.5.1/jspdf.umd.min.js')) fail('R1.4.28 jsPDF 2.5.1 primary loader missing');
+if (!printBlock.includes('unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js')) fail('R1.4.28 jsPDF fallback loader missing');
+if (printBlock.includes('jspdf/2.5.2/jspdf.umd.min.js')) fail('R1.4.28 must not reference unavailable jsPDF 2.5.2 cdnjs file');
+if (!index.includes('Mobile R1.4.28 - fix jsPDF loader')) fail('R1.4.28 loader fix marker missing');
 if (!printBlock.includes("showToast('تم تحميل البطاقة إلى مجلد التنزيلات')")) fail('R1.4.27 Downloads success message missing');
 
 // R1.4.23: standalone Data Quality navigation is removed and unique audits are merged into Updates > Gaps.
@@ -258,4 +262,4 @@ if (index.includes("showToast((LAST_DATA_STATUS?LAST_DATA_STATUS+' — ':'') + (
 if (index.includes('id="report-scope-input" value="'+"'+escapeHTML(reportScopeText())+'"+'" disabled')) fail('R1.4.25 report scope is still disabled');
 if (!index.includes("REPORT_STATE.scope='';buildReports();")) fail('R1.4.25 report type/segment scope reset missing');
 
-ok(`Mobile R1.4.27 PDF Vector No Canvas verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
+ok(`Mobile R1.4.28 PDF Library Loader Fix verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
