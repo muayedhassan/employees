@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.23",
-  "short_name": "HR Mobile R1.4.23",
+  "name": "سجل الموظفين - Mobile R1.4.24",
+  "short_name": "HR Mobile R1.4.24",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.23 Updates + Quality Merge: دمج الوظائف الإضافية غير المكررة من جودة البيانات داخل مركز التحديثات، مع الإبقاء على مركز التحديثات وترتيبه الحالي، وإزالة زر جودة البيانات المستقل من التنقل.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.24 Reports Studio Redesign: إعادة بناء استوديو التقارير بواجهة احترافية، قوالب إدارية، تخصيص سريع للأعمدة، معاينة رسمية، Excel منسق، وPDF/طباعة بقالب A4 عالي التنظيم.",
   "icons": [
     {
       "src": "assets/icon-192.png",

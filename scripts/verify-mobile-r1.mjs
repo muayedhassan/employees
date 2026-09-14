@@ -16,7 +16,8 @@ const required = [
   'MOBILE_R1_4_20_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_21_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_22_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_23_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_23_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_24_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -29,10 +30,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.23-UPDATES-QUALITY-MERGE';
+const expectedRelease = 'MOBILE-R1.4.24-REPORTS-STUDIO-REDESIGN';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.23 Updates + Quality Merge');
-if (!String(manifest.description || '').includes('R1.4.23')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.24 Reports Studio Redesign');
+if (!String(manifest.description || '').includes('R1.4.24')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -79,7 +80,7 @@ if (!String(version.version || '').startsWith('DATA-')) fail(`unexpected data ve
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1423-updates-quality-merge-2026.09.14")) fail('R1.4.23 app-shell cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1424-reports-studio-redesign-2026.09.14")) fail('R1.4.24 app-shell cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
@@ -165,8 +166,8 @@ for (const marker of [
   "filename:filename||'EmployeeCard.pdf'",'open:false',
   'window.r1419ReceiveGeneratedPdf=r1419ReceiveGeneratedPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.19 native PDF marker missing: ${marker}`);
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.23-UPDATES-QUALITY-MERGE'")) fail('R1.4.23 APP_RELEASE marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1423')) fail('R1.4.23 PDF cache marker missing');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.24-REPORTS-STUDIO-REDESIGN'")) fail('R1.4.24 APP_RELEASE marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1424')) fail('R1.4.24 PDF cache marker missing');
 
 // R1.4.20 status/native bridge remains, while R1.4.21 replaces only the failing generator.
 for (const marker of [
@@ -224,4 +225,22 @@ for (const marker of ['<b>التعديلات</b>','<b>الجديد</b>','<b>ال
   if (!buildUpdatesBlock.includes(marker)) fail(`R1.4.23 changed established Updates tab: ${marker}`);
 }
 
-ok(`Mobile R1.4.23 Updates + Quality Merge verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
+
+// R1.4.24: professional Reports Studio redesign and styled exports.
+for (const marker of [
+  'Mobile R1.4.24 - Reports Studio complete professional redesign',
+  'MOBILE R1.4.24 REPORTS STUDIO REDESIGN',
+  'r1424-suite','r1424-hero','r1424-templates','r1424-column-grid',
+  'استوديو التقارير الاحترافي','Excel منسق','طباعة / PDF رسمي',
+  'r1424ExportStyledExcel','r1424Completeness','r1424ApplyPreset',
+  'data-col-preset="basic"','data-col-preset="job"','data-col-preset="all"',
+  'r1424-preview-wrap','r1424-doc-kpis','r1424SvgEmblem',
+  "orientation=cols.length<=6?'portrait':'landscape'",
+  'assets/fonts/YaModernPro-Bold.otf','assets/fonts/ZainMobile.ttf','assets/fonts/Stencil.ttf'
+]) if (!index.includes(marker)) fail(`R1.4.24 reports marker missing: ${marker}`);
+if (!index.includes('id="report-xls-btn"')) fail('R1.4.24 styled Excel export button missing');
+if (!index.includes("type:'application/vnd.ms-excel;charset=utf-8;'")) fail('R1.4.24 styled Excel MIME export missing');
+if (!index.includes("thead{display:table-header-group}")) fail('R1.4.24 printable repeated table header missing');
+if (!index.includes('grid-template-columns:repeat(4,minmax(0,1fr))')) fail('R1.4.24 report template grid missing');
+
+ok(`Mobile R1.4.24 Reports Studio Redesign verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
