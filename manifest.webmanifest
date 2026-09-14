@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.19",
-  "short_name": "HR Mobile R1.4.19",
+  "name": "سجل الموظفين - Mobile R1.4.20",
+  "short_name": "HR Mobile R1.4.20",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.19 Native PDF Download Bridge: استخدام جسر Median الأصلي داخل APK لنقل ملف PDF إلى طبقة Android الأصلية، مع إبقاء زري «معاينة البطاقة» و«تحميل البطاقة» فقط ومسار R1.4.18 كحل احتياطي.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.20 PDF Single Page + Download Status: إنشاء بطاقة الموظف PDF كاملة في صفحة A4 واحدة دون قص أو انقسام، مع حالة تنزيل دقيقة داخل Android والإبقاء على زري «معاينة البطاقة» و«تحميل البطاقة».",
   "icons": [
     {
       "src": "assets/icon-192.png",

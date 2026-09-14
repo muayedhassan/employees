@@ -1,3 +1,7 @@
+# HRMobileRepo — Mobile R1.4.20 PDF Single Page + Download Status
+
+إصلاح بطاقة الموظف PDF لتظهر كاملة داخل صفحة A4 واحدة دون قص أو انقسام، مع رسالة تنزيل دقيقة على Android. لا تغيير على البيانات أو Windows Master Bridge.
+
 # HRMobileRepo — Mobile R1.4.19 Native PDF Download Bridge
 
 إصلاح تنزيل بطاقة الموظف على Android WebView: زران مختصران «معاينة البطاقة» و«تحميل البطاقة»، مع تأكيد قبل التحميل ومسار same-origin attachment عبر Service Worker بدل الاعتماد على blob: URL. لا تغيير على البيانات أو Windows Master Bridge.
@@ -67,3 +71,9 @@ git push
 - على تطبيق Android Median يتم تمرير Blob الـPDF إلى `median.share.downloadFile` بدل الاعتماد على رابط Service Worker فقط.
 - يستخدم APK الحالي جسر Median المدمج وBlobDownloader الأصلي، لذلك لا يحتاج هذا التحديث إلى تعديل APK.
 - يبقى مسار R1.4.18 كحل احتياطي للمتصفح أو عند غياب الجسر الأصلي.
+
+
+## R1.4.20 — PDF Single Page + Download Status
+- إنشاء البطاقة كصورة كاملة ثم احتواؤها تناسبيًا داخل صفحة A4 واحدة.
+- منع قص نصف البطاقة أو تقسيمها بسبب اختلاف أبعاد WebView.
+- تحسين حالة التنزيل في APK الحالي ذي التخزين الخاص بالتطبيق.

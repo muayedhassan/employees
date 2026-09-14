@@ -12,7 +12,8 @@ const required = [
   'data/change-history.json','data/validation-report.json','data/fallback-data.js',
   'MOBILE_R1_4_17_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_18_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_19_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_19_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_20_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -25,10 +26,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.19-NATIVE-PDF-DOWNLOAD-BRIDGE';
+const expectedRelease = 'MOBILE-R1.4.20-PDF-SINGLE-PAGE-DOWNLOAD-STATUS';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.19 Native PDF Download Bridge');
-if (!String(manifest.description || '').includes('R1.4.19')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.20 PDF Single Page + Download Status');
+if (!String(manifest.description || '').includes('R1.4.20')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -75,7 +76,7 @@ if (!String(version.version || '').startsWith('DATA-')) fail(`unexpected data ve
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1419-native-pdf-bridge-2026.09.13")) fail('R1.4.19 Native PDF cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1420-pdf-single-page-2026.09.14")) fail('R1.4.20 PDF Single Page cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
@@ -139,8 +140,8 @@ if (index.includes('<small>معاينة فقط') || index.includes('<small>يط�
 const lastPrint = index.lastIndexOf('printEmployeeCard=function(emp,mode){');
 if (lastPrint < 0) fail('mode-aware printEmployeeCard override missing');
 const printBlock = index.slice(lastPrint, index.indexOf('// ── MOBILE R1.4.15 UPDATES DETAILS DRILLDOWN', lastPrint));
-for (const marker of ['pdf-toolbar','view-mode','download-mode','autoDownload','html2pdf.js/0.10.2/html2pdf.bundle.min.js','outputPdf("blob")','r1419ReceiveGeneratedPdf','وضع العرض فقط']) {
-  if (!printBlock.includes(marker)) fail(`R1.4.18 PDF generation marker missing: ${marker}`);
+for (const marker of ['pdf-toolbar','view-mode','download-mode','autoDownload','html2pdf.js/0.10.2/html2pdf.bundle.min.js','html2canvas(sheet','new JsPdf','pdf.addImage','pdf.output("blob")','r1420ReceiveGeneratedPdf','وضع العرض فقط']) {
+  if (!printBlock.includes(marker)) fail(`R1.4.20 PDF generation marker missing: ${marker}`);
 }
 if (printBlock.includes('.save(filename)')) fail('R1.4.18 must not depend on html2pdf blob-url save');
 if (printBlock.includes('navigator.share')) fail('R1.4.18 direct download must not route through share sheet');
@@ -159,9 +160,21 @@ for (const marker of [
   'r1419NativeDownloader','r1419ReceiveGeneratedPdf',
   "host.share.downloadFile.bind(host.share)",
   "filename:filename||'EmployeeCard.pdf'",'open:false',
-  'window.opener.r1419ReceiveGeneratedPdf'
+  'window.r1419ReceiveGeneratedPdf=r1419ReceiveGeneratedPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.19 native PDF marker missing: ${marker}`);
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.19-NATIVE-PDF-DOWNLOAD-BRIDGE'")) fail('R1.4.19 APP_RELEASE marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1419')) fail('R1.4.19 PDF cache marker missing');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.20-PDF-SINGLE-PAGE-DOWNLOAD-STATUS'")) fail('R1.4.20 APP_RELEASE marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1420')) fail('R1.4.20 PDF cache marker missing');
 
-ok(`Mobile R1.4.19 Native PDF Download Bridge verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
+// R1.4.20 single-page PDF capture and truthful Android status guards.
+for (const marker of [
+  'Mobile R1.4.20 - Single-page PDF capture + accurate Android download status',
+  'MOBILE R1.4.20 SINGLE-PAGE PDF + DOWNLOAD STATUS',
+  'r1420SetDownloadStatus','r1420ReceiveGeneratedPdf',
+  'html2canvas(sheet','var JsPdf=(window.jspdf&&window.jspdf.jsPDF)||window.jsPDF',
+  'pdf.addImage','var blob=pdf.output("blob")',
+  'اكتمل تنزيل الملف داخل التطبيق. اختر قارئ PDF لفتح البطاقة.'
+]) if (!index.includes(marker)) fail(`R1.4.20 PDF marker missing: ${marker}`);
+if (printBlock.includes('pagebreak:{mode:')) fail('R1.4.20 must not use automatic html2pdf page splitting');
+if (printBlock.includes('worker.outputPdf("blob")')) fail('R1.4.20 must use deterministic jsPDF single-page output');
+
+ok(`Mobile R1.4.20 PDF Single Page + Download Status verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
