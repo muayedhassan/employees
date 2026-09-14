@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.24",
-  "short_name": "HR Mobile R1.4.24",
+  "name": "سجل الموظفين - Mobile R1.4.25",
+  "short_name": "HR Mobile R1.4.25",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.24 Reports Studio Redesign: إعادة بناء استوديو التقارير بواجهة احترافية، قوالب إدارية، تخصيص سريع للأعمدة، معاينة رسمية، Excel منسق، وPDF/طباعة بقالب A4 عالي التنظيم.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.25 Reports Polish: إزالة رسالة التشغيل، توحيد تاريخ التقارير بأرقام إنجليزية، أيقونات ذهبية مضيئة، نطاق تقرير قابل للتعديل مباشرة، وحالات أعمدة واضحة بين المفعل وغير المفعل.",
   "icons": [
     {
       "src": "assets/icon-192.png",
