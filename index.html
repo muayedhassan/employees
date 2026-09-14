@@ -1578,7 +1578,7 @@ body.subview-reports #reports-page{padding:10px 9px 28px;gap:12px}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.26-PDF-DIRECT-CANVAS';
+var APP_RELEASE = 'MOBILE-R1.4.27-PDF-VECTOR-NO-CANVAS';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -3861,8 +3861,8 @@ async function r1420ReceiveGeneratedPdf(blob,filename,downloadWindow){
           new Promise(function(_,reject){setTimeout(function(){reject(new Error('native download timeout'));},20000);})
         ]);
       }
-      r1420SetDownloadStatus(downloadWindow,'اكتمل تنزيل الملف داخل التطبيق. اختر قارئ PDF لفتح البطاقة.');
-      showToast('اكتمل تجهيز البطاقة — اختر قارئ PDF لفتحها');
+      r1420SetDownloadStatus(downloadWindow,'تم حفظ البطاقة في مجلد التنزيلات.');
+      showToast('تم حفظ البطاقة في مجلد التنزيلات');
       setTimeout(function(){
         if(downloadWindow&&!downloadWindow.closed){try{downloadWindow.close();}catch(e){}}
       },1800);
@@ -3883,10 +3883,176 @@ async function r1420ReceiveGeneratedPdf(blob,filename,downloadWindow){
 }
 window.r1420ReceiveGeneratedPdf=r1420ReceiveGeneratedPdf;
 
-/* Mobile R1.4.26 - PDF direct canvas-to-jsPDF: eliminate blank second WebView capture */
+/* Mobile R1.4.27 - vector PDF generator: no DOM/canvas capture inside Android WebView */
+var R1427_PDF_LIB_PROMISE=null;
+var R1427_FONT_CACHE={};
+function r1427LoadScript(src,id){
+  if(id&&document.getElementById(id))return Promise.resolve();
+  return new Promise(function(resolve,reject){
+    var el=document.createElement('script');el.src=src;el.async=true;if(id)el.id=id;
+    el.onload=function(){resolve();};el.onerror=function(){reject(new Error('script load failed'));};
+    document.head.appendChild(el);
+  });
+}
+function r1427EnsurePdfLib(){
+  if(window.jspdf&&window.jspdf.jsPDF)return Promise.resolve(window.jspdf.jsPDF);
+  if(!R1427_PDF_LIB_PROMISE){
+    R1427_PDF_LIB_PROMISE=r1427LoadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js','r1427-jspdf-lib').then(function(){
+      if(!window.jspdf||!window.jspdf.jsPDF)throw new Error('jsPDF unavailable');
+      return window.jspdf.jsPDF;
+    });
+  }
+  return R1427_PDF_LIB_PROMISE;
+}
+function r1427ArrayBufferToBase64(buf){
+  var bytes=new Uint8Array(buf),chunk=0x8000,out='';
+  for(var i=0;i<bytes.length;i+=chunk){out+=String.fromCharCode.apply(null,bytes.subarray(i,Math.min(i+chunk,bytes.length)));}
+  return btoa(out);
+}
+async function r1427FontBase64(file){
+  if(R1427_FONT_CACHE[file])return R1427_FONT_CACHE[file];
+  var res=await fetch(r1411FontUrl(file),{cache:'force-cache'});
+  if(!res.ok)throw new Error('font '+file+' unavailable');
+  var b64=r1427ArrayBufferToBase64(await res.arrayBuffer());
+  R1427_FONT_CACHE[file]=b64;return b64;
+}
+async function r1427InstallFonts(pdf){
+  var body=await r1427FontBase64('ZainMobile.ttf');
+  var head=await r1427FontBase64('SFSultan-Black.ttf');
+  var num=await r1427FontBase64('Stencil.ttf');
+  pdf.addFileToVFS('ZainMobile.ttf',body);pdf.addFont('ZainMobile.ttf','HRBody','normal');
+  pdf.addFileToVFS('SFSultan-Black.ttf',head);pdf.addFont('SFSultan-Black.ttf','HRHead','normal');
+  pdf.addFileToVFS('Stencil.ttf',num);pdf.addFont('Stencil.ttf','HRNum','normal');
+}
+function r1427Display(field,value){return profileDisplayValue(field,value);}
+function r1427Arabic(pdf,value){
+  var t=String(value==null||value===''?'—':value);
+  try{if(typeof pdf.processArabic==='function')t=pdf.processArabic(t);}catch(e){}
+  return t;
+}
+function r1427IsStrictNumeric(value){
+  var t=String(value==null?'':value).trim();
+  return !!t && /^[0-9٠-٩\s,./:\-]+$/.test(t);
+}
+function r1427PdfText(pdf,text,x,y,opt){
+  opt=opt||{};var size=opt.size||9,color=opt.color||[23,39,79],font=opt.font||'HRBody',numeric=!!opt.numeric;
+  pdf.setTextColor(color[0],color[1],color[2]);pdf.setFontSize(size);pdf.setFont(font,'normal');
+  if(numeric){try{pdf.setR2L(false);}catch(e){};pdf.text(String(text==null||text===''?'—':text),x,y,{align:opt.align||'right',baseline:opt.baseline||'alphabetic'});return;}
+  try{pdf.setR2L(true);}catch(e){};
+  pdf.text(r1427Arabic(pdf,text),x,y,{align:opt.align||'right',baseline:opt.baseline||'alphabetic'});
+  try{pdf.setR2L(false);}catch(e){}
+}
+function r1427FitLines(pdf,text,maxWidth,maxLines,font,size){
+  pdf.setFont(font||'HRBody','normal');pdf.setFontSize(size||9);
+  var shaped=r1427Arabic(pdf,text),lines=pdf.splitTextToSize(shaped,maxWidth)||[shaped];
+  if(lines.length>(maxLines||2)){
+    lines=lines.slice(0,maxLines||2);var last=String(lines[lines.length-1]||'');
+    while(last.length>2&&pdf.getTextWidth(last+'…')>maxWidth)last=last.slice(0,-1);
+    lines[lines.length-1]=last+'…';
+  }
+  return lines;
+}
+function r1427DrawField(pdf,x,y,w,h,label,value,opt){
+  opt=opt||{};var radius=2.3;
+  pdf.setFillColor(255,255,255);pdf.setDrawColor(224,231,243);pdf.setLineWidth(.25);pdf.roundedRect(x,y,w,h,radius,radius,'FD');
+  r1427PdfText(pdf,label,x+w-3,y+4.1,{size:6.7,color:[116,128,158],font:'HRBody'});
+  var numeric=opt.numeric===true||(opt.numeric!==false&&r1427IsStrictNumeric(value));
+  if(numeric){
+    r1427PdfText(pdf,value,x+w-3,y+h-3.0,{size:opt.valueSize||9.5,color:[202,145,18],font:'HRNum',numeric:true});
+  }else{
+    var lines=r1427FitLines(pdf,value,w-6,opt.maxLines||2,'HRBody',opt.valueSize||8.7);
+    pdf.setTextColor(23,39,79);pdf.setFont('HRBody','normal');pdf.setFontSize(opt.valueSize||8.7);try{pdf.setR2L(true);}catch(e){}
+    var base=y+8.2,step=4.2;
+    lines.forEach(function(line,idx){pdf.text(line,x+w-3,base+(idx*step),{align:'right'});});
+    try{pdf.setR2L(false);}catch(e){}
+  }
+}
+function r1427DrawSectionTitle(pdf,title,x,y,w){
+  pdf.setFillColor(248,251,255);pdf.setDrawColor(223,230,242);pdf.roundedRect(x,y,w,7.5,2.5,2.5,'FD');
+  pdf.setFillColor(255,214,107);pdf.circle(x+w-5,y+3.75,2.0,'F');
+  r1427PdfText(pdf,title,x+w-9,y+5.1,{size:9.2,color:[22,59,122],font:'HRHead'});
+}
+function r1427EmployeePdfData(emp){
+  var isPerm=emp.type==='perm',serial=mobileR14Serial(emp),job=r1427Display('jobTitle',emp.jobTitle);if(job==='غير متوفر')job=isPerm?'موظف دائمي':'موظف عقد';
+  return {
+    isPerm:isPerm,typeLabel:isPerm?'موظف دائمي':'موظف عقد',name:r1427Display('name',emp.name),job:job,
+    num:r1427Display('num',emp.num),serial:String(serial),employeeNo:r1427Display('employeeNo',emp.employeeNo),
+    motherName:r1427Display('motherName',emp.motherName),gender:r1427Display('gender',emp.gender),birthDate:r1427Display('birthDate',emp.birthDate),
+    jobTitle:r1427Display('jobTitle',emp.jobTitle),division:r1427Display('division',emp.division),employmentStatus:r1427Display('employmentStatus',emp.employmentStatus),
+    hireDate:r1427Display('hireDate',emp.hireDate),grade:r1427Display('grade',emp.grade),step:r1427Display('step',emp.step),education:r1427Display('education',emp.education),
+    specialization:r1427Display('specialization',emp.specialization),salary:r1427Display('salary',emp.salary),identityNo:r1427Display('identityNo',emp.identityNo),
+    identityIssueDate:r1427Display('identityIssueDate',emp.identityIssueDate),identityIssuer:r1427Display('identityIssuer',emp.identityIssuer),notes:r1427Display('notes',emp.notes),
+    stableId:String(emp.id||emp.employeeNo||emp.num||'—'),dataVersion:DATA_VERSION||'—',generatedAt:new Date().toLocaleString('en-GB')
+  };
+}
+async function r1427BuildEmployeePdf(emp){
+  var JsPdfCtor=await r1427EnsurePdfLib();
+  var pdf=new JsPdfCtor({orientation:'portrait',unit:'mm',format:'a4',compress:true,putOnlyUsedFonts:true});
+  await r1427InstallFonts(pdf);
+  var d=r1427EmployeePdfData(emp),pageW=210,pageH=297,margin=10,fullW=190;
+  pdf.setFillColor(255,255,255);pdf.rect(0,0,pageW,pageH,'F');
+  // Header
+  pdf.setFillColor(16,38,95);pdf.roundedRect(margin,10,fullW,30,4,4,'F');
+  pdf.setFillColor(13,114,133);pdf.roundedRect(margin,32,fullW,8,0,0,'F');
+  pdf.setFillColor(255,214,107);pdf.circle(24,24,7.2,'F');
+  pdf.setTextColor(16,38,95);pdf.setFont('HRHead','normal');pdf.setFontSize(13);pdf.text('HR',24,26.2,{align:'center'});
+  r1427PdfText(pdf,'جمهورية العراق • وزارة الزراعة',196,18.5,{size:8.2,color:[222,232,255],font:'HRBody'});
+  r1427PdfText(pdf,'مديرية زراعة صلاح الدين',196,27.0,{size:17,color:[255,255,255],font:'HRHead'});
+  r1427PdfText(pdf,'بطاقة موظف إلكترونية',196,35.0,{size:7.8,color:[225,240,244],font:'HRBody'});
+  // Person banner
+  pdf.setFillColor(246,249,255);pdf.setDrawColor(222,230,243);pdf.roundedRect(margin,44,fullW,26,4,4,'FD');
+  r1427PdfText(pdf,d.name,196,54.5,{size:16.5,color:[16,32,71],font:'HRHead'});
+  r1427PdfText(pdf,d.job+' • '+d.typeLabel,196,62.5,{size:8.5,color:[92,108,145],font:'HRBody'});
+  r1427DrawField(pdf,14,48,34,18,'رقم الأضبارة',d.num,{numeric:true,valueSize:10.5});
+  r1427DrawField(pdf,51,48,30,18,'التسلسل',d.serial,{numeric:true,valueSize:10.5});
+  // Basic section
+  var x=14,y=75,gap=4,col=(182-gap)/2;
+  r1427DrawSectionTitle(pdf,'البيانات الأساسية',x,y,182);y+=10;
+  r1427DrawField(pdf,x+col+gap,y,col,12,'الرقم الوظيفي',d.employeeNo,{numeric:r1427IsStrictNumeric(d.employeeNo)});r1427DrawField(pdf,x,y,col,12,'اسم الأم',d.motherName,{numeric:false});y+=15;
+  r1427DrawField(pdf,x+col+gap,y,col,12,'الجنس',d.gender,{numeric:false});r1427DrawField(pdf,x,y,col,12,'تاريخ التولد',d.birthDate,{numeric:true});y+=17;
+  // Job section
+  r1427DrawSectionTitle(pdf,'المعلومات الوظيفية',x,y,182);y+=10;
+  r1427DrawField(pdf,x,y,182,12,'العنوان الوظيفي',d.jobTitle,{numeric:false});y+=15;
+  r1427DrawField(pdf,x,y,182,12,'الشعبة / القسم',d.division,{numeric:false});y+=15;
+  r1427DrawField(pdf,x+col+gap,y,col,12,'الحالة الوظيفية',d.employmentStatus,{numeric:false});r1427DrawField(pdf,x,y,col,12,'تاريخ التعيين',d.hireDate,{numeric:true});y+=15;
+  r1427DrawField(pdf,x+col+gap,y,col,12,'الدرجة',d.grade,{numeric:r1427IsStrictNumeric(d.grade)});r1427DrawField(pdf,x,y,col,12,'المرحلة',d.step,{numeric:r1427IsStrictNumeric(d.step)});y+=15;
+  r1427DrawField(pdf,x+col+gap,y,col,12,'التحصيل الدراسي',d.education,{numeric:false});r1427DrawField(pdf,x,y,col,12,'الاختصاص',d.specialization,{numeric:false});y+=15;
+  r1427DrawField(pdf,x,y,182,12,'الراتب',d.salary,{numeric:false});y+=17;
+  // Identity section
+  r1427DrawSectionTitle(pdf,'الهوية والملاحظات',x,y,182);y+=10;
+  r1427DrawField(pdf,x+col+gap,y,col,12,'رقم الهوية',d.identityNo,{numeric:r1427IsStrictNumeric(d.identityNo)});r1427DrawField(pdf,x,y,col,12,'تاريخ إصدار الهوية',d.identityIssueDate,{numeric:true});y+=15;
+  r1427DrawField(pdf,x,y,182,13,'جهة إصدار الهوية',d.identityIssuer,{numeric:false,maxLines:2});y+=16;
+  r1427DrawField(pdf,x,y,182,17,'الملاحظات',d.notes,{numeric:false,maxLines:2,valueSize:8.2});
+  // Footer
+  var fy=274;pdf.setDrawColor(223,230,242);pdf.line(14,fy-4,196,fy-4);
+  r1427PdfText(pdf,'المعرّف الثابت: '+d.stableId,196,fy+1,{size:7.3,color:[70,87,124],font:'HRBody'});
+  r1427PdfText(pdf,'إصدار البيانات: '+d.dataVersion,196,fy+6,{size:7.1,color:[70,87,124],font:'HRBody'});
+  r1427PdfText(pdf,'وقت الإنشاء: '+d.generatedAt,196,fy+11,{size:7.1,color:[70,87,124],font:'HRBody'});
+  pdf.setFillColor(255,214,107);pdf.roundedRect(14,fy-1,34,13,3,3,'F');pdf.setTextColor(16,38,95);pdf.setFont('HRHead','normal');pdf.setFontSize(10.5);pdf.text('HRSystem',31,fy+7.4,{align:'center'});
+  try{pdf.setProperties({title:'بطاقة '+String(d.name||'الموظف'),subject:'Employee Card',creator:'HRSystem Mobile'});}catch(e){}
+  var blob=pdf.output('blob');if(!blob||!blob.size||blob.size<5000)throw new Error('generated vector pdf is invalid');
+  return blob;
+}
+async function r1427DownloadEmployeePdf(emp){
+  if(!emp)return false;
+  var safeName=String(emp.name||'employee').replace(/[\\/:*?"<>|]+/g,'-').slice(0,55),filename='EmployeeCard-'+safeName+'.pdf';
+  showToast('جاري تجهيز بطاقة PDF...');
+  try{
+    var blob=await r1427BuildEmployeePdf(emp);
+    var ok=await r1420ReceiveGeneratedPdf(blob,filename,null);
+    if(ok){showToast('تم تحميل البطاقة إلى مجلد التنزيلات');return true;}
+    return false;
+  }catch(err){
+    console.error('R1.4.27 PDF generation error',err);
+    showToast('تعذر إنشاء بطاقة PDF مباشرة. حاول مرة أخرى بعد التأكد من الاتصال.','error');
+    return false;
+  }
+}
 printEmployeeCard=function(emp,mode){
   if(!emp)return;
-  var isPerm=emp.type==='perm', serial=mobileR14Serial(emp), job=profileDisplayValue('jobTitle',emp.jobTitle);if(job==='غير متوفر')job=isPerm?'موظف دائمي':'موظف عقد';
+  mode=mode==='download'?'download':'view';
+  if(mode==='download'){r1427DownloadEmployeePdf(emp);return;}
+  var isPerm=emp.type==='perm',serial=mobileR14Serial(emp),job=profileDisplayValue('jobTitle',emp.jobTitle);if(job==='غير متوفر')job=isPerm?'موظف دائمي':'موظف عقد';
   var sections='';
   sections+='<section class="pdf-section"><h2><span>👤</span> البيانات الأساسية</h2><div class="pdf-grid">'+
     r1411Field('الاسم','name',emp.name,'👤',true)+r1411Field('رقم الأضبارة','num',emp.num,'🗂️',false)+r1411Field('التسلسل','serial',serial,'#',false)+r1411Field('الرقم الوظيفي','employeeNo',emp.employeeNo,'🧬',false)+r1411Field('اسم الأم','motherName',emp.motherName,'👩',false)+r1411Field('الجنس','gender',emp.gender,'⚥',false)+r1411Field('تاريخ التولد','birthDate',emp.birthDate,'📅',false)+'</div></section>';
@@ -3894,17 +4060,10 @@ printEmployeeCard=function(emp,mode){
     r1411Field('العنوان الوظيفي','jobTitle',emp.jobTitle,'🏷️',true)+r1411Field('الشعبة / القسم','division',emp.division,'🏢',true)+r1411Field('الحالة الوظيفية','employmentStatus',emp.employmentStatus,'✅',false)+r1411Field('تاريخ التعيين','hireDate',emp.hireDate,'📆',false)+r1411Field('الدرجة','grade',emp.grade,'◆',false)+r1411Field('المرحلة','step',emp.step,'▰',false)+r1411Field('التحصيل الدراسي','education',emp.education,'🎓',false)+r1411Field('الاختصاص','specialization',emp.specialization,'📘',false)+r1411Field('الراتب','salary',emp.salary,'💰',false)+'</div></section>';
   sections+='<section class="pdf-section wide"><h2><span>🪪</span> الهوية والملاحظات</h2><div class="pdf-grid identity-grid">'+
     r1411Field('رقم الهوية','identityNo',emp.identityNo,'🪪',true)+r1411Field('تاريخ إصدار الهوية','identityIssueDate',emp.identityIssueDate,'📅',false)+r1411Field('جهة إصدار الهوية','identityIssuer',emp.identityIssuer,'🏛️',true)+r1411Field('الملاحظات','notes',emp.notes,'📝',true)+'</div></section>';
-  var safeName=String(emp.name||'employee').replace(/[\\/:*?"<>|]+/g,'-').slice(0,55);
-  mode=mode==='download'?'download':'view';
-  var directDownload=mode==='download';
-  var toolbar=directDownload
-    ? '<div class="pdf-toolbar download-mode"><div class="pdf-download-state"><b id="pdf-status">جاري تجهيز بطاقة الموظف...</b><span>سيتم إنشاء البطاقة كاملة في صفحة PDF واحدة ثم تسليمها إلى Android.</span></div></div>'
-    : '<div class="pdf-toolbar view-mode"><button class="pdf-close" id="pdf-close-btn">إغلاق المعاينة</button><div class="pdf-help">وضع العرض فقط — لن يتم تنزيل أي ملف من هذه الشاشة.</div></div>';
-  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>بطاقة '+escapeHTML(emp.name||'الموظف')+'</title><style>@page{size:A4;margin:10mm}*{box-sizing:border-box}body{margin:0;background:#eef3ff;color:#102047;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:HRBody,Arial,sans-serif}@font-face{font-family:HRTitle;src:url("'+r1411FontUrl('YaModernPro-Bold.otf')+'") format("opentype");font-display:swap}@font-face{font-family:HRBody;src:url("'+r1411FontUrl('ZainMobile.ttf')+'") format("truetype");font-display:swap}@font-face{font-family:HRNum;src:url("'+r1411FontUrl('Stencil.ttf')+'") format("truetype");font-display:swap}.pdf-toolbar{position:sticky;top:0;z-index:50;display:grid;gap:8px;align-items:center;padding:10px max(10px,env(safe-area-inset-right)) 10px max(10px,env(safe-area-inset-left));background:linear-gradient(135deg,#10265f,#0d7285);box-shadow:0 10px 30px rgba(0,0,0,.24)}.pdf-toolbar.view-mode{grid-template-columns:auto 1fr}.pdf-toolbar.download-mode{grid-template-columns:1fr}.pdf-close{border:1px solid rgba(255,255,255,.18);border-radius:14px;min-height:46px;padding:10px 13px;background:rgba(255,255,255,.10);color:#fff;font:900 12px HRBody,Arial;cursor:pointer}.pdf-help{text-align:center;color:rgba(255,255,255,.80);font:800 9px/1.6 HRBody,Arial}.pdf-download-state{text-align:center;color:#fff;display:grid;gap:3px;padding:4px 8px}.pdf-download-state b{font:900 12px HRBody,Arial;color:#ffe08a}.pdf-download-state span{font:800 8.5px/1.5 HRBody,Arial;color:rgba(255,255,255,.72)}.sheet{width:190mm;min-height:277mm;margin:10px auto;background:#fff;border-radius:8mm;overflow:hidden;box-shadow:0 20px 70px rgba(20,40,80,.18);border:1px solid #dce5f5}.top{position:relative;padding:11mm 12mm 9mm;background:linear-gradient(135deg,#132a63,#15416e 62%,#0c7a88);color:#fff}.top:before{content:"";position:absolute;left:-35mm;top:-40mm;width:85mm;height:85mm;border-radius:50%;background:radial-gradient(circle,rgba(255,214,107,.28),transparent 70%)}.min{font-size:8.5pt;color:rgba(255,255,255,.78)}.title{font:900 20pt HRTitle,Arial;margin:1mm 0 0}.badge{position:absolute;left:12mm;top:12mm;width:22mm;height:22mm;border-radius:7mm;background:linear-gradient(135deg,#ffd66b,#fff2a8);color:#102047;display:grid;place-items:center;font-size:20pt;box-shadow:0 0 25px rgba(255,214,107,.28)}.person{display:grid;grid-template-columns:1fr 33mm;gap:8mm;padding:8mm 12mm;background:linear-gradient(180deg,#f9fbff,#eef4ff);border-bottom:1px solid #dfe7f5}.pname{font:900 18pt HRTitle,Arial;color:#102047;line-height:1.35}.prole{font-size:9pt;color:#5f6e90;margin-top:2mm}.pid{display:grid;gap:2mm}.pill{border:1px solid #dbe4f4;border-radius:4mm;background:#fff;padding:2.5mm 3mm;text-align:center}.pill span{display:block;font-size:6.7pt;color:#7a86a4}.pill b{display:block;font:900 13pt HRNum,Arial;color:#d49a14;direction:ltr;margin-top:1mm}.content{padding:7mm 10mm 7mm;display:grid;grid-template-columns:1fr 1fr;gap:4mm}.pdf-section{border:1px solid #dfe6f2;border-radius:5mm;background:#fbfdff;padding:4mm;break-inside:avoid}.pdf-section.wide,.pdf-section.changes{grid-column:1/-1}h2{margin:0 0 3mm;font:900 11pt HRTitle,Arial;color:#163b7a;display:flex;align-items:center;gap:2mm}h2 span{width:8mm;height:8mm;border-radius:50%;display:grid;place-items:center;background:rgba(255,214,107,.20);color:#a67808;box-shadow:0 0 14px rgba(255,214,107,.20)}.pdf-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm}.pdf-field{display:flex;gap:2.5mm;align-items:center;border:1px solid #e3e9f4;border-radius:3.5mm;background:#fff;padding:2.4mm 2.7mm;min-height:13mm}.pdf-field.wide{grid-column:1/-1}.pdf-field.identityNo{min-height:14mm}.pdf-field.identityNo b{white-space:nowrap;font-size:10.3pt}.pdf-field-body{min-width:0;flex:1}.pdf-ico{width:8mm;height:8mm;border-radius:3mm;background:linear-gradient(135deg,rgba(255,214,107,.28),rgba(255,214,107,.08));color:#b17b09;display:grid;place-items:center;box-shadow:0 0 14px rgba(255,214,107,.18);font-size:9pt;flex-shrink:0}.pdf-field span{display:block;font-size:6.7pt;color:#74809e;margin-bottom:.8mm}.pdf-field b{display:block;font-size:9.2pt;color:#17274f;line-height:1.35;word-break:normal;overflow-wrap:anywhere}.pdf-num{font-family:HRNum,Arial!important;color:#d49a14!important;direction:ltr;unicode-bidi:plaintext;font-variant-numeric:tabular-nums}.pdf-field.identityIssuer b,.pdf-field.notes b{font-family:HRBody,Arial!important;color:#17274f!important;direction:rtl!important;letter-spacing:0!important}.pdf-salary{display:inline-flex;align-items:baseline;gap:1mm;direction:ltr;unicode-bidi:plaintext;white-space:nowrap}.pdf-currency{font-family:HRBody,Arial;color:#17274f;font-size:8.2pt}@media(max-width:720px){body{background:#fff}.sheet{width:100%;min-height:auto;margin:0;border-radius:0;box-shadow:none}.content{grid-template-columns:1fr;padding:5mm}.person{grid-template-columns:1fr;gap:4mm}.pdf-help{font-size:8.5px}}body.pdf-capture{background:#fff!important;width:210mm!important;overflow:visible!important}body.pdf-capture .pdf-toolbar{display:none!important}body.pdf-capture .sheet{width:190mm!important;min-height:277mm!important;margin:0 auto!important;border-radius:0!important;box-shadow:none!important}body.pdf-capture .content{grid-template-columns:1fr 1fr!important;padding:7mm 10mm 7mm!important}body.pdf-capture .person{grid-template-columns:1fr 33mm!important;gap:8mm!important}@media print{body{background:#fff}.pdf-toolbar{display:none!important}.sheet{box-shadow:none;border-radius:0;width:100%;min-height:auto;margin:0}}</style></head><body>'+toolbar+'<main class="sheet"><header class="top"><div class="badge">🌱</div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين</div></header><section class="person"><div><div class="pname">'+escapeHTML(emp.name||'—')+'</div><div class="prole">'+escapeHTML(job)+' • '+escapeHTML(isPerm?'موظف دائمي':'موظف عقد')+'</div></div><div class="pid"><div class="pill"><span>رقم الأضبارة</span><b>'+escapeHTML(emp.num||'—')+'</b></div><div class="pill"><span>التسلسل</span><b>'+escapeHTML(serial)+'</b></div></div></section><section class="content">'+sections+'</section></main><script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"><\/script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"><\/script><script>(function(){var filename="EmployeeCard-'+escapeHTML(safeName)+'.pdf";var autoDownload='+(directDownload?'true':'false')+';document.title=filename.replace(/\\.pdf$/i,"");var close=document.getElementById("pdf-close-btn"),status=document.getElementById("pdf-status"),sheet=document.querySelector(".sheet");function setStatus(msg){if(status)status.textContent=msg;}async function savePdfDirect(){if(!sheet)return;setStatus("جاري تجهيز ملف PDF...");try{if(document.fonts&&document.fonts.ready)await document.fonts.ready;if(typeof html2pdf!=="function")throw new Error("pdf capture library unavailable");var JsPdfCtor=window.jspdf&&window.jspdf.jsPDF;if(typeof JsPdfCtor!=="function")throw new Error("jsPDF library unavailable");document.body.classList.add("pdf-capture");await new Promise(function(resolve){requestAnimationFrame(function(){requestAnimationFrame(resolve);});});var captureWorker=html2pdf().set({margin:0,image:{type:"jpeg",quality:.99},html2canvas:{scale:2.35,useCORS:true,allowTaint:false,backgroundColor:"#ffffff",logging:false,scrollX:0,scrollY:0,windowWidth:Math.max(document.documentElement.scrollWidth,794),windowHeight:Math.max(document.documentElement.scrollHeight,1123)},jsPDF:{unit:"mm",format:"a4",orientation:"portrait",compress:true}}).from(sheet).toCanvas();var canvas=await captureWorker.get("canvas");if(!canvas||!canvas.width||!canvas.height)throw new Error("capture canvas unavailable");var ctx=canvas.getContext&&canvas.getContext("2d",{willReadFrequently:true});if(ctx){try{var sx=Math.max(1,Math.floor(canvas.width/12)),sy=Math.max(1,Math.floor(canvas.height/12)),nonWhite=0,total=0;for(var yy=Math.floor(sy/2);yy<canvas.height;yy+=sy){for(var xx=Math.floor(sx/2);xx<canvas.width;xx+=sx){var px=ctx.getImageData(xx,yy,1,1).data;total++;if(px[0]<247||px[1]<247||px[2]<247)nonWhite++;}}if(total&&nonWhite<2)throw new Error("captured card is blank");}catch(pixelErr){if(String(pixelErr&&pixelErr.message||pixelErr).indexOf("captured card is blank")>=0)throw pixelErr;}}var imageUrl=canvas.toDataURL("image/jpeg",.99);if(!imageUrl||imageUrl.length<5000)throw new Error("captured image unavailable");var pdf=new JsPdfCtor({orientation:"portrait",unit:"mm",format:"a4",compress:true,putOnlyUsedFonts:true});var pageW=pdf.internal.pageSize.getWidth(),pageH=pdf.internal.pageSize.getHeight(),marginX=10,marginY=10,availW=pageW-(marginX*2),availH=pageH-(marginY*2),aspect=canvas.width/canvas.height,drawW=availW,drawH=drawW/aspect;if(drawH>availH){drawH=availH;drawW=drawH*aspect;}var drawX=(pageW-drawW)/2,drawY=(pageH-drawH)/2;pdf.setFillColor(255,255,255);pdf.rect(0,0,pageW,pageH,"F");pdf.addImage(imageUrl,"JPEG",drawX,drawY,drawW,drawH,undefined,"FAST");try{pdf.setProperties({title:document.title||filename,subject:"Employee Card",creator:"HRSystem Mobile"});}catch(e){}var blob=pdf.output("blob");if(!blob||!blob.size||blob.size<1500)throw new Error("pdf blob unavailable");setStatus("تم إنشاء البطاقة كاملة. جاري حفظها في تنزيلات الهاتف...");if(window.opener&&typeof window.opener.r1420ReceiveGeneratedPdf==="function"){await window.opener.r1420ReceiveGeneratedPdf(blob,filename,window);return;}var url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},10000);setStatus("تم تجهيز ملف PDF كاملًا.");}catch(err){setStatus("تعذر تجهيز محتوى بطاقة PDF على هذا الجهاز.");try{if(window.opener&&typeof window.opener.showToast==="function")window.opener.showToast("تعذر تجهيز محتوى بطاقة PDF","error");}catch(e){}}finally{document.body.classList.remove("pdf-capture");}}if(close)close.addEventListener("click",function(){try{window.close()}catch(e){history.back()}});if(autoDownload)setTimeout(savePdfDirect,350)})();<\/script></body></html>';
+  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>بطاقة '+escapeHTML(emp.name||'الموظف')+'</title><style>@page{size:A4;margin:10mm}*{box-sizing:border-box}body{margin:0;background:#eef3ff;color:#102047;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:HRBody,Arial,sans-serif}@font-face{font-family:HRTitle;src:url("'+r1411FontUrl('YaModernPro-Bold.otf')+'") format("opentype");font-display:swap}@font-face{font-family:HRBody;src:url("'+r1411FontUrl('ZainMobile.ttf')+'") format("truetype");font-display:swap}@font-face{font-family:HRNum;src:url("'+r1411FontUrl('Stencil.ttf')+'") format("truetype");font-display:swap}.pdf-toolbar{position:sticky;top:0;z-index:50;display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;padding:10px max(10px,env(safe-area-inset-right)) 10px max(10px,env(safe-area-inset-left));background:linear-gradient(135deg,#10265f,#0d7285);box-shadow:0 10px 30px rgba(0,0,0,.24)}.pdf-close{border:1px solid rgba(255,255,255,.18);border-radius:14px;min-height:46px;padding:10px 13px;background:rgba(255,255,255,.10);color:#fff;font:900 12px HRBody,Arial;cursor:pointer}.pdf-help{text-align:center;color:rgba(255,255,255,.80);font:800 9px/1.6 HRBody,Arial}.sheet{width:190mm;min-height:277mm;margin:10px auto;background:#fff;border-radius:8mm;overflow:hidden;box-shadow:0 20px 70px rgba(20,40,80,.18);border:1px solid #dce5f5}.top{position:relative;padding:11mm 12mm 9mm;background:linear-gradient(135deg,#132a63,#15416e 62%,#0c7a88);color:#fff}.top:before{content:"";position:absolute;left:-35mm;top:-40mm;width:85mm;height:85mm;border-radius:50%;background:radial-gradient(circle,rgba(255,214,107,.28),transparent 70%)}.min{font-size:8.5pt;color:rgba(255,255,255,.78)}.title{font:900 20pt HRTitle,Arial;margin:1mm 0 0}.badge{position:absolute;left:12mm;top:12mm;width:22mm;height:22mm;border-radius:7mm;background:linear-gradient(135deg,#ffd66b,#fff2a8);color:#102047;display:grid;place-items:center;font-size:20pt;box-shadow:0 0 25px rgba(255,214,107,.28)}.person{display:grid;grid-template-columns:1fr 33mm;gap:8mm;padding:8mm 12mm;background:linear-gradient(180deg,#f9fbff,#eef4ff);border-bottom:1px solid #dfe7f5}.pname{font:900 18pt HRTitle,Arial;color:#102047;line-height:1.35}.prole{font-size:9pt;color:#5f6e90;margin-top:2mm}.pid{display:grid;gap:2mm}.pill{border:1px solid #dbe4f4;border-radius:4mm;background:#fff;padding:2.5mm 3mm;text-align:center}.pill span{display:block;font-size:6.7pt;color:#7a86a4}.pill b{display:block;font:900 13pt HRNum,Arial;color:#d49a14;direction:ltr;margin-top:1mm}.content{padding:7mm 10mm 7mm;display:grid;grid-template-columns:1fr 1fr;gap:4mm}.pdf-section{border:1px solid #dfe6f2;border-radius:5mm;background:#fbfdff;padding:4mm;break-inside:avoid}.pdf-section.wide{grid-column:1/-1}h2{margin:0 0 3mm;font:900 11pt HRTitle,Arial;color:#163b7a;display:flex;align-items:center;gap:2mm}h2 span{width:8mm;height:8mm;border-radius:50%;display:grid;place-items:center;background:rgba(255,214,107,.20);color:#a67808}.pdf-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm}.pdf-field{display:flex;gap:2.5mm;align-items:center;border:1px solid #e3e9f4;border-radius:3.5mm;background:#fff;padding:2.4mm 2.7mm;min-height:13mm}.pdf-field.wide{grid-column:1/-1}.pdf-field.identityNo{min-height:14mm}.pdf-field-body{min-width:0;flex:1}.pdf-ico{width:8mm;height:8mm;border-radius:3mm;background:linear-gradient(135deg,rgba(255,214,107,.28),rgba(255,214,107,.08));color:#b17b09;display:grid;place-items:center;font-size:9pt;flex-shrink:0}.pdf-field span{display:block;font-size:6.7pt;color:#74809e;margin-bottom:.8mm}.pdf-field b{display:block;font-size:9.2pt;color:#17274f;line-height:1.35;word-break:normal;overflow-wrap:anywhere}.pdf-num{font-family:HRNum,Arial!important;color:#d49a14!important;direction:ltr;unicode-bidi:plaintext;font-variant-numeric:tabular-nums}.pdf-field.identityIssuer b,.pdf-field.notes b{font-family:HRBody,Arial!important;color:#17274f!important;direction:rtl!important}.pdf-salary{display:inline-flex;align-items:baseline;gap:1mm;direction:ltr;unicode-bidi:plaintext;white-space:nowrap}.pdf-currency{font-family:HRBody,Arial;color:#17274f;font-size:8.2pt}@media(max-width:720px){body{background:#fff}.sheet{width:100%;min-height:auto;margin:0;border-radius:0;box-shadow:none}.content{grid-template-columns:1fr;padding:5mm}.person{grid-template-columns:1fr;gap:4mm}.pdf-help{font-size:8.5px}}</style></head><body><div class="pdf-toolbar"><button class="pdf-close" id="pdf-close-btn">إغلاق المعاينة</button><div class="pdf-help">وضع العرض فقط — زر «تحميل البطاقة» ينشئ PDF مستقلًا مباشرة دون تصوير الشاشة.</div></div><main class="sheet"><header class="top"><div class="badge">🌱</div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين</div></header><section class="person"><div><div class="pname">'+escapeHTML(emp.name||'—')+'</div><div class="prole">'+escapeHTML(job)+' • '+escapeHTML(isPerm?'موظف دائمي':'موظف عقد')+'</div></div><div class="pid"><div class="pill"><span>رقم الأضبارة</span><b>'+escapeHTML(emp.num||'—')+'</b></div><div class="pill"><span>التسلسل</span><b>'+escapeHTML(serial)+'</b></div></div></section><section class="content">'+sections+'</section></main><script>var c=document.getElementById("pdf-close-btn");if(c)c.addEventListener("click",function(){try{window.close()}catch(e){history.back()}});<\/script></body></html>';
   var w=window.open('','_blank','width=980,height=1200');
-  if(!w){showToast(directDownload?'تعذر فتح نافذة التحميل. اسمح بالنوافذ المنبثقة ثم حاول مجددًا':'اسمح بفتح نافذة معاينة بطاقة PDF','warn');return;}
-  w.document.open();w.document.write(html);w.document.close();
-  showToast(directDownload?'جاري تجهيز بطاقة PDF للتنزيل':'تم فتح بطاقة PDF للعرض فقط');
+  if(!w){showToast('اسمح بفتح نافذة معاينة بطاقة PDF','warn');return;}
+  w.document.open();w.document.write(html);w.document.close();showToast('تم فتح بطاقة PDF للعرض فقط');
 };
 
 function r1417ConfirmEmployeePdfDownload(emp){
