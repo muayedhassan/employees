@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-14T17:19:24.9633099+00:00",
+  "updatedAt": "2026-09-14T18:31:51.959552+00:00",
   "maxVersions": 60,
   "versions": [
     {
@@ -662,6 +662,53 @@
       },
       "added": [],
       "modified": [],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.14-183151",
+      "previousVersion": "DATA-2026.09.14-171924",
+      "updatedAt": "2026-09-14T18:31:51.959552+00:00",
+      "counts": {
+        "published": 1053,
+        "added": 1,
+        "modified": 1,
+        "missing": 0,
+        "unchanged": 1051,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 496
+      },
+      "added": [
+        {
+          "integrationId": "978e96f6-cc6e-49d3-a439-a7a488637244",
+          "sourceEmployeeId": 1520,
+          "id": "978e96f6-cc6e-49d3-a439-a7a488637244",
+          "employeeNo": null,
+          "num": 856,
+          "name": "سمير مخلف جبر",
+          "type": "perm"
+        }
+      ],
+      "modified": [
+        {
+          "integrationId": "e8e9417c-4a2b-4edd-bf4f-802ce79d8da2",
+          "sourceEmployeeId": 189,
+          "id": "108001794",
+          "employeeNo": "108001794",
+          "num": 346,
+          "name": "سمير حمد مجيد حمد الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة العلم",
+              "newValue": "مركز مديرية الزراعة"
+            }
+          ]
+        }
+      ],
       "missing": [],
       "completedGaps": [],
       "qualityRegressions": []
