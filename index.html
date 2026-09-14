@@ -1578,7 +1578,7 @@ body.subview-reports #reports-page{padding:10px 9px 28px;gap:12px}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.30-PDF-BROWSER-SHAPED-ARABIC';
+var APP_RELEASE = 'MOBILE-R1.4.31-PDF-FOOTER-SALARY-POLISH';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -4064,6 +4064,20 @@ function r1430DrawSection(ctx,S,title,x,y,w){
   ctx.beginPath();ctx.fillStyle='#ffd66b';ctx.arc(px+pw-5*p,py+3.75*p,2*p,0,Math.PI*2);ctx.fill();
   r1430Text(ctx,title,px+pw-9*p,py+5.2*p,{size:9.2*0.352778*p,color:'#163b7a',family:'HRPdfTitle',weight:'700'});
 }
+/* Mobile R1.4.31 - PDF footer cleanup + salary numeric font consistency */
+function r1431DrawSalaryField(ctx,S,x,y,w,h,label,value){
+  var p=S,px=x*p,py=y*p,pw=w*p,ph=h*p,right=px+pw-3*p;
+  ctx.lineWidth=Math.max(1,0.25*p);r1430RoundRect(ctx,px,py,pw,ph,2.3*p,'#ffffff','#e0e7f3');
+  r1430Text(ctx,label,right,py+4.15*p,{size:6.7*0.352778*p,color:'#74809e',family:'HRPdfBody'});
+  var raw=String(value==null||value===''?'غير متوفر':value).trim();
+  var m=raw.match(/[0-9٠-٩][0-9٠-٩,\.\s]*/);
+  if(!m){r1430Text(ctx,raw,right,py+ph-3*p,{size:8.7*0.352778*p,color:'#17274f',family:'HRPdfBody'});return;}
+  var num=String(m[0]||'').trim(),currency=raw.replace(m[0],'').trim()||'د.ع';
+  var valueY=py+ph-3*p,currencySize=8.2*0.352778*p,numSize=9.5*0.352778*p;
+  ctx.save();ctx.direction='rtl';r1430SetFont(ctx,currencySize,'HRPdfBody','400');var cw=ctx.measureText(currency).width;ctx.restore();
+  r1430Text(ctx,currency,right,valueY,{size:currencySize,color:'#17274f',family:'HRPdfBody'});
+  r1430Text(ctx,num,right-cw-1.2*p,valueY,{size:numSize,color:'#ca9112',family:'HRPdfNum',weight:'700',numeric:true});
+}
 async function r1430BuildCardCanvas(emp){
   await r1430EnsureCanvasFonts();
   var d=r1427EmployeePdfData(emp),W=1240,H=1754,S=W/210,canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;
@@ -4093,17 +4107,12 @@ async function r1430BuildCardCanvas(emp){
   r1430DrawField(ctx,S,x+col+gap,y,col,12,'الحالة الوظيفية',d.employmentStatus,{numeric:false});r1430DrawField(ctx,S,x,y,col,12,'تاريخ التعيين',d.hireDate,{numeric:true});y+=15;
   r1430DrawField(ctx,S,x+col+gap,y,col,12,'الدرجة',d.grade,{numeric:r1427IsStrictNumeric(d.grade)});r1430DrawField(ctx,S,x,y,col,12,'المرحلة',d.step,{numeric:r1427IsStrictNumeric(d.step)});y+=15;
   r1430DrawField(ctx,S,x+col+gap,y,col,12,'التحصيل الدراسي',d.education,{numeric:false});r1430DrawField(ctx,S,x,y,col,12,'الاختصاص',d.specialization,{numeric:false});y+=15;
-  r1430DrawField(ctx,S,x,y,182,12,'الراتب',d.salary,{numeric:false});y+=17;
+  r1431DrawSalaryField(ctx,S,x,y,182,12,'الراتب',d.salary);y+=17;
   r1430DrawSection(ctx,S,'الهوية والملاحظات',x,y,182);y+=10;
   r1430DrawField(ctx,S,x+col+gap,y,col,12,'رقم الهوية',d.identityNo,{numeric:r1427IsStrictNumeric(d.identityNo)});r1430DrawField(ctx,S,x,y,col,12,'تاريخ إصدار الهوية',d.identityIssueDate,{numeric:true});y+=15;
   r1430DrawField(ctx,S,x,y,182,13,'جهة إصدار الهوية',d.identityIssuer,{numeric:false,maxLines:2});y+=16;
   r1430DrawField(ctx,S,x,y,182,17,'الملاحظات',d.notes,{numeric:false,maxLines:2,valueSize:8.2});
-  // Footer: draw mixed Arabic/Latin as separate runs to prevent bidi ambiguity.
-  var fy=274;ctx.strokeStyle='#dfe6f2';ctx.lineWidth=Math.max(1,m(.25));ctx.beginPath();ctx.moveTo(m(14),m(fy-4));ctx.lineTo(m(196),m(fy-4));ctx.stroke();
-  r1430Text(ctx,'المعرّف الثابت',m(196),m(fy+1),{size:m(2.55),color:'#46577c',family:'HRPdfBody'});r1430Text(ctx,d.stableId,m(145),m(fy+1),{size:m(2.55),color:'#46577c',family:'HRPdfNum',numeric:true});
-  r1430Text(ctx,'إصدار البيانات',m(196),m(fy+6),{size:m(2.5),color:'#46577c',family:'HRPdfBody'});r1430Text(ctx,d.dataVersion,m(145),m(fy+6),{size:m(2.5),color:'#46577c',family:'Arial',numeric:true});
-  r1430Text(ctx,'وقت الإنشاء',m(196),m(fy+11),{size:m(2.5),color:'#46577c',family:'HRPdfBody'});r1430Text(ctx,d.generatedAt,m(145),m(fy+11),{size:m(2.5),color:'#46577c',family:'Arial',numeric:true});
-  r1430RoundRect(ctx,m(14),m(fy-1),m(34),m(13),m(3),'#ffd66b',null);ctx.save();ctx.direction='ltr';ctx.textAlign='center';ctx.fillStyle='#10265f';r1430SetFont(ctx,m(3.5),'Arial','700');ctx.fillText('HRSystem',m(31),m(fy+7.4));ctx.restore();
+  // R1.4.31: visible PDF footer metadata and HRSystem badge intentionally removed.
   // Sanity check: the final canvas must contain substantial non-white content.
   try{var sample=ctx.getImageData(0,0,W,H).data,ink=0,step=Math.max(4,Math.floor(sample.length/12000/4)*4);for(var i=0;i<sample.length;i+=step){if(sample[i]<245||sample[i+1]<245||sample[i+2]<245)ink++;}if(ink<80)throw new Error('rendered canvas is blank');}catch(e){if(String(e&&e.message||'').indexOf('blank')>=0)throw e;}
   return canvas;

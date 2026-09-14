@@ -23,7 +23,8 @@ const required = [
   'MOBILE_R1_4_27_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_28_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_29_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_30_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_30_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_31_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -36,10 +37,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.30-PDF-BROWSER-SHAPED-ARABIC';
+const expectedRelease = 'MOBILE-R1.4.31-PDF-FOOTER-SALARY-POLISH';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.30 PDF Browser-Shaped Arabic');
-if (!String(manifest.description || '').includes('R1.4.30')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.31 PDF Footer Salary Polish');
+if (!String(manifest.description || '').includes('R1.4.31')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -86,7 +87,7 @@ if (!String(version.version || '').startsWith('DATA-')) fail(`unexpected data ve
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1430-pdf-browser-arabic-2026.09.14")) fail('R1.4.30 app-shell cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1431-pdf-footer-salary-2026.09.14")) fail('R1.4.31 app-shell cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
@@ -174,8 +175,8 @@ for (const marker of [
   "filename:filename||'EmployeeCard.pdf'",'open:false',
   'window.r1419ReceiveGeneratedPdf=r1419ReceiveGeneratedPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.19 native PDF marker missing: ${marker}`);
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.30-PDF-BROWSER-SHAPED-ARABIC'")) fail('R1.4.30 APP_RELEASE marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1430')) fail('R1.4.30 PDF cache marker missing');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.31-PDF-FOOTER-SALARY-POLISH'")) fail('R1.4.31 APP_RELEASE marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1431')) fail('R1.4.31 PDF cache marker missing');
 
 // R1.4.20 status/native bridge remains, while R1.4.21 replaces only the failing generator.
 for (const marker of [
@@ -287,4 +288,20 @@ if(r1430Block.includes('pdf.text(')) fail('R1.4.30 final PDF builder must not wr
 if(!r1430Block.includes("ctx.direction=opt.numeric?'ltr':'rtl'")) fail('R1.4.30 RTL browser-canvas direction missing');
 if(!r1430Block.includes("new FontFace(name,'url(\"'+r1411FontUrl(file)+'\")'")) fail('R1.4.30 local project font loader missing');
 
-ok(`Mobile R1.4.30 PDF Browser-Shaped Arabic verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
+// R1.4.31 PDF footer + salary polish guards.
+for (const marker of [
+  'Mobile R1.4.31 - PDF footer cleanup + salary numeric font consistency',
+  'r1431DrawSalaryField',
+  "r1431DrawSalaryField(ctx,S,x,y,182,12,'الراتب',d.salary)",
+  "family:'HRPdfNum',weight:'700',numeric:true",
+  'visible PDF footer metadata and HRSystem badge intentionally removed'
+]) if (!index.includes(marker)) fail(`R1.4.31 PDF polish marker missing: ${marker}`);
+const r1431CanvasStart=index.indexOf('async function r1430BuildCardCanvas(emp){');
+const r1431CanvasEnd=index.indexOf('// Sanity check: the final canvas must contain substantial non-white content.',r1431CanvasStart);
+if(r1431CanvasStart<0||r1431CanvasEnd<0) fail('R1.4.31 canvas block not found');
+const r1431Canvas=index.slice(r1431CanvasStart,r1431CanvasEnd);
+for(const removed of ["r1430Text(ctx,'المعرّف الثابت'","r1430Text(ctx,'إصدار البيانات'","r1430Text(ctx,'وقت الإنشاء'","ctx.fillText('HRSystem'"]){
+  if(r1431Canvas.includes(removed)) fail(`R1.4.31 removed footer item still rendered: ${removed}`);
+}
+
+ok(`Mobile R1.4.31 PDF Footer + Salary Polish verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);

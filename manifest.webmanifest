@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.30",
-  "short_name": "HR Mobile R1.4.30",
+  "name": "سجل الموظفين - Mobile R1.4.31",
+  "short_name": "HR Mobile R1.4.31",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.30 Browser-Shaped Arabic PDF: حل جذري للعربية داخل بطاقة PDF عبر رسم البطاقة نهائيًا بمحرك النص في Android WebView على Canvas 2D ثم إدراجها كصورة واحدة عالية الدقة داخل PDF، بدون أي تشكيل عربي من jsPDF.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.31 PDF Footer & Salary Polish: إزالة شريط معلومات النظام من أسفل بطاقة PDF مع الحفاظ على حل العربية الناجح، وتوحيد أرقام الراتب بخط Stencil نفسه المستخدم لبقية الأرقام.",
   "icons": [
     {
       "src": "assets/icon-192.png",
