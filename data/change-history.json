@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-14T18:31:51.959552+00:00",
+  "updatedAt": "2026-09-15T07:13:43.2969452+00:00",
   "maxVersions": 60,
   "versions": [
     {
@@ -705,6 +705,666 @@
               "field": "division",
               "oldValue": "شعبة زراعة العلم",
               "newValue": "مركز مديرية الزراعة"
+            }
+          ]
+        }
+      ],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.15-071343",
+      "previousVersion": "DATA-2026.09.14-183151",
+      "updatedAt": "2026-09-15T07:13:43.2969452+00:00",
+      "counts": {
+        "published": 1053,
+        "added": 0,
+        "modified": 39,
+        "missing": 0,
+        "unchanged": 1014,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 493
+      },
+      "added": [],
+      "modified": [
+        {
+          "integrationId": "bcd07b92-c89f-4a6f-a4a9-1c396a36f78c",
+          "sourceEmployeeId": 525,
+          "id": "154885634",
+          "employeeNo": "154885634",
+          "num": 7,
+          "name": "ابراهيم محمد عواد مدكوك اللهيبي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "136a23e4-b7c3-4719-935d-adb3a9c84ed1",
+          "sourceEmployeeId": 526,
+          "id": "154885283",
+          "employeeNo": "154885283",
+          "num": 10,
+          "name": "ابراهيم ياسين محمد علي رياشي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "كركوك",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "e43974a7-9474-43ea-b3c4-e5b2e30b1674",
+          "sourceEmployeeId": 527,
+          "id": "154883539",
+          "employeeNo": "154883539",
+          "num": 13,
+          "name": "اثير ياس خضر عبدالله الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "1fcc999c-282f-484c-97aa-b71820e90a84",
+          "sourceEmployeeId": 528,
+          "id": "154883258",
+          "employeeNo": "154883258",
+          "num": 14,
+          "name": "احسان علي اسويد على الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "بيجي",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "6a3e04cd-1e8a-4b46-a197-f7ed5d763181",
+          "sourceEmployeeId": 460,
+          "id": "148641183",
+          "employeeNo": "148641183",
+          "num": 15,
+          "name": "احمد ادريس احمد عميري اللهيبي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "مديريه الجنسيه و الاحوال المدنيه",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "459c25e3-9254-4f73-8c62-adf3dcc5705f",
+          "sourceEmployeeId": 530,
+          "id": "154887007",
+          "employeeNo": "154887007",
+          "num": 16,
+          "name": "احمد ازهر عبدالله محمد السلامي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "بيجي",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "54be87bc-9dee-4da8-8c34-635dd1782cad",
+          "sourceEmployeeId": 1267,
+          "id": "CONTRACT-0016",
+          "employeeNo": null,
+          "num": 16,
+          "name": "اركان وليد بهار خشان الجبوري",
+          "type": "cont",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الساحل الايسر",
+              "newValue": "شعبة زراعة السهل الأخضر"
+            }
+          ]
+        },
+        {
+          "integrationId": "f1a2cfc1-c130-4674-a533-d844c060607c",
+          "sourceEmployeeId": 531,
+          "id": "154886611",
+          "employeeNo": "154886611",
+          "num": 17,
+          "name": "احمد جاسم خلف اجدع الجميلي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "84349e86-b63b-4079-8b8c-b2efb28a8dc5",
+          "sourceEmployeeId": 532,
+          "id": "154885494",
+          "employeeNo": "154885494",
+          "num": 18,
+          "name": "احمد جاسم صالح محمد الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "854b7ad5-3c6f-4751-b40a-8798c029f5c8",
+          "sourceEmployeeId": 499,
+          "id": "148641729",
+          "employeeNo": "148641729",
+          "num": 19,
+          "name": "احمد جاسم محمد جابر الجميلي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "بيجي",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "7f5964ff-b7f4-46f7-901d-f63d2c85704c",
+          "sourceEmployeeId": 533,
+          "id": "154885535",
+          "employeeNo": "154885535",
+          "num": 20,
+          "name": "احمد جزاع احمد صالح المنديل",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "2ff2d3d6-2e88-429c-b90e-842b2d9942c9",
+          "sourceEmployeeId": 457,
+          "id": "108072480",
+          "employeeNo": "108072480",
+          "num": 21,
+          "name": "احمد حامد مسرهد رشيد العزاوي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الضلوعيه",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "8739a79e-a7e5-4907-957a-2ca7107af9de",
+          "sourceEmployeeId": 534,
+          "id": "154884066",
+          "employeeNo": "154884066",
+          "num": 24,
+          "name": "احمد حسن محمد خلف الدوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "تكريت",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "eadf260b-23f6-46af-b932-f105b618e8de",
+          "sourceEmployeeId": 535,
+          "id": "154884516",
+          "employeeNo": "154884516",
+          "num": 25,
+          "name": "احمد حمود دهدي صالح الحمره",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "سامراء",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "3c2258a7-0b85-4698-a73a-25ada3c441f5",
+          "sourceEmployeeId": 537,
+          "id": "154886398",
+          "employeeNo": "154886398",
+          "num": 26,
+          "name": "احمد حمود صالح محي الجميلي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "4d83484c-4c2c-411c-a9bb-485abc7d0415",
+          "sourceEmployeeId": 538,
+          "id": "154886682",
+          "employeeNo": "154886682",
+          "num": 30,
+          "name": "احمد خلف عبدالله سحاب الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "بيجي",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "2009e634-447c-4c33-b133-f918c298a112",
+          "sourceEmployeeId": 29,
+          "id": "148641240",
+          "employeeNo": "148641240",
+          "num": 36,
+          "name": "احمد صالح خلف حمد الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الساحل الايسر",
+              "newValue": "شعبة زراعة السهل الأخضر"
+            }
+          ]
+        },
+        {
+          "integrationId": "0a65846d-6707-4415-be54-1b2326f8fdcf",
+          "sourceEmployeeId": 1510,
+          "id": "CONTRACT-0043",
+          "employeeNo": null,
+          "num": 43,
+          "name": "حمزه مجيد جاسم",
+          "type": "cont",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "فارغ",
+              "newValue": "شعبة زراعة السهل الأخضر"
+            }
+          ]
+        },
+        {
+          "integrationId": "6f5af73c-28d4-469e-937c-9d9bc2d001b5",
+          "sourceEmployeeId": 1328,
+          "id": "CONTRACT-0080",
+          "employeeNo": null,
+          "num": 80,
+          "name": "سميه محمود عواد شحاذه الجبوري",
+          "type": "cont",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "مركز مديرية الزراعة",
+              "newValue": "شعبة زراعة السهل الأخضر"
+            }
+          ]
+        },
+        {
+          "integrationId": "5aebc89a-05b9-4fb3-8353-d541e1562395",
+          "sourceEmployeeId": 1513,
+          "id": "CONTRACT-0084",
+          "employeeNo": null,
+          "num": 84,
+          "name": "شاهر علي عواد",
+          "type": "cont",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "فارغ",
+              "newValue": "شعبة زراعة السهل الأخضر"
+            }
+          ]
+        },
+        {
+          "integrationId": "19a8ed67-554a-4e02-9593-ba737865622a",
+          "sourceEmployeeId": 580,
+          "id": "154883386",
+          "employeeNo": "154883386",
+          "num": 106,
+          "name": "انمار ليث صالح علاوي العلاوي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "ee76ede7-aa48-49cc-85ab-dfd19599b8b4",
+          "sourceEmployeeId": 1384,
+          "id": "CONTRACT-0137",
+          "employeeNo": null,
+          "num": 137,
+          "name": "كبرياء محمد جياد مناور الرهاوي",
+          "type": "cont",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "مركز مديرية الزراعة",
+              "newValue": "شعبة زراعة السهل الأخضر"
+            }
+          ]
+        },
+        {
+          "integrationId": "d68b9626-7f36-4143-9bcb-69be158487df",
+          "sourceEmployeeId": 1460,
+          "id": "CONTRACT-0179",
+          "employeeNo": null,
+          "num": 179,
+          "name": "نداء غتران عبدالله محمد الجميلي",
+          "type": "cont",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "مديريهالجنسيه",
+              "newValue": "مديريه الجنسيه و المعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "5189ea7e-9fce-4c9a-a844-80e7fad73086",
+          "sourceEmployeeId": 1492,
+          "id": "107978671",
+          "employeeNo": "107978671",
+          "num": 218,
+          "name": "خالد علي عبد احمد الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "gender",
+              "oldValue": "فارغ",
+              "newValue": "ذكر"
+            },
+            {
+              "field": "identityIssuer",
+              "oldValue": "فارغ",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            },
+            {
+              "field": "division",
+              "oldValue": "فارغ",
+              "newValue": "شعبة زراعة السهل الأخضر"
+            }
+          ]
+        },
+        {
+          "integrationId": "e80d4e1f-581d-4bfa-978d-2c30f6012492",
+          "sourceEmployeeId": 149,
+          "id": "108001343",
+          "employeeNo": "108001343",
+          "num": 272,
+          "name": "رواء قيس قاسم نعمه السوداني",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الطوز",
+              "newValue": "شعبة زراعة السهل الأخضر"
+            }
+          ]
+        },
+        {
+          "integrationId": "44311288-782b-4905-b0a3-634febc80ae1",
+          "sourceEmployeeId": 154,
+          "id": "108001398",
+          "employeeNo": "108001398",
+          "num": 276,
+          "name": "روكان عوض خلف زراو الحمداني",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة سليمان بيك",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "e122b14c-9f3c-4e5b-87db-611c20878f81",
+          "sourceEmployeeId": 692,
+          "id": "154883542",
+          "employeeNo": "154883542",
+          "num": 319,
+          "name": "سعد خلف حسين ناصر اللهيبي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "8588b2fd-82c6-4d37-b4ce-ab60f3e123d3",
+          "sourceEmployeeId": 198,
+          "id": "108001905",
+          "employeeNo": "108001905",
+          "num": 354,
+          "name": "سهير كامل لعيبي علي الجنابي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة سليمان بيك",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "b4401abd-fb0e-4658-a6ce-bb78d1ed4d0b",
+          "sourceEmployeeId": 751,
+          "id": "154886046",
+          "employeeNo": "154886046",
+          "num": 453,
+          "name": "عبدالقهار مازن مصطفى علي العلي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه و المعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "f90af917-6bbe-4f4a-9ba7-a402d88c0656",
+          "sourceEmployeeId": 784,
+          "id": "154884769",
+          "employeeNo": "154884769",
+          "num": 493,
+          "name": "علاء الدين عبدالله احمد خشان اللهيبي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه و المعلومات المدنيه"
+            },
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الشرقاط",
+              "newValue": "شعبة زراعة السهل الأخضر"
+            }
+          ]
+        },
+        {
+          "integrationId": "3938af72-fe71-4800-979b-a73b721a3926",
+          "sourceEmployeeId": 310,
+          "id": "108038495",
+          "employeeNo": "108038495",
+          "num": 550,
+          "name": "عوني سلطان عساف خليفه اللهيبي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه و المعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "7723a99f-0ce1-48a6-9f0c-9278970353ce",
+          "sourceEmployeeId": 823,
+          "id": "154885014",
+          "employeeNo": "154885014",
+          "num": 586,
+          "name": "فيصل رفاعي ابراهيم طه الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه و المعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "7e96cfd9-f841-44eb-8253-9c0a7a35657b",
+          "sourceEmployeeId": 838,
+          "id": "154886710",
+          "employeeNo": "154886710",
+          "num": 618,
+          "name": "محمد احمد حميد كاظم اللهيبي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه و المعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "c8e4b9b8-3289-40a1-b340-7dae1529d9ea",
+          "sourceEmployeeId": 849,
+          "id": "154883782",
+          "employeeNo": "154883782",
+          "num": 640,
+          "name": "محمد خلف نجم عبدالله الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه و المعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "cafb42dc-5818-4c32-b26a-a52ee3ece7e6",
+          "sourceEmployeeId": 856,
+          "id": "154885944",
+          "employeeNo": "154885944",
+          "num": 653,
+          "name": "محمد علي احمد عمير الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه و المعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "0ded3e1a-4c6d-4bb1-8694-e71357be1767",
+          "sourceEmployeeId": 400,
+          "id": "108039641",
+          "employeeNo": "108039641",
+          "num": 723,
+          "name": "مهدي سعدي اسماعيل عبدالله الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه و المعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "0ebea808-abe4-4fd9-ac9a-f2cc02fcacb4",
+          "sourceEmployeeId": 1466,
+          "id": "118997115",
+          "employeeNo": "118997115",
+          "num": 735,
+          "name": "مؤيد حسن حميد محمد الدليمي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "مركز مديرية الزراعة",
+              "newValue": "شعبة زراعة السهل الأخضر"
+            }
+          ]
+        },
+        {
+          "integrationId": "53b49eb2-8f21-4999-8446-2302cd2d13d8",
+          "sourceEmployeeId": 424,
+          "id": "108039922",
+          "employeeNo": "108039922",
+          "num": 787,
+          "name": "نورهان عريان رفعت صفر البياتي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة سليمان بيك",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "81cb0f96-1335-4a5d-a141-3fbf132fffe5",
+          "sourceEmployeeId": 15,
+          "id": "81cb0f96-1335-4a5d-a141-3fbf132fffe5",
+          "employeeNo": null,
+          "num": 855,
+          "name": "احمد خوام محمد عواد الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "بيجي",
+              "newValue": "مديريه الجنسيه والمعلومات المدنيه"
             }
           ]
         }
