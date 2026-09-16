@@ -25,7 +25,8 @@ const required = [
   'MOBILE_R1_4_29_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_30_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_31_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_32_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_32_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_33_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -38,10 +39,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.32-DASHBOARD-HEADER-REDESIGN';
+const expectedRelease = 'MOBILE-R1.4.33-REPORTS-GENDER-EXPORT-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.32 Dashboard Header Redesign');
-if (!String(manifest.description || '').includes('R1.4.32')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.33 Reports Gender & Export Fix');
+if (!String(manifest.description || '').includes('R1.4.33')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -86,9 +87,11 @@ if (total !== version.totalCount) fail(`employee count mismatch: JSON=${total}, 
 if (employees.perm.length !== version.permCount || employees.cont.length !== version.contCount) fail('perm/cont counts mismatch');
 if (!String(version.version || '').startsWith('DATA-')) fail(`unexpected data version: ${version.version}`);
 if (!summary.counts || summary.counts.modified === undefined) fail('change summary counts are invalid');
+const genderRecords = [...employees.perm, ...employees.cont].filter(e => String(e?.gender || '').trim());
+if (!genderRecords.length) fail('employee gender data is unavailable for R1.4.33 reports');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1432-dashboard-header-2026.09.16")) fail('R1.4.32 app-shell cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1433-reports-gender-export-2026.09.16")) fail('R1.4.33 app-shell cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
@@ -176,8 +179,8 @@ for (const marker of [
   "filename:filename||'EmployeeCard.pdf'",'open:false',
   'window.r1419ReceiveGeneratedPdf=r1419ReceiveGeneratedPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.19 native PDF marker missing: ${marker}`);
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.32-DASHBOARD-HEADER-REDESIGN'")) fail('R1.4.32 APP_RELEASE marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1432')) fail('R1.4.32 PDF cache marker missing');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.33-REPORTS-GENDER-EXPORT-FIX'")) fail('R1.4.33 APP_RELEASE marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1433')) fail('R1.4.33 PDF cache marker missing');
 
 // R1.4.20 status/native bridge remains, while R1.4.21 replaces only the failing generator.
 for (const marker of [
@@ -318,10 +321,27 @@ for (const marker of [
   'واجهة موحدة للبحث والمتابعة والوصول السريع إلى بيانات الموظفين.'
 ]) if (!index.includes(marker)) fail(`R1.4.32 dashboard marker missing: ${marker}`);
 
-if (!index.includes('MOBILE-R1.4.32-DASHBOARD-HEADER-REDESIGN')) fail('R1.4.32 release id missing');
 if (index.includes('<span class="r147-mode-pill"><i class="fas fa-sparkles"></i> واجهة منظمة</span>')) fail('R1.4.32 old interface mode pill is still rendered');
 if (index.includes('class="r147-version-badge"')) fail('R1.4.32 old data-version hero badge class is still rendered');
 if (!index.includes("scopeLabel=mode==='cont'?'العقود':'الدائميون'")) fail('R1.4.32 scope KPI replacement missing');
 if (!index.includes('grid-template-columns:1fr 1fr!important')) fail('R1.4.32 two-chip header/date layout missing');
 
-ok(`Mobile R1.4.32 Dashboard Header Redesign verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);
+// R1.4.33 reports gender/export guards.
+for (const marker of [
+  'MOBILE R1.4.33 REPORTS GENDER + EXPORT FIX',
+  "{k:'gender',l:'الجنس',defaultOn:true}",
+  'r1433GenderValue','r1433GenderStats',
+  'r1433-gender-male','r1433-gender-female',
+  '>الذكور</div>','>الإناث</div>',
+  'async function r1424DownloadBlob',
+  'r1419NativeDownloader',
+  "filename:name,open:false",
+  "MOBILE-R1.4.33-REPORTS-GENDER-EXPORT-FIX"
+]) if (!index.includes(marker)) fail(`R1.4.33 reports marker missing: ${marker}`);
+if (!index.includes("var R1424_BASIC=['num','employeeNo','name','gender'")) fail('R1.4.33 gender is missing from Basic report preset');
+if (!index.includes("var R1424_JOB=['employeeNo','name','gender'")) fail('R1.4.33 gender is missing from Job report preset');
+if (!index.includes("await r1424DownloadBlob(new Blob(") || !index.includes("r1424Filename('xls')")) fail('R1.4.33 Excel native-safe export marker missing');
+if (!index.includes("lines.join('\\r\\n')") || !index.includes("r1424Filename('csv')")) fail('R1.4.33 CSV native-safe export marker missing');
+if (!index.includes("gender=r1433GenderStats(ds),orientation=")) fail('R1.4.33 PDF gender stats marker missing');
+
+ok(`Mobile R1.4.33 Reports Gender & Export Fix verified: ${version.version}, perm=${employees.perm.length}, cont=${employees.cont.length}, total=${total}, modified=${summary.counts.modified}`);

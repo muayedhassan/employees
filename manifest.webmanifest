@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.32",
-  "short_name": "HR Mobile R1.4.32",
+  "name": "سجل الموظفين - Mobile R1.4.33",
+  "short_name": "HR Mobile R1.4.33",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.32 Dashboard Header Redesign: إعادة تصميم الهيدر الرئيسي بشكل حديث واحترافي، إزالة العدادات والعناصر المكررة، ونقل الإجمالي وإصدار البرنامج إلى واجهة الموظفين الحالية بدون عرض إصدار البيانات فيها.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.33 Reports Gender & Export Fix: إضافة الجنس إلى أعمدة التقارير، كروت أعداد الذكور والإناث حسب نطاق التقرير، وتحسين تصدير Excel وCSV للحفظ المباشر عبر Median مع تقوية مسار PDF الرسمي.",
   "icons": [
     {
       "src": "assets/icon-192.png",
