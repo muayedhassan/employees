@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.33",
-  "short_name": "HR Mobile R1.4.33",
+  "name": "سجل الموظفين - Mobile R1.4.34",
+  "short_name": "HR Mobile R1.4.34",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.33 Reports Gender & Export Fix: إضافة الجنس إلى أعمدة التقارير، كروت أعداد الذكور والإناث حسب نطاق التقرير، وتحسين تصدير Excel وCSV للحفظ المباشر عبر Median مع تقوية مسار PDF الرسمي.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.34 Reports Export Reliability Fix: إنشاء Excel حقيقي بصيغة XLSX قابلة للفتح، وتنزيل PDF متعدد الصفحات مباشرة إلى Downloads باستخدام نفس مسار PDF العربي الناجح، مع الحفاظ على كروت الذكور والإناث والأعمدة المختارة.",
   "icons": [
     {
       "src": "assets/icon-192.png",
