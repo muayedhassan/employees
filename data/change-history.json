@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-16T07:52:47.3670119+00:00",
+  "updatedAt": "2026-09-16T07:56:57.3092885+00:00",
   "maxVersions": 60,
   "versions": [
     {
@@ -1978,6 +1978,107 @@
           "employeeNo": null,
           "num": 740,
           "name": "مؤيد موسى جميل حسين الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "gender",
+              "oldValue": "فارغ",
+              "newValue": "ذكر"
+            }
+          ]
+        }
+      ],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.16-075657",
+      "previousVersion": "DATA-2026.09.16-075247",
+      "updatedAt": "2026-09-16T07:56:57.3092885+00:00",
+      "counts": {
+        "published": 1053,
+        "added": 0,
+        "modified": 5,
+        "missing": 0,
+        "unchanged": 1048,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 492
+      },
+      "added": [],
+      "modified": [
+        {
+          "integrationId": "5b4eab5a-adf6-4f8e-b9ce-2e45e24019c4",
+          "sourceEmployeeId": 1487,
+          "id": "5b4eab5a-adf6-4f8e-b9ce-2e45e24019c4",
+          "employeeNo": null,
+          "num": 116,
+          "name": "ايسر ثامر مهدي غايب",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "gender",
+              "oldValue": "فارغ",
+              "newValue": "ذكر"
+            }
+          ]
+        },
+        {
+          "integrationId": "4ebea2e3-ae77-477f-a311-fe3d1da4c803",
+          "sourceEmployeeId": 1478,
+          "id": "117805893",
+          "employeeNo": "117805893",
+          "num": 783,
+          "name": "نور كريم اسماعيل زامل الخفاجي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "gender",
+              "oldValue": "فارغ",
+              "newValue": "انثى"
+            }
+          ]
+        },
+        {
+          "integrationId": "02684b02-b45b-4a60-a68c-27fbe15f4b47",
+          "sourceEmployeeId": 1479,
+          "id": "02684b02-b45b-4a60-a68c-27fbe15f4b47",
+          "employeeNo": null,
+          "num": 793,
+          "name": "هاني عبدالرضا كاظم جويد",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "gender",
+              "oldValue": "فارغ",
+              "newValue": "ذكر"
+            }
+          ]
+        },
+        {
+          "integrationId": "5119297b-400f-4cc3-8a5e-034da4e70ade",
+          "sourceEmployeeId": 1480,
+          "id": "5119297b-400f-4cc3-8a5e-034da4e70ade",
+          "employeeNo": null,
+          "num": 812,
+          "name": "هند هادي عباس سوادي الدحيدحاوي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "gender",
+              "oldValue": "فارغ",
+              "newValue": "انثى"
+            }
+          ]
+        },
+        {
+          "integrationId": "978e96f6-cc6e-49d3-a439-a7a488637244",
+          "sourceEmployeeId": 1520,
+          "id": "978e96f6-cc6e-49d3-a439-a7a488637244",
+          "employeeNo": null,
+          "num": 856,
+          "name": "سمير مخلف جبر",
           "type": "perm",
           "changes": [
             {
