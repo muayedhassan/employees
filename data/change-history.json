@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-16T07:56:57.3092885+00:00",
+  "updatedAt": "2026-09-16T18:42:40.0559027+00:00",
   "maxVersions": 60,
   "versions": [
     {
@@ -2085,6 +2085,447 @@
               "field": "gender",
               "oldValue": "فارغ",
               "newValue": "ذكر"
+            }
+          ]
+        }
+      ],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.16-184240",
+      "previousVersion": "DATA-2026.09.16-075657",
+      "updatedAt": "2026-09-16T18:42:40.0559027+00:00",
+      "counts": {
+        "published": 1053,
+        "added": 0,
+        "modified": 25,
+        "missing": 0,
+        "unchanged": 1028,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 488
+      },
+      "added": [],
+      "modified": [
+        {
+          "integrationId": "7ce936d5-3b3f-4f01-b0a0-faf72161dbec",
+          "sourceEmployeeId": 550,
+          "id": "154885382",
+          "employeeNo": "154885382",
+          "num": 51,
+          "name": "احمد محمد حسن جاسم النجم",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الثرثار",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "627aab3f-5b65-45ff-90ea-b06519a169a3",
+          "sourceEmployeeId": 561,
+          "id": "154886145",
+          "employeeNo": "154886145",
+          "num": 67,
+          "name": "ادهم عبدالله خلف عبدالله العباسي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة دجلة",
+              "newValue": "شعبة زراعة الثرثار"
+            }
+          ]
+        },
+        {
+          "integrationId": "5b4eab5a-adf6-4f8e-b9ce-2e45e24019c4",
+          "sourceEmployeeId": 1487,
+          "id": "5b4eab5a-adf6-4f8e-b9ce-2e45e24019c4",
+          "employeeNo": null,
+          "num": 116,
+          "name": "ايسر ثامر مهدي غايب",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "gender",
+              "oldValue": "ذكر",
+              "newValue": "انثى"
+            },
+            {
+              "field": "division",
+              "oldValue": "فارغ",
+              "newValue": "شعبة زراعة الانصار"
+            }
+          ]
+        },
+        {
+          "integrationId": "805174be-054f-429a-8e7e-d408c705a358",
+          "sourceEmployeeId": 1408,
+          "id": "CONTRACT-0160",
+          "employeeNo": null,
+          "num": 160,
+          "name": "مروه اياد عبدالرسول عبو الخزرجي",
+          "type": "cont",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الدجيل",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "bd953574-d181-4741-a962-c4d6aaf0c109",
+          "sourceEmployeeId": 91,
+          "id": "108073256",
+          "employeeNo": "108073256",
+          "num": 171,
+          "name": "حذام صلاح مهدي محمد الحياني",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الدجيل",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "f6d04146-8b8f-4c5e-8072-191c44f3f45f",
+          "sourceEmployeeId": 628,
+          "id": "154884660",
+          "employeeNo": "154884660",
+          "num": 188,
+          "name": "حسين حميد حاتم سلمان الخزرجي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الدجيل",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "eb8bf0bb-a57c-4a0b-9259-96c3f8520f1b",
+          "sourceEmployeeId": 686,
+          "id": "eb8bf0bb-a57c-4a0b-9259-96c3f8520f1b",
+          "employeeNo": null,
+          "num": 308,
+          "name": "ساهر نايف محمد عبدالله السحل",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الساحل الايسر",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "901b7c18-5a76-4c02-860e-a2b5d94275d6",
+          "sourceEmployeeId": 222,
+          "id": "108002164",
+          "employeeNo": "108002164",
+          "num": 395,
+          "name": "صهيب بدر عباس ياسين العباسي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة المعتصم",
+              "newValue": "شعبة زراعة الثرثار"
+            }
+          ]
+        },
+        {
+          "integrationId": "07e1cb3d-a6e0-4eab-aa90-b7232cb0d094",
+          "sourceEmployeeId": 739,
+          "id": "154885379",
+          "employeeNo": "154885379",
+          "num": 434,
+          "name": "عبد صباح حمود جدعان الجدعان",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الساحل الايسر",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "09e0c1df-fddb-4b99-bfdd-37a1c7ffaf82",
+          "sourceEmployeeId": 1498,
+          "id": "105240796",
+          "employeeNo": "105240796",
+          "num": 444,
+          "name": "عبدالرحمن محمود محسن الصحن",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "فارغ",
+              "newValue": "شعبة زراعة الساحل الايسر"
+            }
+          ]
+        },
+        {
+          "integrationId": "5ab827b3-aa47-4459-85a1-b4d3e19eabf3",
+          "sourceEmployeeId": 1499,
+          "id": "5ab827b3-aa47-4459-85a1-b4d3e19eabf3",
+          "employeeNo": null,
+          "num": 482,
+          "name": "عزه فرج عطوان كريم الدوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "فارغ",
+              "newValue": "شعبة زراعة الساحل الايسر"
+            }
+          ]
+        },
+        {
+          "integrationId": "1f233d4f-b161-4402-ab9e-e586efaf6b04",
+          "sourceEmployeeId": 305,
+          "id": "108003170",
+          "employeeNo": "108003170",
+          "num": 541,
+          "name": "عمر ذياب مهيدي سليمان المرسومي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الساحل الايسر",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "5074ac86-f743-47dd-8099-d08fce52d367",
+          "sourceEmployeeId": 802,
+          "id": "154886299",
+          "employeeNo": "154886299",
+          "num": 557,
+          "name": "غفران صباح ابراهيم احمد اللهيبي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الساحل الايسر",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "640a57a5-9209-4e9d-9af0-b77d46f44c53",
+          "sourceEmployeeId": 321,
+          "id": "108038622",
+          "employeeNo": "108038622",
+          "num": 581,
+          "name": "فتاح عباس ايوب يوسف الخزرجي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الدجيل",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "f23dc473-4acd-4da9-abec-57f9a195dde1",
+          "sourceEmployeeId": 839,
+          "id": "154885407",
+          "employeeNo": "154885407",
+          "num": 620,
+          "name": "محمد احمد ظاهر حسين العكيدي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الدجيل",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "7707bda3-e951-4545-a5b6-86bb7af3f1bc",
+          "sourceEmployeeId": 844,
+          "id": "154884462",
+          "employeeNo": "154884462",
+          "num": 626,
+          "name": "محمد اياد محمود يعكوب الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الساحل الايسر",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "22bcaa7c-65a9-4f17-8ef6-0bd59062ffa6",
+          "sourceEmployeeId": 845,
+          "id": "154886653",
+          "employeeNo": "154886653",
+          "num": 628,
+          "name": "محمد جاسم عباس صالح السامرائي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الثرثار",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "07e8e61c-d2a4-4bf7-b580-756678486190",
+          "sourceEmployeeId": 366,
+          "id": "108039047",
+          "employeeNo": "108039047",
+          "num": 635,
+          "name": "محمد حسن محمد زليط الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "name",
+              "oldValue": "محمد حسن محمد محمود الجبوري",
+              "newValue": "محمد حسن محمد زليط الجبوري"
+            },
+            {
+              "field": "identityIssuer",
+              "oldValue": "مديريه الجنسيه و المعلوما المدنيه",
+              "newValue": "مديريه الجنسيه و المعلومات المدنيه"
+            },
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الساحل الايسر",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "c0578dda-d44c-455d-9f9f-f3f169b01077",
+          "sourceEmployeeId": 847,
+          "id": "154883724",
+          "employeeNo": "154883724",
+          "num": 636,
+          "name": "محمد حسن محمد محمود الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityIssuer",
+              "oldValue": "الشرقاط",
+              "newValue": "مديريه الجنسيه و المعلومات المدنيه"
+            }
+          ]
+        },
+        {
+          "integrationId": "a71ea238-0594-47ce-99b4-9effdc8daaea",
+          "sourceEmployeeId": 379,
+          "id": "108039287",
+          "employeeNo": "108039287",
+          "num": 676,
+          "name": "محمود مهدي احمد عيدان المكدمي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "identityNo",
+              "oldValue": "311732",
+              "newValue": "31732"
+            },
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الدجيل",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "fbf3ee9a-d745-4103-b963-3fe2e669a2b1",
+          "sourceEmployeeId": 875,
+          "id": "154884219",
+          "employeeNo": "154884219",
+          "num": 684,
+          "name": "مروج سري شاكر محمود الدوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الساحل الايسر",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "e9b156e7-e284-46f1-92e2-55f5f5651bc3",
+          "sourceEmployeeId": 396,
+          "id": "108039609",
+          "employeeNo": "108039609",
+          "num": 714,
+          "name": "مقداد ابراهيم سعيد علي الدليمي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "name",
+              "oldValue": "مقداد ابراهبم سعيد علي الدليمي",
+              "newValue": "مقداد ابراهيم سعيد علي الدليمي"
+            }
+          ]
+        },
+        {
+          "integrationId": "3370c85a-34dc-4b4c-b5d6-3f033d0797d2",
+          "sourceEmployeeId": 906,
+          "id": "154886848",
+          "employeeNo": "154886848",
+          "num": 726,
+          "name": "مهند صبيح صبري مصطفى الطالبي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة سامراء",
+              "newValue": "شعبة زراعة الثرثار"
+            }
+          ]
+        },
+        {
+          "integrationId": "d733bccf-8582-4961-941f-11c5046bcb1b",
+          "sourceEmployeeId": 1474,
+          "id": "151036743",
+          "employeeNo": "151036743",
+          "num": 745,
+          "name": "ميسره عبدالله حسين سالم الصهيد",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "فارغ",
+              "newValue": "شعبة زراعة الساحل الايسر"
+            }
+          ]
+        },
+        {
+          "integrationId": "d7b6772b-7681-4c97-8fea-7bb9f59520c9",
+          "sourceEmployeeId": 921,
+          "id": "154884251",
+          "employeeNo": "154884251",
+          "num": 751,
+          "name": "ناظم احمد عبدالله حسين القيسي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الدجيل",
+              "newValue": "غير محدد"
             }
           ]
         }
