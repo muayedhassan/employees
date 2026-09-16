@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-16T07:39:28.4288924+00:00",
+  "updatedAt": "2026-09-16T07:52:47.3670119+00:00",
   "maxVersions": 60,
   "versions": [
     {
@@ -1954,6 +1954,43 @@
           ]
         }
       ]
+    },
+    {
+      "version": "DATA-2026.09.16-075247",
+      "previousVersion": "DATA-2026.09.16-073928",
+      "updatedAt": "2026-09-16T07:52:47.3670119+00:00",
+      "counts": {
+        "published": 1053,
+        "added": 0,
+        "modified": 1,
+        "missing": 0,
+        "unchanged": 1052,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 492
+      },
+      "added": [],
+      "modified": [
+        {
+          "integrationId": "6c8ae5d3-ec31-4413-a9df-4153043c967b",
+          "sourceEmployeeId": 1470,
+          "id": "6c8ae5d3-ec31-4413-a9df-4153043c967b",
+          "employeeNo": null,
+          "num": 740,
+          "name": "مؤيد موسى جميل حسين الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "gender",
+              "oldValue": "فارغ",
+              "newValue": "ذكر"
+            }
+          ]
+        }
+      ],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
     }
   ]
 }
