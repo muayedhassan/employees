@@ -1417,7 +1417,18 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 }
 </style>
 
-</head>
+\n<style id="r1435-report-builder-style">
+/* Mobile R1.4.35 - Windows-inspired Report Builder Studio + high-resolution PDF */
+.r1435-workflow{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 2px 3px;position:sticky;top:4px;z-index:12;background:linear-gradient(180deg,var(--bg),rgba(6,16,36,.88));backdrop-filter:blur(12px)}
+.r1435-workflow::-webkit-scrollbar{display:none}.r1435-tab{flex:0 0 auto;min-width:82px;border:1px solid rgba(109,137,220,.17);background:linear-gradient(145deg,var(--bg2),var(--bg3));color:var(--text2);border-radius:13px;padding:9px 10px;font:900 8.5px var(--hr-body-font);display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:.18s}.r1435-tab i{font-size:12px;color:#7894d4}.r1435-tab.active{color:#10285f;background:linear-gradient(135deg,#ffe48b,#f4c644);border-color:rgba(255,214,107,.75);box-shadow:0 8px 24px rgba(245,200,66,.22)}.r1435-tab.active i{color:#10285f}
+.r1435-panel{display:none;animation:r1435fade .18s ease}.r1435-panel.active{display:block}@keyframes r1435fade{from{opacity:.45;transform:translateY(3px)}to{opacity:1;transform:none}}
+.r1435-builder-banner{margin:9px 13px 0;padding:10px 11px;border-radius:14px;background:linear-gradient(135deg,rgba(66,165,245,.08),rgba(245,200,66,.06));border:1px solid rgba(110,142,225,.14);display:flex;align-items:center;gap:9px}.r1435-builder-banner i{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:#132e6d;color:#ffd86b}.r1435-builder-banner b{font:900 10px var(--hr-title-font);color:var(--text)}.r1435-builder-banner small{display:block;margin-top:2px;color:var(--text2);font-size:7px;line-height:1.5}
+.r1435-format-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:11px 13px 13px}.r1435-format-card{border-radius:15px;padding:10px;border:1px solid rgba(108,135,214,.16);background:rgba(255,255,255,.025)}.light-mode .r1435-format-card{background:#f8faff}.r1435-format-card h4{margin:0 0 4px;font:900 10px var(--hr-title-font);color:var(--text)}.r1435-format-card p{margin:0 0 8px;font-size:7px;color:var(--text2);line-height:1.6}.r1435-choice{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.r1435-choice.two{grid-template-columns:repeat(2,1fr)}.r1435-opt{border:1px solid rgba(111,131,205,.18);background:rgba(255,255,255,.03);color:var(--text2);border-radius:10px;min-height:37px;font:800 7.5px var(--hr-body-font);cursor:pointer}.r1435-opt.active{background:linear-gradient(135deg,#17377e,#2254b5);border-color:#5d82df;color:#fff;box-shadow:0 7px 18px rgba(34,84,181,.2)}
+.r1435-output-head{padding:11px 13px 2px;display:flex;align-items:center;gap:8px}.r1435-output-head i{color:var(--gold);font-size:15px}.r1435-output-head b{font:900 11px var(--hr-title-font);color:var(--text)}.r1435-output-head span{display:block;font-size:7px;color:var(--text2);margin-top:1px}.r1435-quality-note{margin:0 13px 10px;padding:8px 9px;border-radius:10px;background:rgba(76,175,80,.07);border:1px solid rgba(76,175,80,.13);font-size:7px;color:var(--text2);line-height:1.55}.r1435-quality-note i{color:#81c784;margin-left:4px}
+.r1435-stage-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 7px;border-radius:999px;background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.16);color:var(--gold2);font-size:7px;font-weight:900;margin-right:auto}.r1435-section-hidden{display:none!important}
+.r1435-preview-shell .r1424-preview-label{border-radius:14px 14px 0 0;background:linear-gradient(135deg,#102760,#173d85);color:#fff;padding:10px 12px}.r1435-preview-shell .r1424-preview-label span{color:rgba(255,255,255,.68)}
+@media(max-width:520px){.r1435-workflow{margin:0 -2px}.r1435-tab{min-width:75px;padding:8px 8px}.r1435-format-grid{grid-template-columns:1fr}.r1435-choice{grid-template-columns:1fr 1fr 1fr}}
+</style>\n</head>
 <body class="subview-list">
 <div id="stars"></div>
 <div id="toast"><i class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
@@ -1707,7 +1718,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.34-REPORTS-EXPORT-RELIABILITY-FIX';
+var APP_RELEASE = 'MOBILE-R1.4.35-REPORT-BUILDER-STUDIO-HQ-PDF';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -4526,11 +4537,11 @@ window.addEventListener('load',async function(){
     try{
       await r1430EnsureCanvasFonts();var jsPDF=await r1427EnsurePdfLib();
       var title=REPORT_STATE.title||reportTypeLabel(REPORT_STATE.type),ref=reportReferenceCode(),gender=r1433GenderStats(ds),score=r1424Completeness(ds);
-      var CW=1400,CH=990,margin=34,seqW=48,tableTop=252,tableBottom=938,tableH=tableBottom-tableTop,headerH=44;
+      var CW=1400,CH=990,prefs=window.R1435_REPORT_PREFS||{},pdfScale=prefs.quality==='ultra'?2.2:(prefs.quality==='high'?1.8:1.4),margin=34,seqW=48,tableTop=252,tableBottom=938,tableH=tableBottom-tableTop,headerH=44;
       var colCount=cols.length,cellW=(CW-margin*2-seqW)/Math.max(1,colCount),fontSize=colCount<=6?18:colCount<=9?15:colCount<=12?12:10;
-      var rowH=colCount<=8?32:30,rowsPer=Math.max(12,Math.floor((tableH-headerH)/rowH));
+      var rowH=prefs.density==='compact'?(colCount<=8?28:26):(colCount<=8?32:30),rowsPer=Math.max(12,Math.floor((tableH-headerH)/rowH));
       var totalPages=Math.ceil(ds.length/rowsPer),pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4',compress:true});
-      var canvas=document.createElement('canvas');canvas.width=CW;canvas.height=CH;var ctx=canvas.getContext('2d',{alpha:false});
+      var canvas=document.createElement('canvas');canvas.width=Math.round(CW*pdfScale);canvas.height=Math.round(CH*pdfScale);var ctx=canvas.getContext('2d',{alpha:false});ctx.setTransform(pdfScale,0,0,pdfScale,0,0);
       for(var page=0;page<totalPages;page++){
         ctx.fillStyle='#ffffff';ctx.fillRect(0,0,CW,CH);
         ctx.fillStyle='#17347a';ctx.fillRect(0,0,CW,9);ctx.fillStyle='#0d7285';ctx.fillRect(0,9,CW,5);ctx.fillStyle='#dfae35';ctx.fillRect(0,14,CW,3);
@@ -4554,7 +4565,7 @@ window.addEventListener('load',async function(){
         // vertical grid lines
         var gx=CW-margin;ctx.strokeStyle='#d8dfeb';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(gx,tableTop);ctx.lineTo(gx,tableTop+headerH+(end-start)*rowH);ctx.stroke();gx-=seqW;ctx.beginPath();ctx.moveTo(gx,tableTop);ctx.lineTo(gx,tableTop+headerH+(end-start)*rowH);ctx.stroke();for(var ci=0;ci<cols.length;ci++){gx-=cellW;ctx.beginPath();ctx.moveTo(gx,tableTop);ctx.lineTo(gx,tableTop+headerH+(end-start)*rowH);ctx.stroke();}
         r1434CanvasText(ctx,'تم إنشاء التقرير من نظام سجل موظفي مديرية زراعة صلاح الدين • '+APP_RELEASE,CW-margin,966,{size:11,color:'#7a849d',maxWidth:900});
-        var img=canvas.toDataURL('image/jpeg',0.86);if(page>0)pdf.addPage('a4','landscape');pdf.addImage(img,'JPEG',0,0,297,210,undefined,'FAST');
+        var jpegQuality=prefs.quality==='ultra'?0.97:(prefs.quality==='high'?0.95:0.91),img=canvas.toDataURL('image/jpeg',jpegQuality);if(page>0)pdf.addPage('a4','landscape');pdf.addImage(img,'JPEG',0,0,297,210,undefined,'SLOW');
         if(totalPages>3&&(page===0||page===totalPages-1||page%8===7))showToast('جاري تجهيز PDF: '+(page+1)+' / '+totalPages);
         await new Promise(function(resolve){setTimeout(resolve,0);});
       }
@@ -4566,5 +4577,56 @@ window.addEventListener('load',async function(){
 })();
 </script>
 
-</body>
+\n<script id="r1435-report-builder-script">
+/* MOBILE R1.4.35 REPORT BUILDER STUDIO + HQ PDF */
+(function(){
+  var STORE_KEY='hr-r1435-report-prefs';
+  var defaults={quality:'high',density:'balanced'};
+  function loadPrefs(){try{var x=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');return Object.assign({},defaults,x||{});}catch(e){return Object.assign({},defaults);}}
+  window.R1435_REPORT_PREFS=loadPrefs();
+  var activeTab='templates';
+  var baseBuild=buildReports;
+  function savePrefs(){try{localStorage.setItem(STORE_KEY,JSON.stringify(window.R1435_REPORT_PREFS||defaults));}catch(e){}}
+  function q(sel,root){return (root||document).querySelector(sel)}
+  function qa(sel,root){return Array.from((root||document).querySelectorAll(sel))}
+  function mk(tag,cls,html){var el=document.createElement(tag);if(cls)el.className=cls;if(html!==undefined)el.innerHTML=html;return el}
+  function workflow(){return '<div class="r1435-workflow" role="tablist" aria-label="مراحل منشئ الكشف">'+[
+    ['templates','fa-layer-group','القوالب'],['scope','fa-filter','النطاق'],['fields','fa-table-columns','الحقول'],['format','fa-palette','التنسيق'],['preview','fa-eye','المعاينة'],['output','fa-file-export','الإخراج']
+  ].map(function(x){return '<button class="r1435-tab '+(activeTab===x[0]?'active':'')+'" data-r1435-tab="'+x[0]+'"><i class="fas '+x[1]+'"></i>'+x[2]+'</button>';}).join('')+'</div>';}
+  function formatPanel(){var p=window.R1435_REPORT_PREFS||defaults;return '<div class="r1435-builder-banner"><i class="fas fa-wand-magic-sparkles"></i><div><b>تنسيق الكشف قبل الإخراج</b><small>إعدادات مخصصة للهاتف مستوحاة من منشئ الكشوفات في Windows، مع الحفاظ على RTL وهوية النظام.</small></div></div><div class="r1435-format-grid"><div class="r1435-format-card"><h4>دقة PDF</h4><p>الدقة الأعلى تعطي نصوصًا وحدودًا أوضح عند التكبير والطباعة.</p><div class="r1435-choice"><button class="r1435-opt '+(p.quality==='balanced'?'active':'')+'" data-r1435-quality="balanced">متوازنة</button><button class="r1435-opt '+(p.quality==='high'?'active':'')+'" data-r1435-quality="high">عالية</button><button class="r1435-opt '+(p.quality==='ultra'?'active':'')+'" data-r1435-quality="ultra">فائقة</button></div></div><div class="r1435-format-card"><h4>كثافة الصفوف</h4><p>المتوازن أوضح للقراءة، والمدمج يعرض سجلات أكثر في كل صفحة.</p><div class="r1435-choice two"><button class="r1435-opt '+(p.density==='balanced'?'active':'')+'" data-r1435-density="balanced">متوازن</button><button class="r1435-opt '+(p.density==='compact'?'active':'')+'" data-r1435-density="compact">مدمج</button></div></div></div><div class="r1435-quality-note"><i class="fas fa-circle-check"></i>الوضع الافتراضي «عالية» يولّد PDF بدقة تقارب ضعفي النسخة السابقة مع ضغط محسّن، بينما «فائقة» مخصصة للطباعة أو التكبير الكبير.</div>'; }
+  function outputHead(){return '<div class="r1435-output-head"><i class="fas fa-box-archive"></i><div><b>مركز الإخراج</b><span>Excel فعلي، PDF رسمي عالي الدقة، وCSV متوافق مع العربية.</span></div></div>'; }
+  function decorate(){
+    var page=q('#reports-page'),suite=page&&q('.r1424-suite',page);if(!suite)return;
+    var hero=q('.r1424-hero',suite);if(hero)hero.insertAdjacentHTML('afterend',workflow());
+    var sections=qa('.r1424-section',suite),typeSection=sections[0],configSection=sections[1],preview=q('.r1424-preview-wrap',suite);if(!typeSection||!configSection||!preview)return;
+    typeSection.dataset.r1435Zone='templates';
+    var config=q('.r1424-config',configSection),form=config&&q('.r1424-form',config),seg=config&&q('.r1424-segment',config),security=config&&q('.r1424-security',config),columnsTop=config&&q('.r1424-columns-top',config),columnGrid=config&&q('.r1424-column-grid',config),exports=q('.r1424-export',configSection),help=q('.r1424-export-help',configSection);
+    if(config){
+      var scope=mk('div','r1435-panel','');scope.dataset.r1435Panel='scope';if(seg)scope.appendChild(seg);if(form)scope.appendChild(form);if(security)scope.appendChild(security);config.appendChild(scope);
+      var fields=mk('div','r1435-panel','');fields.dataset.r1435Panel='fields';if(columnsTop)fields.appendChild(columnsTop);if(columnGrid)fields.appendChild(columnGrid);config.appendChild(fields);
+      var fmt=mk('div','r1435-panel',formatPanel());fmt.dataset.r1435Panel='format';config.appendChild(fmt);
+      var out=mk('div','r1435-panel',outputHead());out.dataset.r1435Panel='output';if(exports)out.appendChild(exports);if(help)out.appendChild(help);config.appendChild(out);
+    }
+    preview.classList.add('r1435-preview-shell');preview.dataset.r1435Zone='preview';
+    qa('[data-r1435-tab]',suite).forEach(function(btn){btn.addEventListener('click',function(){activeTab=this.getAttribute('data-r1435-tab')||'templates';applyTab(suite,typeSection,configSection,preview);});});
+    qa('[data-r1435-quality]',suite).forEach(function(btn){btn.addEventListener('click',function(){window.R1435_REPORT_PREFS.quality=this.getAttribute('data-r1435-quality');savePrefs();decorateFormatState(suite);});});
+    qa('[data-r1435-density]',suite).forEach(function(btn){btn.addEventListener('click',function(){window.R1435_REPORT_PREFS.density=this.getAttribute('data-r1435-density');savePrefs();decorateFormatState(suite);});});
+    applyTab(suite,typeSection,configSection,preview);
+  }
+  function decorateFormatState(suite){var p=window.R1435_REPORT_PREFS||defaults;qa('[data-r1435-quality]',suite).forEach(function(b){b.classList.toggle('active',b.getAttribute('data-r1435-quality')===p.quality);});qa('[data-r1435-density]',suite).forEach(function(b){b.classList.toggle('active',b.getAttribute('data-r1435-density')===p.density);});}
+  function applyTab(suite,typeSection,configSection,preview){
+    qa('[data-r1435-tab]',suite).forEach(function(b){b.classList.toggle('active',b.getAttribute('data-r1435-tab')===activeTab);});
+    typeSection.style.display=activeTab==='templates'?'':'none';
+    configSection.style.display=['scope','fields','format','output'].indexOf(activeTab)>=0?'':'none';
+    qa('[data-r1435-panel]',configSection).forEach(function(p){p.classList.toggle('active',p.getAttribute('data-r1435-panel')===activeTab);});
+    preview.style.display=activeTab==='preview'?'':'none';
+    var head=q('.r1424-section-head',configSection),title=head&&q('.r1424-section-title',head),sub=head&&q('.r1424-section-sub',head),ico=head&&q('.r1424-section-icon i',head),step=head&&q('.r1424-step',head);
+    var meta={scope:['النطاق والإعدادات','حدد عنوان الكشف ونطاقه ومستوى الخصوصية.','fa-filter','02'],fields:['اختيار الحقول','حدد الأعمدة التي ستظهر في الكشف النهائي.','fa-table-columns','03'],format:['التنسيق وجودة الإخراج','اضبط دقة PDF وكثافة الصفوف قبل التصدير.','fa-palette','04'],output:['الإخراج والتصدير','اختر الصيغة النهائية واحفظها مباشرة في تنزيلات الهاتف.','fa-file-export','06']}[activeTab];
+    if(meta){if(title)title.textContent=meta[0];if(sub)sub.textContent=meta[1];if(ico)ico.className='fas '+meta[2];if(step)step.textContent=meta[3];}
+    if(activeTab==='preview'){preview.scrollIntoView({block:'start',behavior:'smooth'});}
+  }
+  buildReports=function(){baseBuild();decorate();};
+  window.r1435EnhanceReports=decorate;
+})();
+</script>\n</body>
 </html>

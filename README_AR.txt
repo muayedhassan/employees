@@ -1,4 +1,4 @@
-Mobile R1.4.34 — Reports Export Reliability Fix
+Mobile R1.4.35 — Report Builder Studio + HQ PDF
 
 هذه الحزمة UPDATE ONLY / CLEAN وتُطبّق فوق Mobile R1.4.33.
 
@@ -14,3 +14,9 @@ Mobile R1.4.34 — Reports Export Reliability Fix
 طريقة التطبيق:
 انسخ محتويات FILES_TO_COPY فقط إلى جذر C:\HRMobileRepo ثم شغّل VERIFY_MOBILE_R1.cmd.
 بعد نجاح الفحص استخدم Git لإضافة ملفات R1.4.34 فقط.
+
+
+R1.4.35: واجهة منشئ كشوفات بالتبويبات + PDF عالي الدقة وخيارات التنسيق.
+
+
+R1.4.35: واجهة منشئ كشوفات بالتبويبات + PDF عالي الدقة وخيارات التنسيق.
