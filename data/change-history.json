@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-16T18:42:40.0559027+00:00",
+  "updatedAt": "2026-09-17T07:49:35.5569478+00:00",
   "maxVersions": 60,
   "versions": [
     {
@@ -2526,6 +2526,75 @@
               "field": "division",
               "oldValue": "شعبة زراعة الدجيل",
               "newValue": "غير محدد"
+            }
+          ]
+        }
+      ],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.17-074935",
+      "previousVersion": "DATA-2026.09.16-184240",
+      "updatedAt": "2026-09-17T07:49:35.5569478+00:00",
+      "counts": {
+        "published": 1053,
+        "added": 0,
+        "modified": 3,
+        "missing": 0,
+        "unchanged": 1050,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 488
+      },
+      "added": [],
+      "modified": [
+        {
+          "integrationId": "5b4eab5a-adf6-4f8e-b9ce-2e45e24019c4",
+          "sourceEmployeeId": 1487,
+          "id": "5b4eab5a-adf6-4f8e-b9ce-2e45e24019c4",
+          "employeeNo": null,
+          "num": 116,
+          "name": "ايسر ثامر مهدي غايب",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "gender",
+              "oldValue": "انثى",
+              "newValue": "ذكر"
+            }
+          ]
+        },
+        {
+          "integrationId": "1c79897b-29a0-4057-9678-aceec1ff5b59",
+          "sourceEmployeeId": 356,
+          "id": "108039018",
+          "employeeNo": "108039018",
+          "num": 627,
+          "name": "محمد جاسم شحاذه حسين الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "education",
+              "oldValue": "اعدادية",
+              "newValue": "بكالوريوس"
+            }
+          ]
+        },
+        {
+          "integrationId": "3f3da28c-c9ee-43e7-98e3-914bf7bbaea6",
+          "sourceEmployeeId": 955,
+          "id": "154884318",
+          "employeeNo": "154884318",
+          "num": 831,
+          "name": "وصال محمد شويل حسين البنجيم",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة يثرب",
+              "newValue": "شعبة زراعة الشيخ جميل"
             }
           ]
         }
