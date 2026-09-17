@@ -31,7 +31,8 @@ const required = [
   'MOBILE_R1_4_35_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_36_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_37_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_38_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_38_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_39_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -44,10 +45,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.38-SMART-FOLLOWUP-HISTORY-2';
+const expectedRelease = 'MOBILE-R1.4.39-MOBILE-PROFILE-RESPONSIVE-POLISH';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.38 Smart Follow-up + History 2.0');
-if (!String(manifest.description || '').includes('R1.4.38')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.39 Mobile Profile Responsive Polish');
+if (!String(manifest.description || '').includes('R1.4.39')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -96,7 +97,7 @@ const genderRecords = [...employees.perm, ...employees.cont].filter(e => String(
 if (!genderRecords.length) fail('employee gender data is unavailable for R1.4.33 reports');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1438-smart-followup-2026.09.17")) fail('R1.4.38 app-shell cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1439-profile-responsive-2026.09.17")) fail('R1.4.38 app-shell cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
@@ -184,8 +185,8 @@ for (const marker of [
   "filename:filename||'EmployeeCard.pdf'",'open:false',
   'window.r1419ReceiveGeneratedPdf=r1419ReceiveGeneratedPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.19 native PDF marker missing: ${marker}`);
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.38-SMART-FOLLOWUP-HISTORY-2'")) fail('R1.4.38 APP_RELEASE marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1438')) fail('current PDF cache marker missing');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.39-MOBILE-PROFILE-RESPONSIVE-POLISH'")) fail('R1.4.39 APP_RELEASE marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1439')) fail('current PDF cache marker missing');
 
 // R1.4.20 status/native bridge remains, while R1.4.21 replaces only the failing generator.
 for (const marker of [
@@ -355,8 +356,8 @@ for (const marker of [
 ]) if (!index.includes(marker)) fail(`R1.4.34 export marker missing: ${marker}`);
 if (index.includes("r1424Filename('xls')")) fail('legacy HTML-as-XLS export is still present');
 if (!index.includes("lines.join('\\r\\n')") || !index.includes("r1424Filename('csv')")) fail('CSV export marker missing');
-if (!sw.includes('employee-registry-mobile-r1438-smart-followup-2026.09.17')) fail('current cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1438')) fail('current PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1439-profile-responsive-2026.09.17')) fail('current cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1439')) fail('current PDF cache marker missing');
 
 for (const marker of ['MOBILE R1.4.35 REPORT BUILDER STUDIO + HQ PDF','r1435-workflow','data-r1435-tab=','data-r1435-quality','R1435_REPORT_PREFS','pdfScale=prefs.quality','canvas.width=Math.round(CW*pdfScale)']) if (!index.includes(marker)) fail(`R1.4.35 marker missing: ${marker}`);
 ok(`Mobile R1.4.35 Report Builder Studio + HQ PDF verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${summary.counts.modified}`);
@@ -379,8 +380,8 @@ for (const marker of [
   'r1437EmployeeTimelineHTML','سجل حركة الموظف','r1437-timeline','r1437OpenAdminDashboard',
   'لوحة الإحصائيات الإدارية','r1437-open-stats',"{id:'01',from:1,to:42,label:'الدولاب 01'}","{id:'02',from:43,to:88,label:'الدولاب 02'}"
 ]) if (!index.includes(marker)) fail(`R1.4.37 intelligence marker missing: ${marker}`);
-if (!sw.includes('employee-registry-mobile-r1438-smart-followup-2026.09.17')) fail('R1.4.37 cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1438')) fail('R1.4.37 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1439-profile-responsive-2026.09.17')) fail('R1.4.37 cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1439')) fail('R1.4.37 PDF cache marker missing');
 ok(`Mobile R1.4.37 Employee Intelligence Suite preserved: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 // R1.4.38 smart follow-up / History 2.0 guards.
 for (const marker of [
@@ -390,6 +391,16 @@ for (const marker of [
 ]) if (!index.includes(marker)) fail(`R1.4.38 smart workflow marker missing: ${marker}`);
 if (!index.includes("id=\"r1438-open-follow\"")) fail('R1.4.38 follow-up hero action missing');
 if (!index.includes("document.querySelectorAll('#m-profile-body .r1437-loc,#m-profile-body .r1437-archive')")) fail('R1.4.38 large archive-location removal guard missing');
-if (!sw.includes('employee-registry-mobile-r1438-smart-followup-2026.09.17')) fail('R1.4.38 cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1438')) fail('R1.4.38 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1439-profile-responsive-2026.09.17')) fail('R1.4.38 cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1439')) fail('R1.4.38 PDF cache marker missing');
 ok(`Mobile R1.4.38 Smart Follow-up + History 2.0 verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
+
+// R1.4.39 mobile profile responsive polish guards.
+for (const marker of [
+  'MOBILE R1.4.39 MOBILE PROFILE RESPONSIVE POLISH','r1439-mobile-profile-polish',
+  'grid-template-columns:repeat(3,minmax(0,1fr))','grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr)',
+  'word-break:normal!important','overflow-wrap:break-word!important','max-height:96dvh!important'
+]) if (!index.includes(marker)) fail(`R1.4.39 responsive marker missing: ${marker}`);
+if (!sw.includes('employee-registry-mobile-r1439-profile-responsive-2026.09.17')) fail('R1.4.39 cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1439')) fail('R1.4.39 PDF cache marker missing');
+ok(`Mobile R1.4.39 Mobile Profile Responsive Polish verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);

@@ -1726,7 +1726,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.38-SMART-FOLLOWUP-HISTORY-2';
+var APP_RELEASE = 'MOBILE-R1.4.39-MOBILE-PROFILE-RESPONSIVE-POLISH';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -4730,6 +4730,52 @@ body.light-mode .r1438-follow-sheet{background:linear-gradient(180deg,#fff,#f4f7
   var openPrev=openModal;openModal=function(emp){openPrev(emp);setTimeout(function(){document.querySelectorAll('#m-profile-body .r1437-loc,#m-profile-body .r1437-archive').forEach(function(x){x.remove()});var hero=document.querySelector('#m-profile-body .r147-profile-hero');if(hero){var role=hero.querySelector('.r147-profile-role');if(role&&!hero.querySelector('.r1438-file-chip'))role.insertAdjacentHTML('afterend',cabinetChip(emp));if(!document.getElementById('r1438-quickbar'))hero.insertAdjacentHTML('afterend',quickBar())}var tab=document.querySelector('#profile-tabs-live [data-profile-tab="history"],#modal-inner [data-profile-tab="history"]');if(tab)tab.innerHTML='<i class="fas fa-timeline"></i> السجل <span class="profile-history-badge">'+employeeHistoryEvents(emp).length+'</span>';var panel=document.querySelector('#m-profile-body [data-profile-panel="history"]');if(panel)panel.innerHTML=mobileR147Section('السجل الزمني','fa-timeline',r1438HistoryHTML(emp));bindQuick(emp);bindHistoryFilter()},0)};
 })();
 </script>
+
+
+<style id="r1439-mobile-profile-polish">
+/* MOBILE R1.4.39 MOBILE PROFILE RESPONSIVE POLISH */
+@media (max-width:560px){
+  .modal{width:calc(100vw - 8px)!important;max-height:96dvh!important;border-radius:26px 26px 0 0!important}
+  .modal-top{padding:12px 12px 10px!important}
+  .m-avatar{width:50px!important;height:50px!important;border-radius:18px!important;font-size:14px!important}
+  .m-name{font-size:17px!important;line-height:1.42!important}
+  .m-type-tag{font-size:9px!important;padding:4px 11px!important}
+  #profile-tabs-live .profile-tabs,#profile-tabs-live .profile-tabs.r147-tabs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;overflow:visible!important;padding:8px!important}
+  #profile-tabs-live .profile-tab,#profile-tabs-live .profile-tab.r147-tab{min-width:0!important;min-height:38px!important;padding:7px 4px!important;font-size:9px!important;white-space:nowrap!important;justify-content:center!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  #profile-tabs-live .profile-tab i{font-size:11px!important;margin-left:3px!important}
+  #profile-tabs-live .profile-history-badge{font-size:7px!important;min-width:15px!important;height:15px!important;padding:0 4px!important}
+  .m-body{flex:1!important;min-height:0!important;max-height:none!important;overflow-y:auto!important;padding:9px 9px 10px!important;overscroll-behavior:contain!important}
+  .profile-section.r147-section{padding:8px!important;border-radius:18px!important}
+  .r1438-history-head{padding:10px!important;border-radius:16px!important;margin-bottom:8px!important}
+  .r1438-hintro .ico{width:34px!important;height:34px!important;border-radius:12px!important;flex:0 0 34px!important}
+  .r1438-hintro b{font-size:10.5px!important}.r1438-hintro small{font-size:7.4px!important}
+  .r1438-hstats{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+  .r1438-hstat{padding:7px 5px!important}.r1438-hstat span{font-size:7px!important}.r1438-hstat b{font-size:10.5px!important}
+  .r1438-hfilters{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;overflow:visible!important;margin:7px 0 9px!important}
+  .r1438-hfilter{min-width:0!important;padding:7px 3px!important;font-size:7.2px!important;text-align:center!important}
+  .r1438-timeline{gap:8px!important}
+  .r1438-event{padding:10px 9px 10px 9px!important;border-radius:16px!important}
+  .r1438-ev-top{grid-template-columns:31px minmax(0,1fr) auto!important;gap:7px!important}
+  .r1438-ev-icon{width:29px!important;height:29px!important;border-radius:10px!important}
+  .r1438-ev-title b{font-size:9.2px!important}.r1438-ev-title small{font-size:6.9px!important}.r1438-ev-date{font-size:7.2px!important;white-space:nowrap!important}
+  .r1438-change-list{gap:6px!important;margin-top:8px!important}
+  .r1438-change-row{grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr)!important;gap:6px!important;padding:8px!important;border-radius:12px!important;align-items:stretch!important}
+  .r1438-change-row label{grid-column:1/-1!important;font-size:8.6px!important;line-height:1.5!important;margin-bottom:1px!important;color:#dce7fb!important}
+  .r1438-change-row .old,.r1438-change-row .new{min-width:0!important;min-height:36px!important;padding:7px 8px!important;font-size:8.8px!important;line-height:1.55!important;word-break:normal!important;overflow-wrap:break-word!important;white-space:normal!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important}
+  .r1438-change-row .old{border:1px solid rgba(255,130,145,.08)!important}.r1438-change-row .new{border:1px solid rgba(95,225,175,.10)!important}
+  .r1438-change-row .arr{display:flex!important;align-items:center!important;justify-content:center!important;font-size:8px!important}
+  .r1438-quickbar{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;overflow:visible!important;padding:2px 0 8px!important}
+  .r1438-qbtn{min-width:0!important;min-height:48px!important;flex:none!important;border-radius:14px!important;font-size:8px!important}
+  .r1438-qbtn i{font-size:13px!important}
+  .m-actions{gap:8px!important;padding:7px 10px max(8px,var(--safe-bottom))!important;background:linear-gradient(180deg,rgba(7,16,35,.84),rgba(7,16,35,.98))!important}
+  .m-action-btn{min-height:42px!important;padding:9px 7px!important;border-radius:15px!important;font-size:10.5px!important}
+}
+@media (max-width:360px){
+  #profile-tabs-live .profile-tabs,#profile-tabs-live .profile-tabs.r147-tabs{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .r1438-hfilters{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .r1438-ev-top{grid-template-columns:28px minmax(0,1fr)!important}.r1438-ev-date{grid-column:2!important;justify-self:start!important;margin-top:-2px!important}
+}
+</style>
 
 </body>
 </html>
