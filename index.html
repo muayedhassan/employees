@@ -1726,7 +1726,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.39-MOBILE-PROFILE-RESPONSIVE-POLISH';
+var APP_RELEASE = 'MOBILE-R1.4.40-EMPLOYEE-CARD-300DPI';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -4226,6 +4226,7 @@ function r1430DrawSection(ctx,S,title,x,y,w){
   ctx.beginPath();ctx.fillStyle='#ffd66b';ctx.arc(px+pw-5*p,py+3.75*p,2*p,0,Math.PI*2);ctx.fill();
   r1430Text(ctx,title,px+pw-9*p,py+5.2*p,{size:9.2*0.352778*p,color:'#163b7a',family:'HRPdfTitle',weight:'700'});
 }
+/* MOBILE R1.4.40 EMPLOYEE CARD 300 DPI: same browser-shaped Arabic canvas pipeline, 300 DPI primary render with 225 DPI safe fallback. */
 /* Mobile R1.4.31 - PDF footer cleanup + salary numeric font consistency */
 function r1431DrawSalaryField(ctx,S,x,y,w,h,label,value){
   var p=S,px=x*p,py=y*p,pw=w*p,ph=h*p,right=px+pw-3*p;
@@ -4240,9 +4241,10 @@ function r1431DrawSalaryField(ctx,S,x,y,w,h,label,value){
   r1430Text(ctx,currency,right,valueY,{size:currencySize,color:'#17274f',family:'HRPdfBody'});
   r1430Text(ctx,num,right-cw-1.2*p,valueY,{size:numSize,color:'#ca9112',family:'HRPdfNum',weight:'700',numeric:true});
 }
-async function r1430BuildCardCanvas(emp){
+async function r1430BuildCardCanvas(emp,qualityScale){
   await r1430EnsureCanvasFonts();
-  var d=r1427EmployeePdfData(emp),W=1240,H=1754,S=W/210,canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;
+  var q=Number(qualityScale||2);if(!isFinite(q)||q<1)q=1;
+  var d=r1427EmployeePdfData(emp),W=Math.round(1240*q),H=Math.round(1754*q),S=W/210,canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;
   var ctx=canvas.getContext('2d',{alpha:false});if(!ctx)throw new Error('canvas 2d unavailable');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
   var m=function(v){return v*S;};
   // Header
@@ -4281,11 +4283,25 @@ async function r1430BuildCardCanvas(emp){
 }
 async function r1427BuildEmployeePdf(emp){
   var JsPdfCtor=await r1427EnsurePdfLib();
-  var canvas=await r1430BuildCardCanvas(emp);
+  async function renderAt(scale){
+    var canvas=await r1430BuildCardCanvas(emp,scale),image='';
+    try{image=canvas.toDataURL('image/png');}catch(e){try{canvas.width=1;canvas.height=1;}catch(_e){};throw e;}
+    if(!image||image.length<10000){try{canvas.width=1;canvas.height=1;}catch(_e){};throw new Error('canvas png invalid');}
+    return {canvas:canvas,image:image,scale:scale};
+  }
+  var rendered;
+  try{
+    // 1240x1754 was ~150 DPI. Scale 2.0 produces ~2480x3508 = 300 DPI A4.
+    rendered=await renderAt(2.0);
+  }catch(hqErr){
+    console.warn('R1.4.40 300 DPI employee card fallback to 225 DPI',hqErr);
+    rendered=await renderAt(1.5);
+  }
   var pdf=new JsPdfCtor({orientation:'portrait',unit:'mm',format:'a4',compress:true});
-  var image=canvas.toDataURL('image/png');if(!image||image.length<10000)throw new Error('canvas png invalid');
-  pdf.addImage(image,'PNG',0,0,210,297,undefined,'FAST');
-  try{var d=r1427EmployeePdfData(emp);pdf.setProperties({title:'Employee Card - '+String(d.stableId||''),subject:'HRSystem Employee Card',creator:'HRSystem Mobile'});}catch(e){}
+  pdf.addImage(rendered.image,'PNG',0,0,210,297,undefined,'SLOW');
+  try{var d=r1427EmployeePdfData(emp);pdf.setProperties({title:'Employee Card - '+String(d.stableId||''),subject:'HRSystem Employee Card - '+(rendered.scale>=2?'300 DPI':'225 DPI'),creator:'HRSystem Mobile'});}catch(e){}
+  try{rendered.canvas.width=1;rendered.canvas.height=1;}catch(e){}
+  rendered.image=null;
   var blob=pdf.output('blob');if(!blob||!blob.size||blob.size<10000)throw new Error('generated raster pdf is invalid');
   return blob;
 }

@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.39",
-  "short_name": "HR Mobile R1.4.39",
+  "name": "سجل الموظفين - Mobile R1.4.40",
+  "short_name": "HR Mobile R1.4.40",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.39: تحسين استجابة بطاقة الموظف والسجل على الهاتف، منع قص التبويبات، توسيع قيم قبل/بعد، وضبط أزرار PDF والإجراءات السريعة.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.40: رفع دقة بطاقة الموظف PDF إلى 300 DPI مع الحفاظ على نفس مسار Canvas العربي الناجح، وإضافة fallback آمن 225 DPI عند الحاجة.",
   "icons": [
     {
       "src": "assets/icon-192.png",
