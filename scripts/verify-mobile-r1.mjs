@@ -29,7 +29,8 @@ const required = [
   'MOBILE_R1_4_33_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_34_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_35_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_36_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_36_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_37_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -42,10 +43,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.36-DUPLICATE-FULL-NAME-CARD';
+const expectedRelease = 'MOBILE-R1.4.37-EMPLOYEE-INTELLIGENCE-SUITE';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.35 Report Builder Studio HQ PDF');
-if (!String(manifest.description || '').includes('R1.4.35')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.37 Employee Intelligence Suite');
+if (!String(manifest.description || '').includes('R1.4.37')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -94,7 +95,7 @@ const genderRecords = [...employees.perm, ...employees.cont].filter(e => String(
 if (!genderRecords.length) fail('employee gender data is unavailable for R1.4.33 reports');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1436-duplicate-full-name-2026.09.16")) fail('R1.4.35 app-shell cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1437-employee-intelligence-2026.09.17")) fail('R1.4.35 app-shell cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
@@ -182,8 +183,8 @@ for (const marker of [
   "filename:filename||'EmployeeCard.pdf'",'open:false',
   'window.r1419ReceiveGeneratedPdf=r1419ReceiveGeneratedPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.19 native PDF marker missing: ${marker}`);
-if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.36-DUPLICATE-FULL-NAME-CARD'")) fail('R1.4.36 APP_RELEASE marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1436')) fail('R1.4.36 PDF cache marker missing');
+if (!index.includes("APP_RELEASE = 'MOBILE-R1.4.37-EMPLOYEE-INTELLIGENCE-SUITE'")) fail('R1.4.37 APP_RELEASE marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1437')) fail('R1.4.36 PDF cache marker missing');
 
 // R1.4.20 status/native bridge remains, while R1.4.21 replaces only the failing generator.
 for (const marker of [
@@ -353,8 +354,8 @@ for (const marker of [
 ]) if (!index.includes(marker)) fail(`R1.4.34 export marker missing: ${marker}`);
 if (index.includes("r1424Filename('xls')")) fail('legacy HTML-as-XLS export is still present');
 if (!index.includes("lines.join('\\r\\n')") || !index.includes("r1424Filename('csv')")) fail('CSV export marker missing');
-if (!sw.includes('employee-registry-mobile-r1436-duplicate-full-name-2026.09.16')) fail('R1.4.36 cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1436')) fail('R1.4.36 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1437-employee-intelligence-2026.09.17')) fail('R1.4.36 cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1437')) fail('R1.4.36 PDF cache marker missing');
 
 for (const marker of ['MOBILE R1.4.35 REPORT BUILDER STUDIO + HQ PDF','r1435-workflow','data-r1435-tab=','data-r1435-quality','R1435_REPORT_PREFS','pdfScale=prefs.quality','canvas.width=Math.round(CW*pdfScale)']) if (!index.includes(marker)) fail(`R1.4.35 marker missing: ${marker}`);
 ok(`Mobile R1.4.35 Report Builder Studio + HQ PDF verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${summary.counts.modified}`);
@@ -370,3 +371,13 @@ for (const marker of [
 if (!index.includes("QUALITY_FILTER==='dupEmployeeNo'||QUALITY_FILTER==='dupIdentityNo'||QUALITY_FILTER==='dupFullName'")) fail('R1.4.36 quality row routing missing');
 if (!index.includes("String(value==null?'':value).trim().replace(/\\s+/g,' ')")) fail('R1.4.36 full-name whitespace normalization missing');
 ok(`Mobile R1.4.36 Duplicate Full Name Card verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
+
+// R1.4.37 employee intelligence suite guards.
+for (const marker of [
+  'MOBILE R1.4.37 EMPLOYEE INTELLIGENCE SUITE','R1437_CABINET_RANGES','r1437CabinetLocation',
+  'r1437EmployeeTimelineHTML','سجل حركة الموظف','r1437-timeline','r1437OpenAdminDashboard',
+  'لوحة الإحصائيات الإدارية','r1437-open-stats',"{id:'01',from:1,to:42,label:'الدولاب 01'}","{id:'02',from:43,to:88,label:'الدولاب 02'}"
+]) if (!index.includes(marker)) fail(`R1.4.37 intelligence marker missing: ${marker}`);
+if (!sw.includes('employee-registry-mobile-r1437-employee-intelligence-2026.09.17')) fail('R1.4.37 cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1437')) fail('R1.4.37 PDF cache marker missing');
+ok(`Mobile R1.4.37 Employee Intelligence Suite verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
