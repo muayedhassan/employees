@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.41-DASHBOARD-DATA-VERSION-UI-POLISH';
+var APP_RELEASE = 'MOBILE-R1.4.42-WINDOWS-STYLE-PROFESSIONAL-REPORTS';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -4809,5 +4809,106 @@ body.light-mode .r1438-follow-sheet{background:linear-gradient(180deg,#fff,#f4f7
 }
 </style>
 
-</body>
+\n<style id="r1442-windows-report-style">
+/* Mobile R1.4.42 - Windows Style Professional Reports */
+.r1442-preview-report-title{margin:10px 0 7px;padding:8px 12px;border-top:2px solid #3f8fd8;border-bottom:1px solid #cbdced;color:#08746f;font:900 15px var(--hr-title-font);text-align:right;background:linear-gradient(90deg,rgba(61,142,216,.04),rgba(255,255,255,.96))}
+.r1442-preview-hr{width:58px;height:48px;display:grid;place-items:center;border:1px solid #cbdced;background:#f7fbff;color:#1768b5;font:900 27px Georgia,serif;letter-spacing:-1px}
+.r1424-doc.r1442-preview .r1424-doc-code,.r1424-doc.r1442-preview .r1424-doc-scope{display:none!important}
+.r1424-doc.r1442-preview .r1424-doc-kpis{grid-template-columns:repeat(4,minmax(0,1fr))!important;margin-top:5px!important}
+.r1424-doc.r1442-preview .r1424-doc-kpi:nth-child(n+5){display:none!important}
+.r1424-doc.r1442-preview .r1424-doc-head{align-items:center!important;border:1px solid #cadced!important;background:#fbfdff!important;padding:10px!important}
+.r1424-doc.r1442-preview .r1424-doc-title{color:#1768b5!important;font-size:19px!important}
+.r1424-doc.r1442-preview .r1424-doc-min{color:#1a6f9c!important}
+.r1424-doc.r1442-preview .r1424-doc-meta{background:#f5f9ff!important;border:1px solid #d7e4f1!important;border-radius:0!important;color:#173c69!important;font-family:var(--hr-number-font)!important}
+.r1424-doc.r1442-preview .r1424-doc-sign{display:none!important}
+@media(max-width:640px){.r1424-doc.r1442-preview .r1424-doc-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}.r1442-preview-report-title{font-size:12px}}
+</style>
+<script id="r1442-windows-report-script">
+/* MOBILE R1.4.42 WINDOWS STYLE PROFESSIONAL REPORTS */
+(function(){
+  function clean(v){var x=String(v==null?'':v).trim();return x||'—';}
+  function nowStamp(){var d=new Date(),pad=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'/'+pad(d.getMonth()+1)+'/'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes());}
+  function genderStats(ds){var out={male:0,female:0,unknown:0};(ds||[]).forEach(function(e){var g=String(e&&e.gender||'').trim().toLowerCase().replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/\\s+/g,'');if(g==='ذكر'||g==='male'||g==='m')out.male++;else if(g==='انثي'||g==='انثى'||g==='female'||g==='f')out.female++;else out.unknown++;});return out;}
+  function fileName(ext){var raw=(REPORT_STATE.title||reportTypeLabel(REPORT_STATE.type)||'تقرير الموظفين').replace(/[\\/:*?\"<>|]+/g,'-').replace(/\\s+/g,'-').slice(0,55);var v=String(DATA_VERSION||'DATA').replace(/[^A-Za-z0-9_.-]/g,'-');return raw+'-'+v+'.'+ext;}
+  function round(ctx,x,y,w,h,r,fill,stroke){ctx.save();ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke();}ctx.restore();}
+  function fit(ctx,text,maxWidth){var s=clean(text).replace(/\\s+/g,' ');if(ctx.measureText(s).width<=maxWidth)return s;var lo=0,hi=s.length,best='';while(lo<=hi){var mid=(lo+hi)>>1,c=s.slice(0,mid)+'…';if(ctx.measureText(c).width<=maxWidth){best=c;lo=mid+1;}else hi=mid-1;}return best||'…';}
+  function text(ctx,value,x,y,opt){opt=opt||{};ctx.save();ctx.direction=opt.numeric?'ltr':'rtl';ctx.textAlign=opt.align||'right';ctx.textBaseline='middle';ctx.fillStyle=opt.color||'#173c69';r1430SetFont(ctx,opt.size||15,opt.numeric?'HRPdfNum':(opt.title?'HRPdfTitle':'HRPdfBody'),opt.weight||(opt.title||opt.numeric?'700':'400'));ctx.fillText(fit(ctx,value,opt.maxWidth||9999),x,y);ctx.restore();}
+  function statCard(ctx,x,y,w,label,value,theme){theme=theme||{};round(ctx,x,y,w,43,2,theme.fill||'#f2f7fd',theme.stroke||'#cbdced');text(ctx,value,x+w/2,y+15,{align:'center',size:16,numeric:/^[0-9]+$/.test(String(value)),color:theme.value||'#1768b5',maxWidth:w-12});text(ctx,label,x+w/2,y+32,{align:'center',size:9,color:theme.label||'#536985',maxWidth:w-10});}
+  function colWeight(c){var k=c&&c.k||'';if(k==='name')return 1.9;if(k==='division'||k==='specialization'||k==='identityIssuer'||k==='notes')return 1.45;if(k==='jobTitle'||k==='education')return 1.25;if(k==='employeeNo'||k==='identityNo')return 1.1;if(k==='employmentStatus'||k==='gender'||k==='grade'||k==='stage')return .82;return 1;}
+  function layout(cols,totalWidth){var weights=cols.map(colWeight),sum=weights.reduce(function(a,b){return a+b;},0)||1;return weights.map(function(w){return totalWidth*w/sum;});}
+  function drawHeader(ctx,CW,margin,title,ds,first){
+    var stamp=nowStamp();
+    if(first){
+      round(ctx,margin,28,CW-margin*2,116,0,'#fbfdff','#cbdced');
+      round(ctx,margin+20,49,88,70,0,'#f7fbff','#cbdced');
+      ctx.save();ctx.direction='ltr';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#1768b5';ctx.font='900 34px Georgia, serif';ctx.fillText('HR',margin+64,84);ctx.restore();
+      text(ctx,'مديرية زراعة صلاح الدين',CW/2+30,55,{align:'center',size:27,title:true,color:'#1768b5',maxWidth:620});
+      text(ctx,'نظام شؤون الموظفين والموارد البشرية',CW/2+30,86,{align:'center',size:15,title:true,color:'#1570a3',maxWidth:620});
+      text(ctx,'كشف إداري معتمد من سجل الموظفين',CW/2+30,115,{align:'center',size:16,title:true,color:'#1e293b',maxWidth:620});
+      round(ctx,CW-margin-320,39,300,94,0,'#f5f9ff','#d7e4f1');
+      text(ctx,'تاريخ الإنشاء: '+stamp,CW-margin-35,59,{size:12,color:'#173c69',maxWidth:250});
+      text(ctx,'عدد السجلات: '+ds.length,CW-margin-35,86,{size:12,color:'#173c69',maxWidth:250});
+      text(ctx,'منشئ التقرير: نظام شؤون الموظفين',CW-margin-35,113,{size:12,color:'#173c69',maxWidth:250});
+      ctx.fillStyle='#3c91dc';ctx.fillRect(margin,151,CW-margin*2,2);
+      text(ctx,title,CW-margin,178,{size:22,title:true,color:'#08746f',maxWidth:620});
+    }else{
+      text(ctx,'مديرية زراعة صلاح الدين',CW-margin,39,{size:18,title:true,color:'#1768b5',maxWidth:620});
+      text(ctx,'نظام شؤون الموظفين والموارد البشرية',CW-margin,64,{size:11,title:true,color:'#1570a3',maxWidth:620});
+      text(ctx,title,CW-margin,91,{size:16,title:true,color:'#08746f',maxWidth:760});
+      ctx.fillStyle='#3c91dc';ctx.fillRect(margin,106,CW-margin*2,2);
+    }
+  }
+  function footer(ctx,CW,CH,margin,page,total,records){var stamp=nowStamp();ctx.fillStyle='#cbdced';ctx.fillRect(margin,946,CW-margin*2,1);text(ctx,'صفحة '+(page+1)+' من '+total,CW-margin,968,{size:10,title:true,color:'#315a86',maxWidth:190});text(ctx,'تاريخ الطباعة: '+stamp+'  |  للاستخدام الإداري',CW/2,968,{align:'center',size:9,color:'#536985',maxWidth:520});text(ctx,'عدد السجلات: '+records,margin,968,{align:'left',size:10,title:true,color:'#315a86',maxWidth:190});}
+  async function buildPdf(){
+    var ds=reportDataset(),cols=reportColumns();if(!ds.length){showToast('لا توجد نتائج لتصديرها','warn');return;}if(!cols.length){showToast('اختر عمودًا واحدًا على الأقل','warn');return;}
+    showToast('جاري إنشاء التقرير الاحترافي...');
+    try{
+      await r1430EnsureCanvasFonts();var jsPDF=await r1427EnsurePdfLib(),prefs=window.R1435_REPORT_PREFS||{},title=REPORT_STATE.title||reportTypeLabel(REPORT_STATE.type),gender=genderStats(ds);
+      var CW=1400,CH=990,scale=prefs.quality==='ultra'?2.35:(prefs.quality==='high'?2.0:1.55),margin=34,seqW=44,headerH=42,rowH=prefs.density==='compact'?27:31,firstTop=218,otherTop=116,tableBottom=935;
+      var widths=layout(cols,CW-margin*2-seqW),fontSize=cols.length<=5?17:cols.length<=8?14:cols.length<=11?12:10;
+      var firstRows=Math.max(10,Math.floor((tableBottom-firstTop-headerH)/rowH)),otherRows=Math.max(12,Math.floor((tableBottom-otherTop-headerH)/rowH));
+      var totalPages=ds.length<=firstRows?1:1+Math.ceil((ds.length-firstRows)/otherRows);
+      var pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4',compress:true}),canvas=document.createElement('canvas');canvas.width=Math.round(CW*scale);canvas.height=Math.round(CH*scale);var ctx=canvas.getContext('2d',{alpha:false});ctx.setTransform(scale,0,0,scale,0,0);
+      for(var page=0;page<totalPages;page++){
+        ctx.fillStyle='#fff';ctx.fillRect(0,0,CW,CH);
+        var first=page===0,start=first?0:firstRows+(page-1)*otherRows,end=Math.min(ds.length,start+(first?firstRows:otherRows)),tableTop=first?firstTop:otherTop;
+        drawHeader(ctx,CW,margin,title,ds,first);
+        if(first){
+          // كروت الصفحة الأولى فقط
+          var cardY=159,cardW=128,gap=8,startX=margin;
+          statCard(ctx,startX,cardY,cardW,'السجلات',String(ds.length),{fill:'#eaf3ff',stroke:'#c6dbf2',value:'#1768b5'});
+          statCard(ctx,startX+(cardW+gap),cardY,cardW,'الذكور',String(gender.male),{fill:'#eaf9f4',stroke:'#c5e7db',value:'#08746f'});
+          statCard(ctx,startX+2*(cardW+gap),cardY,cardW,'الإناث',String(gender.female),{fill:'#fff7e8',stroke:'#ead9b7',value:'#b77913'});
+          statCard(ctx,startX+3*(cardW+gap),cardY,cardW,'الأعمدة',String(cols.length),{fill:'#eef3fb',stroke:'#d5dfec',value:'#315a86'});
+        }
+        ctx.fillStyle='#1768b5';ctx.fillRect(margin,tableTop,CW-margin*2,headerH);
+        var x=CW-margin;text(ctx,'ت',x-seqW/2,tableTop+headerH/2,{align:'center',size:13,title:true,color:'#fff',maxWidth:seqW-8});x-=seqW;
+        cols.forEach(function(c,i){var w=widths[i];text(ctx,c.l,x-w/2,tableTop+headerH/2,{align:'center',size:Math.max(9,fontSize-1),title:true,color:'#fff',maxWidth:w-10});x-=w;});
+        for(var ri=start;ri<end;ri++){
+          var yy=tableTop+headerH+(ri-start)*rowH;ctx.fillStyle=((ri-start)%2===0)?'#ffffff':'#eef4fb';ctx.fillRect(margin,yy,CW-margin*2,rowH);ctx.strokeStyle='#d6e1ec';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(margin,yy+rowH);ctx.lineTo(CW-margin,yy+rowH);ctx.stroke();
+          var xr=CW-margin;text(ctx,String(ri+1),xr-seqW/2,yy+rowH/2,{align:'center',size:12,numeric:true,title:true,color:'#1f2937',maxWidth:seqW-8});xr-=seqW;
+          cols.forEach(function(c,ci){var w=widths[ci],v=reportValue(ds[ri],c.k),center=['employmentStatus','gender','grade','stage'].indexOf(c.k)>=0,numeric=/^[0-9.,-]+$/.test(String(v))&&['employeeNo','identityNo'].indexOf(c.k)<0;text(ctx,v,center?xr-w/2:xr-8,yy+rowH/2,{align:center?'center':'right',size:fontSize,numeric:numeric,color:'#152b4f',maxWidth:w-14});xr-=w;});
+        }
+        var gx=CW-margin;ctx.strokeStyle='#cfdbe8';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(gx,tableTop);ctx.lineTo(gx,tableTop+headerH+(end-start)*rowH);ctx.stroke();gx-=seqW;ctx.beginPath();ctx.moveTo(gx,tableTop);ctx.lineTo(gx,tableTop+headerH+(end-start)*rowH);ctx.stroke();widths.forEach(function(w){gx-=w;ctx.beginPath();ctx.moveTo(gx,tableTop);ctx.lineTo(gx,tableTop+headerH+(end-start)*rowH);ctx.stroke();});
+        footer(ctx,CW,CH,margin,page,totalPages,ds.length);
+        var quality=prefs.quality==='ultra'?0.99:(prefs.quality==='high'?0.98:0.94),img=canvas.toDataURL('image/jpeg',quality);if(page>0)pdf.addPage('a4','landscape');pdf.addImage(img,'JPEG',0,0,297,210,undefined,'SLOW');
+        if(totalPages>3&&(page===0||page===totalPages-1||page%6===5))showToast('جاري تجهيز PDF: '+(page+1)+' / '+totalPages);await new Promise(function(resolve){setTimeout(resolve,0);});
+      }
+      var blob=pdf.output('blob'),ok=await r1419ReceiveGeneratedPdf(blob,fileName('pdf'),null);if(ok)showToast('تم حفظ التقرير الاحترافي في التنزيلات');
+    }catch(err){console.error('R1.4.42 professional report export',err);showToast('تعذر إنشاء التقرير على هذا الجهاز','error');}
+  }
+  function polishPreview(){
+    var doc=document.querySelector('#reports-page .r1424-doc');if(!doc)return;doc.classList.add('r1442-preview');
+    var emblem=doc.querySelector('.r1424-doc-emblem');if(emblem)emblem.innerHTML='<div class="r1442-preview-hr">HR</div>';
+    var titleEl=doc.querySelector('.r1424-doc-title');if(titleEl)titleEl.textContent='مديرية زراعة صلاح الدين';
+    var mins=doc.querySelectorAll('.r1424-doc-min');if(mins[0])mins[0].textContent='نظام شؤون الموظفين والموارد البشرية';if(mins[1])mins[1].remove();
+    var meta=doc.querySelector('.r1424-doc-meta');if(meta)meta.innerHTML='تاريخ الإنشاء: '+nowStamp()+'<br>عدد السجلات: '+reportDataset().length+'<br>منشئ التقرير: نظام شؤون الموظفين';
+    if(!doc.querySelector('.r1442-preview-report-title')){var kp=doc.querySelector('.r1424-doc-kpis');if(kp)kp.insertAdjacentHTML('beforebegin','<div class="r1442-preview-report-title">'+escapeHTML(REPORT_STATE.title||reportTypeLabel(REPORT_STATE.type))+'</div>');}
+  }
+  var baseBuild=window.buildReports;window.buildReports=function(){var r=baseBuild.apply(this,arguments);setTimeout(polishPreview,0);return r;};
+  window.printCurrentReport=buildPdf;printCurrentReport=buildPdf;
+  document.addEventListener('click',function(e){var b=e.target&&e.target.closest&&e.target.closest('#report-print-btn');if(!b)return;e.preventDefault();e.stopImmediatePropagation();buildPdf();},true);
+  setTimeout(polishPreview,0);
+})();
+</script>\n</body>
 </html>
