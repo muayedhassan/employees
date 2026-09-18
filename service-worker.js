@@ -1,5 +1,5 @@
-const CACHE_NAME = 'employee-registry-mobile-r1449-multi-branch-pages-2026.09.18';
-const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1449';
+const CACHE_NAME = 'employee-registry-mobile-r1450-multi-branch-pdf-design-restore-2026.09.18';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1450';
 const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',
