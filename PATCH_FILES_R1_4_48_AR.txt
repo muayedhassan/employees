@@ -1,0 +1,20 @@
+MobilePatch R1.4.46 to R1.4.48 — Branch Contracts Link
+
+هذه الحزمة تحتوي فقط الملفات المحدثة وليست مشروع HRMobileRepo كامل.
+
+انسخ الملفات التالية فوق نفس مساراتها داخل إصدار R1.4.46:
+
+1. index.html
+2. VERSION.txt
+3. manifest.webmanifest
+4. service-worker.js
+5. scripts/verify-mobile-r1.mjs
+6. MOBILE_R1_4_48_RELEASE_NOTES_AR.txt
+
+بعد النسخ:
+1. شغل VERIFY_MOBILE_R1.cmd من مجلد R1.4.46.
+2. إذا نجح الفحص، ادفع الملفات إلى GitHub.
+3. من الهاتف اضغط تحديث التطبيق والبيانات أو أغلق التطبيق وافتحه.
+
+ملاحظة مهمة:
+لا تستبدل مجلد المشروع كاملًا، فقط انسخ هذه الملفات فوق R1.4.46.

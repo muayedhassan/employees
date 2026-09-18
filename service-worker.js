@@ -1,5 +1,5 @@
-const CACHE_NAME = 'employee-registry-mobile-r1447-unified-scope-2026.09.18';
-const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1447';
+const CACHE_NAME = 'employee-registry-mobile-r1448-branch-contracts-link-2026.09.18';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1448';
 const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',
