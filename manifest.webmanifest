@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.62",
-  "short_name": "HR Mobile R1.4.62",
+  "name": "سجل الموظفين - Mobile R1.4.63",
+  "short_name": "HR Mobile R1.4.63",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.62: إصلاح فتح الواجهة بعد ظهور الأرقام، مع قفل سلسلة المطابقة غير المستقرة والعودة لمنطق R1.4.58 المستقر.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.63: إعادة تجربة تحميل البيانات في البداية مع إبقاء فتح الواجهة آمنًا بعد ظهور الأرقام.",
   "icons": [
     {
       "src": "assets/icon-192.png",

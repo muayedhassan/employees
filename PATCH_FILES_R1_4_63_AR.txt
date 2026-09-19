@@ -1,0 +1,11 @@
+Mobile Patch R1.4.62 to R1.4.63
+
+الملفات المعدلة داخل هذا التحديث:
+- index.html
+- service-worker.js
+- manifest.webmanifest
+- VERSION.txt
+- scripts/verify-mobile-r1.mjs
+- MOBILE_R1_4_63_RELEASE_NOTES_AR.txt
+- PATCH_FILES_R1_4_63_AR.txt
+- INSTALL_PATCH_R1_4_63.cmd

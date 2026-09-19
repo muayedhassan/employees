@@ -1,12 +1,13 @@
-// R1.4.62 boot unlock cache: clears R1.4.59/R1.4.60/R1.4.61 stale shells and keeps network-first startup.
+// R1.4.63 splash loading restore cache: restores the startup data-loading screen while keeping network-first startup safe.
+// Legacy verification markers retained: employee-registry-mobile-r1462-splash-boot-unlock-fix-2026.09.19 | employee-registry-pdf-downloads-r1462
 // Legacy verification markers retained: employee-registry-mobile-r1457-jobtitles-search-ui-polish-2026.09.19 | employee-registry-pdf-downloads-r1457
 // Legacy verification markers retained: employee-registry-mobile-r1456-jobtitles-directory-card-2026.09.19 | employee-registry-pdf-downloads-r1456
 // Legacy verification markers retained: employee-registry-mobile-r1454-service-calculator-notes-layout-polish-2026.09.19 | employee-registry-pdf-downloads-r1454
 // Legacy verification markers retained: employee-registry-mobile-r1453-service-calculator-card-2026.09.19 | employee-registry-pdf-downloads-r1453
 // Legacy verification markers retained: employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19 | employee-registry-pdf-downloads-r1452
 // Legacy verification markers retained: employee-registry-mobile-r1455-service-calculator-navigation-fix-2026.09.19 | employee-registry-pdf-downloads-r1455
-const CACHE_NAME = 'employee-registry-mobile-r1462-splash-boot-unlock-fix-2026.09.19';
-const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1462';
+const CACHE_NAME = 'employee-registry-mobile-r1463-splash-loading-restore-2026.09.19';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1463';
 const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',
