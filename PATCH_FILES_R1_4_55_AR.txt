@@ -1,0 +1,12 @@
+قائمة ملفات Patch R1.4.55:
+
+انسخ الملفات التالية فوق مشروع R1.4.54 الحالي مع الموافقة على الاستبدال:
+
+- index.html
+- VERSION.txt
+- manifest.webmanifest
+- service-worker.js
+- scripts/verify-mobile-r1.mjs
+- MOBILE_R1_4_55_RELEASE_NOTES_AR.txt
+- PATCH_FILES_R1_4_55_AR.txt
+- INSTALL_PATCH_R1_4_55.cmd

@@ -46,7 +46,8 @@ const required = [
   'MOBILE_R1_4_51_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_52_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_53_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_54_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_54_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_55_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -59,10 +60,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.54-SERVICE-CALCULATOR-NOTES-LAYOUT-POLISH';
+const expectedRelease = 'MOBILE-R1.4.55-SERVICE-CALCULATOR-NAVIGATION-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
 if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.54 Service Calculator Notes Layout Polish');
-if (!String(manifest.description || '').includes('R1.4.54')) fail('manifest description was not updated');
+if (!String(manifest.description || '').includes('R1.4.55')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -182,6 +183,13 @@ for (const removed of ['واجهة هاتفية لحساب سنوات وأشهر
   if (index.includes(removed)) fail(`R1.4.54 removed explanatory text still present: ${removed}`);
 }
 ok(`Mobile R1.4.54 Service Calculator Notes Layout Polish verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
+
+for (const marker of ['MOBILE R1.4.55: service calculator navigation isolation fix','clearServiceMode','baseSwitchMain','employee-registry-mobile-r1455-service-calculator-navigation-fix-2026.09.19','employee-registry-pdf-downloads-r1455']) {
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.55 service calculator navigation fix marker missing: ${marker}`);
+}
+if (!index.includes("document.body.classList.remove('subview-service');")) fail('R1.4.55 service mode cleanup missing');
+if (!index.includes("var result=baseSwitchSub(v);") || !index.includes("var result=baseSwitchMain(m);")) fail('R1.4.55 navigation wrapper missing');
+ok(`Mobile R1.4.55 Service Calculator Navigation Fix verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
 
 // R1.4.15 update-detail drilldown guards.

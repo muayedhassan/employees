@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.54-SERVICE-CALCULATOR-NOTES-LAYOUT-POLISH';
+var APP_RELEASE = 'MOBILE-R1.4.55-SERVICE-CALCULATOR-NAVIGATION-FIX';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -5399,8 +5399,44 @@ body.light-mode .r1438-follow-sheet{background:linear-gradient(180deg,#fff,#f4f7
   function bindServiceCalculator(){var c=document.getElementById('svc-calc'),r=document.getElementById('svc-reset'),s=document.getElementById('svc-start'),e=document.getElementById('svc-end');if(c)c.onclick=function(){calculateAndRender(false);};if(r)r.onclick=function(){var d=todayDefaults();if(s)s.value=d.start;if(e)e.value=d.end;calculateAndRender(false);};[s,e].forEach(function(x){if(x)x.addEventListener('change',function(){calculateAndRender(true);});});}
   function setActiveTab(v){var isPerm=mode==='perm',isCont=mode==='cont',subA=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service'].forEach(function(x){var t=document.getElementById('stab-'+x);if(t){t.className='sub-tab'+(v===x?' '+subA:'');t.setAttribute('aria-selected',v===x?'true':'false');}});}
   var oldSubLabel=typeof mobileR146SubLabel==='function'?mobileR146SubLabel:null;window.mobileR146SubLabel=function(){if(subView==='service')return 'حاسبة الخدمة';return oldSubLabel?oldSubLabel():({list:'القائمة',updates:'آخر التحديثات',reports:'التقارير',alerts:'التنبيهات',system:'حالة النظام'}[subView]||'القائمة');};
+  // MOBILE R1.4.55: service calculator navigation isolation fix
+  function clearServiceMode(){
+    document.body.classList.remove('subview-service');
+    var serviceView=document.getElementById(SERVICE_VIEW_ID);
+    if(serviceView)serviceView.style.display='none';
+    var serviceTab=document.getElementById(SERVICE_TAB_ID);
+    if(serviceTab){serviceTab.className='sub-tab';serviceTab.setAttribute('aria-selected','false');}
+  }
   var baseSwitchSub=window.switchSub||switchSub;
-  window.switchSub=switchSub=function(v){ensureTab();if(v==='service'){if(mode==='admin'){showToast('حاسبة الخدمة متاحة ضمن نطاق الدائميين والعقود','warn');return;}subView='service';document.body.classList.remove('subview-list','subview-updates','subview-quality','subview-reports','subview-alerts','subview-system','subview-service');document.body.classList.add('subview-service');['list','updates','reports','alerts','system','service','admin'].forEach(function(x){var view=document.getElementById('view-'+x);if(view)view.style.display=x==='service'?'block':'none';});var ss=document.getElementById('search-sec'),pg=document.getElementById('pg');if(ss)ss.style.display='none';if(pg)pg.style.display='none';setActiveTab('service');buildServiceCalculator();try{mobileR146SyncChrome();}catch(e){}try{if(typeof mobileR11BuildHome==='function')mobileR11BuildHome();}catch(e){}var sc=document.getElementById('scroll');if(sc)sc.scrollTo({top:0,behavior:'smooth'});return;}return baseSwitchSub(v);};
+  window.switchSub=switchSub=function(v){
+    ensureTab();
+    if(v==='service'){
+      if(mode==='admin'){showToast('حاسبة الخدمة متاحة ضمن نطاق الدائميين والعقود','warn');return;}
+      subView='service';
+      document.body.classList.remove('subview-list','subview-updates','subview-quality','subview-reports','subview-alerts','subview-system','subview-service');
+      document.body.classList.add('subview-service');
+      ['list','updates','reports','alerts','system','service','admin'].forEach(function(x){var view=document.getElementById('view-'+x);if(view)view.style.display=x==='service'?'block':'none';});
+      var ss=document.getElementById('search-sec'),pg=document.getElementById('pg');if(ss)ss.style.display='none';if(pg)pg.style.display='none';
+      setActiveTab('service');
+      buildServiceCalculator();
+      try{mobileR146SyncChrome();}catch(e){}
+      try{if(typeof mobileR11BuildHome==='function')mobileR11BuildHome();}catch(e){}
+      var sc=document.getElementById('scroll');if(sc)sc.scrollTo({top:0,behavior:'smooth'});
+      return;
+    }
+    clearServiceMode();
+    var result=baseSwitchSub(v);
+    clearServiceMode();
+    return result;
+  };
+  var baseSwitchMain=window.switchMain||switchMain;
+  window.switchMain=switchMain=function(m){
+    clearServiceMode();
+    var result=baseSwitchMain(m);
+    clearServiceMode();
+    ensureTab();
+    return result;
+  };
   window.mobileR147ActionButtons=mobileR147ActionButtons=function(){return '<div class="r14-actions r147-actions"><button type="button" class="r14-action primary" id="r14-focus-search"><i class="fas fa-magnifying-glass"></i> ابدأ بالبحث</button><button type="button" class="r14-action green" id="r14-open-updates"><i class="fas fa-clock-rotate-left"></i> آخر التحديثات</button><button type="button" class="r14-action amber" id="r14-open-service"><i class="fas fa-calculator"></i> حاسبة الخدمة</button><button type="button" class="r14-action amber" id="r14-open-system"><i class="fas fa-gauge-high"></i> حالة النظام</button></div>';};
   window.mobileR147BindHeroActions=mobileR147BindHeroActions=function(){var a=document.getElementById('r14-focus-search'),b=document.getElementById('r14-open-updates'),c=document.getElementById('r14-open-system'),d=document.getElementById('r14-open-service');if(a)a.addEventListener('click',function(){var q=document.getElementById('aqs-input')||document.getElementById('q');if(q){q.focus();try{q.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}}});if(b)b.addEventListener('click',function(){switchSub('updates');});if(c)c.addEventListener('click',function(){switchSub('system');});if(d)d.addEventListener('click',function(){switchSub('service');});};
   ensureTab();

@@ -1,0 +1,17 @@
+Mobile R1.4.55 — Service Calculator Navigation Fix
+
+نوع التحديث: Patch جزئي فوق R1.4.54.
+
+المعالجات:
+- إصلاح بقاء تبويب/كرت حاسبة الخدمة مؤشرًا عليه بعد الانتقال إلى تبويب أو كرت آخر.
+- منع ظهور واجهة حاسبة الخدمة الفعلية تحت محتوى الكروت الأخرى.
+- عزل view-service وربطه فقط عند اختيار حاسبة الخدمة.
+- تنظيف body class subview-service عند مغادرة الحاسبة أو تغيير النطاق الرئيسي.
+- الحفاظ على واجهة وملاحظات R1.4.54 بدون تغيير في منطق الحساب.
+
+الملفات المعدلة:
+- index.html
+- VERSION.txt
+- manifest.webmanifest
+- service-worker.js
+- scripts/verify-mobile-r1.mjs
