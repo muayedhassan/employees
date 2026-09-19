@@ -50,6 +50,7 @@ const required = [
   'MOBILE_R1_4_55_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_56_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_57_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_58_RELEASE_NOTES_AR.txt',
   'data/job-titles.json'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
@@ -65,10 +66,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.57-JOB-TITLES-SEARCH-UI-POLISH';
+const expectedRelease = 'MOBILE-R1.4.58-JOB-TITLES-DIRECT-SEARCH-GRADE-LAYOUT';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.57 Job Titles Search UI Polish');
-if (!String(manifest.description || '').includes('R1.4.57')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.58 Job Titles Direct Search Grade Layout');
+if (!String(manifest.description || '').includes('R1.4.58')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -196,20 +197,24 @@ if (!index.includes("document.body.classList.remove('subview-service');")) fail(
 if (!index.includes("var result=baseSwitchSub(v);") || !index.includes("var result=baseSwitchMain(m);")) fail('R1.4.55 navigation wrapper missing');
 ok(`Mobile R1.4.55 Service Calculator Navigation Fix verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
-for (const marker of ['MOBILE R1.4.57: job titles search stability','r1457-jobtitles-search-ui-polish-script','r1457BuildJobTitles','updateJobResults','jobtitle-stats-wrap','jobtitle-chips-wrap','type="text" inputmode="search"','العناوين الوظيفية حسب الدرجة','jobtitle-search','jobtitle-degree','data/job-titles.json','employee-registry-mobile-r1457-jobtitles-search-ui-polish-2026.09.19','employee-registry-pdf-downloads-r1457']) {
-  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.57 job titles UI polish marker missing: ${marker}`);
+for (const marker of ['MOBILE R1.4.58: job titles direct search grade layout','r1458-jobtitles-direct-search-grade-layout-script','r1458BuildJobTitles','updateJobResults','jobtitle-chips-wrap','type="text" inputmode="search"','العناوين الوظيفية حسب الدرجة','jobtitle-search','r1458-degree-panel','التحديد يظهر باللون الذهبي','data/job-titles.json','employee-registry-mobile-r1458-jobtitles-direct-search-grade-layout-2026.09.19','employee-registry-pdf-downloads-r1458']) {
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.58 job titles direct search marker missing: ${marker}`);
 }
-if (!Array.isArray(jobTitles.rows) || jobTitles.rows.length !== 1316 || jobTitles.total !== 1316) fail('R1.4.57 job titles total must remain exactly 1316');
+if (index.includes('id="jobtitle-degree"') || index.includes('jobtitle-stats-wrap')) fail('R1.4.58 must remove the degree select and the stat cards below search');
+if (!Array.isArray(jobTitles.rows) || jobTitles.rows.length !== 1316 || jobTitles.total !== 1316) fail('R1.4.58 job titles total must remain exactly 1316');
 const expectedJobTitleCounts = {'الأولى':124,'الثانية':159,'الثالثة':172,'الرابعة':177,'الخامسة':182,'السادسة':187,'السابعة':173,'الثامنة':89,'التاسعة':26,'العاشرة':27};
 for (const [degree, count] of Object.entries(expectedJobTitleCounts)) {
-  if (!jobTitles.counts || jobTitles.counts[degree] !== count) fail(`R1.4.57 job title count mismatch for ${degree}`);
-  if (!index.includes(degree)) fail(`R1.4.57 degree label missing in UI: ${degree}`);
+  if (!jobTitles.counts || jobTitles.counts[degree] !== count) fail(`R1.4.58 job title count mismatch for ${degree}`);
+  if (!index.includes(degree)) fail(`R1.4.58 degree label missing in UI: ${degree}`);
 }
 const seqs = jobTitles.rows.map(r => r.seq);
-if (seqs[0] !== 1 || seqs[seqs.length - 1] !== 1316 || new Set(seqs).size !== 1316) fail('R1.4.57 job title serial sequence is incomplete');
-if (!sw.includes('./data/job-titles.json')) fail('R1.4.57 job titles file is not cached in the app shell');
-if (index.includes("s.oninput=function(){jobState.q=this.value||'';renderJobTitles();}")) fail('R1.4.57 search input still rebuilds the full page and may hide the keyboard');
-ok(`Mobile R1.4.57 Job Titles Search UI Polish verified: titles=${jobTitles.total}`);
+if (seqs[0] !== 1 || seqs[seqs.length - 1] !== 1316 || new Set(seqs).size !== 1316) fail('R1.4.58 job title serial sequence is incomplete');
+if (!sw.includes('./data/job-titles.json')) fail('R1.4.58 job titles file is not cached in the app shell');
+if (index.includes("s.oninput=function(){jobState.q=this.value||'';renderJobTitles();}")) fail('R1.4.58 search input still rebuilds the full page and may hide the keyboard');
+if (!index.includes("s.addEventListener('input',function(){jobState.q=this.value||'';updateJobResults();})")) fail('R1.4.58 direct input search binding missing');
+if (!index.includes('.r1456-degree-chips{display:flex')) fail('R1.4.58 degree chips must be horizontal/flex, not vertical');
+if (!index.includes('.r1456-chip.active{background:linear-gradient(135deg,#ffd166,#fff0a6)')) fail('R1.4.58 selected degree must be gold');
+ok(`Mobile R1.4.58 Job Titles Direct Search Grade Layout verified: titles=${jobTitles.total}`);
 
 
 // R1.4.15 update-detail drilldown guards.

@@ -1,0 +1,17 @@
+MobilePatch_R1.4.57_to_R1.4.58_Job_Titles_Direct_Search_Grade_Layout
+
+الملفات المعدلة داخل هذا التحديث الجزئي:
+- index.html
+- VERSION.txt
+- manifest.webmanifest
+- service-worker.js
+- scripts/verify-mobile-r1.mjs
+- MOBILE_R1_4_58_RELEASE_NOTES_AR.txt
+- PATCH_FILES_R1_4_58_AR.txt
+- INSTALL_PATCH_R1_4_58.cmd
+
+طريقة التركيب:
+1. انسخ محتويات مجلد HRMobileRepo فوق مشروع الموبايل الحالي R1.4.57.
+2. وافق على الاستبدال.
+3. شغّل VERIFY_MOBILE_R1.cmd.
+4. ارفع إلى GitHub بعد نجاح الفحص.
