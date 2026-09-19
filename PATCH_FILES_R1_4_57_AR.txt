@@ -1,0 +1,12 @@
+ملفات التحديث الجزئي R1.4.57:
+
+- index.html
+- service-worker.js
+- manifest.webmanifest
+- VERSION.txt
+- scripts/verify-mobile-r1.mjs
+- MOBILE_R1_4_57_RELEASE_NOTES_AR.txt
+- PATCH_FILES_R1_4_57_AR.txt
+- INSTALL_PATCH_R1_4_57.cmd
+
+ملاحظة: لا يحتوي هذا التحديث على المشروع كاملًا، وإنما الملفات المعدلة فقط فوق R1.4.56.
