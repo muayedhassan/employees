@@ -1,0 +1,15 @@
+ملفات تحديث MOBILE R1.4.56 — Job Titles Directory Card
+
+انسخ هذه الملفات فوق مشروع HRMobileRepo الحالي R1.4.55:
+
+- index.html
+- VERSION.txt
+- manifest.webmanifest
+- service-worker.js
+- scripts/verify-mobile-r1.mjs
+- data/job-titles.json
+- MOBILE_R1_4_56_RELEASE_NOTES_AR.txt
+- PATCH_FILES_R1_4_56_AR.txt
+- INSTALL_PATCH_R1_4_56.cmd
+
+هذا Patch فقط وليس حزمة كاملة.

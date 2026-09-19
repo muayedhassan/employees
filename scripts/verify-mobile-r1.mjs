@@ -47,7 +47,9 @@ const required = [
   'MOBILE_R1_4_52_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_53_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_54_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_55_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_55_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_56_RELEASE_NOTES_AR.txt',
+  'data/job-titles.json'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -59,11 +61,13 @@ try { manifest = JSON.parse(read('manifest.webmanifest')); } catch (e) { fail(`m
 try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/version.json invalid: ${e.message}`); }
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
+let jobTitles;
+try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.55-SERVICE-CALCULATOR-NAVIGATION-FIX';
+const expectedRelease = 'MOBILE-R1.4.56-JOB-TITLES-DIRECTORY-CARD';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
 if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.54 Service Calculator Notes Layout Polish');
-if (!String(manifest.description || '').includes('R1.4.55')) fail('manifest description was not updated');
+if (!String(manifest.description || '').includes('R1.4.56')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -190,6 +194,19 @@ for (const marker of ['MOBILE R1.4.55: service calculator navigation isolation f
 if (!index.includes("document.body.classList.remove('subview-service');")) fail('R1.4.55 service mode cleanup missing');
 if (!index.includes("var result=baseSwitchSub(v);") || !index.includes("var result=baseSwitchMain(m);")) fail('R1.4.55 navigation wrapper missing');
 ok(`Mobile R1.4.55 Service Calculator Navigation Fix verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
+
+for (const marker of ['MOBILE R1.4.56: job titles directory card','r1456-jobtitles-directory-script','r1456BuildJobTitles','العناوين الوظيفية حسب الدرجة','jobtitle-search','jobtitle-degree','data/job-titles.json','employee-registry-mobile-r1456-jobtitles-directory-card-2026.09.19','employee-registry-pdf-downloads-r1456']) {
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.56 job titles directory marker missing: ${marker}`);
+}
+if (!Array.isArray(jobTitles.rows) || jobTitles.rows.length !== 1316 || jobTitles.total !== 1316) fail('R1.4.56 job titles total must be exactly 1316');
+const expectedJobTitleCounts = {'الأولى':124,'الثانية':159,'الثالثة':172,'الرابعة':177,'الخامسة':182,'السادسة':187,'السابعة':173,'الثامنة':89,'التاسعة':26,'العاشرة':27};
+for (const [degree, count] of Object.entries(expectedJobTitleCounts)) {
+  if (!jobTitles.counts || jobTitles.counts[degree] !== count) fail(`R1.4.56 job title count mismatch for ${degree}`);
+}
+const seqs = jobTitles.rows.map(r => r.seq);
+if (seqs[0] !== 1 || seqs[seqs.length - 1] !== 1316 || new Set(seqs).size !== 1316) fail('R1.4.56 job title serial sequence is incomplete');
+if (!sw.includes('./data/job-titles.json')) fail('R1.4.56 job titles file is not cached in the app shell');
+ok(`Mobile R1.4.56 Job Titles Directory Card verified: titles=${jobTitles.total}`);
 
 
 // R1.4.15 update-detail drilldown guards.

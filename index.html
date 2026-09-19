@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.55-SERVICE-CALCULATOR-NAVIGATION-FIX';
+var APP_RELEASE = 'MOBILE-R1.4.56-JOB-TITLES-DIRECTORY-CARD';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -5442,6 +5442,112 @@ body.light-mode .r1438-follow-sheet{background:linear-gradient(180deg,#fff,#f4f7
   ensureTab();
   setTimeout(function(){ensureTab();try{if(typeof mobileR14BuildHome==='function'&&subView==='list')mobileR14BuildHome();}catch(e){}},80);
   window.r1453BuildServiceCalculator=buildServiceCalculator;
+})();
+</script>
+
+
+<script id="r1456-jobtitles-directory-script">
+// MOBILE R1.4.56: job titles directory card + searchable professional interface
+(function(){
+  var JOB_VIEW_ID='view-jobtitles';
+  var JOB_TAB_ID='stab-jobtitles';
+  var JOB_DATA_URL='data/job-titles.json';
+  var JOB_DEGREES=['الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة','السابعة','الثامنة','التاسعة','العاشرة'];
+  var jobInjected=false;
+  var jobLoading=null;
+  var jobState={data:null,q:'',degree:'all'};
+  function esc(v){try{return (typeof escapeHTML==='function'?escapeHTML(String(v==null?'':v)):String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}));}catch(e){return String(v==null?'':v);}}
+  function norm(s){return String(s||'').toLowerCase().replace(/[اأإآ]/g,'ا').replace(/ى/g,'ي').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/ة/g,'ه').replace(/[ًٌٍَُِّْـ]/g,'').replace(/\s+/g,' ').trim();}
+  function injectJobStyle(){
+    if(jobInjected)return;jobInjected=true;
+    var css=`body.subview-jobtitles #search-sec,body.subview-jobtitles #pg{display:none!important}body.subview-jobtitles #view-jobtitles{display:block!important}body.subview-jobtitles #view-list,body.subview-jobtitles #view-updates,body.subview-jobtitles #view-reports,body.subview-jobtitles #view-alerts,body.subview-jobtitles #view-system,body.subview-jobtitles #view-service{display:none!important}.r1416-nav-card .sub-tabs.r1456-jobtitles-ready{grid-template-columns:repeat(7,minmax(0,1fr))!important}.r147-actions.r1456-actions{grid-template-columns:repeat(5,minmax(0,1fr))!important}.r1456-page{padding:12px 10px 34px;display:grid;gap:11px}.r1456-hero{position:relative;overflow:hidden;border-radius:27px;padding:17px 15px;background:linear-gradient(135deg,rgba(15,38,92,.98),rgba(13,103,121,.88));border:1px solid rgba(255,209,102,.22);box-shadow:0 18px 48px rgba(0,0,0,.21),inset 0 1px 0 rgba(255,255,255,.07)}.r1456-hero:before{content:"";position:absolute;right:-76px;top:-86px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(255,209,102,.20),transparent 68%)}.r1456-hero:after{content:"";position:absolute;left:-76px;bottom:-96px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,.15),transparent 70%)}.r1456-hero-in{position:relative;z-index:1;display:flex;align-items:center;gap:12px}.r1456-hero-ico{width:58px;height:58px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(135deg,#ffd166,#fff0a6);color:#0b1538;font-size:25px;box-shadow:0 18px 30px rgba(255,209,102,.20);flex-shrink:0}.r1456-hero-title{font:900 clamp(18px,5.2vw,25px) var(--hr-title-font);color:#fff;line-height:1.38}.r1456-hero-sub{font:800 10px var(--hr-body-font);color:rgba(255,255,255,.74);line-height:1.85;margin-top:3px}.r1456-hero-badge{margin-right:auto;min-width:86px;text-align:center;border-radius:18px;padding:9px 8px;background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.13)}.r1456-hero-badge b{display:block;font:900 20px var(--hr-number-font);direction:ltr;color:#ffd166;line-height:1}.r1456-hero-badge span{display:block;margin-top:3px;font:900 8px var(--hr-body-font);color:rgba(255,255,255,.62)}.r1456-panel{border-radius:24px;padding:13px;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.034));border:1px solid rgba(255,255,255,.09);box-shadow:0 14px 32px rgba(0,0,0,.12)}body.light-mode .r1456-panel{background:#fff;border-color:rgba(35,55,120,.09);box-shadow:0 12px 26px rgba(26,35,126,.08)}.r1456-search-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(120px,.55fr);gap:9px}.r1456-search-box{position:relative}.r1456-search-box i{position:absolute;inset-inline-start:13px;top:50%;transform:translateY(-50%);color:#7dd3fc}.r1456-search-box input,.r1456-select{width:100%;height:48px;border-radius:18px;border:1px solid rgba(125,151,210,.18);background:rgba(255,255,255,.06);color:var(--text);outline:none;padding:0 40px 0 12px;font:900 12px var(--hr-body-font)}.r1456-select{padding:0 12px;font-family:var(--hr-title-font);text-align:center}body.light-mode .r1456-search-box input,body.light-mode .r1456-select{background:#f8faff;color:#172846}.r1456-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.r1456-stat{border-radius:18px;padding:10px 8px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.075);min-width:0}.r1456-stat i{color:#7dd3fc;margin-left:5px}.r1456-stat b{display:block;font:900 20px var(--hr-number-font);direction:ltr;color:#ffd166;line-height:1}.r1456-stat span{display:block;margin-top:5px;font:900 8px var(--hr-body-font);color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}body.light-mode .r1456-stat{background:#f8faff;border-color:rgba(35,55,120,.08)}.r1456-degree-chips{display:flex;gap:7px;overflow:auto;padding:2px 0 3px;scrollbar-width:none}.r1456-degree-chips::-webkit-scrollbar{display:none}.r1456-chip{border:1px solid rgba(125,151,210,.16);background:rgba(255,255,255,.055);color:var(--text2);border-radius:999px;padding:8px 10px;font:900 9px var(--hr-title-font);white-space:nowrap;display:inline-flex;align-items:center;gap:5px;cursor:pointer}.r1456-chip b{font-family:var(--hr-number-font);color:#7dd3fc}.r1456-chip.active{background:linear-gradient(135deg,#ffd166,#fff0a6);color:#08152f;border-color:rgba(255,209,102,.34);box-shadow:0 10px 22px rgba(255,209,102,.13)}.r1456-chip.active b{color:#08152f}.r1456-result-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.r1456-result-title{display:flex;align-items:center;gap:8px;font:900 13px var(--hr-title-font);color:var(--text)}.r1456-result-title i{width:34px;height:34px;border-radius:14px;display:grid;place-items:center;background:rgba(59,130,246,.14);color:#7dd3fc;border:1px solid rgba(125,211,252,.20)}.r1456-result-count{border-radius:999px;padding:7px 9px;background:rgba(255,209,102,.10);border:1px solid rgba(255,209,102,.18);color:var(--gold);font:900 9px var(--hr-body-font);white-space:nowrap}.r1456-list{display:grid;gap:8px;margin-top:10px}.r1456-title-card{position:relative;overflow:hidden;border-radius:20px;padding:11px 12px;display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:10px;align-items:center;background:rgba(255,255,255,.052);border:1px solid rgba(255,255,255,.078)}body.light-mode .r1456-title-card{background:#f8faff;border-color:rgba(35,55,120,.075)}.r1456-title-card:before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:linear-gradient(#0ea5e9,#22c55e)}.r1456-seq{width:54px;height:42px;border-radius:15px;display:grid;place-items:center;background:rgba(17,71,117,.12);border:1px solid rgba(125,211,252,.16);font:900 14px var(--hr-number-font);color:#7dd3fc;direction:ltr}.r1456-title-main{min-width:0}.r1456-title-main h3{margin:0;font:900 13px var(--hr-body-font);color:var(--text);line-height:1.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.r1456-title-main p{margin:3px 0 0;font:900 9px var(--hr-title-font);color:var(--text2)}.r1456-degree-badge{border-radius:999px;padding:7px 10px;background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.18);color:#86efac;font:900 9px var(--hr-title-font);white-space:nowrap}body.light-mode .r1456-degree-badge{color:#047857;background:#ecfdf5;border-color:#bbf7d0}.r1456-empty{border-radius:20px;padding:22px;text-align:center;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);color:#fca5a5;font:900 11px var(--hr-body-font);line-height:1.8}.r1456-loader{border-radius:20px;padding:24px;text-align:center;color:var(--text2);font:900 12px var(--hr-body-font)}.r1456-source{display:flex;align-items:center;gap:7px;margin-top:9px;color:var(--text2);font:800 8.5px var(--hr-body-font);line-height:1.7}.r1456-source i{color:#ffd166}.r1456-action-job{background:linear-gradient(135deg,#2563eb,#22c55e)!important;color:#fff!important}@media(max-width:720px){.r1416-nav-card .sub-tabs.r1456-jobtitles-ready{grid-template-columns:repeat(3,minmax(0,1fr))!important}.r147-actions.r1456-actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}.r147-actions.r1456-actions #r14-open-search{grid-column:1/-1}.r1456-hero-in{align-items:flex-start}.r1456-hero-badge{margin-right:0}.r1456-search-grid{grid-template-columns:1fr}.r1456-stats{grid-template-columns:repeat(2,1fr)}.r1456-title-card{grid-template-columns:48px minmax(0,1fr);align-items:flex-start}.r1456-degree-badge{grid-column:2}.r1456-seq{width:48px;height:40px}}`;
+    var st=document.createElement('style');st.id='r1456-jobtitles-directory-style';st.textContent=css;document.head.appendChild(st);
+  }
+  function ensureJobTab(){
+    injectJobStyle();
+    var tabs=document.getElementById('sub-tabs');
+    if(tabs){tabs.classList.add('r1456-jobtitles-ready');if(!document.getElementById(JOB_TAB_ID)){var el=document.createElement('div');el.className='sub-tab';el.id=JOB_TAB_ID;el.setAttribute('role','tab');el.setAttribute('aria-selected','false');el.onclick=function(){switchSub('jobtitles');};el.innerHTML='<i class="fas fa-briefcase"></i> العناوين';var sys=document.getElementById('stab-system');tabs.insertBefore(el,sys||null);}}
+    if(!document.getElementById(JOB_VIEW_ID)){var view=document.createElement('div');view.id=JOB_VIEW_ID;view.style.display='none';view.innerHTML='<div class="r1456-page" id="jobtitles-page"></div>';var service=document.getElementById('view-service'),reports=document.getElementById('view-reports'),parent=(service&&service.parentNode)||(reports&&reports.parentNode)||document.getElementById('scroll');parent.insertBefore(view,service?service.nextSibling:(reports?reports.nextSibling:null));}
+  }
+  function loadJobTitles(){
+    if(jobState.data)return Promise.resolve(jobState.data);
+    if(jobLoading)return jobLoading;
+    jobLoading=fetch(JOB_DATA_URL+'?v='+encodeURIComponent(APP_RELEASE||'r1456'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(data){
+      if(!data||!Array.isArray(data.rows)||data.rows.length!==Number(data.total||0))throw new Error('job titles data mismatch');
+      jobState.data=data;return data;
+    }).catch(function(err){console.error('R1.4.56 job titles load error',err);throw err;});
+    return jobLoading;
+  }
+  function counts(data){return data&&data.counts?data.counts:{};}
+  function rowMatches(row,q,degree){
+    if(degree&&degree!=='all'&&row.degree!==degree)return false;
+    if(!q)return true;
+    var nq=norm(q),hay=norm([row.seq,row.degree,row.title].join(' '));
+    return hay.indexOf(nq)>=0;
+  }
+  function filteredRows(){
+    var data=jobState.data,rows=(data&&data.rows)||[],q=String(jobState.q||'').trim(),degree=jobState.degree||'all';
+    return rows.filter(function(r){return rowMatches(r,q,degree);});
+  }
+  function chipsHTML(data){var c=counts(data),all=(data&&data.total)||0;var html='<button type="button" class="r1456-chip '+(jobState.degree==='all'?'active':'')+'" data-job-degree="all">الكل <b>'+all+'</b></button>';JOB_DEGREES.forEach(function(d){html+='<button type="button" class="r1456-chip '+(jobState.degree===d?'active':'')+'" data-job-degree="'+esc(d)+'">'+esc(d)+' <b>'+esc(c[d]||0)+'</b></button>';});return html;}
+  function statsHTML(data,shown){var c=counts(data),top=JOB_DEGREES.slice().sort(function(a,b){return (c[b]||0)-(c[a]||0);})[0]||'—';return '<div class="r1456-stats"><div class="r1456-stat"><i class="fas fa-list-ol"></i><b>'+esc((data&&data.total)||0)+'</b><span>إجمالي العناوين</span></div><div class="r1456-stat"><i class="fas fa-layer-group"></i><b>'+esc(JOB_DEGREES.length)+'</b><span>درجات وظيفية</span></div><div class="r1456-stat"><i class="fas fa-ranking-star"></i><b>'+esc(c[top]||0)+'</b><span>أكبر مجموعة: '+esc(top)+'</span></div><div class="r1456-stat"><i class="fas fa-filter"></i><b>'+esc(shown)+'</b><span>نتائج العرض الحالية</span></div></div>';}
+  function renderRows(rows){if(!rows.length)return '<div class="r1456-empty"><i class="fas fa-triangle-exclamation"></i><br>لا توجد عناوين مطابقة للبحث الحالي. جرّب تغيير الدرجة أو عبارة البحث.</div>';return '<div class="r1456-list">'+rows.map(function(r){return '<article class="r1456-title-card"><div class="r1456-seq">#'+esc(r.seq)+'</div><div class="r1456-title-main"><h3>'+esc(r.title)+'</h3><p><i class="fas fa-briefcase"></i> عنوان وظيفي مثبت ضمن الدرجة '+esc(r.degree)+'</p></div><div class="r1456-degree-badge">'+esc(r.degree)+'</div></article>';}).join('')+'</div>';}
+  function renderJobTitles(){
+    ensureJobTab();
+    var page=document.getElementById('jobtitles-page');if(!page)return;
+    var data=jobState.data,rows=filteredRows();
+    page.innerHTML='<section class="r1456-hero"><div class="r1456-hero-in"><div class="r1456-hero-ico"><i class="fas fa-id-card-clip"></i></div><div><div class="r1456-hero-title">العناوين الوظيفية حسب الدرجة</div><div class="r1456-hero-sub">دليل بحث سريع ودقيق مبني على ملف العناوين الوظيفية المرفق، مع الحفاظ على جميع العناوين دون حذف.</div></div><div class="r1456-hero-badge"><b>'+esc(data?data.total:'—')+'</b><span>عنوان</span></div></div></section><section class="r1456-panel"><div class="r1456-search-grid"><div class="r1456-search-box"><i class="fas fa-magnifying-glass"></i><input id="jobtitle-search" type="search" autocomplete="off" placeholder="ابحث باسم العنوان أو الدرجة أو الرقم..." value="'+esc(jobState.q)+'"></div><select id="jobtitle-degree" class="r1456-select"><option value="all">كل الدرجات</option>'+JOB_DEGREES.map(function(d){return '<option value="'+esc(d)+'" '+(jobState.degree===d?'selected':'')+'>'+esc(d)+'</option>';}).join('')+'</select></div><div class="r1456-source"><i class="fas fa-shield-check"></i><span>المصدر: '+esc(data?data.sourceFile:'ملف العناوين الوظيفية حسب الدرجة')+' — '+esc(data?data.sourceSheet:'قائمة موحدة')+'</span></div></section>'+statsHTML(data,rows.length)+'<section class="r1456-panel"><div class="r1456-degree-chips">'+chipsHTML(data)+'</div></section><section class="r1456-panel"><div class="r1456-result-head"><div class="r1456-result-title"><i class="fas fa-table-list"></i><span>نتائج العناوين الوظيفية</span></div><div class="r1456-result-count">'+esc(rows.length)+' نتيجة</div></div>'+renderRows(rows)+'</section>';
+    bindJobTitles();
+  }
+  function buildJobTitles(){
+    ensureJobTab();
+    var page=document.getElementById('jobtitles-page');if(page)page.innerHTML='<div class="r1456-loader"><i class="fas fa-spinner fa-spin"></i><br>جاري تحميل العناوين الوظيفية بدقة...</div>';
+    loadJobTitles().then(renderJobTitles).catch(function(){var page=document.getElementById('jobtitles-page');if(page)page.innerHTML='<div class="r1456-empty">تعذر تحميل ملف العناوين الوظيفية. تأكد من تطبيق التحديث كاملًا ووجود data/job-titles.json.</div>';showToast('تعذر تحميل العناوين الوظيفية','error');});
+  }
+  function bindJobTitles(){
+    var s=document.getElementById('jobtitle-search'),d=document.getElementById('jobtitle-degree');
+    if(s)s.oninput=function(){jobState.q=this.value||'';renderJobTitles();};
+    if(d)d.onchange=function(){jobState.degree=this.value||'all';renderJobTitles();};
+    document.querySelectorAll('[data-job-degree]').forEach(function(b){b.onclick=function(){jobState.degree=this.getAttribute('data-job-degree')||'all';renderJobTitles();};});
+  }
+  function setJobActiveTab(v){var isPerm=mode==='perm',isCont=mode==='cont',subA=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles'].forEach(function(x){var t=document.getElementById('stab-'+x);if(t){t.className='sub-tab'+(v===x?' '+subA:'');t.setAttribute('aria-selected',v===x?'true':'false');}});}
+  function clearJobMode(){document.body.classList.remove('subview-jobtitles');var v=document.getElementById(JOB_VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(JOB_TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
+  var prevLabel=typeof mobileR146SubLabel==='function'?mobileR146SubLabel:null;window.mobileR146SubLabel=function(){if(subView==='jobtitles')return 'العناوين الوظيفية';return prevLabel?prevLabel():({list:'القائمة',updates:'آخر التحديثات',reports:'التقارير',alerts:'التنبيهات',system:'حالة النظام',service:'حاسبة الخدمة'}[subView]||'القائمة');};
+  var baseSwitchSub=window.switchSub||switchSub;
+  window.switchSub=switchSub=function(v){
+    ensureJobTab();
+    if(v==='jobtitles'){
+      if(mode==='admin'){showToast('دليل العناوين الوظيفية متاح ضمن نطاق الدائميين والعقود','warn');return;}
+      subView='jobtitles';
+      document.body.classList.remove('subview-list','subview-updates','subview-quality','subview-reports','subview-alerts','subview-system','subview-service','subview-jobtitles');
+      document.body.classList.add('subview-jobtitles');
+      ['list','updates','reports','alerts','system','service','jobtitles','admin'].forEach(function(x){var view=document.getElementById('view-'+x);if(view)view.style.display=x==='jobtitles'?'block':'none';});
+      var ss=document.getElementById('search-sec'),pg=document.getElementById('pg');if(ss)ss.style.display='none';if(pg)pg.style.display='none';
+      setJobActiveTab('jobtitles');
+      buildJobTitles();
+      try{mobileR146SyncChrome();}catch(e){}
+      try{if(typeof mobileR11BuildHome==='function')mobileR11BuildHome();}catch(e){}
+      var sc=document.getElementById('scroll');if(sc)sc.scrollTo({top:0,behavior:'smooth'});
+      return;
+    }
+    clearJobMode();
+    var result=baseSwitchSub(v);
+    if(v!=='service')clearJobMode();
+    return result;
+  };
+  var baseSwitchMain=window.switchMain||switchMain;
+  window.switchMain=switchMain=function(m){
+    clearJobMode();
+    var result=baseSwitchMain(m);
+    clearJobMode();
+    ensureJobTab();
+    return result;
+  };
+  window.mobileR147ActionButtons=mobileR147ActionButtons=function(){return '<div class="r14-actions r147-actions r1456-actions"><button type="button" class="r14-action primary" id="r14-open-search"><i class="fas fa-magnifying-glass"></i> ابدأ بالبحث</button><button type="button" class="r14-action green" id="r14-open-updates"><i class="fas fa-clock-rotate-left"></i> آخر التحديثات</button><button type="button" class="r14-action amber" id="r14-open-service"><i class="fas fa-calculator"></i> حاسبة الخدمة</button><button type="button" class="r14-action r1456-action-job" id="r14-open-jobtitles"><i class="fas fa-briefcase"></i> العناوين الوظيفية</button><button type="button" class="r14-action amber" id="r14-open-system"><i class="fas fa-gauge-high"></i> حالة النظام</button></div>';};
+  window.mobileR147BindHeroActions=mobileR147BindHeroActions=function(){var a=document.getElementById('r14-open-search'),b=document.getElementById('r14-open-updates'),c=document.getElementById('r14-open-system'),d=document.getElementById('r14-open-service'),e=document.getElementById('r14-open-jobtitles');if(a)a.addEventListener('click',function(){var q=document.getElementById('aqs-input')||document.getElementById('q');if(q){q.focus();try{q.scrollIntoView({behavior:'smooth',block:'center'});}catch(err){}}});if(b)b.addEventListener('click',function(){switchSub('updates');});if(c)c.addEventListener('click',function(){switchSub('system');});if(d)d.addEventListener('click',function(){switchSub('service');});if(e)e.addEventListener('click',function(){switchSub('jobtitles');});};
+  ensureJobTab();
+  setTimeout(function(){ensureJobTab();try{if(typeof mobileR14BuildHome==='function'&&subView==='list')mobileR14BuildHome();}catch(e){}},110);
+  window.r1456BuildJobTitles=buildJobTitles;
 })();
 </script>
 
