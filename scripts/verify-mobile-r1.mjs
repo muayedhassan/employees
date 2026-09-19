@@ -52,6 +52,7 @@ const required = [
   'MOBILE_R1_4_57_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_58_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_61_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_62_RELEASE_NOTES_AR.txt',
   'data/job-titles.json'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
@@ -67,10 +68,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.61-RESTORE-STABLE-R1.4.58';
+const expectedRelease = 'MOBILE-R1.4.62-SPLASH-BOOT-UNLOCK-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.61 Restore Stable R1.4.58');
-if (!String(manifest.description || '').includes('R1.4.61')) fail('manifest description was not updated to R1.4.61');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.62 Splash Boot Unlock Fix');
+if (!String(manifest.description || '').includes('R1.4.62')) fail('manifest description was not updated to R1.4.62');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -198,7 +199,7 @@ if (!index.includes("document.body.classList.remove('subview-service');")) fail(
 if (!index.includes("var result=baseSwitchSub(v);") || !index.includes("var result=baseSwitchMain(m);")) fail('R1.4.55 navigation wrapper missing');
 ok(`Mobile R1.4.55 Service Calculator Navigation Fix verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
-for (const marker of ['MOBILE R1.4.58: job titles direct search grade layout','r1458-jobtitles-direct-search-grade-layout-script','r1458BuildJobTitles','updateJobResults','jobtitle-chips-wrap','type="text" inputmode="search"','العناوين الوظيفية حسب الدرجة','jobtitle-search','r1458-degree-panel','التحديد يظهر باللون الذهبي','data/job-titles.json','employee-registry-mobile-r1461-restore-stable-r1458-2026.09.19','employee-registry-pdf-downloads-r1461']) {
+for (const marker of ['MOBILE R1.4.58: job titles direct search grade layout','r1458-jobtitles-direct-search-grade-layout-script','r1458BuildJobTitles','updateJobResults','jobtitle-chips-wrap','type="text" inputmode="search"','العناوين الوظيفية حسب الدرجة','jobtitle-search','r1458-degree-panel','التحديد يظهر باللون الذهبي','data/job-titles.json','employee-registry-mobile-r1462-splash-boot-unlock-fix-2026.09.19','employee-registry-pdf-downloads-r1462']) {
   if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.58 job titles direct search marker missing: ${marker}`);
 }
 if (index.includes('id="jobtitle-degree"') || index.includes('jobtitle-stats-wrap')) fail('R1.4.58 must remove the degree select and the stat cards below search');
@@ -215,7 +216,7 @@ if (index.includes("s.oninput=function(){jobState.q=this.value||'';renderJobTitl
 if (!index.includes("s.addEventListener('input',function(){jobState.q=this.value||'';updateJobResults();})")) fail('R1.4.58 direct input search binding missing');
 if (!index.includes('.r1456-degree-chips{display:flex')) fail('R1.4.58 degree chips must be horizontal/flex, not vertical');
 if (!index.includes('.r1456-chip.active{background:linear-gradient(135deg,#ffd166,#fff0a6)')) fail('R1.4.58 selected degree must be gold');
-ok(`Mobile R1.4.61 Restore Stable R1.4.58 verified: titles=${jobTitles.total}`);
+ok(`Mobile R1.4.62 Restore Stable R1.4.58 boot unlock verified: titles=${jobTitles.total}`);
 
 
 // R1.4.15 update-detail drilldown guards.
@@ -675,3 +676,14 @@ for (const marker of [
 if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.46 app-shell cache marker missing');
 if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.46 PDF cache marker missing');
 ok(`Mobile R1.4.46 Adaptive Report Design Phase 2 verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
+
+// R1.4.62 Splash Boot Unlock Fix verification
+(function verifyR1462(){
+  const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
+  if (ver !== 'MOBILE-R1.4.62-SPLASH-BOOT-UNLOCK-FIX') fail('R1.4.62 VERSION.txt mismatch');
+  if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.62 service worker timeout guard missing');
+  if (!idx.includes('R1.4.62 boot watchdog')) fail('R1.4.62 boot watchdog missing');
+  if (!idx.includes('MOBILE-R1.4.62-SPLASH-BOOT-UNLOCK-FIX')) fail('R1.4.62 APP_RELEASE missing');
+  ok('Mobile R1.4.62 Splash Boot Unlock Fix verified: interface unlock guarded');
+})();

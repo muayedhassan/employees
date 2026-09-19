@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.61-RESTORE-STABLE-R1.4.58';
+var APP_RELEASE = 'MOBILE-R1.4.62-SPLASH-BOOT-UNLOCK-FIX';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -4476,16 +4476,41 @@ window.addEventListener('load',async function(){
   countUp('sv-shown',BASE.perm.length);
   render();
 
+  // R1.4.62: unlock the interface immediately after rendering data.
+  // Service Worker registration must never keep the splash screen blocking the UI.
+  setTimeout(function(){
+    var sp=document.getElementById('splash');
+    if(sp)sp.classList.add('hide');
+  },450);
+
   // Open a specific employee when arriving from a QR/deep link.
   try{var qp=new URLSearchParams(location.search),eid=qp.get('employee'),etype=qp.get('type')||'perm';if(eid){var found=bridgeFindEmployee(eid,etype)||bridgeFindEmployee(eid);if(found){switchMain(found.type||etype);setTimeout(function(){openModal(found);},120);}}}catch(e){}
 
-  await r122RegisterServiceWorker();
+  try{
+    await Promise.race([
+      r122RegisterServiceWorker(),
+      new Promise(function(resolve){setTimeout(resolve,1200);})
+    ]);
+  }catch(e){}
   r122StartAutoUpdateWatchers();
 
   setTimeout(function(){
-    document.getElementById('splash').classList.add('hide');
+    var sp=document.getElementById('splash');
+    if(sp)sp.classList.add('hide');
   },2600);
 });
+
+// R1.4.62 boot watchdog: if any old service-worker update stalls startup,
+// force the visible app shell to open instead of staying on the counter screen.
+setTimeout(function(){
+  try{
+    var sp=document.getElementById('splash');
+    if(sp)sp.classList.add('hide');
+    if(document.body && !/subview-/.test(document.body.className))document.body.classList.add('subview-list');
+    var vl=document.getElementById('view-list');
+    if(vl && (!vl.style.display || vl.style.display==='none'))vl.style.display='block';
+  }catch(e){}
+},5200);
 </script>
 
 <script id="r1424-reports-script">
