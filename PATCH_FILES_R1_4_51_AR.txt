@@ -1,0 +1,10 @@
+ملفات Patch R1.4.51:
+
+VERSION.txt
+index.html
+manifest.webmanifest
+service-worker.js
+scripts/verify-mobile-r1.mjs
+MOBILE_R1_4_51_RELEASE_NOTES_AR.txt
+PATCH_FILES_R1_4_51_AR.txt
+INSTALL_PATCH_R1_4_51.cmd
