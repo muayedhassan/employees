@@ -44,7 +44,8 @@ const required = [
   'MOBILE_R1_4_49_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_50_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_51_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_52_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_52_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_53_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -57,10 +58,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.52-PROFESSIONAL-PDF-VISUAL-UPGRADE';
+const expectedRelease = 'MOBILE-R1.4.53-MOBILE-SERVICE-CALCULATOR-CARD';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.52 Professional PDF Visual Upgrade');
-if (!String(manifest.description || '').includes('R1.4.52')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.53 Mobile Service Calculator Card');
+if (!String(manifest.description || '').includes('R1.4.53')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -166,6 +167,12 @@ if (!index.includes("font:'HRPdfZain',weight:'400'")) fail('R1.4.52 Zain heading
 if (!index.includes("font:numeric?'HRPdfNum':'HRPdfSultan'")) fail('R1.4.52 table body must use SF Sultan for non-numeric data');
 if (index.includes("font:'HRPdfZain',weight:'700'") || index.includes("font:'HRPdfZain',weight:'900'")) fail('R1.4.52 must not draw Zain headings in bold');
 ok(`Mobile R1.4.52 Professional PDF Visual Upgrade verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
+
+for (const marker of ['MOBILE R1.4.53: mobile service calculator card','r1453-mobile-service-calculator-script','r1453BuildServiceCalculator','حاسبة الخدمة الفعلية','الخدمة المضافة','المدد التي لا تُحتسب','svc-start','svc-end','employee-registry-mobile-r1453-service-calculator-card-2026.09.19','employee-registry-pdf-downloads-r1453']) {
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.53 service calculator marker missing: ${marker}`);
+}
+if (!index.includes("switchSub('service')")) fail('R1.4.53 service calculator navigation missing');
+ok(`Mobile R1.4.53 Service Calculator Card verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
 
 // R1.4.15 update-detail drilldown guards.
