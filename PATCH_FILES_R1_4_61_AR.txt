@@ -1,0 +1,11 @@
+ملفات تحديث R1.4.61 Restore Stable R1.4.58:
+- index.html
+- VERSION.txt
+- manifest.webmanifest
+- service-worker.js
+- scripts/verify-mobile-r1.mjs
+- MOBILE_R1_4_61_RELEASE_NOTES_AR.txt
+- PATCH_FILES_R1_4_61_AR.txt
+- INSTALL_PATCH_R1_4_61.cmd
+
+ملاحظة: هذا التحديث يلغي عمليًا أثر R1.4.59 وR1.4.60 عبر استبدال الملفات الأساسية بالنسخة المستقرة.
