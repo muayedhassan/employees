@@ -43,7 +43,8 @@ const required = [
   'MOBILE_R1_4_48_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_49_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_50_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_51_RELEASE_NOTES_AR.txt'
+  'MOBILE_R1_4_51_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_52_RELEASE_NOTES_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -56,10 +57,10 @@ try { version = JSON.parse(read('data/version.json')); } catch (e) { fail(`data/
 try { employees = JSON.parse(read('data/employees.json')); } catch (e) { fail(`data/employees.json invalid: ${e.message}`); }
 try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail(`change-summary JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.51-MULTI-BRANCH-COLUMN-SYNC';
+const expectedRelease = 'MOBILE-R1.4.52-PROFESSIONAL-PDF-VISUAL-UPGRADE';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.51 Multi Branch Column Sync');
-if (!String(manifest.description || '').includes('R1.4.51')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.52 Professional PDF Visual Upgrade');
+if (!String(manifest.description || '').includes('R1.4.52')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -108,7 +109,7 @@ const genderRecords = [...employees.perm, ...employees.cont].filter(e => String(
 if (!genderRecords.length) fail('employee gender data is unavailable for R1.4.33 reports');
 
 // Service worker must force a fresh app shell while keeping central data network-first.
-if (!sw.includes("employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19")) fail('R1.4.48 app-shell cache marker missing');
+if (!sw.includes("employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19")) fail('R1.4.48 app-shell cache marker missing');
 for (const marker of ['skipWaiting','clients.claim','networkFirst','staleWhileRevalidate','raw.githubusercontent.com']) {
   if (!sw.includes(marker)) fail(`service worker marker missing: ${marker}`);
 }
@@ -142,14 +143,14 @@ for (const marker of [
   'كشف-متعدد-الشعب'
 ]) if (!index.includes(marker)) fail(`R1.4.49 multi-branch export marker missing: ${marker}`);
 if (index.includes('r1449-signature-grid') || index.includes('r1449-doc-sign')) fail('R1.4.49 must not add signatures to the multi-branch PDF export');
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.49 app-shell cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.49 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.49 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.49 PDF cache marker missing');
 for (const marker of ['MOBILE R1.4.50: restore R1.4.48 PDF design for multi-branch export','r1450-multi-branch-design-restore-script','FIXED_BRANCH_COLS','r1450BuildPdf']) {
   if (!index.includes(marker)) fail(`R1.4.50 design restore marker missing: ${marker}`);
 }
 if (!index.includes("{k:'name',l:'الاسم الكامل'}") || !index.includes("{k:'division',l:'الشعبة'}") || !index.includes("{k:'employmentStatus',l:'الحالة الوظيفية'}")) fail('R1.4.50 fixed PDF column order missing');
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.50 app-shell cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.50 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.50 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.50 PDF cache marker missing');
 ok(`Mobile R1.4.50 Multi Branch PDF Design Restore verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 for (const marker of ['MOBILE R1.4.51: PDF columns sync with preview','r1451-column-sync-script','r1451PdfColumns','pdfColumns()','MOBILE-R1.4.51-MULTI-BRANCH-COLUMN-SYNC']) {
   if (!index.includes(marker)) fail(`R1.4.51 column sync marker missing: ${marker}`);
@@ -157,6 +158,15 @@ for (const marker of ['MOBILE R1.4.51: PDF columns sync with preview','r1451-col
 if (index.includes("REPORT_COLUMN_DEFS.splice(idx>=0?idx+1:4,0,{k:'employmentKind'")) fail('R1.4.51 must not auto-add duplicate employmentKind column');
 if (!index.includes("k==='employmentKind'||k==='type'")) fail('R1.4.51 duplicate employment kind cleanup missing');
 ok(`Mobile R1.4.51 Multi Branch Column Sync verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
+
+for (const marker of ['MOBILE R1.4.52: professional PDF report visual upgrade','r1452-professional-report-visual-upgrade-script','r1452BuildPdf','r1452PdfColumns','HRPdfZain','HRPdfSultan','ZainMobile.ttf','SFSultan-Black.ttf','كشف-احترافي','employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19','employee-registry-pdf-downloads-r1452']) {
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.52 professional visual marker missing: ${marker}`);
+}
+if (!index.includes("font:'HRPdfZain',weight:'400'")) fail('R1.4.52 Zain headings must be regular weight, not bold');
+if (!index.includes("font:numeric?'HRPdfNum':'HRPdfSultan'")) fail('R1.4.52 table body must use SF Sultan for non-numeric data');
+if (index.includes("font:'HRPdfZain',weight:'700'") || index.includes("font:'HRPdfZain',weight:'900'")) fail('R1.4.52 must not draw Zain headings in bold');
+ok(`Mobile R1.4.52 Professional PDF Visual Upgrade verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
+
 
 // R1.4.15 update-detail drilldown guards.
 for (const marker of ['Mobile R1.4.15 - Updates details drilldown','r1415UpdateRef','r1415EmployeeRef','r1415GapTarget','r1415EmptyUpdateState','r1415ActivateProfileTab','data-update-target=\"history\"','data-update-jump-version']) {
@@ -240,7 +250,7 @@ for (const marker of [
   'window.r1419ReceiveGeneratedPdf=r1419ReceiveGeneratedPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.19 native PDF marker missing: ${marker}`);
 if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('current APP_RELEASE marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.48 PDF cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.48 PDF cache marker missing');
 
 // R1.4.20 status/native bridge remains, while R1.4.21 replaces only the failing generator.
 for (const marker of [
@@ -409,8 +419,8 @@ for (const marker of [
 ]) if (!index.includes(marker)) fail(`R1.4.34 export marker missing: ${marker}`);
 if (index.includes("r1424Filename('xls')")) fail('legacy HTML-as-XLS export is still present');
 if (!index.includes("lines.join('\\r\\n')") || !index.includes("r1424Filename('csv')")) fail('CSV export marker missing');
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('current cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.48 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('current cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.48 PDF cache marker missing');
 
 for (const marker of ['MOBILE R1.4.35 REPORT BUILDER STUDIO + HQ PDF','r1435-workflow','data-r1435-tab=','data-r1435-quality','R1435_REPORT_PREFS','pdfScale=prefs.quality','canvas.width=Math.round(CW*pdfScale)']) if (!index.includes(marker)) fail(`R1.4.35 marker missing: ${marker}`);
 ok(`Mobile R1.4.35 Report Builder Studio + HQ PDF verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${summary.counts.modified}`);
@@ -433,8 +443,8 @@ for (const marker of [
   'r1437EmployeeTimelineHTML','سجل حركة الموظف','r1437-timeline','r1437OpenAdminDashboard',
   'لوحة الإحصائيات الإدارية','r1437-open-stats',"{id:'01',from:1,to:42,label:'الدولاب 01'}","{id:'02',from:43,to:88,label:'الدولاب 02'}"
 ]) if (!index.includes(marker)) fail(`R1.4.37 intelligence marker missing: ${marker}`);
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.37 cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.37 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.37 cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.37 PDF cache marker missing');
 ok(`Mobile R1.4.37 Employee Intelligence Suite preserved: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 // R1.4.38 smart follow-up / History 2.0 guards.
 for (const marker of [
@@ -444,8 +454,8 @@ for (const marker of [
 ]) if (!index.includes(marker)) fail(`R1.4.38 smart workflow marker missing: ${marker}`);
 if (!index.includes("id=\"r1438-open-follow\"")) fail('R1.4.38 follow-up hero action missing');
 if (!index.includes("document.querySelectorAll('#m-profile-body .r1437-loc,#m-profile-body .r1437-archive')")) fail('R1.4.38 large archive-location removal guard missing');
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.38 cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.38 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.38 cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.38 PDF cache marker missing');
 ok(`Mobile R1.4.38 Smart Follow-up + History 2.0 verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
 // R1.4.39 mobile profile responsive polish guards.
@@ -454,8 +464,8 @@ for (const marker of [
   'grid-template-columns:repeat(3,minmax(0,1fr))','grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr)',
   'word-break:normal!important','overflow-wrap:break-word!important','max-height:96dvh!important'
 ]) if (!index.includes(marker)) fail(`R1.4.39 responsive marker missing: ${marker}`);
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.39 cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.39 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.39 cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.39 PDF cache marker missing');
 ok(`Mobile R1.4.39 Mobile Profile Responsive Polish verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
 // R1.4.40 employee-card 300 DPI guards.
@@ -468,8 +478,8 @@ for (const marker of [
   "pdf.addImage(rendered.image,'PNG',0,0,210,297,undefined,'SLOW')",
   '300 DPI employee card fallback to 225 DPI'
 ]) if (!index.includes(marker)) fail(`R1.4.40 high-resolution employee PDF marker missing: ${marker}`);
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.40 cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.40 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.40 cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.40 PDF cache marker missing');
 
 // R1.4.41 Dashboard + Data Version UI Polish guards.
 for (const marker of [
@@ -486,7 +496,7 @@ if (index.includes('<div class="hdr-title" id="hdr-title">سجل الموظفي�
 if (index.includes("isPerm?'سجل الموظفين الدائميين':'سجل موظفي العقود'")) fail('R1.4.41 old mode-specific header title logic still present');
 if (index.includes('<div class="safety-note"><i class="fas fa-circle-info"></i> في وضع Windows Master')) fail('R1.4.41 old Windows Master safety note still present');
 if (index.includes("<span>المعروض</span><b>'+shown+'</b><small>نتائج حالية</small>")) fail('R1.4.41 displayed-results KPI still present');
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.41 cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.41 cache marker missing');
 
 ok(`Mobile R1.4.40 Employee Card 300 DPI verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 ok(`Mobile R1.4.41 Dashboard + Data Version UI Polish verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
@@ -518,8 +528,8 @@ for (const removed of [
   const r1442Block=r1442Start>=0?index.slice(r1442Start):'';
   if (r1442Block.includes(removed)) fail(`R1.4.42 removed legacy report element reintroduced: ${removed}`);
 }
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.42 app-shell cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.42 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.42 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.42 PDF cache marker missing');
 ok(`Mobile R1.4.42 Windows Style Professional Reports verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 // R1.4.43 Windows-report visual polish guards.
 for (const marker of [
@@ -543,8 +553,8 @@ for (const marker of [
   "text(ctx,'عدد السجلات: '+records"
 ]) if (!index.includes(marker)) fail(`R1.4.43 report visual marker missing: ${marker}`);
 if (!index.includes("if(window.r1443BuildPdf)window.r1443BuildPdf();else buildPdf();")) fail('R1.4.43 report button routing missing');
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.43 app-shell cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.43 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.43 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.43 PDF cache marker missing');
 ok(`Mobile R1.4.43 Windows Report Visual Polish verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
 // R1.4.44 report cards + table typography polish guards.
@@ -564,8 +574,8 @@ const r1444Start=index.indexOf('/* MOBILE R1.4.44 REPORT CARDS + TABLE TYPOGRAPH
 const r1444Block=r1444Start>=0?index.slice(r1444Start):'';
 if (r1444Block.includes("['الإجمالي'")) fail('R1.4.44 total KPI was reintroduced in the new report block');
 if (r1444Block.includes('drawTableTitle(')) fail('R1.4.44 table title/results strip was reintroduced');
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.44 app-shell cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.44 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.44 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.44 PDF cache marker missing');
 ok(`Mobile R1.4.44 Reports Cards & Table Typography Polish verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
 // R1.4.45 adaptive professional reports phase 1 guards.
@@ -587,8 +597,8 @@ for (const marker of [
   'otherTop=102',
   'window.r1444BuildPdf=buildPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.45 adaptive report marker missing: ${marker}`);
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.45 app-shell cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.45 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.45 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.45 PDF cache marker missing');
 ok(`Mobile R1.4.45 Adaptive Report Design Phase 1 verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 // R1.4.46 adaptive professional reports phase 2 guards.
 for (const marker of [
@@ -612,6 +622,6 @@ for (const marker of [
   'r1446-preview-orientation',
   'window.r1445BuildPdf=buildPdf'
 ]) if (!index.includes(marker)) fail(`R1.4.46 adaptive report phase 2 marker missing: ${marker}`);
-if (!sw.includes('employee-registry-mobile-r1451-multi-branch-column-sync-2026.09.19')) fail('R1.4.46 app-shell cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1451')) fail('R1.4.46 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.46 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.46 PDF cache marker missing');
 ok(`Mobile R1.4.46 Adaptive Report Design Phase 2 verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
