@@ -1,0 +1,14 @@
+ملفات تحديث Mobile R1.4.54 — Service Calculator Notes Layout Polish
+
+انسخ الملفات التالية فوق مشروع R1.4.53 الحالي مع الموافقة على الاستبدال:
+
+- index.html
+- VERSION.txt
+- manifest.webmanifest
+- service-worker.js
+- scripts/verify-mobile-r1.mjs
+- MOBILE_R1_4_54_RELEASE_NOTES_AR.txt
+- PATCH_FILES_R1_4_54_AR.txt
+- INSTALL_PATCH_R1_4_54.cmd
+
+هذا التحديث Patch فقط وليس حزمة كاملة.
