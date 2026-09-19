@@ -52,6 +52,7 @@ const required = [
   'MOBILE_R1_4_57_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_58_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_59_RELEASE_NOTES_AR.txt',
+  'MOBILE_R1_4_60_RELEASE_NOTES_AR.txt',
   'data/job-titles.json'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
@@ -67,10 +68,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.59-JOB-TITLE-GRADE-COMPLIANCE-CHECK';
+const expectedRelease = 'MOBILE-R1.4.60-TITLE-GRADE-COMPLIANCE-STABILITY-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.59 Job Title Grade Compliance Check');
-if (!String(manifest.description || '').includes('R1.4.59')) fail('manifest description was not updated');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.60 Title Grade Compliance Stability Fix');
+if (!String(manifest.description || '').includes('R1.4.60')) fail('manifest description was not updated');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -216,6 +217,28 @@ if (!index.includes("s.addEventListener('input',function(){jobState.q=this.value
 if (!index.includes('.r1456-degree-chips{display:flex')) fail('R1.4.58 degree chips must be horizontal/flex, not vertical');
 if (!index.includes('.r1456-chip.active{background:linear-gradient(135deg,#ffd166,#fff0a6)')) fail('R1.4.58 selected degree must be gold');
 ok(`Mobile R1.4.58 Job Titles Direct Search Grade Layout verified: titles=${jobTitles.total}`);
+
+// R1.4.60 title-grade compliance stability fix guards.
+for (const marker of [
+  'MOBILE R1.4.60: title-grade compliance stability fix',
+  'r1460-title-grade-compliance-stability-fix-script',
+  'r1460BuildTitleGradeCompliance',
+  'view-titlecheck',
+  'stab-titlecheck',
+  'مطابقة العنوان الوظيفي مع الدرجة',
+  'titlecheck-search',
+  'data/job-titles.json',
+  'employee-registry-mobile-r1460-title-grade-compliance-stability-fix-2026.09.19',
+  'employee-registry-pdf-downloads-r1460'
+]) {
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.60 stability title compliance marker missing: ${marker}`);
+}
+if (index.includes('r1459-title-grade-compliance-check-script')) fail('R1.4.59 unstable compliance script must not remain active');
+if (!index.includes("window.mobileR147ActionButtons=mobileR147ActionButtons=function()")) fail('R1.4.60 dashboard actions must update both window and global binding');
+if (!index.includes("window.switchSub=switchSub=function(v)")) fail('R1.4.60 switchSub must update both window and global binding');
+if (!index.includes("loadCentralData(false);")) fail('R1.4.60 must preserve the central employee data load path');
+ok(`Mobile R1.4.60 Title Grade Compliance Stability Fix verified: titles=${jobTitles.total}`);
+
 
 
 // R1.4.15 update-detail drilldown guards.
@@ -550,28 +573,6 @@ if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade
 
 ok(`Mobile R1.4.40 Employee Card 300 DPI verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 ok(`Mobile R1.4.41 Dashboard + Data Version UI Polish verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
-
-
-// R1.4.59 job title + grade compliance check guards.
-for (const marker of [
-  'MOBILE R1.4.59: job title grade compliance check',
-  'r1459-title-grade-compliance-check-script',
-  'r1459BuildTitleGradeCompliance',
-  'view-titlecheck',
-  'stab-titlecheck',
-  'مطابقة العنوان الوظيفي مع الدرجة',
-  'titlecheck-search',
-  'data/job-titles.json',
-  'employee-registry-mobile-r1459-job-title-grade-compliance-check-2026.09.19',
-  'employee-registry-pdf-downloads-r1459'
-]) {
-  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.59 title compliance marker missing: ${marker}`);
-}
-if (!index.includes("state={scope:'all',status:'review',degree:'all',q:''}")) fail('R1.4.59 default review filter missing');
-if (!index.includes("guide.byDegree[dg]&&guide.byDegree[dg][n]")) fail('R1.4.59 exact title-by-degree matching missing');
-if (!index.includes('اقتراحات من نفس الدرجة')) fail('R1.4.59 guide suggestions missing');
-if (!index.includes('r1459-action-titlecheck')) fail('R1.4.59 dashboard action card missing');
-ok(`Mobile R1.4.59 Job Title Grade Compliance Check verified: titles=${jobTitles.total}`);
 // R1.4.42 Windows-style professional report export guards.
 for (const marker of [
   'MOBILE R1.4.42 WINDOWS STYLE PROFESSIONAL REPORTS',
