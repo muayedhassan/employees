@@ -1,4 +1,4 @@
-// R1.4.66 title matching dashboard layout fix cache: restore dashboard action cards and sub-tab layout after UI polish, without touching startup data loading.
+// R1.4.67 title matching navigation and program cards fix cache: reliable matching button + polished program section cards.
 // Legacy verification markers retained: employee-registry-mobile-r1463-splash-loading-restore-2026.09.19 | employee-registry-pdf-downloads-r1463
 // Legacy verification markers retained: employee-registry-mobile-r1462-splash-boot-unlock-fix-2026.09.19 | employee-registry-pdf-downloads-r1462
 // Legacy verification markers retained: employee-registry-mobile-r1457-jobtitles-search-ui-polish-2026.09.19 | employee-registry-pdf-downloads-r1457
@@ -7,8 +7,8 @@
 // Legacy verification markers retained: employee-registry-mobile-r1453-service-calculator-card-2026.09.19 | employee-registry-pdf-downloads-r1453
 // Legacy verification markers retained: employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19 | employee-registry-pdf-downloads-r1452
 // Legacy verification markers retained: employee-registry-mobile-r1455-service-calculator-navigation-fix-2026.09.19 | employee-registry-pdf-downloads-r1455
-const CACHE_NAME = 'employee-registry-mobile-r1466-title-matching-dashboard-layout-fix-2026.09.20';
-const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1466';
+const CACHE_NAME = 'employee-registry-mobile-r1467-title-matching-nav-cards-fix-2026.09.20';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1467';
 const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',

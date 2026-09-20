@@ -1744,7 +1744,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
 // Legacy verification marker retained: MOBILE-R1.4.63-SPLASH-LOADING-RESTORE
-var APP_RELEASE = 'MOBILE-R1.4.66-TITLE-MATCHING-DASHBOARD-LAYOUT-FIX';
+var APP_RELEASE = 'MOBILE-R1.4.67-TITLE-MATCHING-NAV-CARDS-FIX';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -5739,6 +5739,236 @@ body:not(.subview-titlematch) .r1464-toolbar{position:relative!important;top:aut
   setTimeout(apply,120);
   setTimeout(apply,650);
   window.r1466ApplyTitleMatchLayoutFix=apply;
+})();
+</script>
+
+
+
+<script id="r1467-title-matching-nav-cards-fix-script">
+// MOBILE R1.4.67: Title Matching Navigation + Program Cards Fix
+// preserved markers: employee-registry-mobile-r1465-title-matching-ui-polish-2026.09.20 | employee-registry-pdf-downloads-r1465
+(function(){
+  var STYLE_ID='r1467-titlematch-nav-cards-fix-style';
+  var BOUND='data-r1467-bound';
+  function safeToast(msg,type){try{if(typeof showToast==='function')showToast(msg,type||'');}catch(e){}}
+  function getActiveClass(){try{return mode==='cont'?'cont-sub-active':(mode==='admin'?'admin-sub-active':'perm-sub-active');}catch(e){return 'perm-sub-active';}}
+  function ensureTitleMatchView(){
+    try{
+      var tabs=document.getElementById('sub-tabs')||document.querySelector('.sub-tabs');
+      if(tabs){
+        tabs.classList.add('r1464-titlematch-ready','r1467-program-cards-ready');
+        if(!document.getElementById('stab-titlematch')){
+          var el=document.createElement('div');
+          el.className='sub-tab r1467-tab-titlematch';
+          el.id='stab-titlematch';
+          el.setAttribute('role','tab');
+          el.setAttribute('aria-selected','false');
+          el.innerHTML='<i class="fas fa-shield-check"></i><span>المطابقة</span>';
+          var job=document.getElementById('stab-jobtitles'), sys=document.getElementById('stab-system');
+          tabs.insertBefore(el,job||sys||null);
+        }
+      }
+      var host=document.getElementById('views')||document.querySelector('.content')||document.querySelector('.app')||document.body;
+      if(!document.getElementById('view-titlematch')){
+        var v=document.createElement('div');
+        v.id='view-titlematch';
+        v.style.display='none';
+        v.innerHTML='<div class="r1464-page" id="titlematch-page"></div>';
+        host.appendChild(v);
+      }
+      var page=document.getElementById('titlematch-page');
+      if(!page){
+        page=document.createElement('div');
+        page.className='r1464-page';
+        page.id='titlematch-page';
+        document.getElementById('view-titlematch').appendChild(page);
+      }
+    }catch(e){}
+  }
+  function markActive(){
+    try{
+      var cls=getActiveClass();
+      ['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){
+        var t=document.getElementById('stab-'+x);
+        if(!t)return;
+        t.className='sub-tab '+(x==='titlematch'?'r1467-tab-titlematch ':'')+(x==='titlematch'?cls:'');
+        t.setAttribute('aria-selected',x==='titlematch'?'true':'false');
+      });
+    }catch(e){}
+  }
+  function manualOpenTitleMatch(){
+    ensureTitleMatchView();
+    try{
+      if(typeof subView!=='undefined')subView='titlematch';
+      document.body.classList.remove('subview-list','subview-updates','subview-quality','subview-reports','subview-alerts','subview-system','subview-service','subview-jobtitles');
+      document.body.classList.add('subview-titlematch');
+      ['list','updates','reports','alerts','system','service','jobtitles','titlematch','admin'].forEach(function(x){
+        var view=document.getElementById('view-'+x);
+        if(view)view.style.display=x==='titlematch'?'block':'none';
+      });
+      var ss=document.getElementById('search-sec'), pg=document.getElementById('pg');
+      if(ss)ss.style.display='none';
+      if(pg)pg.style.display='none';
+      markActive();
+      if(typeof window.r1465BuildTitleMatch==='function')window.r1465BuildTitleMatch();
+      else if(typeof window.r1464BuildTitleMatch==='function')window.r1464BuildTitleMatch();
+      else{
+        var page=document.getElementById('titlematch-page');
+        if(page)page.innerHTML='<div class="r1464-empty"><i class="fas fa-triangle-exclamation"></i><br>واجهة المطابقة غير جاهزة، حدّث التطبيق والبيانات مرة أخرى.</div>';
+      }
+      try{if(typeof mobileR146SyncChrome==='function')mobileR146SyncChrome();}catch(e){}
+      try{var sc=document.getElementById('scroll');if(sc)sc.scrollTo({top:0,behavior:'smooth'});}catch(e){}
+    }catch(e){safeToast('تعذر فتح واجهة المطابقة','warn');}
+  }
+  function openTitleMatch(){
+    ensureTitleMatchView();
+    if(typeof mode!=='undefined' && mode==='admin'){
+      safeToast('مطابقة العناوين متاحة ضمن الدائميين أو العقود','warn');
+      return;
+    }
+    var opened=false;
+    try{
+      if(typeof window.switchSub==='function'){
+        window.switchSub('titlematch');
+        opened=true;
+      }
+    }catch(e){opened=false;}
+    setTimeout(function(){
+      var ok=document.body.classList.contains('subview-titlematch') && document.getElementById('view-titlematch') && document.getElementById('view-titlematch').style.display!=='none';
+      var page=document.getElementById('titlematch-page');
+      var hasContent=page && String(page.innerHTML||'').trim().length>30;
+      if(!opened || !ok || !hasContent)manualOpenTitleMatch();
+    },80);
+  }
+  function bindButtons(){
+    ensureTitleMatchView();
+    var ids=['r14-open-titlematch','stab-titlematch'];
+    ids.forEach(function(id){
+      var el=document.getElementById(id);
+      if(el && !el.getAttribute(BOUND)){
+        el.setAttribute(BOUND,'1');
+        el.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();openTitleMatch();},true);
+      }
+    });
+  }
+  function injectStyle(){
+    if(document.getElementById(STYLE_ID))return;
+    var css=`
+/* R1.4.67: reliable matching navigation + professional program section cards */
+.r1416-nav-card .sub-tabs.r1467-program-cards-ready{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:8px!important;
+  overflow:visible!important;
+  padding:0!important;
+  scroll-snap-type:none!important;
+}
+.r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab{
+  position:relative!important;
+  min-width:0!important;
+  max-width:none!important;
+  min-height:70px!important;
+  padding:9px 5px 8px!important;
+  border-radius:20px!important;
+  border:1px solid rgba(255,255,255,.085)!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.030))!important;
+  color:rgba(231,240,255,.78)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+  text-align:center!important;
+  line-height:1.25!important;
+  white-space:normal!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 10px 22px rgba(0,0,0,.10)!important;
+  transition:transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease!important;
+}
+.r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab:active{transform:scale(.97)!important}
+.r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab i{
+  width:30px!important;height:30px!important;border-radius:13px!important;
+  display:grid!important;place-items:center!important;margin:0!important;
+  font-size:13px!important;background:rgba(255,255,255,.075)!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.10),inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+.r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab span:not(.sub-alert-badge):not(.system-dot){display:block!important;max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab.perm-sub-active,
+.r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab.cont-sub-active,
+.r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab.admin-sub-active{
+  background:linear-gradient(135deg,rgba(255,209,102,.22),rgba(28,123,190,.20))!important;
+  border-color:rgba(255,209,102,.36)!important;
+  color:#fff!important;
+  box-shadow:0 14px 30px rgba(255,209,102,.13),inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+.r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab.perm-sub-active:after,
+.r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab.cont-sub-active:after,
+.r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab.admin-sub-active:after{
+  content:'';position:absolute;right:22%;left:22%;bottom:6px;height:3px;border-radius:999px;background:linear-gradient(90deg,#ffd166,#fff0a6);box-shadow:0 0 12px rgba(255,209,102,.35);
+}
+#stab-list i{color:#9cc6ff!important;background:rgba(74,144,255,.13)!important;border-color:rgba(122,181,255,.20)!important}
+#stab-updates i{color:#ffd166!important;background:rgba(255,209,102,.13)!important;border-color:rgba(255,209,102,.22)!important}
+#stab-reports i{color:#c4a5ff!important;background:rgba(168,130,255,.13)!important;border-color:rgba(196,165,255,.20)!important}
+#stab-alerts i{color:#ff9bb7!important;background:rgba(255,122,160,.13)!important;border-color:rgba(255,155,183,.20)!important}
+#stab-system i{color:#7dffbf!important;background:rgba(74,230,166,.13)!important;border-color:rgba(125,255,191,.20)!important}
+#stab-service i{color:#ffd166!important;background:rgba(255,193,72,.13)!important;border-color:rgba(255,209,102,.24)!important}
+#stab-jobtitles i{color:#55e7ff!important;background:rgba(57,216,255,.13)!important;border-color:rgba(85,231,255,.22)!important}
+#stab-titlematch i{color:#ffe08a!important;background:rgba(255,209,102,.16)!important;border-color:rgba(255,209,102,.28)!important}
+.r147-actions.r1464-actions{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:9px!important;
+}
+.r147-actions.r1464-actions #r14-open-search{grid-column:1/-1!important;min-height:54px!important}
+.r147-actions.r1464-actions .r14-action{
+  min-height:54px!important;border-radius:19px!important;padding:10px 9px!important;
+  font-size:10.5px!important;justify-content:center!important;gap:7px!important;
+  white-space:normal!important;line-height:1.45!important;
+}
+.r147-actions.r1464-actions .r14-action i{width:28px;height:28px;border-radius:12px;display:grid!important;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.10);font-size:12px!important;margin:0!important}
+.r1464-action-titlematch,#r14-open-titlematch{background:linear-gradient(135deg,#173f92,#078276)!important;color:#fff!important;border-color:rgba(255,209,102,.18)!important}
+.r1464-action-titlematch i,#r14-open-titlematch i{color:#ffe08a!important;background:rgba(255,209,102,.14)!important;border-color:rgba(255,209,102,.25)!important}
+@media(max-width:390px){
+  .r1416-nav-card .sub-tabs.r1467-program-cards-ready{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
+  .r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab{min-height:64px!important;border-radius:17px!important;font-size:8.4px!important;padding:8px 3px!important}
+  .r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab i{width:27px!important;height:27px!important;font-size:12px!important;border-radius:11px!important}
+}
+@media(min-width:720px){
+  .r1416-nav-card .sub-tabs.r1467-program-cards-ready{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .r147-actions.r1464-actions{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .r147-actions.r1464-actions #r14-open-search{grid-column:auto!important}
+}
+body.light-mode .r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab{background:#f8faff!important;color:#536188!important;border-color:rgba(35,55,120,.09)!important;box-shadow:0 10px 22px rgba(26,35,126,.06)!important}
+body.light-mode .r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab.perm-sub-active,
+body.light-mode .r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab.cont-sub-active,
+body.light-mode .r1416-nav-card .sub-tabs.r1467-program-cards-ready .sub-tab.admin-sub-active{background:linear-gradient(135deg,#fff7d6,#e9f4ff)!important;color:#13254a!important;border-color:rgba(196,137,25,.25)!important}
+`;
+    var st=document.createElement('style');st.id=STYLE_ID;st.textContent=css;document.head.appendChild(st);
+  }
+  function normalizeTabLabels(){
+    try{
+      ['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){
+        var t=document.getElementById('stab-'+x); if(!t)return;
+        var icon=t.querySelector('i'); var badge=t.querySelector('.sub-alert-badge'); var dot=t.querySelector('.system-dot');
+        var label=({list:'القائمة',updates:'آخر التحديثات',reports:'التقارير',alerts:'التنبيهات',system:'حالة النظام',service:'الخدمة',jobtitles:'العناوين',titlematch:'المطابقة'})[x]||t.textContent.trim();
+        if(!t.querySelector('.r1467-tab-label')){
+          t.innerHTML=''; if(icon)t.appendChild(icon); else {var i=document.createElement('i');i.className='fas fa-circle';t.appendChild(i);}
+          var sp=document.createElement('span');sp.className='r1467-tab-label';sp.textContent=label;t.appendChild(sp);
+          if(badge)t.appendChild(badge); if(dot)t.appendChild(dot);
+        }
+      });
+    }catch(e){}
+  }
+  function apply(){injectStyle();ensureTitleMatchView();normalizeTabLabels();bindButtons();}
+  document.addEventListener('click',function(ev){
+    var target=ev.target && ev.target.closest && ev.target.closest('#r14-open-titlematch,#stab-titlematch,.r1464-action-titlematch,[data-open-titlematch]');
+    if(target){ev.preventDefault();ev.stopPropagation();openTitleMatch();}
+  },true);
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true}); else apply();
+  setTimeout(apply,120);setTimeout(apply,700);setTimeout(apply,1600);
+  try{new MutationObserver(function(){apply();}).observe(document.body,{childList:true,subtree:true});}catch(e){}
+  window.r1467OpenTitleMatch=openTitleMatch;
+  window.r1467ApplyProgramCards=apply;
 })();
 </script>
 
