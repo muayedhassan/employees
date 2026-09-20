@@ -1,4 +1,5 @@
-// R1.4.72 cache: main dashboard professional reorganization over clean stable R1.4.71 shell.
+// R1.4.73 cache: header cleanup and compact scope cards over R1.4.72 dashboard organization.
+// Legacy R1.4.72 marker retained for verification: employee-registry-mobile-r1472-main-dashboard-professional-reorg-2026.09.20 | employee-registry-pdf-downloads-r1472
 // Legacy verification marker retained: employee-registry-mobile-r1471-title-matching-card-polish-2026.09.20 | employee-registry-pdf-downloads-r1471
 // Legacy verification markers retained: employee-registry-mobile-r1462-splash-boot-unlock-fix-2026.09.19 | employee-registry-pdf-downloads-r1462
 // Legacy verification markers retained: employee-registry-mobile-r1457-jobtitles-search-ui-polish-2026.09.19 | employee-registry-pdf-downloads-r1457
@@ -8,8 +9,8 @@
 // Legacy verification markers retained: employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19 | employee-registry-pdf-downloads-r1452
 // Legacy verification markers retained: employee-registry-mobile-r1455-service-calculator-navigation-fix-2026.09.19 | employee-registry-pdf-downloads-r1455
 // Legacy verification marker retained: employee-registry-mobile-r1463-splash-loading-restore-2026.09.19 | employee-registry-pdf-downloads-r1463
-const CACHE_NAME = 'employee-registry-mobile-r1472-main-dashboard-professional-reorg-2026.09.20';
-const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1472';
+const CACHE_NAME = 'employee-registry-mobile-r1473-header-cleanup-scope-cards-restore-2026.09.20';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1473';
 const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',
