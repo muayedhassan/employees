@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-17T19:05:24.4842239+00:00",
+  "updatedAt": "2026-09-20T14:19:55.0847662+00:00",
   "maxVersions": 60,
   "versions": [
     {
@@ -9868,6 +9868,155 @@
               "field": "division",
               "oldValue": "فارغ",
               "newValue": "غير محدد"
+            }
+          ]
+        }
+      ],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.20-141955",
+      "previousVersion": "DATA-2026.09.17-190524",
+      "updatedAt": "2026-09-20T14:19:55.0847662+00:00",
+      "counts": {
+        "published": 1053,
+        "added": 0,
+        "modified": 8,
+        "missing": 0,
+        "unchanged": 1045,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 462
+      },
+      "added": [],
+      "modified": [
+        {
+          "integrationId": "d38f0c99-5b16-4382-be83-88631ae91788",
+          "sourceEmployeeId": 71,
+          "id": "108072972",
+          "employeeNo": "108072972",
+          "num": 140,
+          "name": "بثينه محمد خلف حرج الزيدي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الطوز",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "ab438245-6488-4e20-98e1-cec101b25163",
+          "sourceEmployeeId": 607,
+          "id": "154883766",
+          "employeeNo": "154883766",
+          "num": 158,
+          "name": "جاسم محمد احمد عبدالله شيخاني",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الطوز",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "be5158cf-d0aa-414f-a42b-cb18a36c4d03",
+          "sourceEmployeeId": 627,
+          "id": "154885928",
+          "employeeNo": "154885928",
+          "num": 187,
+          "name": "حسين بهجت حسين بهجت الهاشمي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الطوز",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "43515087-bf8d-4ec0-b646-1268139d7886",
+          "sourceEmployeeId": 148,
+          "id": "108001330",
+          "employeeNo": "108001330",
+          "num": 268,
+          "name": "رفل خلف غضبان خلف الجبوري",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الطوز",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "4d81303c-3fb1-4354-8bd5-18b1a2f5487b",
+          "sourceEmployeeId": 155,
+          "id": "108001400",
+          "employeeNo": "108001400",
+          "num": 277,
+          "name": "رؤى جمال داود عوده الباوي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة الطوز",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "b1e05452-a4f1-4692-8363-8c6e31f61633",
+          "sourceEmployeeId": 1496,
+          "id": "b1e05452-a4f1-4692-8363-8c6e31f61633",
+          "employeeNo": null,
+          "num": 378,
+          "name": "صباح طاهر احمد عبدالله الشيخاني",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "غير محدد",
+              "newValue": "شعبة زراعة الطوز"
+            }
+          ]
+        },
+        {
+          "integrationId": "cb5f1d7b-6cd9-47eb-8bb0-e2021b1358e3",
+          "sourceEmployeeId": 1500,
+          "id": "cb5f1d7b-6cd9-47eb-8bb0-e2021b1358e3",
+          "employeeNo": null,
+          "num": 510,
+          "name": "علي عدنان علي محمد البرزنجي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "غير محدد",
+              "newValue": "شعبة زراعة الطوز"
+            }
+          ]
+        },
+        {
+          "integrationId": "039342a7-6ec1-4268-8754-9559bff3bec2",
+          "sourceEmployeeId": 935,
+          "id": "154886497",
+          "employeeNo": "154886497",
+          "num": 785,
+          "name": "نورا تحسين شكري محمود توتونجي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "name",
+              "oldValue": "نورا تحسين شكري محمود البياتي",
+              "newValue": "نورا تحسين شكري محمود توتونجي"
             }
           ]
         }
