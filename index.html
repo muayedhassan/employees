@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.73-HEADER-CLEANUP-SCOPE-CARDS-RESTORE';
+var APP_RELEASE = 'MOBILE-R1.4.74-COMBINED-BRANCH-EXPORT-PATCH';
 // R1.4.73: cleanup stray header markers and restore compact record scope cards while preserving professional program sections.
 // Legacy stable marker retained for verification: MOBILE-R1.4.63-SPLASH-LOADING-RESTORE
 // Legacy stable marker retained for verification: MOBILE-R1.4.71-TITLE-MATCHING-CARD-POLISH
@@ -5699,6 +5699,47 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   tick();document.addEventListener('DOMContentLoaded',tick);window.addEventListener('load',tick);window.addEventListener('pageshow',tick);
   [50,150,350,800,1500,3000,6000].forEach(function(t){setTimeout(tick,t);});
   try{new MutationObserver(function(){clearTimeout(window.__r1473CleanT);window.__r1473CleanT=setTimeout(tick,30);}).observe(document.documentElement,{childList:true,subtree:true,characterData:true});}catch(e){}
+})();
+</script>
+
+
+
+<style id="r1474-combined-branch-export-style">
+/* MOBILE R1.4.74: combined branch export for permanent + contract employees */
+.r1474-scope-enhanced .r1448-scope-tabs{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+.r1474-scope-enhanced .r1448-scope-tab{min-height:43px!important;flex-direction:column!important;gap:2px!important;border-radius:13px!important;line-height:1.25!important}
+.r1474-scope-enhanced .r1448-scope-tab i{font-size:13px!important;margin:0!important}.r1474-scope-enhanced .r1448-scope-tab small{display:block;font:800 7px var(--hr-body-font)!important;color:rgba(255,255,255,.68)!important;line-height:1.2!important}.r1474-scope-enhanced .r1448-scope-tab:not(.active) small{color:var(--text2)!important}
+.r1474-order-note{margin-top:8px;padding:8px 9px;border-radius:11px;background:rgba(245,200,66,.075);border:1px solid rgba(245,200,66,.18);color:var(--text2);font:800 8px var(--hr-body-font);line-height:1.7;display:flex;gap:7px;align-items:flex-start}.r1474-order-note i{color:var(--gold);margin-top:2px}.r1474-order-note b{color:var(--gold2)}
+.r1474-branch-count{display:inline-flex;align-items:center;gap:4px;margin-inline-start:5px;padding:2px 6px;border-radius:999px;background:rgba(23,104,181,.08);border:1px solid rgba(23,104,181,.14);font:900 7px var(--hr-number-font);direction:ltr;color:#7dd3fc}.r1474-check-meta{display:inline-flex;gap:4px;align-items:center;margin-inline-start:4px;font:800 7px var(--hr-body-font);color:var(--text2)}.r1474-check-meta .perm{color:#30d5a7}.r1474-check-meta .cont{color:#f5c84a}
+</style>
+<script id="r1474-combined-branch-export-script">
+// MOBILE R1.4.74: branch reports export permanent employees first, then contracts, with a true combined scope.
+(function(){
+  function valueFor(field,e){try{return historySemanticValue(field,e&&e[field]);}catch(x){return String(e&&e[field]||'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim();}}
+  function valid(v){v=String(v||'').trim();return !!(v&&v!=='—'&&v!=='36'&&v!=='غير متوفر');}
+  function kind(e){var t=String(e&&e.type||'').toLowerCase(),st=String(e&&e.employmentStatus||'');return (t==='cont'||/عقد/.test(st))?'cont':'perm';}
+  function currentScope(){var s=String((window.REPORT_STATE&&REPORT_STATE.employmentScope)||'').trim();return s||'all';}
+  function sourceForScope(s){s=s||currentScope();if(s==='perm')return (BASE.perm||[]).slice();if(s==='cont')return (BASE.cont||[]).slice();return (BASE.perm||[]).concat(BASE.cont||[]);}
+  function scopeLabel(s){return {all:'الجميع',perm:'الدائميون',cont:'العقود'}[s||currentScope()]||'الجميع';}
+  function fieldName(){return REPORT_STATE&&REPORT_STATE.type==='specialization'?'specialization':'division';}
+  function orderedRows(rows){return (rows||[]).slice().sort(function(a,b){var ak=kind(a)==='perm'?0:1,bk=kind(b)==='perm'?0:1;if(ak!==bk)return ak-bk;return String(a&&a.name||'').localeCompare(String(b&&b.name||''),'ar');});}
+  function uniqueValues(field){var m={};sourceForScope().forEach(function(e){var v=valueFor(field,e);if(valid(v))m[v]=1;});return Object.keys(m).sort(function(a,b){return a.localeCompare(b,'ar');});}
+  function selectedValues(field){field=field||fieldName();var vals=uniqueValues(field),chosen=[];try{if(REPORT_STATE&&Array.isArray(REPORT_STATE.segmentValues))chosen=REPORT_STATE.segmentValues.slice();}catch(e){}if(!chosen.length&&REPORT_STATE&&REPORT_STATE.segmentValue)chosen=[REPORT_STATE.segmentValue];chosen=chosen.map(function(v){return String(v||'').trim();}).filter(function(v){return vals.indexOf(v)>=0;});if(!chosen.length&&vals.length)chosen=[vals[0]];if(REPORT_STATE){REPORT_STATE.segmentValues=chosen.slice();REPORT_STATE.segmentValue=chosen[0]||'';REPORT_STATE.employmentScope=currentScope();}return chosen;}
+  function rowsFor(field,val,scope){scope=scope||currentScope();return orderedRows(sourceForScope(scope).filter(function(e){return valueFor(field,e)===val;}));}
+  function countsFor(field,val){var rows=rowsFor(field,val,'all'),c={total:rows.length,perm:0,cont:0};rows.forEach(function(e){if(kind(e)==='cont')c.cont++;else c.perm++;});return c;}
+  window.r1474CombinedBranchRows=rowsFor;window.r1474CombinedBranchCounts=countsFor;
+  var oldUnique=window.r7UniqueValues||r7UniqueValues;
+  window.r7UniqueValues=r7UniqueValues=function(field){if(REPORT_STATE&&(REPORT_STATE.type==='division'||REPORT_STATE.type==='specialization')&&(field==='division'||field==='specialization'))return uniqueValues(field);return oldUnique(field);};
+  var oldDataset=window.reportDataset||reportDataset;
+  window.reportDataset=reportDataset=function(){if(REPORT_STATE&&(REPORT_STATE.type==='division'||REPORT_STATE.type==='specialization')){var field=fieldName(),chosen=selectedValues(field),out=[];chosen.forEach(function(v){out=out.concat(rowsFor(field,v,currentScope()));});return orderedRows(out);}return oldDataset();};
+  var oldScope=window.reportScopeText||reportScopeText;
+  window.reportScopeText=reportScopeText=function(){if(REPORT_STATE&&REPORT_STATE.type==='division'){var v=selectedValues('division');return (v.length>1?'الشعب / الأقسام المحددة: '+v.length:'الشعبة / القسم: '+(v[0]||'غير محدد'))+' • نطاق التعيين: '+scopeLabel(currentScope())+(currentScope()==='all'?' (الدائميون ثم العقود)':'');}if(REPORT_STATE&&REPORT_STATE.type==='specialization'){var x=selectedValues('specialization');return (x.length>1?'الاختصاصات المحددة: '+x.length:'الاختصاص: '+(x[0]||'غير محدد'))+' • نطاق التعيين: '+scopeLabel(currentScope());}return oldScope();};
+  function enhanceScopeBox(){var box=document.getElementById('r1448-scope-box');if(!box)return;box.classList.add('r1474-scope-enhanced');var all=box.querySelector('[data-r1448-scope="all"]'),perm=box.querySelector('[data-r1448-scope="perm"]'),cont=box.querySelector('[data-r1448-scope="cont"]');if(all)all.innerHTML='<i class="fas fa-users"></i><span>الجميع</span><small>دائمي + عقد</small>';if(perm)perm.innerHTML='<i class="fas fa-id-card"></i><span>الدائميون</span><small>دائم فقط</small>';if(cont)cont.innerHTML='<i class="fas fa-file-contract"></i><span>العقود</span><small>عقد فقط</small>';if(!box.querySelector('.r1474-order-note'))box.insertAdjacentHTML('beforeend','<div class="r1474-order-note"><i class="fas fa-arrow-down-wide-short"></i><span>عند اختيار <b>الجميع</b> يصدر الكشف شاملًا للدائميين والعقود داخل الشعبة نفسها، ويُرتّب التصدير تلقائيًا: <b>الدائميون أولًا ثم العقود</b>.</span></div>');}
+  function enhanceBranchChecks(){document.querySelectorAll('[data-r1449-division]').forEach(function(ch){var label=ch.closest('label');if(!label||label.getAttribute('data-r1474-done'))return;var v=ch.getAttribute('data-r1449-division')||'',c=countsFor('division',v),small=label.querySelector('small');if(small)small.innerHTML='<span class="r1474-branch-count">'+c.total+'</span><span class="r1474-check-meta"><span class="perm">د '+c.perm+'</span><span class="cont">ع '+c.cont+'</span></span>';label.setAttribute('data-r1474-done','1');});}
+  function syncTitle(){if(REPORT_STATE&&REPORT_STATE.type==='division'){var vals=selectedValues('division');if(vals.length===1)REPORT_STATE.title='كشف '+vals[0]+' — '+scopeLabel(currentScope());else REPORT_STATE.title='كشف متعدد الشعب / الأقسام — '+scopeLabel(currentScope());}}
+  var oldBuild=window.buildReports||buildReports;
+  window.buildReports=buildReports=function(){syncTitle();var r=oldBuild.apply(this,arguments);setTimeout(function(){enhanceScopeBox();enhanceBranchChecks();},130);return r;};
+  setTimeout(function(){enhanceScopeBox();enhanceBranchChecks();},350);
 })();
 </script>
 

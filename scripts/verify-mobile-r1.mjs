@@ -25,16 +25,21 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.73-HEADER-CLEANUP-SCOPE-CARDS-RESTORE';
+const expectedRelease = 'MOBILE-R1.4.74-COMBINED-BRANCH-EXPORT-PATCH';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.73 header cleanup and scope card restore');
-if (!String(manifest.description || '').includes('R1.4.73')) fail('manifest description was not updated to R1.4.73');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.74 combined branch export patch');
+if (!String(manifest.description || '').includes('R1.4.74')) fail('manifest description was not updated to R1.4.74');
 // R1.4.73: allow running verification inside an actual Git working tree; clean ZIPs still omit .git.
 for (const stale of fs.readdirSync(root).filter(name => /^INSTALL_PATCH_R1_4_|^PATCH_FILES_R1_4_|^MOBILE_R1_4_.*_RELEASE_NOTES_AR\.txt$/.test(name))) fail(`stale patch/release file still present: ${stale}`);
 for (const marker of ['MOBILE R1.4.73: cleanup stray header marker and restore compact record-scope cards','r1473-header-cleanup-scope-cards-restore-style','r1473-header-cleanup-scope-cards-restore-script','employee-registry-mobile-r1473-header-cleanup-scope-cards-restore-2026.09.20']) {
   if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.73 header cleanup/scope restore marker missing: ${marker}`);
 }
 if (!index.includes('.r1472-dashboard-pro .main-tab{min-height:43px')) fail('R1.4.73 compact scope card override missing');
+for (const marker of ['MOBILE R1.4.74: combined branch export','r1474-combined-branch-export-script','r1474CombinedBranchRows','الدائميون أولًا ثم العقود','employee-registry-mobile-r1474-combined-branch-export-2026.09.20']) {
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.74 combined branch export marker missing: ${marker}`);
+}
+if (!index.includes("return (BASE.perm||[]).concat(BASE.cont||[]);")) fail('R1.4.74 combined perm+contract source missing');
+if (!index.includes("ak=kind(a)==='perm'?0:1")) fail('R1.4.74 permanent-first export order guard missing');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -699,11 +704,11 @@ ok(`Mobile R1.4.73 Header Cleanup Scope Cards Restore verified: ${version.versio
 (function verifyR1471(){
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== 'MOBILE-R1.4.73-HEADER-CLEANUP-SCOPE-CARDS-RESTORE') fail('R1.4.73 VERSION.txt mismatch');
+  if (ver !== 'MOBILE-R1.4.74-COMBINED-BRANCH-EXPORT-PATCH') fail('R1.4.74 VERSION.txt mismatch');
   if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.63 service worker timeout guard missing');
   if (!idx.includes('R1.4.63 boot watchdog')) fail('R1.4.63 boot watchdog missing');
-  if (!idx.includes('MOBILE-R1.4.73-HEADER-CLEANUP-SCOPE-CARDS-RESTORE')) fail('R1.4.73 APP_RELEASE missing');
+  if (!idx.includes('MOBILE-R1.4.74-COMBINED-BRANCH-EXPORT-PATCH')) fail('R1.4.74 APP_RELEASE missing');
   if (!idx.includes('var r1463MinSplash=2300')) fail('R1.4.63 minimum splash duration missing');
   if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.63 must not use immediate splash hide');
-  ok('Mobile R1.4.73 Header Cleanup Scope Cards Restore verified: navigation organized and stable loading preserved');
+  ok('Mobile R1.4.74 Combined Branch Export verified: navigation organized and stable loading preserved');
 })();
