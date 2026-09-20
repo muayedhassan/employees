@@ -68,10 +68,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.69-RESTORE-STABLE-R1.4.63';
+const expectedRelease = 'MOBILE-R1.4.70-SAFE-TITLE-MATCHING-REBUILD';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.69 stable restore');
-if (!String(manifest.description || '').includes('R1.4.69')) fail('manifest description was not updated to R1.4.69');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.70 safe title matching rebuild');
+if (!String(manifest.description || '').includes('R1.4.70')) fail('manifest description was not updated to R1.4.70');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -679,17 +679,32 @@ for (const marker of [
 ]) if (!index.includes(marker)) fail(`R1.4.46 adaptive report phase 2 marker missing: ${marker}`);
 if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19')) fail('R1.4.46 app-shell cache marker missing');
 if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.46 PDF cache marker missing');
+
+// R1.4.70 safe matching rebuild guards: matching must be isolated from boot and program cards must be professional.
+for (const marker of [
+  'MOBILE R1.4.70: safe title/grade matching rebuild + professional program cards',
+  'r1470-title-match-style',
+  'r1470-title-match-script',
+  'view-titlematch',
+  'مطابقة العنوان الوظيفي مع الدرجة',
+  'r1470-program-grid',
+  'r1470BuildTitleMatching',
+  "switchSub('titlematch')"
+]) if (!index.includes(marker)) fail(`R1.4.70 matching rebuild marker missing: ${marker}`);
+if (!sw.includes('employee-registry-mobile-r1470-safe-title-matching-rebuild-2026.09.20')) fail('R1.4.70 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1470')) fail('R1.4.70 PDF cache marker missing');
+
 ok(`Mobile R1.4.46 Adaptive Report Design Phase 2 verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
-// R1.4.69 Emergency Stable Restore verification
-(function verifyR1469(){
+// R1.4.70 Safe Title Matching Rebuild verification
+(function verifyR1470(){
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== 'MOBILE-R1.4.69-RESTORE-STABLE-R1.4.63') fail('R1.4.69 VERSION.txt mismatch');
+  if (ver !== 'MOBILE-R1.4.70-SAFE-TITLE-MATCHING-REBUILD') fail('R1.4.70 VERSION.txt mismatch');
   if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.63 service worker timeout guard missing');
   if (!idx.includes('R1.4.63 boot watchdog')) fail('R1.4.63 boot watchdog missing');
-  if (!idx.includes('MOBILE-R1.4.69-RESTORE-STABLE-R1.4.63')) fail('R1.4.69 APP_RELEASE missing');
+  if (!idx.includes('MOBILE-R1.4.70-SAFE-TITLE-MATCHING-REBUILD')) fail('R1.4.70 APP_RELEASE missing');
   if (!idx.includes('var r1463MinSplash=2300')) fail('R1.4.63 minimum splash duration missing');
   if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.63 must not use immediate splash hide');
-  ok('Mobile R1.4.69 Restore Stable R1.4.63 verified: loading screen restored with guarded unlock');
+  ok('Mobile R1.4.70 Safe Title Matching Rebuild verified: stable loading preserved and matching isolated');
 })();
