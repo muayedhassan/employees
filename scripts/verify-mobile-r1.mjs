@@ -68,10 +68,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.64-SAFE-TITLE-GRADE-MATCHING';
+const expectedRelease = 'MOBILE-R1.4.65-TITLE-MATCHING-UI-PROFESSIONAL-POLISH';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.64 Safe Title Grade Matching');
-if (!String(manifest.description || '').includes('R1.4.64')) fail('manifest description was not updated to R1.4.64');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.65 Title Matching UI Professional Polish');
+if (!String(manifest.description || '').includes('R1.4.65')) fail('manifest description was not updated to R1.4.65');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -222,11 +222,11 @@ for (const marker of ['MOBILE-R1.4.63-SPLASH-LOADING-RESTORE','R1.4.63: restore 
 if (index.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.63 must not hide the startup screen immediately after render');
 ok(`Mobile R1.4.63 Splash Loading Restore verified: titles=${jobTitles.total}`);
 
-// R1.4.64 Safe Title Grade Matching guards.
+// R1.4.65 Title Matching UI Professional Polish guards.
 for (const marker of [
-  'MOBILE R1.4.64: Safe Job Title Grade Matching',
-  'r1464-safe-title-grade-matching-script',
-  'r1464BuildTitleMatch',
+  'MOBILE R1.4.65: Title Matching UI Professional Polish',
+  'r1465-title-matching-ui-professional-polish-script',
+  'r1465BuildTitleMatch',
   'view-titlematch',
   'titlematch-page',
   'data-r1464-scope',
@@ -236,17 +236,18 @@ for (const marker of [
   'موجود بدرجة أخرى',
   'مطابق بعد التنظيف',
   'تعذر تحميل دليل العناوين الوظيفية',
-  'employee-registry-mobile-r1464-safe-title-grade-matching-2026.09.20',
-  'employee-registry-pdf-downloads-r1464'
+  'employee-registry-mobile-r1465-title-matching-ui-polish-2026.09.20',
+  'employee-registry-pdf-downloads-r1465'
 ]) {
-  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.64 safe matching marker missing: ${marker}`);
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.65 UI polish marker missing: ${marker}`);
 }
-if (!index.includes('loadGuide().then(function(guide){computeRows(guide);renderShell(true);})')) fail('R1.4.64 matching must load only when the matching view is opened');
-if (!index.includes("if(st==='review'&&['cross','unknown','missing'].indexOf(r.status)<0)return false")) fail('R1.4.64 review filter guard missing');
-if (!index.includes("window.switchSub=switchSub=function(v){ensureView();if(v==='titlematch')")) fail('R1.4.64 isolated navigation wrapper missing');
-if (!index.includes("window.mobileR147ActionButtons=mobileR147ActionButtons=function(){return '<div class=\"r14-actions r147-actions r1456-actions r1464-actions\">")) fail('R1.4.64 main action card missing');
-if (!sw.includes('./data/job-titles.json')) fail('R1.4.64 job titles guide must stay cached');
-ok(`Mobile R1.4.64 Safe Title Grade Matching verified: titles=${jobTitles.total}`);
+if (!index.includes('loadGuide().then(function(guide){computeRows(guide);renderShell(true);})')) fail('R1.4.65 matching must load only when the matching view is opened');
+if (!index.includes("if(st==='review'&&['cross','unknown','missing'].indexOf(r.status)<0)return false")) fail('R1.4.65 review filter guard missing');
+if (!index.includes("window.switchSub=switchSub=function(v){ensureView();if(v==='titlematch')")) fail('R1.4.65 isolated navigation wrapper missing');
+if (!index.includes("window.mobileR147ActionButtons=mobileR147ActionButtons=function(){return '<div class=\"r14-actions r147-actions r1456-actions r1464-actions\">")) fail('R1.4.65 main action card missing');
+if (!sw.includes('./data/job-titles.json')) fail('R1.4.65 job titles guide must stay cached');
+if (!index.includes('r1465-hero') || !index.includes('r1465-kpis') || !index.includes('r1465-clear') || !index.includes('r1465-rowline')) fail('R1.4.65 professional UI polish classes missing');
+ok(`Mobile R1.4.65 Title Matching UI Professional Polish verified: titles=${jobTitles.total}`);
 
 
 // R1.4.15 update-detail drilldown guards.
@@ -707,16 +708,16 @@ if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade
 if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.46 PDF cache marker missing');
 ok(`Mobile R1.4.46 Adaptive Report Design Phase 2 verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
-// R1.4.64 Safe Title Grade Matching verification
+// R1.4.65 Title Matching UI Professional Polish verification
 (function verifyR1464(){
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== 'MOBILE-R1.4.64-SAFE-TITLE-GRADE-MATCHING') fail('R1.4.64 VERSION.txt mismatch');
+  if (ver !== 'MOBILE-R1.4.65-TITLE-MATCHING-UI-PROFESSIONAL-POLISH') fail('R1.4.65 VERSION.txt mismatch');
   if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.63 service worker timeout guard missing');
   if (!idx.includes('R1.4.63 boot watchdog')) fail('R1.4.63 boot watchdog missing');
-  if (!idx.includes('MOBILE-R1.4.64-SAFE-TITLE-GRADE-MATCHING')) fail('R1.4.64 APP_RELEASE missing');
+  if (!idx.includes('MOBILE-R1.4.65-TITLE-MATCHING-UI-PROFESSIONAL-POLISH')) fail('R1.4.65 APP_RELEASE missing');
   if (!idx.includes('var r1463MinSplash=2300')) fail('R1.4.63 minimum splash duration missing');
-  if (!idx.includes('r1464-safe-title-grade-matching-script')) fail('R1.4.64 matching script missing');
-  if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.64 must not use immediate splash hide');
-  ok('Mobile R1.4.64 Safe Title Grade Matching verified with restored splash behavior');
+  if (!idx.includes('r1465-title-matching-ui-professional-polish-script')) fail('R1.4.65 matching UI polish script missing');
+  if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.65 must not use immediate splash hide');
+  ok('Mobile R1.4.65 Title Matching UI Professional Polish verified with restored splash behavior');
 })();
