@@ -1,0 +1,24 @@
+
+> verify:mobile
+> node scripts/verify-mobile-r1.mjs
+
+OK: Mobile R1.4.50 Multi Branch PDF Design Restore verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.51 Multi Branch Column Sync verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.52 Professional PDF Visual Upgrade verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.53 Service Calculator Card verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.54 Service Calculator Notes Layout Polish verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.55 Service Calculator Navigation Fix verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.63 Splash Loading Restore verified: titles=1316
+OK: Mobile R1.4.35 Report Builder Studio + HQ PDF verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.36 Duplicate Full Name Card verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.37 Employee Intelligence Suite preserved: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.38 Smart Follow-up + History 2.0 verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.39 Mobile Profile Responsive Polish verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.40 Employee Card 300 DPI verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.41 Dashboard + Data Version UI Polish verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.42 Windows Style Professional Reports verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.43 Windows Report Visual Polish verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.44 Reports Cards & Table Typography Polish verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.45 Adaptive Report Design Phase 1 verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.46 Adaptive Report Design Phase 2 verified: DATA-2026.09.17-190524, perm=856, cont=197, total=1053, modified=442
+OK: Mobile R1.4.71 Title Matching Card Polish verified: matching cards cleaned and stable loading preserved

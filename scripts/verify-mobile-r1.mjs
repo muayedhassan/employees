@@ -10,50 +10,7 @@ const required = [
   'index.html','service-worker.js','manifest.webmanifest','VERSION.txt',
   'data/version.json','data/employees.json','data/change-summary.json',
   'data/change-history.json','data/validation-report.json','data/fallback-data.js',
-  'MOBILE_R1_4_17_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_18_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_19_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_20_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_21_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_22_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_23_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_24_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_25_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_26_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_27_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_28_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_29_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_30_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_31_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_32_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_33_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_34_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_35_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_36_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_37_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_38_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_39_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_40_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_41_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_42_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_43_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_44_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_45_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_46_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_48_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_49_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_50_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_51_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_52_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_53_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_54_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_55_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_56_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_57_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_58_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_61_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_62_RELEASE_NOTES_AR.txt',
-  'data/job-titles.json'
+  'data/job-titles.json','CLEAN_BASELINE_R1_4_71_AR.txt'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
 
@@ -68,10 +25,12 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.71-TITLE-MATCHING-CARD-POLISH';
+const expectedRelease = 'MOBILE-R1.4.72-MAIN-DASHBOARD-PROFESSIONAL-REORGANIZATION';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.71 title matching card polish');
-if (!String(manifest.description || '').includes('R1.4.71')) fail('manifest description was not updated to R1.4.71');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.72 main dashboard professional reorganization');
+if (!String(manifest.description || '').includes('R1.4.72')) fail('manifest description was not updated to R1.4.72');
+if (fs.existsSync(path.join(root, '.git'))) fail('clean baseline must not include .git directory');
+for (const stale of fs.readdirSync(root).filter(name => /^INSTALL_PATCH_R1_4_|^PATCH_FILES_R1_4_|^MOBILE_R1_4_.*_RELEASE_NOTES_AR\.txt$/.test(name))) fail(`stale patch/release file still present: ${stale}`);
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -695,8 +654,8 @@ const r1471CardFn = index.slice(index.indexOf('function r1471Icon'), index.index
 for (const removed of ['نوع التعيين', 'الأضبارة', 'الرقم الوظيفي']) {
   if (r1471CardFn.includes(removed)) fail(`R1.4.71 matching card still renders removed field: ${removed}`);
 }
-if (!sw.includes('employee-registry-mobile-r1471-title-matching-card-polish-2026.09.20')) fail('R1.4.71 app-shell cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1471')) fail('R1.4.71 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1472-main-dashboard-professional-reorg-2026.09.20')) fail('R1.4.72 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1472')) fail('R1.4.72 PDF cache marker missing');
 
 // R1.4.70 safe matching rebuild guards: matching must be isolated from boot and program cards must be professional.
 for (const marker of [
@@ -709,20 +668,38 @@ for (const marker of [
   'r1470BuildTitleMatching',
   "switchSub('titlematch')"
 ]) if (!index.includes(marker)) fail(`R1.4.70 matching rebuild marker missing: ${marker}`);
-if (!sw.includes('employee-registry-mobile-r1471-title-matching-card-polish-2026.09.20')) fail('R1.4.70/71 app-shell cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1471')) fail('R1.4.70/71 PDF cache marker missing');
+if (!sw.includes('employee-registry-mobile-r1472-main-dashboard-professional-reorg-2026.09.20')) fail('R1.4.70/72 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1472')) fail('R1.4.70/72 PDF cache marker missing');
 
 ok(`Mobile R1.4.46 Adaptive Report Design Phase 2 verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
-// R1.4.71 Title Matching Card Polish verification
+
+// R1.4.72 main dashboard professional reorganization guards.
+for (const marker of [
+  'MOBILE R1.4.72: main dashboard professional reorganization',
+  'r1472-main-dashboard-professional-reorganization-style',
+  'r1472-main-dashboard-professional-reorganization-script',
+  'r1472-dashboard-pro',
+  'r1472-program-grid',
+  'r1472-home-actions-clean',
+  'r1472SyncMainDashboard',
+  'فصل نطاق السجل عن أقسام البرنامج'
+]) if (!index.includes(marker) && !String(manifest.description||'').includes(marker)) fail(`R1.4.72 dashboard reorganization marker missing: ${marker}`);
+if (!index.includes("{id:'titlematch',label:'المطابقة'") || !index.includes("{id:'service',label:'الخدمة'") || !index.includes("{id:'jobtitles',label:'العناوين'")) fail('R1.4.72 program module registry missing critical tools');
+if (!index.includes('r1472-actions-clean')) fail('R1.4.72 duplicated hero action cleanup missing');
+if (!sw.includes('employee-registry-mobile-r1472-main-dashboard-professional-reorg-2026.09.20')) fail('R1.4.72 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1472')) fail('R1.4.72 PDF cache marker missing');
+ok(`Mobile R1.4.72 Main Dashboard Professional Reorganization verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
+
+// R1.4.72 Title Matching Card Polish verification
 (function verifyR1471(){
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== 'MOBILE-R1.4.71-TITLE-MATCHING-CARD-POLISH') fail('R1.4.71 VERSION.txt mismatch');
+  if (ver !== 'MOBILE-R1.4.72-MAIN-DASHBOARD-PROFESSIONAL-REORGANIZATION') fail('R1.4.72 VERSION.txt mismatch');
   if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.63 service worker timeout guard missing');
   if (!idx.includes('R1.4.63 boot watchdog')) fail('R1.4.63 boot watchdog missing');
-  if (!idx.includes('MOBILE-R1.4.71-TITLE-MATCHING-CARD-POLISH')) fail('R1.4.71 APP_RELEASE missing');
+  if (!idx.includes('MOBILE-R1.4.72-MAIN-DASHBOARD-PROFESSIONAL-REORGANIZATION')) fail('R1.4.72 APP_RELEASE missing');
   if (!idx.includes('var r1463MinSplash=2300')) fail('R1.4.63 minimum splash duration missing');
   if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.63 must not use immediate splash hide');
-  ok('Mobile R1.4.71 Title Matching Card Polish verified: matching cards cleaned and stable loading preserved');
+  ok('Mobile R1.4.72 Main Dashboard Professional Reorganization verified: navigation organized and stable loading preserved');
 })();
