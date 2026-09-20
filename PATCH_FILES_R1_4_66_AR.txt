@@ -1,0 +1,9 @@
+ملفات التحديث R1.4.66:
+- index.html
+- VERSION.txt
+- manifest.webmanifest
+- service-worker.js
+- scripts/verify-mobile-r1.mjs
+- MOBILE_R1_4_66_RELEASE_NOTES_AR.txt
+- PATCH_FILES_R1_4_66_AR.txt
+- INSTALL_PATCH_R1_4_66.cmd

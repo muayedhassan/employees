@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.65",
-  "short_name": "HR Mobile R1.4.65",
+  "name": "سجل الموظفين - Mobile R1.4.66",
+  "short_name": "HR Mobile R1.4.66",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.65: صقل احترافي آمن لواجهة مطابقة العناوين الوظيفية مع الدرجة، مع الحفاظ على منطق R1.4.64 المستقر.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.66: صقل احترافي آمن لواجهة مطابقة العناوين الوظيفية مع الدرجة، مع الحفاظ على منطق R1.4.64 المستقر.",
   "icons": [
     {
       "src": "assets/icon-192.png",

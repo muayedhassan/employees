@@ -1744,7 +1744,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
 // Legacy verification marker retained: MOBILE-R1.4.63-SPLASH-LOADING-RESTORE
-var APP_RELEASE = 'MOBILE-R1.4.65-TITLE-MATCHING-UI-PROFESSIONAL-POLISH';
+var APP_RELEASE = 'MOBILE-R1.4.66-TITLE-MATCHING-DASHBOARD-LAYOUT-FIX';
 var CENTRAL_DATA_BASE = 'https://raw.githubusercontent.com/muayedhassan/employees/main/';
 var EXCEL_MASTER_MODE = true;
 var LAST_CHANGE_SUMMARY = null;
@@ -5638,6 +5638,107 @@ body.subview-titlematch #view-list,body.subview-titlematch #view-updates,body.su
   ensureView();setTimeout(function(){ensureView();try{if(typeof mobileR14BuildHome==='function'&&subView==='list')mobileR14BuildHome();}catch(e){}},120);
   window.r1465BuildTitleMatch=buildTitleMatch;
   window.r1464BuildTitleMatch=buildTitleMatch;
+})();
+</script>
+
+
+
+<script id="r1466-title-matching-dashboard-layout-fix-script">
+// MOBILE R1.4.66: Title Matching Dashboard Layout Fix - layout only, keeps R1.4.64/R1.4.65 matching logic stable
+(function(){
+  var injected=false;
+  function cleanupLooseTextNodes(){
+    try{
+      var nodes=Array.prototype.slice.call(document.body.childNodes||[]);
+      nodes.forEach(function(n){
+        if(n && n.nodeType===3){
+          var v=String(n.nodeValue||'');
+          var t=v.trim();
+          // بعض WebView يعرض بقايا escaped newlines أعلى الصفحة عند وجود نص حر خارج العناصر.
+          if(/^[\s\\nr]+$/.test(v) || /^n(\\n|\\r|\\|\s)*$/i.test(t)) n.parentNode.removeChild(n);
+        }
+      });
+    }catch(e){}
+  }
+  function injectStyle(){
+    if(injected || document.getElementById('r1466-titlematch-dashboard-layout-fix-style')) return;
+    injected=true;
+    var css = `
+/* R1.4.66: keep title matching polish isolated; restore dashboard cards and program section layout */
+.r1416-nav-card .sub-tabs.r1464-titlematch-ready{
+  display:flex!important;
+  grid-template-columns:none!important;
+  flex-wrap:nowrap!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  gap:4px!important;
+  scroll-snap-type:x proximity!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+.r1416-nav-card .sub-tabs.r1464-titlematch-ready::-webkit-scrollbar{display:none!important}
+.r1416-nav-card .sub-tabs.r1464-titlematch-ready .sub-tab{
+  flex:0 0 auto!important;
+  min-width:74px!important;
+  max-width:112px!important;
+  min-height:52px!important;
+  padding:8px 10px!important;
+  font-size:10px!important;
+  line-height:1.35!important;
+  white-space:normal!important;
+  scroll-snap-align:start!important;
+}
+.r1416-nav-card .sub-tabs.r1464-titlematch-ready .sub-tab i{
+  display:block!important;
+  margin:0 auto 3px!important;
+  font-size:14px!important;
+}
+.r147-actions.r1464-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+.r147-actions.r1464-actions #r14-open-search{
+  grid-column:1/-1!important;
+}
+.r147-actions.r1464-actions .r14-action{
+  min-height:48px!important;
+  padding:10px 9px!important;
+  font-size:10.5px!important;
+  line-height:1.45!important;
+  white-space:normal!important;
+  overflow:hidden!important;
+  text-overflow:clip!important;
+  border-radius:17px!important;
+}
+.r147-actions.r1464-actions .r14-action i{
+  flex:0 0 auto!important;
+  font-size:13px!important;
+}
+.r1464-action-titlematch{
+  background:linear-gradient(135deg,#1d4ed8,#0f766e)!important;
+  color:#fff!important;
+}
+@media(min-width:720px){
+  .r147-actions.r1464-actions{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .r147-actions.r1464-actions #r14-open-search{grid-column:auto!important}
+  .r1416-nav-card .sub-tabs.r1464-titlematch-ready .sub-tab{min-width:92px!important}
+}
+@media(max-width:390px){
+  .r1416-nav-card .sub-tabs.r1464-titlematch-ready .sub-tab{min-width:68px!important;font-size:9.4px!important;padding-inline:8px!important}
+  .r147-actions.r1464-actions .r14-action{font-size:9.8px!important;min-height:46px!important}
+}
+body:not(.subview-titlematch) #view-titlematch{display:none!important}
+body:not(.subview-titlematch) .r1464-toolbar{position:relative!important;top:auto!important;z-index:auto!important}
+`;
+    var st=document.createElement('style');
+    st.id='r1466-titlematch-dashboard-layout-fix-style';
+    st.textContent=css;
+    document.head.appendChild(st);
+  }
+  function apply(){injectStyle();cleanupLooseTextNodes();}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply,{once:true}); else apply();
+  setTimeout(apply,120);
+  setTimeout(apply,650);
+  window.r1466ApplyTitleMatchLayoutFix=apply;
 })();
 </script>
 

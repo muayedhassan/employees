@@ -68,10 +68,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.65-TITLE-MATCHING-UI-PROFESSIONAL-POLISH';
+const expectedRelease = 'MOBILE-R1.4.66-TITLE-MATCHING-DASHBOARD-LAYOUT-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.65 Title Matching UI Professional Polish');
-if (!String(manifest.description || '').includes('R1.4.65')) fail('manifest description was not updated to R1.4.65');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.66 Title Matching Dashboard Layout Fix');
+if (!String(manifest.description || '').includes('R1.4.66')) fail('manifest description was not updated to R1.4.66');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -712,12 +712,28 @@ ok(`Mobile R1.4.46 Adaptive Report Design Phase 2 verified: ${version.version}, 
 (function verifyR1464(){
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== 'MOBILE-R1.4.65-TITLE-MATCHING-UI-PROFESSIONAL-POLISH') fail('R1.4.65 VERSION.txt mismatch');
+  if (ver !== 'MOBILE-R1.4.66-TITLE-MATCHING-DASHBOARD-LAYOUT-FIX') fail('R1.4.66 VERSION.txt mismatch');
   if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.63 service worker timeout guard missing');
   if (!idx.includes('R1.4.63 boot watchdog')) fail('R1.4.63 boot watchdog missing');
-  if (!idx.includes('MOBILE-R1.4.65-TITLE-MATCHING-UI-PROFESSIONAL-POLISH')) fail('R1.4.65 APP_RELEASE missing');
+  if (!idx.includes('MOBILE-R1.4.66-TITLE-MATCHING-DASHBOARD-LAYOUT-FIX')) fail('R1.4.66 APP_RELEASE missing');
   if (!idx.includes('var r1463MinSplash=2300')) fail('R1.4.63 minimum splash duration missing');
   if (!idx.includes('r1465-title-matching-ui-professional-polish-script')) fail('R1.4.65 matching UI polish script missing');
+  if (!idx.includes('r1466-title-matching-dashboard-layout-fix-script')) fail('R1.4.66 dashboard layout fix script missing');
   if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.65 must not use immediate splash hide');
-  ok('Mobile R1.4.65 Title Matching UI Professional Polish verified with restored splash behavior');
+  ok('Mobile R1.4.66 Title Matching Dashboard Layout Fix verified with restored splash behavior');
 })();
+
+
+// R1.4.66 Title Matching Dashboard Layout Fix verification
+{
+  const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
+  if (ver !== 'MOBILE-R1.4.66-TITLE-MATCHING-DASHBOARD-LAYOUT-FIX') fail('R1.4.66 VERSION.txt mismatch');
+  if (!index.includes('MOBILE-R1.4.66-TITLE-MATCHING-DASHBOARD-LAYOUT-FIX')) fail('R1.4.66 APP_RELEASE missing');
+  if (!index.includes('r1466-title-matching-dashboard-layout-fix-script')) fail('R1.4.66 layout fix script missing');
+  if (!index.includes('r1466-titlematch-dashboard-layout-fix-style')) fail('R1.4.66 layout fix style missing');
+  if (!index.includes('grid-template-columns:repeat(2,minmax(0,1fr))!important')) fail('R1.4.66 action grid fix missing');
+  if (!index.includes('r1464-titlematch-ready .sub-tab')) fail('R1.4.66 sub-tabs scroll fix missing');
+  if (!index.includes('cleanupLooseTextNodes')) fail('R1.4.66 loose text cleanup missing');
+  if (!sw.includes('employee-registry-mobile-r1466-title-matching-dashboard-layout-fix-2026.09.20')) fail('R1.4.66 service worker cache missing');
+  ok('Mobile R1.4.66 Title Matching Dashboard Layout Fix verified');
+}
