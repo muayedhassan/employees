@@ -53,7 +53,6 @@ const required = [
   'MOBILE_R1_4_58_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_61_RELEASE_NOTES_AR.txt',
   'MOBILE_R1_4_62_RELEASE_NOTES_AR.txt',
-  'MOBILE_R1_4_67_RELEASE_NOTES_AR.txt',
   'data/job-titles.json'
 ];
 for (const f of required) if (!fs.existsSync(path.join(root, f))) fail(`missing ${f}`);
@@ -69,10 +68,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.68-TITLE-MATCHING-VIEW-PROGRAM-CARDS-REBUILD';
+const expectedRelease = 'MOBILE-R1.4.69-RESTORE-STABLE-R1.4.63';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.68 Title Matching View Program Cards Rebuild');
-if (!String(manifest.description || '').includes('R1.4.68')) fail('manifest description was not updated to R1.4.68');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.69 stable restore');
+if (!String(manifest.description || '').includes('R1.4.69')) fail('manifest description was not updated to R1.4.69');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -222,51 +221,6 @@ for (const marker of ['MOBILE-R1.4.63-SPLASH-LOADING-RESTORE','R1.4.63: restore 
 }
 if (index.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.63 must not hide the startup screen immediately after render');
 ok(`Mobile R1.4.63 Splash Loading Restore verified: titles=${jobTitles.total}`);
-
-// R1.4.65 Title Matching UI Professional Polish guards.
-for (const marker of [
-  'MOBILE R1.4.65: Title Matching UI Professional Polish',
-  'r1465-title-matching-ui-professional-polish-script',
-  'r1465BuildTitleMatch',
-  'view-titlematch',
-  'titlematch-page',
-  'data-r1464-scope',
-  'data-r1464-status',
-  'data-r1464-degree',
-  'مطابقة العنوان الوظيفي مع الدرجة',
-  'موجود بدرجة أخرى',
-  'مطابق بعد التنظيف',
-  'تعذر تحميل دليل العناوين الوظيفية',
-  'employee-registry-mobile-r1465-title-matching-ui-polish-2026.09.20',
-  'employee-registry-pdf-downloads-r1465'
-]) {
-  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.65 UI polish marker missing: ${marker}`);
-}
-if (!index.includes('loadGuide().then(function(guide){computeRows(guide);renderShell(true);})')) fail('R1.4.65 matching must load only when the matching view is opened');
-if (!index.includes("if(st==='review'&&['cross','unknown','missing'].indexOf(r.status)<0)return false")) fail('R1.4.65 review filter guard missing');
-if (!index.includes("window.switchSub=switchSub=function(v){ensureView();if(v==='titlematch')")) fail('R1.4.65 isolated navigation wrapper missing');
-if (!index.includes("window.mobileR147ActionButtons=mobileR147ActionButtons=function(){return '<div class=\"r14-actions r147-actions r1456-actions r1464-actions\">")) fail('R1.4.65 main action card missing');
-if (!sw.includes('./data/job-titles.json')) fail('R1.4.65 job titles guide must stay cached');
-if (!index.includes('r1465-hero') || !index.includes('r1465-kpis') || !index.includes('r1465-clear') || !index.includes('r1465-rowline')) fail('R1.4.65 professional UI polish classes missing');
-ok(`Mobile R1.4.65 Title Matching UI Professional Polish verified: titles=${jobTitles.total}`);
-
-
-// R1.4.67 Title matching navigation + program cards guards.
-for (const marker of [
-  'MOBILE R1.4.67: Title Matching Navigation + Program Cards Fix',
-  'r1467-title-matching-nav-cards-fix-script',
-  'r1467OpenTitleMatch',
-  'r1467-program-cards-ready',
-  'r1467-tab-titlematch',
-  'r1467ApplyProgramCards',
-  'employee-registry-mobile-r1468-title-matching-view-program-cards-rebuild-2026.09.20',
-  'employee-registry-pdf-downloads-r1467'
-]) {
-  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.67 navigation/cards marker missing: ${marker}`);
-}
-if (!index.includes("closest('#r14-open-titlematch,#stab-titlematch,.r1464-action-titlematch,[data-open-titlematch]')")) fail('R1.4.67 delegated matching click handler missing');
-if (!index.includes("grid-template-columns:repeat(3,minmax(0,1fr))!important")) fail('R1.4.67 program section card grid missing');
-ok(`Mobile R1.4.67 Title Matching Navigation + Program Cards Fix verified: titles=${jobTitles.total}`);
 
 
 // R1.4.15 update-detail drilldown guards.
@@ -727,44 +681,15 @@ if (!sw.includes('employee-registry-mobile-r1452-professional-pdf-visual-upgrade
 if (!sw.includes('employee-registry-pdf-downloads-r1452')) fail('R1.4.46 PDF cache marker missing');
 ok(`Mobile R1.4.46 Adaptive Report Design Phase 2 verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
 
-// R1.4.65 Title Matching UI Professional Polish verification
-(function verifyR1464(){
+// R1.4.69 Emergency Stable Restore verification
+(function verifyR1469(){
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== 'MOBILE-R1.4.68-TITLE-MATCHING-VIEW-PROGRAM-CARDS-REBUILD') fail('R1.4.67 VERSION.txt mismatch');
+  if (ver !== 'MOBILE-R1.4.69-RESTORE-STABLE-R1.4.63') fail('R1.4.69 VERSION.txt mismatch');
   if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.63 service worker timeout guard missing');
   if (!idx.includes('R1.4.63 boot watchdog')) fail('R1.4.63 boot watchdog missing');
-  if (!idx.includes('MOBILE-R1.4.68-TITLE-MATCHING-VIEW-PROGRAM-CARDS-REBUILD')) fail('R1.4.67 APP_RELEASE missing');
+  if (!idx.includes('MOBILE-R1.4.69-RESTORE-STABLE-R1.4.63')) fail('R1.4.69 APP_RELEASE missing');
   if (!idx.includes('var r1463MinSplash=2300')) fail('R1.4.63 minimum splash duration missing');
-  if (!idx.includes('r1465-title-matching-ui-professional-polish-script')) fail('R1.4.65 matching UI polish script missing');
-  if (!idx.includes('r1466-title-matching-dashboard-layout-fix-script')) fail('R1.4.66 dashboard layout fix script missing');
-  if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.65 must not use immediate splash hide');
-  ok('Mobile R1.4.67 Title Matching Nav Cards Fix verified with restored splash behavior');
+  if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.63 must not use immediate splash hide');
+  ok('Mobile R1.4.69 Restore Stable R1.4.63 verified: loading screen restored with guarded unlock');
 })();
-
-
-// R1.4.67 Title Matching Navigation + Program Cards Fix verification
-{
-  const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== 'MOBILE-R1.4.68-TITLE-MATCHING-VIEW-PROGRAM-CARDS-REBUILD') fail('R1.4.67 VERSION.txt mismatch');
-  if (!index.includes('MOBILE-R1.4.68-TITLE-MATCHING-VIEW-PROGRAM-CARDS-REBUILD')) fail('R1.4.67 APP_RELEASE missing');
-  if (!index.includes('r1466-title-matching-dashboard-layout-fix-script')) fail('R1.4.66 layout fix script must remain for continuity');
-  if (!index.includes('r1467-title-matching-nav-cards-fix-script')) fail('R1.4.67 nav/cards fix script missing');
-  if (!index.includes('r1467OpenTitleMatch')) fail('R1.4.67 reliable title matching opener missing');
-  if (!index.includes('r1467-program-cards-ready')) fail('R1.4.67 program cards class missing');
-  if (!index.includes("closest('#r14-open-titlematch,#stab-titlematch,.r1464-action-titlematch,[data-open-titlematch]')")) fail('R1.4.67 delegated click handler missing');
-  if (!sw.includes('employee-registry-mobile-r1468-title-matching-view-program-cards-rebuild-2026.09.20')) fail('R1.4.67 service worker cache missing');
-  ok('Mobile R1.4.67 Title Matching Navigation + Program Cards Fix verified');
-}
-
-
-// R1.4.68 Title Matching View + Program Cards Rebuild verification
-{
-  if (!index.includes('r1468-title-matching-view-program-cards-rebuild-script')) fail('R1.4.68 rebuild script missing');
-  if (!index.includes('window.r1468OpenTitleMatch')) fail('R1.4.68 reliable matching opener missing');
-  if (!index.includes('r1468-program-cards')) fail('R1.4.68 professional program cards class missing');
-  if (!index.includes('grid-template-columns:repeat(2,minmax(0,1fr))!important')) fail('R1.4.68 two-column program cards layout missing');
-  if (!index.includes('renderShell(true)')) fail('R1.4.68 matching render shell guard missing');
-  if (!sw.includes('employee-registry-mobile-r1468-title-matching-view-program-cards-rebuild-2026.09.20')) fail('R1.4.68 service worker cache missing');
-  ok(`Mobile R1.4.68 Title Matching View + Program Cards Rebuild verified: titles=${jobTitles.total}`);
-}
