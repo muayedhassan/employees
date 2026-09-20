@@ -1,0 +1,10 @@
+ملفات تحديث R1.4.68
+
+HRMobileRepo/index.html
+HRMobileRepo/VERSION.txt
+HRMobileRepo/manifest.webmanifest
+HRMobileRepo/service-worker.js
+HRMobileRepo/scripts/verify-mobile-r1.mjs
+HRMobileRepo/INSTALL_PATCH_R1_4_68.cmd
+HRMobileRepo/MOBILE_R1_4_68_RELEASE_NOTES_AR.txt
+HRMobileRepo/PATCH_FILES_R1_4_68_AR.txt

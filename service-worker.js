@@ -1,4 +1,5 @@
-// R1.4.67 title matching navigation and program cards fix cache: reliable matching button + polished program section cards.
+// R1.4.68 title matching view and program cards rebuild cache: reliable matching screen + professional program cards.
+// Legacy verification markers retained: employee-registry-mobile-r1467-title-matching-nav-cards-fix-2026.09.20 | employee-registry-pdf-downloads-r1467
 // Legacy verification markers retained: employee-registry-mobile-r1463-splash-loading-restore-2026.09.19 | employee-registry-pdf-downloads-r1463
 // Legacy verification markers retained: employee-registry-mobile-r1462-splash-boot-unlock-fix-2026.09.19 | employee-registry-pdf-downloads-r1462
 // Legacy verification markers retained: employee-registry-mobile-r1457-jobtitles-search-ui-polish-2026.09.19 | employee-registry-pdf-downloads-r1457
@@ -7,8 +8,8 @@
 // Legacy verification markers retained: employee-registry-mobile-r1453-service-calculator-card-2026.09.19 | employee-registry-pdf-downloads-r1453
 // Legacy verification markers retained: employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19 | employee-registry-pdf-downloads-r1452
 // Legacy verification markers retained: employee-registry-mobile-r1455-service-calculator-navigation-fix-2026.09.19 | employee-registry-pdf-downloads-r1455
-const CACHE_NAME = 'employee-registry-mobile-r1467-title-matching-nav-cards-fix-2026.09.20';
-const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1467';
+const CACHE_NAME = 'employee-registry-mobile-r1468-title-matching-view-program-cards-rebuild-2026.09.20';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1468';
 const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',

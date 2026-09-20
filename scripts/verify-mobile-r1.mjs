@@ -69,10 +69,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.67-TITLE-MATCHING-NAV-CARDS-FIX';
+const expectedRelease = 'MOBILE-R1.4.68-TITLE-MATCHING-VIEW-PROGRAM-CARDS-REBUILD';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.67 Title Matching Nav Cards Fix');
-if (!String(manifest.description || '').includes('R1.4.67')) fail('manifest description was not updated to R1.4.67');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.68 Title Matching View Program Cards Rebuild');
+if (!String(manifest.description || '').includes('R1.4.68')) fail('manifest description was not updated to R1.4.68');
 
 // Critical regression guard: the R1.4.13 failure was a JavaScript syntax break caused by
 // the updates CSS block being injected into inline JS / printable HTML builders.
@@ -259,7 +259,7 @@ for (const marker of [
   'r1467-program-cards-ready',
   'r1467-tab-titlematch',
   'r1467ApplyProgramCards',
-  'employee-registry-mobile-r1467-title-matching-nav-cards-fix-2026.09.20',
+  'employee-registry-mobile-r1468-title-matching-view-program-cards-rebuild-2026.09.20',
   'employee-registry-pdf-downloads-r1467'
 ]) {
   if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.67 navigation/cards marker missing: ${marker}`);
@@ -731,10 +731,10 @@ ok(`Mobile R1.4.46 Adaptive Report Design Phase 2 verified: ${version.version}, 
 (function verifyR1464(){
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== 'MOBILE-R1.4.67-TITLE-MATCHING-NAV-CARDS-FIX') fail('R1.4.67 VERSION.txt mismatch');
+  if (ver !== 'MOBILE-R1.4.68-TITLE-MATCHING-VIEW-PROGRAM-CARDS-REBUILD') fail('R1.4.67 VERSION.txt mismatch');
   if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.63 service worker timeout guard missing');
   if (!idx.includes('R1.4.63 boot watchdog')) fail('R1.4.63 boot watchdog missing');
-  if (!idx.includes('MOBILE-R1.4.67-TITLE-MATCHING-NAV-CARDS-FIX')) fail('R1.4.67 APP_RELEASE missing');
+  if (!idx.includes('MOBILE-R1.4.68-TITLE-MATCHING-VIEW-PROGRAM-CARDS-REBUILD')) fail('R1.4.67 APP_RELEASE missing');
   if (!idx.includes('var r1463MinSplash=2300')) fail('R1.4.63 minimum splash duration missing');
   if (!idx.includes('r1465-title-matching-ui-professional-polish-script')) fail('R1.4.65 matching UI polish script missing');
   if (!idx.includes('r1466-title-matching-dashboard-layout-fix-script')) fail('R1.4.66 dashboard layout fix script missing');
@@ -746,13 +746,25 @@ ok(`Mobile R1.4.46 Adaptive Report Design Phase 2 verified: ${version.version}, 
 // R1.4.67 Title Matching Navigation + Program Cards Fix verification
 {
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== 'MOBILE-R1.4.67-TITLE-MATCHING-NAV-CARDS-FIX') fail('R1.4.67 VERSION.txt mismatch');
-  if (!index.includes('MOBILE-R1.4.67-TITLE-MATCHING-NAV-CARDS-FIX')) fail('R1.4.67 APP_RELEASE missing');
+  if (ver !== 'MOBILE-R1.4.68-TITLE-MATCHING-VIEW-PROGRAM-CARDS-REBUILD') fail('R1.4.67 VERSION.txt mismatch');
+  if (!index.includes('MOBILE-R1.4.68-TITLE-MATCHING-VIEW-PROGRAM-CARDS-REBUILD')) fail('R1.4.67 APP_RELEASE missing');
   if (!index.includes('r1466-title-matching-dashboard-layout-fix-script')) fail('R1.4.66 layout fix script must remain for continuity');
   if (!index.includes('r1467-title-matching-nav-cards-fix-script')) fail('R1.4.67 nav/cards fix script missing');
   if (!index.includes('r1467OpenTitleMatch')) fail('R1.4.67 reliable title matching opener missing');
   if (!index.includes('r1467-program-cards-ready')) fail('R1.4.67 program cards class missing');
   if (!index.includes("closest('#r14-open-titlematch,#stab-titlematch,.r1464-action-titlematch,[data-open-titlematch]')")) fail('R1.4.67 delegated click handler missing');
-  if (!sw.includes('employee-registry-mobile-r1467-title-matching-nav-cards-fix-2026.09.20')) fail('R1.4.67 service worker cache missing');
+  if (!sw.includes('employee-registry-mobile-r1468-title-matching-view-program-cards-rebuild-2026.09.20')) fail('R1.4.67 service worker cache missing');
   ok('Mobile R1.4.67 Title Matching Navigation + Program Cards Fix verified');
+}
+
+
+// R1.4.68 Title Matching View + Program Cards Rebuild verification
+{
+  if (!index.includes('r1468-title-matching-view-program-cards-rebuild-script')) fail('R1.4.68 rebuild script missing');
+  if (!index.includes('window.r1468OpenTitleMatch')) fail('R1.4.68 reliable matching opener missing');
+  if (!index.includes('r1468-program-cards')) fail('R1.4.68 professional program cards class missing');
+  if (!index.includes('grid-template-columns:repeat(2,minmax(0,1fr))!important')) fail('R1.4.68 two-column program cards layout missing');
+  if (!index.includes('renderShell(true)')) fail('R1.4.68 matching render shell guard missing');
+  if (!sw.includes('employee-registry-mobile-r1468-title-matching-view-program-cards-rebuild-2026.09.20')) fail('R1.4.68 service worker cache missing');
+  ok(`Mobile R1.4.68 Title Matching View + Program Cards Rebuild verified: titles=${jobTitles.total}`);
 }
