@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-20T14:19:55.0847662+00:00",
+  "updatedAt": "2026-09-22T06:18:16.777115+00:00",
   "maxVersions": 60,
   "versions": [
     {
@@ -10017,6 +10017,176 @@
               "field": "name",
               "oldValue": "نورا تحسين شكري محمود البياتي",
               "newValue": "نورا تحسين شكري محمود توتونجي"
+            }
+          ]
+        }
+      ],
+      "missing": [],
+      "completedGaps": [],
+      "qualityRegressions": []
+    },
+    {
+      "version": "DATA-2026.09.22-061816",
+      "previousVersion": "DATA-2026.09.20-141955",
+      "updatedAt": "2026-09-22T06:18:16.777115+00:00",
+      "counts": {
+        "published": 1053,
+        "added": 0,
+        "modified": 9,
+        "missing": 0,
+        "unchanged": 1044,
+        "completedGaps": 0,
+        "qualityRegressions": 0,
+        "warnings": 461
+      },
+      "added": [],
+      "modified": [
+        {
+          "integrationId": "2ff2d3d6-2e88-429c-b90e-842b2d9942c9",
+          "sourceEmployeeId": 457,
+          "id": "108072480",
+          "employeeNo": "108072480",
+          "num": 21,
+          "name": "احمد حامد مسرهد رشيد العزاوي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "غير محدد",
+              "newValue": "شعبة زراعة يثرب"
+            }
+          ]
+        },
+        {
+          "integrationId": "44311288-782b-4905-b0a3-634febc80ae1",
+          "sourceEmployeeId": 154,
+          "id": "108001398",
+          "employeeNo": "108001398",
+          "num": 276,
+          "name": "روكان عوض خلف زراو الحمداني",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "غير محدد",
+              "newValue": "شعبة زراعة سليمان بيك"
+            }
+          ]
+        },
+        {
+          "integrationId": "d5b50584-cfb4-4a80-8f81-24363e00ee6c",
+          "sourceEmployeeId": 687,
+          "id": "154884152",
+          "employeeNo": "154884152",
+          "num": 310,
+          "name": "سبهان زيد مريف حسين اطعيمه",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة يثرب",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "8588b2fd-82c6-4d37-b4ce-ab60f3e123d3",
+          "sourceEmployeeId": 198,
+          "id": "108001905",
+          "employeeNo": "108001905",
+          "num": 354,
+          "name": "سهير كامل لعيبي علي الجنابي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "غير محدد",
+              "newValue": "شعبة زراعة سليمان بيك"
+            }
+          ]
+        },
+        {
+          "integrationId": "f85dc886-943d-49aa-b3b7-16699f5b6dc0",
+          "sourceEmployeeId": 322,
+          "id": "108038635",
+          "employeeNo": "108038635",
+          "num": 577,
+          "name": "فردوس مهدي صالح مهدي الربيعي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "name",
+              "oldValue": "فردوس مهدي محمد صالح الربيعي",
+              "newValue": "فردوس مهدي صالح مهدي الربيعي"
+            }
+          ]
+        },
+        {
+          "integrationId": "737cf608-43be-4e29-9e9e-e7a0687a72a2",
+          "sourceEmployeeId": 410,
+          "id": "108039766",
+          "employeeNo": "108039766",
+          "num": 756,
+          "name": "نايف محمد هاشم خليل القيسي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "شعبة زراعة يثرب",
+              "newValue": "غير محدد"
+            }
+          ]
+        },
+        {
+          "integrationId": "53b49eb2-8f21-4999-8446-2302cd2d13d8",
+          "sourceEmployeeId": 424,
+          "id": "108039922",
+          "employeeNo": "108039922",
+          "num": 787,
+          "name": "نورهان عريان رفعت صفر البياتي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "غير محدد",
+              "newValue": "شعبة زراعة سليمان بيك"
+            }
+          ]
+        },
+        {
+          "integrationId": "70c172b3-fab5-4567-bce9-8a0054dbfb75",
+          "sourceEmployeeId": 1505,
+          "id": "70c172b3-fab5-4567-bce9-8a0054dbfb75",
+          "employeeNo": null,
+          "num": 805,
+          "name": "تماره رعد نافع عبد الطائي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "division",
+              "oldValue": "غير محدد",
+              "newValue": "شعبة زراعة يثرب"
+            }
+          ]
+        },
+        {
+          "integrationId": "5119297b-400f-4cc3-8a5e-034da4e70ade",
+          "sourceEmployeeId": 1480,
+          "id": "143526319",
+          "employeeNo": "143526319",
+          "num": 812,
+          "name": "هند هادي عباس سوادي الدحيدحاوي",
+          "type": "perm",
+          "changes": [
+            {
+              "field": "employeeNo",
+              "oldValue": "فارغ",
+              "newValue": "143526319"
+            },
+            {
+              "field": "division",
+              "oldValue": "غير محدد",
+              "newValue": "شعبة زراعة يثرب"
             }
           ]
         }

@@ -1,149 +1,170 @@
 {
   "schemaVersion": 2,
   "mode": "hrsystem-master",
-  "previousVersion": "DATA-2026.09.17-190524",
-  "version": "DATA-2026.09.20-141955",
-  "updatedAt": "2026-09-20T14:19:55.0847662+00:00",
+  "previousVersion": "DATA-2026.09.20-141955",
+  "version": "DATA-2026.09.22-061816",
+  "updatedAt": "2026-09-22T06:18:16.777115+00:00",
   "source": "HRSystem SQL Server",
   "baselineAvailable": true,
   "deltaEngine": "windows-snapshot-delta-v1",
   "counts": {
     "published": 1053,
     "added": 0,
-    "modified": 8,
+    "modified": 9,
     "missing": 0,
-    "unchanged": 1045,
+    "unchanged": 1044,
     "completedGaps": 0,
     "qualityRegressions": 0,
-    "warnings": 462
+    "warnings": 461
   },
   "added": [],
   "modified": [
     {
-      "integrationId": "d38f0c99-5b16-4382-be83-88631ae91788",
-      "sourceEmployeeId": 71,
-      "id": "108072972",
-      "employeeNo": "108072972",
-      "num": 140,
-      "name": "بثينه محمد خلف حرج الزيدي",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة الطوز",
-          "newValue": "غير محدد"
-        }
-      ]
-    },
-    {
-      "integrationId": "ab438245-6488-4e20-98e1-cec101b25163",
-      "sourceEmployeeId": 607,
-      "id": "154883766",
-      "employeeNo": "154883766",
-      "num": 158,
-      "name": "جاسم محمد احمد عبدالله شيخاني",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة الطوز",
-          "newValue": "غير محدد"
-        }
-      ]
-    },
-    {
-      "integrationId": "be5158cf-d0aa-414f-a42b-cb18a36c4d03",
-      "sourceEmployeeId": 627,
-      "id": "154885928",
-      "employeeNo": "154885928",
-      "num": 187,
-      "name": "حسين بهجت حسين بهجت الهاشمي",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة الطوز",
-          "newValue": "غير محدد"
-        }
-      ]
-    },
-    {
-      "integrationId": "43515087-bf8d-4ec0-b646-1268139d7886",
-      "sourceEmployeeId": 148,
-      "id": "108001330",
-      "employeeNo": "108001330",
-      "num": 268,
-      "name": "رفل خلف غضبان خلف الجبوري",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة الطوز",
-          "newValue": "غير محدد"
-        }
-      ]
-    },
-    {
-      "integrationId": "4d81303c-3fb1-4354-8bd5-18b1a2f5487b",
-      "sourceEmployeeId": 155,
-      "id": "108001400",
-      "employeeNo": "108001400",
-      "num": 277,
-      "name": "رؤى جمال داود عوده الباوي",
-      "type": "perm",
-      "changes": [
-        {
-          "field": "division",
-          "oldValue": "شعبة زراعة الطوز",
-          "newValue": "غير محدد"
-        }
-      ]
-    },
-    {
-      "integrationId": "b1e05452-a4f1-4692-8363-8c6e31f61633",
-      "sourceEmployeeId": 1496,
-      "id": "b1e05452-a4f1-4692-8363-8c6e31f61633",
-      "employeeNo": null,
-      "num": 378,
-      "name": "صباح طاهر احمد عبدالله الشيخاني",
+      "integrationId": "2ff2d3d6-2e88-429c-b90e-842b2d9942c9",
+      "sourceEmployeeId": 457,
+      "id": "108072480",
+      "employeeNo": "108072480",
+      "num": 21,
+      "name": "احمد حامد مسرهد رشيد العزاوي",
       "type": "perm",
       "changes": [
         {
           "field": "division",
           "oldValue": "غير محدد",
-          "newValue": "شعبة زراعة الطوز"
+          "newValue": "شعبة زراعة يثرب"
         }
       ]
     },
     {
-      "integrationId": "cb5f1d7b-6cd9-47eb-8bb0-e2021b1358e3",
-      "sourceEmployeeId": 1500,
-      "id": "cb5f1d7b-6cd9-47eb-8bb0-e2021b1358e3",
-      "employeeNo": null,
-      "num": 510,
-      "name": "علي عدنان علي محمد البرزنجي",
+      "integrationId": "44311288-782b-4905-b0a3-634febc80ae1",
+      "sourceEmployeeId": 154,
+      "id": "108001398",
+      "employeeNo": "108001398",
+      "num": 276,
+      "name": "روكان عوض خلف زراو الحمداني",
       "type": "perm",
       "changes": [
         {
           "field": "division",
           "oldValue": "غير محدد",
-          "newValue": "شعبة زراعة الطوز"
+          "newValue": "شعبة زراعة سليمان بيك"
         }
       ]
     },
     {
-      "integrationId": "039342a7-6ec1-4268-8754-9559bff3bec2",
-      "sourceEmployeeId": 935,
-      "id": "154886497",
-      "employeeNo": "154886497",
-      "num": 785,
-      "name": "نورا تحسين شكري محمود توتونجي",
+      "integrationId": "d5b50584-cfb4-4a80-8f81-24363e00ee6c",
+      "sourceEmployeeId": 687,
+      "id": "154884152",
+      "employeeNo": "154884152",
+      "num": 310,
+      "name": "سبهان زيد مريف حسين اطعيمه",
+      "type": "perm",
+      "changes": [
+        {
+          "field": "division",
+          "oldValue": "شعبة زراعة يثرب",
+          "newValue": "غير محدد"
+        }
+      ]
+    },
+    {
+      "integrationId": "8588b2fd-82c6-4d37-b4ce-ab60f3e123d3",
+      "sourceEmployeeId": 198,
+      "id": "108001905",
+      "employeeNo": "108001905",
+      "num": 354,
+      "name": "سهير كامل لعيبي علي الجنابي",
+      "type": "perm",
+      "changes": [
+        {
+          "field": "division",
+          "oldValue": "غير محدد",
+          "newValue": "شعبة زراعة سليمان بيك"
+        }
+      ]
+    },
+    {
+      "integrationId": "f85dc886-943d-49aa-b3b7-16699f5b6dc0",
+      "sourceEmployeeId": 322,
+      "id": "108038635",
+      "employeeNo": "108038635",
+      "num": 577,
+      "name": "فردوس مهدي صالح مهدي الربيعي",
       "type": "perm",
       "changes": [
         {
           "field": "name",
-          "oldValue": "نورا تحسين شكري محمود البياتي",
-          "newValue": "نورا تحسين شكري محمود توتونجي"
+          "oldValue": "فردوس مهدي محمد صالح الربيعي",
+          "newValue": "فردوس مهدي صالح مهدي الربيعي"
+        }
+      ]
+    },
+    {
+      "integrationId": "737cf608-43be-4e29-9e9e-e7a0687a72a2",
+      "sourceEmployeeId": 410,
+      "id": "108039766",
+      "employeeNo": "108039766",
+      "num": 756,
+      "name": "نايف محمد هاشم خليل القيسي",
+      "type": "perm",
+      "changes": [
+        {
+          "field": "division",
+          "oldValue": "شعبة زراعة يثرب",
+          "newValue": "غير محدد"
+        }
+      ]
+    },
+    {
+      "integrationId": "53b49eb2-8f21-4999-8446-2302cd2d13d8",
+      "sourceEmployeeId": 424,
+      "id": "108039922",
+      "employeeNo": "108039922",
+      "num": 787,
+      "name": "نورهان عريان رفعت صفر البياتي",
+      "type": "perm",
+      "changes": [
+        {
+          "field": "division",
+          "oldValue": "غير محدد",
+          "newValue": "شعبة زراعة سليمان بيك"
+        }
+      ]
+    },
+    {
+      "integrationId": "70c172b3-fab5-4567-bce9-8a0054dbfb75",
+      "sourceEmployeeId": 1505,
+      "id": "70c172b3-fab5-4567-bce9-8a0054dbfb75",
+      "employeeNo": null,
+      "num": 805,
+      "name": "تماره رعد نافع عبد الطائي",
+      "type": "perm",
+      "changes": [
+        {
+          "field": "division",
+          "oldValue": "غير محدد",
+          "newValue": "شعبة زراعة يثرب"
+        }
+      ]
+    },
+    {
+      "integrationId": "5119297b-400f-4cc3-8a5e-034da4e70ade",
+      "sourceEmployeeId": 1480,
+      "id": "143526319",
+      "employeeNo": "143526319",
+      "num": 812,
+      "name": "هند هادي عباس سوادي الدحيدحاوي",
+      "type": "perm",
+      "changes": [
+        {
+          "field": "employeeNo",
+          "oldValue": "فارغ",
+          "newValue": "143526319"
+        },
+        {
+          "field": "division",
+          "oldValue": "غير محدد",
+          "newValue": "شعبة زراعة يثرب"
         }
       ]
     }
@@ -151,5 +172,5 @@
   "missing": [],
   "completedGaps": [],
   "qualityRegressions": [],
-  "note": "مقارنة فعلية مع DATA-2026.09.17-190524: 8 معدل، 0 جديد، 0 للمراجعة، 0 تراجع جودة، 1045 بدون تغيير."
+  "note": "مقارنة فعلية مع DATA-2026.09.20-141955: 9 معدل، 0 جديد، 0 للمراجعة، 0 تراجع جودة، 1044 بدون تغيير."
 }
