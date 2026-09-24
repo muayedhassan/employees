@@ -25,10 +25,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.82-PUSH-SCRIPT-ENDPOINT-UPDATE';
+const expectedRelease = 'MOBILE-R1.4.84-MANAGER-NOTES-VISIBLE-ALERTS-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.82 push script endpoint update');
-if (!String(manifest.description || '').includes('R1.4.82')) fail('manifest description was not updated to R1.4.82');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.84 manager notes visible alerts fix');
+if (!String(manifest.description || '').includes('R1.4.84')) fail('manifest description was not updated to R1.4.84');
 // R1.4.73: allow running verification inside an actual Git working tree; clean ZIPs still omit .git.
 for (const stale of fs.readdirSync(root).filter(name => /^INSTALL_PATCH_R1_4_|^PATCH_FILES_R1_4_|^MOBILE_R1_4_.*_RELEASE_NOTES_AR\.txt$/.test(name))) fail(`stale patch/release file still present: ${stale}`);
 for (const marker of ['MOBILE R1.4.73: cleanup stray header marker and restore compact record-scope cards','r1473-header-cleanup-scope-cards-restore-style','r1473-header-cleanup-scope-cards-restore-script','employee-registry-mobile-r1473-header-cleanup-scope-cards-restore-2026.09.20']) {
@@ -775,3 +775,11 @@ for (const marker of ['MOBILE R1.4.82: Push Script Endpoint Update','MOBILE R1.4
 if (!sw.includes('employee-registry-mobile-r1482-push-script-endpoint-update-2026.09.24')) fail('R1.4.82 app-shell cache marker missing');
 if (!sw.includes('employee-registry-pdf-downloads-r1482')) fail('R1.4.82 PDF cache marker missing');
 ok('Mobile R1.4.82 Push Script Endpoint Update verified');
+
+
+// R1.4.84 manager notes visible alert syntax fix guards.
+for (const marker of ['MOBILE R1.4.84: Manager Notes visible alert fix','r1484-manager-notes-visible-alert-style','r1484-manager-notes-visible-alert-script','r1484ManagerNotesVisibleAlertTest','employee-registry-mobile-r1484-manager-notes-visible-alerts-fix-2026.09.24']) {
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.84 visible alert fix marker missing: ${marker}`);
+}
+if (index.includes('r1483-manager-notes-visible-alert-script')) fail('Broken R1.4.83 visible alert script must not remain');
+ok('Mobile R1.4.84 Manager Notes Visible Alerts Fix verified');

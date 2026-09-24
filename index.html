@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.82-PUSH-SCRIPT-ENDPOINT-UPDATE';
+var APP_RELEASE = 'MOBILE-R1.4.84-MANAGER-NOTES-VISIBLE-ALERTS-FIX';
 // R1.4.73: cleanup stray header markers and restore compact record scope cards while preserving professional program sections.
 // Legacy stable marker retained for verification: MOBILE-R1.4.63-SPLASH-LOADING-RESTORE
 // Legacy stable marker retained for verification: MOBILE-R1.4.71-TITLE-MATCHING-CARD-POLISH
@@ -6038,6 +6038,49 @@ body.light-mode .r1481-push-panel{background:#fff;border-color:rgba(15,23,42,.10
   function schedule(){bindListeners();renderPanel();setTimeout(function(){bindListeners();renderPanel();registerPush(true);try{if(localStorage.getItem('hr_open_manager_notes_after_push_r1481')==='1'){localStorage.removeItem('hr_open_manager_notes_after_push_r1481');openNotes();}}catch(e){}},900)}
   document.addEventListener('click',function(ev){var roleBtn=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-role],[data-r1478-set-role]'):null;if(roleBtn)setTimeout(function(){registerPush(true);renderPanel();},250);var mn=ev.target&&ev.target.closest?ev.target.closest('[data-subview="managernotes"],#stab-managernotes,[data-target="managernotes"]'):null;if(mn)setTimeout(function(){renderPanel();bindListeners();},350);},true);
   window.r1481RegisterManagerNotesPush=registerPush;window.r1481RenderPushPanel=renderPanel;document.addEventListener('DOMContentLoaded',schedule);window.addEventListener('load',schedule);window.addEventListener('pageshow',schedule);try{new MutationObserver(function(){clearTimeout(window.__r1481PanelT);window.__r1481PanelT=setTimeout(renderPanel,140)}).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+})();
+</script>
+
+
+<style id="r1484-manager-notes-visible-alert-style">
+/* MOBILE R1.4.84: Manager Notes visible alert fix - syntax safe */
+.r1484-note-alert{position:fixed;z-index:2147483000;left:14px;right:14px;top:calc(env(safe-area-inset-top,0px) + 12px);direction:rtl;display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:22px;background:linear-gradient(135deg,rgba(15,34,74,.97),rgba(6,78,93,.96));border:1px solid rgba(125,211,252,.28);box-shadow:0 22px 60px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.12);color:#fff;transform:translateY(-150%);opacity:0;transition:transform .32s ease,opacity .32s ease;font-family:var(--hr-body-font);pointer-events:auto}.r1484-note-alert.show{transform:translateY(0);opacity:1}.r1484-note-alert .ico{width:46px;height:46px;min-width:46px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#fbbf24,#fde68a);color:#1e293b;font-size:20px;box-shadow:0 10px 28px rgba(251,191,36,.26)}.r1484-note-alert .txt{min-width:0;flex:1}.r1484-note-alert .ttl{font:900 14px var(--hr-title-font);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.r1484-note-alert .sub{font:800 10px var(--hr-body-font);line-height:1.7;color:rgba(226,237,255,.78);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.r1484-note-alert .act,.r1484-note-alert .close{border:0;border-radius:14px;padding:9px 12px;background:rgba(255,255,255,.12);color:#fff;font:900 9px var(--hr-title-font);border:1px solid rgba(255,255,255,.12)}.r1484-note-alert .close{width:38px;height:38px;padding:0;display:flex;align-items:center;justify-content:center}.r1484-note-pulse{animation:r1484Pulse 1s ease both}@keyframes r1484Pulse{0%{box-shadow:0 0 0 0 rgba(251,191,36,.44),0 22px 60px rgba(0,0,0,.42)}100%{box-shadow:0 0 0 18px rgba(251,191,36,0),0 22px 60px rgba(0,0,0,.42)}}body.light-mode .r1484-note-alert{background:linear-gradient(135deg,#ffffff,#eff6ff);border-color:rgba(14,165,233,.22);color:#0f172a}.light-mode .r1484-note-alert .sub{color:#475569}.light-mode .r1484-note-alert .act,.light-mode .r1484-note-alert .close{background:#e0f2fe;color:#0f172a;border-color:rgba(14,165,233,.20)}
+</style>
+<script id="r1484-manager-notes-visible-alert-script">
+// MOBILE R1.4.84: visible alert, sound and vibration for Manager Notes without breaking inline JavaScript.
+(function(){
+  var STORE='hr_manager_notes_r1475',IDENT='hr_device_identity_r1475',DEV='hr_device_id_r1476';
+  var ALERTED='hr_manager_notes_alerted_r1484',READY='hr_manager_notes_alert_baseline_r1484';
+  function $(id){return document.getElementById(id);}
+  function load(k,fb){try{var raw=localStorage.getItem(k);if(!raw)return fb;var val=JSON.parse(raw);return val==null?fb:val;}catch(e){return fb;}}
+  function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+  function notes(){var arr=load(STORE,[]);return Array.isArray(arr)?arr:[];}
+  function ident(){var obj=load(IDENT,{});return obj&&obj.role?obj:{role:'admin',name:'مسؤول النظام'};}
+  function deviceId(){try{return localStorage.getItem(DEV)||'';}catch(e){return '';}}
+  function noteId(n){return String((n&&n.id)||'')||[n&&n.employeeName,n&&n.type,n&&n.movementType,n&&n.fromBranch,n&&n.toBranch,n&&n.text,n&&n.note,n&&n.createdAt].join('|');}
+  function typeLabel(t){t=String(t||'');return t==='transfer'||t==='نقل'?'نقل':(t==='assignment'||t==='تنسيب'?'تنسيب':(t==='return'||t==='إنهاء تنسيب'?'إنهاء تنسيب':'ملاحظة'));}
+  function isNewRemote(n){if(!n)return false;if((n.status||'new')==='reviewed'||(n.status||'')==='archived')return false;if(n.deviceId&&deviceId()&&n.deviceId===deviceId())return false;if(n.source==='pending'||n.source==='local')return false;return !!(n.employeeName||n.text||n.note);}
+  var audioCtx=null;
+  function unlockAudio(){try{var Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;if(!audioCtx)audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume().catch(function(){});}catch(e){}}
+  ['click','touchstart','keydown'].forEach(function(ev){document.addEventListener(ev,unlockAudio,{passive:true});});
+  function tone(){try{unlockAudio();if(!audioCtx)return;[880,1175,988].forEach(function(freq,i){setTimeout(function(){try{var o=audioCtx.createOscillator();var g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(0.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.18,audioCtx.currentTime+0.025);g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.22);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+0.24);}catch(e){}},i*135);});}catch(e){}}
+  function vibrate(){try{if(navigator.vibrate)navigator.vibrate([220,90,220,90,120]);}catch(e){}}
+  function openNotes(){try{if(typeof window.r1475OpenManagerNotes==='function'){window.r1475OpenManagerNotes();return;}}catch(e){}try{var el=document.querySelector('#stab-managernotes,[data-subview="managernotes"],[data-target="managernotes"]');if(el)el.click();}catch(e){}}
+  function localNotification(n,count){try{var title=count>1?'ملاحظات إدارية جديدة':'ملاحظة إدارية جديدة';var body=count>1?('وصلت '+count+' ملاحظات جديدة'):(typeLabel(n.type||n.movementType)+': '+(n.employeeName||'موظف'));if(!('Notification' in window)||Notification.permission!=='granted')return;if(navigator.serviceWorker&&navigator.serviceWorker.ready){navigator.serviceWorker.ready.then(function(reg){reg.showNotification(title,{body:body,tag:'manager-notes-'+Date.now(),renotify:true,icon:'assets/icon-192.png',badge:'assets/icon-192.png',data:{screen:'managerNotes'}});});}else{new Notification(title,{body:body});}}catch(e){}}
+  function ensureBox(){var box=$('r1484-note-alert');if(box)return box;box=document.createElement('div');box.id='r1484-note-alert';box.className='r1484-note-alert';box.innerHTML='<div class="ico"><i class="fas fa-bell"></i></div><div class="txt"><div class="ttl">ملاحظة إدارية جديدة</div><div class="sub">تم استلام حركة جديدة من مدير الموارد البشرية</div></div><button class="act" type="button">فتح</button><button class="close" type="button" aria-label="إغلاق"><i class="fas fa-xmark"></i></button>';document.body.appendChild(box);var open=box.querySelector('.act');var close=box.querySelector('.close');if(open)open.onclick=function(){hideBox();openNotes();};if(close)close.onclick=hideBox;return box;}
+  var hideTimer=0;
+  function hideBox(){var box=$('r1484-note-alert');if(box)box.classList.remove('show');}
+  function showBox(n,count){var box=ensureBox();var ttl=box.querySelector('.ttl');var sub=box.querySelector('.sub');if(ttl)ttl.textContent=count>1?('وصلت '+count+' ملاحظات إدارية جديدة'):'ملاحظة إدارية جديدة';if(sub){var label=typeLabel(n.type||n.movementType);var branch=(n.fromBranch||n.toBranch)?(' — من '+(n.fromBranch||'-')+' إلى '+(n.toBranch||'-')):'';sub.textContent=count>1?'اضغط فتح لمراجعة الحركات الواردة.':(label+' • '+(n.employeeName||'موظف')+branch);}box.classList.add('show','r1484-note-pulse');setTimeout(function(){box.classList.remove('r1484-note-pulse');},1000);clearTimeout(hideTimer);hideTimer=setTimeout(hideBox,8500);}
+  function setBaseline(){var seen={};notes().filter(isNewRemote).forEach(function(n){seen[noteId(n)]=1;});save(ALERTED,seen);try{localStorage.setItem(READY,'1');}catch(e){}}
+  function scan(){if(ident().role!=='admin')return;var seen=load(ALERTED,{});if(!localStorage.getItem(READY)){setBaseline();return;}var fresh=[];notes().filter(isNewRemote).forEach(function(n){var id=noteId(n);if(!seen[id]){seen[id]=1;fresh.push(n);}});if(!fresh.length)return;save(ALERTED,seen);showBox(fresh[0],fresh.length);tone();vibrate();localNotification(fresh[0],fresh.length);try{if(typeof window.showToast==='function')window.showToast('وصلت '+fresh.length+' ملاحظة إدارية جديدة','ok');}catch(e){}}
+  var originalSync=null;
+  function wrapSync(){try{if(typeof window.r1479ManagerNotesSyncNow==='function'&&window.r1479ManagerNotesSyncNow!==originalSync){originalSync=window.r1479ManagerNotesSyncNow;window.r1479ManagerNotesSyncNow=function(){var result=originalSync.apply(this,arguments);try{Promise.resolve(result).then(function(){setTimeout(scan,250);});}catch(e){setTimeout(scan,900);}return result;};}}catch(e){}}
+  window.r1484ManagerNotesVisibleAlertTest=function(){showBox({type:'note',employeeName:'اختبار التنبيه',note:'اختبار'},1);tone();vibrate();};
+  document.addEventListener('DOMContentLoaded',function(){wrapSync();setTimeout(scan,1500);});
+  window.addEventListener('load',function(){wrapSync();setTimeout(scan,1800);});
+  window.addEventListener('pageshow',function(){wrapSync();setTimeout(scan,1000);});
+  setInterval(function(){wrapSync();scan();},7000);
+  document.addEventListener('click',function(ev){if(ev.target&&ev.target.closest&&ev.target.closest('#r1475-sync'))setTimeout(scan,1600);},true);
 })();
 </script>
 
