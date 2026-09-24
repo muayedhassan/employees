@@ -1,5 +1,6 @@
 // Legacy R1.4.78 marker retained: employee-registry-mobile-r1478-manager-notes-identity-switch-fix-2026.09.24 | employee-registry-pdf-downloads-r1478
-// R1.4.79 cache: manager notes instant alerts and professional notes UI.
+// R1.4.80 cache: manager notes review/archive and employee search fix.
+// Previous verified marker: employee-registry-mobile-r1479-manager-notes-instant-alerts-ui-2026.09.24
 // Legacy R1.4.77 marker retained: employee-registry-mobile-r1477-manager-notes-navigation-fix-2026.09.24 | employee-registry-pdf-downloads-r1477
 // R1.4.78 cache: manager notes navigation isolation fix over R1.4.76 shared sync.
 // Legacy R1.4.76 marker retained: employee-registry-mobile-r1476-manager-notes-shared-sync-2026.09.24 | employee-registry-pdf-downloads-r1476
@@ -15,8 +16,8 @@
 // Legacy verification markers retained: employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19 | employee-registry-pdf-downloads-r1452
 // Legacy verification markers retained: employee-registry-mobile-r1455-service-calculator-navigation-fix-2026.09.19 | employee-registry-pdf-downloads-r1455
 // Legacy verification marker retained: employee-registry-mobile-r1463-splash-loading-restore-2026.09.19 | employee-registry-pdf-downloads-r1463
-const CACHE_NAME = 'employee-registry-mobile-r1479-manager-notes-instant-alerts-ui-2026.09.24';
-const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1479';
+const CACHE_NAME = 'employee-registry-mobile-r1480-manager-notes-review-search-fix-2026.09.24';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1480';
 const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',
