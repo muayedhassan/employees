@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.80-MANAGER-NOTES-REVIEW-EMPLOYEE-SEARCH-FIX';
+var APP_RELEASE = 'MOBILE-R1.4.81-PUSH-TOKEN-REGISTER';
 // R1.4.73: cleanup stray header markers and restore compact record scope cards while preserving professional program sections.
 // Legacy stable marker retained for verification: MOBILE-R1.4.63-SPLASH-LOADING-RESTORE
 // Legacy stable marker retained for verification: MOBILE-R1.4.71-TITLE-MATCHING-CARD-POLISH
@@ -5995,6 +5995,47 @@ body.light-mode .r1480-emp-results{background:#fff;border-color:rgba(15,23,42,.1
   function polish(){ensureManagerSender();ensurePicker();}
   document.addEventListener('click',function(ev){var roleBtn=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-role],[data-r1478-set-role]'):null;if(roleBtn){var role=roleBtn.getAttribute('data-r1475-role')||roleBtn.getAttribute('data-r1478-set-role');if(role==='manager'){setTimeout(function(){var id=identity();id.role='manager';id.name='مدير الموارد البشرية';saveIdentity(id);polish();},30)}}},true);
   document.addEventListener('DOMContentLoaded',polish);window.addEventListener('load',polish);window.addEventListener('pageshow',polish);try{new MutationObserver(function(){clearTimeout(window.__r1480PolishT);window.__r1480PolishT=setTimeout(polish,80)}).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+})();
+</script>
+
+
+<style id="r1481-push-token-register-style">
+/* MOBILE R1.4.81: native Firebase push token registration for Manager Notes */
+.r1481-push-panel{margin:10px 0 0;border-radius:18px;border:1px solid rgba(125,211,252,.18);background:linear-gradient(135deg,rgba(15,34,74,.72),rgba(9,22,51,.88));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 14px 34px rgba(0,0,0,.18);padding:10px;direction:rtl}
+.r1481-push-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.r1481-push-title{display:flex;align-items:center;gap:7px;color:#f8fafc;font:900 10px var(--hr-title-font)}.r1481-push-title i{color:#fbbf24}.r1481-push-state{border-radius:999px;padding:4px 8px;font:900 7px var(--hr-body-font);background:rgba(125,211,252,.10);border:1px solid rgba(125,211,252,.16);color:#bae6fd}.r1481-push-body{display:grid;gap:7px}.r1481-push-row{display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:13px;background:rgba(255,255,255,.045);padding:7px 8px;color:rgba(226,237,255,.78);font:850 8px var(--hr-body-font)}.r1481-push-row b{color:#fff;font-family:var(--hr-num-font);direction:ltr;unicode-bidi:plaintext}.r1481-push-actions{display:flex;gap:8px;align-items:center;justify-content:flex-start;margin-top:8px}.r1481-push-btn{border:0;border-radius:14px;padding:8px 11px;background:linear-gradient(135deg,#fbbf24,#fde68a);color:#1e293b;font:950 8.5px var(--hr-title-font);box-shadow:0 9px 22px rgba(251,191,36,.24)}.r1481-push-btn.secondary{background:rgba(125,211,252,.12);color:#dff6ff;border:1px solid rgba(125,211,252,.18);box-shadow:none}.r1481-push-note{font:800 7px var(--hr-body-font);line-height:1.8;color:rgba(226,237,255,.60)}
+body.light-mode .r1481-push-panel{background:#fff;border-color:rgba(15,23,42,.10)}body.light-mode .r1481-push-title,body.light-mode .r1481-push-row b{color:#0f172a}body.light-mode .r1481-push-row{background:#f8fafc;color:#475569}body.light-mode .r1481-push-note{color:#64748b}
+</style>
+<script id="r1481-push-token-register-script">
+// MOBILE R1.4.81: Push Token Register - subscribes admin devices to FCM topic for Manager Notes notifications.
+(function(){
+  var IDENT='hr_device_identity_r1475';
+  var TOKEN_KEY='hr_fcm_token_r1481';
+  var TOPIC_KEY='hr_fcm_topic_state_r1481';
+  var ADMIN_TOPIC='hr_manager_notes_admin';
+  var MANAGER_TOPIC='hr_manager_notes_manager';
+  var CHANNEL_ID='manager_notes';
+  function $(id){return document.getElementById(id)}
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function bridge(){return (window.median&&window.median.firebaseMessaging)||(window.gonative&&window.gonative.firebaseMessaging)||null}
+  function identity(){try{return JSON.parse(localStorage.getItem(IDENT)||'{}')||{}}catch(e){return {}}}
+  function roleLabel(r){return r==='admin'?'مسؤول النظام':(r==='manager'?'مدير الموارد البشرية':'غير محدد')}
+  function shortToken(t){t=String(t||'');return t?t.slice(0,10)+'…'+t.slice(-7):'غير مسجل'}
+  function toast(msg,type){try{if(typeof window.showToast==='function')return window.showToast(msg,type||'ok');}catch(e){}try{console.log(msg)}catch(e){}}
+  function setStatus(msg,type){try{localStorage.setItem('hr_fcm_status_r1481',JSON.stringify({msg:msg,type:type||'',at:new Date().toISOString()}));}catch(e){}renderPanel();}
+  function openNotes(){try{if(typeof window.r1475OpenManagerNotes==='function'){window.r1475OpenManagerNotes();return true}}catch(e){}try{var el=document.querySelector('[data-subview="managernotes"],#stab-managernotes,[data-target="managernotes"]');if(el){el.click();return true}}catch(e){}return false}
+  function ensureChannel(fm){try{if(fm.createChannel)fm.createChannel({channelId:CHANNEL_ID,channelName:'ملاحظات المدير',importance:'high',callback:function(){}})}catch(e){}}
+  function subscribeRoleTopic(fm,role){var target=role==='admin'?ADMIN_TOPIC:(role==='manager'?MANAGER_TOPIC:'');if(!target||!fm.subscribeToTopic)return;try{fm.subscribeToTopic({topic:target,callback:function(r){try{localStorage.setItem(TOPIC_KEY,target)}catch(e){}setStatus('تم تفعيل إشعارات '+roleLabel(role),'ok');}})}catch(e){setStatus('تعذر الاشتراك بموضوع الإشعارات','warn');}}
+  function finishToken(token,silent){if(token){try{localStorage.setItem(TOKEN_KEY,token)}catch(e){}}var id=identity();var fm=bridge();if(fm){ensureChannel(fm);subscribeRoleTopic(fm,id.role||'');try{if(fm.enableForegroundBanners)fm.enableForegroundBanners();}catch(e){}}
+    if(!silent)toast('تم تسجيل إشعارات هذا الجهاز','ok');renderPanel();}
+  function afterPermission(fm,silent){try{ensureChannel(fm)}catch(e){}try{fm.register({callback:function(r){var t=(r&&r.token)||'';if(t)return finishToken(t,silent);try{fm.getToken({callback:function(g){finishToken((g&&g.token)||'',silent)}})}catch(e){finishToken('',silent)}}});}catch(e){try{fm.getToken({callback:function(g){finishToken((g&&g.token)||'',silent)}})}catch(x){setStatus('تعذر الحصول على رمز الإشعارات','warn')}}}
+  function registerPush(silent){var fm=bridge();if(!fm){setStatus('إشعارات Firebase غير متاحة داخل هذه النسخة. ثبت APK الجديد من Median أولًا.','warn');if(!silent)toast('Firebase غير متاح في هذا التطبيق','warn');return false}
+    setStatus('جاري فحص إذن الإشعارات…','');try{fm.checkPermission({callback:function(res){if(res&&res.granted){afterPermission(fm,silent);return}try{fm.requestPermission({callback:function(p){if(p&&p.granted)afterPermission(fm,silent);else{setStatus('إذن الإشعارات غير مفعّل من إعدادات الهاتف','warn');if(!silent)toast('فعّل إذن الإشعارات أولًا','warn')}}})}catch(e){afterPermission(fm,silent)}}});}catch(e){afterPermission(fm,silent)}return true}
+  function bindListeners(){var fm=bridge();if(!fm||window.__r1481PushListeners)return;window.__r1481PushListeners=true;try{fm.notificationReceived.addListener(function(data){try{if(identity().role==='admin'&&typeof window.r1479ManagerNotesPlayAlert==='function')window.r1479ManagerNotesPlayAlert(1)}catch(e){}toast('وصل إشعار جديد من ملاحظات المدير','ok');try{if(typeof window.r1479ManagerNotesSyncNow==='function')window.r1479ManagerNotesSyncNow(false)}catch(e){}})}catch(e){}try{fm.notificationClicked.addListener(function(data){try{localStorage.setItem('hr_open_manager_notes_after_push_r1481','1')}catch(e){}openNotes();setTimeout(function(){try{if(typeof window.r1479ManagerNotesSyncNow==='function')window.r1479ManagerNotesSyncNow(false)}catch(e){}},500);})}catch(e){}}
+  function renderPanel(){var root=$('r1475-root')||$('view-managernotes')||document.querySelector('.r1475-root,.manager-notes-view');if(!root)return;var old=$('r1481-push-panel');if(old)old.remove();var id=identity();var token='';try{token=localStorage.getItem(TOKEN_KEY)||''}catch(e){}var topic='';try{topic=localStorage.getItem(TOPIC_KEY)||''}catch(e){}var st={};try{st=JSON.parse(localStorage.getItem('hr_fcm_status_r1481')||'{}')||{}}catch(e){}
+    var role=id.role||'unset';var html='<section id="r1481-push-panel" class="r1481-push-panel"><div class="r1481-push-head"><div class="r1481-push-title"><i class="fas fa-bell"></i><span>إشعارات ملاحظات المدير</span></div><span class="r1481-push-state">'+esc(roleLabel(role))+'</span></div><div class="r1481-push-body"><div class="r1481-push-row"><span>حالة التسجيل</span><b>'+esc(st.msg||'بانتظار التسجيل')+'</b></div><div class="r1481-push-row"><span>موضوع الاستقبال</span><b>'+esc(topic||'—')+'</b></div><div class="r1481-push-row"><span>رمز الجهاز</span><b>'+esc(shortToken(token))+'</b></div></div><div class="r1481-push-actions"><button id="r1481-register" class="r1481-push-btn" type="button"><i class="fas fa-bell"></i> تفعيل/تحديث الإشعارات</button><button id="r1481-open" class="r1481-push-btn secondary" type="button"><i class="fas fa-inbox"></i> فتح الملاحظات</button></div><div class="r1481-push-note">جهاز مسؤول النظام يشترك بموضوع إشعارات المدير. لاحقًا سيرسل Google Script إشعارًا لهذا الموضوع عند وصول ملاحظة جديدة.</div></section>';root.insertAdjacentHTML('afterbegin',html);var b=$('r1481-register');if(b)b.onclick=function(){registerPush(false)};var o=$('r1481-open');if(o)o.onclick=function(){openNotes()};}
+  function schedule(){bindListeners();renderPanel();setTimeout(function(){bindListeners();renderPanel();registerPush(true);try{if(localStorage.getItem('hr_open_manager_notes_after_push_r1481')==='1'){localStorage.removeItem('hr_open_manager_notes_after_push_r1481');openNotes();}}catch(e){}},900)}
+  document.addEventListener('click',function(ev){var roleBtn=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-role],[data-r1478-set-role]'):null;if(roleBtn)setTimeout(function(){registerPush(true);renderPanel();},250);var mn=ev.target&&ev.target.closest?ev.target.closest('[data-subview="managernotes"],#stab-managernotes,[data-target="managernotes"]'):null;if(mn)setTimeout(function(){renderPanel();bindListeners();},350);},true);
+  window.r1481RegisterManagerNotesPush=registerPush;window.r1481RenderPushPanel=renderPanel;document.addEventListener('DOMContentLoaded',schedule);window.addEventListener('load',schedule);window.addEventListener('pageshow',schedule);try{new MutationObserver(function(){clearTimeout(window.__r1481PanelT);window.__r1481PanelT=setTimeout(renderPanel,140)}).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
 })();
 </script>
 
