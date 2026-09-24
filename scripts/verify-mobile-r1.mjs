@@ -25,12 +25,16 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.84-MANAGER-NOTES-VISIBLE-ALERTS-FIX';
+const expectedRelease = 'MOBILE-R1.4.85-MANAGER-NOTES-GLOBAL-ALERTS-ARCHIVE-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.84 manager notes visible alerts fix');
-if (!String(manifest.description || '').includes('R1.4.84')) fail('manifest description was not updated to R1.4.84');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.85 manager notes global alerts/archive fix');
+if (!String(manifest.description || '').includes('R1.4.85')) fail('manifest description was not updated to R1.4.85');
 // R1.4.73: allow running verification inside an actual Git working tree; clean ZIPs still omit .git.
 for (const stale of fs.readdirSync(root).filter(name => /^INSTALL_PATCH_R1_4_|^PATCH_FILES_R1_4_|^MOBILE_R1_4_.*_RELEASE_NOTES_AR\.txt$/.test(name))) fail(`stale patch/release file still present: ${stale}`);
+for (const marker of ['MOBILE R1.4.85: Global Manager Notes monitor','r1485-manager-notes-global-alerts-archive-fix-script','r1485ManagerNotesGlobalSync','hr_manager_notes_global_seen_r1485','employee-registry-mobile-r1485-manager-notes-global-alerts-archive-fix-2026.09.24']) {
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.85 manager notes global alert/archive marker missing: ${marker}`);
+}
+
 for (const marker of ['MOBILE R1.4.73: cleanup stray header marker and restore compact record-scope cards','r1473-header-cleanup-scope-cards-restore-style','r1473-header-cleanup-scope-cards-restore-script','employee-registry-mobile-r1473-header-cleanup-scope-cards-restore-2026.09.20']) {
   if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.73 header cleanup/scope restore marker missing: ${marker}`);
 }

@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.84-MANAGER-NOTES-VISIBLE-ALERTS-FIX';
+var APP_RELEASE = 'MOBILE-R1.4.85-MANAGER-NOTES-GLOBAL-ALERTS-ARCHIVE-FIX';
 // R1.4.73: cleanup stray header markers and restore compact record scope cards while preserving professional program sections.
 // Legacy stable marker retained for verification: MOBILE-R1.4.63-SPLASH-LOADING-RESTORE
 // Legacy stable marker retained for verification: MOBILE-R1.4.71-TITLE-MATCHING-CARD-POLISH
@@ -6084,5 +6084,61 @@ body.light-mode .r1481-push-panel{background:#fff;border-color:rgba(15,23,42,.10
 })();
 </script>
 
+
+
+<style id="r1485-manager-notes-global-alerts-archive-fix-style">
+/* MOBILE R1.4.85: Global Manager Notes monitor + review/archive/filter stability */
+.r1485-global-alert{position:fixed;z-index:2147483100;left:14px;right:14px;top:calc(env(safe-area-inset-top,0px) + 12px);direction:rtl;display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:22px;background:linear-gradient(135deg,rgba(12,35,75,.98),rgba(5,80,94,.96));border:1px solid rgba(125,211,252,.30);box-shadow:0 24px 64px rgba(0,0,0,.44),inset 0 1px 0 rgba(255,255,255,.13);color:#fff;transform:translateY(-150%);opacity:0;transition:transform .30s ease,opacity .30s ease;font-family:var(--hr-body-font);pointer-events:auto}.r1485-global-alert.show{transform:translateY(0);opacity:1}.r1485-global-alert .ico{width:46px;height:46px;min-width:46px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#fbbf24,#fde68a);color:#102033;font-size:20px;box-shadow:0 12px 30px rgba(251,191,36,.28)}.r1485-global-alert .txt{min-width:0;flex:1}.r1485-global-alert .ttl{font:900 14px var(--hr-title-font);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.r1485-global-alert .sub{font:850 10px var(--hr-body-font);line-height:1.75;color:rgba(226,237,255,.82);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.r1485-global-alert button{border:0;border-radius:14px;padding:9px 12px;background:rgba(255,255,255,.12);color:#fff;font:900 9px var(--hr-title-font);border:1px solid rgba(255,255,255,.13)}.r1485-global-alert .close{width:38px;height:38px;padding:0;display:grid;place-items:center}.r1485-filter-hidden{display:none!important}.r1475-note-card.reviewed{opacity:.78}.r1475-toolbar .r1475-filter.r1485-forced-active{border-color:rgba(251,191,36,.45)!important;background:rgba(251,191,36,.13)!important;color:#ffe08a!important}
+body.light-mode .r1485-global-alert{background:linear-gradient(135deg,#fff,#eff6ff);border-color:rgba(14,165,233,.22);color:#0f172a}body.light-mode .r1485-global-alert .sub{color:#475569}body.light-mode .r1485-global-alert button{background:#e0f2fe;color:#0f172a;border-color:rgba(14,165,233,.20)}
+</style>
+<script id="r1485-manager-notes-global-alerts-archive-fix-script">
+// MOBILE R1.4.85: Global Manager Notes monitor, admin-only background sync, and robust review/archive/filter controls.
+(function(){
+  var ENDPOINT='https://script.google.com/macros/s/AKfycbwRRarKpQd5KCyKu7XDlEN7QI6BdF_IDm8aqNG07M0AW0wBuM54SmGTMkWTmRmaXwhE/exec';
+  var API_KEY='HR_NOTES_2026';
+  var STORE='hr_manager_notes_r1475',IDENT='hr_device_identity_r1475',SYNC='hr_manager_notes_sync_r1476',DEV='hr_device_id_r1476';
+  var DELETED='hr_manager_notes_deleted_r1480',SEEN='hr_manager_notes_global_seen_r1485',FILTER='hr_manager_notes_filter_r1485',READY='hr_manager_notes_global_ready_r1485';
+  var syncing=false,lastGlobalSync=0,hideTimer=0;
+  function $(id){return document.getElementById(id)}
+  function norm(v){return String(v||'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
+  function load(k,fb){try{var raw=localStorage.getItem(k);if(!raw)return fb;var val=JSON.parse(raw);return val==null?fb:val}catch(e){return fb}}
+  function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+  function notes(){var a=load(STORE,[]);return Array.isArray(a)?a:[]}
+  function saveNotes(a){save(STORE,a||[])}
+  function identity(){var x=load(IDENT,{});return x&&x.role?x:{role:'admin',name:'مسؤول النظام'}}
+  function deviceId(){try{return localStorage.getItem(DEV)||''}catch(e){return ''}}
+  function nowText(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};return d.getFullYear()+'/'+p(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())}
+  function typeLabel(t){t=String(t||'');return t==='transfer'||t==='نقل'?'نقل':(t==='assignment'||t==='تنسيب'?'تنسيب':(t==='return'||t==='إنهاء تنسيب'?'إنهاء تنسيب':'ملاحظة'))}
+  function remoteType(t){t=String(t||'note').trim();if(t==='نقل')return'transfer';if(t==='تنسيب')return'assignment';if(t==='إنهاء تنسيب')return'return';if(['transfer','assignment','return','note'].indexOf(t)>=0)return t;return'note'}
+  function sig(n){return [norm(n.employeeName),norm(n.type),norm(n.fromBranch),norm(n.toBranch),norm(n.text||n.note)].join('|').toLowerCase()}
+  function noteId(n){return String((n&&n.id)||'')||sig(n)}
+  function senderFix(n){if(!n)return n;if((n.senderRole==='manager'||/مدير/.test(String(n.senderRole||'')))&&/مسؤول النظام/.test(String(n.sender||'')))n.sender='مدير الموارد البشرية';if(!n.sender&&n.senderRole==='manager')n.sender='مدير الموارد البشرية';return n}
+  function normalizeRemote(r){var type=remoteType(r.movementType||r.type);return senderFix({id:norm(r.id)||('REMOTE-'+sig(r)),employeeName:norm(r.employeeName),type:type,fromBranch:norm(r.fromBranch),toBranch:norm(r.toBranch),text:norm(r.note||r.text),sender:norm(r.senderName||r.sender)||'مدير الموارد البشرية',senderRole:norm(r.senderRole)||'manager',createdAt:norm(r.createdAt)||'',status:norm(r.status)||'new',source:'remote',deviceId:norm(r.deviceId)});}
+  function deletedMap(){var m={};try{(JSON.parse(localStorage.getItem(DELETED)||'[]')||[]).forEach(function(k){m[k]=1})}catch(e){}return m}
+  function mergeRemote(remote){
+    var local=notes(),out=[],seen={},deleted=deletedMap(),before={},byId={},bySig={},fresh=[];
+    local.forEach(function(n){senderFix(n);var k=n.id||sig(n),s=sig(n);before[k]=before[s]=1;if(k)byId[k]=n;if(s)bySig[s]=n});
+    (remote||[]).map(normalizeRemote).forEach(function(n){if(!n.employeeName&&!n.text)return;var k=n.id||sig(n),s=sig(n);if(deleted[k]||deleted[s])return;var old=byId[k]||bySig[s];if(old){if(old.status==='reviewed')n.status='reviewed';if(old.senderRole==='manager')n.senderRole='manager';if(old.senderRole==='manager'&&/مسؤول النظام/.test(String(n.sender||'')))n.sender='مدير الموارد البشرية'}if(seen[k]||seen[s])return;seen[k]=seen[s]=1;out.push(n);if(!before[k]&&!before[s]&&n.deviceId!==deviceId()&&n.status!=='reviewed')fresh.push(n)});
+    local.forEach(function(n){senderFix(n);var k=n.id||sig(n),s=sig(n);if(deleted[k]||deleted[s])return;if(seen[k]||seen[s])return;seen[k]=seen[s]=1;out.push(n)});
+    saveNotes(out);save(SYNC,{lastSync:nowText(),count:out.length,global:true});return {notes:out,fresh:fresh};
+  }
+  function play(){try{if(navigator.vibrate)navigator.vibrate([220,90,220,90,120])}catch(e){}try{if(typeof window.r1479ManagerNotesPlayAlert==='function'){window.r1479ManagerNotesPlayAlert(1);return}}catch(e){}try{var A=window.AudioContext||window.webkitAudioContext;if(!A)return;var c=new A();[880,1174].forEach(function(f,i){setTimeout(function(){try{var o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(.16,c.currentTime+.025);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.22);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.24)}catch(e){}},i*160)})}catch(e){}
+  }
+  function box(){var b=$('r1485-global-alert');if(b)return b;b=document.createElement('div');b.id='r1485-global-alert';b.className='r1485-global-alert';b.innerHTML='<div class="ico"><i class="fas fa-bell"></i></div><div class="txt"><div class="ttl">ملاحظة إدارية جديدة</div><div class="sub">وصلت حركة جديدة من مدير الموارد البشرية</div></div><button type="button" class="open">فتح</button><button type="button" class="close"><i class="fas fa-xmark"></i></button>';document.body.appendChild(b);var o=b.querySelector('.open'),c=b.querySelector('.close');if(o)o.onclick=function(){hide();try{if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes()}catch(e){}};if(c)c.onclick=hide;return b}
+  function hide(){var b=$('r1485-global-alert');if(b)b.classList.remove('show')}
+  function notify(fresh){if(identity().role!=='admin'||!fresh||!fresh.length)return;var seen=load(SEEN,{}),newOnes=[];fresh.forEach(function(n){var id=noteId(n);if(!seen[id]){seen[id]=1;newOnes.push(n)}});save(SEEN,seen);if(!newOnes.length)return;var n=newOnes[0],b=box(),ttl=b.querySelector('.ttl'),sub=b.querySelector('.sub');if(ttl)ttl.textContent=newOnes.length>1?'وصلت '+newOnes.length+' ملاحظات إدارية جديدة':'ملاحظة إدارية جديدة';if(sub)sub.textContent=newOnes.length>1?'افتح ملاحظات المدير لمراجعة الحركات الواردة.':(typeLabel(n.type)+' • '+(n.employeeName||'موظف')+(n.fromBranch||n.toBranch?' — من '+(n.fromBranch||'-')+' إلى '+(n.toBranch||'-'):''));b.classList.add('show');clearTimeout(hideTimer);hideTimer=setTimeout(hide,9000);play();try{if(typeof window.showToast==='function')window.showToast('وصلت '+newOnes.length+' ملاحظة إدارية جديدة','ok')}catch(e){}try{if('Notification' in window&&Notification.permission==='granted'&&navigator.serviceWorker&&navigator.serviceWorker.ready){navigator.serviceWorker.ready.then(function(reg){reg.showNotification(ttl?ttl.textContent:'ملاحظة إدارية جديدة',{body:sub?sub.textContent:'افتح ملاحظات المدير للمراجعة',tag:'manager-notes-visible-'+Date.now(),renotify:true,icon:'assets/icon-192.png',badge:'assets/icon-192.png',data:{screen:'managerNotes'}})})}}catch(e){}
+  }
+  function syncGlobal(manual){if(syncing)return Promise.resolve(false);if(identity().role!=='admin')return Promise.resolve(false);if(document.hidden&&!manual)return Promise.resolve(false);var now=Date.now();if(!manual&&now-lastGlobalSync<22000)return Promise.resolve(false);syncing=true;lastGlobalSync=now;var url=ENDPOINT+'?key='+encodeURIComponent(API_KEY)+'&t='+now;return fetch(url,{cache:'no-store'}).then(function(r){return r.json()}).then(function(data){if(!data||data.ok===false)throw new Error((data&&data.error)||'sync failed');var res=mergeRemote(Array.isArray(data.notes)?data.notes:[]);if(!localStorage.getItem(READY)){var base=load(SEEN,{});res.notes.forEach(function(n){base[noteId(n)]=1});save(SEEN,base);try{localStorage.setItem(READY,'1')}catch(e){}return true}notify(res.fresh);if(document.body.classList.contains('subview-managernotes')&&typeof window.r1475OpenManagerNotes==='function')setTimeout(window.r1475OpenManagerNotes,60);return true}).catch(function(e){return false}).finally(function(){syncing=false})}
+  function currentFilter(){return localStorage.getItem(FILTER)||''}
+  function setFilter(f){try{localStorage.setItem(FILTER,f||'')}catch(e){}applyFilter()}
+  function applyFilter(){var f=currentFilter();if(!f)return;document.querySelectorAll('[data-r1475-filter]').forEach(function(b){var on=(b.getAttribute('data-r1475-filter')||'')===f;b.classList.toggle('active',on);b.classList.toggle('r1485-forced-active',on)});var cards=document.querySelectorAll('#r1475-notes .r1475-note-card');cards.forEach(function(card){var reviewed=card.classList.contains('reviewed');var show=f==='archive'?reviewed:(f==='all'||f==='new'?!reviewed:(card.classList.contains(f)&&!reviewed));card.classList.toggle('r1485-filter-hidden',!show)})}
+  function markReviewed(id){var arr=notes();arr.forEach(function(n){if(String(n.id)===String(id))n.status='reviewed'});saveNotes(arr);setFilter('all');try{if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes()}catch(e){}setTimeout(applyFilter,90)}
+  function deleteNote(id){var arr=notes(),gone=arr.find(function(n){return String(n.id)===String(id)});try{var del=JSON.parse(localStorage.getItem(DELETED)||'[]')||[];if(gone){[id,sig(gone)].forEach(function(k){if(k&&del.indexOf(k)<0)del.push(k)});localStorage.setItem(DELETED,JSON.stringify(del))}}catch(e){}saveNotes(arr.filter(function(n){return String(n.id)!==String(id)}));try{if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes()}catch(e){}setTimeout(applyFilter,90)}
+  document.addEventListener('click',function(ev){var f=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-filter]'):null;if(f){setTimeout(function(){setFilter(f.getAttribute('data-r1475-filter')||'all')},30)}var r=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-review]'):null;if(r){setTimeout(function(){markReviewed(r.getAttribute('data-r1475-review'))},40)}var d=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-delete]'):null;if(d){setTimeout(function(){deleteNote(d.getAttribute('data-r1475-delete'))},40)}},true);
+  function boot(){setTimeout(function(){syncGlobal(false);applyFilter()},1800)}
+  document.addEventListener('DOMContentLoaded',boot);window.addEventListener('load',boot);window.addEventListener('pageshow',boot);window.addEventListener('focus',function(){syncGlobal(false)});document.addEventListener('visibilitychange',function(){if(!document.hidden)syncGlobal(false)});setInterval(function(){syncGlobal(false);applyFilter()},30000);
+  window.r1485ManagerNotesGlobalSync=syncGlobal;window.r1485ApplyManagerNotesFilter=applyFilter;
+})();
+</script>
 </body>
 </html>
