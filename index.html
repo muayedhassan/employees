@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.81-PUSH-TOKEN-REGISTER';
+var APP_RELEASE = 'MOBILE-R1.4.82-PUSH-SCRIPT-ENDPOINT-UPDATE';
 // R1.4.73: cleanup stray header markers and restore compact record scope cards while preserving professional program sections.
 // Legacy stable marker retained for verification: MOBILE-R1.4.63-SPLASH-LOADING-RESTORE
 // Legacy stable marker retained for verification: MOBILE-R1.4.71-TITLE-MATCHING-CARD-POLISH
@@ -5755,7 +5755,7 @@ body.light-mode .r1475-panel,body.light-mode .r1475-note-card{background:#fff;bo
 // MOBILE R1.4.76: Manager Notes Shared Sync - Google Apps Script bridge, safe isolated module.
 (function(){
   var VIEW_ID='view-managernotes',TAB_ID='stab-managernotes',STORE='hr_manager_notes_r1475',IDENT='hr_device_identity_r1475',SYNC='hr_manager_notes_sync_r1476';
-  var ENDPOINT='https://script.google.com/macros/s/AKfycbyyZ8zJq8AKJRfZfbDOvBY6-9yZojZS1uvKX0CZPAqFuAHayQMROSY8CapfdbFnN8kE/exec';
+  var ENDPOINT='https://script.google.com/macros/s/AKfycbwRRarKpQd5KCyKu7XDlEN7QI6BdF_IDm8aqNG07M0AW0wBuM54SmGTMkWTmRmaXwhE/exec';
   var API_KEY='HR_NOTES_2026';
   var state={filter:'all',q:'',syncing:false,lastError:''};
   function $(id){return document.getElementById(id);}function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -5933,7 +5933,7 @@ body.light-mode .r1479-sync-live{background:#f8fafc;color:#0f172a;border-color:r
 <script id="r1479-manager-notes-instant-alerts-ui-script">
 // MOBILE R1.4.79: instant manager notes UX, sound/vibration alerts, role-safe sender, and faster sync feedback.
 (function(){
-  var ENDPOINT='https://script.google.com/macros/s/AKfycbyyZ8zJq8AKJRfZfbDOvBY6-9yZojZS1uvKX0CZPAqFuAHayQMROSY8CapfdbFnN8kE/exec',API_KEY='HR_NOTES_2026';
+  var ENDPOINT='https://script.google.com/macros/s/AKfycbwRRarKpQd5KCyKu7XDlEN7QI6BdF_IDm8aqNG07M0AW0wBuM54SmGTMkWTmRmaXwhE/exec',API_KEY='HR_NOTES_2026';
   var STORE='hr_manager_notes_r1475',IDENT='hr_device_identity_r1475',SYNC='hr_manager_notes_sync_r1476',DEV='hr_device_id_r1476',SEEN='hr_manager_notes_seen_remote_r1479';
   function $(id){return document.getElementById(id)}function norm(v){return String(v||'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
   function nowText(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};return d.getFullYear()+'/'+p(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())}
@@ -6007,6 +6007,8 @@ body.light-mode .r1481-push-panel{background:#fff;border-color:rgba(15,23,42,.10
 </style>
 <script id="r1481-push-token-register-script">
 // MOBILE R1.4.81: Push Token Register - subscribes admin devices to FCM topic for Manager Notes notifications.
+// MOBILE R1.4.82: Push Script Endpoint Update - Manager Notes now use the Firebase-enabled Apps Script deployment.
+// MOBILE R1.4.82: push script endpoint update
 (function(){
   var IDENT='hr_device_identity_r1475';
   var TOKEN_KEY='hr_fcm_token_r1481';

@@ -25,10 +25,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.81-PUSH-TOKEN-REGISTER';
+const expectedRelease = 'MOBILE-R1.4.82-PUSH-SCRIPT-ENDPOINT-UPDATE';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.81 push token register');
-if (!String(manifest.description || '').includes('R1.4.81')) fail('manifest description was not updated to R1.4.81');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.82 push script endpoint update');
+if (!String(manifest.description || '').includes('R1.4.82')) fail('manifest description was not updated to R1.4.82');
 // R1.4.73: allow running verification inside an actual Git working tree; clean ZIPs still omit .git.
 for (const stale of fs.readdirSync(root).filter(name => /^INSTALL_PATCH_R1_4_|^PATCH_FILES_R1_4_|^MOBILE_R1_4_.*_RELEASE_NOTES_AR\.txt$/.test(name))) fail(`stale patch/release file still present: ${stale}`);
 for (const marker of ['MOBILE R1.4.73: cleanup stray header marker and restore compact record-scope cards','r1473-header-cleanup-scope-cards-restore-style','r1473-header-cleanup-scope-cards-restore-script','employee-registry-mobile-r1473-header-cleanup-scope-cards-restore-2026.09.20']) {
@@ -765,10 +765,13 @@ if (!sw.includes('employee-registry-mobile-r1480-manager-notes-review-search-fix
 ok('Mobile R1.4.80 Manager Notes Review Employee Search Fix verified');
 
 
-// R1.4.81 native Firebase push token registration guards.
+// R1.4.81 native Firebase push token registration guards + R1.4.82 Apps Script endpoint update.
 for (const marker of ['MOBILE R1.4.81: Push Token Register','r1481-push-token-register-script','r1481RegisterManagerNotesPush','hr_manager_notes_admin','إشعارات ملاحظات المدير']) {
   if (!index.includes(marker)) fail(`R1.4.81 push token marker missing: ${marker}`);
 }
-if (!sw.includes('employee-registry-mobile-r1481-push-token-register-2026.09.24')) fail('R1.4.81 app-shell cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1481')) fail('R1.4.81 PDF cache marker missing');
-ok('Mobile R1.4.81 Push Token Register verified');
+for (const marker of ['MOBILE R1.4.82: Push Script Endpoint Update','MOBILE R1.4.82: push script endpoint update','AKfycbwRRarKpQd5KCyKu7XDlEN7QI6BdF_IDm8aqNG07M0AW0wBuM54SmGTMkWTmRmaXwhE']) {
+  if (!index.includes(marker)) fail(`R1.4.82 push endpoint marker missing: ${marker}`);
+}
+if (!sw.includes('employee-registry-mobile-r1482-push-script-endpoint-update-2026.09.24')) fail('R1.4.82 app-shell cache marker missing');
+if (!sw.includes('employee-registry-pdf-downloads-r1482')) fail('R1.4.82 PDF cache marker missing');
+ok('Mobile R1.4.82 Push Script Endpoint Update verified');
