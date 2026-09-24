@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.76",
-  "short_name": "HR Mobile R1.4.76",
+  "name": "سجل الموظفين - Mobile R1.4.77",
+  "short_name": "HR Mobile R1.4.77",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.76: مزامنة ملاحظات المدير والحركات الإدارية عبر Google Sheet بين هاتف مدير الموارد ومسؤول النظام دون تعديل بيانات الموظفين الرسمية.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.77: إصلاح عزل واجهة ملاحظات المدير عند الانتقال بين أقسام البرنامج مع الإبقاء على المزامنة المشتركة عبر Google Sheet.",
   "icons": [
     {
       "src": "assets/icon-192.png",

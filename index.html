@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.76-MANAGER-NOTES-SHARED-SYNC';
+var APP_RELEASE = 'MOBILE-R1.4.77-MANAGER-NOTES-NAVIGATION-FIX';
 // R1.4.73: cleanup stray header markers and restore compact record scope cards while preserving professional program sections.
 // Legacy stable marker retained for verification: MOBILE-R1.4.63-SPLASH-LOADING-RESTORE
 // Legacy stable marker retained for verification: MOBILE-R1.4.71-TITLE-MATCHING-CARD-POLISH
@@ -5796,6 +5796,70 @@ body.light-mode .r1475-panel,body.light-mode .r1475-note-card{background:#fff;bo
   function syncTabs(){ensureTab();var t=$(TAB_ID);if(t){t.onclick=function(){openNotes();};if(!/r1475-managernotes/.test(t.className))t.className+=' r1475-managernotes';}}
   document.addEventListener('DOMContentLoaded',syncTabs);window.addEventListener('load',syncTabs);window.addEventListener('pageshow',syncTabs);[80,250,700,1500,3000].forEach(function(t){setTimeout(syncTabs,t);});try{new MutationObserver(function(){clearTimeout(window.__r1476SyncT);window.__r1476SyncT=setTimeout(syncTabs,60);}).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}
   window.r1475OpenManagerNotes=openNotes;window.r1476SyncManagerNotes=fetchShared;
+})();
+</script>
+
+
+<style id="r1477-manager-notes-navigation-fix-style">
+/* MOBILE R1.4.77: Manager Notes navigation isolation fix */
+body:not(.subview-managernotes) #view-managernotes{display:none!important}
+body.subview-managernotes #view-managernotes{display:block!important}
+body.subview-managernotes #search-sec,body.subview-managernotes #pg{display:none!important}
+</style>
+<script id="r1477-manager-notes-navigation-fix-script">
+// MOBILE R1.4.77: Manager Notes Navigation Fix - isolates notes view when leaving the card.
+(function(){
+  var VIEW_ID='view-managernotes',TAB_ID='stab-managernotes';
+  function $(id){return document.getElementById(id);}
+  function managerActiveCls(){try{return (typeof mode!=='undefined' && mode==='cont')?'cont-sub-active':((typeof mode!=='undefined' && mode==='admin')?'admin-sub-active':'perm-sub-active');}catch(e){return 'perm-sub-active';}}
+  function clearManagerNotesView(){
+    try{document.body.classList.remove('subview-managernotes');}catch(e){}
+    var v=$(VIEW_ID);if(v)v.style.display='none';
+    var t=$(TAB_ID);if(t){
+      t.classList.remove('perm-sub-active','cont-sub-active','admin-sub-active');
+      t.setAttribute('aria-selected','false');
+    }
+  }
+  function showManagerNotesView(){
+    var v=$(VIEW_ID);if(v)v.style.display='block';
+    var t=$(TAB_ID);if(t){
+      t.classList.add(managerActiveCls());
+      t.setAttribute('aria-selected','true');
+    }
+  }
+  var baseSwitchSub=window.switchSub || (typeof switchSub==='function'?switchSub:null);
+  window.switchSub=switchSub=function(v){
+    if(v==='managernotes'){
+      var r=baseSwitchSub?baseSwitchSub.apply(this,arguments):undefined;
+      try{document.body.classList.add('subview-managernotes');}catch(e){}
+      showManagerNotesView();
+      return r;
+    }
+    clearManagerNotesView();
+    var out=baseSwitchSub?baseSwitchSub.apply(this,arguments):undefined;
+    setTimeout(clearManagerNotesView,0);
+    setTimeout(clearManagerNotesView,90);
+    return out;
+  };
+  var baseSwitchMain=window.switchMain || (typeof switchMain==='function'?switchMain:null);
+  if(baseSwitchMain){
+    window.switchMain=switchMain=function(m){
+      clearManagerNotesView();
+      var out=baseSwitchMain.apply(this,arguments);
+      setTimeout(clearManagerNotesView,0);
+      setTimeout(clearManagerNotesView,90);
+      return out;
+    };
+  }
+  document.addEventListener('click',function(ev){
+    var tab=ev.target&&ev.target.closest?ev.target.closest('.sub-tab,.main-tab,.r1472-module-card'):null;
+    if(!tab)return;
+    if(tab.id!==TAB_ID && tab.getAttribute('data-sub')!=='managernotes'){
+      setTimeout(clearManagerNotesView,0);
+      setTimeout(clearManagerNotesView,120);
+    }
+  },true);
+  window.r1477ClearManagerNotesView=clearManagerNotesView;
 })();
 </script>
 

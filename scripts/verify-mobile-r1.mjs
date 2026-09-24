@@ -25,10 +25,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.76-MANAGER-NOTES-SHARED-SYNC';
+const expectedRelease = 'MOBILE-R1.4.77-MANAGER-NOTES-NAVIGATION-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.76 manager notes shared sync');
-if (!String(manifest.description || '').includes('R1.4.76')) fail('manifest description was not updated to R1.4.76');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.77 manager notes navigation fix');
+if (!String(manifest.description || '').includes('R1.4.77')) fail('manifest description was not updated to R1.4.77');
 // R1.4.73: allow running verification inside an actual Git working tree; clean ZIPs still omit .git.
 for (const stale of fs.readdirSync(root).filter(name => /^INSTALL_PATCH_R1_4_|^PATCH_FILES_R1_4_|^MOBILE_R1_4_.*_RELEASE_NOTES_AR\.txt$/.test(name))) fail(`stale patch/release file still present: ${stale}`);
 for (const marker of ['MOBILE R1.4.73: cleanup stray header marker and restore compact record-scope cards','r1473-header-cleanup-scope-cards-restore-style','r1473-header-cleanup-scope-cards-restore-script','employee-registry-mobile-r1473-header-cleanup-scope-cards-restore-2026.09.20']) {
@@ -704,13 +704,13 @@ ok(`Mobile R1.4.73 Header Cleanup Scope Cards Restore verified: ${version.versio
 (function verifyR1471(){
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== 'MOBILE-R1.4.76-MANAGER-NOTES-SHARED-SYNC') fail('R1.4.76 VERSION.txt mismatch');
+  if (ver !== 'MOBILE-R1.4.77-MANAGER-NOTES-NAVIGATION-FIX') fail('R1.4.77 VERSION.txt mismatch');
   if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.63 service worker timeout guard missing');
   if (!idx.includes('R1.4.63 boot watchdog')) fail('R1.4.63 boot watchdog missing');
-  if (!idx.includes('MOBILE-R1.4.76-MANAGER-NOTES-SHARED-SYNC')) fail('R1.4.76 APP_RELEASE missing');
+  if (!idx.includes('MOBILE-R1.4.77-MANAGER-NOTES-NAVIGATION-FIX')) fail('R1.4.77 APP_RELEASE missing');
   if (!idx.includes('var r1463MinSplash=2300')) fail('R1.4.63 minimum splash duration missing');
   if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.63 must not use immediate splash hide');
-  ok('Mobile R1.4.76 Manager Notes Shared Sync verified: navigation organized and stable loading preserved');
+  ok('Mobile R1.4.77 Manager Notes Navigation Fix verified: navigation organized and stable loading preserved');
 })();
 
 
@@ -727,5 +727,15 @@ for (const marker of [
   'hr_device_identity_r1475',
   'employee-registry-mobile-r1476-manager-notes-shared-sync-2026.09.24'
 ]) if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.76 manager notes marker missing: ${marker}`);
-if (!sw.includes('employee-registry-pdf-downloads-r1476')) fail('R1.4.76 PDF cache marker missing');
-ok(`Mobile R1.4.76 Manager Notes Shared Sync verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
+if (!sw.includes('employee-registry-pdf-downloads-r1476')) fail('R1.4.76 legacy PDF cache marker missing');
+for (const marker of [
+  'MOBILE R1.4.77: Manager Notes Navigation Fix',
+  'r1477-manager-notes-navigation-fix-style',
+  'r1477-manager-notes-navigation-fix-script',
+  'r1477ClearManagerNotesView',
+  'clearManagerNotesView',
+  'body:not(.subview-managernotes) #view-managernotes',
+  'employee-registry-mobile-r1477-manager-notes-navigation-fix-2026.09.24'
+]) if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.77 manager notes navigation marker missing: ${marker}`);
+if (!sw.includes('employee-registry-pdf-downloads-r1477')) fail('R1.4.77 PDF cache marker missing');
+ok(`Mobile R1.4.77 Manager Notes Navigation Fix verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
