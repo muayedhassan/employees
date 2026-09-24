@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.77-MANAGER-NOTES-NAVIGATION-FIX';
+var APP_RELEASE = 'MOBILE-R1.4.78-MANAGER-NOTES-IDENTITY-SWITCH-FIX';
 // R1.4.73: cleanup stray header markers and restore compact record scope cards while preserving professional program sections.
 // Legacy stable marker retained for verification: MOBILE-R1.4.63-SPLASH-LOADING-RESTORE
 // Legacy stable marker retained for verification: MOBILE-R1.4.71-TITLE-MATCHING-CARD-POLISH
@@ -5860,6 +5860,34 @@ body.subview-managernotes #search-sec,body.subview-managernotes #pg{display:none
     }
   },true);
   window.r1477ClearManagerNotesView=clearManagerNotesView;
+})();
+</script>
+
+
+<style id="r1478-manager-notes-identity-switch-fix-style">
+/* MOBILE R1.4.78: Manager Notes identity switch fix */
+.r1478-identity-switch{margin-top:10px;border-radius:18px;padding:10px;background:linear-gradient(135deg,rgba(251,191,36,.075),rgba(52,211,153,.045));border:1px solid rgba(251,191,36,.18)}
+.r1478-switch-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.r1478-switch-title{display:flex;align-items:center;gap:7px;font:900 10px var(--hr-title-font);color:#fff}.r1478-switch-title i{color:#fbbf24}.r1478-switch-current{font:850 8px var(--hr-body-font);color:rgba(226,237,255,.68);padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.075)}
+.r1478-switch-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.r1478-switch-btn{min-height:40px;border-radius:14px;border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.055);color:#eaf4ff;font:900 9px var(--hr-title-font);display:flex;align-items:center;justify-content:center;gap:7px}.r1478-switch-btn i{font-size:12px}.r1478-switch-btn.manager{border-color:rgba(52,211,153,.25);color:#bbf7d0}.r1478-switch-btn.admin{border-color:rgba(125,211,252,.23);color:#bae6fd}.r1478-switch-btn.active{background:linear-gradient(135deg,#fbbf24,#fde68a);border-color:rgba(251,191,36,.55);color:#061024;box-shadow:0 12px 24px rgba(251,191,36,.14)}
+.r1478-switch-note{margin-top:8px;font:800 7.8px var(--hr-body-font);line-height:1.75;color:rgba(226,237,255,.62)}
+body.light-mode .r1478-switch-title{color:#0f172a}body.light-mode .r1478-switch-current,body.light-mode .r1478-switch-note{color:#64748b}body.light-mode .r1478-switch-btn{background:#f8fafc;color:#0f172a;border-color:rgba(15,23,42,.10)}body.light-mode .r1478-switch-btn.active{background:linear-gradient(135deg,#fbbf24,#fde68a);color:#061024}
+</style>
+<script id="r1478-manager-notes-identity-switch-fix-script">
+// MOBILE R1.4.78: Manager Notes Identity Switch Fix - allows changing this device identity after first setup.
+(function(){
+  var IDENT='hr_device_identity_r1475';
+  function $(id){return document.getElementById(id);}function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function nowText(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};return d.getFullYear()+'/'+p(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());}
+  function roleLabel(r){return r==='manager'?'مدير الموارد البشرية':'مسؤول النظام';}
+  function loadIdentity(){try{return JSON.parse(localStorage.getItem(IDENT)||'{}')||{};}catch(e){return {};}}
+  function saveIdentity(role,name){try{localStorage.setItem(IDENT,JSON.stringify({role:role,name:name||roleLabel(role),updatedAt:nowText(),changedBy:'r1478'}));}catch(e){} }
+  function openAgain(){setTimeout(function(){try{if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes();}catch(e){}},60);}
+  function toast(msg,type){try{if(typeof showToast==='function')showToast(msg,type||'ok');}catch(e){}}
+  function setRole(role){var inp=$('r1475-sender-name'),name=(inp&&inp.value?inp.value.trim():'')||roleLabel(role);saveIdentity(role,name);toast('تم تغيير هوية الجهاز إلى: '+roleLabel(role),'ok');openAgain();}
+  function enhance(){var page=$('r1475-page');if(!page)return;var identityPanel=null;Array.prototype.some.call(page.querySelectorAll('.r1475-panel'),function(p){if((p.textContent||'').indexOf('هوية هذا الجهاز')>=0){identityPanel=p;return true;}return false;});if(!identityPanel||identityPanel.querySelector('#r1478-identity-switch'))return;var id=loadIdentity(),role=id.role||'admin';var box=document.createElement('div');box.id='r1478-identity-switch';box.className='r1478-identity-switch';box.innerHTML='<div class="r1478-switch-head"><div class="r1478-switch-title"><i class="fas fa-id-badge"></i><span>تغيير هوية هذا الجهاز</span></div><div class="r1478-switch-current">الحالي: '+esc(roleLabel(role))+'</div></div><div class="r1478-switch-actions"><button type="button" class="r1478-switch-btn admin '+(role==='admin'?'active':'')+'" data-r1478-set-role="admin"><i class="fas fa-user-gear"></i> مسؤول النظام</button><button type="button" class="r1478-switch-btn manager '+(role==='manager'?'active':'')+'" data-r1478-set-role="manager"><i class="fas fa-user-tie"></i> مدير الموارد</button></div><div class="r1478-switch-note"><i class="fas fa-circle-info"></i> هذا الزر مخصص لتبديل دور الهاتف عند الخطأ في الاختيار الأول. جهاز مدير الموارد يجب أن يكون على: مدير الموارد البشرية، وجهازك يبقى: مسؤول النظام.</div>';identityPanel.appendChild(box);box.querySelectorAll('[data-r1478-set-role]').forEach(function(b){b.onclick=function(ev){ev.preventDefault();ev.stopPropagation();setRole(this.getAttribute('data-r1478-set-role')||'admin');};});}
+  document.addEventListener('click',function(ev){var b=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-role]'):null;if(!b)return;var role=b.getAttribute('data-r1475-role');if(!role)return;setTimeout(function(){var inp=$('r1475-sender-name'),name=(inp&&inp.value?inp.value.trim():'')||roleLabel(role);saveIdentity(role,name);toast('تم حفظ هوية الجهاز: '+roleLabel(role),'ok');openAgain();},80);},true);
+  document.addEventListener('DOMContentLoaded',enhance);window.addEventListener('load',enhance);window.addEventListener('pageshow',enhance);[100,300,800,1600,3000].forEach(function(t){setTimeout(enhance,t);});try{new MutationObserver(function(){clearTimeout(window.__r1478IdentityT);window.__r1478IdentityT=setTimeout(enhance,80);}).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}
+  window.r1478SetManagerNotesRole=setRole;
 })();
 </script>
 

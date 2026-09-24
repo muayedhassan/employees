@@ -25,10 +25,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.77-MANAGER-NOTES-NAVIGATION-FIX';
+const expectedRelease = 'MOBILE-R1.4.78-MANAGER-NOTES-IDENTITY-SWITCH-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.77 manager notes navigation fix');
-if (!String(manifest.description || '').includes('R1.4.77')) fail('manifest description was not updated to R1.4.77');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.78 manager notes identity switch fix');
+if (!String(manifest.description || '').includes('R1.4.78')) fail('manifest description was not updated to R1.4.78');
 // R1.4.73: allow running verification inside an actual Git working tree; clean ZIPs still omit .git.
 for (const stale of fs.readdirSync(root).filter(name => /^INSTALL_PATCH_R1_4_|^PATCH_FILES_R1_4_|^MOBILE_R1_4_.*_RELEASE_NOTES_AR\.txt$/.test(name))) fail(`stale patch/release file still present: ${stale}`);
 for (const marker of ['MOBILE R1.4.73: cleanup stray header marker and restore compact record-scope cards','r1473-header-cleanup-scope-cards-restore-style','r1473-header-cleanup-scope-cards-restore-script','employee-registry-mobile-r1473-header-cleanup-scope-cards-restore-2026.09.20']) {
@@ -739,3 +739,10 @@ for (const marker of [
 ]) if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.77 manager notes navigation marker missing: ${marker}`);
 if (!sw.includes('employee-registry-pdf-downloads-r1477')) fail('R1.4.77 PDF cache marker missing');
 ok(`Mobile R1.4.77 Manager Notes Navigation Fix verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
+
+
+for (const marker of ['MOBILE R1.4.78: Manager Notes Identity Switch Fix','r1478-manager-notes-identity-switch-fix-script','r1478SetManagerNotesRole','تغيير هوية هذا الجهاز','مدير الموارد']) {
+  if (!index.includes(marker)) fail(`R1.4.78 manager notes identity switch marker missing: ${marker}`);
+}
+if (!sw.includes('employee-registry-mobile-r1478-manager-notes-identity-switch-fix-2026.09.24')) fail('R1.4.78 app-shell cache marker missing');
+ok('Mobile R1.4.78 Manager Notes Identity Switch Fix verified');
