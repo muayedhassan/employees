@@ -25,10 +25,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.74-COMBINED-BRANCH-EXPORT-PATCH';
+const expectedRelease = 'MOBILE-R1.4.75-MANAGER-NOTES-IDENTITY-SETUP';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.74 combined branch export patch');
-if (!String(manifest.description || '').includes('R1.4.74')) fail('manifest description was not updated to R1.4.74');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.75 manager notes identity setup');
+if (!String(manifest.description || '').includes('R1.4.75')) fail('manifest description was not updated to R1.4.75');
 // R1.4.73: allow running verification inside an actual Git working tree; clean ZIPs still omit .git.
 for (const stale of fs.readdirSync(root).filter(name => /^INSTALL_PATCH_R1_4_|^PATCH_FILES_R1_4_|^MOBILE_R1_4_.*_RELEASE_NOTES_AR\.txt$/.test(name))) fail(`stale patch/release file still present: ${stale}`);
 for (const marker of ['MOBILE R1.4.73: cleanup stray header marker and restore compact record-scope cards','r1473-header-cleanup-scope-cards-restore-style','r1473-header-cleanup-scope-cards-restore-script','employee-registry-mobile-r1473-header-cleanup-scope-cards-restore-2026.09.20']) {
@@ -704,11 +704,28 @@ ok(`Mobile R1.4.73 Header Cleanup Scope Cards Restore verified: ${version.versio
 (function verifyR1471(){
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== 'MOBILE-R1.4.74-COMBINED-BRANCH-EXPORT-PATCH') fail('R1.4.74 VERSION.txt mismatch');
+  if (ver !== 'MOBILE-R1.4.75-MANAGER-NOTES-IDENTITY-SETUP') fail('R1.4.75 VERSION.txt mismatch');
   if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.63 service worker timeout guard missing');
   if (!idx.includes('R1.4.63 boot watchdog')) fail('R1.4.63 boot watchdog missing');
-  if (!idx.includes('MOBILE-R1.4.74-COMBINED-BRANCH-EXPORT-PATCH')) fail('R1.4.74 APP_RELEASE missing');
+  if (!idx.includes('MOBILE-R1.4.75-MANAGER-NOTES-IDENTITY-SETUP')) fail('R1.4.75 APP_RELEASE missing');
   if (!idx.includes('var r1463MinSplash=2300')) fail('R1.4.63 minimum splash duration missing');
   if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.63 must not use immediate splash hide');
-  ok('Mobile R1.4.74 Combined Branch Export verified: navigation organized and stable loading preserved');
+  ok('Mobile R1.4.75 Manager Notes Identity Setup verified: navigation organized and stable loading preserved');
 })();
+
+
+// R1.4.75 manager notes identity setup guards.
+for (const marker of [
+  'MOBILE R1.4.75: Manager Notes Identity Setup',
+  'r1475-manager-notes-style',
+  'r1475-manager-notes-script',
+  'view-managernotes',
+  'ملاحظات المدير والحركات الإدارية',
+  'هوية هذا الجهاز',
+  'إضافة ملاحظة إدارية',
+  'hr_manager_notes_r1475',
+  'hr_device_identity_r1475',
+  'employee-registry-mobile-r1475-manager-notes-identity-setup-2026.09.24'
+]) if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.75 manager notes marker missing: ${marker}`);
+if (!sw.includes('employee-registry-pdf-downloads-r1475')) fail('R1.4.75 PDF cache marker missing');
+ok(`Mobile R1.4.75 Manager Notes Identity Setup verified: ${version.version}, perm=${version.permCount}, cont=${version.contCount}, total=${version.totalCount}, modified=${version.modifiedCount}`);
