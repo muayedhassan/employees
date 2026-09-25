@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0b1437">
 <link rel="manifest" href="manifest.webmanifest">
-<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.4.26</title>
+<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.4.86</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/fonts/hr-fonts.css?v=r1411">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -1743,7 +1743,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.4.85-MANAGER-NOTES-GLOBAL-ALERTS-ARCHIVE-FIX';
+var APP_RELEASE = 'MOBILE-R1.4.86-MANAGER-NOTES-EMPLOYEE-SEARCH-USER-ROLES';
 // R1.4.73: cleanup stray header markers and restore compact record scope cards while preserving professional program sections.
 // Legacy stable marker retained for verification: MOBILE-R1.4.63-SPLASH-LOADING-RESTORE
 // Legacy stable marker retained for verification: MOBILE-R1.4.71-TITLE-MATCHING-CARD-POLISH
@@ -5989,8 +5989,8 @@ body.light-mode .r1480-emp-results{background:#fff;border-color:rgba(15,23,42,.1
   function saveIdentity(x){try{localStorage.setItem(IDENT,JSON.stringify(x||{}))}catch(e){}}
   function ensureManagerSender(){var id=identity();if(id.role==='manager'&&id.name!=='مدير الموارد البشرية'){id.name='مدير الموارد البشرية';saveIdentity(id)}var inp=$('r1475-sender-name');if(inp&&id.role==='manager')inp.value='مدير الموارد البشرية';var chip=document.querySelector('#r1475-add-panel .r1475-chip');if(chip&&id.role==='manager')chip.innerHTML='<i class="fas fa-paper-plane"></i> مرسلها: مدير الموارد البشرية';}
   function ensurePicker(){var input=$('r1475-emp');if(!input||input.getAttribute('data-r1480-picker'))return;input.setAttribute('autocomplete','off');input.removeAttribute('list');input.setAttribute('data-r1480-picker','1');var field=input.closest('.r1475-field')||input.parentNode;field.classList.add('r1480-emp-picker');var box=document.createElement('div');box.id='r1480-emp-results';box.className='r1480-emp-results';field.appendChild(box);
-    function render(){var q=norm(input.value).toLowerCase();if(!q){box.classList.remove('show');box.innerHTML='';return}var rows=allEmployees().filter(function(e){var n=empName(e),d=empDivision(e);return (n+' '+d).toLowerCase().indexOf(q)>=0}).slice(0,30);box.innerHTML=rows.length?rows.map(function(e,i){return '<button type="button" class="r1480-emp-option" data-r1480-emp="'+i+'"><span class="r1480-emp-icon"><i class="fas fa-user"></i></span><span class="r1480-emp-main"><span class="r1480-emp-name">'+esc(empName(e)||'—')+'</span><span class="r1480-emp-division">'+esc(empDivision(e)||'الشعبة غير محددة')+'</span></span></button>'}).join(''):'<div class="r1480-emp-empty"><i class="fas fa-magnifying-glass"></i> لا توجد نتائج مطابقة</div>';box.classList.add('show');Array.prototype.forEach.call(box.querySelectorAll('[data-r1480-emp]'),function(btn){btn.onclick=function(ev){ev.preventDefault();var e=rows[Number(this.getAttribute('data-r1480-emp'))]||{};input.value=empName(e);var from=$('r1475-from');if(from)from.value=empDivision(e);box.classList.remove('show');box.innerHTML='';var txt=$('r1475-text');if(txt)try{txt.focus()}catch(x){}}});}
-    input.addEventListener('input',render);input.addEventListener('focus',render);document.addEventListener('click',function(ev){if(!field.contains(ev.target))box.classList.remove('show')},true);
+    function render(){var q=norm(input.value).toLowerCase();if(q.length<2){box.classList.remove('show');box.innerHTML='';return}var rows=allEmployees().filter(function(e){var n=empName(e),d=empDivision(e);return (n+' '+d).toLowerCase().indexOf(q)>=0}).slice(0,14);box.innerHTML=rows.length?rows.map(function(e,i){return '<button type="button" class="r1480-emp-option" data-r1480-emp="'+i+'"><span class="r1480-emp-icon"><i class="fas fa-user"></i></span><span class="r1480-emp-main"><span class="r1480-emp-name">'+esc(empName(e)||'—')+'</span><span class="r1480-emp-division">'+esc(empDivision(e)||'الشعبة غير محددة')+'</span></span></button>'}).join(''):'<div class="r1480-emp-empty"><i class="fas fa-magnifying-glass"></i> لا توجد نتائج مطابقة</div>';box.classList.add('show');Array.prototype.forEach.call(box.querySelectorAll('[data-r1480-emp]'),function(btn){btn.onclick=function(ev){ev.preventDefault();var e=rows[Number(this.getAttribute('data-r1480-emp'))]||{};input.value=empName(e);var from=$('r1475-from');if(from)from.value=empDivision(e);box.classList.remove('show');box.innerHTML='';var txt=$('r1475-text');if(txt)try{txt.focus()}catch(x){}}});}
+    input.addEventListener('input',render);input.addEventListener('focus',function(){box.classList.remove('show');});document.addEventListener('click',function(ev){if(!field.contains(ev.target))box.classList.remove('show')},true);
   }
   function polish(){ensureManagerSender();ensurePicker();}
   document.addEventListener('click',function(ev){var roleBtn=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-role],[data-r1478-set-role]'):null;if(roleBtn){var role=roleBtn.getAttribute('data-r1475-role')||roleBtn.getAttribute('data-r1478-set-role');if(role==='manager'){setTimeout(function(){var id=identity();id.role='manager';id.name='مدير الموارد البشرية';saveIdentity(id);polish();},30)}}},true);
@@ -6140,5 +6140,55 @@ body.light-mode .r1485-global-alert{background:linear-gradient(135deg,#fff,#eff6
   window.r1485ManagerNotesGlobalSync=syncGlobal;window.r1485ApplyManagerNotesFilter=applyFilter;
 })();
 </script>
+
+
+<style id="r1486-manager-notes-users-search-style">
+/* MOBILE R1.4.86: Manager Notes Employee Search + User Roles */
+.r1486-user-badge{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:5px 9px;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.24);color:#fde68a;font:900 8px var(--hr-body-font)}
+.r1475-panel.r1486-user-box{border-color:rgba(251,191,36,.22)!important;background:linear-gradient(145deg,rgba(251,191,36,.075),rgba(255,255,255,.030))!important}
+.r1475-panel.r1486-user-box .r1475-panel-title i{background:linear-gradient(135deg,#fbbf24,#fde68a)!important;color:#172033!important}.r1475-panel.r1486-user-box .r1475-panel-title span{font-family:var(--hr-title-font)}
+.r1475-panel.r1486-user-box .r1475-local-note{background:rgba(14,165,233,.075);border-color:rgba(14,165,233,.18);color:rgba(226,246,255,.86)}
+.r1486-role-hint{margin-top:9px;display:grid;grid-template-columns:1fr 1fr;gap:7px}.r1486-role-hint .hint{border-radius:15px;padding:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.045);font:850 7.5px var(--hr-body-font);line-height:1.65;color:rgba(226,237,255,.66)}.r1486-role-hint .hint b{display:block;color:#fff;font:900 8px var(--hr-title-font);margin-bottom:2px}.r1486-role-hint .hint.admin b{color:#93c5fd}.r1486-role-hint .hint.manager b{color:#fde68a}
+.r1486-role-admin #r1475-add-panel{display:none!important}.r1486-role-manager [data-r1475-review],.r1486-role-manager [data-r1475-delete]{display:none!important}.r1486-role-manager #r1481-push-panel{display:none!important}
+.r1486-role-manager .r1475-note-status:empty{display:none}.r1486-search-help{margin-top:6px;color:rgba(226,237,255,.55);font:800 7.5px var(--hr-body-font);line-height:1.6}.r1486-search-help i{color:#fbbf24;margin-left:5px}.r1486-emp-results{display:none;position:absolute;z-index:80;inset-inline:0;top:100%;margin-top:6px;max-height:245px;overflow:auto;border-radius:18px;background:rgba(7,18,38,.985);border:1px solid rgba(251,191,36,.22);box-shadow:0 24px 54px rgba(0,0,0,.38);padding:7px}.r1486-emp-results.show{display:block}.r1486-emp-option{width:100%;border:0;background:transparent;color:#eaf4ff;text-align:right;border-radius:14px;padding:9px;display:flex;gap:9px;align-items:center;direction:rtl}.r1486-emp-option:active,.r1486-emp-option:hover{background:rgba(251,191,36,.12)}.r1486-emp-ico{width:34px;height:34px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(251,191,36,.18),rgba(34,197,94,.14));border:1px solid rgba(251,191,36,.16);color:#fde68a;flex:0 0 auto}.r1486-emp-main{min-width:0;flex:1}.r1486-emp-name{display:block;font:900 10px var(--hr-title-font);line-height:1.45;color:#fff}.r1486-emp-division{display:block;font:850 7.5px var(--hr-body-font);line-height:1.65;color:rgba(226,237,255,.62)}.r1486-emp-empty{padding:11px;text-align:center;color:rgba(226,237,255,.62);font:850 8.5px var(--hr-body-font);line-height:1.8}.r1480-emp-results{display:none!important}
+body.light-mode .r1486-emp-results{background:#fff;border-color:rgba(245,158,11,.22);box-shadow:0 20px 42px rgba(15,23,42,.16)}body.light-mode .r1486-emp-name{color:#0f172a}body.light-mode .r1486-emp-division,body.light-mode .r1486-search-help,body.light-mode .r1486-role-hint .hint{color:#64748b}body.light-mode .r1486-role-hint .hint{background:#f8fafc;border-color:rgba(15,23,42,.08)}body.light-mode .r1486-role-hint .hint b{color:#0f172a}
+@media(max-width:380px){.r1486-role-hint{grid-template-columns:1fr}.r1486-emp-results{max-height:220px}}
+</style>
+<script id="r1486-manager-notes-users-search-script">
+// MOBILE R1.4.86: Manager Notes Employee Search + User Roles - safe UI layer over R1.4.85.
+(function(){
+  var IDENT='hr_device_identity_r1475';
+  function $(id){return document.getElementById(id)}
+  function norm(v){return String(v||'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function loadIdentity(){try{return JSON.parse(localStorage.getItem(IDENT)||'{}')||{}}catch(e){return {}}}
+  function saveIdentity(id){try{localStorage.setItem(IDENT,JSON.stringify(id||{}))}catch(e){}}
+  function roleLabel(r){return r==='manager'?'مدير الموارد البشرية':'مسؤول النظام'}
+  function toast(m,t){try{if(typeof window.showToast==='function')return window.showToast(m,t||'ok')}catch(e){}try{console.log(m)}catch(e){}}
+  function empName(e){return norm(e&&((e.name)||(e.fullName)||(e['الاسم الكامل'])||(e.employeeName)))}
+  function empDivision(e){return norm(e&&((e.division)||(e['الشعبة'])||(e['الشعبة / القسم'])||(e.department)||(e.orgUnit)))}
+  function allEmployees(){try{return (BASE.perm||[]).concat(BASE.cont||[])}catch(e){return []}}
+  function updateBodyRole(){var id=loadIdentity();var role=id.role||'admin';document.body.classList.toggle('r1486-role-admin',role==='admin');document.body.classList.toggle('r1486-role-manager',role==='manager');}
+  function setRole(role){var id={role:role,name:roleLabel(role),updatedAt:(new Date()).toISOString(),userMode:'r1486'};saveIdentity(id);updateBodyRole();toast('تم الدخول بصفة: '+roleLabel(role),'ok');setTimeout(function(){try{if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes()}catch(e){}},80)}
+  function decorateIdentityPanel(){var inp=$('r1475-sender-name');if(!inp)return;var panel=inp.closest('.r1475-panel');if(!panel)return;panel.classList.add('r1486-user-box');var title=panel.querySelector('.r1475-panel-title span');if(title)title.textContent='المستخدم الحالي وصلاحياته';var id=loadIdentity();var role=id.role||'admin';inp.value=roleLabel(role);inp.readOnly=true;inp.placeholder='يُحدد تلقائيًا حسب المستخدم الحالي';var head=panel.querySelector('.r1475-panel-head');if(head&&!panel.querySelector('.r1486-user-badge'))head.insertAdjacentHTML('beforeend','<span class="r1486-user-badge"><i class="fas fa-user-check"></i>'+esc(roleLabel(role))+'</span>');else{var b=panel.querySelector('.r1486-user-badge');if(b)b.innerHTML='<i class="fas fa-user-check"></i>'+esc(roleLabel(role));}
+    panel.querySelectorAll('[data-r1475-role]').forEach(function(btn){var r=btn.getAttribute('data-r1475-role');btn.classList.toggle('active',r===role);btn.innerHTML=r==='admin'?'<i class="fas fa-user-gear"></i><span>الدخول كمسؤول النظام</span>':'<i class="fas fa-user-tie"></i><span>الدخول كمدير الموارد</span>';btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();setRole(r)};});
+    var save=$('r1475-save-identity');if(save){save.innerHTML='<i class="fas fa-check"></i> تثبيت المستخدم الحالي';save.onclick=function(ev){ev.preventDefault();var active=panel.querySelector('[data-r1475-role].active');setRole(active?active.getAttribute('data-r1475-role'):role)};}
+    if(!panel.querySelector('.r1486-role-hint'))panel.insertAdjacentHTML('beforeend','<div class="r1486-role-hint"><div class="hint admin"><b><i class="fas fa-user-shield"></i> مسؤول النظام</b> يستقبل الملاحظات، يراجعها، وينقلها إلى الأرشيف المحلي.</div><div class="hint manager"><b><i class="fas fa-user-tie"></i> مدير الموارد</b> يرسل الملاحظات فقط، ولا تظهر له أزرار المراجعة والأرشفة.</div></div>');
+  }
+  function applyPermissions(){updateBodyRole();var id=loadIdentity(),role=id.role||'admin';var addPanel=$('r1475-add-panel');if(addPanel)addPanel.style.display=role==='manager'?'':'none';document.querySelectorAll('[data-r1475-review],[data-r1475-delete]').forEach(function(b){b.style.display=role==='admin'?'':'none'});document.querySelectorAll('.r1475-note-status').forEach(function(x){if(role==='manager')x.style.display='none';else x.style.display='flex'});}
+  function attachEmployeeSearch(){var input=$('r1475-emp');if(!input)return;input.removeAttribute('list');input.setAttribute('autocomplete','off');input.setAttribute('placeholder','اكتب حرفين أو أكثر للبحث عن الموظف');var field=input.closest('.r1475-field')||input.parentNode;if(!field)return;field.classList.add('r1480-emp-picker');var old=$('r1486-emp-results');if(!old){old=document.createElement('div');old.id='r1486-emp-results';old.className='r1486-emp-results';field.appendChild(old)}
+    if(!field.querySelector('.r1486-search-help'))field.insertAdjacentHTML('beforeend','<div class="r1486-search-help"><i class="fas fa-magnifying-glass"></i> ابدأ بكتابة حرفين من اسم الموظف؛ لا تظهر قائمة الأسماء إلا بعد البحث.</div>');
+    if(input.getAttribute('data-r1486-bound'))return;input.setAttribute('data-r1486-bound','1');
+    function hide(){old.classList.remove('show');old.innerHTML=''}
+    function render(){var q=norm(input.value).toLowerCase();if(q.length<2){hide();return}var rows=allEmployees().filter(function(e){var n=empName(e),d=empDivision(e);return (n+' '+d).toLowerCase().indexOf(q)>=0}).slice(0,16);old.innerHTML=rows.length?rows.map(function(e,i){return '<button type="button" class="r1486-emp-option" data-i="'+i+'"><span class="r1486-emp-ico"><i class="fas fa-user"></i></span><span class="r1486-emp-main"><span class="r1486-emp-name">'+esc(empName(e)||'—')+'</span><span class="r1486-emp-division">'+esc(empDivision(e)||'الشعبة غير محددة')+'</span></span></button>'}).join(''):'<div class="r1486-emp-empty"><i class="fas fa-circle-info"></i> لا توجد نتائج مطابقة. اكتب جزءًا آخر من الاسم.</div>';old.classList.add('show');Array.prototype.forEach.call(old.querySelectorAll('[data-i]'),function(btn){btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();var e=rows[Number(btn.getAttribute('data-i'))]||{};input.value=empName(e);input.setAttribute('data-r1486-selected','1');var from=$('r1475-from');if(from)from.value=empDivision(e);hide();var txt=$('r1475-text');if(txt)try{txt.focus()}catch(x){}}})}
+    input.addEventListener('focus',function(){hide()});input.addEventListener('input',function(){input.removeAttribute('data-r1486-selected');render()});input.addEventListener('keydown',function(ev){if(ev.key==='Escape')hide()});document.addEventListener('click',function(ev){if(!field.contains(ev.target))hide()},true);
+  }
+  function polish(){decorateIdentityPanel();attachEmployeeSearch();applyPermissions()}
+  document.addEventListener('click',function(ev){var r=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-role]'):null;if(r){var role=r.getAttribute('data-r1475-role');if(role){setTimeout(function(){setRole(role)},20)}}},true);
+  document.addEventListener('DOMContentLoaded',polish);window.addEventListener('load',polish);window.addEventListener('pageshow',polish);try{new MutationObserver(function(){clearTimeout(window.__r1486PolishT);window.__r1486PolishT=setTimeout(polish,90)}).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+  window.r1486ManagerNotesPolish=polish;
+})();
+</script>
+
 </body>
 </html>

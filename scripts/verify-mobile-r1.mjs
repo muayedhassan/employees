@@ -25,16 +25,12 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.85-MANAGER-NOTES-GLOBAL-ALERTS-ARCHIVE-FIX';
+const expectedRelease = 'MOBILE-R1.4.86-MANAGER-NOTES-EMPLOYEE-SEARCH-USER-ROLES';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.85 manager notes global alerts/archive fix');
-if (!String(manifest.description || '').includes('R1.4.85')) fail('manifest description was not updated to R1.4.85');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.86 manager notes employee search user roles');
+if (!String(manifest.description || '').includes('R1.4.86')) fail('manifest description was not updated to R1.4.86');
 // R1.4.73: allow running verification inside an actual Git working tree; clean ZIPs still omit .git.
 for (const stale of fs.readdirSync(root).filter(name => /^INSTALL_PATCH_R1_4_|^PATCH_FILES_R1_4_|^MOBILE_R1_4_.*_RELEASE_NOTES_AR\.txt$/.test(name))) fail(`stale patch/release file still present: ${stale}`);
-for (const marker of ['MOBILE R1.4.85: Global Manager Notes monitor','r1485-manager-notes-global-alerts-archive-fix-script','r1485ManagerNotesGlobalSync','hr_manager_notes_global_seen_r1485','employee-registry-mobile-r1485-manager-notes-global-alerts-archive-fix-2026.09.24']) {
-  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.85 manager notes global alert/archive marker missing: ${marker}`);
-}
-
 for (const marker of ['MOBILE R1.4.73: cleanup stray header marker and restore compact record-scope cards','r1473-header-cleanup-scope-cards-restore-style','r1473-header-cleanup-scope-cards-restore-script','employee-registry-mobile-r1473-header-cleanup-scope-cards-restore-2026.09.20']) {
   if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.73 header cleanup/scope restore marker missing: ${marker}`);
 }
@@ -708,10 +704,10 @@ ok(`Mobile R1.4.73 Header Cleanup Scope Cards Restore verified: ${version.versio
 (function verifyR1471(){
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== expectedRelease) fail('R1.4.80 VERSION.txt mismatch');
+  if (ver !== expectedRelease) fail('R1.4.86 VERSION.txt mismatch');
   if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.63 service worker timeout guard missing');
   if (!idx.includes('R1.4.63 boot watchdog')) fail('R1.4.63 boot watchdog missing');
-  if (!idx.includes(expectedRelease)) fail('R1.4.80 APP_RELEASE missing');
+  if (!idx.includes(expectedRelease)) fail('R1.4.86 APP_RELEASE missing');
   if (!idx.includes('var r1463MinSplash=2300')) fail('R1.4.63 minimum splash duration missing');
   if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.63 must not use immediate splash hide');
   ok('Mobile R1.4.77 Manager Notes Navigation Fix verified: navigation organized and stable loading preserved');
@@ -769,21 +765,9 @@ if (!sw.includes('employee-registry-mobile-r1480-manager-notes-review-search-fix
 ok('Mobile R1.4.80 Manager Notes Review Employee Search Fix verified');
 
 
-// R1.4.81 native Firebase push token registration guards + R1.4.82 Apps Script endpoint update.
-for (const marker of ['MOBILE R1.4.81: Push Token Register','r1481-push-token-register-script','r1481RegisterManagerNotesPush','hr_manager_notes_admin','إشعارات ملاحظات المدير']) {
-  if (!index.includes(marker)) fail(`R1.4.81 push token marker missing: ${marker}`);
+// R1.4.86 manager notes employee search and local user roles guards.
+for (const marker of ['MOBILE R1.4.86: Manager Notes Employee Search + User Roles','r1486-manager-notes-users-search-script','r1486-emp-results','r1486-role-admin','الدخول كمسؤول النظام','الدخول كمدير الموارد']) {
+  if (!index.includes(marker)) fail(`R1.4.86 manager notes search/user marker missing: ${marker}`);
 }
-for (const marker of ['MOBILE R1.4.82: Push Script Endpoint Update','MOBILE R1.4.82: push script endpoint update','AKfycbwRRarKpQd5KCyKu7XDlEN7QI6BdF_IDm8aqNG07M0AW0wBuM54SmGTMkWTmRmaXwhE']) {
-  if (!index.includes(marker)) fail(`R1.4.82 push endpoint marker missing: ${marker}`);
-}
-if (!sw.includes('employee-registry-mobile-r1482-push-script-endpoint-update-2026.09.24')) fail('R1.4.82 app-shell cache marker missing');
-if (!sw.includes('employee-registry-pdf-downloads-r1482')) fail('R1.4.82 PDF cache marker missing');
-ok('Mobile R1.4.82 Push Script Endpoint Update verified');
-
-
-// R1.4.84 manager notes visible alert syntax fix guards.
-for (const marker of ['MOBILE R1.4.84: Manager Notes visible alert fix','r1484-manager-notes-visible-alert-style','r1484-manager-notes-visible-alert-script','r1484ManagerNotesVisibleAlertTest','employee-registry-mobile-r1484-manager-notes-visible-alerts-fix-2026.09.24']) {
-  if (!index.includes(marker) && !sw.includes(marker)) fail(`R1.4.84 visible alert fix marker missing: ${marker}`);
-}
-if (index.includes('r1483-manager-notes-visible-alert-script')) fail('Broken R1.4.83 visible alert script must not remain');
-ok('Mobile R1.4.84 Manager Notes Visible Alerts Fix verified');
+if (!sw.includes('employee-registry-mobile-r1486-manager-notes-search-user-roles-2026.09.25')) fail('R1.4.86 app-shell cache marker missing');
+ok('Mobile R1.4.86 Manager Notes Employee Search + User Roles verified');

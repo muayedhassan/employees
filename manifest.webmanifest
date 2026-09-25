@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.4.85",
-  "short_name": "HR Mobile R1.4.85",
+  "name": "سجل الموظفين - Mobile R1.4.86",
+  "short_name": "HR Mobile R1.4.86",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.85: تنبيهات ملاحظات المدير على مستوى التطبيق مع إصلاح الأرشفة والفلاتر.",
+  "description": "سجل موظفي مديرية زراعة صلاح الدين - Mobile R1.4.86: بحث مباشر للموظف داخل ملاحظات المدير مع مستخدمين وصلاحيات مسؤول النظام ومدير الموارد.",
   "icons": [
     {
       "src": "assets/icon-192.png",
