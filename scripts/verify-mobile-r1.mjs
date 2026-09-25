@@ -25,10 +25,10 @@ try { summary = JSON.parse(read('data/change-summary.json')); } catch (e) { fail
 let jobTitles;
 try { jobTitles = JSON.parse(read('data/job-titles.json')); } catch (e) { fail(`job-titles JSON invalid: ${e.message}`); }
 
-const expectedRelease = 'MOBILE-R1.4.86-MANAGER-NOTES-EMPLOYEE-SEARCH-USER-ROLES';
+const expectedRelease = 'MOBILE-R1.4.87-MANAGER-NOTES-SEARCH-REVIEW-SYNC-FIX';
 if (release !== expectedRelease) fail(`VERSION.txt mismatch: ${release}`);
-if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.86 manager notes employee search user roles');
-if (!String(manifest.description || '').includes('R1.4.86')) fail('manifest description was not updated to R1.4.86');
+if (!index.includes(`APP_RELEASE = '${expectedRelease}'`)) fail('APP_RELEASE is not Mobile R1.4.87 manager notes search review sync fix');
+if (!String(manifest.description || '').includes('R1.4.87')) fail('manifest description was not updated to R1.4.87');
 // R1.4.73: allow running verification inside an actual Git working tree; clean ZIPs still omit .git.
 for (const stale of fs.readdirSync(root).filter(name => /^INSTALL_PATCH_R1_4_|^PATCH_FILES_R1_4_|^MOBILE_R1_4_.*_RELEASE_NOTES_AR\.txt$/.test(name))) fail(`stale patch/release file still present: ${stale}`);
 for (const marker of ['MOBILE R1.4.73: cleanup stray header marker and restore compact record-scope cards','r1473-header-cleanup-scope-cards-restore-style','r1473-header-cleanup-scope-cards-restore-script','employee-registry-mobile-r1473-header-cleanup-scope-cards-restore-2026.09.20']) {
@@ -704,10 +704,10 @@ ok(`Mobile R1.4.73 Header Cleanup Scope Cards Restore verified: ${version.versio
 (function verifyR1471(){
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const ver = fs.readFileSync(path.join(root, 'VERSION.txt'), 'utf8').trim();
-  if (ver !== expectedRelease) fail('R1.4.86 VERSION.txt mismatch');
+  if (ver !== expectedRelease) fail('R1.4.87 VERSION.txt mismatch');
   if (!(idx.includes('Promise.race([') && idx.includes('r122RegisterServiceWorker()') && idx.includes('setTimeout(resolve,1200)'))) fail('R1.4.63 service worker timeout guard missing');
   if (!idx.includes('R1.4.63 boot watchdog')) fail('R1.4.63 boot watchdog missing');
-  if (!idx.includes(expectedRelease)) fail('R1.4.86 APP_RELEASE missing');
+  if (!idx.includes(expectedRelease)) fail('R1.4.87 APP_RELEASE missing');
   if (!idx.includes('var r1463MinSplash=2300')) fail('R1.4.63 minimum splash duration missing');
   if (idx.includes('R1.4.62: unlock the interface immediately after rendering data')) fail('R1.4.63 must not use immediate splash hide');
   ok('Mobile R1.4.77 Manager Notes Navigation Fix verified: navigation organized and stable loading preserved');
@@ -771,3 +771,11 @@ for (const marker of ['MOBILE R1.4.86: Manager Notes Employee Search + User Role
 }
 if (!sw.includes('employee-registry-mobile-r1486-manager-notes-search-user-roles-2026.09.25')) fail('R1.4.86 app-shell cache marker missing');
 ok('Mobile R1.4.86 Manager Notes Employee Search + User Roles verified');
+
+
+// R1.4.87 manager notes strict search and review sync guards.
+for (const marker of ['MOBILE R1.4.87: fixes Manager Notes employee picker','r1487-manager-notes-search-review-sync-fix-script','r1487-emp-results','action:\'review\'','cleanupManagerReviewed','اكتب حرفين أو أكثر للبحث عن الموظف']) {
+  if (!index.includes(marker)) fail(`R1.4.87 manager notes search/review marker missing: ${marker}`);
+}
+if (!sw.includes('employee-registry-mobile-r1487-manager-notes-search-review-sync-fix-2026.09.25')) fail('R1.4.87 app-shell cache marker missing');
+ok('Mobile R1.4.87 Manager Notes Search Review Sync Fix verified');
