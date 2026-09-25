@@ -1,3 +1,5 @@
+// Current R1.4.89 marker: employee-registry-mobile-r1489-push-diagnostics-background-notification-fix-2026.09.25 | employee-registry-pdf-downloads-r1489
+// Legacy R1.4.88 marker retained: employee-registry-mobile-r1488-manager-notes-professional-ui-polish-2026.09.25 | employee-registry-pdf-downloads-r1488
 // Previous R1.4.87 marker retained: employee-registry-mobile-r1487-manager-notes-search-review-sync-fix-2026.09.25 | employee-registry-pdf-downloads-r1487
 // R1.4.88 cache: Manager Notes professional UI polish.
 // Previous verified marker: employee-registry-mobile-r1486-manager-notes-search-user-roles-2026.09.25 | employee-registry-pdf-downloads-r1486
@@ -24,8 +26,8 @@
 // Legacy verification markers retained: employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19 | employee-registry-pdf-downloads-r1452
 // Legacy verification markers retained: employee-registry-mobile-r1455-service-calculator-navigation-fix-2026.09.19 | employee-registry-pdf-downloads-r1455
 // Legacy verification marker retained: employee-registry-mobile-r1463-splash-loading-restore-2026.09.19 | employee-registry-pdf-downloads-r1463
-const CACHE_NAME = 'employee-registry-mobile-r1488-manager-notes-professional-ui-polish-2026.09.25';
-const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1488';
+const CACHE_NAME = 'employee-registry-mobile-r1489-push-diagnostics-background-notification-fix-2026.09.25';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1489';
 const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',
