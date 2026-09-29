@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.10",
-  "short_name": "HR Mobile R1.5.10",
+  "name": "سجل الموظفين - Mobile R1.5.11",
+  "short_name": "HR Mobile R1.5.11",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.10 secure data instant cache: shows the last saved Google Sheets employee data immediately, then refreshes silently in the background.",
+  "description": "R1.5.11 secure data manual refresh: shows cached Google Sheets data instantly and adds a direct refresh button to apply the latest Windows-published updates.",
   "icons": [
     {
       "src": "assets/icon-192.png",

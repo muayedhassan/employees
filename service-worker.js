@@ -1,3 +1,4 @@
+// R1.5.11 cache: manual secure data refresh button applies latest Google Sheets updates immediately, no embedded data.
 // R1.5.10 cache: secure data instant local display then background Google Sheets refresh, no embedded data.
 // R1.5.09 cache: secure data apply fix, no employee data embedded in the public app shell.
 // R1.5.09 marker: employee-registry-mobile-r1509-secure-data-apply-fix-2026.09.29 | employee-registry-pdf-downloads-r1509
@@ -53,8 +54,8 @@
 // Legacy verification markers retained: employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19 | employee-registry-pdf-downloads-r1452
 // Legacy verification markers retained: employee-registry-mobile-r1455-service-calculator-navigation-fix-2026.09.19 | employee-registry-pdf-downloads-r1455
 // Legacy verification marker retained: employee-registry-mobile-r1463-splash-loading-restore-2026.09.19 | employee-registry-pdf-downloads-r1463
-const CACHE_NAME = 'employee-registry-mobile-r1510-secure-data-instant-cache-2026.09.29';
-const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1510';
+const CACHE_NAME = 'employee-registry-mobile-r1511-secure-data-manual-refresh-2026.09.29';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1511';
 const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',

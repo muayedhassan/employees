@@ -1088,8 +1088,10 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
    البيانات، وحذف أزرار التحديث المكررة من الهيدر لأن التحديث موجود في حالة النظام.
    ───────────────────────────────────────────────────────────────────────── */
 .hdr-controls{gap:7px!important}
-#refresh-data-btn,#connection-refresh{display:none!important}
-.connection-strip{grid-template-columns:auto minmax(0,1fr)!important;gap:8px!important;align-items:center!important}
+#refresh-data-btn{display:none!important}
+.r1511-refresh-btn{display:inline-flex!important;align-items:center;justify-content:center;gap:4px;white-space:nowrap;min-height:25px;padding:5px 9px!important;border-radius:999px!important;background:linear-gradient(135deg,rgba(255,246,200,.96),rgba(255,209,102,.96))!important;color:#071326!important;border:1px solid rgba(255,255,255,.48)!important;box-shadow:0 6px 16px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.62);font:900 8.2px var(--r1504-zain,var(--hr-body-font),sans-serif)!important}
+.r1511-refresh-btn.r1511-busy{opacity:.76;pointer-events:none}.r1511-refresh-btn.r1511-busy i{animation:r1511spin .8s linear infinite}@keyframes r1511spin{to{transform:rotate(360deg)}}
+.connection-strip{grid-template-columns:auto minmax(0,1fr) auto!important;gap:8px!important;align-items:center!important}
 .connection-detail{font-size:clamp(7.6px,2vw,9px)!important;opacity:.92!important}
 .mobile-chrome-copy small{display:none!important}
 .mobile-chrome-bar{padding-block:9px!important}
@@ -1565,6 +1567,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
     <div class="connection-strip online r1432-connection-strip" id="connection-strip">
       <span class="connection-state r1432-connection-state"><i class="fas fa-wifi"></i><b id="connection-label">متصل</b></span>
       <span class="connection-detail" id="connection-detail">جاري التحقق من آخر مزامنة...</span>
+      <button class="connection-refresh r1511-refresh-btn" id="connection-refresh" type="button" title="جلب آخر تعديل من Google Sheets الآن"><i class="fas fa-rotate"></i> تحديث الآن</button>
     </div>
     <div class="gold-line r1432-gold-line"></div>
   </div>
@@ -1743,7 +1746,8 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.10-SECURE-DATA-INSTANT-CACHE';
+var APP_RELEASE = 'MOBILE-R1.5.11-SECURE-DATA-MANUAL-REFRESH';
+// R1.5.11: manual secure data refresh applies latest Google Sheets updates immediately.
 // R1.5.10: secure data instant cache shows saved Google Sheets data immediately, then refreshes in background.
 // R1.5.09: secure data apply fix ensures Apps Script data is forced into the UI after JSONP load.
 // R1.5.08: secure data recovery from private Google Sheets through Apps Script; no employee data in public app shell.
@@ -3634,7 +3638,7 @@ async function r71ReadCacheInfo(){var snap=r71SnapshotInfo(),usage='—',keys=[]
 async function r71FetchDeployedRelease(){var url=new URL('index.html',location.href);url.searchParams.set('_release_check',Date.now());var res=await fetch(url.toString(),{cache:'no-store'});if(!res.ok)throw new Error('HTTP '+res.status);var txt=await res.text();var m=txt.match(/APP_RELEASE\s*=\s*['\"]([^'\"]+)['\"]/);return m?m[1]:'';}
 async function r71CheckInterface(silent){if(R71_CHECKING)return;R71_CHECKING=true;if(!silent)showToast('جاري فحص إصدار التطبيق...');try{if(navigator.onLine===false)throw new Error('offline');var remote=await r71FetchDeployedRelease();R71_REMOTE_RELEASE=remote||APP_RELEASE;R71_UPDATE_STATE=R71_REMOTE_RELEASE&&R71_REMOTE_RELEASE!==APP_RELEASE?'new':'current';r71Set(R71_LAST_CHECK_KEY,new Date().toISOString());if(!silent)showToast(R71_UPDATE_STATE==='new'?'يوجد إصدار أحدث للواجهة':'واجهة التطبيق محدثة');}catch(e){R71_UPDATE_STATE=navigator.onLine===false?'offline':'error';if(!silent)showToast(navigator.onLine===false?'لا يمكن فحص الواجهة بدون إنترنت':'تعذر فحص إصدار الواجهة','warn');}finally{R71_CHECKING=false;await r71ReadCacheInfo();buildSystemCenter();updateSystemTabDot();}}
 async function r71CheckAll(){var btn=document.getElementById('sys-check-all');if(btn){btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الفحص...';}try{if(navigator.onLine!==false){await loadCentralData(true);updateAdminCounts();if(mode!=='admin')doFilter();}await r71CheckInterface(true);r71Set(R71_LAST_CHECK_KEY,new Date().toISOString());showToast(navigator.onLine===false?'تم فحص النسخة المحلية':'اكتمل فحص النظام والتحديثات');}catch(e){showToast('اكتمل الفحص مع تعذر بعض خدمات الشبكة','warn');}finally{if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-shield-check"></i> فحص شامل الآن';}await r71ReadCacheInfo();buildSystemCenter();updateConnectivityUI();}}
-async function r71RefreshDataOnly(){var btn=document.getElementById('sys-refresh-data');if(btn){btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري تحديث البيانات...';}try{await loadCentralData(true);updateAdminCounts();if(mode!=='admin')doFilter();showToast(LAST_DATA_STATUS||'تم تحديث البيانات');}catch(e){showToast('تعذر الاتصال؛ بقيت النسخة المحفوظة متاحة','warn');}finally{if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-database"></i> تحديث بيانات HRSystem';}await r71ReadCacheInfo();buildSystemCenter();updateConnectivityUI();}}
+async function r71RefreshDataOnly(){var btn=document.getElementById('sys-refresh-data');if(btn){btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري تحديث البيانات...';}try{await loadCentralData(true);updateAdminCounts();if(mode!=='admin')doFilter();showToast(LAST_DATA_STATUS||'تم تحديث البيانات');}catch(e){showToast('تعذر الاتصال؛ بقيت النسخة المحفوظة متاحة','warn');}finally{if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-database"></i> تحديث البيانات الآن';}await r71ReadCacheInfo();buildSystemCenter();updateConnectivityUI();}}
 async function r71ForceRefresh(){if(navigator.onLine===false){showToast('التحديث الإجباري يحتاج اتصالًا بالإنترنت','warn');return;}showConfirm('تحديث الواجهة إجباريًا','سيتم تنظيف كاش واجهة التطبيق فقط ثم إعادة فتحها. بيانات الموظفين المحفوظة لن تُحذف.',async function(){try{showToast('جاري تجهيز أحدث واجهة...');if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.getRegistration();if(reg)try{await reg.update();}catch(e){}}if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0;}).map(function(k){return caches.delete(k);}));}}catch(e){}var u=new URL(location.href);u.searchParams.set('_app_refresh',Date.now());location.replace(u.toString());});}
 function updateSystemTabDot(){var d=document.getElementById('system-tab-dot');if(!d)return;d.className='system-dot'+(navigator.onLine===false?' off':R71_UPDATE_STATE==='new'||R71_UPDATE_STATE==='error'?' warn':'');}
 function r71StatusBanner(){if(navigator.onLine===false)return '<div class="sys71-status-banner warn"><i class="fas fa-wifi-slash"></i><div><div class="sys71-banner-title">وضع عدم الاتصال فعّال</div><div class="sys71-banner-text">التطبيق يعمل من آخر نسخة بيانات محفوظة. لا تستخدم التحديث الإجباري حتى يعود الإنترنت.</div></div></div>';if(R71_UPDATE_STATE==='new')return '<div class="sys71-status-banner warn"><i class="fas fa-arrow-up-from-bracket"></i><div><div class="sys71-banner-title">يوجد إصدار أحدث للواجهة</div><div class="sys71-banner-text">الإصدار المنشور: '+escapeHTML(R71_REMOTE_RELEASE||'—')+' • استخدم «تحديث الواجهة إجباريًا» بعد التأكد من نجاح GitHub Pages.</div></div></div>';if(R71_UPDATE_STATE==='error')return '<div class="sys71-status-banner warn"><i class="fas fa-circle-exclamation"></i><div><div class="sys71-banner-title">تعذر التحقق من إصدار الواجهة</div><div class="sys71-banner-text">البيانات الحالية ما زالت تعمل بصورة طبيعية. حاول «فحص شامل الآن» عند استقرار الاتصال.</div></div></div>';return '<div class="sys71-status-banner"><i class="fas fa-circle-check"></i><div><div class="sys71-banner-title">النظام يعمل بصورة طبيعية</div><div class="sys71-banner-text">واجهة التطبيق والبيانات المركزية والنسخة المخصصة للعمل دون إنترنت متاحة.</div></div></div>';}
@@ -3645,7 +3649,7 @@ html+='<div class="sys71-grid"><div class="sys71-card"><div class="sys71-card-he
 html+='<div class="sys71-card"><div class="sys71-card-head"><div class="sys71-card-ico" style="color:#69f0ae;background:rgba(105,240,174,.07);border-color:rgba(105,240,174,.13)"><i class="fas fa-server"></i></div><div><div class="sys71-card-title">Windows Master</div><div class="sys71-card-sub">HRSystem / SQL Server هو المصدر الإداري الرسمي</div></div></div><div class="sys71-row"><span class="sys71-row-l">إصدار البيانات</span><span class="sys71-row-v ok">'+escapeHTML(DATA_VERSION||'—')+'</span></div><div class="sys71-row"><span class="sys71-row-l">إصدار HRSystem</span><span class="sys71-row-v">'+escapeHTML(srcApp)+'</span></div><div class="sys71-row"><span class="sys71-row-l">عقد الربط</span><span class="sys71-row-v">'+escapeHTML(contract)+'</span></div><div class="sys71-row"><span class="sys71-row-l">المصدر الحالي</span><span class="sys71-row-v">'+escapeHTML(r71DataSourceLabel())+'</span></div><div class="sys71-row"><span class="sys71-row-l">آخر مزامنة ناجحة</span><span class="sys71-row-v">'+escapeHTML(r7DateTime(last))+'</span></div></div>';
 html+='<div class="sys71-card"><div class="sys71-card-head"><div class="sys71-card-ico" style="color:#ffd180;background:rgba(255,209,128,.07);border-color:rgba(255,209,128,.13)"><i class="fas fa-shield-halved"></i></div><div><div class="sys71-card-title">سياسة نسخة الهاتف</div><div class="sys71-card-sub">تحدد الحقول التي يسمح بنشرها داخل التطبيق</div></div></div><div class="sys71-row"><span class="sys71-row-l">ملف النشر</span><span class="sys71-row-v">'+escapeHTML(bridgeProfileLabel())+'</span></div><div class="sys71-row"><span class="sys71-row-l">الحقول الحساسة</span><span class="sys71-row-v '+(safe?'warn':'ok')+'">'+(safe?'مشمولة':'محجوبة من النسخة')+'</span></div><div class="sys71-row"><span class="sys71-row-l">البحث برقم الهوية</span><span class="sys71-row-v '+(bridgeFieldPublished('identityNo')?'ok':'warn')+'">'+(bridgeFieldPublished('identityNo')?'متاح':'مخفي تلقائيًا')+'</span></div><div class="sys71-row"><span class="sys71-row-l">معرف الربط</span><span class="sys71-row-v">integrationId</span></div></div>';
 html+='<div class="sys71-card"><div class="sys71-card-head"><div class="sys71-card-ico" style="color:#b388ff;background:rgba(179,136,255,.07);border-color:rgba(179,136,255,.13)"><i class="fas fa-cloud-arrow-down"></i></div><div><div class="sys71-card-title">العمل دون إنترنت</div><div class="sys71-card-sub">حالة النسخة المحلية والكاش داخل WebView</div></div></div><div class="sys71-row"><span class="sys71-row-l">نسخة الموظفين</span><span class="sys71-row-v '+(snap.ready?'ok':'warn')+'">'+(snap.ready?'جاهزة • '+snap.count+' سجل':'غير جاهزة')+'</span></div><div class="sys71-row"><span class="sys71-row-l">Service Worker</span><span class="sys71-row-v '+(navigator.serviceWorker&&navigator.serviceWorker.controller?'ok':'warn')+'">'+escapeHTML(sw)+'</span></div><div class="sys71-row"><span class="sys71-row-l">مساحة التطبيق</span><span class="sys71-row-v">'+escapeHTML(R71_CACHE_INFO.usage||'—')+'</span></div><div class="sys71-row"><span class="sys71-row-l">آخر حالة</span><span class="sys71-row-v">'+escapeHTML(LAST_DATA_STATUS||'—')+'</span></div></div></div>';
-html+='<div class="sys71-actions"><button class="sys71-action primary" id="sys-check-all"><i class="fas fa-shield-check"></i> فحص شامل الآن</button><button class="sys71-action green" id="sys-refresh-data" '+(!online?'disabled':'')+'><i class="fas fa-database"></i> تحديث بيانات HRSystem</button><button class="sys71-action ghost" id="sys-force-refresh" '+(!online?'disabled':'')+'><i class="fas fa-arrows-rotate"></i> تحديث الواجهة إجباريًا</button></div><div class="sys71-note"><i class="fas fa-circle-info"></i>«تحديث بيانات HRSystem» يجلب آخر Snapshot منشورة من SQL Server عبر GitHub ولا يغيّر أي سجل محليًا. الحقول المحجوبة أمنيًا لا تُحسب كنواقص، وتظهر داخل البطاقة كـ«محجوب من نسخة الهاتف».</div>';
+html+='<div class="sys71-actions"><button class="sys71-action primary" id="sys-check-all"><i class="fas fa-shield-check"></i> فحص شامل الآن</button><button class="sys71-action green" id="sys-refresh-data" '+(!online?'disabled':'')+'><i class="fas fa-database"></i> تحديث البيانات الآن</button><button class="sys71-action ghost" id="sys-force-refresh" '+(!online?'disabled':'')+'><i class="fas fa-arrows-rotate"></i> تحديث الواجهة إجباريًا</button></div><div class="sys71-note"><i class="fas fa-circle-info"></i>«تحديث بيانات HRSystem» يجلب آخر نسخة منشورة من Google Sheets الآمنة بعد النشر من برنامج Windows، ولا يغيّر أي سجل محليًا. عند تعديل البيانات في Windows اضغط نشر آمن للهاتف ثم استخدم هذا الزر لجلب آخر نسخة فورًا.</div>';
 page.innerHTML=html;var a=document.getElementById('sys-check-all'),b=document.getElementById('sys-refresh-data'),c=document.getElementById('sys-force-refresh');if(a)a.addEventListener('click',r71CheckAll);if(b)b.addEventListener('click',r71RefreshDataOnly);if(c)c.addEventListener('click',r71ForceRefresh);updateSystemTabDot();r71ReadCacheInfo().then(function(){if(subView==='system'){var p=document.getElementById('system-page');if(p&&p.isConnected&&R71_CACHE_INFO.usage!=='—'){/* next manual refresh will show estimate */}}});}
 
 window.addEventListener('online',function(){updateSystemTabDot();if(subView==='system'){r71CheckInterface(true);}});
@@ -7819,6 +7823,74 @@ document.addEventListener('visibilitychange',function(){if(!document.hidden)setT
 document.addEventListener('click',function(ev){if(ev.target&&ev.target.closest&&ev.target.closest('#r1507-chrome-toggle'))return;setTimeout(tick,80)},true);
 try{new MutationObserver(function(){clearTimeout(window.__r1507T);window.__r1507T=setTimeout(tick,90)}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']})}catch(e){}
 window.r1507ChromeSafeFloatingToggle={release:RELEASE,set:setFocusMode,toggle:toggle,sync:tick};
+})();
+</script>
+
+
+<!-- MOBILE R1.5.11: manual secure data refresh button and cache bypass -->
+<script id="r1511-secure-data-manual-refresh-script">
+// MOBILE R1.5.11: manual secure data refresh applies latest Google Sheets updates immediately.
+(function(){
+var RELEASE='MOBILE-R1.5.11-SECURE-DATA-MANUAL-REFRESH';
+var busy=false;
+function total(){try{return (BASE.perm||[]).length+(BASE.cont||[]).length}catch(e){return 0}}
+function setBusy(v){
+  busy=!!v;
+  var btns=document.querySelectorAll('#connection-refresh,#sys-refresh-data');
+  btns.forEach(function(b){
+    if(!b)return;
+    b.disabled=busy;
+    b.classList.toggle('r1511-busy',busy);
+    if(b.id==='connection-refresh'){
+      b.innerHTML=busy?'<i class="fas fa-rotate"></i> جاري التحديث':'<i class="fas fa-rotate"></i> تحديث الآن';
+    }
+  });
+}
+function touchUi(msg){
+  try{LAST_DATA_STATUS=msg||LAST_DATA_STATUS}catch(e){}
+  try{updateVersionUI()}catch(e){}
+  try{updateAdminCounts()}catch(e){}
+  try{updateConnectivityUI()}catch(e){}
+  try{updateSystemTabDot()}catch(e){}
+  try{if(typeof buildSystemCenter==='function'&&subView==='system')buildSystemCenter()}catch(e){}
+  try{if(mode!=='admin'){filt=(mode==='cont'?(BASE.cont||[]):(BASE.perm||[])).slice();buildLetters();buildAdvancedFilters();doFilter();}else{renderAdminList&&renderAdminList();}}catch(e){try{render()}catch(x){}}
+  try{if(typeof window.r1502DashboardRadicalRebuild==='object'&&window.r1502DashboardRadicalRebuild.render)window.r1502DashboardRadicalRebuild.render()}catch(e){}
+  try{if(typeof window.r1504ScopeZainStartupExpandFix==='object'&&window.r1504ScopeZainStartupExpandFix.tick)window.r1504ScopeZainStartupExpandFix.tick()}catch(e){}
+}
+async function refreshNow(origin){
+  if(busy)return false;
+  setBusy(true);
+  try{
+    if(typeof r1509RecoverSecureData==='function'){
+      await r1509RecoverSecureData(true);
+    }else{
+      await loadCentralData(true);
+    }
+    var msg='تم جلب آخر بيانات Google Sheets الآن: '+(BASE.perm||[]).length+' دائم • '+(BASE.cont||[]).length+' عقد';
+    try{localStorage.setItem('hr_secure_last_manual_refresh_r1511',new Date().toISOString())}catch(e){}
+    touchUi(msg);
+    if(typeof showToast==='function')showToast(msg);
+    return true;
+  }catch(e){
+    var m='تعذر تحديث البيانات الآن: '+(e&&e.message?e.message:e);
+    try{LAST_DATA_STATUS=m}catch(x){}
+    try{updateConnectivityUI()}catch(x){}
+    if(typeof showToast==='function')showToast(m,'warn');
+    return false;
+  }finally{
+    setBusy(false);
+  }
+}
+function bind(){
+  var c=document.getElementById('connection-refresh');
+  if(c&&!c.__r1511Bound){c.__r1511Bound=true;c.addEventListener('click',function(ev){ev.preventDefault();ev.stopImmediatePropagation();refreshNow('connection')},{passive:false,capture:true})}
+  var s=document.getElementById('sys-refresh-data');
+  if(s&&!s.__r1511Bound){s.__r1511Bound=true;s.addEventListener('click',function(ev){ev.preventDefault();ev.stopImmediatePropagation();refreshNow('system')},{passive:false,capture:true})}
+}
+document.addEventListener('DOMContentLoaded',function(){bind();setTimeout(bind,600);setTimeout(bind,1800)});
+window.addEventListener('load',function(){setTimeout(bind,250);setTimeout(bind,1200);setTimeout(function(){touchUi(LAST_DATA_STATUS)},2400)});
+document.addEventListener('click',function(){setTimeout(bind,80)},true);
+window.r1511SecureDataManualRefresh={release:RELEASE,refresh:refreshNow,bind:bind};
 })();
 </script>
 
