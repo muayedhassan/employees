@@ -1746,7 +1746,8 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.13-LOADER-ROLLBACK-STABLE';
+var APP_RELEASE = 'MOBILE-R1.5.14-SAFE-CHANGE-TRACE';
+// R1.5.14: safe change trace records previous/current values after secure Google Sheets updates without touching startup loading.
 // R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.
 // R1.5.10: secure data instant cache shows saved Google Sheets data immediately, then refreshes in background.
 // R1.5.09: secure data apply fix ensures Apps Script data is forced into the UI after JSONP load.
@@ -7891,6 +7892,77 @@ document.addEventListener('DOMContentLoaded',function(){bind();setTimeout(bind,6
 window.addEventListener('load',function(){setTimeout(bind,250);setTimeout(bind,1200);setTimeout(function(){touchUi(LAST_DATA_STATUS)},2400)});
 document.addEventListener('click',function(){setTimeout(bind,80)},true);
 window.r1513SecureDataManualRefresh={release:RELEASE,refresh:refreshNow,bind:bind};
+})();
+</script>
+
+
+<!-- MOBILE R1.5.14: safe previous/current change trace without loader blocking -->
+<script id="r1514-safe-change-trace-script">
+// MOBILE R1.5.14: safe change trace records previous/current values after secure Google Sheets updates without touching startup loading.
+(function(){
+var RELEASE='MOBILE-R1.5.14-SAFE-CHANGE-TRACE';
+var FIELDS=['name','fourName','motherName','gender','identityNo','identityIssueDate','identityIssuer','division','employmentStatus','education','jobTitle','specialization','grade','step','salary','birthDate','hireDate','firstAssignmentDate','nextBonusDate','nextPromotionDate','notes','serviceNotes','appointmentOrderNo','appointmentOrderDate','employeeNo','num'];
+var EXTRA_LABELS={fourName:'الاسم الرباعي',firstAssignmentDate:'تاريخ أول تنسيب',nextBonusDate:'استحقاق العلاوة',nextPromotionDate:'استحقاق الترفيع',serviceNotes:'ملاحظات الخدمة المضافة',appointmentOrderNo:'رقم أمر التعيين',appointmentOrderDate:'تاريخ أمر التعيين'};
+function arr(x){return Array.isArray(x)?x:[]}
+function cloneRow(e){try{return JSON.parse(JSON.stringify(e||{}))}catch(_){return {}}}
+function snap(){try{return {perm:arr(BASE&&BASE.perm).map(cloneRow),cont:arr(BASE&&BASE.cont).map(cloneRow)}}catch(e){return {perm:[],cont:[]}}}
+function total(ds){try{return arr(ds.perm).length+arr(ds.cont).length}catch(e){return 0}}
+function typeOf(e,fallback){return e&&e.type?String(e.type):(fallback||'')}
+function clean(v){if(v===null||v===undefined)return '';return String(v).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
+function sem(field,v){var s=clean(v);if(s==='—'||s==='غير متوفر')return '';if(field==='salary'||field==='grade'||field==='step'||field==='num'){var n=Number(String(s).replace(/[^0-9.\-]/g,''));return isNaN(n)?s:String(n)}return s}
+function key(e,fallbackType){if(!e)return '';var t=typeOf(e,fallbackType);var emp=clean(e.employeeNo);if(emp)return t+'|emp|'+emp;var id=clean(e.integrationId||e.id||e.bridgeId);if(id)return t+'|id|'+id;var num=clean(e.num);if(num)return t+'|num|'+num;var name=clean(e.name);return name?t+'|name|'+name:''}
+function ref(e){return {id:e.id||'',integrationId:e.integrationId||e.id||'',bridgeId:e.bridgeId||'',employeeNo:e.employeeNo||'',num:e.num||'',name:e.name||'',type:e.type||''}}
+function index(ds){var m={};arr(ds.perm).forEach(function(e){var k=key(e,'perm');if(k)m[k]=e});arr(ds.cont).forEach(function(e){var k=key(e,'cont');if(k)m[k]=e});return m}
+function oneLine(e){var r=ref(e||{});return {id:r.id,integrationId:r.integrationId,bridgeId:r.bridgeId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type}}
+function sameField(field,a,b){return sem(field,a)===sem(field,b)}
+function changes(oldE,newE){var out=[];FIELDS.forEach(function(f){var a=oldE?oldE[f]:'';var b=newE?newE[f]:'';if(!sameField(f,a,b)){out.push({field:f,oldValue:a===undefined||a===null?'':a,newValue:b===undefined||b===null?'':b})}});return out}
+function enrichLabels(){try{if(window.CHANGE_FIELD_LABELS){Object.keys(EXTRA_LABELS).forEach(function(k){if(!CHANGE_FIELD_LABELS[k])CHANGE_FIELD_LABELS[k]=EXTRA_LABELS[k]})}}catch(e){}}
+function makeSummary(before,after,reason){
+  before=before||{perm:[],cont:[]};after=after||{perm:[],cont:[]};
+  var oldTotal=total(before),newTotal=total(after);if(oldTotal<=0||newTotal<=0)return null;
+  var old=index(before),nu=index(after),modified=[],added=[],missing=[];
+  Object.keys(nu).forEach(function(k){var n=nu[k],o=old[k];if(!o){added.push(oneLine(n));return}var ch=changes(o,n);if(ch.length){var x=oneLine(n);x.previousName=o.name||'';x.changes=ch;modified.push(x)}});
+  Object.keys(old).forEach(function(k){if(!nu[k])missing.push(oneLine(old[k]))});
+  if(!modified.length&&!added.length&&!missing.length)return null;
+  var now=new Date().toISOString();
+  var version=(typeof DATA_VERSION!=='undefined'&&DATA_VERSION&&DATA_VERSION!=='غير معروف')?String(DATA_VERSION):now;
+  if(version===window.__r1514LastVersion){version=now}
+  window.__r1514LastVersion=version;
+  return {schemaVersion:1514,source:'local-secure-cache-diff',reason:reason||'secure-refresh',version:version,previousVersion:(LAST_CHANGE_SUMMARY&&LAST_CHANGE_SUMMARY.version)||'',updatedAt:now,counts:{modified:modified.length,added:added.length,missing:missing.length,total:newTotal,excelRows:newTotal},modified:modified,added:added,missing:missing};
+}
+function saveSummary(sum){
+  if(!sum)return false;enrichLabels();
+  try{LAST_CHANGE_SUMMARY=sum}catch(e){}
+  try{localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(sum))}catch(e){}
+  try{if(!CHANGE_HISTORY||!Array.isArray(CHANGE_HISTORY.versions))CHANGE_HISTORY={schemaVersion:1,versions:[]};
+    CHANGE_HISTORY.versions=(CHANGE_HISTORY.versions||[]).filter(function(v){return v&&v.version!==sum.version});
+    CHANGE_HISTORY.versions.push(sum);if(CHANGE_HISTORY.versions.length>20)CHANGE_HISTORY.versions=CHANGE_HISTORY.versions.slice(-20);
+    localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(CHANGE_HISTORY));
+  }catch(e){}
+  try{UPDATE_SECTION_VIEW='changes';SELECTED_UPDATE_VERSION='';if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates()}catch(e){}
+  try{if(typeof updateSystemTabDot==='function')updateSystemTabDot()}catch(e){}
+  return true;
+}
+function isCachedStatus(s){s=clean(s);return /آخر نسخة محفوظة|نسخة محفوظة|الكاش|cache/i.test(s)}
+function wrapApply(){
+  if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1514Wrapped)return false;
+  var oldApply=r1509ApplySecureDataset;
+  var wrapped=function(d,statusText){
+    var before=snap(),oldTotal=total(before),skip=isCachedStatus(statusText);
+    var ok=oldApply.apply(this,arguments);
+    try{if(ok&&oldTotal>0&&!skip){saveSummary(makeSummary(before,snap(),statusText||'secure-refresh'))}}catch(e){try{console.warn('R1.5.14 change trace skipped',e)}catch(_){}}
+    return ok;
+  };
+  wrapped.__r1514Wrapped=true;
+  try{r1509ApplySecureDataset=wrapped;window.r1509ApplySecureDataset=wrapped}catch(e){window.r1509ApplySecureDataset=wrapped}
+  return true;
+}
+function wrapManualRefresh(){
+  try{var api=window.r1513SecureDataManualRefresh;if(!api||typeof api.refresh!=='function'||api.refresh.__r1514Wrapped)return false;var old=api.refresh;api.refresh=async function(origin){var before=snap(),oldTotal=total(before);var ok=await old.apply(this,arguments);try{if(ok&&oldTotal>0){saveSummary(makeSummary(before,snap(),origin||'manual-refresh'))}}catch(e){}return ok};api.refresh.__r1514Wrapped=true;return true}catch(e){return false}
+}
+function install(){enrichLabels();wrapApply();wrapManualRefresh()}
+install();document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,500);setTimeout(install,1800)});window.addEventListener('load',function(){setTimeout(install,300);setTimeout(install,1500)});
+window.r1514SafeChangeTrace={release:RELEASE,install:install,build:function(){var s=makeSummary(snap(),snap(),'manual-check');return saveSummary(s)}};
 })();
 </script>
 

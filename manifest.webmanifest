@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.13",
-  "short_name": "HR Mobile R1.5.13",
+  "name": "سجل الموظفين - Mobile R1.5.14",
+  "short_name": "HR Mobile R1.5.14",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.13 emergency loader rollback: restores stable R1.5.11 secure data refresh and disables the broken R1.5.12 change trace that caused startup loading freeze.",
+  "description": "R1.5.14 safe change trace: records previous/current field values after secure Google Sheets updates without blocking startup loading.",
   "icons": [
     {
       "src": "assets/icon-192.png",

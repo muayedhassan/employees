@@ -12,20 +12,25 @@ const sw = read('service-worker.js');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const version = read('VERSION.txt').trim();
 
-const expected = 'MOBILE-R1.5.13-LOADER-ROLLBACK-STABLE';
-if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.13 loader rollback stable');
+const expected = 'MOBILE-R1.5.14-SAFE-CHANGE-TRACE';
+if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.14 safe change trace');
 if (version !== expected) fail('VERSION.txt mismatch');
-if (!String(manifest.description || '').includes('R1.5.13')) fail('manifest description missing R1.5.13');
+if (!String(manifest.description || '').includes('R1.5.14')) fail('manifest description missing R1.5.14');
 
 const requiredMarkers = [
+  'R1.5.14: safe change trace records previous/current values after secure Google Sheets updates without touching startup loading.',
+  'MOBILE-R1.5.14-SAFE-CHANGE-TRACE',
+  'r1514SafeChangeTrace',
+  'القيمة السابقة',
+  'القيمة الجديدة',
+  'CHANGE_HISTORY_CACHE_KEY',
+  'employee-registry-mobile-r1514-safe-change-trace-2026.09.29',
+  'employee-registry-pdf-downloads-r1514',
   'R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.',
-  'MOBILE-R1.5.13-LOADER-ROLLBACK-STABLE',
   'r1513SecureDataManualRefresh',
   'تحديث الآن',
   'hr_secure_last_manual_refresh_r1513',
   'r1509RecoverSecureData(true)',
-  'employee-registry-mobile-r1513-loader-rollback-stable-2026.09.29',
-  'employee-registry-pdf-downloads-r1513',
   'R1.5.10: secure data instant cache shows saved Google Sheets data immediately, then refreshes in background.',
   'HR_SECURE_API_URL',
   'HR_SECURE_KEY_STORE',
