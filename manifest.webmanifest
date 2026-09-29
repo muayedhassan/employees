@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.09",
-  "short_name": "HR Mobile R1.5.09",
+  "name": "سجل الموظفين - Mobile R1.5.10",
+  "short_name": "HR Mobile R1.5.10",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.09 secure data apply fix: forces Google Sheets secure data into the UI after Apps Script JSONP load, without changing design.",
+  "description": "R1.5.10 secure data instant cache: shows the last saved Google Sheets employee data immediately, then refreshes silently in the background.",
   "icons": [
     {
       "src": "assets/icon-192.png",

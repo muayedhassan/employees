@@ -12,12 +12,13 @@ const sw = read('service-worker.js');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const version = read('VERSION.txt').trim();
 
-const expected = 'MOBILE-R1.5.09-SECURE-DATA-APPLY-FIX';
-if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.09 secure data apply fix');
+const expected = 'MOBILE-R1.5.10-SECURE-DATA-INSTANT-CACHE';
+if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.10 secure data instant cache');
 if (version !== expected) fail('VERSION.txt mismatch');
-if (!String(manifest.description || '').includes('R1.5.09')) fail('manifest description missing R1.5.09');
+if (!String(manifest.description || '').includes('R1.5.10')) fail('manifest description missing R1.5.10');
 
 const requiredMarkers = [
+  'R1.5.10: secure data instant cache shows saved Google Sheets data immediately, then refreshes in background.',
   'R1.5.09: secure data apply fix ensures Apps Script data is forced into the UI after JSONP load.',
   'HR_SECURE_API_URL',
   'HR_SECURE_KEY_STORE',
@@ -25,18 +26,20 @@ const requiredMarkers = [
   'hr1508FetchSecureDataset',
   'r1509ApplySecureDataset',
   'r1509RecoverSecureData',
-  'employee-registry-mobile-r1509-secure-data-apply-fix-2026.09.29',
-  'employee-registry-pdf-downloads-r1509'
+  'r1510ApplyCachedDatasetIfReady',
+  'r1510RefreshSecureDataInBackground',
+  'employee-registry-mobile-r1510-secure-data-instant-cache-2026.09.29',
+  'employee-registry-pdf-downloads-r1510'
 ];
 for (const marker of requiredMarkers) {
-  if (!index.includes(marker) && !sw.includes(marker)) fail(`missing R1.5.08 marker: ${marker}`);
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`missing R1.5.10 marker: ${marker}`);
 }
 
 if (index.includes('raw.githubusercontent.com/muayedhassan/employees/main/')) fail('public GitHub employee data endpoint must not remain in index.html');
 if (index.includes('<script src="data/fallback-data.js"></script>')) fail('fallback-data.js script tag must be removed from public app shell');
 if (sw.includes('./data/fallback-data.js') || sw.includes('./data/job-titles.json')) fail('service worker must not precache data/ files');
-if (sw.includes("const CACHE_NAME = 'employee-registry-mobile-r1507-chrome-safe-floating-toggle-2026.09.29'")) fail('old r1507 active cache name still active');
-if (sw.includes("const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1507'")) fail('old r1507 active PDF cache name still active');
+if (sw.includes("const CACHE_NAME = 'employee-registry-mobile-r1509-secure-data-apply-fix-2026.09.29'")) fail('old r1509 active cache name still active');
+if (sw.includes("const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1509'")) fail('old r1509 active PDF cache name still active');
 
 // The app must not contain the temporary test access key.
 if (index.includes('TEMPTEST20260929')) fail('temporary test access key leaked into app shell');

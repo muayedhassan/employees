@@ -1743,7 +1743,8 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.09-SECURE-DATA-APPLY-FIX';
+var APP_RELEASE = 'MOBILE-R1.5.10-SECURE-DATA-INSTANT-CACHE';
+// R1.5.10: secure data instant cache shows saved Google Sheets data immediately, then refreshes in background.
 // R1.5.09: secure data apply fix ensures Apps Script data is forced into the UI after JSONP load.
 // R1.5.08: secure data recovery from private Google Sheets through Apps Script; no employee data in public app shell.
 // R1.4.73: cleanup stray header markers and restore compact record scope cards while preserving professional program sections.
@@ -2310,6 +2311,48 @@ window.addEventListener('load',function(){
     },t);
   });
 });
+
+
+// ── R1.5.10 SECURE DATA INSTANT CACHE ────────────────────────────────────────
+// After data is loaded once from Google Sheets, the app should open instantly
+// from the local encrypted-origin browser storage, then refresh silently in the
+// background. This removes the visible empty delay at startup without changing UI.
+function r1510ReadCentralCache(){
+  try{return safeParseJSON(localStorage.getItem(CENTRAL_CACHE_KEY));}catch(e){return null;}
+}
+function r1510ApplyCachedDatasetIfReady(){
+  var cached=r1510ReadCentralCache();
+  if(!cached || !validDataset(cached))return false;
+  return r1509ApplySecureDataset(cached,'تم عرض آخر نسخة محفوظة فوراً — يتم تحديث Google Sheets بالخلفية');
+}
+function r1510RefreshSecureDataInBackground(){
+  setTimeout(function(){
+    if(typeof r1509RecoverSecureData!=='function')return;
+    r1509RecoverSecureData(true)
+      .then(function(ok){
+        if(ok){
+          try{LAST_DATA_STATUS='تم تحديث بيانات Google Sheets بالخلفية: '+(BASE.perm||[]).length+' دائم • '+(BASE.cont||[]).length+' عقد';}catch(e){}
+          try{updateConnectivityUI();}catch(e){}
+        }
+      })
+      .catch(function(e){
+        try{LAST_DATA_STATUS='تعذر تحديث البيانات بالخلفية؛ بقيت النسخة المحلية متاحة';}catch(x){}
+      });
+  },700);
+}
+var r1510BaseLoadCentralData=loadCentralData;
+loadCentralData=async function(forceRefresh){
+  if(!forceRefresh && r1510ApplyCachedDatasetIfReady()){
+    r1510RefreshSecureDataInBackground();
+    return;
+  }
+  await r1510BaseLoadCentralData(forceRefresh);
+  try{
+    if(r1509DatasetTotal()>0){
+      LAST_DATA_STATUS=LAST_DATA_STATUS||('تم تحميل بيانات Google Sheets الآمنة: '+(BASE.perm||[]).length+' دائم • '+(BASE.cont||[]).length+' عقد');
+    }
+  }catch(e){}
+};
 
 function updateVersionUI(){
   var total = BASE.perm.length + BASE.cont.length;
