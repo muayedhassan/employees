@@ -1089,8 +1089,8 @@ body{font-size:var(--r144-body-size)!important;letter-spacing:0!important;text-r
    ───────────────────────────────────────────────────────────────────────── */
 .hdr-controls{gap:7px!important}
 #refresh-data-btn{display:none!important}
-.r1511-refresh-btn{display:inline-flex!important;align-items:center;justify-content:center;gap:4px;white-space:nowrap;min-height:25px;padding:5px 9px!important;border-radius:999px!important;background:linear-gradient(135deg,rgba(255,246,200,.96),rgba(255,209,102,.96))!important;color:#071326!important;border:1px solid rgba(255,255,255,.48)!important;box-shadow:0 6px 16px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.62);font:900 8.2px var(--r1504-zain,var(--hr-body-font),sans-serif)!important}
-.r1511-refresh-btn.r1511-busy{opacity:.76;pointer-events:none}.r1511-refresh-btn.r1511-busy i{animation:r1511spin .8s linear infinite}@keyframes r1511spin{to{transform:rotate(360deg)}}
+.r1513-refresh-btn{display:inline-flex!important;align-items:center;justify-content:center;gap:4px;white-space:nowrap;min-height:25px;padding:5px 9px!important;border-radius:999px!important;background:linear-gradient(135deg,rgba(255,246,200,.96),rgba(255,209,102,.96))!important;color:#071326!important;border:1px solid rgba(255,255,255,.48)!important;box-shadow:0 6px 16px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.62);font:900 8.2px var(--r1504-zain,var(--hr-body-font),sans-serif)!important}
+.r1513-refresh-btn.r1513-busy{opacity:.76;pointer-events:none}.r1513-refresh-btn.r1513-busy i{animation:r1513spin .8s linear infinite}@keyframes r1513spin{to{transform:rotate(360deg)}}
 .connection-strip{grid-template-columns:auto minmax(0,1fr) auto!important;gap:8px!important;align-items:center!important}
 .connection-detail{font-size:clamp(7.6px,2vw,9px)!important;opacity:.92!important}
 .mobile-chrome-copy small{display:none!important}
@@ -1567,7 +1567,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
     <div class="connection-strip online r1432-connection-strip" id="connection-strip">
       <span class="connection-state r1432-connection-state"><i class="fas fa-wifi"></i><b id="connection-label">متصل</b></span>
       <span class="connection-detail" id="connection-detail">جاري التحقق من آخر مزامنة...</span>
-      <button class="connection-refresh r1511-refresh-btn" id="connection-refresh" type="button" title="جلب آخر تعديل من Google Sheets الآن"><i class="fas fa-rotate"></i> تحديث الآن</button>
+      <button class="connection-refresh r1513-refresh-btn" id="connection-refresh" type="button" title="جلب آخر تعديل من Google Sheets الآن"><i class="fas fa-rotate"></i> تحديث الآن</button>
     </div>
     <div class="gold-line r1432-gold-line"></div>
   </div>
@@ -1746,9 +1746,8 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE';
-// R1.5.12: secure data change trace shows previous and current values in مركز التحديثات والبيانات.
-// R1.5.11: manual secure data refresh applies latest Google Sheets updates immediately.
+var APP_RELEASE = 'MOBILE-R1.5.13-LOADER-ROLLBACK-STABLE';
+// R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.
 // R1.5.10: secure data instant cache shows saved Google Sheets data immediately, then refreshes in background.
 // R1.5.09: secure data apply fix ensures Apps Script data is forced into the UI after JSONP load.
 // R1.5.08: secure data recovery from private Google Sheets through Apps Script; no employee data in public app shell.
@@ -2862,118 +2861,7 @@ function printCurrentReport(){
   var ds=reportDataset(),cols=reportColumns();if(!ds.length){showToast('لا توجد نتائج للطباعة','warn');return;}if(!cols.length){showToast('اختر عمودًا واحدًا على الأقل','warn');return;}
   var w=window.open('','_blank','width=1200,height=900');if(!w){showToast('اسمح بالنوافذ المنبثقة للطباعة','warn');return;}
   var rows=ds.map(function(e){return '<tr>'+cols.map(function(c){return '<td>'+escapeHTML(reportValue(e,c.k))+'</td>';}).join('')+'</tr>';}).join(''),title=REPORT_STATE.title||reportTypeLabel(REPORT_STATE.type),latest=latestUpdateSummary(),lc=latest.counts||{};
-  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+escapeHTML(title)+'</title><style>@page{size:A4 landscape;margin:10mm 8mm 13mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#17213d;margin:0}.official{border:1px solid #ccd2e6}.head{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:3px solid #1a237e;background:#f7f8ff}.emblem{width:50px;height:50px;border:2px solid #1a237e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#1a237e}.min{font-size:10px;color:#68739b}.title{font-size:20px;font-weight:800;color:#1a237e;margin:3px 0}.meta{margin-right:auto;text-align:left;direction:ltr;font-size:9px;color:#68739b}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:9px 12px;background:#fafbff;border-bottom:1px solid #e5e8f2}.s{padding:7px;text-align:center;border:1px solid #e1e5f0;border-radius:8px;background:#fff}.sv{font-size:16px;font-weight:bold;color:#1a237e}.sl{font-size:8px;color:#7781a4}.scope{padding:8px 12px;font-size:9px;color:#5e688e;border-bottom:1px solid #eceef5}table{border-collapse:collapse;width:100%;font-size:7.5px}th,td{border:1px solid #dfe3ef;padding:5px;text-align:right}th{background:#1a237e;color:#fff;font-weight:bold}tbody tr:nth-child(even){background:#fafbff}tr{page-break-inside:avoid}.sign{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:20px 40px 8px;font-size:9px;color:#68739b}.line{border-top:1px solid #8d96b3;padding-top:6px;text-align:center;margin-top:20px}.foot{font-size:7px;color:#7c85a3;padding:7px 12px;border-top:1px solid #e6e9f2}.page:after{content:counter(page)}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="official"><div class="head"><div class="emblem">🌱</div><div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — '+escapeHTML(title)+'</div><div class="min">'+escapeHTML(reportScopeText())+'</div></div><div class="meta">'+escapeHTML(DATA_VERSION||'—')+'<br>'+escapeHTML(new Date().toLocaleString('ar-IQ'))+'</div></div><div class="summary"><div class="s"><div class="sv">'+ds.length+'</div><div class="sl">عدد السجلات</div></div><div class="s"><div class="sv">'+(lc.modified||0)+'</div><div class="sl">معدل بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.added||0)+'</div><div class="sl">جديد بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.missing||0)+'</div><div class="sl">للمراجعة</div></div></div><div class="scope"><strong>نطاق التقرير:</strong> '+escapeHTML(reportScopeText())+' • <strong>الحقول الحساسة:</strong> '+(REPORT_STATE.includeSensitive?'مشمولة':'مخفية')+'</div><table><thead><tr>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table><div class="sign"><div><div class="line">إعداد / تدقيق</div></div><div><div class="line">المصادقة</div></div></div><div class="foot">تم إنشاء التقرير من نظام سجل موظفي مديرية زراعة صلاح الدين • إصدار البيانات '+escapeHTML(DATA_VERSION||'—')+' • صفحة <span class="page"></span></div></div><script>setTimeout(function(){window.print()},650)<\/script>
-
-<!-- MOBILE R1.5.12: secure data change trace for previous/current values -->
-<style id="r1512-secure-data-change-trace-style">
-.r1512-trace-chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 7px;background:rgba(245,200,66,.10);border:1px solid rgba(245,200,66,.18);color:var(--gold);font:800 8px var(--hr-body-font)}
-.update-person.modified .change-line{box-shadow:inset 0 0 0 1px rgba(245,200,66,.025)}
-</style>
-<script id="r1512-secure-data-change-trace-script">
-// MOBILE R1.5.12: builds change-summary locally by comparing previous cached Google Sheets data with the newly published Windows snapshot.
-(function(){
-var RELEASE='MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE';
-var TRACE_SIGNATURE_KEY='hr_secure_change_trace_signature_r1512';
-var TRACE_LAST_KEY='hr_secure_change_trace_last_r1512';
-var TRACK_FIELDS=['employeeNo','name','motherName','gender','identityNo','identityIssueDate','identityIssuer','division','employmentStatus','education','jobTitle','specialization','grade','step','salary','birthDate','hireDate','firstAssignmentDate','nextBonusDate','nextPromotionDate','notes','serviceNotes','appointmentOrderNo','appointmentOrderDate','num'];
-var EXTRA_LABELS={firstAssignmentDate:'تاريخ أول تنسيب',nextBonusDate:'استحقاق العلاوة',nextPromotionDate:'استحقاق الترفيع',serviceNotes:'ملاحظات الخدمة المضافة',appointmentOrderNo:'رقم أمر التعيين',appointmentOrderDate:'تاريخ أمر التعيين'};
-function clone(v){try{return v==null?v:JSON.parse(JSON.stringify(v));}catch(e){return v}}
-function hasFn(name){try{return typeof window[name]==='function'||typeof eval(name)==='function'}catch(e){return false}}
-function valid(d){try{return typeof validDataset==='function'?validDataset(d):!!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}catch(e){return !!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}}
-function normalize(d){try{return typeof r1509NormalizeSecureDataset==='function'?r1509NormalizeSecureDataset(d):d}catch(e){return d}}
-function sem(field,v){try{return typeof historySemanticValue==='function'?historySemanticValue(field,v):(v==null?'':String(v).replace(/\s+/g,' ').trim())}catch(e){return v==null?'':String(v).replace(/\s+/g,' ').trim()}}
-function clean(field,v){try{return typeof cleanHistoryValue==='function'?cleanHistoryValue(field,v):(v==null||String(v).trim()===''?'فارغ':String(v))}catch(e){return v==null?'فارغ':String(v)}}
-function safeJson(s){try{return JSON.parse(s)}catch(e){return null}}
-function keyFor(e,type){
-  if(!e)return '';
-  var vals=[e.integrationId,e.id,e.employeeNo,e.bridgeId].filter(function(v){return v!==null&&v!==undefined&&String(v).trim()!==''&&String(v).trim()!=='غير متوفر';});
-  if(vals.length)return String(vals[0]);
-  if(e.num!==null&&e.num!==undefined&&String(e.num).trim()!=='')return (type||e.type||'emp')+':num:'+String(e.num).trim();
-  return (type||e.type||'emp')+':name:'+String(e.name||'').trim();
-}
-function refFor(e,type){
-  return {id:e.id||keyFor(e,type),integrationId:e.integrationId||e.id||keyFor(e,type),employeeNo:e.employeeNo||'',num:e.num||'',name:e.name||'—',type:type||e.type||'',sourceEmployeeId:e.sourceEmployeeId||''};
-}
-function mapDataset(d){
-  var out={};
-  [['perm',d&&d.perm||[]],['cont',d&&d.cont||[]]].forEach(function(pair){
-    var type=pair[0];(pair[1]||[]).forEach(function(e){var k=keyFor(e,type);if(k)out[k]={type:type,e:e};});
-  });
-  return out;
-}
-function compactAdded(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function compactMissing(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function makeSummary(prev,next){
-  prev=normalize(prev);next=normalize(next);
-  if(!valid(prev)||!valid(next))return null;
-  var oldMap=mapDataset(prev),newMap=mapDataset(next),modified=[],added=[],missing=[];
-  Object.keys(newMap).forEach(function(k){
-    var n=newMap[k],o=oldMap[k];
-    if(!o){added.push(compactAdded(n));return;}
-    var changes=[];
-    TRACK_FIELDS.forEach(function(f){
-      var a=sem(f,o.e&&o.e[f]),b=sem(f,n.e&&n.e[f]);
-      if(a!==b && !(a===''&&b==='')) changes.push({field:f,oldValue:o.e&&o.e[f],newValue:n.e&&n.e[f]});
-    });
-    if(changes.length){var r=refFor(n.e,n.type);modified.push({id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:n.e.name||o.e.name||'—',type:n.type,changes:changes});}
-  });
-  Object.keys(oldMap).forEach(function(k){if(!newMap[k])missing.push(compactMissing(oldMap[k]));});
-  var totalNew=(next.perm||[]).length+(next.cont||[]).length;
-  var totalOld=(prev.perm||[]).length+(prev.cont||[]).length;
-  var changed=modified.length+added.length+missing.length;
-  if(!changed)return null;
-  var stamp=(next.meta&&next.meta.version)||(next.meta&&next.meta.updatedAt)||new Date().toISOString();
-  var prevVer=(prev.meta&&prev.meta.version)||(prev.meta&&prev.meta.updatedAt)||'';
-  return {version:stamp,previousVersion:prevVer,updatedAt:stamp,source:'secure-sheets-local-diff-r1512',counts:{excelRows:totalNew,previousRows:totalOld,modified:modified.length,added:added.length,missing:missing.length,unchanged:Math.max(0,totalNew-added.length-modified.length)},added:added,modified:modified,missing:missing};
-}
-function signature(summary){
-  try{return [summary.version,summary.previousVersion,summary.counts.modified,summary.counts.added,summary.counts.missing,(summary.modified||[]).map(function(x){return x.id+':'+(x.changes||[]).map(function(c){return c.field+'='+sem(c.field,c.newValue)}).join('|')}).join(';')].join('~');}catch(e){return String(Date.now())}
-}
-function mergeHistory(summary){
-  if(!summary)return;
-  try{if(typeof sanitizeHistorySummaryClient==='function')summary=sanitizeHistorySummaryClient(summary);}catch(e){}
-  var sig=signature(summary),prevSig='';try{prevSig=localStorage.getItem(TRACE_SIGNATURE_KEY)||''}catch(e){}
-  if(prevSig===sig)return;
-  try{localStorage.setItem(TRACE_SIGNATURE_KEY,sig);localStorage.setItem(TRACE_LAST_KEY,JSON.stringify(summary));}catch(e){}
-  try{LAST_CHANGE_SUMMARY=summary;localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(summary));}catch(e){}
-  try{
-    var hist=(CHANGE_HISTORY&&Array.isArray(CHANGE_HISTORY.versions))?clone(CHANGE_HISTORY):{versions:[]};
-    hist.versions=(hist.versions||[]).filter(function(v){return !(v&&v.version===summary.version&&v.previousVersion===summary.previousVersion);});
-    hist.versions.push(clone(summary));
-    hist.versions=hist.versions.slice(-20);
-    CHANGE_HISTORY=hist;
-    localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(hist));
-  }catch(e){}
-  try{SELECTED_UPDATE_VERSION='';UPDATE_SECTION_VIEW='changes';}catch(e){}
-  try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates();}catch(e){}
-  try{if(typeof showToast==='function')showToast('تم تسجيل '+((summary.modified||[]).length)+' تعديل في مركز التحديثات');}catch(e){}
-}
-function readPreviousDataset(){
-  try{var cached=safeJson(localStorage.getItem(CENTRAL_CACHE_KEY));if(valid(cached))return cached;}catch(e){}
-  try{if((BASE.perm||[]).length||(BASE.cont||[]).length)return {meta:{version:DATA_VERSION||''},perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])};}catch(e){}
-  return null;
-}
-function install(){
-  if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1512Wrapped)return false;
-  var original=r1509ApplySecureDataset;
-  r1509ApplySecureDataset=function(d,statusText){
-    var next=normalize(d),prev=readPreviousDataset(),summary=null;
-    try{if(valid(prev)&&valid(next))summary=makeSummary(prev,next);}catch(e){summary=null;}
-    var ok=original.apply(this,arguments);
-    if(ok&&summary)mergeHistory(summary);
-    return ok;
-  };
-  r1509ApplySecureDataset.__r1512Wrapped=true;
-  return true;
-}
-function tick(){if(!install())setTimeout(tick,300)}
-try{Object.assign(CHANGE_FIELD_LABELS,EXTRA_LABELS);}catch(e){}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tick);else tick();
-window.r1512SecureDataChangeTrace={release:RELEASE,install:install,makeSummary:makeSummary};
-})();
-</script>
-
-</body></html>';
+  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+escapeHTML(title)+'</title><style>@page{size:A4 landscape;margin:10mm 8mm 13mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#17213d;margin:0}.official{border:1px solid #ccd2e6}.head{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:3px solid #1a237e;background:#f7f8ff}.emblem{width:50px;height:50px;border:2px solid #1a237e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#1a237e}.min{font-size:10px;color:#68739b}.title{font-size:20px;font-weight:800;color:#1a237e;margin:3px 0}.meta{margin-right:auto;text-align:left;direction:ltr;font-size:9px;color:#68739b}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:9px 12px;background:#fafbff;border-bottom:1px solid #e5e8f2}.s{padding:7px;text-align:center;border:1px solid #e1e5f0;border-radius:8px;background:#fff}.sv{font-size:16px;font-weight:bold;color:#1a237e}.sl{font-size:8px;color:#7781a4}.scope{padding:8px 12px;font-size:9px;color:#5e688e;border-bottom:1px solid #eceef5}table{border-collapse:collapse;width:100%;font-size:7.5px}th,td{border:1px solid #dfe3ef;padding:5px;text-align:right}th{background:#1a237e;color:#fff;font-weight:bold}tbody tr:nth-child(even){background:#fafbff}tr{page-break-inside:avoid}.sign{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:20px 40px 8px;font-size:9px;color:#68739b}.line{border-top:1px solid #8d96b3;padding-top:6px;text-align:center;margin-top:20px}.foot{font-size:7px;color:#7c85a3;padding:7px 12px;border-top:1px solid #e6e9f2}.page:after{content:counter(page)}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="official"><div class="head"><div class="emblem">🌱</div><div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — '+escapeHTML(title)+'</div><div class="min">'+escapeHTML(reportScopeText())+'</div></div><div class="meta">'+escapeHTML(DATA_VERSION||'—')+'<br>'+escapeHTML(new Date().toLocaleString('ar-IQ'))+'</div></div><div class="summary"><div class="s"><div class="sv">'+ds.length+'</div><div class="sl">عدد السجلات</div></div><div class="s"><div class="sv">'+(lc.modified||0)+'</div><div class="sl">معدل بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.added||0)+'</div><div class="sl">جديد بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.missing||0)+'</div><div class="sl">للمراجعة</div></div></div><div class="scope"><strong>نطاق التقرير:</strong> '+escapeHTML(reportScopeText())+' • <strong>الحقول الحساسة:</strong> '+(REPORT_STATE.includeSensitive?'مشمولة':'مخفية')+'</div><table><thead><tr>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table><div class="sign"><div><div class="line">إعداد / تدقيق</div></div><div><div class="line">المصادقة</div></div></div><div class="foot">تم إنشاء التقرير من نظام سجل موظفي مديرية زراعة صلاح الدين • إصدار البيانات '+escapeHTML(DATA_VERSION||'—')+' • صفحة <span class="page"></span></div></div><script>setTimeout(function(){window.print()},650)<\/script></body></html>';
   w.document.open();w.document.write(doc);w.document.close();
 }
 
@@ -2982,118 +2870,7 @@ function printCompareReport(){
   var cmp=aggregateCompare(REPORT_STATE.compareFrom,REPORT_STATE.compareTo);if(!cmp.events.length){showToast('لا توجد إصدارات بين النقطتين المحددتين','warn');return;}
   var w=window.open('','_blank','width=1000,height=850');if(!w){showToast('اسمح بالنوافذ المنبثقة للطباعة','warn');return;}
   var rows='';cmp.modified.forEach(function(r){var x=r.item;(x.changes||[]).forEach(function(c){rows+='<tr><td>'+escapeHTML(x.name||'—')+'</td><td>'+escapeHTML(x.num||'—')+'</td><td>تعديل</td><td>'+escapeHTML(CHANGE_FIELD_LABELS[c.field]||c.field)+'</td><td>'+escapeHTML(cleanHistoryValue(c.field,c.oldValue))+'</td><td>'+escapeHTML(cleanHistoryValue(c.field,c.newValue))+'</td><td>'+escapeHTML(r.version||'—')+'</td></tr>';});});cmp.added.forEach(function(r){var x=r.item;rows+='<tr><td>'+escapeHTML(x.name||'—')+'</td><td>'+escapeHTML(x.num||'—')+'</td><td>إضافة</td><td colspan="3">موظف جديد</td><td>'+escapeHTML(r.version||'—')+'</td></tr>';});cmp.missing.forEach(function(r){var x=r.item;rows+='<tr><td>'+escapeHTML(x.name||'—')+'</td><td>'+escapeHTML(x.num||'—')+'</td><td>مراجعة</td><td colspan="3">لم يظهر في Excel وتم الاحتفاظ بالسجل</td><td>'+escapeHTML(r.version||'—')+'</td></tr>';});
-  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>تقرير مقارنة الإصدارات</title><style>@page{size:A4 landscape;margin:10mm}body{font-family:Arial;color:#17213d;margin:0}.head{text-align:center;border-bottom:3px solid #1a237e;padding:12px}.min{font-size:10px;color:#667}.title{font-size:19px;font-weight:bold;color:#1a237e;margin:4px}.sum{display:flex;justify-content:center;gap:8px;margin:10px}.s{border:1px solid #ddd;border-radius:7px;padding:7px 12px;font-size:9px}table{border-collapse:collapse;width:100%;font-size:8px}th,td{border:1px solid #dce0ea;padding:5px;text-align:right}th{background:#1a237e;color:#fff}tr:nth-child(even){background:#fafbff}.foot{font-size:8px;color:#778;margin-top:8px}</style></head><body><div class="head"><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — تقرير التغييرات بين إصدارين</div><div class="min">'+escapeHTML(REPORT_STATE.compareFrom)+' ← '+escapeHTML(REPORT_STATE.compareTo)+'</div></div><div class="sum"><div class="s">تعديلات: '+cmp.counts.modified+'</div><div class="s">إضافات: '+cmp.counts.added+'</div><div class="s">مراجعة: '+cmp.counts.missing+'</div><div class="s">إصدارات: '+cmp.events.length+'</div></div><table><thead><tr><th>الموظف</th><th>الاضبارة</th><th>النوع</th><th>الحقل</th><th>قبل</th><th>بعد</th><th>الإصدار</th></tr></thead><tbody>'+rows+'</tbody></table><div class="foot">تم إنشاء التقرير في '+escapeHTML(new Date().toLocaleString('ar-IQ'))+'</div><script>setTimeout(function(){window.print()},650)<\/script>
-
-<!-- MOBILE R1.5.12: secure data change trace for previous/current values -->
-<style id="r1512-secure-data-change-trace-style">
-.r1512-trace-chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 7px;background:rgba(245,200,66,.10);border:1px solid rgba(245,200,66,.18);color:var(--gold);font:800 8px var(--hr-body-font)}
-.update-person.modified .change-line{box-shadow:inset 0 0 0 1px rgba(245,200,66,.025)}
-</style>
-<script id="r1512-secure-data-change-trace-script">
-// MOBILE R1.5.12: builds change-summary locally by comparing previous cached Google Sheets data with the newly published Windows snapshot.
-(function(){
-var RELEASE='MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE';
-var TRACE_SIGNATURE_KEY='hr_secure_change_trace_signature_r1512';
-var TRACE_LAST_KEY='hr_secure_change_trace_last_r1512';
-var TRACK_FIELDS=['employeeNo','name','motherName','gender','identityNo','identityIssueDate','identityIssuer','division','employmentStatus','education','jobTitle','specialization','grade','step','salary','birthDate','hireDate','firstAssignmentDate','nextBonusDate','nextPromotionDate','notes','serviceNotes','appointmentOrderNo','appointmentOrderDate','num'];
-var EXTRA_LABELS={firstAssignmentDate:'تاريخ أول تنسيب',nextBonusDate:'استحقاق العلاوة',nextPromotionDate:'استحقاق الترفيع',serviceNotes:'ملاحظات الخدمة المضافة',appointmentOrderNo:'رقم أمر التعيين',appointmentOrderDate:'تاريخ أمر التعيين'};
-function clone(v){try{return v==null?v:JSON.parse(JSON.stringify(v));}catch(e){return v}}
-function hasFn(name){try{return typeof window[name]==='function'||typeof eval(name)==='function'}catch(e){return false}}
-function valid(d){try{return typeof validDataset==='function'?validDataset(d):!!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}catch(e){return !!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}}
-function normalize(d){try{return typeof r1509NormalizeSecureDataset==='function'?r1509NormalizeSecureDataset(d):d}catch(e){return d}}
-function sem(field,v){try{return typeof historySemanticValue==='function'?historySemanticValue(field,v):(v==null?'':String(v).replace(/\s+/g,' ').trim())}catch(e){return v==null?'':String(v).replace(/\s+/g,' ').trim()}}
-function clean(field,v){try{return typeof cleanHistoryValue==='function'?cleanHistoryValue(field,v):(v==null||String(v).trim()===''?'فارغ':String(v))}catch(e){return v==null?'فارغ':String(v)}}
-function safeJson(s){try{return JSON.parse(s)}catch(e){return null}}
-function keyFor(e,type){
-  if(!e)return '';
-  var vals=[e.integrationId,e.id,e.employeeNo,e.bridgeId].filter(function(v){return v!==null&&v!==undefined&&String(v).trim()!==''&&String(v).trim()!=='غير متوفر';});
-  if(vals.length)return String(vals[0]);
-  if(e.num!==null&&e.num!==undefined&&String(e.num).trim()!=='')return (type||e.type||'emp')+':num:'+String(e.num).trim();
-  return (type||e.type||'emp')+':name:'+String(e.name||'').trim();
-}
-function refFor(e,type){
-  return {id:e.id||keyFor(e,type),integrationId:e.integrationId||e.id||keyFor(e,type),employeeNo:e.employeeNo||'',num:e.num||'',name:e.name||'—',type:type||e.type||'',sourceEmployeeId:e.sourceEmployeeId||''};
-}
-function mapDataset(d){
-  var out={};
-  [['perm',d&&d.perm||[]],['cont',d&&d.cont||[]]].forEach(function(pair){
-    var type=pair[0];(pair[1]||[]).forEach(function(e){var k=keyFor(e,type);if(k)out[k]={type:type,e:e};});
-  });
-  return out;
-}
-function compactAdded(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function compactMissing(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function makeSummary(prev,next){
-  prev=normalize(prev);next=normalize(next);
-  if(!valid(prev)||!valid(next))return null;
-  var oldMap=mapDataset(prev),newMap=mapDataset(next),modified=[],added=[],missing=[];
-  Object.keys(newMap).forEach(function(k){
-    var n=newMap[k],o=oldMap[k];
-    if(!o){added.push(compactAdded(n));return;}
-    var changes=[];
-    TRACK_FIELDS.forEach(function(f){
-      var a=sem(f,o.e&&o.e[f]),b=sem(f,n.e&&n.e[f]);
-      if(a!==b && !(a===''&&b==='')) changes.push({field:f,oldValue:o.e&&o.e[f],newValue:n.e&&n.e[f]});
-    });
-    if(changes.length){var r=refFor(n.e,n.type);modified.push({id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:n.e.name||o.e.name||'—',type:n.type,changes:changes});}
-  });
-  Object.keys(oldMap).forEach(function(k){if(!newMap[k])missing.push(compactMissing(oldMap[k]));});
-  var totalNew=(next.perm||[]).length+(next.cont||[]).length;
-  var totalOld=(prev.perm||[]).length+(prev.cont||[]).length;
-  var changed=modified.length+added.length+missing.length;
-  if(!changed)return null;
-  var stamp=(next.meta&&next.meta.version)||(next.meta&&next.meta.updatedAt)||new Date().toISOString();
-  var prevVer=(prev.meta&&prev.meta.version)||(prev.meta&&prev.meta.updatedAt)||'';
-  return {version:stamp,previousVersion:prevVer,updatedAt:stamp,source:'secure-sheets-local-diff-r1512',counts:{excelRows:totalNew,previousRows:totalOld,modified:modified.length,added:added.length,missing:missing.length,unchanged:Math.max(0,totalNew-added.length-modified.length)},added:added,modified:modified,missing:missing};
-}
-function signature(summary){
-  try{return [summary.version,summary.previousVersion,summary.counts.modified,summary.counts.added,summary.counts.missing,(summary.modified||[]).map(function(x){return x.id+':'+(x.changes||[]).map(function(c){return c.field+'='+sem(c.field,c.newValue)}).join('|')}).join(';')].join('~');}catch(e){return String(Date.now())}
-}
-function mergeHistory(summary){
-  if(!summary)return;
-  try{if(typeof sanitizeHistorySummaryClient==='function')summary=sanitizeHistorySummaryClient(summary);}catch(e){}
-  var sig=signature(summary),prevSig='';try{prevSig=localStorage.getItem(TRACE_SIGNATURE_KEY)||''}catch(e){}
-  if(prevSig===sig)return;
-  try{localStorage.setItem(TRACE_SIGNATURE_KEY,sig);localStorage.setItem(TRACE_LAST_KEY,JSON.stringify(summary));}catch(e){}
-  try{LAST_CHANGE_SUMMARY=summary;localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(summary));}catch(e){}
-  try{
-    var hist=(CHANGE_HISTORY&&Array.isArray(CHANGE_HISTORY.versions))?clone(CHANGE_HISTORY):{versions:[]};
-    hist.versions=(hist.versions||[]).filter(function(v){return !(v&&v.version===summary.version&&v.previousVersion===summary.previousVersion);});
-    hist.versions.push(clone(summary));
-    hist.versions=hist.versions.slice(-20);
-    CHANGE_HISTORY=hist;
-    localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(hist));
-  }catch(e){}
-  try{SELECTED_UPDATE_VERSION='';UPDATE_SECTION_VIEW='changes';}catch(e){}
-  try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates();}catch(e){}
-  try{if(typeof showToast==='function')showToast('تم تسجيل '+((summary.modified||[]).length)+' تعديل في مركز التحديثات');}catch(e){}
-}
-function readPreviousDataset(){
-  try{var cached=safeJson(localStorage.getItem(CENTRAL_CACHE_KEY));if(valid(cached))return cached;}catch(e){}
-  try{if((BASE.perm||[]).length||(BASE.cont||[]).length)return {meta:{version:DATA_VERSION||''},perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])};}catch(e){}
-  return null;
-}
-function install(){
-  if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1512Wrapped)return false;
-  var original=r1509ApplySecureDataset;
-  r1509ApplySecureDataset=function(d,statusText){
-    var next=normalize(d),prev=readPreviousDataset(),summary=null;
-    try{if(valid(prev)&&valid(next))summary=makeSummary(prev,next);}catch(e){summary=null;}
-    var ok=original.apply(this,arguments);
-    if(ok&&summary)mergeHistory(summary);
-    return ok;
-  };
-  r1509ApplySecureDataset.__r1512Wrapped=true;
-  return true;
-}
-function tick(){if(!install())setTimeout(tick,300)}
-try{Object.assign(CHANGE_FIELD_LABELS,EXTRA_LABELS);}catch(e){}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tick);else tick();
-window.r1512SecureDataChangeTrace={release:RELEASE,install:install,makeSummary:makeSummary};
-})();
-</script>
-
-</body></html>';
+  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>تقرير مقارنة الإصدارات</title><style>@page{size:A4 landscape;margin:10mm}body{font-family:Arial;color:#17213d;margin:0}.head{text-align:center;border-bottom:3px solid #1a237e;padding:12px}.min{font-size:10px;color:#667}.title{font-size:19px;font-weight:bold;color:#1a237e;margin:4px}.sum{display:flex;justify-content:center;gap:8px;margin:10px}.s{border:1px solid #ddd;border-radius:7px;padding:7px 12px;font-size:9px}table{border-collapse:collapse;width:100%;font-size:8px}th,td{border:1px solid #dce0ea;padding:5px;text-align:right}th{background:#1a237e;color:#fff}tr:nth-child(even){background:#fafbff}.foot{font-size:8px;color:#778;margin-top:8px}</style></head><body><div class="head"><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — تقرير التغييرات بين إصدارين</div><div class="min">'+escapeHTML(REPORT_STATE.compareFrom)+' ← '+escapeHTML(REPORT_STATE.compareTo)+'</div></div><div class="sum"><div class="s">تعديلات: '+cmp.counts.modified+'</div><div class="s">إضافات: '+cmp.counts.added+'</div><div class="s">مراجعة: '+cmp.counts.missing+'</div><div class="s">إصدارات: '+cmp.events.length+'</div></div><table><thead><tr><th>الموظف</th><th>الاضبارة</th><th>النوع</th><th>الحقل</th><th>قبل</th><th>بعد</th><th>الإصدار</th></tr></thead><tbody>'+rows+'</tbody></table><div class="foot">تم إنشاء التقرير في '+escapeHTML(new Date().toLocaleString('ar-IQ'))+'</div><script>setTimeout(function(){window.print()},650)<\/script></body></html>';
   w.document.open();w.document.write(doc);w.document.close();
 }
 
@@ -3563,118 +3340,7 @@ function printEmployeeCard(emp){
   if(!emp)return;var link=employeeDeepLink(emp),isPerm=emp.type==='perm',job=profileDisplayValue('jobTitle',emp.jobTitle);if(job==='غير متوفر')job=isPerm?'موظف دائمي':'موظف عقد';
   var div=profileDisplayValue('division',emp.division), empNo=profileDisplayValue('employeeNo',emp.employeeNo), qr=qrImageUrl(link);
   var w=window.open('','_blank','width=700,height=900');if(!w){showToast('اسمح بالنوافذ المنبثقة للطباعة','warn');return;}
-  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>بطاقة '+escapeHTML(emp.name)+'</title><style>@page{size:A5;margin:12mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#fff;color:#111}.card{width:100%;max-width:520px;margin:auto;border:2px solid '+(isPerm?'#1a237e':'#00695c')+';border-radius:20px;padding:22px}.head{border-bottom:1px solid #ccc;padding-bottom:12px}.min{font-size:12px;color:#555}.org{font-size:20px;font-weight:700;margin:4px 0}.name{font-size:22px;font-weight:700;margin:22px 0 5px}.job{font-size:14px;color:#555}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.f{border:1px solid #ddd;border-radius:10px;padding:10px}.f.w{grid-column:1/-1}.l{font-size:11px;color:#777}.v{font-size:15px;font-weight:700;margin-top:4px}.bottom{display:flex;align-items:center;gap:15px;border-top:1px solid #ddd;margin-top:18px;padding-top:15px}.qr{width:110px;height:110px}.code{font-size:18px;font-weight:700}@media print{body{padding:0}.card{box-shadow:none}}</style></head><body><div class="card"><div class="head"><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="org">مديرية زراعة صلاح الدين</div><div class="min">بطاقة تعريف الموظف</div></div><div class="name">'+escapeHTML(emp.name)+'</div><div class="job">'+escapeHTML(job)+'</div><div class="grid"><div class="f"><div class="l">رقم الاضبارة</div><div class="v">'+escapeHTML(emp.num||'—')+'</div></div><div class="f"><div class="l">الرقم الوظيفي</div><div class="v">'+escapeHTML(empNo)+'</div></div>'+(isPerm?'<div class="f w"><div class="l">الشعبة / القسم</div><div class="v">'+escapeHTML(div)+'</div></div>':'')+'</div><div class="bottom"><img class="qr" src="'+qr+'"><div><div class="l">المعرّف الثابت</div><div class="code">'+escapeHTML(emp.id||emp.employeeNo||'—')+'</div><div class="l">يمكن اختيار Save as PDF من نافذة الطباعة.</div></div></div></div><script>setTimeout(function(){window.print()},900)<\/script>
-
-<!-- MOBILE R1.5.12: secure data change trace for previous/current values -->
-<style id="r1512-secure-data-change-trace-style">
-.r1512-trace-chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 7px;background:rgba(245,200,66,.10);border:1px solid rgba(245,200,66,.18);color:var(--gold);font:800 8px var(--hr-body-font)}
-.update-person.modified .change-line{box-shadow:inset 0 0 0 1px rgba(245,200,66,.025)}
-</style>
-<script id="r1512-secure-data-change-trace-script">
-// MOBILE R1.5.12: builds change-summary locally by comparing previous cached Google Sheets data with the newly published Windows snapshot.
-(function(){
-var RELEASE='MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE';
-var TRACE_SIGNATURE_KEY='hr_secure_change_trace_signature_r1512';
-var TRACE_LAST_KEY='hr_secure_change_trace_last_r1512';
-var TRACK_FIELDS=['employeeNo','name','motherName','gender','identityNo','identityIssueDate','identityIssuer','division','employmentStatus','education','jobTitle','specialization','grade','step','salary','birthDate','hireDate','firstAssignmentDate','nextBonusDate','nextPromotionDate','notes','serviceNotes','appointmentOrderNo','appointmentOrderDate','num'];
-var EXTRA_LABELS={firstAssignmentDate:'تاريخ أول تنسيب',nextBonusDate:'استحقاق العلاوة',nextPromotionDate:'استحقاق الترفيع',serviceNotes:'ملاحظات الخدمة المضافة',appointmentOrderNo:'رقم أمر التعيين',appointmentOrderDate:'تاريخ أمر التعيين'};
-function clone(v){try{return v==null?v:JSON.parse(JSON.stringify(v));}catch(e){return v}}
-function hasFn(name){try{return typeof window[name]==='function'||typeof eval(name)==='function'}catch(e){return false}}
-function valid(d){try{return typeof validDataset==='function'?validDataset(d):!!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}catch(e){return !!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}}
-function normalize(d){try{return typeof r1509NormalizeSecureDataset==='function'?r1509NormalizeSecureDataset(d):d}catch(e){return d}}
-function sem(field,v){try{return typeof historySemanticValue==='function'?historySemanticValue(field,v):(v==null?'':String(v).replace(/\s+/g,' ').trim())}catch(e){return v==null?'':String(v).replace(/\s+/g,' ').trim()}}
-function clean(field,v){try{return typeof cleanHistoryValue==='function'?cleanHistoryValue(field,v):(v==null||String(v).trim()===''?'فارغ':String(v))}catch(e){return v==null?'فارغ':String(v)}}
-function safeJson(s){try{return JSON.parse(s)}catch(e){return null}}
-function keyFor(e,type){
-  if(!e)return '';
-  var vals=[e.integrationId,e.id,e.employeeNo,e.bridgeId].filter(function(v){return v!==null&&v!==undefined&&String(v).trim()!==''&&String(v).trim()!=='غير متوفر';});
-  if(vals.length)return String(vals[0]);
-  if(e.num!==null&&e.num!==undefined&&String(e.num).trim()!=='')return (type||e.type||'emp')+':num:'+String(e.num).trim();
-  return (type||e.type||'emp')+':name:'+String(e.name||'').trim();
-}
-function refFor(e,type){
-  return {id:e.id||keyFor(e,type),integrationId:e.integrationId||e.id||keyFor(e,type),employeeNo:e.employeeNo||'',num:e.num||'',name:e.name||'—',type:type||e.type||'',sourceEmployeeId:e.sourceEmployeeId||''};
-}
-function mapDataset(d){
-  var out={};
-  [['perm',d&&d.perm||[]],['cont',d&&d.cont||[]]].forEach(function(pair){
-    var type=pair[0];(pair[1]||[]).forEach(function(e){var k=keyFor(e,type);if(k)out[k]={type:type,e:e};});
-  });
-  return out;
-}
-function compactAdded(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function compactMissing(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function makeSummary(prev,next){
-  prev=normalize(prev);next=normalize(next);
-  if(!valid(prev)||!valid(next))return null;
-  var oldMap=mapDataset(prev),newMap=mapDataset(next),modified=[],added=[],missing=[];
-  Object.keys(newMap).forEach(function(k){
-    var n=newMap[k],o=oldMap[k];
-    if(!o){added.push(compactAdded(n));return;}
-    var changes=[];
-    TRACK_FIELDS.forEach(function(f){
-      var a=sem(f,o.e&&o.e[f]),b=sem(f,n.e&&n.e[f]);
-      if(a!==b && !(a===''&&b==='')) changes.push({field:f,oldValue:o.e&&o.e[f],newValue:n.e&&n.e[f]});
-    });
-    if(changes.length){var r=refFor(n.e,n.type);modified.push({id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:n.e.name||o.e.name||'—',type:n.type,changes:changes});}
-  });
-  Object.keys(oldMap).forEach(function(k){if(!newMap[k])missing.push(compactMissing(oldMap[k]));});
-  var totalNew=(next.perm||[]).length+(next.cont||[]).length;
-  var totalOld=(prev.perm||[]).length+(prev.cont||[]).length;
-  var changed=modified.length+added.length+missing.length;
-  if(!changed)return null;
-  var stamp=(next.meta&&next.meta.version)||(next.meta&&next.meta.updatedAt)||new Date().toISOString();
-  var prevVer=(prev.meta&&prev.meta.version)||(prev.meta&&prev.meta.updatedAt)||'';
-  return {version:stamp,previousVersion:prevVer,updatedAt:stamp,source:'secure-sheets-local-diff-r1512',counts:{excelRows:totalNew,previousRows:totalOld,modified:modified.length,added:added.length,missing:missing.length,unchanged:Math.max(0,totalNew-added.length-modified.length)},added:added,modified:modified,missing:missing};
-}
-function signature(summary){
-  try{return [summary.version,summary.previousVersion,summary.counts.modified,summary.counts.added,summary.counts.missing,(summary.modified||[]).map(function(x){return x.id+':'+(x.changes||[]).map(function(c){return c.field+'='+sem(c.field,c.newValue)}).join('|')}).join(';')].join('~');}catch(e){return String(Date.now())}
-}
-function mergeHistory(summary){
-  if(!summary)return;
-  try{if(typeof sanitizeHistorySummaryClient==='function')summary=sanitizeHistorySummaryClient(summary);}catch(e){}
-  var sig=signature(summary),prevSig='';try{prevSig=localStorage.getItem(TRACE_SIGNATURE_KEY)||''}catch(e){}
-  if(prevSig===sig)return;
-  try{localStorage.setItem(TRACE_SIGNATURE_KEY,sig);localStorage.setItem(TRACE_LAST_KEY,JSON.stringify(summary));}catch(e){}
-  try{LAST_CHANGE_SUMMARY=summary;localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(summary));}catch(e){}
-  try{
-    var hist=(CHANGE_HISTORY&&Array.isArray(CHANGE_HISTORY.versions))?clone(CHANGE_HISTORY):{versions:[]};
-    hist.versions=(hist.versions||[]).filter(function(v){return !(v&&v.version===summary.version&&v.previousVersion===summary.previousVersion);});
-    hist.versions.push(clone(summary));
-    hist.versions=hist.versions.slice(-20);
-    CHANGE_HISTORY=hist;
-    localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(hist));
-  }catch(e){}
-  try{SELECTED_UPDATE_VERSION='';UPDATE_SECTION_VIEW='changes';}catch(e){}
-  try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates();}catch(e){}
-  try{if(typeof showToast==='function')showToast('تم تسجيل '+((summary.modified||[]).length)+' تعديل في مركز التحديثات');}catch(e){}
-}
-function readPreviousDataset(){
-  try{var cached=safeJson(localStorage.getItem(CENTRAL_CACHE_KEY));if(valid(cached))return cached;}catch(e){}
-  try{if((BASE.perm||[]).length||(BASE.cont||[]).length)return {meta:{version:DATA_VERSION||''},perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])};}catch(e){}
-  return null;
-}
-function install(){
-  if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1512Wrapped)return false;
-  var original=r1509ApplySecureDataset;
-  r1509ApplySecureDataset=function(d,statusText){
-    var next=normalize(d),prev=readPreviousDataset(),summary=null;
-    try{if(valid(prev)&&valid(next))summary=makeSummary(prev,next);}catch(e){summary=null;}
-    var ok=original.apply(this,arguments);
-    if(ok&&summary)mergeHistory(summary);
-    return ok;
-  };
-  r1509ApplySecureDataset.__r1512Wrapped=true;
-  return true;
-}
-function tick(){if(!install())setTimeout(tick,300)}
-try{Object.assign(CHANGE_FIELD_LABELS,EXTRA_LABELS);}catch(e){}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tick);else tick();
-window.r1512SecureDataChangeTrace={release:RELEASE,install:install,makeSummary:makeSummary};
-})();
-</script>
-
-</body></html>';
+  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>بطاقة '+escapeHTML(emp.name)+'</title><style>@page{size:A5;margin:12mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#fff;color:#111}.card{width:100%;max-width:520px;margin:auto;border:2px solid '+(isPerm?'#1a237e':'#00695c')+';border-radius:20px;padding:22px}.head{border-bottom:1px solid #ccc;padding-bottom:12px}.min{font-size:12px;color:#555}.org{font-size:20px;font-weight:700;margin:4px 0}.name{font-size:22px;font-weight:700;margin:22px 0 5px}.job{font-size:14px;color:#555}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.f{border:1px solid #ddd;border-radius:10px;padding:10px}.f.w{grid-column:1/-1}.l{font-size:11px;color:#777}.v{font-size:15px;font-weight:700;margin-top:4px}.bottom{display:flex;align-items:center;gap:15px;border-top:1px solid #ddd;margin-top:18px;padding-top:15px}.qr{width:110px;height:110px}.code{font-size:18px;font-weight:700}@media print{body{padding:0}.card{box-shadow:none}}</style></head><body><div class="card"><div class="head"><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="org">مديرية زراعة صلاح الدين</div><div class="min">بطاقة تعريف الموظف</div></div><div class="name">'+escapeHTML(emp.name)+'</div><div class="job">'+escapeHTML(job)+'</div><div class="grid"><div class="f"><div class="l">رقم الاضبارة</div><div class="v">'+escapeHTML(emp.num||'—')+'</div></div><div class="f"><div class="l">الرقم الوظيفي</div><div class="v">'+escapeHTML(empNo)+'</div></div>'+(isPerm?'<div class="f w"><div class="l">الشعبة / القسم</div><div class="v">'+escapeHTML(div)+'</div></div>':'')+'</div><div class="bottom"><img class="qr" src="'+qr+'"><div><div class="l">المعرّف الثابت</div><div class="code">'+escapeHTML(emp.id||emp.employeeNo||'—')+'</div><div class="l">يمكن اختيار Save as PDF من نافذة الطباعة.</div></div></div></div><script>setTimeout(function(){window.print()},900)<\/script></body></html>';
   w.document.open();w.document.write(html);w.document.close();
 }
 var r1411OldCardBtn=document.getElementById('btn-card');if(r1411OldCardBtn)r1411OldCardBtn.addEventListener('click',function(){if(currentEmp)openEmployeeCard(currentEmp);});
@@ -3920,118 +3586,7 @@ function r7PrintHTML(doc){
 }
 printCurrentReport=function(){
   var ds=reportDataset(),cols=reportColumns();if(!ds.length){showToast('لا توجد نتائج للطباعة','warn');return;}if(!cols.length){showToast('اختر عمودًا واحدًا على الأقل','warn');return;}var title=REPORT_STATE.title||reportTypeLabel(REPORT_STATE.type),ref=reportReferenceCode(),rows=ds.map(function(e,i){return '<tr><td>'+(i+1)+'</td>'+cols.map(function(c){return '<td>'+escapeHTML(reportValue(e,c.k))+'</td>';}).join('')+'</tr>';}).join('');
-  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+escapeHTML(title)+'</title><style>@page{size:A4 landscape;margin:9mm 7mm 13mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#18213d;margin:0;background:#fff}.sheet{border:1px solid #cfd5e8;position:relative}.topline{height:5px;background:linear-gradient(90deg,#1a237e,#3949ab,#d4a817,#3949ab,#1a237e)}.head{display:flex;align-items:center;gap:14px;padding:13px 15px;background:#f8f9ff;border-bottom:1px solid #dfe4f2}.emblem{width:48px;height:48px;border:2px solid #1a237e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:23px;color:#1a237e}.min{font-size:9px;color:#66718f}.title{font-size:18px;font-weight:800;color:#1a237e;margin:3px 0}.meta{margin-right:auto;text-align:left;direction:ltr;font-size:8px;color:#66718f}.ref{display:inline-block;border:1px solid #d5dcef;background:#fff;border-radius:6px;padding:2px 5px;margin-top:3px;color:#3949ab}.ribbon{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 12px;background:#f5f7ff;border-bottom:1px solid #e2e6f2}.r{border:1px solid #e0e5f2;background:#fff;border-radius:7px;text-align:center;padding:6px}.rv{font-size:13px;font-weight:bold;color:#1a237e}.rl{font-size:7px;color:#7882a2}.scope{padding:7px 12px;font-size:8px;color:#606b8e;border-bottom:1px solid #eceef5}table{width:100%;border-collapse:collapse;font-size:7.4px}thead{display:table-header-group}th,td{border:1px solid #dfe3ef;padding:4px 5px;text-align:right;vertical-align:top}th{background:#1a237e;color:#fff;font-weight:bold}tbody tr:nth-child(even){background:#fafbff}tr{page-break-inside:avoid}.sign{display:grid;grid-template-columns:repeat(3,1fr);gap:42px;padding:22px 28px 9px;font-size:8px;color:#6e7897}.line{border-top:1px solid #98a1bb;padding-top:5px;text-align:center;margin-top:22px}.seal{width:50px;height:50px;border:1px dashed #9ea7bd;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto -17px;font-size:7px;color:#9099b1}.foot{border-top:1px solid #e3e6f0;padding:6px 10px;font-size:6.8px;color:#7d86a1}.page:after{content:counter(page)}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="sheet"><div class="topline"></div><div class="head"><div class="emblem">🌱</div><div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — '+escapeHTML(title)+'</div><div class="min">'+escapeHTML(reportScopeText())+'</div></div><div class="meta">'+escapeHTML(DATA_VERSION||'—')+'<br>'+escapeHTML(new Date().toLocaleString('ar-IQ'))+'<br><span class="ref">'+escapeHTML(ref)+'</span></div></div><div class="ribbon"><div class="r"><div class="rv">'+ds.length+'</div><div class="rl">عدد السجلات</div></div><div class="r"><div class="rv">'+cols.length+'</div><div class="rl">عدد الأعمدة</div></div><div class="r"><div class="rv">'+(mode==='perm'?'دائمي':'عقود')+'</div><div class="rl">نوع السجل</div></div><div class="r"><div class="rv">'+(REPORT_STATE.includeSensitive?'مشمولة':'مخفية')+'</div><div class="rl">الحقول الحساسة</div></div></div><div class="scope"><strong>نطاق التقرير:</strong> '+escapeHTML(reportScopeText())+' • <strong>رقم التقرير:</strong> '+escapeHTML(ref)+'</div><table><thead><tr><th>#</th>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table><div class="sign"><div><div class="line">إعداد التقرير</div></div><div><div class="line">التدقيق</div></div><div><div class="seal">الختم</div><div class="line">المصادقة</div></div></div><div class="foot">تم إنشاء التقرير من نظام سجل موظفي مديرية زراعة صلاح الدين • '+escapeHTML(APP_RELEASE)+' • إصدار البيانات '+escapeHTML(DATA_VERSION||'—')+' • صفحة <span class="page"></span></div></div><script>setTimeout(function(){window.print()},650)<\/script>
-
-<!-- MOBILE R1.5.12: secure data change trace for previous/current values -->
-<style id="r1512-secure-data-change-trace-style">
-.r1512-trace-chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 7px;background:rgba(245,200,66,.10);border:1px solid rgba(245,200,66,.18);color:var(--gold);font:800 8px var(--hr-body-font)}
-.update-person.modified .change-line{box-shadow:inset 0 0 0 1px rgba(245,200,66,.025)}
-</style>
-<script id="r1512-secure-data-change-trace-script">
-// MOBILE R1.5.12: builds change-summary locally by comparing previous cached Google Sheets data with the newly published Windows snapshot.
-(function(){
-var RELEASE='MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE';
-var TRACE_SIGNATURE_KEY='hr_secure_change_trace_signature_r1512';
-var TRACE_LAST_KEY='hr_secure_change_trace_last_r1512';
-var TRACK_FIELDS=['employeeNo','name','motherName','gender','identityNo','identityIssueDate','identityIssuer','division','employmentStatus','education','jobTitle','specialization','grade','step','salary','birthDate','hireDate','firstAssignmentDate','nextBonusDate','nextPromotionDate','notes','serviceNotes','appointmentOrderNo','appointmentOrderDate','num'];
-var EXTRA_LABELS={firstAssignmentDate:'تاريخ أول تنسيب',nextBonusDate:'استحقاق العلاوة',nextPromotionDate:'استحقاق الترفيع',serviceNotes:'ملاحظات الخدمة المضافة',appointmentOrderNo:'رقم أمر التعيين',appointmentOrderDate:'تاريخ أمر التعيين'};
-function clone(v){try{return v==null?v:JSON.parse(JSON.stringify(v));}catch(e){return v}}
-function hasFn(name){try{return typeof window[name]==='function'||typeof eval(name)==='function'}catch(e){return false}}
-function valid(d){try{return typeof validDataset==='function'?validDataset(d):!!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}catch(e){return !!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}}
-function normalize(d){try{return typeof r1509NormalizeSecureDataset==='function'?r1509NormalizeSecureDataset(d):d}catch(e){return d}}
-function sem(field,v){try{return typeof historySemanticValue==='function'?historySemanticValue(field,v):(v==null?'':String(v).replace(/\s+/g,' ').trim())}catch(e){return v==null?'':String(v).replace(/\s+/g,' ').trim()}}
-function clean(field,v){try{return typeof cleanHistoryValue==='function'?cleanHistoryValue(field,v):(v==null||String(v).trim()===''?'فارغ':String(v))}catch(e){return v==null?'فارغ':String(v)}}
-function safeJson(s){try{return JSON.parse(s)}catch(e){return null}}
-function keyFor(e,type){
-  if(!e)return '';
-  var vals=[e.integrationId,e.id,e.employeeNo,e.bridgeId].filter(function(v){return v!==null&&v!==undefined&&String(v).trim()!==''&&String(v).trim()!=='غير متوفر';});
-  if(vals.length)return String(vals[0]);
-  if(e.num!==null&&e.num!==undefined&&String(e.num).trim()!=='')return (type||e.type||'emp')+':num:'+String(e.num).trim();
-  return (type||e.type||'emp')+':name:'+String(e.name||'').trim();
-}
-function refFor(e,type){
-  return {id:e.id||keyFor(e,type),integrationId:e.integrationId||e.id||keyFor(e,type),employeeNo:e.employeeNo||'',num:e.num||'',name:e.name||'—',type:type||e.type||'',sourceEmployeeId:e.sourceEmployeeId||''};
-}
-function mapDataset(d){
-  var out={};
-  [['perm',d&&d.perm||[]],['cont',d&&d.cont||[]]].forEach(function(pair){
-    var type=pair[0];(pair[1]||[]).forEach(function(e){var k=keyFor(e,type);if(k)out[k]={type:type,e:e};});
-  });
-  return out;
-}
-function compactAdded(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function compactMissing(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function makeSummary(prev,next){
-  prev=normalize(prev);next=normalize(next);
-  if(!valid(prev)||!valid(next))return null;
-  var oldMap=mapDataset(prev),newMap=mapDataset(next),modified=[],added=[],missing=[];
-  Object.keys(newMap).forEach(function(k){
-    var n=newMap[k],o=oldMap[k];
-    if(!o){added.push(compactAdded(n));return;}
-    var changes=[];
-    TRACK_FIELDS.forEach(function(f){
-      var a=sem(f,o.e&&o.e[f]),b=sem(f,n.e&&n.e[f]);
-      if(a!==b && !(a===''&&b==='')) changes.push({field:f,oldValue:o.e&&o.e[f],newValue:n.e&&n.e[f]});
-    });
-    if(changes.length){var r=refFor(n.e,n.type);modified.push({id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:n.e.name||o.e.name||'—',type:n.type,changes:changes});}
-  });
-  Object.keys(oldMap).forEach(function(k){if(!newMap[k])missing.push(compactMissing(oldMap[k]));});
-  var totalNew=(next.perm||[]).length+(next.cont||[]).length;
-  var totalOld=(prev.perm||[]).length+(prev.cont||[]).length;
-  var changed=modified.length+added.length+missing.length;
-  if(!changed)return null;
-  var stamp=(next.meta&&next.meta.version)||(next.meta&&next.meta.updatedAt)||new Date().toISOString();
-  var prevVer=(prev.meta&&prev.meta.version)||(prev.meta&&prev.meta.updatedAt)||'';
-  return {version:stamp,previousVersion:prevVer,updatedAt:stamp,source:'secure-sheets-local-diff-r1512',counts:{excelRows:totalNew,previousRows:totalOld,modified:modified.length,added:added.length,missing:missing.length,unchanged:Math.max(0,totalNew-added.length-modified.length)},added:added,modified:modified,missing:missing};
-}
-function signature(summary){
-  try{return [summary.version,summary.previousVersion,summary.counts.modified,summary.counts.added,summary.counts.missing,(summary.modified||[]).map(function(x){return x.id+':'+(x.changes||[]).map(function(c){return c.field+'='+sem(c.field,c.newValue)}).join('|')}).join(';')].join('~');}catch(e){return String(Date.now())}
-}
-function mergeHistory(summary){
-  if(!summary)return;
-  try{if(typeof sanitizeHistorySummaryClient==='function')summary=sanitizeHistorySummaryClient(summary);}catch(e){}
-  var sig=signature(summary),prevSig='';try{prevSig=localStorage.getItem(TRACE_SIGNATURE_KEY)||''}catch(e){}
-  if(prevSig===sig)return;
-  try{localStorage.setItem(TRACE_SIGNATURE_KEY,sig);localStorage.setItem(TRACE_LAST_KEY,JSON.stringify(summary));}catch(e){}
-  try{LAST_CHANGE_SUMMARY=summary;localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(summary));}catch(e){}
-  try{
-    var hist=(CHANGE_HISTORY&&Array.isArray(CHANGE_HISTORY.versions))?clone(CHANGE_HISTORY):{versions:[]};
-    hist.versions=(hist.versions||[]).filter(function(v){return !(v&&v.version===summary.version&&v.previousVersion===summary.previousVersion);});
-    hist.versions.push(clone(summary));
-    hist.versions=hist.versions.slice(-20);
-    CHANGE_HISTORY=hist;
-    localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(hist));
-  }catch(e){}
-  try{SELECTED_UPDATE_VERSION='';UPDATE_SECTION_VIEW='changes';}catch(e){}
-  try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates();}catch(e){}
-  try{if(typeof showToast==='function')showToast('تم تسجيل '+((summary.modified||[]).length)+' تعديل في مركز التحديثات');}catch(e){}
-}
-function readPreviousDataset(){
-  try{var cached=safeJson(localStorage.getItem(CENTRAL_CACHE_KEY));if(valid(cached))return cached;}catch(e){}
-  try{if((BASE.perm||[]).length||(BASE.cont||[]).length)return {meta:{version:DATA_VERSION||''},perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])};}catch(e){}
-  return null;
-}
-function install(){
-  if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1512Wrapped)return false;
-  var original=r1509ApplySecureDataset;
-  r1509ApplySecureDataset=function(d,statusText){
-    var next=normalize(d),prev=readPreviousDataset(),summary=null;
-    try{if(valid(prev)&&valid(next))summary=makeSummary(prev,next);}catch(e){summary=null;}
-    var ok=original.apply(this,arguments);
-    if(ok&&summary)mergeHistory(summary);
-    return ok;
-  };
-  r1509ApplySecureDataset.__r1512Wrapped=true;
-  return true;
-}
-function tick(){if(!install())setTimeout(tick,300)}
-try{Object.assign(CHANGE_FIELD_LABELS,EXTRA_LABELS);}catch(e){}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tick);else tick();
-window.r1512SecureDataChangeTrace={release:RELEASE,install:install,makeSummary:makeSummary};
-})();
-</script>
-
-</body></html>';r7PrintHTML(doc);
+  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+escapeHTML(title)+'</title><style>@page{size:A4 landscape;margin:9mm 7mm 13mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#18213d;margin:0;background:#fff}.sheet{border:1px solid #cfd5e8;position:relative}.topline{height:5px;background:linear-gradient(90deg,#1a237e,#3949ab,#d4a817,#3949ab,#1a237e)}.head{display:flex;align-items:center;gap:14px;padding:13px 15px;background:#f8f9ff;border-bottom:1px solid #dfe4f2}.emblem{width:48px;height:48px;border:2px solid #1a237e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:23px;color:#1a237e}.min{font-size:9px;color:#66718f}.title{font-size:18px;font-weight:800;color:#1a237e;margin:3px 0}.meta{margin-right:auto;text-align:left;direction:ltr;font-size:8px;color:#66718f}.ref{display:inline-block;border:1px solid #d5dcef;background:#fff;border-radius:6px;padding:2px 5px;margin-top:3px;color:#3949ab}.ribbon{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 12px;background:#f5f7ff;border-bottom:1px solid #e2e6f2}.r{border:1px solid #e0e5f2;background:#fff;border-radius:7px;text-align:center;padding:6px}.rv{font-size:13px;font-weight:bold;color:#1a237e}.rl{font-size:7px;color:#7882a2}.scope{padding:7px 12px;font-size:8px;color:#606b8e;border-bottom:1px solid #eceef5}table{width:100%;border-collapse:collapse;font-size:7.4px}thead{display:table-header-group}th,td{border:1px solid #dfe3ef;padding:4px 5px;text-align:right;vertical-align:top}th{background:#1a237e;color:#fff;font-weight:bold}tbody tr:nth-child(even){background:#fafbff}tr{page-break-inside:avoid}.sign{display:grid;grid-template-columns:repeat(3,1fr);gap:42px;padding:22px 28px 9px;font-size:8px;color:#6e7897}.line{border-top:1px solid #98a1bb;padding-top:5px;text-align:center;margin-top:22px}.seal{width:50px;height:50px;border:1px dashed #9ea7bd;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto -17px;font-size:7px;color:#9099b1}.foot{border-top:1px solid #e3e6f0;padding:6px 10px;font-size:6.8px;color:#7d86a1}.page:after{content:counter(page)}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="sheet"><div class="topline"></div><div class="head"><div class="emblem">🌱</div><div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — '+escapeHTML(title)+'</div><div class="min">'+escapeHTML(reportScopeText())+'</div></div><div class="meta">'+escapeHTML(DATA_VERSION||'—')+'<br>'+escapeHTML(new Date().toLocaleString('ar-IQ'))+'<br><span class="ref">'+escapeHTML(ref)+'</span></div></div><div class="ribbon"><div class="r"><div class="rv">'+ds.length+'</div><div class="rl">عدد السجلات</div></div><div class="r"><div class="rv">'+cols.length+'</div><div class="rl">عدد الأعمدة</div></div><div class="r"><div class="rv">'+(mode==='perm'?'دائمي':'عقود')+'</div><div class="rl">نوع السجل</div></div><div class="r"><div class="rv">'+(REPORT_STATE.includeSensitive?'مشمولة':'مخفية')+'</div><div class="rl">الحقول الحساسة</div></div></div><div class="scope"><strong>نطاق التقرير:</strong> '+escapeHTML(reportScopeText())+' • <strong>رقم التقرير:</strong> '+escapeHTML(ref)+'</div><table><thead><tr><th>#</th>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table><div class="sign"><div><div class="line">إعداد التقرير</div></div><div><div class="line">التدقيق</div></div><div><div class="seal">الختم</div><div class="line">المصادقة</div></div></div><div class="foot">تم إنشاء التقرير من نظام سجل موظفي مديرية زراعة صلاح الدين • '+escapeHTML(APP_RELEASE)+' • إصدار البيانات '+escapeHTML(DATA_VERSION||'—')+' • صفحة <span class="page"></span></div></div><script>setTimeout(function(){window.print()},650)<\/script></body></html>';r7PrintHTML(doc);
 };
 
 // Isolated top-level subviews for list, updates, quality, reports and alerts.
@@ -4532,118 +4087,7 @@ printEmployeeCard=function(emp){
     r1411Field('رقم الهوية','identityNo',emp.identityNo,'🪪',false)+r1411Field('تاريخ إصدار الهوية','identityIssueDate',emp.identityIssueDate,'📅',false)+r1411Field('جهة إصدار الهوية','identityIssuer',emp.identityIssuer,'🏛️',true)+r1411Field('الملاحظات','notes',emp.notes,'📝',true)+'</div></section>';
   var hist=employeeHistoryEvents(emp).slice(0,3).map(function(h){var oldv=h.oldValue==null||h.oldValue===''?'فارغ':h.oldValue,newv=h.newValue==null||h.newValue===''?'فارغ':h.newValue;return '<div class="pdf-change"><strong>'+escapeHTML(h.fieldLabel||h.field||'تغيير')+'</strong><span>'+escapeHTML(oldv)+'</span><em>←</em><span>'+escapeHTML(newv)+'</span></div>';}).join('')||'<div class="pdf-empty">لا توجد تغييرات حديثة لهذا الموظف ضمن آخر إصدار منشور.</div>';
   sections+='<section class="pdf-section changes"><h2><span>↻</span> آخر التغييرات</h2>'+hist+'</section>';
-  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>بطاقة '+escapeHTML(emp.name||'الموظف')+'</title><style>@page{size:A4;margin:10mm}*{box-sizing:border-box}body{margin:0;background:#eef3ff;color:#102047;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:HRBody,Arial,sans-serif}@font-face{font-family:HRTitle;src:url("'+r1411FontUrl('YaModernPro-Bold.otf')+'") format("opentype");font-display:swap}@font-face{font-family:HRBody;src:url("'+r1411FontUrl('ZainMobile.ttf')+'") format("truetype");font-display:swap}@font-face{font-family:HRNum;src:url("'+r1411FontUrl('Stencil.ttf')+'") format("truetype");font-display:swap}.sheet{width:190mm;min-height:277mm;margin:0 auto;background:#fff;border-radius:8mm;overflow:hidden;box-shadow:0 20px 70px rgba(20,40,80,.18);border:1px solid #dce5f5}.top{position:relative;padding:11mm 12mm 9mm;background:linear-gradient(135deg,#132a63,#15416e 62%,#0c7a88);color:#fff}.top:before{content:"";position:absolute;left:-35mm;top:-40mm;width:85mm;height:85mm;border-radius:50%;background:radial-gradient(circle,rgba(255,214,107,.28),transparent 70%)}.min{font-size:8.5pt;color:rgba(255,255,255,.75)}.title{font:900 20pt HRTitle,Arial;margin:1mm 0 0}.sub{font-size:9pt;color:rgba(255,255,255,.80);margin-top:1mm}.badge{position:absolute;left:12mm;top:12mm;width:22mm;height:22mm;border-radius:7mm;background:linear-gradient(135deg,#ffd66b,#fff2a8);color:#102047;display:grid;place-items:center;font-size:20pt;box-shadow:0 0 25px rgba(255,214,107,.28)}.person{display:grid;grid-template-columns:1fr 33mm;gap:8mm;padding:8mm 12mm;background:linear-gradient(180deg,#f9fbff,#eef4ff);border-bottom:1px solid #dfe7f5}.pname{font:900 18pt HRTitle,Arial;color:#102047;line-height:1.35}.prole{font-size:9pt;color:#5f6e90;margin-top:2mm}.pid{display:grid;gap:2mm}.pill{border:1px solid #dbe4f4;border-radius:4mm;background:#fff;padding:2.5mm 3mm;text-align:center}.pill span{display:block;font-size:6.7pt;color:#7a86a4}.pill b{display:block;font:900 13pt HRNum,Arial;color:#d49a14;direction:ltr;margin-top:1mm}.content{padding:7mm 10mm 5mm;display:grid;grid-template-columns:1fr 1fr;gap:4mm}.pdf-section{border:1px solid #dfe6f2;border-radius:5mm;background:#fbfdff;padding:4mm;break-inside:avoid}.pdf-section.wide,.pdf-section.changes{grid-column:1/-1}h2{margin:0 0 3mm;font:900 11pt HRTitle,Arial;color:#163b7a;display:flex;align-items:center;gap:2mm}h2 span{width:8mm;height:8mm;border-radius:50%;display:grid;place-items:center;background:rgba(255,214,107,.20);color:#a67808;box-shadow:0 0 14px rgba(255,214,107,.20)}.pdf-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm}.pdf-field{display:flex;gap:2.5mm;align-items:center;border:1px solid #e3e9f4;border-radius:3.5mm;background:#fff;padding:2.4mm 2.7mm;min-height:13mm}.pdf-field.wide{grid-column:1/-1}.pdf-ico{width:8mm;height:8mm;border-radius:3mm;background:linear-gradient(135deg,rgba(255,214,107,.28),rgba(255,214,107,.08));color:#b17b09;display:grid;place-items:center;box-shadow:0 0 14px rgba(255,214,107,.18);font-size:9pt;flex-shrink:0}.pdf-field span{display:block;font-size:6.7pt;color:#74809e;margin-bottom:.8mm}.pdf-field b{display:block;font-size:9.2pt;color:#17274f;line-height:1.35;word-break:break-word}.pdf-num{font-family:HRNum,Arial!important;color:#d49a14!important;direction:ltr}.pdf-change{display:grid;grid-template-columns:1.15fr 1fr 7mm 1fr;gap:2mm;align-items:center;border:1px solid #e4eaf4;border-radius:3.5mm;background:#fff;padding:2.4mm;margin-top:2mm}.pdf-change strong{font-size:8pt;color:#173b78}.pdf-change span{font-size:8pt;background:#f2f6ff;border-radius:3mm;padding:1.8mm;word-break:break-word}.pdf-change em{font-style:normal;color:#16996f;text-align:center}.pdf-empty{font-size:8pt;color:#7d88a4;background:#fff;border:1px dashed #d6deee;border-radius:4mm;padding:5mm;text-align:center}.foot{display:grid;grid-template-columns:1fr 26mm;gap:5mm;align-items:center;margin:0 10mm 7mm;padding-top:4mm;border-top:1px solid #dfe6f2}.fmeta{font-size:7.2pt;color:#6c7895;line-height:1.8}.fmeta b{font-family:HRNum,Arial;color:#143b78;direction:ltr}.qr{width:24mm;height:24mm;border:1px solid #dfe6f2;border-radius:4mm;padding:1.5mm;background:#fff}@media print{body{background:#fff}.sheet{box-shadow:none;border-radius:0;width:100%;min-height:auto}}</style></head><body><main class="sheet"><header class="top"><div class="badge">🌱</div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين</div><div class="sub">بطاقة موظف إلكترونية صادرة من HRSystem</div></header><section class="person"><div><div class="pname">'+escapeHTML(emp.name||'—')+'</div><div class="prole">'+escapeHTML(job)+' • '+escapeHTML(isPerm?'موظف دائمي':'موظف عقد')+'</div></div><div class="pid"><div class="pill"><span>رقم الأضبارة</span><b>'+escapeHTML(emp.num||'—')+'</b></div><div class="pill"><span>التسلسل</span><b>'+escapeHTML(serial)+'</b></div></div></section><section class="content">'+sections+'</section><footer class="foot"><div class="fmeta">إصدار البيانات: <b>'+escapeHTML(updated)+'</b><br>وقت الطباعة: <b>'+escapeHTML(now)+'</b><br>المصدر: HRSystem / GitHub Mobile Repository</div><img class="qr" src="'+qr+'" alt="QR"></footer></main><script>setTimeout(function(){window.print()},700)<\/script>
-
-<!-- MOBILE R1.5.12: secure data change trace for previous/current values -->
-<style id="r1512-secure-data-change-trace-style">
-.r1512-trace-chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 7px;background:rgba(245,200,66,.10);border:1px solid rgba(245,200,66,.18);color:var(--gold);font:800 8px var(--hr-body-font)}
-.update-person.modified .change-line{box-shadow:inset 0 0 0 1px rgba(245,200,66,.025)}
-</style>
-<script id="r1512-secure-data-change-trace-script">
-// MOBILE R1.5.12: builds change-summary locally by comparing previous cached Google Sheets data with the newly published Windows snapshot.
-(function(){
-var RELEASE='MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE';
-var TRACE_SIGNATURE_KEY='hr_secure_change_trace_signature_r1512';
-var TRACE_LAST_KEY='hr_secure_change_trace_last_r1512';
-var TRACK_FIELDS=['employeeNo','name','motherName','gender','identityNo','identityIssueDate','identityIssuer','division','employmentStatus','education','jobTitle','specialization','grade','step','salary','birthDate','hireDate','firstAssignmentDate','nextBonusDate','nextPromotionDate','notes','serviceNotes','appointmentOrderNo','appointmentOrderDate','num'];
-var EXTRA_LABELS={firstAssignmentDate:'تاريخ أول تنسيب',nextBonusDate:'استحقاق العلاوة',nextPromotionDate:'استحقاق الترفيع',serviceNotes:'ملاحظات الخدمة المضافة',appointmentOrderNo:'رقم أمر التعيين',appointmentOrderDate:'تاريخ أمر التعيين'};
-function clone(v){try{return v==null?v:JSON.parse(JSON.stringify(v));}catch(e){return v}}
-function hasFn(name){try{return typeof window[name]==='function'||typeof eval(name)==='function'}catch(e){return false}}
-function valid(d){try{return typeof validDataset==='function'?validDataset(d):!!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}catch(e){return !!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}}
-function normalize(d){try{return typeof r1509NormalizeSecureDataset==='function'?r1509NormalizeSecureDataset(d):d}catch(e){return d}}
-function sem(field,v){try{return typeof historySemanticValue==='function'?historySemanticValue(field,v):(v==null?'':String(v).replace(/\s+/g,' ').trim())}catch(e){return v==null?'':String(v).replace(/\s+/g,' ').trim()}}
-function clean(field,v){try{return typeof cleanHistoryValue==='function'?cleanHistoryValue(field,v):(v==null||String(v).trim()===''?'فارغ':String(v))}catch(e){return v==null?'فارغ':String(v)}}
-function safeJson(s){try{return JSON.parse(s)}catch(e){return null}}
-function keyFor(e,type){
-  if(!e)return '';
-  var vals=[e.integrationId,e.id,e.employeeNo,e.bridgeId].filter(function(v){return v!==null&&v!==undefined&&String(v).trim()!==''&&String(v).trim()!=='غير متوفر';});
-  if(vals.length)return String(vals[0]);
-  if(e.num!==null&&e.num!==undefined&&String(e.num).trim()!=='')return (type||e.type||'emp')+':num:'+String(e.num).trim();
-  return (type||e.type||'emp')+':name:'+String(e.name||'').trim();
-}
-function refFor(e,type){
-  return {id:e.id||keyFor(e,type),integrationId:e.integrationId||e.id||keyFor(e,type),employeeNo:e.employeeNo||'',num:e.num||'',name:e.name||'—',type:type||e.type||'',sourceEmployeeId:e.sourceEmployeeId||''};
-}
-function mapDataset(d){
-  var out={};
-  [['perm',d&&d.perm||[]],['cont',d&&d.cont||[]]].forEach(function(pair){
-    var type=pair[0];(pair[1]||[]).forEach(function(e){var k=keyFor(e,type);if(k)out[k]={type:type,e:e};});
-  });
-  return out;
-}
-function compactAdded(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function compactMissing(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function makeSummary(prev,next){
-  prev=normalize(prev);next=normalize(next);
-  if(!valid(prev)||!valid(next))return null;
-  var oldMap=mapDataset(prev),newMap=mapDataset(next),modified=[],added=[],missing=[];
-  Object.keys(newMap).forEach(function(k){
-    var n=newMap[k],o=oldMap[k];
-    if(!o){added.push(compactAdded(n));return;}
-    var changes=[];
-    TRACK_FIELDS.forEach(function(f){
-      var a=sem(f,o.e&&o.e[f]),b=sem(f,n.e&&n.e[f]);
-      if(a!==b && !(a===''&&b==='')) changes.push({field:f,oldValue:o.e&&o.e[f],newValue:n.e&&n.e[f]});
-    });
-    if(changes.length){var r=refFor(n.e,n.type);modified.push({id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:n.e.name||o.e.name||'—',type:n.type,changes:changes});}
-  });
-  Object.keys(oldMap).forEach(function(k){if(!newMap[k])missing.push(compactMissing(oldMap[k]));});
-  var totalNew=(next.perm||[]).length+(next.cont||[]).length;
-  var totalOld=(prev.perm||[]).length+(prev.cont||[]).length;
-  var changed=modified.length+added.length+missing.length;
-  if(!changed)return null;
-  var stamp=(next.meta&&next.meta.version)||(next.meta&&next.meta.updatedAt)||new Date().toISOString();
-  var prevVer=(prev.meta&&prev.meta.version)||(prev.meta&&prev.meta.updatedAt)||'';
-  return {version:stamp,previousVersion:prevVer,updatedAt:stamp,source:'secure-sheets-local-diff-r1512',counts:{excelRows:totalNew,previousRows:totalOld,modified:modified.length,added:added.length,missing:missing.length,unchanged:Math.max(0,totalNew-added.length-modified.length)},added:added,modified:modified,missing:missing};
-}
-function signature(summary){
-  try{return [summary.version,summary.previousVersion,summary.counts.modified,summary.counts.added,summary.counts.missing,(summary.modified||[]).map(function(x){return x.id+':'+(x.changes||[]).map(function(c){return c.field+'='+sem(c.field,c.newValue)}).join('|')}).join(';')].join('~');}catch(e){return String(Date.now())}
-}
-function mergeHistory(summary){
-  if(!summary)return;
-  try{if(typeof sanitizeHistorySummaryClient==='function')summary=sanitizeHistorySummaryClient(summary);}catch(e){}
-  var sig=signature(summary),prevSig='';try{prevSig=localStorage.getItem(TRACE_SIGNATURE_KEY)||''}catch(e){}
-  if(prevSig===sig)return;
-  try{localStorage.setItem(TRACE_SIGNATURE_KEY,sig);localStorage.setItem(TRACE_LAST_KEY,JSON.stringify(summary));}catch(e){}
-  try{LAST_CHANGE_SUMMARY=summary;localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(summary));}catch(e){}
-  try{
-    var hist=(CHANGE_HISTORY&&Array.isArray(CHANGE_HISTORY.versions))?clone(CHANGE_HISTORY):{versions:[]};
-    hist.versions=(hist.versions||[]).filter(function(v){return !(v&&v.version===summary.version&&v.previousVersion===summary.previousVersion);});
-    hist.versions.push(clone(summary));
-    hist.versions=hist.versions.slice(-20);
-    CHANGE_HISTORY=hist;
-    localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(hist));
-  }catch(e){}
-  try{SELECTED_UPDATE_VERSION='';UPDATE_SECTION_VIEW='changes';}catch(e){}
-  try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates();}catch(e){}
-  try{if(typeof showToast==='function')showToast('تم تسجيل '+((summary.modified||[]).length)+' تعديل في مركز التحديثات');}catch(e){}
-}
-function readPreviousDataset(){
-  try{var cached=safeJson(localStorage.getItem(CENTRAL_CACHE_KEY));if(valid(cached))return cached;}catch(e){}
-  try{if((BASE.perm||[]).length||(BASE.cont||[]).length)return {meta:{version:DATA_VERSION||''},perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])};}catch(e){}
-  return null;
-}
-function install(){
-  if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1512Wrapped)return false;
-  var original=r1509ApplySecureDataset;
-  r1509ApplySecureDataset=function(d,statusText){
-    var next=normalize(d),prev=readPreviousDataset(),summary=null;
-    try{if(valid(prev)&&valid(next))summary=makeSummary(prev,next);}catch(e){summary=null;}
-    var ok=original.apply(this,arguments);
-    if(ok&&summary)mergeHistory(summary);
-    return ok;
-  };
-  r1509ApplySecureDataset.__r1512Wrapped=true;
-  return true;
-}
-function tick(){if(!install())setTimeout(tick,300)}
-try{Object.assign(CHANGE_FIELD_LABELS,EXTRA_LABELS);}catch(e){}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tick);else tick();
-window.r1512SecureDataChangeTrace={release:RELEASE,install:install,makeSummary:makeSummary};
-})();
-</script>
-
-</body></html>';
+  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>بطاقة '+escapeHTML(emp.name||'الموظف')+'</title><style>@page{size:A4;margin:10mm}*{box-sizing:border-box}body{margin:0;background:#eef3ff;color:#102047;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:HRBody,Arial,sans-serif}@font-face{font-family:HRTitle;src:url("'+r1411FontUrl('YaModernPro-Bold.otf')+'") format("opentype");font-display:swap}@font-face{font-family:HRBody;src:url("'+r1411FontUrl('ZainMobile.ttf')+'") format("truetype");font-display:swap}@font-face{font-family:HRNum;src:url("'+r1411FontUrl('Stencil.ttf')+'") format("truetype");font-display:swap}.sheet{width:190mm;min-height:277mm;margin:0 auto;background:#fff;border-radius:8mm;overflow:hidden;box-shadow:0 20px 70px rgba(20,40,80,.18);border:1px solid #dce5f5}.top{position:relative;padding:11mm 12mm 9mm;background:linear-gradient(135deg,#132a63,#15416e 62%,#0c7a88);color:#fff}.top:before{content:"";position:absolute;left:-35mm;top:-40mm;width:85mm;height:85mm;border-radius:50%;background:radial-gradient(circle,rgba(255,214,107,.28),transparent 70%)}.min{font-size:8.5pt;color:rgba(255,255,255,.75)}.title{font:900 20pt HRTitle,Arial;margin:1mm 0 0}.sub{font-size:9pt;color:rgba(255,255,255,.80);margin-top:1mm}.badge{position:absolute;left:12mm;top:12mm;width:22mm;height:22mm;border-radius:7mm;background:linear-gradient(135deg,#ffd66b,#fff2a8);color:#102047;display:grid;place-items:center;font-size:20pt;box-shadow:0 0 25px rgba(255,214,107,.28)}.person{display:grid;grid-template-columns:1fr 33mm;gap:8mm;padding:8mm 12mm;background:linear-gradient(180deg,#f9fbff,#eef4ff);border-bottom:1px solid #dfe7f5}.pname{font:900 18pt HRTitle,Arial;color:#102047;line-height:1.35}.prole{font-size:9pt;color:#5f6e90;margin-top:2mm}.pid{display:grid;gap:2mm}.pill{border:1px solid #dbe4f4;border-radius:4mm;background:#fff;padding:2.5mm 3mm;text-align:center}.pill span{display:block;font-size:6.7pt;color:#7a86a4}.pill b{display:block;font:900 13pt HRNum,Arial;color:#d49a14;direction:ltr;margin-top:1mm}.content{padding:7mm 10mm 5mm;display:grid;grid-template-columns:1fr 1fr;gap:4mm}.pdf-section{border:1px solid #dfe6f2;border-radius:5mm;background:#fbfdff;padding:4mm;break-inside:avoid}.pdf-section.wide,.pdf-section.changes{grid-column:1/-1}h2{margin:0 0 3mm;font:900 11pt HRTitle,Arial;color:#163b7a;display:flex;align-items:center;gap:2mm}h2 span{width:8mm;height:8mm;border-radius:50%;display:grid;place-items:center;background:rgba(255,214,107,.20);color:#a67808;box-shadow:0 0 14px rgba(255,214,107,.20)}.pdf-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm}.pdf-field{display:flex;gap:2.5mm;align-items:center;border:1px solid #e3e9f4;border-radius:3.5mm;background:#fff;padding:2.4mm 2.7mm;min-height:13mm}.pdf-field.wide{grid-column:1/-1}.pdf-ico{width:8mm;height:8mm;border-radius:3mm;background:linear-gradient(135deg,rgba(255,214,107,.28),rgba(255,214,107,.08));color:#b17b09;display:grid;place-items:center;box-shadow:0 0 14px rgba(255,214,107,.18);font-size:9pt;flex-shrink:0}.pdf-field span{display:block;font-size:6.7pt;color:#74809e;margin-bottom:.8mm}.pdf-field b{display:block;font-size:9.2pt;color:#17274f;line-height:1.35;word-break:break-word}.pdf-num{font-family:HRNum,Arial!important;color:#d49a14!important;direction:ltr}.pdf-change{display:grid;grid-template-columns:1.15fr 1fr 7mm 1fr;gap:2mm;align-items:center;border:1px solid #e4eaf4;border-radius:3.5mm;background:#fff;padding:2.4mm;margin-top:2mm}.pdf-change strong{font-size:8pt;color:#173b78}.pdf-change span{font-size:8pt;background:#f2f6ff;border-radius:3mm;padding:1.8mm;word-break:break-word}.pdf-change em{font-style:normal;color:#16996f;text-align:center}.pdf-empty{font-size:8pt;color:#7d88a4;background:#fff;border:1px dashed #d6deee;border-radius:4mm;padding:5mm;text-align:center}.foot{display:grid;grid-template-columns:1fr 26mm;gap:5mm;align-items:center;margin:0 10mm 7mm;padding-top:4mm;border-top:1px solid #dfe6f2}.fmeta{font-size:7.2pt;color:#6c7895;line-height:1.8}.fmeta b{font-family:HRNum,Arial;color:#143b78;direction:ltr}.qr{width:24mm;height:24mm;border:1px solid #dfe6f2;border-radius:4mm;padding:1.5mm;background:#fff}@media print{body{background:#fff}.sheet{box-shadow:none;border-radius:0;width:100%;min-height:auto}}</style></head><body><main class="sheet"><header class="top"><div class="badge">🌱</div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين</div><div class="sub">بطاقة موظف إلكترونية صادرة من HRSystem</div></header><section class="person"><div><div class="pname">'+escapeHTML(emp.name||'—')+'</div><div class="prole">'+escapeHTML(job)+' • '+escapeHTML(isPerm?'موظف دائمي':'موظف عقد')+'</div></div><div class="pid"><div class="pill"><span>رقم الأضبارة</span><b>'+escapeHTML(emp.num||'—')+'</b></div><div class="pill"><span>التسلسل</span><b>'+escapeHTML(serial)+'</b></div></div></section><section class="content">'+sections+'</section><footer class="foot"><div class="fmeta">إصدار البيانات: <b>'+escapeHTML(updated)+'</b><br>وقت الطباعة: <b>'+escapeHTML(now)+'</b><br>المصدر: HRSystem / GitHub Mobile Repository</div><img class="qr" src="'+qr+'" alt="QR"></footer></main><script>setTimeout(function(){window.print()},700)<\/script></body></html>';
   var w=window.open('','_blank','width=980,height=1200');
   if(!w){showToast('اسمح بالنوافذ المنبثقة لطباعة بطاقة PDF','warn');return;}
   w.document.open();w.document.write(html);w.document.close();
@@ -5138,118 +4582,7 @@ printEmployeeCard=function(emp,mode){
     r1411Field('العنوان الوظيفي','jobTitle',emp.jobTitle,'🏷️',true)+r1411Field('الشعبة / القسم','division',emp.division,'🏢',true)+r1411Field('الحالة الوظيفية','employmentStatus',emp.employmentStatus,'✅',false)+r1411Field('تاريخ التعيين','hireDate',emp.hireDate,'📆',false)+r1411Field('الدرجة','grade',emp.grade,'◆',false)+r1411Field('المرحلة','step',emp.step,'▰',false)+r1411Field('التحصيل الدراسي','education',emp.education,'🎓',false)+r1411Field('الاختصاص','specialization',emp.specialization,'📘',false)+r1411Field('الراتب','salary',emp.salary,'💰',false)+'</div></section>';
   sections+='<section class="pdf-section wide"><h2><span>🪪</span> الهوية والملاحظات</h2><div class="pdf-grid identity-grid">'+
     r1411Field('رقم الهوية','identityNo',emp.identityNo,'🪪',true)+r1411Field('تاريخ إصدار الهوية','identityIssueDate',emp.identityIssueDate,'📅',false)+r1411Field('جهة إصدار الهوية','identityIssuer',emp.identityIssuer,'🏛️',true)+r1411Field('الملاحظات','notes',emp.notes,'📝',true)+'</div></section>';
-  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>بطاقة '+escapeHTML(emp.name||'الموظف')+'</title><style>@page{size:A4;margin:10mm}*{box-sizing:border-box}body{margin:0;background:#eef3ff;color:#102047;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:HRBody,Arial,sans-serif}@font-face{font-family:HRTitle;src:url("'+r1411FontUrl('YaModernPro-Bold.otf')+'") format("opentype");font-display:swap}@font-face{font-family:HRBody;src:url("'+r1411FontUrl('ZainMobile.ttf')+'") format("truetype");font-display:swap}@font-face{font-family:HRNum;src:url("'+r1411FontUrl('Stencil.ttf')+'") format("truetype");font-display:swap}.pdf-toolbar{position:sticky;top:0;z-index:50;display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;padding:10px max(10px,env(safe-area-inset-right)) 10px max(10px,env(safe-area-inset-left));background:linear-gradient(135deg,#10265f,#0d7285);box-shadow:0 10px 30px rgba(0,0,0,.24)}.pdf-close{border:1px solid rgba(255,255,255,.18);border-radius:14px;min-height:46px;padding:10px 13px;background:rgba(255,255,255,.10);color:#fff;font:900 12px HRBody,Arial;cursor:pointer}.pdf-help{text-align:center;color:rgba(255,255,255,.80);font:800 9px/1.6 HRBody,Arial}.sheet{width:190mm;min-height:277mm;margin:10px auto;background:#fff;border-radius:8mm;overflow:hidden;box-shadow:0 20px 70px rgba(20,40,80,.18);border:1px solid #dce5f5}.top{position:relative;padding:11mm 12mm 9mm;background:linear-gradient(135deg,#132a63,#15416e 62%,#0c7a88);color:#fff}.top:before{content:"";position:absolute;left:-35mm;top:-40mm;width:85mm;height:85mm;border-radius:50%;background:radial-gradient(circle,rgba(255,214,107,.28),transparent 70%)}.min{font-size:8.5pt;color:rgba(255,255,255,.78)}.title{font:900 20pt HRTitle,Arial;margin:1mm 0 0}.badge{position:absolute;left:12mm;top:12mm;width:22mm;height:22mm;border-radius:7mm;background:linear-gradient(135deg,#ffd66b,#fff2a8);color:#102047;display:grid;place-items:center;font-size:20pt;box-shadow:0 0 25px rgba(255,214,107,.28)}.person{display:grid;grid-template-columns:1fr 33mm;gap:8mm;padding:8mm 12mm;background:linear-gradient(180deg,#f9fbff,#eef4ff);border-bottom:1px solid #dfe7f5}.pname{font:900 18pt HRTitle,Arial;color:#102047;line-height:1.35}.prole{font-size:9pt;color:#5f6e90;margin-top:2mm}.pid{display:grid;gap:2mm}.pill{border:1px solid #dbe4f4;border-radius:4mm;background:#fff;padding:2.5mm 3mm;text-align:center}.pill span{display:block;font-size:6.7pt;color:#7a86a4}.pill b{display:block;font:900 13pt HRNum,Arial;color:#d49a14;direction:ltr;margin-top:1mm}.content{padding:7mm 10mm 7mm;display:grid;grid-template-columns:1fr 1fr;gap:4mm}.pdf-section{border:1px solid #dfe6f2;border-radius:5mm;background:#fbfdff;padding:4mm;break-inside:avoid}.pdf-section.wide{grid-column:1/-1}h2{margin:0 0 3mm;font:900 11pt HRTitle,Arial;color:#163b7a;display:flex;align-items:center;gap:2mm}h2 span{width:8mm;height:8mm;border-radius:50%;display:grid;place-items:center;background:rgba(255,214,107,.20);color:#a67808}.pdf-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm}.pdf-field{display:flex;gap:2.5mm;align-items:center;border:1px solid #e3e9f4;border-radius:3.5mm;background:#fff;padding:2.4mm 2.7mm;min-height:13mm}.pdf-field.wide{grid-column:1/-1}.pdf-field.identityNo{min-height:14mm}.pdf-field-body{min-width:0;flex:1}.pdf-ico{width:8mm;height:8mm;border-radius:3mm;background:linear-gradient(135deg,rgba(255,214,107,.28),rgba(255,214,107,.08));color:#b17b09;display:grid;place-items:center;font-size:9pt;flex-shrink:0}.pdf-field span{display:block;font-size:6.7pt;color:#74809e;margin-bottom:.8mm}.pdf-field b{display:block;font-size:9.2pt;color:#17274f;line-height:1.35;word-break:normal;overflow-wrap:anywhere}.pdf-num{font-family:HRNum,Arial!important;color:#d49a14!important;direction:ltr;unicode-bidi:plaintext;font-variant-numeric:tabular-nums}.pdf-field.identityIssuer b,.pdf-field.notes b{font-family:HRBody,Arial!important;color:#17274f!important;direction:rtl!important}.pdf-salary{display:inline-flex;align-items:baseline;gap:1mm;direction:ltr;unicode-bidi:plaintext;white-space:nowrap}.pdf-currency{font-family:HRBody,Arial;color:#17274f;font-size:8.2pt}@media(max-width:720px){body{background:#fff}.sheet{width:100%;min-height:auto;margin:0;border-radius:0;box-shadow:none}.content{grid-template-columns:1fr;padding:5mm}.person{grid-template-columns:1fr;gap:4mm}.pdf-help{font-size:8.5px}}</style></head><body><div class="pdf-toolbar"><button class="pdf-close" id="pdf-close-btn">إغلاق المعاينة</button><div class="pdf-help">وضع العرض فقط — زر «تحميل البطاقة» ينشئ PDF مستقلًا مباشرة دون تصوير الشاشة.</div></div><main class="sheet"><header class="top"><div class="badge">🌱</div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين</div></header><section class="person"><div><div class="pname">'+escapeHTML(emp.name||'—')+'</div><div class="prole">'+escapeHTML(job)+' • '+escapeHTML(isPerm?'موظف دائمي':'موظف عقد')+'</div></div><div class="pid"><div class="pill"><span>رقم الأضبارة</span><b>'+escapeHTML(emp.num||'—')+'</b></div><div class="pill"><span>التسلسل</span><b>'+escapeHTML(serial)+'</b></div></div></section><section class="content">'+sections+'</section></main><script>var c=document.getElementById("pdf-close-btn");if(c)c.addEventListener("click",function(){try{window.close()}catch(e){history.back()}});<\/script>
-
-<!-- MOBILE R1.5.12: secure data change trace for previous/current values -->
-<style id="r1512-secure-data-change-trace-style">
-.r1512-trace-chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 7px;background:rgba(245,200,66,.10);border:1px solid rgba(245,200,66,.18);color:var(--gold);font:800 8px var(--hr-body-font)}
-.update-person.modified .change-line{box-shadow:inset 0 0 0 1px rgba(245,200,66,.025)}
-</style>
-<script id="r1512-secure-data-change-trace-script">
-// MOBILE R1.5.12: builds change-summary locally by comparing previous cached Google Sheets data with the newly published Windows snapshot.
-(function(){
-var RELEASE='MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE';
-var TRACE_SIGNATURE_KEY='hr_secure_change_trace_signature_r1512';
-var TRACE_LAST_KEY='hr_secure_change_trace_last_r1512';
-var TRACK_FIELDS=['employeeNo','name','motherName','gender','identityNo','identityIssueDate','identityIssuer','division','employmentStatus','education','jobTitle','specialization','grade','step','salary','birthDate','hireDate','firstAssignmentDate','nextBonusDate','nextPromotionDate','notes','serviceNotes','appointmentOrderNo','appointmentOrderDate','num'];
-var EXTRA_LABELS={firstAssignmentDate:'تاريخ أول تنسيب',nextBonusDate:'استحقاق العلاوة',nextPromotionDate:'استحقاق الترفيع',serviceNotes:'ملاحظات الخدمة المضافة',appointmentOrderNo:'رقم أمر التعيين',appointmentOrderDate:'تاريخ أمر التعيين'};
-function clone(v){try{return v==null?v:JSON.parse(JSON.stringify(v));}catch(e){return v}}
-function hasFn(name){try{return typeof window[name]==='function'||typeof eval(name)==='function'}catch(e){return false}}
-function valid(d){try{return typeof validDataset==='function'?validDataset(d):!!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}catch(e){return !!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont));}}
-function normalize(d){try{return typeof r1509NormalizeSecureDataset==='function'?r1509NormalizeSecureDataset(d):d}catch(e){return d}}
-function sem(field,v){try{return typeof historySemanticValue==='function'?historySemanticValue(field,v):(v==null?'':String(v).replace(/\s+/g,' ').trim())}catch(e){return v==null?'':String(v).replace(/\s+/g,' ').trim()}}
-function clean(field,v){try{return typeof cleanHistoryValue==='function'?cleanHistoryValue(field,v):(v==null||String(v).trim()===''?'فارغ':String(v))}catch(e){return v==null?'فارغ':String(v)}}
-function safeJson(s){try{return JSON.parse(s)}catch(e){return null}}
-function keyFor(e,type){
-  if(!e)return '';
-  var vals=[e.integrationId,e.id,e.employeeNo,e.bridgeId].filter(function(v){return v!==null&&v!==undefined&&String(v).trim()!==''&&String(v).trim()!=='غير متوفر';});
-  if(vals.length)return String(vals[0]);
-  if(e.num!==null&&e.num!==undefined&&String(e.num).trim()!=='')return (type||e.type||'emp')+':num:'+String(e.num).trim();
-  return (type||e.type||'emp')+':name:'+String(e.name||'').trim();
-}
-function refFor(e,type){
-  return {id:e.id||keyFor(e,type),integrationId:e.integrationId||e.id||keyFor(e,type),employeeNo:e.employeeNo||'',num:e.num||'',name:e.name||'—',type:type||e.type||'',sourceEmployeeId:e.sourceEmployeeId||''};
-}
-function mapDataset(d){
-  var out={};
-  [['perm',d&&d.perm||[]],['cont',d&&d.cont||[]]].forEach(function(pair){
-    var type=pair[0];(pair[1]||[]).forEach(function(e){var k=keyFor(e,type);if(k)out[k]={type:type,e:e};});
-  });
-  return out;
-}
-function compactAdded(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function compactMissing(x){var r=refFor(x.e,x.type);return {id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:r.name,type:r.type};}
-function makeSummary(prev,next){
-  prev=normalize(prev);next=normalize(next);
-  if(!valid(prev)||!valid(next))return null;
-  var oldMap=mapDataset(prev),newMap=mapDataset(next),modified=[],added=[],missing=[];
-  Object.keys(newMap).forEach(function(k){
-    var n=newMap[k],o=oldMap[k];
-    if(!o){added.push(compactAdded(n));return;}
-    var changes=[];
-    TRACK_FIELDS.forEach(function(f){
-      var a=sem(f,o.e&&o.e[f]),b=sem(f,n.e&&n.e[f]);
-      if(a!==b && !(a===''&&b==='')) changes.push({field:f,oldValue:o.e&&o.e[f],newValue:n.e&&n.e[f]});
-    });
-    if(changes.length){var r=refFor(n.e,n.type);modified.push({id:r.id,integrationId:r.integrationId,employeeNo:r.employeeNo,num:r.num,name:n.e.name||o.e.name||'—',type:n.type,changes:changes});}
-  });
-  Object.keys(oldMap).forEach(function(k){if(!newMap[k])missing.push(compactMissing(oldMap[k]));});
-  var totalNew=(next.perm||[]).length+(next.cont||[]).length;
-  var totalOld=(prev.perm||[]).length+(prev.cont||[]).length;
-  var changed=modified.length+added.length+missing.length;
-  if(!changed)return null;
-  var stamp=(next.meta&&next.meta.version)||(next.meta&&next.meta.updatedAt)||new Date().toISOString();
-  var prevVer=(prev.meta&&prev.meta.version)||(prev.meta&&prev.meta.updatedAt)||'';
-  return {version:stamp,previousVersion:prevVer,updatedAt:stamp,source:'secure-sheets-local-diff-r1512',counts:{excelRows:totalNew,previousRows:totalOld,modified:modified.length,added:added.length,missing:missing.length,unchanged:Math.max(0,totalNew-added.length-modified.length)},added:added,modified:modified,missing:missing};
-}
-function signature(summary){
-  try{return [summary.version,summary.previousVersion,summary.counts.modified,summary.counts.added,summary.counts.missing,(summary.modified||[]).map(function(x){return x.id+':'+(x.changes||[]).map(function(c){return c.field+'='+sem(c.field,c.newValue)}).join('|')}).join(';')].join('~');}catch(e){return String(Date.now())}
-}
-function mergeHistory(summary){
-  if(!summary)return;
-  try{if(typeof sanitizeHistorySummaryClient==='function')summary=sanitizeHistorySummaryClient(summary);}catch(e){}
-  var sig=signature(summary),prevSig='';try{prevSig=localStorage.getItem(TRACE_SIGNATURE_KEY)||''}catch(e){}
-  if(prevSig===sig)return;
-  try{localStorage.setItem(TRACE_SIGNATURE_KEY,sig);localStorage.setItem(TRACE_LAST_KEY,JSON.stringify(summary));}catch(e){}
-  try{LAST_CHANGE_SUMMARY=summary;localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(summary));}catch(e){}
-  try{
-    var hist=(CHANGE_HISTORY&&Array.isArray(CHANGE_HISTORY.versions))?clone(CHANGE_HISTORY):{versions:[]};
-    hist.versions=(hist.versions||[]).filter(function(v){return !(v&&v.version===summary.version&&v.previousVersion===summary.previousVersion);});
-    hist.versions.push(clone(summary));
-    hist.versions=hist.versions.slice(-20);
-    CHANGE_HISTORY=hist;
-    localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(hist));
-  }catch(e){}
-  try{SELECTED_UPDATE_VERSION='';UPDATE_SECTION_VIEW='changes';}catch(e){}
-  try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates();}catch(e){}
-  try{if(typeof showToast==='function')showToast('تم تسجيل '+((summary.modified||[]).length)+' تعديل في مركز التحديثات');}catch(e){}
-}
-function readPreviousDataset(){
-  try{var cached=safeJson(localStorage.getItem(CENTRAL_CACHE_KEY));if(valid(cached))return cached;}catch(e){}
-  try{if((BASE.perm||[]).length||(BASE.cont||[]).length)return {meta:{version:DATA_VERSION||''},perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])};}catch(e){}
-  return null;
-}
-function install(){
-  if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1512Wrapped)return false;
-  var original=r1509ApplySecureDataset;
-  r1509ApplySecureDataset=function(d,statusText){
-    var next=normalize(d),prev=readPreviousDataset(),summary=null;
-    try{if(valid(prev)&&valid(next))summary=makeSummary(prev,next);}catch(e){summary=null;}
-    var ok=original.apply(this,arguments);
-    if(ok&&summary)mergeHistory(summary);
-    return ok;
-  };
-  r1509ApplySecureDataset.__r1512Wrapped=true;
-  return true;
-}
-function tick(){if(!install())setTimeout(tick,300)}
-try{Object.assign(CHANGE_FIELD_LABELS,EXTRA_LABELS);}catch(e){}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tick);else tick();
-window.r1512SecureDataChangeTrace={release:RELEASE,install:install,makeSummary:makeSummary};
-})();
-</script>
-
-</body></html>';
+  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>بطاقة '+escapeHTML(emp.name||'الموظف')+'</title><style>@page{size:A4;margin:10mm}*{box-sizing:border-box}body{margin:0;background:#eef3ff;color:#102047;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:HRBody,Arial,sans-serif}@font-face{font-family:HRTitle;src:url("'+r1411FontUrl('YaModernPro-Bold.otf')+'") format("opentype");font-display:swap}@font-face{font-family:HRBody;src:url("'+r1411FontUrl('ZainMobile.ttf')+'") format("truetype");font-display:swap}@font-face{font-family:HRNum;src:url("'+r1411FontUrl('Stencil.ttf')+'") format("truetype");font-display:swap}.pdf-toolbar{position:sticky;top:0;z-index:50;display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;padding:10px max(10px,env(safe-area-inset-right)) 10px max(10px,env(safe-area-inset-left));background:linear-gradient(135deg,#10265f,#0d7285);box-shadow:0 10px 30px rgba(0,0,0,.24)}.pdf-close{border:1px solid rgba(255,255,255,.18);border-radius:14px;min-height:46px;padding:10px 13px;background:rgba(255,255,255,.10);color:#fff;font:900 12px HRBody,Arial;cursor:pointer}.pdf-help{text-align:center;color:rgba(255,255,255,.80);font:800 9px/1.6 HRBody,Arial}.sheet{width:190mm;min-height:277mm;margin:10px auto;background:#fff;border-radius:8mm;overflow:hidden;box-shadow:0 20px 70px rgba(20,40,80,.18);border:1px solid #dce5f5}.top{position:relative;padding:11mm 12mm 9mm;background:linear-gradient(135deg,#132a63,#15416e 62%,#0c7a88);color:#fff}.top:before{content:"";position:absolute;left:-35mm;top:-40mm;width:85mm;height:85mm;border-radius:50%;background:radial-gradient(circle,rgba(255,214,107,.28),transparent 70%)}.min{font-size:8.5pt;color:rgba(255,255,255,.78)}.title{font:900 20pt HRTitle,Arial;margin:1mm 0 0}.badge{position:absolute;left:12mm;top:12mm;width:22mm;height:22mm;border-radius:7mm;background:linear-gradient(135deg,#ffd66b,#fff2a8);color:#102047;display:grid;place-items:center;font-size:20pt;box-shadow:0 0 25px rgba(255,214,107,.28)}.person{display:grid;grid-template-columns:1fr 33mm;gap:8mm;padding:8mm 12mm;background:linear-gradient(180deg,#f9fbff,#eef4ff);border-bottom:1px solid #dfe7f5}.pname{font:900 18pt HRTitle,Arial;color:#102047;line-height:1.35}.prole{font-size:9pt;color:#5f6e90;margin-top:2mm}.pid{display:grid;gap:2mm}.pill{border:1px solid #dbe4f4;border-radius:4mm;background:#fff;padding:2.5mm 3mm;text-align:center}.pill span{display:block;font-size:6.7pt;color:#7a86a4}.pill b{display:block;font:900 13pt HRNum,Arial;color:#d49a14;direction:ltr;margin-top:1mm}.content{padding:7mm 10mm 7mm;display:grid;grid-template-columns:1fr 1fr;gap:4mm}.pdf-section{border:1px solid #dfe6f2;border-radius:5mm;background:#fbfdff;padding:4mm;break-inside:avoid}.pdf-section.wide{grid-column:1/-1}h2{margin:0 0 3mm;font:900 11pt HRTitle,Arial;color:#163b7a;display:flex;align-items:center;gap:2mm}h2 span{width:8mm;height:8mm;border-radius:50%;display:grid;place-items:center;background:rgba(255,214,107,.20);color:#a67808}.pdf-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm}.pdf-field{display:flex;gap:2.5mm;align-items:center;border:1px solid #e3e9f4;border-radius:3.5mm;background:#fff;padding:2.4mm 2.7mm;min-height:13mm}.pdf-field.wide{grid-column:1/-1}.pdf-field.identityNo{min-height:14mm}.pdf-field-body{min-width:0;flex:1}.pdf-ico{width:8mm;height:8mm;border-radius:3mm;background:linear-gradient(135deg,rgba(255,214,107,.28),rgba(255,214,107,.08));color:#b17b09;display:grid;place-items:center;font-size:9pt;flex-shrink:0}.pdf-field span{display:block;font-size:6.7pt;color:#74809e;margin-bottom:.8mm}.pdf-field b{display:block;font-size:9.2pt;color:#17274f;line-height:1.35;word-break:normal;overflow-wrap:anywhere}.pdf-num{font-family:HRNum,Arial!important;color:#d49a14!important;direction:ltr;unicode-bidi:plaintext;font-variant-numeric:tabular-nums}.pdf-field.identityIssuer b,.pdf-field.notes b{font-family:HRBody,Arial!important;color:#17274f!important;direction:rtl!important}.pdf-salary{display:inline-flex;align-items:baseline;gap:1mm;direction:ltr;unicode-bidi:plaintext;white-space:nowrap}.pdf-currency{font-family:HRBody,Arial;color:#17274f;font-size:8.2pt}@media(max-width:720px){body{background:#fff}.sheet{width:100%;min-height:auto;margin:0;border-radius:0;box-shadow:none}.content{grid-template-columns:1fr;padding:5mm}.person{grid-template-columns:1fr;gap:4mm}.pdf-help{font-size:8.5px}}</style></head><body><div class="pdf-toolbar"><button class="pdf-close" id="pdf-close-btn">إغلاق المعاينة</button><div class="pdf-help">وضع العرض فقط — زر «تحميل البطاقة» ينشئ PDF مستقلًا مباشرة دون تصوير الشاشة.</div></div><main class="sheet"><header class="top"><div class="badge">🌱</div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين</div></header><section class="person"><div><div class="pname">'+escapeHTML(emp.name||'—')+'</div><div class="prole">'+escapeHTML(job)+' • '+escapeHTML(isPerm?'موظف دائمي':'موظف عقد')+'</div></div><div class="pid"><div class="pill"><span>رقم الأضبارة</span><b>'+escapeHTML(emp.num||'—')+'</b></div><div class="pill"><span>التسلسل</span><b>'+escapeHTML(serial)+'</b></div></div></section><section class="content">'+sections+'</section></main><script>var c=document.getElementById("pdf-close-btn");if(c)c.addEventListener("click",function(){try{window.close()}catch(e){history.back()}});<\/script></body></html>';
   var w=window.open('','_blank','width=980,height=1200');
   if(!w){showToast('اسمح بفتح نافذة معاينة بطاقة PDF','warn');return;}
   w.document.open();w.document.write(html);w.document.close();showToast('تم فتح بطاقة PDF للعرض فقط');
@@ -8494,11 +7827,11 @@ window.r1507ChromeSafeFloatingToggle={release:RELEASE,set:setFocusMode,toggle:to
 </script>
 
 
-<!-- MOBILE R1.5.11: manual secure data refresh button and cache bypass -->
-<script id="r1511-secure-data-manual-refresh-script">
-// MOBILE R1.5.11: manual secure data refresh applies latest Google Sheets updates immediately.
+<!-- MOBILE R1.5.13: manual secure data refresh button and cache bypass -->
+<script id="r1513-loader-rollback-stable-script">
+// MOBILE R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.
 (function(){
-var RELEASE='MOBILE-R1.5.11-SECURE-DATA-MANUAL-REFRESH';
+var RELEASE='MOBILE-R1.5.13-LOADER-ROLLBACK-STABLE';
 var busy=false;
 function total(){try{return (BASE.perm||[]).length+(BASE.cont||[]).length}catch(e){return 0}}
 function setBusy(v){
@@ -8507,7 +7840,7 @@ function setBusy(v){
   btns.forEach(function(b){
     if(!b)return;
     b.disabled=busy;
-    b.classList.toggle('r1511-busy',busy);
+    b.classList.toggle('r1513-busy',busy);
     if(b.id==='connection-refresh'){
       b.innerHTML=busy?'<i class="fas fa-rotate"></i> جاري التحديث':'<i class="fas fa-rotate"></i> تحديث الآن';
     }
@@ -8534,7 +7867,7 @@ async function refreshNow(origin){
       await loadCentralData(true);
     }
     var msg='تم جلب آخر بيانات Google Sheets الآن: '+(BASE.perm||[]).length+' دائم • '+(BASE.cont||[]).length+' عقد';
-    try{localStorage.setItem('hr_secure_last_manual_refresh_r1511',new Date().toISOString())}catch(e){}
+    try{localStorage.setItem('hr_secure_last_manual_refresh_r1513',new Date().toISOString())}catch(e){}
     touchUi(msg);
     if(typeof showToast==='function')showToast(msg);
     return true;
@@ -8550,14 +7883,14 @@ async function refreshNow(origin){
 }
 function bind(){
   var c=document.getElementById('connection-refresh');
-  if(c&&!c.__r1511Bound){c.__r1511Bound=true;c.addEventListener('click',function(ev){ev.preventDefault();ev.stopImmediatePropagation();refreshNow('connection')},{passive:false,capture:true})}
+  if(c&&!c.__r1513Bound){c.__r1513Bound=true;c.addEventListener('click',function(ev){ev.preventDefault();ev.stopImmediatePropagation();refreshNow('connection')},{passive:false,capture:true})}
   var s=document.getElementById('sys-refresh-data');
-  if(s&&!s.__r1511Bound){s.__r1511Bound=true;s.addEventListener('click',function(ev){ev.preventDefault();ev.stopImmediatePropagation();refreshNow('system')},{passive:false,capture:true})}
+  if(s&&!s.__r1513Bound){s.__r1513Bound=true;s.addEventListener('click',function(ev){ev.preventDefault();ev.stopImmediatePropagation();refreshNow('system')},{passive:false,capture:true})}
 }
 document.addEventListener('DOMContentLoaded',function(){bind();setTimeout(bind,600);setTimeout(bind,1800)});
 window.addEventListener('load',function(){setTimeout(bind,250);setTimeout(bind,1200);setTimeout(function(){touchUi(LAST_DATA_STATUS)},2400)});
 document.addEventListener('click',function(){setTimeout(bind,80)},true);
-window.r1511SecureDataManualRefresh={release:RELEASE,refresh:refreshNow,bind:bind};
+window.r1513SecureDataManualRefresh={release:RELEASE,refresh:refreshNow,bind:bind};
 })();
 </script>
 

@@ -12,34 +12,35 @@ const sw = read('service-worker.js');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const version = read('VERSION.txt').trim();
 
-const expected = 'MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE';
-if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.12 secure data change trace');
+const expected = 'MOBILE-R1.5.13-LOADER-ROLLBACK-STABLE';
+if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.13 loader rollback stable');
 if (version !== expected) fail('VERSION.txt mismatch');
-if (!String(manifest.description || '').includes('R1.5.12')) fail('manifest description missing R1.5.12');
+if (!String(manifest.description || '').includes('R1.5.13')) fail('manifest description missing R1.5.13');
 
 const requiredMarkers = [
-  'R1.5.12: secure data change trace shows previous and current values',
-  'MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE',
-  'r1512SecureDataChangeTrace',
-  'hr_secure_change_trace_signature_r1512',
-  'previous/current values',
-  'CHANGE_SUMMARY_CACHE_KEY',
-  'CHANGE_HISTORY_CACHE_KEY',
-  'r1511SecureDataManualRefresh',
+  'R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.',
+  'MOBILE-R1.5.13-LOADER-ROLLBACK-STABLE',
+  'r1513SecureDataManualRefresh',
+  'تحديث الآن',
+  'hr_secure_last_manual_refresh_r1513',
   'r1509RecoverSecureData(true)',
-  'employee-registry-mobile-r1512-secure-data-change-trace-2026.09.29',
-  'employee-registry-pdf-downloads-r1512',
+  'employee-registry-mobile-r1513-loader-rollback-stable-2026.09.29',
+  'employee-registry-pdf-downloads-r1513',
+  'R1.5.10: secure data instant cache shows saved Google Sheets data immediately, then refreshes in background.',
   'HR_SECURE_API_URL',
-  'HR_SECURE_KEY_STORE'
+  'HR_SECURE_KEY_STORE',
+  'hr1508Jsonp',
+  'r1510ApplyCachedDatasetIfReady'
 ];
 for (const marker of requiredMarkers) {
-  if (!index.includes(marker) && !sw.includes(marker)) fail(`missing R1.5.12 marker: ${marker}`);
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`missing R1.5.13 marker: ${marker}`);
 }
 
 if (index.includes('raw.githubusercontent.com/muayedhassan/employees/main/')) fail('public GitHub employee data endpoint must not remain in index.html');
 if (index.includes('<script src="data/fallback-data.js"></script>')) fail('fallback-data.js script tag must be removed from public app shell');
 if (sw.includes('./data/fallback-data.js') || sw.includes('./data/job-titles.json')) fail('service worker must not precache data/ files');
 if (index.includes('TEMPTEST20260929')) fail('temporary test access key leaked into app shell');
+if (index.includes('MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE')) fail('broken R1.5.12 change trace release must not remain active');
 
 const sensitivePaths = ['data/employees.json','data/fallback-data.js','employees.xlsx','permanent.xlsx','contracts.xlsx'];
 const presentSensitive = sensitivePaths.filter(exists);
