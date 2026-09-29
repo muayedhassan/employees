@@ -1,0 +1,12 @@
+Mobile R1.5.08 — Secure Data Recovery
+
+- استرجاع تشغيل التطبيق بعد جعل مستودع employees خاصًا.
+- إيقاف الاعتماد على raw.githubusercontent.com وملفات data/employees.json العامة.
+- عدم تضمين بيانات الموظفين داخل واجهة التطبيق العامة.
+- تحميل بيانات الدائمين والعقود من Google Sheets الخاصة عبر Google Apps Script.
+- إدخال مفتاح البيانات على الجهاز أول مرة فقط وحفظه محليًا بدون وضعه داخل index.html.
+- تحويل بيانات Google Sheets إلى صيغة التطبيق داخليًا مع الحفاظ على الدائمين والعقود.
+- إبقاء التصميم الحالي R1.5.07 وزر الإخفاء والحركات الإدارية والبحث دون تغيير مقصود.
+- تحديث Service Worker لمنع تخزين data/fallback-data.js أو data/job-titles.json ضمن App Shell.
+
+- تم تثبيت رابط Google Apps Script النهائي الذي اختُبر وظهر ok:true للدائمين والعقود.

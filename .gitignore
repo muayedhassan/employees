@@ -1,0 +1,9 @@
+data/
+data-source/
+*.xlsx
+*.xls
+*.xlsm
+*.zip
+employees.json
+fallback-data.js
+.env
