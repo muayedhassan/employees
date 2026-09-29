@@ -12,28 +12,28 @@ const sw = read('service-worker.js');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const version = read('VERSION.txt').trim();
 
-const expected = 'MOBILE-R1.5.11-SECURE-DATA-MANUAL-REFRESH';
-if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.11 secure data manual refresh');
+const expected = 'MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE';
+if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.12 secure data change trace');
 if (version !== expected) fail('VERSION.txt mismatch');
-if (!String(manifest.description || '').includes('R1.5.11')) fail('manifest description missing R1.5.11');
+if (!String(manifest.description || '').includes('R1.5.12')) fail('manifest description missing R1.5.12');
 
 const requiredMarkers = [
-  'R1.5.11: manual secure data refresh applies latest Google Sheets updates immediately.',
-  'MOBILE-R1.5.11-SECURE-DATA-MANUAL-REFRESH',
+  'R1.5.12: secure data change trace shows previous and current values',
+  'MOBILE-R1.5.12-SECURE-DATA-CHANGE-TRACE',
+  'r1512SecureDataChangeTrace',
+  'hr_secure_change_trace_signature_r1512',
+  'previous/current values',
+  'CHANGE_SUMMARY_CACHE_KEY',
+  'CHANGE_HISTORY_CACHE_KEY',
   'r1511SecureDataManualRefresh',
-  'تحديث الآن',
-  'hr_secure_last_manual_refresh_r1511',
   'r1509RecoverSecureData(true)',
-  'employee-registry-mobile-r1511-secure-data-manual-refresh-2026.09.29',
-  'employee-registry-pdf-downloads-r1511',
-  'R1.5.10: secure data instant cache shows saved Google Sheets data immediately, then refreshes in background.',
+  'employee-registry-mobile-r1512-secure-data-change-trace-2026.09.29',
+  'employee-registry-pdf-downloads-r1512',
   'HR_SECURE_API_URL',
-  'HR_SECURE_KEY_STORE',
-  'hr1508Jsonp',
-  'r1510ApplyCachedDatasetIfReady'
+  'HR_SECURE_KEY_STORE'
 ];
 for (const marker of requiredMarkers) {
-  if (!index.includes(marker) && !sw.includes(marker)) fail(`missing R1.5.11 marker: ${marker}`);
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`missing R1.5.12 marker: ${marker}`);
 }
 
 if (index.includes('raw.githubusercontent.com/muayedhassan/employees/main/')) fail('public GitHub employee data endpoint must not remain in index.html');
