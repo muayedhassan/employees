@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.07",
-  "short_name": "HR Mobile R1.5.07",
+  "name": "سجل الموظفين - Mobile R1.5.09",
+  "short_name": "HR Mobile R1.5.09",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.08 secure data recovery: app shell without employee data, loading permanent and contract data from private Google Sheets through Apps Script.",
+  "description": "R1.5.09 secure data apply fix: forces Google Sheets secure data into the UI after Apps Script JSONP load, without changing design.",
   "icons": [
     {
       "src": "assets/icon-192.png",

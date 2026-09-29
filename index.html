@@ -1743,7 +1743,8 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.08-SECURE-DATA-RECOVERY';
+var APP_RELEASE = 'MOBILE-R1.5.09-SECURE-DATA-APPLY-FIX';
+// R1.5.09: secure data apply fix ensures Apps Script data is forced into the UI after JSONP load.
 // R1.5.08: secure data recovery from private Google Sheets through Apps Script; no employee data in public app shell.
 // R1.4.73: cleanup stray header markers and restore compact record scope cards while preserving professional program sections.
 // Legacy stable marker retained for verification: MOBILE-R1.4.63-SPLASH-LOADING-RESTORE
@@ -2243,6 +2244,72 @@ async function loadCentralData(forceRefresh){
   }
   throw new Error(LAST_DATA_STATUS || 'تعذر تحميل بيانات الموظفين');
 }
+
+
+// ── R1.5.09 SECURE DATA APPLY FIX ───────────────────────────────────────────
+// Some Android WebView builds can load the secure JSONP source correctly but keep
+// the visible list bound to an empty legacy dataset. This guard force-applies the
+// secure dataset to BASE, filters, counters, and rendered cards without changing
+// the current design or any administrative-movement logic.
+function r1509DatasetTotal(){
+  try{return (BASE.perm||[]).length+(BASE.cont||[]).length;}catch(e){return 0;}
+}
+function r1509NormalizeSecureDataset(d){
+  if(!d)return null;
+  if(validDataset(d))return d;
+  try{
+    if((Array.isArray(d.permanent)||Array.isArray(d.contracts)||Array.isArray(d.employees)) && typeof hr1508DatasetFromApi==='function'){
+      return hr1508DatasetFromApi(d);
+    }
+  }catch(e){}
+  return null;
+}
+function r1509RefreshVisibleUi(statusText){
+  try{updateVersionUI();}catch(e){}
+  try{updateAdminCounts();}catch(e){}
+  try{if(typeof updateExcelMasterUI==='function')updateExcelMasterUI();}catch(e){}
+  try{if(typeof updateConnectivityUI==='function')updateConnectivityUI();}catch(e){}
+  try{if(typeof updateSystemTabDot==='function')updateSystemTabDot();}catch(e){}
+  try{splashCount('sc-perm',(BASE.perm||[]).length);splashCount('sc-cont',(BASE.cont||[]).length);splashCount('sc-all',r1509DatasetTotal());}catch(e){}
+  try{countUp('sv-total',mode==='cont'?(BASE.cont||[]).length:(BASE.perm||[]).length);}catch(e){}
+  try{countUp('sv-shown',mode==='cont'?(BASE.cont||[]).length:(BASE.perm||[]).length);}catch(e){}
+  try{if(mode!=='admin'){filt=(mode==='cont'?(BASE.cont||[]):(BASE.perm||[])).slice();buildLetters();buildAdvancedFilters();render();}}catch(e){}
+  try{if(typeof window.r1502DashboardRadicalRebuild==='object'&&window.r1502DashboardRadicalRebuild.render)window.r1502DashboardRadicalRebuild.render();}catch(e){}
+  try{if(typeof window.r1504ScopeZainStartupExpandFix==='object'&&window.r1504ScopeZainStartupExpandFix.tick)window.r1504ScopeZainStartupExpandFix.tick();}catch(e){}
+  try{if(statusText)LAST_DATA_STATUS=statusText;}catch(e){}
+}
+function r1509ApplySecureDataset(d,statusText){
+  var normalized=r1509NormalizeSecureDataset(d);
+  if(!normalized)return false;
+  var ok=applyDataset(normalized);
+  if(!ok)return false;
+  try{cacheCentral(normalized);}catch(e){}
+  r1509RefreshVisibleUi(statusText||('تم تطبيق بيانات Google Sheets الآمنة: '+(BASE.perm||[]).length+' دائم • '+(BASE.cont||[]).length+' عقد'));
+  return r1509DatasetTotal()>0;
+}
+async function r1509RecoverSecureData(forceRefresh){
+  if(typeof hr1508FetchSecureDataset!=='function')return false;
+  var secure=await hr1508FetchSecureDataset(!!forceRefresh);
+  return r1509ApplySecureDataset(secure,'تم استرجاع وتطبيق بيانات Google Sheets الآمنة: '+((secure&&secure.perm)||[]).length+' دائم • '+((secure&&secure.cont)||[]).length+' عقد');
+}
+var r1509BaseLoadCentralData=loadCentralData;
+loadCentralData=async function(forceRefresh){
+  await r1509BaseLoadCentralData(forceRefresh);
+  if(r1509DatasetTotal()===0){
+    await r1509RecoverSecureData(forceRefresh);
+  }else{
+    r1509RefreshVisibleUi(LAST_DATA_STATUS);
+  }
+};
+window.addEventListener('load',function(){
+  [900,2200,4600].forEach(function(t){
+    setTimeout(function(){
+      if(r1509DatasetTotal()===0){
+        r1509RecoverSecureData(true).then(function(ok){if(ok)showToast('تم تطبيق بيانات الموظفين الآمنة');}).catch(function(e){LAST_DATA_STATUS='تعذر تطبيق البيانات الآمنة: '+(e&&e.message?e.message:e);});
+      }
+    },t);
+  });
+});
 
 function updateVersionUI(){
   var total = BASE.perm.length + BASE.cont.length;

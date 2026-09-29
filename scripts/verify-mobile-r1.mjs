@@ -12,19 +12,21 @@ const sw = read('service-worker.js');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const version = read('VERSION.txt').trim();
 
-const expected = 'MOBILE-R1.5.08-SECURE-DATA-RECOVERY';
-if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.08 secure data recovery');
+const expected = 'MOBILE-R1.5.09-SECURE-DATA-APPLY-FIX';
+if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.09 secure data apply fix');
 if (version !== expected) fail('VERSION.txt mismatch');
-if (!String(manifest.description || '').includes('R1.5.08')) fail('manifest description missing R1.5.08');
+if (!String(manifest.description || '').includes('R1.5.09')) fail('manifest description missing R1.5.09');
 
 const requiredMarkers = [
-  'R1.5.08: secure data recovery from private Google Sheets',
+  'R1.5.09: secure data apply fix ensures Apps Script data is forced into the UI after JSONP load.',
   'HR_SECURE_API_URL',
   'HR_SECURE_KEY_STORE',
   'hr1508Jsonp',
   'hr1508FetchSecureDataset',
-  'employee-registry-mobile-r1508-secure-data-recovery-2026.09.29',
-  'employee-registry-pdf-downloads-r1508'
+  'r1509ApplySecureDataset',
+  'r1509RecoverSecureData',
+  'employee-registry-mobile-r1509-secure-data-apply-fix-2026.09.29',
+  'employee-registry-pdf-downloads-r1509'
 ];
 for (const marker of requiredMarkers) {
   if (!index.includes(marker) && !sw.includes(marker)) fail(`missing R1.5.08 marker: ${marker}`);
