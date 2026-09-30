@@ -9,13 +9,13 @@
     if('serviceWorker' in navigator){
       var regs=await navigator.serviceWorker.getRegistrations();
       await Promise.all(regs.map(function(r){return r.unregister().catch(function(){return false;});}));
-      var reg=await navigator.serviceWorker.register('./service-worker.js?v=1537',{scope:'./',updateViaCache:'none'});
+      var reg=await navigator.serviceWorker.register('./service-worker.js?v=1538',{scope:'./',updateViaCache:'none'});
       try{await reg.update();}catch(e){}
       try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}
     }
     try{await fetch('./index.html?_recovery_warm='+Date.now(),{cache:'no-store'});}catch(e){}
   }catch(e){}
   s.textContent='تم تجهيز أحدث واجهة، سيتم فتح التطبيق الآن';
-  setTimeout(function(){location.replace('./?v=1537&_recovery='+Date.now());},800);
+  setTimeout(function(){location.replace('./?v=1538&_recovery='+Date.now());},800);
 })();
 </script></body></html>

@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX">
+<meta name="app-release" content="MOBILE-R1.5.38-CANONICAL-RELEASE-VERSION-FIX">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -8947,8 +8947,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1537';
-  var KEEP_CACHE='employee-registry-ui-r1537';
+  var SW_URL='service-worker.js?v=1538';
+  var KEEP_CACHE='employee-registry-ui-r1538';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -8982,7 +8982,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   async function maintain(){
     await purgeLegacyInterfaceCaches();
     await installFreshWorker();
-    try{localStorage.setItem('hr_mobile_ui_cache_release','1537');}catch(e){}
+    try{localStorage.setItem('hr_mobile_ui_cache_release','1538');}catch(e){}
   }
 
   if(document.readyState==='complete')setTimeout(maintain,0);
@@ -9011,4 +9011,120 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 })();
-</script>
+</script>\n\n<!-- MOBILE-R1.5.38-CANONICAL-RELEASE-VERSION-FIX
+     Single final release authority. Runs after legacy R1.5.31/R1.5.36 markers so old scripts cannot overwrite the current version. -->
+<script id="r1538-canonical-release-version-fix">
+(function(){
+  'use strict';
+  var RELEASE='MOBILE-R1.5.38-CANONICAL-RELEASE-VERSION-FIX';
+  var META_NAME='app-release';
+  var LAST_CHECK_KEY='emp_r1538_last_manual_update_check';
+  var LAST_APPLY_KEY='emp_r1538_last_manual_apply';
+
+  function setRelease(){
+    try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
+    try{window.APP_RELEASE=RELEASE;}catch(e){}
+    try{
+      var meta=document.querySelector('meta[name="'+META_NAME+'"]');
+      if(meta)meta.setAttribute('content',RELEASE);
+    }catch(e){}
+    try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0;}catch(e){}
+  }
+  function put(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function nowISO(){return new Date().toISOString();}
+  function canonicalFromHtml(txt){
+    txt=String(txt||'');
+    var m=txt.match(/<meta\s+name=["']app-release["']\s+content=["']([^"']+)["'][^>]*>/i);
+    if(!m)m=txt.match(/<meta\s+content=["']([^"']+)["']\s+name=["']app-release["'][^>]*>/i);
+    if(m&&m[1])return m[1];
+    var all=[],re=/APP_RELEASE\s*=\s*["']([^"']+)["']/g,x;
+    while((x=re.exec(txt)))all.push(x[1]);
+    return all.length?all[all.length-1]:'';
+  }
+  async function fetchPublishedRelease(){
+    if(navigator.onLine===false)return '';
+    var u=new URL('index.html',location.href);
+    u.searchParams.set('_release_check',Date.now().toString());
+    u.searchParams.set('v','1538');
+    var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    return canonicalFromHtml(await res.text());
+  }
+  async function checkUpdate(showMessage){
+    setRelease();
+    if(navigator.onLine===false){
+      try{R71_UPDATE_STATE='offline';R122_AUTO_STATUS='بدون إنترنت';}catch(e){}
+      if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');
+      return false;
+    }
+    try{
+      if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');
+      var remote=await fetchPublishedRelease();
+      var has=!!(remote&&remote!==RELEASE);
+      try{
+        R71_REMOTE_RELEASE=remote||RELEASE;
+        R122_LAST_REMOTE_RELEASE=remote||R122_LAST_REMOTE_RELEASE;
+        R71_UPDATE_STATE=has?'new':'current';
+        R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث';
+      }catch(e){}
+      put(LAST_CHECK_KEY,nowISO());
+      put('emp_mobile_last_auto_check_r122',nowISO());
+      if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');
+      try{if(typeof updateSystemTabDot==='function')updateSystemTabDot();if(typeof subView!=='undefined'&&subView==='system'&&typeof buildSystemCenter==='function')buildSystemCenter();}catch(e){}
+      return has;
+    }catch(err){
+      try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص';}catch(e){}
+      if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');
+      return false;
+    }
+  }
+  async function applyUpdate(){
+    setRelease();
+    if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return;}
+    var run=async function(){
+      put(LAST_APPLY_KEY,nowISO());
+      try{sessionStorage.setItem('emp_r1538_manual_update_once','1');}catch(e){}
+      if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');
+      try{
+        if('caches' in window){
+          var keys=await caches.keys();
+          await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0;}).map(function(k){return caches.delete(k);}));
+        }
+      }catch(e){}
+      try{
+        if('serviceWorker' in navigator){
+          var reg=await navigator.serviceWorker.register('service-worker.js?v=1538&_u='+Date.now(),{scope:'./',updateViaCache:'none'});
+          try{await reg.update();}catch(e){}
+          try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}
+        }
+      }catch(e){}
+      var u=new URL('index.html',location.href);
+      u.search='';
+      u.searchParams.set('v','1538');
+      u.searchParams.set('_manual_update',Date.now().toString());
+      location.replace(u.toString());
+    };
+    if(typeof showConfirm==='function'){
+      showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);
+    }else{
+      if(window.confirm('تحديث النظام يدويًا؟'))await run();
+    }
+  }
+
+  setRelease();
+  try{r71FetchDeployedRelease=fetchPublishedRelease;}catch(e){}
+  try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true);};}catch(e){}
+  try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط';}catch(e){}return Promise.resolve(false);}return checkUpdate(true);};}catch(e){}
+  try{r122ApplyInterfaceUpdate=applyUpdate;}catch(e){}
+  try{r71ForceRefresh=applyUpdate;}catch(e){}
+  try{r71CheckAll=async function(){await checkUpdate(true);};}catch(e){}
+  try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false;};}catch(e){}
+  try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط';}catch(e){}return false;};}catch(e){}
+  try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1538',{scope:'./',updateViaCache:'none'});}catch(e){}};}catch(e){}
+
+  // Keep the release authoritative even if a delayed legacy callback touches APP_RELEASE.
+  document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200);});
+  window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500);});
+  window.r1538CanonicalReleaseFix={release:RELEASE,check:checkUpdate,apply:applyUpdate,fetchPublishedRelease:fetchPublishedRelease};
+})();
+</script>\n
