@@ -8946,5 +8946,152 @@ body.r1522-update-available #stab-system:after{content:"تحديث";position:abs
 @media(max-width:760px){.r1522-grid{grid-template-columns:1fr}.r1522-release-grid{grid-template-columns:1fr}.r1522-actions{grid-template-columns:1fr}.r1522-hero{align-items:flex-start}.r1522-hero-state{align-self:center}.r1522-update-notice{left:8px;right:8px}.r1522-notice-copy span{white-space:normal;direction:rtl;text-align:right}}
 </style>
 
+
+<!-- MOBILE R1.5.22d: Scope cards visual polish (badges, layout, unified fonts) -->
+<style id="r1523-scope-cards-polish-style">
+/* MOBILE R1.5.22d: cleaner record-scope cards, smaller count badges, unified typography. */
+body.r1502-ready #r1502-dashboard .r1502-scope-panel{
+  padding:12px 13px 14px!important;
+  border-radius:26px!important;
+}
+body.r1502-ready #r1502-dashboard .r1502-scope-panel .r1502-head{
+  margin-bottom:11px!important;
+}
+body.r1502-ready #r1502-dashboard .r1502-scope-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:7px!important;
+  align-items:stretch!important;
+  direction:rtl!important;
+}
+body.r1502-ready #r1502-dashboard .r1502-scope-card{
+  min-height:70px!important;
+  height:70px!important;
+  border-radius:20px!important;
+  padding:8px 5px 7px!important;
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  grid-template-rows:34px minmax(0,1fr)!important;
+  justify-items:center!important;
+  align-items:center!important;
+  gap:4px!important;
+  text-align:center!important;
+  overflow:visible!important;
+  font-family:var(--hr-body-font),'Tajawal',sans-serif!important;
+}
+body.r1502-ready #r1502-dashboard .r1502-scope-card .r1502-num,
+body.r1502-ready #r1502-dashboard .r1502-scope-card .r1502-desc{
+  display:none!important;
+}
+body.r1502-ready #r1502-dashboard .r1502-scope-card .r1502-ico{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  border-radius:14px!important;
+  font-size:14px!important;
+  grid-row:auto!important;
+  display:grid!important;
+  place-items:center!important;
+  position:relative!important;
+  overflow:visible!important;
+  margin:0 auto!important;
+}
+body.r1502-ready #r1502-dashboard .r1502-scope-card .r1502-copy{
+  width:100%!important;
+  min-width:0!important;
+  padding:0!important;
+  margin:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+body.r1502-ready #r1502-dashboard .r1502-scope-card .r1502-name{
+  font-family:var(--hr-body-font),'Tajawal',sans-serif!important;
+  font-size:11.4px!important;
+  font-weight:900!important;
+  line-height:1.18!important;
+  letter-spacing:0!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  text-align:center!important;
+  max-width:100%!important;
+}
+body.r1502-ready #r1502-dashboard .r1502-scope-card.is-active{
+  border-color:rgba(255,209,102,.70)!important;
+  box-shadow:0 14px 30px rgba(0,0,0,.25),0 0 0 1px rgba(255,209,102,.18),inset 0 1px 0 rgba(255,255,255,.15)!important;
+}
+body.r1502-ready #r1502-dashboard .r1502-scope-card.is-active .r1502-name{
+  color:#fff9d6!important;
+  text-shadow:0 2px 12px rgba(0,0,0,.18)!important;
+}
+body.r1502-ready #r1502-dashboard .r1502-scope-card .r1505-scope-count{
+  top:-6px!important;
+  inset-inline-start:auto!important;
+  inset-inline-end:-5px!important;
+  min-width:19px!important;
+  height:15px!important;
+  padding:0 4px!important;
+  border-radius:999px!important;
+  font-family:var(--hr-number-font),Arial,sans-serif!important;
+  font-size:6.8px!important;
+  font-weight:950!important;
+  line-height:1!important;
+  letter-spacing:0!important;
+  transform:none!important;
+  box-shadow:0 5px 11px rgba(245,158,11,.26),inset 0 1px 0 rgba(255,255,255,.82)!important;
+  z-index:9!important;
+}
+body.r1502-ready #r1502-dashboard [data-main="admin"] .r1505-scope-count{display:none!important}
+@media(max-width:380px){
+  body.r1502-ready #r1502-dashboard .r1502-scope-grid{gap:6px!important}
+  body.r1502-ready #r1502-dashboard .r1502-scope-card{height:66px!important;min-height:66px!important;border-radius:18px!important;padding:7px 4px 6px!important;grid-template-rows:31px minmax(0,1fr)!important}
+  body.r1502-ready #r1502-dashboard .r1502-scope-card .r1502-ico{width:31px!important;height:31px!important;min-width:31px!important;border-radius:13px!important;font-size:13px!important}
+  body.r1502-ready #r1502-dashboard .r1502-scope-card .r1502-name{font-size:10.6px!important}
+  body.r1502-ready #r1502-dashboard .r1502-scope-card .r1505-scope-count{top:-5px!important;inset-inline-end:-4px!important;min-width:18px!important;height:14px!important;font-size:6.4px!important;padding:0 3px!important}
+}
+</style>
+<script id="r1523-scope-cards-polish-script">
+(function(){
+var RELEASE='MOBILE-R1.5.22d-SCOPE-CARDS-POLISH';
+function qs(s,r){return (r||document).querySelector(s)}
+function fmt(n){n=Number(n||0);return n>999?String(Math.round(n/100)/10)+'k':String(n)}
+function count(k){try{return k==='perm'?(BASE.perm||[]).length:k==='cont'?(BASE.cont||[]).length:0}catch(e){return 0}}
+function polish(){
+  try{
+    var labels={perm:['الدائميون','الموظفون الدائمون','fa-id-card'],cont:['العقود','موظفو العقود','fa-file-contract'],admin:['إدارة النظام','لوحة الإدارة','fa-shield-halved']};
+    Object.keys(labels).forEach(function(k){
+      var card=qs('#r1502-dashboard [data-main="'+k+'"]');if(!card)return;
+      card.classList.add('r1523-scope-card');
+      var name=card.querySelector('.r1502-name'),desc=card.querySelector('.r1502-desc'),ico=card.querySelector('.r1502-ico i');
+      if(name)name.textContent=labels[k][0];
+      if(desc)desc.textContent=labels[k][1];
+      if(ico)ico.className='fas '+labels[k][2];
+      if(k==='perm'||k==='cont'){
+        var box=card.querySelector('.r1502-ico');
+        if(box){
+          var b=box.querySelector('.r1505-scope-count');
+          if(!b){b=document.createElement('span');b.className='r1505-scope-count';box.appendChild(b)}
+          b.textContent=fmt(count(k));
+          b.title=k==='perm'?'عدد الموظفين الدائمين':'عدد موظفي العقود';
+        }
+      }else{
+        var old=card.querySelector('.r1505-scope-count');if(old)old.remove();
+      }
+    });
+    if(document.body)document.body.classList.add('r1523-scope-polished');
+  }catch(e){}
+}
+function tick(){polish();setTimeout(polish,80);setTimeout(polish,260)}
+document.addEventListener('DOMContentLoaded',tick);
+window.addEventListener('load',tick);
+window.addEventListener('pageshow',tick);
+document.addEventListener('click',function(ev){var t=ev.target;if(t&&t.closest&&t.closest('#r1502-dashboard,.main-tabs,#sub-tabs'))setTimeout(tick,60)},true);
+try{new MutationObserver(function(){clearTimeout(window.__r1523ScopeT);window.__r1523ScopeT=setTimeout(polish,60)}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']})}catch(e){}
+setTimeout(tick,100);setTimeout(tick,700);setInterval(polish,60000);
+window.r1523ScopeCardsPolish={release:RELEASE,fix:tick};
+})();
+</script>
+
 </body>
 </html>
