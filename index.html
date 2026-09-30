@@ -8847,5 +8847,93 @@ window.r1528SafeEmployeeHistoryBaseline={release:RELEASE,canonicalDate:dateCanon
 </script>
 <style id="r1528-safe-history-style">#modal .profile-history-badge{unicode-bidi:isolate}</style>
 
+
+
+<!-- MOBILE R1.5.29: Manual refresh timeout guard for top تحديث الآن button -->
+<script id="r1529-manual-refresh-timeout-guard-script">
+// MOBILE R1.5.29: keep top manual data refresh safe; extend secure Google Sheets JSONP timeout and preserve cached data on slow connections.
+(function(){
+var RELEASE='MOBILE-R1.5.29-MANUAL-REFRESH-TIMEOUT-GUARD';
+try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
+var SECURE_TIMEOUT_MS=90000;
+var BUSY=false;
+function toast(m,t){try{if(typeof showToast==='function')showToast(m,t||'');}catch(e){}}
+function secureUrl(url){url=String(url||'');try{return url.indexOf('script.google.com')>=0||url===String(HR_SECURE_API_URL||'');}catch(e){return url.indexOf('script.google.com')>=0;}}
+function total(){try{return (BASE.perm||[]).length+(BASE.cont||[]).length}catch(e){return 0}}
+function setBusy(v){
+  BUSY=!!v;
+  ['connection-refresh','sys-refresh-data'].forEach(function(id){
+    var b=document.getElementById(id);if(!b)return;
+    b.disabled=BUSY;b.classList.toggle('r1529-busy',BUSY);
+    if(id==='connection-refresh')b.innerHTML=BUSY?'<i class="fas fa-rotate fa-spin"></i> جاري التحديث':'<i class="fas fa-rotate"></i> تحديث الآن';
+    if(id==='sys-refresh-data')b.innerHTML=BUSY?'<i class="fas fa-spinner fa-spin"></i> جاري تحديث البيانات...':'<i class="fas fa-database"></i> تحديث البيانات الآن';
+  });
+}
+function touch(msg){
+  try{if(msg)LAST_DATA_STATUS=msg;}catch(e){}
+  try{updateVersionUI();}catch(e){}
+  try{updateAdminCounts();}catch(e){}
+  try{updateConnectivityUI();}catch(e){}
+  try{updateSystemTabDot();}catch(e){}
+  try{if(typeof r71ReadCacheInfo==='function')r71ReadCacheInfo().then(function(){try{if(subView==='system'&&typeof buildSystemCenter==='function')buildSystemCenter();}catch(e){}});}catch(e){}
+  try{if(mode!=='admin'){filt=(mode==='cont'?(BASE.cont||[]):(BASE.perm||[])).slice();buildLetters();buildAdvancedFilters();doFilter();}else if(typeof renderAdminList==='function')renderAdminList();}catch(e){try{render();}catch(_){} }
+  try{if(typeof window.r1502DashboardRadicalRebuild==='object'&&window.r1502DashboardRadicalRebuild.render)window.r1502DashboardRadicalRebuild.render();}catch(e){}
+  try{if(typeof window.r1504ScopeZainStartupExpandFix==='object'&&window.r1504ScopeZainStartupExpandFix.tick)window.r1504ScopeZainStartupExpandFix.tick();}catch(e){}
+}
+function installJsonpTimeoutGuard(){
+  try{
+    if(typeof hr1508Jsonp!=='function'||hr1508Jsonp.__r1529Guard)return false;
+    var old=hr1508Jsonp;
+    var guarded=function(url,params,timeoutMs){
+      var t=Number(timeoutMs)||0;
+      if(secureUrl(url))t=Math.max(t,SECURE_TIMEOUT_MS);
+      return old.call(this,url,params,t||timeoutMs);
+    };
+    guarded.__r1529Guard=true;guarded.__r1529Old=old;guarded.timeoutMs=SECURE_TIMEOUT_MS;
+    hr1508Jsonp=guarded;window.hr1508Jsonp=guarded;
+    return true;
+  }catch(e){return false;}
+}
+async function refreshNow(origin){
+  if(BUSY)return false;
+  if(navigator.onLine===false){toast('لا يمكن تحديث البيانات بدون إنترنت، النسخة المحفوظة تعمل الآن','warn');return false;}
+  installJsonpTimeoutGuard();
+  setBusy(true);
+  var before=total();
+  try{
+    toast('جاري تحديث البيانات من Google Sheets، قد يستغرق الاتصال الأول وقتًا أطول...');
+    if(typeof r1509RecoverSecureData==='function'){
+      await r1509RecoverSecureData(true);
+    }else{
+      await loadCentralData(true);
+    }
+    var msg='تم جلب آخر بيانات Google Sheets الآن: '+(BASE.perm||[]).length+' دائم • '+(BASE.cont||[]).length+' عقد';
+    try{localStorage.setItem('hr_secure_last_manual_refresh_r1513',new Date().toISOString());localStorage.setItem('hr_secure_last_manual_refresh_r1529',new Date().toISOString());}catch(e){}
+    try{if(window.hrIndexedDB&&typeof window.hrIndexedDB.saveDataset==='function'){var cur={schemaVersion:1,meta:DATA_META||{},perm:BASE.perm||[],cont:BASE.cont||[]};window.hrIndexedDB.saveDataset(cur,'manual-refresh-r1529').catch(function(){});}}catch(e){}
+    touch(msg);toast(msg,'ok');return true;
+  }catch(e){
+    var em=String((e&&e.message)||e||'');
+    var msg=em.indexOf('مهلة')>=0?'انتهت مهلة الاتصال بمصدر البيانات، بقيت النسخة المحفوظة تعمل ولم يتم حذف أي بيانات':'تعذر تحديث البيانات الآن، بقيت النسخة المحفوظة تعمل';
+    try{LAST_DATA_STATUS=msg+(before?' • السجلات الحالية: '+before:'');}catch(x){}
+    touch(LAST_DATA_STATUS);toast(msg,'warn');return false;
+  }finally{setBusy(false);}
+}
+function bind(){
+  installJsonpTimeoutGuard();
+  ['connection-refresh','sys-refresh-data'].forEach(function(id){
+    var b=document.getElementById(id);if(!b||b.__r1529Bound)return;
+    b.__r1529Bound=true;
+    b.addEventListener('click',function(ev){ev.preventDefault();ev.stopImmediatePropagation();refreshNow(id==='connection-refresh'?'top':'system');return false;},{capture:true,passive:false});
+  });
+}
+bind();
+document.addEventListener('DOMContentLoaded',function(){bind();setTimeout(bind,400);setTimeout(bind,1600);});
+window.addEventListener('load',function(){bind();setTimeout(bind,600);setTimeout(bind,1800);});
+document.addEventListener('click',function(){setTimeout(bind,60);},true);
+window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_MS,install:installJsonpTimeoutGuard,refresh:refreshNow,bind:bind};
+})();
+</script>
+<style id="r1529-manual-refresh-style">#connection-refresh.r1529-busy,#sys-refresh-data.r1529-busy{opacity:.82;pointer-events:none}</style>
+
 </body>
 </html>
