@@ -2859,61 +2859,7 @@ function printCurrentReport(){
   var ds=reportDataset(),cols=reportColumns();if(!ds.length){showToast('لا توجد نتائج للطباعة','warn');return;}if(!cols.length){showToast('اختر عمودًا واحدًا على الأقل','warn');return;}
   var w=window.open('','_blank','width=1200,height=900');if(!w){showToast('اسمح بالنوافذ المنبثقة للطباعة','warn');return;}
   var rows=ds.map(function(e){return '<tr>'+cols.map(function(c){return '<td>'+escapeHTML(reportValue(e,c.k))+'</td>';}).join('')+'</tr>';}).join(''),title=REPORT_STATE.title||reportTypeLabel(REPORT_STATE.type),latest=latestUpdateSummary(),lc=latest.counts||{};
-  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+escapeHTML(title)+'</title><style>@page{size:A4 landscape;margin:10mm 8mm 13mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#17213d;margin:0}.official{border:1px solid #ccd2e6}.head{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:3px solid #1a237e;background:#f7f8ff}.emblem{width:50px;height:50px;border:2px solid #1a237e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#1a237e}.min{font-size:10px;color:#68739b}.title{font-size:20px;font-weight:800;color:#1a237e;margin:3px 0}.meta{margin-right:auto;text-align:left;direction:ltr;font-size:9px;color:#68739b}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:9px 12px;background:#fafbff;border-bottom:1px solid #e5e8f2}.s{padding:7px;text-align:center;border:1px solid #e1e5f0;border-radius:8px;background:#fff}.sv{font-size:16px;font-weight:bold;color:#1a237e}.sl{font-size:8px;color:#7781a4}.scope{padding:8px 12px;font-size:9px;color:#5e688e;border-bottom:1px solid #eceef5}table{border-collapse:collapse;width:100%;font-size:7.5px}th,td{border:1px solid #dfe3ef;padding:5px;text-align:right}th{background:#1a237e;color:#fff;font-weight:bold}tbody tr:nth-child(even){background:#fafbff}tr{page-break-inside:avoid}.sign{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:20px 40px 8px;font-size:9px;color:#68739b}.line{border-top:1px solid #8d96b3;padding-top:6px;text-align:center;margin-top:20px}.foot{font-size:7px;color:#7c85a3;padding:7px 12px;border-top:1px solid #e6e9f2}.page:after{content:counter(page)}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="official"><div class="head"><div class="emblem">🌱</div><div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — '+escapeHTML(title)+'</div><div class="min">'+escapeHTML(reportScopeText())+'</div></div><div class="meta">'+escapeHTML(DATA_VERSION||'—')+'<br>'+escapeHTML(new Date().toLocaleString('ar-IQ'))+'</div></div><div class="summary"><div class="s"><div class="sv">'+ds.length+'</div><div class="sl">عدد السجلات</div></div><div class="s"><div class="sv">'+(lc.modified||0)+'</div><div class="sl">معدل بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.added||0)+'</div><div class="sl">جديد بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.missing||0)+'</div><div class="sl">للمراجعة</div></div></div><div class="scope"><strong>نطاق التقرير:</strong> '+escapeHTML(reportScopeText())+' • <strong>الحقول الحساسة:</strong> '+(REPORT_STATE.includeSensitive?'مشمولة':'مخفية')+'</div><table><thead><tr>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table><div class="sign"><div><div class="line">إعداد / تدقيق</div></div><div><div class="line">المصادقة</div></div></div><div class="foot">تم إنشاء التقرير من نظام سجل موظفي مديرية زراعة صلاح الدين • إصدار البيانات '+escapeHTML(DATA_VERSION||'—')+' • صفحة <span class="page"></span></div></div><script>setTimeout(function(){window.print()},650)<\/script>
-<!-- MOBILE-R1.5.32-SCOPE-TITLES-ONLY: rename dashboard/scope titles only, no loader/data/history changes. -->
-
-<script id="r1532-scope-titles-only-script">
-// MOBILE-R1.5.32-SCOPE-TITLES-ONLY
-(function(){
-  var RELEASE='MOBILE-R1.5.32-SCOPE-TITLES-ONLY';
-  try{window.APP_RELEASE=RELEASE;}catch(e){}
-  var pairs={
-    'سجلات الملف':'الدائميون',
-    'استلام موظف':'العقود',
-    'استلام الملف':'العقود',
-    'أدوات النظام':'إدارة النظام',
-    'الدائمون':'الدائميون',
-    'الإدارة':'إدارة النظام'
-  };
-  function fixNode(n){
-    try{
-      if(!n || !n.textContent)return;
-      var t=n.textContent.trim();
-      if(pairs[t]) n.textContent=pairs[t];
-    }catch(e){}
-  }
-  function apply(){
-    try{
-      var sel='.r1502-name,.r1502-desc,.tab-label,.main-tab span,.scope-title,.scope-name,[data-main] .r1502-name,[data-main] .r1502-desc';
-      document.querySelectorAll(sel).forEach(fixNode);
-      document.querySelectorAll('[data-main="perm"],[data-scope="perm"]').forEach(function(el){
-        var n=el.querySelector('.r1502-name,.tab-label,.scope-title,.scope-name'); if(n) n.textContent='الدائميون';
-      });
-      document.querySelectorAll('[data-main="cont"],[data-scope="cont"]').forEach(function(el){
-        var n=el.querySelector('.r1502-name,.tab-label,.scope-title,.scope-name'); if(n) n.textContent='العقود';
-      });
-      document.querySelectorAll('[data-main="admin"],[data-scope="admin"]').forEach(function(el){
-        var n=el.querySelector('.r1502-name,.tab-label,.scope-title,.scope-name'); if(n) n.textContent='إدارة النظام';
-      });
-    }catch(e){}
-  }
-  try{document.addEventListener('DOMContentLoaded',apply,{once:false});}catch(e){}
-  try{setTimeout(apply,300);setTimeout(apply,1200);setTimeout(apply,2500);}catch(e){}
-})();
-</script>
-
-
-<!-- MOBILE-R1.5.35-SERVICE-WORKER-CACHE-RECOVERY -->
-<script>
-(function(){
-  try{
-    var RELEASE='MOBILE-R1.5.35-SERVICE-WORKER-CACHE-RECOVERY';
-    try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
-  }catch(e){}
-})();
-</script>
-
-</body></html>';
+  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+escapeHTML(title)+'</title><style>@page{size:A4 landscape;margin:10mm 8mm 13mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#17213d;margin:0}.official{border:1px solid #ccd2e6}.head{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:3px solid #1a237e;background:#f7f8ff}.emblem{width:50px;height:50px;border:2px solid #1a237e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#1a237e}.min{font-size:10px;color:#68739b}.title{font-size:20px;font-weight:800;color:#1a237e;margin:3px 0}.meta{margin-right:auto;text-align:left;direction:ltr;font-size:9px;color:#68739b}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:9px 12px;background:#fafbff;border-bottom:1px solid #e5e8f2}.s{padding:7px;text-align:center;border:1px solid #e1e5f0;border-radius:8px;background:#fff}.sv{font-size:16px;font-weight:bold;color:#1a237e}.sl{font-size:8px;color:#7781a4}.scope{padding:8px 12px;font-size:9px;color:#5e688e;border-bottom:1px solid #eceef5}table{border-collapse:collapse;width:100%;font-size:7.5px}th,td{border:1px solid #dfe3ef;padding:5px;text-align:right}th{background:#1a237e;color:#fff;font-weight:bold}tbody tr:nth-child(even){background:#fafbff}tr{page-break-inside:avoid}.sign{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:20px 40px 8px;font-size:9px;color:#68739b}.line{border-top:1px solid #8d96b3;padding-top:6px;text-align:center;margin-top:20px}.foot{font-size:7px;color:#7c85a3;padding:7px 12px;border-top:1px solid #e6e9f2}.page:after{content:counter(page)}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="official"><div class="head"><div class="emblem">🌱</div><div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — '+escapeHTML(title)+'</div><div class="min">'+escapeHTML(reportScopeText())+'</div></div><div class="meta">'+escapeHTML(DATA_VERSION||'—')+'<br>'+escapeHTML(new Date().toLocaleString('ar-IQ'))+'</div></div><div class="summary"><div class="s"><div class="sv">'+ds.length+'</div><div class="sl">عدد السجلات</div></div><div class="s"><div class="sv">'+(lc.modified||0)+'</div><div class="sl">معدل بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.added||0)+'</div><div class="sl">جديد بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.missing||0)+'</div><div class="sl">للمراجعة</div></div></div><div class="scope"><strong>نطاق التقرير:</strong> '+escapeHTML(reportScopeText())+' • <strong>الحقول الحساسة:</strong> '+(REPORT_STATE.includeSensitive?'مشمولة':'مخفية')+'</div><table><thead><tr>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table><div class="sign"><div><div class="line">إعداد / تدقيق</div></div><div><div class="line">المصادقة</div></div></div><div class="foot">تم إنشاء التقرير من نظام سجل موظفي مديرية زراعة صلاح الدين • إصدار البيانات '+escapeHTML(DATA_VERSION||'—')+' • صفحة <span class="page"></span></div></div><script>setTimeout(function(){window.print()},650)<\/script></body></html>';
   w.document.open();w.document.write(doc);w.document.close();
 }
 
@@ -4044,7 +3990,7 @@ var mobileR14BaseSwitchSub=switchSub;switchSub=function(v){mobileR14BaseSwitchSu
 
 
 // ── MOBILE R1.4.6 FLEXIBLE HEADER + KPI + SEARCH POLISH ───────────────────
-function mobileR146ModeLabel(){return mode==='cont'?'العقود':mode==='admin'?'إدارة النظام':'الدائميون';}
+function mobileR146ModeLabel(){return mode==='cont'?'العقود':mode==='admin'?'الإدارة':'الدائمون';}
 function mobileR146SubLabel(){return {list:'القائمة',updates:'آخر التحديثات',reports:'التقارير',alerts:'التنبيهات',system:'حالة النظام'}[subView]||'القائمة';}
 function mobileR146SyncChrome(){
   var t=document.getElementById('mobile-chrome-title'),s=document.getElementById('mobile-chrome-sub'),btn=document.getElementById('mobile-chrome-toggle');
@@ -7160,7 +7106,7 @@ body.light-mode:not(.chrome-collapsed):not(.r1495-pass-gate) #r1416-nav-card.r14
   function body(){return document.body||document.documentElement}
   function collapsed(){return !!(document.body&&document.body.classList&&document.body.classList.contains('chrome-collapsed'))}
   function scopeHTML(tab,kind){
-    var data={perm:['fa-id-card','الدائميون','سجل الملاك الدائم','badge-perm'],cont:['fa-file-contract','العقود','سجل موظفي العقود','badge-cont'],admin:['fa-shield-halved','إدارة النظام','لوحة الإدارة','']};
+    var data={perm:['fa-id-card','الدائمون','سجل الملاك الدائم','badge-perm'],cont:['fa-file-contract','العقود','سجل موظفي العقود','badge-cont'],admin:['fa-shield-halved','الإدارة','أدوات النظام','']};
     var d=data[kind]||data.perm;var count=d[3]?'<span class="tab-badge" id="'+d[3]+'">'+((tab.querySelector('.tab-badge')||{}).textContent||'0')+'</span>':'';
     return '<i class="fas '+d[0]+'"></i><span class="r1499-scope-title">'+d[1]+'</span><small class="r1499-scope-hint">'+d[2]+'</small>'+count;
   }
@@ -7608,7 +7554,7 @@ body.light-mode #r1502-dashboard .r1502-panel{background:linear-gradient(145deg,
 // MOBILE R1.5.02: replace the legacy dashboard UI with a new standalone professional dashboard while preserving original functions.
 (function(){
 var RELEASE='MOBILE-R1.5.02-DASHBOARD-RADICAL-REBUILD';
-var MAIN=[{key:'perm',num:'01',name:'الدائميون',desc:'الموظفون الدائمون',icon:'fa-id-card'},{key:'cont',num:'02',name:'العقود',desc:'موظفو العقود',icon:'fa-file-contract'},{key:'admin',num:'03',name:'إدارة النظام',desc:'لوحة الإدارة',icon:'fa-shield-halved'}];
+var MAIN=[{key:'perm',num:'01',name:'سجلات الملف',desc:'الموظفون الدائمون',icon:'fa-id-card'},{key:'cont',num:'02',name:'استلام موظف',desc:'موظفو العقود',icon:'fa-file-contract'},{key:'admin',num:'03',name:'أدوات النظام',desc:'لوحة الإدارة',icon:'fa-shield-halved'}];
 var MODULES=[{key:'managernotes',num:'01',name:'الحركات الإدارية',desc:'واجهة محمية',icon:'fa-comments'},{key:'list',num:'02',name:'القائمة',desc:'سجل الموظفين',icon:'fa-list-ul'},{key:'updates',num:'03',name:'آخر التحديثات',desc:'الإضافات والتعديلات',icon:'fa-clock-rotate-left'},{key:'reports',num:'04',name:'التقارير',desc:'الكشوفات والطباعة',icon:'fa-file-lines'},{key:'alerts',num:'05',name:'التنبيهات',desc:'المراجعة والتحذيرات',icon:'fa-bell'},{key:'system',num:'06',name:'حالة النظام',desc:'التحديث والمزامنة',icon:'fa-gauge-high'},{key:'service',num:'07',name:'حاسبة الخدمة',desc:'حساب مدة الخدمة',icon:'fa-calculator'},{key:'jobtitles',num:'08',name:'العناوين الوظيفية',desc:'بحث العنوان والدرجة',icon:'fa-briefcase'},{key:'titlematch',num:'09',name:'مطابقة العنوان',desc:'التطابق الوظيفي',icon:'fa-check-double'}];
 function $(id){return document.getElementById(id)}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
@@ -7665,7 +7611,7 @@ function toggle(){setCollapsed(!collapsed());var sc=document.getElementById('scr
 function syncHandle(){var h=document.getElementById('r1503-chrome-handle');if(!h)return;var c=collapsed();h.setAttribute('aria-pressed',c?'true':'false');h.setAttribute('title',c?'إظهار الشريط العلوي والسفلي':'إخفاء الشريط العلوي والسفلي');h.innerHTML='<span class="r1503-handle-ico"><i class="fas '+(c?'fa-up-right-and-down-left-from-center':'fa-down-left-and-up-right-to-center')+'"></i></span><span class="r1503-handle-text">'+(c?'إظهار الواجهة':'إخفاء الواجهة')+'</span><span class="r1503-handle-drag"><i class="fas fa-arrows-up-down"></i></span>'}
 function ensureHandle(){var h=document.getElementById('r1503-chrome-handle');if(!h){h=document.createElement('button');h.type='button';h.id='r1503-chrome-handle';h.setAttribute('aria-label','إخفاء أو إظهار الشريط العلوي والسفلي');document.body.appendChild(h);h.addEventListener('click',function(ev){ev.preventDefault();toggle()},{passive:false});bindSwipe(h)}syncHandle();return h}
 function bindSwipe(el){if(!el||el.__r1503Swipe)return;el.__r1503Swipe=true;var y0=null,x0=null;function start(ev){var t=(ev.touches&&ev.touches[0])||ev;y0=t.clientY;x0=t.clientX}function end(ev){if(y0==null)return;var t=(ev.changedTouches&&ev.changedTouches[0])||ev;var dy=t.clientY-y0,dx=t.clientX-x0;y0=x0=null;if(Math.abs(dy)>26&&Math.abs(dy)>Math.abs(dx)){setCollapsed(dy<0);ev.preventDefault&&ev.preventDefault()}}el.addEventListener('touchstart',start,{passive:true});el.addEventListener('touchend',end,{passive:false});el.addEventListener('pointerdown',start,{passive:true});el.addEventListener('pointerup',end,{passive:false})}
-function fixScopeTitles(){var map={perm:['الدائميون','الموظفون الدائمون'],cont:['العقود','موظفو العقود'],admin:['إدارة النظام','لوحة الإدارة']};Object.keys(map).forEach(function(k){var b=qs('#r1502-dashboard [data-main="'+k+'"]');if(!b)return;var n=b.querySelector('.r1502-name'),d=b.querySelector('.r1502-desc');if(n)n.textContent=map[k][0];if(d)d.textContent=map[k][1]})}
+function fixScopeTitles(){var map={perm:['سجلات الملف','الموظفون الدائمون'],cont:['استلام موظف','موظفو العقود'],admin:['أدوات النظام','لوحة الإدارة']};Object.keys(map).forEach(function(k){var b=qs('#r1502-dashboard [data-main="'+k+'"]');if(!b)return;var n=b.querySelector('.r1502-name'),d=b.querySelector('.r1502-desc');if(n)n.textContent=map[k][0];if(d)d.textContent=map[k][1]})}
 function tick(){ensureHandle();fixScopeTitles();setTimeout(function(){ensureHandle();fixScopeTitles()},120);}
 document.addEventListener('DOMContentLoaded',tick);window.addEventListener('load',tick);window.addEventListener('pageshow',tick);document.addEventListener('click',function(ev){if(ev.target&&ev.target.closest&&ev.target.closest('#mobile-chrome-toggle'))setTimeout(syncHandle,40);},true);try{new MutationObserver(function(){clearTimeout(window.__r1503T);window.__r1503T=setTimeout(tick,80)}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']})}catch(e){}window.r1503DashboardLayoutChromePolish={release:RELEASE,setCollapsed:setCollapsed,toggle:toggle,sync:tick};
 })();
@@ -7706,7 +7652,7 @@ function expandStartup(){
   patchHandleText();
 }
 function patchScope(){
-  var map={perm:{name:'الدائميون',icon:'fa-id-card'},cont:{name:'العقود',icon:'fa-file-contract'},admin:{name:'إدارة النظام',icon:'fa-user-shield'}};
+  var map={perm:{name:'الدائمون',icon:'fa-id-card'},cont:{name:'العقود',icon:'fa-file-contract'},admin:{name:'الإدارة',icon:'fa-user-shield'}};
   Object.keys(map).forEach(function(k){
     var b=qs('#r1502-dashboard [data-main="'+k+'"]');if(!b)return;
     var n=b.querySelector('.r1502-name'),d=b.querySelector('.r1502-desc'),num=b.querySelector('.r1502-num'),ico=b.querySelector('.r1502-ico i');
@@ -8996,6 +8942,17 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 <script>
 (function(){
   var RELEASE='MOBILE-R1.5.31-LOADER-RECOVERY-ROLLBACK-STABLE';
+  try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
+  try{window.APP_RELEASE=RELEASE;}catch(e){}
+})();
+</script>
+
+<!-- MOBILE-R1.5.36-PRE-SCOPE-TITLES-ROLLBACK-STABLE
+     Exact recovery from the last confirmed working pre-title-change build (R1.5.31).
+     No R1.5.32/R1.5.33 title/version patch logic is active here. -->
+<script id="r1536-pre-scope-rollback-marker">
+(function(){
+  var RELEASE='MOBILE-R1.5.36-PRE-SCOPE-TITLES-ROLLBACK-STABLE';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 })();
