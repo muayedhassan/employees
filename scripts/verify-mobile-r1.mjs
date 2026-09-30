@@ -12,20 +12,25 @@ const sw = read('service-worker.js');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const version = read('VERSION.txt').trim();
 
-const expected = 'MOBILE-R1.5.14-SAFE-CHANGE-TRACE';
-if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.14 safe change trace');
+const expected = 'MOBILE-R1.5.15-PERSISTENT-CHANGE-HISTORY';
+if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.15 persistent change history');
 if (version !== expected) fail('VERSION.txt mismatch');
-if (!String(manifest.description || '').includes('R1.5.14')) fail('manifest description missing R1.5.14');
+if (!String(manifest.description || '').includes('R1.5.15')) fail('manifest description missing R1.5.15');
 
 const requiredMarkers = [
+  'R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.',
+  'MOBILE-R1.5.15-PERSISTENT-CHANGE-HISTORY',
+  'r1515PersistentChangeHistory',
+  'hr_persistent_change_summary_r1515',
+  'hr_persistent_change_history_r1515',
   'R1.5.14: safe change trace records previous/current values after secure Google Sheets updates without touching startup loading.',
   'MOBILE-R1.5.14-SAFE-CHANGE-TRACE',
   'r1514SafeChangeTrace',
   'القيمة السابقة',
   'القيمة الجديدة',
   'CHANGE_HISTORY_CACHE_KEY',
-  'employee-registry-mobile-r1514-safe-change-trace-2026.09.29',
-  'employee-registry-pdf-downloads-r1514',
+  'employee-registry-mobile-r1515-persistent-change-history-2026.09.30',
+  'employee-registry-pdf-downloads-r1515',
   'R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.',
   'r1513SecureDataManualRefresh',
   'تحديث الآن',

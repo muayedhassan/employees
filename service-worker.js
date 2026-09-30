@@ -1,3 +1,5 @@
+// R1.5.15 cache: persistent change history keeps previous/current values after app restart.
+// R1.5.15 marker: employee-registry-mobile-r1515-persistent-change-history-2026.09.30 | employee-registry-pdf-downloads-r1515
 // R1.5.14 cache: safe change trace stores previous/current values after secure updates, no startup blocking.
 // R1.5.14 marker: employee-registry-mobile-r1514-safe-change-trace-2026.09.29 | employee-registry-pdf-downloads-r1514
 // R1.5.13 cache: manual secure data refresh button applies latest Google Sheets updates immediately, no embedded data.
@@ -56,8 +58,8 @@
 // Legacy verification markers retained: employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19 | employee-registry-pdf-downloads-r1452
 // Legacy verification markers retained: employee-registry-mobile-r1455-service-calculator-navigation-fix-2026.09.19 | employee-registry-pdf-downloads-r1455
 // Legacy verification marker retained: employee-registry-mobile-r1463-splash-loading-restore-2026.09.19 | employee-registry-pdf-downloads-r1463
-const CACHE_NAME = 'employee-registry-mobile-r1514-safe-change-trace-2026.09.29';
-const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1514';
+const CACHE_NAME = 'employee-registry-mobile-r1515-persistent-change-history-2026.09.30';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1515';
 const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',

@@ -1746,8 +1746,8 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.14-SAFE-CHANGE-TRACE';
-// R1.5.14: safe change trace records previous/current values after secure Google Sheets updates without touching startup loading.
+var APP_RELEASE = 'MOBILE-R1.5.15-PERSISTENT-CHANGE-HISTORY';
+// R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.
 // R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.
 // R1.5.10: secure data instant cache shows saved Google Sheets data immediately, then refreshes in background.
 // R1.5.09: secure data apply fix ensures Apps Script data is forced into the UI after JSONP load.
@@ -7963,6 +7963,111 @@ function wrapManualRefresh(){
 function install(){enrichLabels();wrapApply();wrapManualRefresh()}
 install();document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,500);setTimeout(install,1800)});window.addEventListener('load',function(){setTimeout(install,300);setTimeout(install,1500)});
 window.r1514SafeChangeTrace={release:RELEASE,install:install,build:function(){var s=makeSummary(snap(),snap(),'manual-check');return saveSummary(s)}};
+})();
+</script>
+
+
+<!-- MOBILE R1.5.15: persistent change history after app restart -->
+<script id="r1515-persistent-change-history-script">
+// MOBILE R1.5.15: keep the last previous/current change trace in localStorage after closing/reopening the app.
+(function(){
+var RELEASE='MOBILE-R1.5.15-PERSISTENT-CHANGE-HISTORY';
+var PERSIST_SUMMARY_KEY='hr_persistent_change_summary_r1515';
+var PERSIST_HISTORY_KEY='hr_persistent_change_history_r1515';
+function read(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+function write(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function arr(x){return Array.isArray(x)?x:[]}
+function meaningfulChanges(changes){
+  try{if(typeof realHistoryChanges==='function')return realHistoryChanges(changes).length>0}catch(e){}
+  return arr(changes).some(function(c){return String((c&&c.oldValue)||'').trim()!==String((c&&c.newValue)||'').trim()});
+}
+function meaningfulSummary(s){
+  if(!s||typeof s!=='object')return false;
+  if(arr(s.modified).some(function(x){return meaningfulChanges(x&&x.changes)}))return true;
+  if(arr(s.added).length||arr(s.missing).length)return true;
+  return false;
+}
+function normalizeHistory(h){
+  if(h&&Array.isArray(h.versions))return h;
+  return {schemaVersion:1515,versions:[]};
+}
+function latestMeaningfulFromHistory(h){
+  h=normalizeHistory(h);
+  for(var i=h.versions.length-1;i>=0;i--){if(meaningfulSummary(h.versions[i]))return h.versions[i]}
+  return null;
+}
+function currentSummary(){try{return (typeof LAST_CHANGE_SUMMARY!=='undefined')?LAST_CHANGE_SUMMARY:null}catch(e){return null}}
+function currentHistory(){try{return (typeof CHANGE_HISTORY!=='undefined')?CHANGE_HISTORY:null}catch(e){return null}}
+function installSummary(sum){
+  if(!meaningfulSummary(sum))return false;
+  try{LAST_CHANGE_SUMMARY=sum}catch(e){}
+  try{if(!CHANGE_HISTORY||!Array.isArray(CHANGE_HISTORY.versions))CHANGE_HISTORY={schemaVersion:1515,versions:[]};}catch(e){}
+  try{
+    var exists=(CHANGE_HISTORY.versions||[]).some(function(v){return v&&v.version===sum.version});
+    if(!exists)CHANGE_HISTORY.versions.push(sum);
+    if(CHANGE_HISTORY.versions.length>25)CHANGE_HISTORY.versions=CHANGE_HISTORY.versions.slice(-25);
+  }catch(e){}
+  return true;
+}
+function persistNow(){
+  var s=currentSummary(), h=normalizeHistory(currentHistory());
+  if(meaningfulSummary(s)){write(PERSIST_SUMMARY_KEY,s);write(CHANGE_SUMMARY_CACHE_KEY,s)}
+  var latest=latestMeaningfulFromHistory(h);
+  if(latest){write(PERSIST_HISTORY_KEY,h);write(CHANGE_HISTORY_CACHE_KEY,h);if(!meaningfulSummary(s))installSummary(latest)}
+}
+function restore(){
+  var s=currentSummary();
+  if(meaningfulSummary(s)){persistNow();return true;}
+  var cached=read(CHANGE_SUMMARY_CACHE_KEY)||read(PERSIST_SUMMARY_KEY);
+  var hist=read(CHANGE_HISTORY_CACHE_KEY)||read(PERSIST_HISTORY_KEY);
+  var latest=meaningfulSummary(cached)?cached:latestMeaningfulFromHistory(hist);
+  if(latest){
+    installSummary(latest);
+    var h=normalizeHistory(hist||currentHistory());
+    var exists=(h.versions||[]).some(function(v){return v&&v.version===latest.version});
+    if(!exists)h.versions.push(latest);
+    try{CHANGE_HISTORY=h}catch(e){}
+    write(PERSIST_SUMMARY_KEY,latest);write(CHANGE_SUMMARY_CACHE_KEY,latest);write(PERSIST_HISTORY_KEY,h);write(CHANGE_HISTORY_CACHE_KEY,h);
+    try{if(typeof updateSystemTabDot==='function')updateSystemTabDot()}catch(e){}
+    try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates()}catch(e){}
+    return true;
+  }
+  return false;
+}
+function wrapBuildUpdates(){
+  try{
+    if(typeof buildUpdates!=='function'||buildUpdates.__r1515Wrapped)return false;
+    var old=buildUpdates;
+    buildUpdates=function(){restore();return old.apply(this,arguments)};
+    buildUpdates.__r1515Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+function wrapApply(){
+  try{
+    if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1515Wrapped)return false;
+    var old=r1509ApplySecureDataset;
+    r1509ApplySecureDataset=function(){
+      var before=currentSummary();
+      var ok=old.apply(this,arguments);
+      setTimeout(function(){
+        if(meaningfulSummary(currentSummary()))persistNow();
+        else if(meaningfulSummary(before))installSummary(before),persistNow();
+        restore();
+      },120);
+      return ok;
+    };
+    r1509ApplySecureDataset.__r1515Wrapped=true;
+    try{window.r1509ApplySecureDataset=r1509ApplySecureDataset}catch(e){}
+    return true;
+  }catch(e){return false}
+}
+function tick(){wrapBuildUpdates();wrapApply();restore();persistNow()}
+document.addEventListener('DOMContentLoaded',function(){tick();setTimeout(tick,400);setTimeout(tick,1600)});
+window.addEventListener('load',function(){setTimeout(tick,250);setTimeout(tick,1400);setTimeout(tick,3200)});
+document.addEventListener('click',function(){setTimeout(tick,60);setTimeout(tick,400)},true);
+setInterval(function(){try{tick()}catch(e){}},3500);
+window.r1515PersistentChangeHistory={release:RELEASE,restore:restore,persist:persistNow,tick:tick,summary:function(){restore();return currentSummary()}};
 })();
 </script>
 
