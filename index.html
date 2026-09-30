@@ -2902,6 +2902,17 @@ function printCurrentReport(){
 })();
 </script>
 
+
+<!-- MOBILE-R1.5.35-SERVICE-WORKER-CACHE-RECOVERY -->
+<script>
+(function(){
+  try{
+    var RELEASE='MOBILE-R1.5.35-SERVICE-WORKER-CACHE-RECOVERY';
+    try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
+  }catch(e){}
+})();
+</script>
+
 </body></html>';
   w.document.open();w.document.write(doc);w.document.close();
 }
@@ -8985,15 +8996,6 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 <script>
 (function(){
   var RELEASE='MOBILE-R1.5.31-LOADER-RECOVERY-ROLLBACK-STABLE';
-  try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
-  try{window.APP_RELEASE=RELEASE;}catch(e){}
-})();
-</script>
-
-<!-- MOBILE-R1.5.34-LOADER-RECOVERY-FROM-R1532: exact R1.5.32 stable base; removes R1.5.33 manual-update changes. -->
-<script>
-(function(){
-  var RELEASE='MOBILE-R1.5.34-LOADER-RECOVERY-FROM-R1532';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 })();

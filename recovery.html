@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>استعادة التطبيق</title></head>
+<body style="font-family:Arial,sans-serif;padding:24px;text-align:center">
+<h3>جاري تنظيف كاش واجهة التطبيق...</h3>
+<p>لن يتم حذف بيانات الموظفين أو IndexedDB.</p>
+<script>
+(async function(){
+  try{
+    if('serviceWorker' in navigator){
+      var regs=await navigator.serviceWorker.getRegistrations();
+      for(var i=0;i<regs.length;i++){try{await regs[i].unregister();}catch(e){}}
+    }
+    if('caches' in window){
+      var keys=await caches.keys();
+      for(var j=0;j<keys.length;j++){
+        if(keys[j].indexOf('employee-registry-')===0){try{await caches.delete(keys[j]);}catch(e){}}
+      }
+    }
+  }catch(e){}
+  location.replace('./?v=1535&_recovery='+Date.now());
+})();
+</script>
+</body></html>
