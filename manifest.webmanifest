@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.17",
-  "short_name": "HR Mobile R1.5.17",
+  "name": "سجل الموظفين - Mobile R1.5.19",
+  "short_name": "HR Mobile R1.5.19",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.17 IndexedDB primary store: reads secure employee data from IndexedDB first, keeps localStorage as compatibility mirror, and preserves Google Sheets refresh.",
+  "description": "R1.5.19 date display fix: reads secure employee data from IndexedDB first, keeps localStorage as compatibility mirror, and preserves Google Sheets refresh.",
   "icons": [
     {
       "src": "assets/icon-192.png",

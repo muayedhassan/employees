@@ -1,7 +1,7 @@
 // Legacy R1.5.15 marker retained: employee-registry-mobile-r1515-persistent-change-history-2026.09.30 | employee-registry-pdf-downloads-r1515
-// R1.5.17 cache: IndexedDB primary store with localStorage compatibility mirror.
+// R1.5.19 cache: date display fix with localStorage compatibility mirror.
 // R1.5.16 cache: IndexedDB foundation for secure dataset and persistent change history.
-// R1.5.17 marker: employee-registry-mobile-r1517-indexeddb-primary-store-2026.09.30 | employee-registry-pdf-downloads-r1517
+// R1.5.19 marker: employee-registry-mobile-r1519-date-display-fix-2026.09.30 | employee-registry-pdf-downloads-r1519
 // R1.5.16 marker: employee-registry-mobile-r1516-indexeddb-foundation-2026.09.30 | employee-registry-pdf-downloads-r1516
 // R1.5.15 cache: persistent change history keeps previous/current values after app restart.
 // R1.5.15 marker: employee-registry-mobile-r1516-indexeddb-foundation-2026.09.30 | employee-registry-pdf-downloads-r1515
@@ -63,8 +63,8 @@
 // Legacy verification markers retained: employee-registry-mobile-r1452-professional-pdf-visual-upgrade-2026.09.19 | employee-registry-pdf-downloads-r1452
 // Legacy verification markers retained: employee-registry-mobile-r1455-service-calculator-navigation-fix-2026.09.19 | employee-registry-pdf-downloads-r1455
 // Legacy verification marker retained: employee-registry-mobile-r1463-splash-loading-restore-2026.09.19 | employee-registry-pdf-downloads-r1463
-const CACHE_NAME = 'employee-registry-mobile-r1517-indexeddb-primary-store-2026.09.30';
-const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1517';
+const CACHE_NAME = 'employee-registry-mobile-r1519-date-display-fix-2026.09.30';
+const PDF_CACHE_NAME = 'employee-registry-pdf-downloads-r1519';
 const PDF_ROUTE_MARKER = '/__hr_pdf_download__/';
 const APP_SHELL = [
   './',

@@ -1746,7 +1746,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.17-INDEXEDDB-PRIMARY-STORE';
+var APP_RELEASE = 'MOBILE-R1.5.19-DATE-DISPLAY-FIX';
 // R1.5.16: IndexedDB foundation stores secure dataset and change history for future large offline features.
 // R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.
 // R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.
@@ -2382,14 +2382,9 @@ function updateExcelMasterUI(){
 }
 
 function loadFileFallback(){
-  return new Promise(function(resolve){
-    if(window.FALLBACK_EMPLOYEE_DATA || location.protocol!=='file:'){resolve();return;}
-    var s=document.createElement('script');
-    s.src='data/fallback-data.js';
-    s.onload=function(){resolve();};
-    s.onerror=function(){resolve();};
-    document.head.appendChild(s);
-  });
+  // R1.5.19: public app shell no longer loads legacy legacy fallback script.
+  // Secure data comes from IndexedDB cache or Google Sheets Apps Script only.
+  return Promise.resolve();
 }
 
 
@@ -8414,6 +8409,66 @@ window.r1518EmployeeModalCleanup={release:RELEASE,strip:stripModalExtras,install
   #modal #m-profile-body .profile-tab-panel[data-profile-panel="basic"].r1518-basic-clean{padding-top:0!important}
 }
 </style>
+
+
+<script id="r1519-date-display-fix-script">
+// MOBILE R1.5.19: normalize employee-card date fields for display without changing source data.
+(function(){
+var RELEASE='MOBILE-R1.5.19-DATE-DISPLAY-FIX';
+var DATE_FIELDS={birthDate:1,hireDate:1,identityIssueDate:1,appointmentOrderDate:1,firstAssignmentDate:1,nextBonusDate:1,nextPromotionDate:1};
+function pad(n){n=String(n);return n.length<2?'0'+n:n}
+function goodY(y){return y>=1900&&y<=2100}
+function fmtDate(y,m,d){y=Number(y);m=Number(m);d=Number(d);if(!goodY(y)||m<1||m>12||d<1||d>31)return '';return String(y)+'/'+pad(m)+'/'+pad(d)}
+function excelSerialToDate(n){
+  n=Number(n);if(!isFinite(n)||n<15000||n>80000)return '';
+  var ms=(Math.floor(n)-25569)*86400*1000;
+  var dt=new Date(ms);
+  if(isNaN(dt.getTime()))return '';
+  return fmtDate(dt.getUTCFullYear(),dt.getUTCMonth()+1,dt.getUTCDate());
+}
+function formatDateValue(v){
+  if(v===null||v===undefined)return '';
+  if(v instanceof Date&&!isNaN(v.getTime()))return fmtDate(v.getFullYear(),v.getMonth()+1,v.getDate());
+  var s=String(v).replace(/\u00a0/g,' ').trim();
+  if(!s||s==='—'||s==='36')return '';
+  var serial=s.replace(/\.0+$/,'');
+  if(/^\d{5}$/.test(serial)){var ex=excelSerialToDate(serial);if(ex)return ex}
+  var m=s.match(/^(\d{4})[-\/\.](\d{1,2})[-\/\.](\d{1,2})(?:T.*)?$/);if(m)return fmtDate(m[1],m[2],m[3]);
+  m=s.match(/^(\d{1,2})[-\/\.](\d{1,2})[-\/\.](\d{4})$/);if(m)return fmtDate(m[3],m[2],m[1]);
+  m=s.match(/Date\s*\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})/i);if(m)return fmtDate(m[1],Number(m[2])+1,m[3]);
+  var parsed=Date.parse(s);if(!isNaN(parsed)){var d=new Date(parsed);return fmtDate(d.getFullYear(),d.getMonth()+1,d.getDate())}
+  return s;
+}
+function install(){
+  try{
+    if(typeof profileDisplayValue==='function'&&!profileDisplayValue.__r1519DateWrapped){
+      var old=profileDisplayValue;
+      profileDisplayValue=function(field,value){
+        if(DATE_FIELDS[field]){
+          if(!bridgeFieldPublished(field))return 'محجوب من نسخة الهاتف';
+          var fixed=formatDateValue(value);
+          if(!fixed)return 'غير متوفر';
+          return fixed;
+        }
+        return old.apply(this,arguments);
+      };
+      profileDisplayValue.__r1519DateWrapped=true;
+    }
+  }catch(e){}
+  try{
+    if(typeof r1411IsNumberOrDateField==='function'&&!r1411IsNumberOrDateField.__r1519DateWrapped){
+      var old2=r1411IsNumberOrDateField;
+      r1411IsNumberOrDateField=function(field,value){if(DATE_FIELDS[field])return true;return old2.apply(this,arguments)};
+      r1411IsNumberOrDateField.__r1519DateWrapped=true;
+    }
+  }catch(e){}
+}
+install();
+document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,300)});
+window.addEventListener('load',function(){setTimeout(install,300);setTimeout(install,1200)});
+window.r1519DateDisplayFix={release:RELEASE,format:formatDateValue,install:install};
+})();
+</script>
 
 </body>
 </html>
