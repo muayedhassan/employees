@@ -1,10 +1,16 @@
 @echo off
 setlocal EnableExtensions
 cd /d "%~dp0"
-echo [Mobile R1.5.23] Checking HR mobile repository...
+echo [Mobile R1.5.24] Checking HR mobile repository...
 
 if not exist "index.html" (
   echo VERIFY_MOBILE_R1 FAIL: index.html not found
+  exit /b 1
+)
+
+findstr /C:"MOBILE-R1.5.24-UPDATE-LOOP-GUARD" "index.html" >nul
+if errorlevel 1 (
+  echo VERIFY_MOBILE_R1 FAIL: Update Loop Guard R1.5.24 is missing
   exit /b 1
 )
 
@@ -48,5 +54,5 @@ if exist "fallback-data.js" (
   exit /b 1
 )
 
-echo VERIFY_MOBILE_R1 PASSED: Mobile R1.5.23 Instant Scope Counters is ready.
+echo VERIFY_MOBILE_R1 PASSED: Mobile R1.5.24 Update Loop Guard is ready.
 exit /b 0

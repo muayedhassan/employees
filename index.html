@@ -1746,7 +1746,8 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.23-INSTANT-SCOPE-COUNTERS';
+var APP_RELEASE = 'MOBILE-R1.5.24-UPDATE-LOOP-GUARD';
+// MOBILE-R1.5.23-INSTANT-SCOPE-COUNTERS retained: instant scope counters remain active.
 // R1.5.16: IndexedDB foundation stores secure dataset and change history for future large offline features.
 // R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.
 // R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.
@@ -2858,7 +2859,166 @@ function printCurrentReport(){
   var ds=reportDataset(),cols=reportColumns();if(!ds.length){showToast('لا توجد نتائج للطباعة','warn');return;}if(!cols.length){showToast('اختر عمودًا واحدًا على الأقل','warn');return;}
   var w=window.open('','_blank','width=1200,height=900');if(!w){showToast('اسمح بالنوافذ المنبثقة للطباعة','warn');return;}
   var rows=ds.map(function(e){return '<tr>'+cols.map(function(c){return '<td>'+escapeHTML(reportValue(e,c.k))+'</td>';}).join('')+'</tr>';}).join(''),title=REPORT_STATE.title||reportTypeLabel(REPORT_STATE.type),latest=latestUpdateSummary(),lc=latest.counts||{};
-  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+escapeHTML(title)+'</title><style>@page{size:A4 landscape;margin:10mm 8mm 13mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#17213d;margin:0}.official{border:1px solid #ccd2e6}.head{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:3px solid #1a237e;background:#f7f8ff}.emblem{width:50px;height:50px;border:2px solid #1a237e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#1a237e}.min{font-size:10px;color:#68739b}.title{font-size:20px;font-weight:800;color:#1a237e;margin:3px 0}.meta{margin-right:auto;text-align:left;direction:ltr;font-size:9px;color:#68739b}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:9px 12px;background:#fafbff;border-bottom:1px solid #e5e8f2}.s{padding:7px;text-align:center;border:1px solid #e1e5f0;border-radius:8px;background:#fff}.sv{font-size:16px;font-weight:bold;color:#1a237e}.sl{font-size:8px;color:#7781a4}.scope{padding:8px 12px;font-size:9px;color:#5e688e;border-bottom:1px solid #eceef5}table{border-collapse:collapse;width:100%;font-size:7.5px}th,td{border:1px solid #dfe3ef;padding:5px;text-align:right}th{background:#1a237e;color:#fff;font-weight:bold}tbody tr:nth-child(even){background:#fafbff}tr{page-break-inside:avoid}.sign{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:20px 40px 8px;font-size:9px;color:#68739b}.line{border-top:1px solid #8d96b3;padding-top:6px;text-align:center;margin-top:20px}.foot{font-size:7px;color:#7c85a3;padding:7px 12px;border-top:1px solid #e6e9f2}.page:after{content:counter(page)}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="official"><div class="head"><div class="emblem">🌱</div><div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — '+escapeHTML(title)+'</div><div class="min">'+escapeHTML(reportScopeText())+'</div></div><div class="meta">'+escapeHTML(DATA_VERSION||'—')+'<br>'+escapeHTML(new Date().toLocaleString('ar-IQ'))+'</div></div><div class="summary"><div class="s"><div class="sv">'+ds.length+'</div><div class="sl">عدد السجلات</div></div><div class="s"><div class="sv">'+(lc.modified||0)+'</div><div class="sl">معدل بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.added||0)+'</div><div class="sl">جديد بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.missing||0)+'</div><div class="sl">للمراجعة</div></div></div><div class="scope"><strong>نطاق التقرير:</strong> '+escapeHTML(reportScopeText())+' • <strong>الحقول الحساسة:</strong> '+(REPORT_STATE.includeSensitive?'مشمولة':'مخفية')+'</div><table><thead><tr>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table><div class="sign"><div><div class="line">إعداد / تدقيق</div></div><div><div class="line">المصادقة</div></div></div><div class="foot">تم إنشاء التقرير من نظام سجل موظفي مديرية زراعة صلاح الدين • إصدار البيانات '+escapeHTML(DATA_VERSION||'—')+' • صفحة <span class="page"></span></div></div><script>setTimeout(function(){window.print()},650)<\/script></body></html>';
+  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+escapeHTML(title)+'</title><style>@page{size:A4 landscape;margin:10mm 8mm 13mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#17213d;margin:0}.official{border:1px solid #ccd2e6}.head{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:3px solid #1a237e;background:#f7f8ff}.emblem{width:50px;height:50px;border:2px solid #1a237e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#1a237e}.min{font-size:10px;color:#68739b}.title{font-size:20px;font-weight:800;color:#1a237e;margin:3px 0}.meta{margin-right:auto;text-align:left;direction:ltr;font-size:9px;color:#68739b}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:9px 12px;background:#fafbff;border-bottom:1px solid #e5e8f2}.s{padding:7px;text-align:center;border:1px solid #e1e5f0;border-radius:8px;background:#fff}.sv{font-size:16px;font-weight:bold;color:#1a237e}.sl{font-size:8px;color:#7781a4}.scope{padding:8px 12px;font-size:9px;color:#5e688e;border-bottom:1px solid #eceef5}table{border-collapse:collapse;width:100%;font-size:7.5px}th,td{border:1px solid #dfe3ef;padding:5px;text-align:right}th{background:#1a237e;color:#fff;font-weight:bold}tbody tr:nth-child(even){background:#fafbff}tr{page-break-inside:avoid}.sign{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:20px 40px 8px;font-size:9px;color:#68739b}.line{border-top:1px solid #8d96b3;padding-top:6px;text-align:center;margin-top:20px}.foot{font-size:7px;color:#7c85a3;padding:7px 12px;border-top:1px solid #e6e9f2}.page:after{content:counter(page)}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="official"><div class="head"><div class="emblem">🌱</div><div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — '+escapeHTML(title)+'</div><div class="min">'+escapeHTML(reportScopeText())+'</div></div><div class="meta">'+escapeHTML(DATA_VERSION||'—')+'<br>'+escapeHTML(new Date().toLocaleString('ar-IQ'))+'</div></div><div class="summary"><div class="s"><div class="sv">'+ds.length+'</div><div class="sl">عدد السجلات</div></div><div class="s"><div class="sv">'+(lc.modified||0)+'</div><div class="sl">معدل بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.added||0)+'</div><div class="sl">جديد بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.missing||0)+'</div><div class="sl">للمراجعة</div></div></div><div class="scope"><strong>نطاق التقرير:</strong> '+escapeHTML(reportScopeText())+' • <strong>الحقول الحساسة:</strong> '+(REPORT_STATE.includeSensitive?'مشمولة':'مخفية')+'</div><table><thead><tr>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table><div class="sign"><div><div class="line">إعداد / تدقيق</div></div><div><div class="line">المصادقة</div></div></div><div class="foot">تم إنشاء التقرير من نظام سجل موظفي مديرية زراعة صلاح الدين • إصدار البيانات '+escapeHTML(DATA_VERSION||'—')+' • صفحة <span class="page"></span></div></div><script>setTimeout(function(){window.print()},650)<\/script>
+<script id="r1525-update-loop-guard-script">
+// MOBILE R1.5.24: stop automatic update/reload loops. Updates are now notification + manual action only.
+(function(){
+var RELEASE='MOBILE-R1.5.24-UPDATE-LOOP-GUARD';
+var MANUAL_KEY='hr_r1525_manual_update_started_at';
+var NOTICE_KEY='hr_r1525_update_notice_seen';
+try{APP_RELEASE=RELEASE;window.APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}
+
+function now(){return Date.now()}
+function setSessionReloadGuard(){
+  try{sessionStorage.setItem('emp_mobile_controller_reload_'+RELEASE,'1')}catch(e){}
+  try{sessionStorage.setItem('emp_mobile_controller_reload_'+APP_RELEASE,'1')}catch(e){}
+  try{R122_SW_RELOADED=true}catch(e){}
+}
+function toast(msg,type){try{showToast(msg,type||'warn')}catch(e){}}
+function setRemote(remote){
+  try{R122_LAST_REMOTE_RELEASE=remote||R122_LAST_REMOTE_RELEASE||''}catch(e){}
+  try{R71_REMOTE_RELEASE=remote||R71_REMOTE_RELEASE||''}catch(e){}
+}
+function isUpdate(remote){return !!(remote&&remote!==APP_RELEASE)}
+async function fetchRemote(){
+  try{if(typeof r122FetchRemoteRelease==='function')return await r122FetchRemoteRelease()}catch(e){}
+  try{if(typeof r71FetchDeployedRelease==='function')return await r71FetchDeployedRelease()}catch(e){}
+  return '';
+}
+async function safeCheck(silent){
+  if(navigator.onLine===false){
+    try{R122_AUTO_STATUS='بدون إنترنت'}catch(e){}
+    try{R71_UPDATE_STATE='offline'}catch(e){}
+    return false;
+  }
+  try{
+    var remote=await fetchRemote();
+    setRemote(remote);
+    var up=isUpdate(remote);
+    try{R122_AUTO_STATUS=up?'تحديث متوفر - يدوي فقط':'محدث'}catch(e){}
+    try{R71_UPDATE_STATE=up?'new':'current'}catch(e){}
+    try{localStorage.setItem('emp_mobile_last_auto_check_r122',new Date().toISOString())}catch(e){}
+    try{localStorage.setItem('hr_r1522_last_auto_check',String(Date.now()))}catch(e){}
+    if(up && !silent){
+      toast('نزل تحديث جديد للنظام، افتح حالة النظام واضغط حدث النظام الآن','warn');
+      try{localStorage.setItem(NOTICE_KEY,remote)}catch(e){}
+    }else if(!up && !silent){
+      toast('واجهة التطبيق محدثة','ok');
+    }
+    try{refreshNotice&&refreshNotice()}catch(e){}
+    try{updateSystemTabDot&&updateSystemTabDot()}catch(e){}
+    try{if(typeof subView!=='undefined'&&subView==='system'&&typeof buildSystemCenter==='function')buildSystemCenter()}catch(e){}
+    return up;
+  }catch(e){
+    try{R122_AUTO_STATUS='تعذر فحص الواجهة'}catch(x){}
+    try{R71_UPDATE_STATE='error'}catch(x){}
+    if(!silent)toast('تعذر فحص تحديث الواجهة','warn');
+    return false;
+  }
+}
+async function manualUpdate(reason){
+  if(navigator.onLine===false){toast('تحديث النظام يحتاج إنترنت','warn');return false;}
+  var last=0;try{last=Number(localStorage.getItem(MANUAL_KEY)||0)}catch(e){}
+  if(last && now()-last<12000){
+    toast('تم طلب تحديث النظام قبل لحظات، انتظر حتى تكتمل إعادة الفتح','warn');
+    return false;
+  }
+  try{localStorage.setItem(MANUAL_KEY,String(now()))}catch(e){}
+  setSessionReloadGuard();
+  try{toast('جاري تنزيل آخر واجهة للنظام...','warn')}catch(e){}
+  try{
+    if('serviceWorker' in navigator){
+      var reg=await navigator.serviceWorker.getRegistration();
+      if(reg){try{await reg.update()}catch(e){}}
+    }
+  }catch(e){}
+  try{
+    if('caches' in window){
+      var keys=await caches.keys();
+      await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}));
+    }
+  }catch(e){}
+  var u=new URL(location.href);
+  u.searchParams.set('_manual_system_update',Date.now());
+  if(reason)u.searchParams.set('_reason',reason);
+  location.replace(u.toString());
+  return true;
+}
+function install(){
+  setSessionReloadGuard();
+
+  // Important: automatic checks must never call manualUpdate or reload.
+  try{r122CheckForAppUpdate=safeCheck;window.r122CheckForAppUpdate=safeCheck}catch(e){}
+  try{r122ApplyInterfaceUpdate=manualUpdate;window.r122ApplyInterfaceUpdate=manualUpdate}catch(e){}
+
+  // Replace forced refresh with guarded manual refresh.
+  try{
+    r71ForceRefresh=function(){
+      if(typeof showConfirm==='function'){
+        showConfirm('تحديث النظام الآن','سيتم تحديث واجهة التطبيق فقط دون حذف بيانات الموظفين أو IndexedDB.',function(){manualUpdate('manual-system-update')});
+      }else manualUpdate('manual-system-update');
+    };
+    window.r71ForceRefresh=r71ForceRefresh;
+  }catch(e){}
+
+  // The "update app + data" action should check safely, then refresh data only; it must not auto-reload.
+  try{
+    r122RefreshAppAndData=async function(){
+      try{await safeCheck(false)}catch(e){}
+      try{if(typeof r122RefreshDataSilently==='function')await r122RefreshDataSilently(true)}catch(e){}
+      try{if(typeof r71ReadCacheInfo==='function')await r71ReadCacheInfo()}catch(e){}
+      try{if(typeof buildSystemCenter==='function')buildSystemCenter()}catch(e){}
+      toast('تم فحص النظام والبيانات بدون تحديث تلقائي','ok');
+    };
+    window.r122RefreshAppAndData=r122RefreshAppAndData;
+  }catch(e){}
+
+  // Registering the service worker should not trigger automatic reload loops.
+  try{
+    r122RegisterServiceWorker=async function(){
+      setSessionReloadGuard();
+      try{
+        if(!('serviceWorker' in navigator)||location.protocol==='file:')return;
+        var reg=await navigator.serviceWorker.register('service-worker.js',{updateViaCache:'none'});
+        try{await reg.update()}catch(e){}
+      }catch(e){}
+    };
+    window.r122RegisterServiceWorker=r122RegisterServiceWorker;
+  }catch(e){}
+
+  // Automatic watchers become check-only. No reload.
+  try{
+    r122StartAutoUpdateWatchers=function(){
+      setSessionReloadGuard();
+      try{localStorage.setItem('emp_mobile_app_release_seen_r122',APP_RELEASE)}catch(e){}
+      setTimeout(function(){safeCheck(true)},2200);
+    };
+    window.r122StartAutoUpdateWatchers=r122StartAutoUpdateWatchers;
+  }catch(e){}
+
+  try{
+    smartAutoCheck=function(force){
+      if(navigator.onLine===false)return;
+      setTimeout(function(){safeCheck(true)},300);
+    };
+    window.smartAutoCheck=smartAutoCheck;
+  }catch(e){}
+}
+install();
+document.addEventListener('DOMContentLoaded',function(){install();setTimeout(function(){safeCheck(true)},1600)});
+window.addEventListener('load',function(){install();setTimeout(function(){safeCheck(true)},2200)});
+window.addEventListener('online',function(){setTimeout(function(){safeCheck(true)},1000)});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(function(){safeCheck(true)},500)});
+window.r1525UpdateLoopGuard={release:RELEASE,install:install,check:safeCheck,manualUpdate:manualUpdate};
+})();
+</script>
+
+<style id="r1525-update-loop-guard-style">
+/* MOBILE R1.5.24: update notice remains visible, but update is manual only. */
+#r1522-update-notice .r1522-notice-title::after{content:" • يدوي";font-size:8px;color:#69f0ae;margin-right:4px}
+</style>
+
+</body></html>';
   w.document.open();w.document.write(doc);w.document.close();
 }
 
