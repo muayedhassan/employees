@@ -8357,5 +8357,63 @@ window.hrIndexedDBPrimaryStore={release:RELEASE,install:install,status:status,ap
 })();
 </script>
 
+<script id="r1518-employee-modal-cleanup-script">
+// MOBILE R1.5.18: remove duplicated middle hero/quick actions from employee profile modal.
+(function(){
+var RELEASE='MOBILE-R1.5.18-EMPLOYEE-MODAL-CLEANUP';
+function stripModalExtras(){
+  try{
+    var modal=document.getElementById('modal');
+    if(!modal)return false;
+    var body=document.getElementById('m-profile-body');
+    if(!body)return false;
+    body.querySelectorAll('.r147-profile-hero,.r1438-quickbar,.r1438-file-chip').forEach(function(el){el.remove()});
+    var basic=body.querySelector('.profile-tab-panel[data-profile-panel="basic"]');
+    if(basic)basic.classList.add('r1518-basic-clean');
+    return true;
+  }catch(e){return false}
+}
+function install(){
+  try{
+    if(typeof openModal==='function' && !openModal.__r1518Wrapped){
+      var old=openModal;
+      openModal=function(emp){
+        var r=old.apply(this,arguments);
+        setTimeout(stripModalExtras,0);
+        setTimeout(stripModalExtras,90);
+        setTimeout(stripModalExtras,260);
+        return r;
+      };
+      openModal.__r1518Wrapped=true;
+    }
+  }catch(e){}
+}
+install();
+document.addEventListener('DOMContentLoaded',function(){install();setTimeout(stripModalExtras,120);setTimeout(stripModalExtras,500)});
+document.addEventListener('click',function(ev){
+  var t=ev.target;
+  if(!t)return;
+  if(t.closest('#profile-tabs-live .profile-tab')||t.closest('#modal')||t.closest('#m-close')){
+    setTimeout(stripModalExtras,0);
+    setTimeout(stripModalExtras,120);
+  }
+},true);
+window.r1518EmployeeModalCleanup={release:RELEASE,strip:stripModalExtras,install:install};
+})();
+</script>
+
+<style id="r1518-employee-modal-cleanup-style">
+/* MOBILE R1.5.18: clean employee profile modal by removing the duplicated middle summary block */
+#modal #m-profile-body .r147-profile-hero,
+#modal #m-profile-body .r1438-quickbar,
+#modal #m-profile-body .r1438-file-chip{display:none!important}
+#modal #m-profile-body .profile-tab-panel[data-profile-panel="basic"].r1518-basic-clean{padding-top:0!important}
+#modal #m-profile-body .profile-tab-panel[data-profile-panel="basic"].r1518-basic-clean .profile-section.r147-section:first-child{margin-top:0!important}
+#modal #m-profile-body .profile-tab-panel[data-profile-panel="basic"].r1518-basic-clean .profile-section.r147-section:first-child .profile-section-title{margin-top:0!important}
+@media (max-width:560px){
+  #modal #m-profile-body .profile-tab-panel[data-profile-panel="basic"].r1518-basic-clean{padding-top:0!important}
+}
+</style>
+
 </body>
 </html>
