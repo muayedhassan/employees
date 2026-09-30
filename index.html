@@ -1746,7 +1746,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.19-DATE-DISPLAY-FIX';
+var APP_RELEASE = 'MOBILE-R1.5.22-SYSTEM-UPDATE-CENTER';
 // R1.5.16: IndexedDB foundation stores secure dataset and change history for future large offline features.
 // R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.
 // R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.
@@ -8740,6 +8740,210 @@ window.r1521EmployeeHistoryTimeline={release:RELEASE,captureAll:captureAll,captu
 <style id="r1521-employee-history-timeline-style">
 .r1521-wrap{margin-top:10px}.r1521-head{padding:11px;border-radius:18px;background:linear-gradient(135deg,rgba(255,209,102,.10),rgba(97,218,251,.07));border:1px solid rgba(255,255,255,.10);margin-bottom:9px}.r1521-title{display:flex;align-items:center;gap:9px}.r1521-title>span{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:rgba(255,209,102,.14);color:#ffd166}.r1521-title b{display:block;font-size:12px;color:#f6fbff}.r1521-title small{display:block;font-size:8px;color:rgba(231,240,255,.68);line-height:1.6}.r1521-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:9px}.r1521-stats div{padding:7px 5px;border-radius:13px;background:rgba(0,0,0,.16);text-align:center}.r1521-stats span{display:block;font-size:7px;color:rgba(231,240,255,.62)}.r1521-stats b{display:block;font-size:10px;color:#ffd166}.r1521-list{display:grid;gap:8px}.r1521-event{border-radius:17px;padding:10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09)}.r1521-event.modified{border-right:3px solid #ffd166}.r1521-event.added{border-right:3px solid #5fe1af}.r1521-event.missing{border-right:3px solid #ff8b8b}.r1521-event-top{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:center}.r1521-event-top>span{width:31px;height:31px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);color:#ffd166}.r1521-event-top b{font-size:10px;color:#f7fbff}.r1521-event-top small{display:block;font-size:7px;color:rgba(231,240,255,.58);margin-top:2px}.r1521-event-top time{font-size:7.4px;color:rgba(231,240,255,.58);direction:ltr}.r1521-changes{display:grid;gap:6px;margin-top:8px}.r1521-change{display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr);gap:6px;align-items:stretch;padding:8px;border-radius:13px;background:rgba(0,0,0,.13)}.r1521-change label{grid-column:1/-1;font-size:8.6px;color:#dce7fb}.r1521-change .old,.r1521-change .new{padding:7px;border-radius:11px;font-size:8.8px;line-height:1.55;text-align:center;display:flex;align-items:center;justify-content:center;overflow-wrap:anywhere}.r1521-change .old{background:rgba(255,120,130,.08);color:#ffc5c5}.r1521-change .new{background:rgba(95,225,175,.08);color:#c9ffe9}.r1521-change .arr{display:flex;align-items:center;justify-content:center;color:#ffd166}.r1521-note,.r1521-empty,.r1521-loading{padding:12px;border-radius:15px;background:rgba(255,255,255,.04);color:rgba(231,240,255,.72);font-size:9px;line-height:1.8;text-align:center}.r1521-empty i,.r1521-loading i{margin-left:6px;color:#ffd166}
 @media(max-width:560px){.r1521-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.r1521-event-top{grid-template-columns:31px minmax(0,1fr);}.r1521-event-top time{grid-column:2;justify-self:start;margin-top:-3px}.r1521-change{grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);padding:7px}.r1521-change .old,.r1521-change .new{font-size:8.2px;min-height:34px}}
+</style>
+
+
+<script id="r1522-system-update-center-script">
+// MOBILE R1.5.22: clean System Update Center + direct update notification.
+(function(){
+var RELEASE='MOBILE-R1.5.22-SYSTEM-UPDATE-CENTER';
+var SEEN_KEY='hr_r1522_seen_remote_release';
+var CHECK_TIMER_KEY='hr_r1522_last_auto_check';
+var AUTO_INTERVAL=10*60*1000;
+
+try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
+
+function esc(v){
+  try{if(typeof escapeHTML==='function')return escapeHTML(v)}catch(e){}
+  return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]});
+}
+function shortRel(v){
+  var s=String(v||'—');
+  var m=s.match(/R\d+(?:\.\d+){1,4}/);
+  if(m)return m[0];
+  return s.replace(/^MOBILE-/,'').replace(/-/g,' ');
+}
+try{r71ReleaseShort=function(v){return shortRel(v)};window.r71ReleaseShort=r71ReleaseShort;}catch(e){}
+
+function getSnap(){
+  try{if(typeof r71SnapshotInfo==='function')return r71SnapshotInfo()}catch(e){}
+  try{var d=JSON.parse(localStorage.getItem(CENTRAL_CACHE_KEY)||'null');var c=(d&&Array.isArray(d.perm)&&Array.isArray(d.cont))?d.perm.length+d.cont.length:0;return {ready:!!c,count:c,version:(d&&d.meta&&(d.meta.version||d.meta.updatedAt))||''}}catch(e){}
+  return {ready:false,count:0,version:''};
+}
+function online(){return navigator.onLine!==false}
+function updateAvailable(){
+  try{return R71_UPDATE_STATE==='new'&&R71_REMOTE_RELEASE&&R71_REMOTE_RELEASE!==APP_RELEASE}catch(e){return false}
+}
+function releaseStateLabel(){
+  if(updateAvailable())return 'نزل تحديث جديد للنظام';
+  try{if(R71_UPDATE_STATE==='current')return 'النظام محدث';if(R71_UPDATE_STATE==='error')return 'تعذر فحص التحديث';if(R71_UPDATE_STATE==='offline')return 'بدون إنترنت'}catch(e){}
+  return 'لم يتم الفحص بعد';
+}
+function releaseStateClass(){
+  if(updateAvailable())return 'warn';
+  try{if(R71_UPDATE_STATE==='current')return 'ok';if(R71_UPDATE_STATE==='offline')return 'off'}catch(e){}
+  return 'pending';
+}
+function showUpdateToastOnce(){
+  if(!updateAvailable())return;
+  var r=String(R71_REMOTE_RELEASE||'');
+  try{
+    if(localStorage.getItem(SEEN_KEY)===r)return;
+    localStorage.setItem(SEEN_KEY,r);
+  }catch(e){}
+  try{showToast('نزل تحديث جديد للنظام، اضغط حدث النظام','warn')}catch(e){}
+}
+function ensureNotice(){
+  var n=document.getElementById('r1522-update-notice');
+  if(n)return n;
+  n=document.createElement('div');
+  n.id='r1522-update-notice';
+  n.className='r1522-update-notice';
+  n.innerHTML='<div class="r1522-notice-ico"><i class="fas fa-cloud-arrow-down"></i></div><div class="r1522-notice-copy"><b>نزل تحديث جديد للنظام</b><span id="r1522-notice-text">اضغط حدث النظام لتنزيل آخر واجهة.</span></div><button type="button" class="r1522-notice-btn" id="r1522-notice-update">حدث النظام</button><button type="button" class="r1522-notice-close" id="r1522-notice-close"><i class="fas fa-xmark"></i></button>';
+  document.body.appendChild(n);
+  var u=document.getElementById('r1522-notice-update'),c=document.getElementById('r1522-notice-close');
+  if(u)u.addEventListener('click',function(){try{if(typeof r71ForceRefresh==='function')r71ForceRefresh()}catch(e){}});
+  if(c)c.addEventListener('click',function(){n.classList.remove('show')});
+  return n;
+}
+function refreshNotice(){
+  var on=updateAvailable();
+  try{document.body.classList.toggle('r1522-update-available',!!on)}catch(e){}
+  var n=ensureNotice();
+  if(!on){n.classList.remove('show');return}
+  var t=document.getElementById('r1522-notice-text');
+  if(t)t.textContent='الحالي '+shortRel(APP_RELEASE)+' • المنشور '+shortRel(R71_REMOTE_RELEASE);
+  n.classList.add('show');
+  showUpdateToastOnce();
+}
+async function checkNow(silent){
+  try{if(typeof r71CheckInterface==='function'){await r71CheckInterface(!!silent)}}catch(e){}
+  try{updateSystemTabDot&&updateSystemTabDot()}catch(e){}
+  refreshNotice();
+  try{if(subView==='system'&&typeof buildSystemCenter==='function')buildSystemCenter()}catch(e){}
+}
+function smartAutoCheck(force){
+  if(!online())return;
+  var last=0;try{last=Number(localStorage.getItem(CHECK_TIMER_KEY)||0)}catch(e){}
+  if(!force&&Date.now()-last<AUTO_INTERVAL)return;
+  try{localStorage.setItem(CHECK_TIMER_KEY,String(Date.now()))}catch(e){}
+  setTimeout(function(){checkNow(true)},300);
+}
+
+// Wrap the original interface checker so silent checks also show a clear update alert.
+(function(){
+  try{
+    var old=window.r71CheckInterface||r71CheckInterface;
+    if(old&&!old.__r1522Wrapped){
+      var wrapped=async function(silent){
+        var out=await old.apply(this,arguments);
+        setTimeout(refreshNotice,80);
+        return out;
+      };
+      wrapped.__r1522Wrapped=true;
+      window.r71CheckInterface=wrapped;
+      try{r71CheckInterface=wrapped}catch(e){}
+    }
+  }catch(e){}
+})();
+
+function statusPill(){
+  var cls=releaseStateClass();
+  return '<span class="r1522-pill '+cls+'">'+esc(releaseStateLabel())+'</span>';
+}
+function btn(id,cls,ico,label,disabled){
+  return '<button type="button" class="r1522-btn '+cls+'" id="'+id+'" '+(disabled?'disabled':'')+'><i class="fas '+ico+'"></i>'+label+'</button>';
+}
+function row(l,v,cls){
+  return '<div class="r1522-row"><span>'+esc(l)+'</span><b class="'+(cls||'')+'">'+esc(v)+'</b></div>';
+}
+function card(icon,title,sub,body){
+  return '<section class="r1522-card"><div class="r1522-card-head"><span class="r1522-card-ico"><i class="fas '+icon+'"></i></span><div><h3>'+esc(title)+'</h3><p>'+esc(sub)+'</p></div></div>'+body+'</section>';
+}
+
+function buildCleanSystemCenter(){
+  var page=document.getElementById('system-page');if(!page)return;
+  var snap=getSnap(),rem='';
+  try{rem=R71_REMOTE_RELEASE||'لم يتم الفحص بعد'}catch(e){rem='لم يتم الفحص بعد'}
+  var dataVer=(typeof DATA_VERSION!=='undefined'&&DATA_VERSION)?DATA_VERSION:'—';
+  var lastSync='—';try{lastSync=typeof r7DateTime==='function'?r7DateTime(typeof r7LastSync==='function'?r7LastSync():''):''}catch(e){}
+  var sw='غير مدعوم';try{sw=('serviceWorker' in navigator)?(navigator.serviceWorker.controller?'مفعّل':'مسجل / قيد التفعيل'):'غير مدعوم'}catch(e){}
+  var source='Google Sheets الآمن';try{if(typeof r71DataSourceLabel==='function')source=r71DataSourceLabel()}catch(e){}
+  var status=String(typeof LAST_DATA_STATUS!=='undefined'?LAST_DATA_STATUS:'—')||'—';
+  var html='<div class="r1522-system-page">';
+  html+='<section class="r1522-hero '+(updateAvailable()?'need-update':'')+'"><div class="r1522-hero-ico"><i class="fas fa-rotate"></i></div><div class="r1522-hero-copy"><h2>لوحة تحديث النظام</h2><p>واجهة مختصرة وواضحة للتحديثات، البيانات، التخزين المحلي، وحالة الاتصال.</p></div><div class="r1522-hero-state">'+statusPill()+'</div></section>';
+  html+='<section class="r1522-update-panel '+(updateAvailable()?'hot':'')+'"><div class="r1522-update-main"><span class="r1522-update-icon"><i class="fas '+(updateAvailable()?'fa-cloud-arrow-down':'fa-circle-check')+'"></i></span><div><h3>'+(updateAvailable()?'نزل تحديث جديد، حدث النظام':'النظام جاهز')+'</h3><p>'+(updateAvailable()?'يوجد إصدار أحدث منشور على GitHub Pages. اضغط حدث النظام لتنزيل آخر واجهة بدون حذف بيانات الموظفين.':'يمكنك فحص التحديثات أو تحديث بيانات الموظفين من نفس المكان عند الحاجة.')+'</p></div></div><div class="r1522-release-grid"><div><span>الإصدار الحالي</span><b>'+esc(shortRel(APP_RELEASE))+'</b></div><div><span>الإصدار المنشور</span><b>'+esc(shortRel(rem))+'</b></div><div><span>إصدار البيانات</span><b>'+esc(dataVer)+'</b></div></div><div class="r1522-actions">'+btn('r1522-check','ghost','fa-magnifying-glass','فحص التحديثات الآن',!online())+btn('r1522-force','primary','fa-cloud-arrow-down','حدث النظام الآن',!online())+btn('r1522-data','green','fa-database','تحديث البيانات الآن',!online())+'</div></section>';
+  html+='<div class="r1522-grid">';
+  html+=card('fa-database','بيانات الموظفين','آخر نسخة منشورة من Windows إلى Google Sheets',row('إصدار البيانات',dataVer,'ok')+row('المصدر',source,'')+row('آخر مزامنة',lastSync||'—','')+row('آخر حالة',status,''));
+  html+=card('fa-box-archive','التخزين المحلي','IndexedDB هو المخزن الأساسي و localStorage للتوافق فقط',row('IndexedDB','مفعّل كمخزن أساسي','ok')+row('النسخة المحلية',snap.ready?(snap.count+' سجل'):'غير جاهزة',snap.ready?'ok':'warn')+row('نسخة الكاش',snap.version||'—',''));
+  html+=card('fa-wifi','الاتصال والتحديث','فحص الواجهة يتم تلقائيًا عند فتح التطبيق والعودة للاتصال',row('الشبكة',online()?'متصل':'بدون إنترنت',online()?'ok':'warn')+row('Service Worker',sw,'')+row('حالة التحديث',releaseStateLabel(),releaseStateClass()==='ok'?'ok':(releaseStateClass()==='warn'?'warn':'')));
+  html+='</div><div class="r1522-help"><i class="fas fa-circle-info"></i><span>عند ظهور رسالة «نزل تحديث جديد للنظام» اضغط <b>حدث النظام الآن</b>. هذا يحدث واجهة التطبيق فقط ولا يحذف بيانات الموظفين أو سجل IndexedDB.</span></div>';
+  html+='</div>';
+  page.innerHTML=html;
+  var a=document.getElementById('r1522-check'),b=document.getElementById('r1522-force'),c=document.getElementById('r1522-data');
+  if(a)a.addEventListener('click',async function(){this.disabled=true;this.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الفحص';await checkNow(false);this.disabled=false;});
+  if(b)b.addEventListener('click',function(){try{if(typeof r71ForceRefresh==='function')r71ForceRefresh()}catch(e){}});
+  if(c)c.addEventListener('click',async function(){try{if(typeof r71RefreshDataOnly==='function')await r71RefreshDataOnly();else if(typeof loadCentralData==='function')await loadCentralData(true)}catch(e){}});
+  refreshNotice();
+  try{updateSystemTabDot&&updateSystemTabDot()}catch(e){}
+}
+
+// Replace the scattered old system page with the clean update center.
+try{window.buildSystemCenter=buildCleanSystemCenter;buildSystemCenter=buildCleanSystemCenter;}catch(e){}
+
+// Keep checking for future published versions while the app is being used.
+document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){smartAutoCheck(true)},1300);setTimeout(refreshNotice,2000)});
+window.addEventListener('load',function(){setTimeout(function(){smartAutoCheck(true)},1600);setTimeout(refreshNotice,2600)});
+window.addEventListener('online',function(){setTimeout(function(){smartAutoCheck(true)},900)});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)smartAutoCheck(false)});
+setInterval(function(){smartAutoCheck(false)},AUTO_INTERVAL);
+window.r1522SystemUpdateCenter={release:RELEASE,check:checkNow,notice:refreshNotice,build:buildCleanSystemCenter};
+})();
+</script>
+
+<style id="r1522-system-update-center-style">
+/* MOBILE R1.5.22: clean system update center */
+.r1522-system-page{padding:13px 11px 34px;max-width:1060px;margin:0 auto;color:var(--text)}
+.r1522-hero,.r1522-update-panel,.r1522-card,.r1522-help{border:1px solid rgba(255,255,255,.10);background:linear-gradient(145deg,rgba(9,22,45,.96),rgba(14,33,63,.92));box-shadow:0 12px 30px rgba(0,0,0,.18);border-radius:22px}
+body.light .r1522-hero,body.light .r1522-update-panel,body.light .r1522-card,body.light .r1522-help{background:linear-gradient(145deg,#fff,#f6f8ff);box-shadow:0 10px 24px rgba(37,59,107,.08);border-color:rgba(37,59,107,.10)}
+.r1522-hero{display:flex;align-items:center;gap:12px;padding:15px;margin-bottom:10px;overflow:hidden;position:relative}
+.r1522-hero.need-update{border-color:rgba(255,209,102,.32);box-shadow:0 0 0 1px rgba(255,209,102,.08),0 14px 34px rgba(0,0,0,.20)}
+.r1522-hero-ico{width:48px;height:48px;border-radius:17px;display:flex;align-items:center;justify-content:center;color:#69f0ae;background:rgba(105,240,174,.10);font-size:18px;flex:0 0 48px}
+.r1522-hero-copy{flex:1;min-width:0}.r1522-hero-copy h2{margin:0 0 4px;font-size:17px;color:#fff}.r1522-hero-copy p{margin:0;color:var(--text2);font-size:10.5px;line-height:1.7}
+body.light .r1522-hero-copy h2{color:#17213d}
+.r1522-pill{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:7px 10px;font-size:9px;font-weight:900;white-space:nowrap;border:1px solid rgba(255,255,255,.12)}
+.r1522-pill.ok{color:#69f0ae;background:rgba(105,240,174,.10);border-color:rgba(105,240,174,.22)}
+.r1522-pill.warn{color:#ffd166;background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.28);animation:r1522Pulse 1.4s ease-in-out infinite}
+.r1522-pill.off,.r1522-pill.pending{color:#ffb4b4;background:rgba(255,138,128,.10);border-color:rgba(255,138,128,.20)}
+@keyframes r1522Pulse{0%,100%{box-shadow:0 0 0 rgba(255,209,102,0)}50%{box-shadow:0 0 18px rgba(255,209,102,.25)}}
+.r1522-update-panel{padding:14px;margin-bottom:10px}
+.r1522-update-panel.hot{border-color:rgba(255,209,102,.34)}
+.r1522-update-main{display:flex;gap:11px;align-items:center;margin-bottom:12px}.r1522-update-icon{width:46px;height:46px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:rgba(255,209,102,.12);color:#ffd166;flex:0 0 46px}
+.r1522-update-main h3{margin:0 0 3px;color:#fff;font-size:14px}.r1522-update-main p{margin:0;color:var(--text2);font-size:10px;line-height:1.7}
+body.light .r1522-update-main h3{color:#17213d}
+.r1522-release-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:10px 0}
+.r1522-release-grid div{padding:9px;border-radius:14px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);min-width:0}
+body.light .r1522-release-grid div{background:#f8faff;border-color:#edf0f8}
+.r1522-release-grid span{display:block;color:var(--text2);font-size:8px;margin-bottom:4px}.r1522-release-grid b{display:block;color:#fff;font-size:10px;direction:ltr;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.light .r1522-release-grid b{color:#17213d}
+.r1522-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.r1522-btn{border:0;border-radius:15px;padding:10px 6px;min-height:42px;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:6px;color:#fff;background:rgba(255,255,255,.10)}
+.r1522-btn.primary{background:linear-gradient(135deg,#ffd166,#ff9f1c);color:#17213d}.r1522-btn.green{background:linear-gradient(135deg,#2dd4bf,#22c55e);color:#04251e}.r1522-btn.ghost{background:rgba(255,255,255,.08);color:var(--text)}
+.r1522-btn:disabled{opacity:.48}
+.r1522-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.r1522-card{padding:13px}.r1522-card-head{display:flex;align-items:center;gap:9px;margin-bottom:10px}.r1522-card-ico{width:40px;height:40px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(105,240,174,.10);color:#69f0ae}
+.r1522-card h3{margin:0;font-size:12px;color:#fff}.r1522-card p{margin:2px 0 0;font-size:8.5px;color:var(--text2);line-height:1.55}
+body.light .r1522-card h3{color:#17213d}
+.r1522-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.07);font-size:9px}.r1522-row span{color:var(--text2)}.r1522-row b{color:#fff;text-align:left;direction:ltr;max-width:58%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.light .r1522-row{border-top-color:#eef1f7}body.light .r1522-row b{color:#17213d}
+.r1522-row b.ok{color:#69f0ae}.r1522-row b.warn{color:#ffd166}
+.r1522-help{margin-top:10px;padding:11px 12px;display:flex;gap:8px;align-items:flex-start;color:var(--text2);font-size:9.5px;line-height:1.8}.r1522-help i{color:#ffd166;margin-top:3px}
+.r1522-update-notice{position:fixed;left:12px;right:12px;bottom:calc(14px + var(--safe-bottom,0px));z-index:99999;display:flex;align-items:center;gap:9px;padding:11px;border-radius:20px;background:linear-gradient(135deg,rgba(19,28,54,.98),rgba(35,39,69,.98));border:1px solid rgba(255,209,102,.34);box-shadow:0 18px 45px rgba(0,0,0,.35);transform:translateY(140%);opacity:0;pointer-events:none;transition:.25s ease}
+.r1522-update-notice.show{transform:translateY(0);opacity:1;pointer-events:auto}
+.r1522-notice-ico{width:40px;height:40px;border-radius:15px;background:rgba(255,209,102,.15);color:#ffd166;display:flex;align-items:center;justify-content:center;flex:0 0 40px}.r1522-notice-copy{flex:1;min-width:0}.r1522-notice-copy b{display:block;color:#fff;font-size:11px}.r1522-notice-copy span{display:block;color:#d8deef;font-size:8.5px;direction:ltr;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r1522-notice-btn,.r1522-notice-close{border:0;border-radius:13px;min-height:36px;font-weight:900}.r1522-notice-btn{padding:0 11px;background:#ffd166;color:#17213d;font-size:9px}.r1522-notice-close{width:36px;background:rgba(255,255,255,.09);color:#fff}
+body.r1522-update-available #system-tab-dot{background:#ffd166!important;box-shadow:0 0 14px rgba(255,209,102,.95)!important}
+body.r1522-update-available #stab-system{position:relative}
+body.r1522-update-available #stab-system:after{content:"تحديث";position:absolute;top:4px;left:6px;font-size:7px;font-weight:900;padding:2px 5px;border-radius:999px;background:#ffd166;color:#17213d}
+@media(max-width:760px){.r1522-grid{grid-template-columns:1fr}.r1522-release-grid{grid-template-columns:1fr}.r1522-actions{grid-template-columns:1fr}.r1522-hero{align-items:flex-start}.r1522-hero-state{align-self:center}.r1522-update-notice{left:8px;right:8px}.r1522-notice-copy span{white-space:normal;direction:rtl;text-align:right}}
 </style>
 
 </body>
