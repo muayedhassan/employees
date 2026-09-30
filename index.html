@@ -1746,7 +1746,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.33-MANUAL-SYSTEM-UPDATE-FIX';
+var APP_RELEASE = 'MOBILE-R1.5.26-DATE-SANITIZER-SAFE';
 // MOBILE-R1.5.19-DATE-DISPLAY-FIX: retained as stable recovery base.
 // R1.5.16: IndexedDB foundation stores secure dataset and change history for future large offline features.
 // R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.
@@ -8990,109 +8990,11 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 })();
 </script>
 
-<!-- MOBILE R1.5.33: Manual system update version fix. Keeps R1.5.31/32 stable features and fixes manual app update/version detection only. -->
-<script id="r1533-manual-system-update-version-fix">
+<!-- MOBILE-R1.5.34-LOADER-RECOVERY-FROM-R1532: exact R1.5.32 stable base; removes R1.5.33 manual-update changes. -->
+<script>
 (function(){
-  var RELEASE='MOBILE-R1.5.33-MANUAL-SYSTEM-UPDATE-FIX';
-  function setRelease(){
-    try{APP_RELEASE=RELEASE;}catch(e){}
-    try{window.APP_RELEASE=RELEASE;}catch(e){}
-  }
-  setRelease();
-  function now(){return new Date().toISOString();}
-  function toast(msg,type){try{showToast(msg,type||'ok');}catch(e){try{console.log(msg);}catch(_){}}}
-  function parseRelease(txt){
-    txt=String(txt||'');
-    var re=/MOBILE-R(\d+)\.(\d+)\.(\d+)[A-Z0-9._-]*/g,m,best='',bk=[-1,-1,-1];
-    while((m=re.exec(txt))){
-      var k=[parseInt(m[1],10)||0,parseInt(m[2],10)||0,parseInt(m[3],10)||0];
-      if(k[0]>bk[0]||(k[0]===bk[0]&&(k[1]>bk[1]||(k[1]===bk[1]&&k[2]>=bk[2])))){bk=k;best=m[0];}
-    }
-    return best||RELEASE;
-  }
-  async function fetchLatestRelease(){
-    if(navigator.onLine===false)return '';
-    var u=new URL('index.html',location.href);
-    u.searchParams.set('_release_check',Date.now());
-    u.searchParams.set('_r1533','1');
-    var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, must-revalidate','Pragma':'no-cache'}});
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    var txt=await res.text();
-    return parseRelease(txt);
-  }
-  async function checkUpdate(show){
-    setRelease();
-    if(navigator.onLine===false){
-      try{R71_UPDATE_STATE='offline';R122_AUTO_STATUS='بدون إنترنت';}catch(e){}
-      if(show)toast('لا يمكن فحص التحديث بدون إنترنت','warn');
-      return false;
-    }
-    try{
-      if(show)toast('جاري فحص تحديث الواجهة...');
-      var remote=await fetchLatestRelease();
-      var has=!!(remote&&remote!==RELEASE);
-      try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_LAST_REMOTE_RELEASE=remote||RELEASE;R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث';}catch(e){}
-      try{localStorage.setItem('emp_r1533_last_manual_update_check',now());localStorage.setItem('emp_r71_last_app_check',now());}catch(e){}
-      if(show)toast(has?'يوجد إصدار أحدث، اضغط حدث النظام الآن':'النظام محدث على آخر إصدار');
-      try{updateSystemTabDot();if(typeof subView!=='undefined'&&subView==='system'&&typeof buildSystemCenter==='function')buildSystemCenter();}catch(e){}
-      return has;
-    }catch(e){
-      try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص';}catch(x){}
-      if(show)toast('تعذر فحص تحديث الواجهة حاليًا','warn');
-      try{updateSystemTabDot();if(typeof subView!=='undefined'&&subView==='system'&&typeof buildSystemCenter==='function')buildSystemCenter();}catch(x){}
-      return false;
-    }
-  }
-  async function clearInterfaceCache(){
-    try{
-      if('caches' in window){
-        var keys=await caches.keys();
-        await Promise.all(keys.filter(function(k){return /employee-registry|hr-mobile|github-pages|workbox|app/i.test(k);}).map(function(k){return caches.delete(k);}));
-      }
-    }catch(e){}
-    try{
-      if('serviceWorker' in navigator){
-        var regs=await navigator.serviceWorker.getRegistrations();
-        await Promise.all((regs||[]).map(function(r){try{return r.update();}catch(e){return Promise.resolve();}}));
-      }
-    }catch(e){}
-  }
-  async function applyUpdate(){
-    setRelease();
-    if(navigator.onLine===false){toast('تحديث النظام يحتاج إنترنت','warn');return false;}
-    var run=async function(){
-      try{
-        toast('جاري تحديث واجهة التطبيق...');
-        try{localStorage.setItem('emp_r1533_last_manual_update_apply',now());sessionStorage.setItem('emp_r1533_manual_update_once','1');}catch(e){}
-        await clearInterfaceCache();
-      }catch(e){}
-      var u=new URL(location.href);
-      u.searchParams.set('v','1533');
-      u.searchParams.set('_manual_update',Date.now());
-      location.replace(u.toString());
-      return true;
-    };
-    try{
-      if(typeof showConfirm==='function'){
-        showConfirm('تحديث النظام يدويًا','سيتم تحديث واجهة التطبيق فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لا تُحذف.',run);
-      }else{ await run(); }
-    }catch(e){ await run(); }
-    return true;
-  }
-  try{r71FetchDeployedRelease=fetchLatestRelease;}catch(e){}
-  try{r71CheckInterface=function(silent){return checkUpdate(!silent);};}catch(e){}
-  try{r122CheckForAppUpdate=function(silent){return silent?Promise.resolve(false):checkUpdate(true);};}catch(e){}
-  try{r71ForceRefresh=applyUpdate;}catch(e){}
-  try{r122ApplyInterfaceUpdate=applyUpdate;}catch(e){}
-  try{window.r1533ManualSystemUpdateVersionFix={release:RELEASE,parseRelease:parseRelease,fetchLatestRelease:fetchLatestRelease,check:checkUpdate,apply:applyUpdate};}catch(e){}
-  document.addEventListener('click',function(ev){
-    var t=ev.target&&ev.target.closest?ev.target.closest('#sys-force-refresh,#r1525-manual-apply,#r1525-apply-update'):null;
-    if(!t)return;
-    ev.preventDefault();ev.stopImmediatePropagation();applyUpdate();return false;
-  },true);
-  document.addEventListener('DOMContentLoaded',function(){setRelease();try{if(typeof updateVersionUI==='function')updateVersionUI();}catch(e){}},false);
-  setTimeout(function(){setRelease();try{if(typeof updateVersionUI==='function')updateVersionUI();}catch(e){}},300);
-  setTimeout(function(){setRelease();try{if(typeof subView!=='undefined'&&subView==='system'&&typeof buildSystemCenter==='function')buildSystemCenter();}catch(e){}},900);
+  var RELEASE='MOBILE-R1.5.34-LOADER-RECOVERY-FROM-R1532';
+  try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
+  try{window.APP_RELEASE=RELEASE;}catch(e){}
 })();
 </script>
-
