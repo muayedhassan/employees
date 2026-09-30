@@ -1,10 +1,16 @@
 @echo off
 setlocal EnableExtensions
 cd /d "%~dp0"
-echo [Mobile R1.5.31] Checking HR mobile repository...
+echo [Mobile R1.5.32] Checking HR mobile repository...
 
 if not exist "index.html" (
   echo VERIFY_MOBILE_R1 FAIL: index.html not found
+  exit /b 1
+)
+
+findstr /C:"MOBILE-R1.5.32-SCOPE-TITLES-ONLY" "index.html" >nul
+if errorlevel 1 (
+  echo VERIFY_MOBILE_R1 FAIL: R1.5.32 scope titles marker missing
   exit /b 1
 )
 
@@ -42,5 +48,5 @@ if exist "fallback-data.js" (
   exit /b 1
 )
 
-echo VERIFY_MOBILE_R1 PASSED: Mobile R1.5.31 loader recovery rollback is ready.
+echo VERIFY_MOBILE_R1 PASSED: Mobile R1.5.32 scope titles only is ready.
 exit /b 0
