@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<!-- MOBILE-R1.5.37-CACHE-HEADERS -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="app-release" content="MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX">
+
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0b1437">
@@ -8935,6 +8941,55 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 </script>
 <style id="r1529-manual-refresh-style">#connection-refresh.r1529-busy,#sys-refresh-data.r1529-busy{opacity:.82;pointer-events:none}</style>
 
+
+<!-- MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX -->
+<script id="r1537-cache-service-worker-update-fix">
+(function(){
+  'use strict';
+  var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
+  var SW_URL='service-worker.js?v=1537';
+  var KEEP_CACHE='employee-registry-ui-r1537';
+  try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
+  try{window.APP_RELEASE=RELEASE;}catch(e){}
+
+  async function purgeLegacyInterfaceCaches(){
+    if(!('caches' in window))return;
+    try{
+      var keys=await caches.keys();
+      await Promise.all(keys.filter(function(k){
+        return k.indexOf('employee-registry-')===0 && k!==KEEP_CACHE;
+      }).map(function(k){return caches.delete(k);}));
+    }catch(e){}
+  }
+
+  async function installFreshWorker(){
+    if(!('serviceWorker' in navigator)||location.protocol==='file:')return null;
+    try{
+      var reg=await navigator.serviceWorker.register(SW_URL,{scope:'./',updateViaCache:'none'});
+      try{await reg.update();}catch(e){}
+      function activateWaiting(){
+        try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}
+      }
+      activateWaiting();
+      reg.addEventListener('updatefound',function(){
+        var w=reg.installing;if(!w)return;
+        w.addEventListener('statechange',function(){if(w.state==='installed')activateWaiting();});
+      });
+      return reg;
+    }catch(e){return null;}
+  }
+
+  async function maintain(){
+    await purgeLegacyInterfaceCaches();
+    await installFreshWorker();
+    try{localStorage.setItem('hr_mobile_ui_cache_release','1537');}catch(e){}
+  }
+
+  if(document.readyState==='complete')setTimeout(maintain,0);
+  else window.addEventListener('load',function(){setTimeout(maintain,0);},{once:true});
+  window.r1537CacheServiceWorkerFix={release:RELEASE,maintain:maintain,purge:purgeLegacyInterfaceCaches,register:installFreshWorker};
+})();
+</script>
 </body>
 </html>
 

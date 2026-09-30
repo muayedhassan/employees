@@ -1,13 +1,21 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>استعادة التطبيق</title></head><body style="font-family:Arial,sans-serif;padding:24px;text-align:center"><h3>جاري استعادة نسخة التطبيق المستقرة…</h3><p id="s">يرجى الانتظار</p><script>
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><title>استعادة التطبيق</title></head><body style="font-family:Arial,sans-serif;padding:24px;text-align:center"><h3>جاري تحديث واجهة التطبيق…</h3><p id="s">يرجى الانتظار</p><script>
 (async function(){
+  var s=document.getElementById('s');
   try{
-    if('serviceWorker' in navigator){
-      const regs=await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map(r=>r.unregister().catch(()=>false)));
+    if(window.caches){
+      var keys=await caches.keys();
+      await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0;}).map(function(k){return caches.delete(k);}));
     }
-    if(window.caches){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.indexOf('employee-registry-')===0).map(k=>caches.delete(k)));}
+    if('serviceWorker' in navigator){
+      var regs=await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(function(r){return r.unregister().catch(function(){return false;});}));
+      var reg=await navigator.serviceWorker.register('./service-worker.js?v=1537',{scope:'./',updateViaCache:'none'});
+      try{await reg.update();}catch(e){}
+      try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}
+    }
+    try{await fetch('./index.html?_recovery_warm='+Date.now(),{cache:'no-store'});}catch(e){}
   }catch(e){}
-  document.getElementById('s').textContent='تم تنظيف كاش الواجهة، سيتم فتح التطبيق الآن';
-  setTimeout(()=>location.replace('./?v=1536-recovery-'+Date.now()),700);
+  s.textContent='تم تجهيز أحدث واجهة، سيتم فتح التطبيق الآن';
+  setTimeout(function(){location.replace('./?v=1537&_recovery='+Date.now());},800);
 })();
 </script></body></html>
