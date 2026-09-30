@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.40",
-  "short_name": "HR Mobile R1.5.40",
+  "name": "سجل الموظفين - Mobile R1.5.41",
+  "short_name": "HR Mobile R1.5.41",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.40 canonical release and cache consistency; stable R1.5.39 UI and data behavior are preserved.",
+  "description": "R1.5.41 restores the job titles reference and synchronizes reviewed administrative movements across devices.",
   "icons": [
     {
       "src": "assets/icon-192.png",
