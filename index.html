@@ -1746,7 +1746,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.16-INDEXEDDB-FOUNDATION';
+var APP_RELEASE = 'MOBILE-R1.5.17-INDEXEDDB-PRIMARY-STORE';
 // R1.5.16: IndexedDB foundation stores secure dataset and change history for future large offline features.
 // R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.
 // R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.
@@ -8227,6 +8227,133 @@ window.hrIndexedDB={release:RELEASE,open:open,saveDataset:saveDataset,loadDatase
 install();
 document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,500);setTimeout(install,2000)});
 window.addEventListener('load',function(){setTimeout(install,300);setTimeout(install,1500);setTimeout(function(){try{status().then(function(s){window.__hrIndexedDBStatus=s})}catch(e){}},3000)});
+})();
+</script>
+
+
+
+<!-- MOBILE R1.5.17: IndexedDB primary store over localStorage mirror -->
+<script id="r1517-indexeddb-primary-store-script">
+// MOBILE R1.5.17: IndexedDB is now the primary secure dataset store; localStorage remains a compatibility mirror for the key and legacy UI.
+(function(){
+var RELEASE='MOBILE-R1.5.17-INDEXEDDB-PRIMARY-STORE';
+var LS_MIRROR_META_KEY='hr_indexeddb_primary_store_meta_r1517';
+function now(){return new Date().toISOString()}
+function valid(d){try{return !!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont))}catch(e){return false}}
+function total(d){try{return ((d&&d.perm)||[]).length+((d&&d.cont)||[]).length}catch(e){return 0}}
+function clone(v){try{return JSON.parse(JSON.stringify(v))}catch(e){return v}}
+function statusText(reason,d){return 'تم عرض البيانات من IndexedDB كمصدر أساسي: '+((d&&d.perm)||[]).length+' دائم • '+((d&&d.cont)||[]).length+' عقد'+(reason?' — '+reason:'')}
+function apiReady(){return !!(window.hrIndexedDB&&typeof window.hrIndexedDB.loadDataset==='function'&&typeof window.hrIndexedDB.saveDataset==='function')}
+async function idbLoad(){try{if(!apiReady())return null;var d=await window.hrIndexedDB.loadDataset();return valid(d)?d:null}catch(e){return null}}
+async function idbSave(d,reason){try{if(apiReady()&&valid(d))await window.hrIndexedDB.saveDataset(d,reason||'r1517-primary-store');return true}catch(e){return false}}
+function lsRead(){try{return safeParseJSON(localStorage.getItem(CENTRAL_CACHE_KEY))}catch(e){return null}}
+function lsMirror(d,reason){
+  if(!valid(d))return false;
+  // Keep a localStorage mirror for the existing R1.x UI code only. New large modules should read hrIndexedDB first.
+  try{localStorage.setItem(CENTRAL_CACHE_KEY,JSON.stringify(d))}catch(e){}
+  try{localStorage.setItem(LS_MIRROR_META_KEY,JSON.stringify({release:RELEASE,savedAt:now(),reason:reason||'',total:total(d),version:(d&&d.meta&&(d.meta.version||d.meta.updatedAt))||''}))}catch(e){}
+  return true;
+}
+function currentDataset(){try{if(total({perm:BASE.perm||[],cont:BASE.cont||[]})>0)return {meta:clone(DATA_META||{}),perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])}}catch(e){}return null}
+async function applyFromIDB(reason){
+  var d=await idbLoad();
+  if(!valid(d))return false;
+  lsMirror(d,'idb-primary-read');
+  if(typeof r1509ApplySecureDataset==='function'){
+    var ok=r1509ApplySecureDataset(d,statusText(reason||'جاهز',d));
+    try{if(ok){LAST_DATA_STATUS=statusText(reason||'جاهز',d);updateConnectivityUI&&updateConnectivityUI()}}catch(e){}
+    return !!ok;
+  }
+  try{var ok2=applyDataset(d);if(ok2){r1509RefreshVisibleUi&&r1509RefreshVisibleUi(statusText(reason||'جاهز',d));return true}}catch(e){}
+  return false;
+}
+async function promoteLocalStorageOnce(){
+  var d=lsRead();
+  if(valid(d))await idbSave(d,'r1517-promote-localStorage');
+}
+function wrapCacheCentral(){
+  try{
+    if(typeof cacheCentral!=='function'||cacheCentral.__r1517Wrapped)return false;
+    var old=cacheCentral;
+    cacheCentral=function(d){
+      // Save to IndexedDB first. localStorage is retained only as a mirror for old code paths.
+      try{if(valid(d))idbSave(d,'cacheCentral-r1517').then(function(){lsMirror(d,'cacheCentral-r1517')}).catch(function(){lsMirror(d,'cacheCentral-r1517-fallback')})}catch(e){}
+      return old.apply(this,arguments);
+    };
+    cacheCentral.__r1517Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+function wrapSecureApply(){
+  try{
+    if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1517Wrapped)return false;
+    var old=r1509ApplySecureDataset;
+    r1509ApplySecureDataset=function(d,status){
+      var ok=old.apply(this,arguments);
+      try{if(ok){var cur=currentDataset()||d;if(valid(cur))idbSave(cur,'apply-secure-r1517').then(function(){lsMirror(cur,'apply-secure-r1517')}).catch(function(){})}}catch(e){}
+      return ok;
+    };
+    r1509ApplySecureDataset.__r1517Wrapped=true;
+    try{window.r1509ApplySecureDataset=r1509ApplySecureDataset}catch(e){}
+    return true;
+  }catch(e){return false}
+}
+function wrapLoadCentralData(){
+  try{
+    if(typeof loadCentralData!=='function'||loadCentralData.__r1517Wrapped)return false;
+    var old=loadCentralData;
+    loadCentralData=async function(forceRefresh){
+      if(!forceRefresh){
+        var shown=await applyFromIDB('نسخة محلية أساسية');
+        if(shown){
+          try{if(typeof r1510RefreshSecureDataInBackground==='function')r1510RefreshSecureDataInBackground()}catch(e){}
+          return;
+        }
+      }
+      await old.apply(this,arguments);
+      try{var cur=currentDataset();if(valid(cur))await idbSave(cur,forceRefresh?'force-refresh-r1517':'load-r1517'),lsMirror(cur,forceRefresh?'force-refresh-r1517':'load-r1517')}catch(e){}
+    };
+    loadCentralData.__r1517Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+function wrapRefreshButton(){
+  try{
+    var api=window.r1513SecureDataManualRefresh;
+    if(!api||typeof api.refresh!=='function'||api.refresh.__r1517Wrapped)return false;
+    var old=api.refresh;
+    api.refresh=async function(origin){
+      var ok=await old.apply(this,arguments);
+      try{var cur=currentDataset();if(ok&&valid(cur))await idbSave(cur,'manual-refresh-r1517'),lsMirror(cur,'manual-refresh-r1517')}catch(e){}
+      return ok;
+    };
+    api.refresh.__r1517Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+function wrapPersistentChanges(){
+  try{
+    var api=window.r1515PersistentChangeHistory;
+    if(!api||typeof api.persist!=='function'||api.persist.__r1517Wrapped)return false;
+    var old=api.persist;
+    api.persist=function(){
+      var r=old.apply(this,arguments);
+      try{if(apiReady())window.hrIndexedDB.saveChanges((typeof LAST_CHANGE_SUMMARY!=='undefined'?LAST_CHANGE_SUMMARY:null),(typeof CHANGE_HISTORY!=='undefined'?CHANGE_HISTORY:null),'r1517-primary-change-history').catch(function(){})}catch(e){}
+      return r;
+    };
+    api.persist.__r1517Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+async function status(){
+  var s={ok:false,release:RELEASE,primary:'IndexedDB',mirror:'localStorage-compatibility'};
+  try{var d=await idbLoad();s.ok=valid(d);s.total=total(d);s.version=(d&&d.meta&&(d.meta.version||d.meta.updatedAt))||'';s.hasLocalStorageMirror=valid(lsRead());return s}catch(e){s.error=String(e&&e.message||e);return s}
+}
+function install(){wrapCacheCentral();wrapSecureApply();wrapLoadCentralData();wrapRefreshButton();wrapPersistentChanges();promoteLocalStorageOnce().catch(function(){})}
+install();
+document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,500);setTimeout(function(){applyFromIDB('تهيئة IndexedDB').catch(function(){})},1200)});
+window.addEventListener('load',function(){setTimeout(install,350);setTimeout(function(){status().then(function(s){window.__hrIndexedDBPrimaryStatus=s})},2600)});
+window.hrIndexedDBPrimaryStore={release:RELEASE,install:install,status:status,applyFromIDB:applyFromIDB,promote:promoteLocalStorageOnce};
 })();
 </script>
 

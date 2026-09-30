@@ -12,18 +12,23 @@ const sw = read('service-worker.js');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const version = read('VERSION.txt').trim();
 
-const expected = 'MOBILE-R1.5.16-INDEXEDDB-FOUNDATION';
-if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.16 IndexedDB foundation');
+const expected = 'MOBILE-R1.5.17-INDEXEDDB-PRIMARY-STORE';
+if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.17 IndexedDB primary store');
 if (version !== expected) fail('VERSION.txt mismatch');
-if (!String(manifest.description || '').includes('R1.5.16')) fail('manifest description missing R1.5.16');
+if (!String(manifest.description || '').includes('R1.5.17')) fail('manifest description missing R1.5.17');
 
 const requiredMarkers = [
+  'MOBILE-R1.5.17-INDEXEDDB-PRIMARY-STORE',
+  'r1517-indexeddb-primary-store-script',
+  'IndexedDB is now the primary secure dataset store',
+  'window.hrIndexedDBPrimaryStore',
+  'hr_indexeddb_primary_store_meta_r1517',
+  'employee-registry-mobile-r1517-indexeddb-primary-store-2026.09.30',
   'R1.5.16: IndexedDB foundation stores secure dataset and change history for future large offline features.',
   'MOBILE-R1.5.16-INDEXEDDB-FOUNDATION',
   'r1516-indexeddb-foundation-script',
   'hr_mobile_secure_store_r1516',
   'window.hrIndexedDB',
-  'employee-registry-mobile-r1516-indexeddb-foundation-2026.09.30',
   'R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.',
   'MOBILE-R1.5.15-PERSISTENT-CHANGE-HISTORY',
   'r1515PersistentChangeHistory',
@@ -35,9 +40,6 @@ const requiredMarkers = [
   'القيمة السابقة',
   'القيمة الجديدة',
   'CHANGE_HISTORY_CACHE_KEY',
-  'employee-registry-mobile-r1515-persistent-change-history-2026.09.30',
-  'employee-registry-pdf-downloads-r1515',
-  'R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.',
   'r1513SecureDataManualRefresh',
   'تحديث الآن',
   'hr_secure_last_manual_refresh_r1513',
@@ -49,7 +51,7 @@ const requiredMarkers = [
   'r1510ApplyCachedDatasetIfReady'
 ];
 for (const marker of requiredMarkers) {
-  if (!index.includes(marker) && !sw.includes(marker)) fail(`missing R1.5.13 marker: ${marker}`);
+  if (!index.includes(marker) && !sw.includes(marker)) fail(`missing R1.5.17 marker: ${marker}`);
 }
 
 if (index.includes('raw.githubusercontent.com/muayedhassan/employees/main/')) fail('public GitHub employee data endpoint must not remain in index.html');

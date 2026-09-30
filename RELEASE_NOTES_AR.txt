@@ -1,8 +1,7 @@
-Mobile R1.5.16 — IndexedDB Foundation
+Mobile R1.5.17 — IndexedDB Primary Store
 
-- إضافة طبقة IndexedDB باسم hr_mobile_secure_store_r1516.
-- حفظ آخر نسخة بيانات آمنة داخل IndexedDB بجانب localStorage.
-- حفظ سجل التعديلات داخل IndexedDB بجانب السجل المحلي.
-- استرجاع البيانات من IndexedDB إذا فُقد localStorage أو فشل.
-- إبقاء localStorage كاحتياط حتى لا ينكسر التطبيق.
-- لا تغيير على التصميم أو Google Sheets أو الحركات الإدارية أو الإشعارات.
+- يجعل IndexedDB هو المصدر الأول لعرض آخر نسخة بيانات محفوظة.
+- يبقي localStorage كمرآة توافق فقط للمفاتيح والأجزاء القديمة.
+- يحفظ بيانات Google Sheets وسجل التعديلات في IndexedDB بعد كل تحديث.
+- يحافظ على زر تحديث الآن والكاش السريع وسجل التعديلات الدائم.
+- لا يغير التصميم ولا الحركات الإدارية ولا الإشعارات ولا يضيف بيانات إلى GitHub.
