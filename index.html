@@ -1746,7 +1746,8 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.19-DATE-DISPLAY-FIX';
+var APP_RELEASE = 'MOBILE-R1.5.25-SAFE-MANUAL-UPDATE-CENTER';
+// MOBILE-R1.5.19-DATE-DISPLAY-FIX: retained as stable recovery base.
 // R1.5.16: IndexedDB foundation stores secure dataset and change history for future large offline features.
 // R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.
 // R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.
@@ -3649,7 +3650,7 @@ html+='<div class="sys71-card"><div class="sys71-card-head"><div class="sys71-ca
 html+='<div class="sys71-actions"><button class="sys71-action primary" id="sys-check-all"><i class="fas fa-shield-check"></i> فحص شامل الآن</button><button class="sys71-action green" id="sys-refresh-data" '+(!online?'disabled':'')+'><i class="fas fa-database"></i> تحديث البيانات الآن</button><button class="sys71-action ghost" id="sys-force-refresh" '+(!online?'disabled':'')+'><i class="fas fa-arrows-rotate"></i> تحديث الواجهة إجباريًا</button></div><div class="sys71-note"><i class="fas fa-circle-info"></i>«تحديث بيانات HRSystem» يجلب آخر نسخة منشورة من Google Sheets الآمنة بعد النشر من برنامج Windows، ولا يغيّر أي سجل محليًا. عند تعديل البيانات في Windows اضغط نشر آمن للهاتف ثم استخدم هذا الزر لجلب آخر نسخة فورًا.</div>';
 page.innerHTML=html;var a=document.getElementById('sys-check-all'),b=document.getElementById('sys-refresh-data'),c=document.getElementById('sys-force-refresh');if(a)a.addEventListener('click',r71CheckAll);if(b)b.addEventListener('click',r71RefreshDataOnly);if(c)c.addEventListener('click',r71ForceRefresh);updateSystemTabDot();r71ReadCacheInfo().then(function(){if(subView==='system'){var p=document.getElementById('system-page');if(p&&p.isConnected&&R71_CACHE_INFO.usage!=='—'){/* next manual refresh will show estimate */}}});}
 
-window.addEventListener('online',function(){updateSystemTabDot();if(subView==='system'){r71CheckInterface(true);}});
+window.addEventListener('online',function(){updateSystemTabDot();if(subView==='system')buildSystemCenter();});
 window.addEventListener('offline',function(){R71_UPDATE_STATE='offline';updateSystemTabDot();if(subView==='system')buildSystemCenter();});
 
 
@@ -4699,7 +4700,7 @@ window.addEventListener('load',async function(){
   await refreshSafetyUI();
   await r71ReadCacheInfo();
   updateSystemTabDot();
-  if(navigator.onLine!==false){setTimeout(function(){r71CheckInterface(true);},900);}
+  /* R1.5.25: update checks are manual only; no startup check. */
   splashCount('sc-perm',BASE.perm.length);
   splashCount('sc-cont',BASE.cont.length);
   splashCount('sc-all',BASE.perm.length+BASE.cont.length);
@@ -8468,118 +8469,173 @@ document.addEventListener('DOMContentLoaded',function(){install();setTimeout(ins
 window.addEventListener('load',function(){setTimeout(install,300);setTimeout(install,1200)});
 window.r1519DateDisplayFix={release:RELEASE,format:formatDateValue,install:install};
 })();
-</script>
 
 
-<script id="r1520-date-sanitizer-fix-script">
-// MOBILE R1.5.20: hard date sanitizer for employee modal date fields, including quoted ISO strings.
+/* ── MOBILE R1.5.25 SAFE MANUAL UPDATE CENTER ───────────────────────────────
+   هذا التصحيح يوقف أي فحص/تطبيق تلقائي لتحديث الواجهة، ويجعل التحديث يدويًا فقط.
+   لا يوجد location.reload أو location.replace إلا بعد ضغط المستخدم زر "حدث النظام الآن".
+*/
 (function(){
-var RELEASE='MOBILE-R1.5.20-DATE-SANITIZER-FIX';
-var DATE_FIELDS={birthDate:1,hireDate:1,identityIssueDate:1,appointmentOrderDate:1,firstAssignmentDate:1,nextBonusDate:1,nextPromotionDate:1};
-function pad(n){n=String(n);return n.length<2?'0'+n:n}
-function validYear(y){y=Number(y);return y>=1900&&y<=2100}
-function out(y,m,d){y=Number(y);m=Number(m);d=Number(d);if(!validYear(y)||m<1||m>12||d<1||d>31)return '';return String(y)+'/'+pad(m)+'/'+pad(d)}
-function strip(v){
-  var s=String(v==null?'':v).replace(/\u00a0/g,' ').trim();
-  try{s=decodeURIComponent(s)}catch(e){}
-  s=s.replace(/[“”]/g,'"').replace(/[‘’]/g,"'");
-  s=s.replace(/^\s*[\\\"'`]+|[\\\"'`]+\s*$/g,'').trim();
-  // Date cells sometimes arrive as a JSON string with quotes preserved.
-  s=s.replace(/\\"/g,'"').replace(/^\s*[\"'`]+|[\"'`]+\s*$/g,'').trim();
-  return s;
-}
-function excelSerial(n){
-  n=Number(n);if(!isFinite(n)||n<15000||n>80000)return '';
-  var dt=new Date((Math.floor(n)-25569)*86400*1000);
-  if(isNaN(dt.getTime()))return '';
-  return out(dt.getUTCFullYear(),dt.getUTCMonth()+1,dt.getUTCDate());
-}
-function fixDate(v){
-  if(v===null||v===undefined)return '';
-  if(v instanceof Date&&!isNaN(v.getTime()))return out(v.getFullYear(),v.getMonth()+1,v.getDate());
-  var s=strip(v);if(!s||s==='—'||s==='36'||s==='غير متوفر')return '';
-  var serial=s.replace(/\.0+$/,'');
-  if(/^\d{5}$/.test(serial)){var ex=excelSerial(serial);if(ex)return ex}
-  // ISO anywhere in the value: 2017-12-04T08:00:00.000Z
-  var m=s.match(/(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})(?:[T\s].*)?$/);if(m)return out(m[1],m[2],m[3]);
-  // Arabic/local style: 04/12/2017 or 04-12-2017
-  m=s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})$/);if(m)return out(m[3],m[2],m[1]);
-  // Apps Script Date(...) text
-  m=s.match(/Date\s*\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})/i);if(m)return out(m[1],Number(m[2])+1,m[3]);
-  var p=Date.parse(s);if(!isNaN(p)){var d=new Date(p);return out(d.getFullYear(),d.getMonth()+1,d.getDate())}
-  return s;
-}
-function isDateLabel(txt){return /تاريخ|الميلاد|التولد|التعيين|الهوية|إصدار/i.test(String(txt||''))}
-function looksLikeRawDate(txt){return /\d{4}-\d{1,2}-\d{1,2}T|^\s*[\"']?\d{4}-\d{1,2}-\d{1,2}|^\s*[\"']?\d{5}[\"']?\s*$/.test(String(txt||''))}
-function installProfilePatch(){
-  try{
-    if(typeof profileDisplayValue==='function'&&!profileDisplayValue.__r1520DateSanitizer){
-      var old=profileDisplayValue;
-      profileDisplayValue=function(field,value){
-        if(DATE_FIELDS[field]){
-          try{if(typeof bridgeFieldPublished==='function'&&!bridgeFieldPublished(field))return 'محجوب من نسخة الهاتف'}catch(e){}
-          var f=fixDate(value);return f||'غير متوفر';
+  var RELEASE='MOBILE-R1.5.25-SAFE-MANUAL-UPDATE-CENTER';
+  try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
+  try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0;}catch(e){}
+  var LAST_MANUAL_CHECK_KEY='emp_r1525_last_manual_update_check';
+  var LAST_MANUAL_APPLY_KEY='emp_r1525_last_manual_apply';
+  function sget(k){try{return localStorage.getItem(k)||'';}catch(e){return '';}}
+  function sset(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function nowISO(){return new Date().toISOString();}
+  function shortRel(v){return String(v||'—').replace('MOBILE-','').replace('-SAFE-MANUAL-UPDATE-CENTER','').replace('-DATE-DISPLAY-FIX','').replace('-INDEXEDDB-PRIMARY-STORE','');}
+  async function fetchRemoteReleaseSafe(){
+    if(navigator.onLine===false)return '';
+    var u=new URL('index.html',location.href);
+    u.searchParams.set('_manual_release_check',Date.now());
+    var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache'}});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    var txt=await res.text();
+    var m=txt.match(/APP_RELEASE\s*=\s*['"]([^'"]+)['"]/);
+    return m?m[1]:'';
+  }
+  async function manualCheckUpdate(showMessage){
+    if(navigator.onLine===false){
+      try{R71_UPDATE_STATE='offline';R122_AUTO_STATUS='بدون إنترنت';}catch(e){}
+      if(showMessage)showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');
+      return false;
+    }
+    try{
+      if(showMessage)showToast('جاري فحص تحديث النظام...');
+      var remote=await fetchRemoteReleaseSafe();
+      try{R71_REMOTE_RELEASE=remote||APP_RELEASE;R122_LAST_REMOTE_RELEASE=remote||R122_LAST_REMOTE_RELEASE;R71_UPDATE_STATE=(remote&&remote!==APP_RELEASE)?'new':'current';R122_AUTO_STATUS=(remote&&remote!==APP_RELEASE)?'تحديث متوفر يدويًا':'محدث';}catch(e){}
+      sset(LAST_MANUAL_CHECK_KEY,nowISO());
+      sset('emp_mobile_last_auto_check_r122',nowISO());
+      if(showMessage)showToast((remote&&remote!==APP_RELEASE)?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');
+      try{updateSystemTabDot();if(subView==='system')buildSystemCenter();}catch(e){}
+      return !!(remote&&remote!==APP_RELEASE);
+    }catch(err){
+      try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص';}catch(e){}
+      if(showMessage)showToast('تعذر فحص تحديث النظام حاليًا','warn');
+      try{updateSystemTabDot();if(subView==='system')buildSystemCenter();}catch(e){}
+      return false;
+    }
+  }
+  async function manualApplyUpdate(){
+    if(navigator.onLine===false){showToast('تحديث النظام يحتاج إنترنت','warn');return;}
+    showConfirm('تحديث النظام يدويًا','سيتم تحديث واجهة التطبيق مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لا تُحذف.',async function(){
+      try{
+        sset(LAST_MANUAL_APPLY_KEY,nowISO());
+        sessionStorage.setItem('emp_r1525_manual_update_once','1');
+        showToast('جاري تجهيز تحديث الواجهة...');
+        if('caches' in window){
+          var keys=await caches.keys();
+          await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0;}).map(function(k){return caches.delete(k);}));
         }
-        var v=old.apply(this,arguments);
-        // Safety net: if the returned display is still a raw ISO date, format it.
-        if(looksLikeRawDate(v)){var f2=fixDate(v);if(f2)return f2}
-        return v;
-      };
-      profileDisplayValue.__r1520DateSanitizer=true;
-    }
-  }catch(e){}
-  try{
-    if(typeof r1411IsNumberOrDateField==='function'&&!r1411IsNumberOrDateField.__r1520DateSanitizer){
-      var old2=r1411IsNumberOrDateField;
-      r1411IsNumberOrDateField=function(field,value){if(DATE_FIELDS[field]||looksLikeRawDate(value))return true;return old2.apply(this,arguments)};
-      r1411IsNumberOrDateField.__r1520DateSanitizer=true;
-    }
-  }catch(e){}
-}
-function sanitizeModalDates(){
-  try{
-    var root=document.getElementById('modal');if(!root)return false;
-    root.querySelectorAll('.m-row').forEach(function(row){
-      var label=(row.querySelector('.m-lbl')||{}).textContent||'';
-      var val=row.querySelector('.m-val');if(!val)return;
-      var raw=val.textContent||'';
-      if(isDateLabel(label)||looksLikeRawDate(raw)){
-        var fixed=fixDate(raw);
-        if(fixed&&fixed!==raw.trim())val.textContent=fixed;
-        if(fixed)val.classList.add('num-font','r1520-date-fixed');
-      }
+        if('serviceWorker' in navigator){
+          try{var reg=await navigator.serviceWorker.getRegistration(); if(reg)await reg.update();}catch(e){}
+        }
+      }catch(e){}
+      var u=new URL(location.href);
+      u.searchParams.set('v','1525');
+      u.searchParams.set('_manual_update',Date.now());
+      location.replace(u.toString());
     });
-  }catch(e){}
-}
-function installModalPatch(){
-  try{
-    if(typeof openModal==='function'&&!openModal.__r1520DateSanitizer){
-      var old=openModal;
-      openModal=function(){
-        installProfilePatch();
-        var r=old.apply(this,arguments);
-        setTimeout(sanitizeModalDates,0);
-        setTimeout(sanitizeModalDates,120);
-        setTimeout(sanitizeModalDates,400);
-        return r;
-      };
-      openModal.__r1520DateSanitizer=true;
+  }
+  async function manualDataRefresh(){
+    var btn=document.getElementById('sys-refresh-data')||document.getElementById('r1525-data');
+    if(btn){btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري تحديث البيانات...';}
+    try{
+      await loadCentralData(true);
+      updateAdminCounts();
+      if(mode!=='admin')doFilter();
+      try{r122Store(R122_LAST_DATA_REFRESH_KEY,nowISO());}catch(e){}
+      showToast(LAST_DATA_STATUS||'تم تحديث البيانات');
+    }catch(e){showToast('تعذر تحديث البيانات؛ بقيت النسخة المحفوظة تعمل','warn');}
+    finally{
+      if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-database"></i> تحديث البيانات الآن';}
+      try{await r71ReadCacheInfo();buildSystemCenter();updateConnectivityUI();}catch(e){}
     }
+  }
+  /* تعطيل كل مراقبات التحديث التلقائي القديمة */
+  try{
+    r122StartAutoUpdateWatchers=function(){
+      R122_AUTO_WATCHERS_STARTED=true;
+      R122_AUTO_STATUS='التحديث يدوي فقط';
+      try{r122Store(R122_APP_RELEASE_KEY,APP_RELEASE);}catch(e){}
+      return false;
+    };
   }catch(e){}
-}
-function install(){installProfilePatch();installModalPatch();sanitizeModalDates()}
-install();
-document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,300);setTimeout(sanitizeModalDates,900)});
-window.addEventListener('load',function(){setTimeout(install,300);setTimeout(sanitizeModalDates,1200);setTimeout(sanitizeModalDates,2600)});
-document.addEventListener('click',function(e){if(e.target&&e.target.closest&&e.target.closest('#modal,#profile-tabs-live')){setTimeout(sanitizeModalDates,0);setTimeout(sanitizeModalDates,140)}},true);
-try{var mo=new MutationObserver(function(){sanitizeModalDates()});document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('m-profile-body');if(b)mo.observe(b,{childList:true,subtree:true,characterData:true})})}catch(e){}
-window.r1520DateSanitizerFix={release:RELEASE,format:fixDate,install:install,sanitize:sanitizeModalDates};
+  try{
+    r122CheckForAppUpdate=function(silent){
+      if(silent){R122_AUTO_STATUS='التحديث يدوي فقط';return Promise.resolve(false);}
+      return manualCheckUpdate(true);
+    };
+  }catch(e){}
+  try{
+    r122ApplyInterfaceUpdate=function(){return manualApplyUpdate();};
+  }catch(e){}
+  try{
+    r122RefreshAppAndData=async function(){
+      await manualCheckUpdate(true);
+      await manualDataRefresh();
+      return false;
+    };
+  }catch(e){}
+  try{
+    r71CheckInterface=function(silent){
+      if(silent){return Promise.resolve(false);}
+      return manualCheckUpdate(true);
+    };
+  }catch(e){}
+  try{
+    r71CheckAll=async function(){
+      await manualCheckUpdate(true);
+      await manualDataRefresh();
+    };
+  }catch(e){}
+  try{
+    r71RefreshDataOnly=manualDataRefresh;
+  }catch(e){}
+  try{
+    r71ForceRefresh=manualApplyUpdate;
+  }catch(e){}
+  try{
+    r122RegisterServiceWorker=async function(){
+      if(!('serviceWorker' in navigator)||location.protocol==='file:')return;
+      try{await navigator.serviceWorker.register('service-worker.js',{updateViaCache:'none'});}catch(e){}
+    };
+  }catch(e){}
+  try{
+    r122EnhanceSystemCenter=function(){
+      var page=document.getElementById('system-page');if(!page)return;
+      var old=page.querySelector('#r122-auto-card');if(old)old.remove();
+      var oldBtn=page.querySelector('#sys-r122-refresh-all');if(oldBtn)oldBtn.remove();
+      var actions=page.querySelector('.sys71-actions');
+      if(actions){
+        var forced=page.querySelector('#sys-force-refresh');
+        if(forced)forced.innerHTML='<i class="fas fa-cloud-arrow-down"></i> حدث النظام الآن';
+        var chk=page.querySelector('#sys-check-all');
+        if(chk)chk.innerHTML='<i class="fas fa-magnifying-glass"></i> فحص التحديث يدويًا';
+        var data=page.querySelector('#sys-refresh-data');
+        if(data)data.innerHTML='<i class="fas fa-database"></i> تحديث البيانات الآن';
+      }
+      var grid=page.querySelector('.sys71-grid');
+      if(grid&&!page.querySelector('#r1525-manual-card')){
+        var card=document.createElement('div');card.className='sys71-card';card.id='r1525-manual-card';
+        var remote=(typeof R71_REMOTE_RELEASE!=='undefined'&&R71_REMOTE_RELEASE)||'لم يتم الفحص بعد';
+        card.innerHTML='<div class="sys71-card-head"><div class="sys71-card-ico" style="color:#69f0ae;background:rgba(105,240,174,.07);border-color:rgba(105,240,174,.13)"><i class="fas fa-hand-pointer"></i></div><div><div class="sys71-card-title">مركز التحديث اليدوي الآمن</div><div class="sys71-card-sub">لا يوجد فحص تلقائي ولا تحديث تلقائي ولا إعادة تشغيل إلا عند ضغط الزر يدويًا</div></div></div>'+
+          '<div class="sys71-row"><span class="sys71-row-l">آلية التحديث</span><span class="sys71-row-v ok">يدوي فقط</span></div>'+
+          '<div class="sys71-row"><span class="sys71-row-l">الإصدار الحالي</span><span class="sys71-row-v info">'+escapeHTML(shortRel(APP_RELEASE))+'</span></div>'+
+          '<div class="sys71-row"><span class="sys71-row-l">الإصدار المنشور</span><span class="sys71-row-v">'+escapeHTML(shortRel(remote))+'</span></div>'+
+          '<div class="sys71-row"><span class="sys71-row-l">آخر فحص يدوي</span><span class="sys71-row-v">'+escapeHTML(r122Date(sget(LAST_MANUAL_CHECK_KEY)))+'</span></div>'+
+          '<div class="sys71-row"><span class="sys71-row-l">آخر تحديث يدوي</span><span class="sys71-row-v">'+escapeHTML(r122Date(sget(LAST_MANUAL_APPLY_KEY)))+'</span></div>';
+        grid.insertBefore(card,grid.firstChild);
+      }
+      var note=page.querySelector('.sys71-note');
+      if(note)note.innerHTML='<i class="fas fa-circle-info"></i> هذا الإصدار أوقف التحديث التلقائي نهائيًا. الفحص والتحديث يتمان يدويًا فقط من أزرار هذه الصفحة.';
+    };
+  }catch(e){}
+  window.addEventListener('online',function(){try{R122_AUTO_STATUS='التحديث يدوي فقط';updateSystemTabDot();if(subView==='system')buildSystemCenter();}catch(e){}});
 })();
-</script>
 
-<style id="r1520-date-sanitizer-style">
-#modal .m-val.r1520-date-fixed{letter-spacing:.4px;direction:ltr;text-align:center;unicode-bidi:isolate}
-</style>
+</script>
 
 </body>
 </html>
