@@ -8581,5 +8581,166 @@ window.r1520DateSanitizerFix={release:RELEASE,format:fixDate,install:install,san
 #modal .m-val.r1520-date-fixed{letter-spacing:.4px;direction:ltr;text-align:center;unicode-bidi:isolate}
 </style>
 
+
+<!-- MOBILE R1.5.21: IndexedDB employee history timeline -->
+<script id="r1521-employee-history-timeline-script">
+// MOBILE R1.5.21: persistent per-employee history timeline stored in IndexedDB.
+(function(){
+var RELEASE='MOBILE-R1.5.21-EMPLOYEE-HISTORY-TIMELINE';
+var DB_NAME='hr_employee_history_timeline_r1521';
+var DB_VERSION=1;
+var STORE='histories';
+var dbPromise=null;
+function now(){return new Date().toISOString()}
+function hasIDB(){return !!window.indexedDB}
+function clone(v){try{return JSON.parse(JSON.stringify(v))}catch(e){return v}}
+function arr(v){return Array.isArray(v)?v:[]}
+function esc(v){try{return escapeHTML(String(v==null?'':v))}catch(e){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}}
+function norm(v){return String(v==null?'':v).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
+function openDB(){
+  if(!hasIDB())return Promise.reject(new Error('IndexedDB غير متاح'));
+  if(dbPromise)return dbPromise;
+  dbPromise=new Promise(function(resolve,reject){
+    var req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=function(){
+      var db=req.result;
+      if(!db.objectStoreNames.contains(STORE)){
+        var st=db.createObjectStore(STORE,{keyPath:'key'});
+        try{st.createIndex('updatedAt','updatedAt',{unique:false})}catch(e){}
+        try{st.createIndex('employeeNo','employeeNo',{unique:false})}catch(e){}
+      }
+    };
+    req.onsuccess=function(){resolve(req.result)};
+    req.onerror=function(){reject(req.error||new Error('تعذر فتح قاعدة سجل الموظف'))};
+  });
+  return dbPromise;
+}
+function txGet(key){return openDB().then(function(db){return new Promise(function(resolve,reject){var tx=db.transaction(STORE,'readonly'),req=tx.objectStore(STORE).get(key);req.onsuccess=function(){resolve(req.result||null)};req.onerror=function(){reject(req.error||tx.error)}})})}
+function txPut(obj){return openDB().then(function(db){return new Promise(function(resolve,reject){var tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(obj);tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error||new Error('تعذر حفظ سجل الموظف'))}})})}
+function employeeKey(x){
+  if(!x)return '';
+  var c=[x.integrationId,x.id,x.bridgeId,x.employeeNo].map(norm).filter(Boolean);
+  if(c.length)return c[0];
+  var n=norm(x.num),nm=norm(x.name||x.employeeName);
+  if(n||nm)return 'legacy:'+n+'|'+nm;
+  return '';
+}
+function allKeys(x){
+  var seen={},out=[];
+  [x&&x.integrationId,x&&x.id,x&&x.bridgeId,x&&x.employeeNo,(x&&(norm(x.num)||norm(x.name||x.employeeName))?'legacy:'+norm(x.num)+'|'+norm(x.name||x.employeeName):'')].forEach(function(v){v=norm(v);if(v&&!seen[v]){seen[v]=1;out.push(v)}});
+  return out;
+}
+function formatVal(field,v){
+  var s=norm(v);
+  if(!s||s==='—')return 'فارغ';
+  try{if(window.r1520DateSanitizerFix&&typeof window.r1520DateSanitizerFix.format==='function'){
+    if(/date|تاريخ|birthDate|hireDate|identityIssueDate/i.test(String(field||''))||/\d{4}-\d{1,2}-\d{1,2}/.test(s)){var f=window.r1520DateSanitizerFix.format(s);if(f)return f;}
+  }}catch(e){}
+  try{return cleanHistoryValue(field,s)}catch(e){return s}
+}
+function label(field){try{return (CHANGE_FIELD_LABELS&&CHANGE_FIELD_LABELS[field])||field}catch(e){return field}}
+function eventId(ev){return [ev.version||'',ev.kind||'',ev.updatedAt||'',arr(ev.changes).map(function(c){return [c.field,c.oldValue,c.newValue].join('=')}).join('|')].join('::')}
+function meaningfulChanges(changes){
+  try{if(typeof realHistoryChanges==='function')return realHistoryChanges(changes)}catch(e){}
+  return arr(changes).filter(function(c){return norm(c&&c.oldValue)!==norm(c&&c.newValue)})
+}
+function summaryList(){
+  var out=[];
+  try{if(typeof historyVersions==='function')out=historyVersions()||[]}catch(e){}
+  try{if(!out.length&&CHANGE_HISTORY&&Array.isArray(CHANGE_HISTORY.versions))out=CHANGE_HISTORY.versions.slice()}catch(e){}
+  try{if(LAST_CHANGE_SUMMARY&&LAST_CHANGE_SUMMARY.version&&!out.some(function(x){return x&&x.version===LAST_CHANGE_SUMMARY.version}))out.push(LAST_CHANGE_SUMMARY)}catch(e){}
+  return out.filter(Boolean);
+}
+function eventsFromSummary(sum){
+  var events=[];
+  arr(sum.modified).forEach(function(m){var ch=meaningfulChanges(m&&m.changes);if(!ch.length)return;events.push({kind:'modified',version:sum.version||DATA_VERSION||'—',updatedAt:sum.updatedAt||now(),employee:m,item:m,changes:clone(ch)})});
+  arr(sum.added).forEach(function(m){events.push({kind:'added',version:sum.version||DATA_VERSION||'—',updatedAt:sum.updatedAt||now(),employee:m,item:m,changes:[]})});
+  arr(sum.missing).forEach(function(m){events.push({kind:'missing',version:sum.version||DATA_VERSION||'—',updatedAt:sum.updatedAt||now(),employee:m,item:m,changes:[]})});
+  return events;
+}
+async function appendEventToKey(key,ev){
+  if(!key)return false;
+  var rec=await txGet(key)||{key:key,employeeName:norm(ev.employee&&ev.employee.name||ev.employee&&ev.employee.employeeName),employeeNo:norm(ev.employee&&ev.employee.employeeNo),num:norm(ev.employee&&ev.employee.num),type:ev.employee&&ev.employee.type,createdAt:now(),updatedAt:now(),events:[]};
+  rec.employeeName=rec.employeeName||norm(ev.employee&&ev.employee.name||ev.employee&&ev.employee.employeeName);
+  rec.employeeNo=rec.employeeNo||norm(ev.employee&&ev.employee.employeeNo);
+  rec.num=rec.num||norm(ev.employee&&ev.employee.num);
+  rec.type=rec.type||ev.employee&&ev.employee.type;
+  rec.events=arr(rec.events);
+  var id=eventId(ev);
+  if(!rec.events.some(function(x){return x&&x.eventId===id})){
+    rec.events.push({eventId:id,kind:ev.kind,version:ev.version,updatedAt:ev.updatedAt,changes:clone(ev.changes||[]),savedAt:now()});
+    rec.events.sort(function(a,b){return String(b.updatedAt||'').localeCompare(String(a.updatedAt||''))});
+    if(rec.events.length>120)rec.events=rec.events.slice(0,120);
+    rec.updatedAt=now();
+    await txPut(rec);
+  }
+  return true;
+}
+async function captureSummary(sum){
+  var evs=eventsFromSummary(sum);
+  for(var i=0;i<evs.length;i++){
+    var ev=evs[i],ks=allKeys(ev.employee||ev.item);
+    for(var k=0;k<ks.length;k++)await appendEventToKey(ks[k],ev);
+  }
+  return evs.length;
+}
+async function captureAll(){var list=summaryList(),n=0;for(var i=0;i<list.length;i++)n+=await captureSummary(list[i]);return n}
+async function getEmployeeHistory(emp){
+  var keys=allKeys(emp),merged={},events=[];
+  for(var i=0;i<keys.length;i++){
+    var r=await txGet(keys[i]);
+    arr(r&&r.events).forEach(function(ev){if(!merged[ev.eventId]){merged[ev.eventId]=1;events.push(ev)}});
+  }
+  events.sort(function(a,b){return String(b.updatedAt||'').localeCompare(String(a.updatedAt||''))});
+  return events;
+}
+function timelineHTML(emp,events){
+  events=arr(events);
+  var changes=events.reduce(function(n,e){return n+arr(e.changes).length},0);
+  var latest=events[0];
+  var head='<div class="r1521-head"><div class="r1521-title"><span><i class="fas fa-database"></i></span><div><b>سجل تغييرات محفوظ</b><small>الأحداث محفوظة داخل IndexedDB لهذا الموظف وتبقى بعد إغلاق التطبيق.</small></div></div><div class="r1521-stats"><div><span>الحركات</span><b>'+events.length+'</b></div><div><span>الحقول</span><b>'+changes+'</b></div><div><span>آخر تحديث</span><b>'+esc(latest?dateText(latest.updatedAt):'—')+'</b></div></div></div>';
+  if(!events.length)return head+'<div class="r1521-empty"><i class="fas fa-clock-rotate-left"></i>لا توجد تغييرات محفوظة لهذا الموظف حتى الآن.</div>';
+  return head+'<div class="r1521-list">'+events.map(function(ev){
+    var title=ev.kind==='added'?'إضافة إلى السجل':ev.kind==='missing'?'حالة مراجعة':'تعديل بيانات';
+    var icon=ev.kind==='added'?'fa-user-plus':ev.kind==='missing'?'fa-triangle-exclamation':'fa-user-pen';
+    var body='';
+    if(ev.kind==='modified'&&arr(ev.changes).length){body='<div class="r1521-changes">'+arr(ev.changes).map(function(c){return '<div class="r1521-change"><label>'+esc(label(c.field))+'</label><div class="old">'+esc(formatVal(c.field,c.oldValue))+'</div><div class="arr"><i class="fas fa-arrow-left"></i></div><div class="new">'+esc(formatVal(c.field,c.newValue))+'</div></div>'}).join('')+'</div>'}
+    else body='<div class="r1521-note">'+(ev.kind==='added'?'تمت إضافة الموظف إلى المصدر المركزي.':'السجل دخل حالة مراجعة ويحتاج تحققًا يدويًا.')+'</div>';
+    return '<article class="r1521-event '+esc(ev.kind)+'"><div class="r1521-event-top"><span><i class="fas '+icon+'"></i></span><div><b>'+title+'</b><small>'+esc(ev.version||'—')+'</small></div><time>'+esc(dateText(ev.updatedAt))+'</time></div>'+body+'</article>';
+  }).join('')+'</div>';
+}
+function dateText(v){try{return v?new Date(v).toLocaleString('ar-IQ'):'—'}catch(e){return v||'—'}}
+function renderIntoModal(emp){
+  var panel=document.querySelector('#m-profile-body [data-profile-panel="history"]');
+  if(!panel||!emp)return;
+  var loading='<div class="r1521-loading"><i class="fas fa-spinner fa-spin"></i> جاري قراءة سجل الموظف من IndexedDB...</div>';
+  if(!panel.querySelector('.r1521-head'))panel.insertAdjacentHTML('beforeend',loading);
+  captureAll().then(function(){return getEmployeeHistory(emp)}).then(function(events){
+    var html=timelineHTML(emp,events);
+    var sec=panel.querySelector('.r1521-wrap');
+    if(!sec){sec=document.createElement('div');sec.className='r1521-wrap';panel.appendChild(sec)}
+    sec.innerHTML=html;
+    var l=panel.querySelector('.r1521-loading');if(l)l.remove();
+    var tab=document.querySelector('#profile-tabs-live [data-profile-tab="history"],#modal-inner [data-profile-tab="history"]');
+    if(tab)tab.innerHTML='<i class="fas fa-timeline"></i> السجل <span class="profile-history-badge">'+events.length+'</span>';
+  }).catch(function(){var l=panel.querySelector('.r1521-loading');if(l)l.innerHTML='<i class="fas fa-triangle-exclamation"></i> تعذر قراءة سجل IndexedDB الآن.'});
+}
+function currentEmpSafe(){try{return currentEmp||null}catch(e){return null}}
+function install(){
+  try{if(typeof openModal==='function'&&!openModal.__r1521HistoryWrapped){var old=openModal;openModal=function(emp){var r=old.apply(this,arguments);setTimeout(function(){renderIntoModal(emp)},250);setTimeout(function(){renderIntoModal(emp)},900);return r};openModal.__r1521HistoryWrapped=true}}catch(e){}
+  try{captureAll().catch(function(){})}catch(e){}
+}
+document.addEventListener('click',function(e){if(e.target&&e.target.closest&&e.target.closest('[data-profile-tab="history"]')){var emp=currentEmpSafe();setTimeout(function(){renderIntoModal(emp)},80)}},true);
+document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,600);setTimeout(function(){captureAll().catch(function(){})},1800)});
+window.addEventListener('load',function(){setTimeout(install,400);setTimeout(function(){captureAll().catch(function(){})},2500)});
+window.r1521EmployeeHistoryTimeline={release:RELEASE,captureAll:captureAll,captureSummary:captureSummary,get:getEmployeeHistory,render:function(){renderIntoModal(currentEmpSafe())}};
+})();
+</script>
+
+<style id="r1521-employee-history-timeline-style">
+.r1521-wrap{margin-top:10px}.r1521-head{padding:11px;border-radius:18px;background:linear-gradient(135deg,rgba(255,209,102,.10),rgba(97,218,251,.07));border:1px solid rgba(255,255,255,.10);margin-bottom:9px}.r1521-title{display:flex;align-items:center;gap:9px}.r1521-title>span{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:rgba(255,209,102,.14);color:#ffd166}.r1521-title b{display:block;font-size:12px;color:#f6fbff}.r1521-title small{display:block;font-size:8px;color:rgba(231,240,255,.68);line-height:1.6}.r1521-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:9px}.r1521-stats div{padding:7px 5px;border-radius:13px;background:rgba(0,0,0,.16);text-align:center}.r1521-stats span{display:block;font-size:7px;color:rgba(231,240,255,.62)}.r1521-stats b{display:block;font-size:10px;color:#ffd166}.r1521-list{display:grid;gap:8px}.r1521-event{border-radius:17px;padding:10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09)}.r1521-event.modified{border-right:3px solid #ffd166}.r1521-event.added{border-right:3px solid #5fe1af}.r1521-event.missing{border-right:3px solid #ff8b8b}.r1521-event-top{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:center}.r1521-event-top>span{width:31px;height:31px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);color:#ffd166}.r1521-event-top b{font-size:10px;color:#f7fbff}.r1521-event-top small{display:block;font-size:7px;color:rgba(231,240,255,.58);margin-top:2px}.r1521-event-top time{font-size:7.4px;color:rgba(231,240,255,.58);direction:ltr}.r1521-changes{display:grid;gap:6px;margin-top:8px}.r1521-change{display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr);gap:6px;align-items:stretch;padding:8px;border-radius:13px;background:rgba(0,0,0,.13)}.r1521-change label{grid-column:1/-1;font-size:8.6px;color:#dce7fb}.r1521-change .old,.r1521-change .new{padding:7px;border-radius:11px;font-size:8.8px;line-height:1.55;text-align:center;display:flex;align-items:center;justify-content:center;overflow-wrap:anywhere}.r1521-change .old{background:rgba(255,120,130,.08);color:#ffc5c5}.r1521-change .new{background:rgba(95,225,175,.08);color:#c9ffe9}.r1521-change .arr{display:flex;align-items:center;justify-content:center;color:#ffd166}.r1521-note,.r1521-empty,.r1521-loading{padding:12px;border-radius:15px;background:rgba(255,255,255,.04);color:rgba(231,240,255,.72);font-size:9px;line-height:1.8;text-align:center}.r1521-empty i,.r1521-loading i{margin-left:6px;color:#ffd166}
+@media(max-width:560px){.r1521-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.r1521-event-top{grid-template-columns:31px minmax(0,1fr);}.r1521-event-top time{grid-column:2;justify-self:start;margin-top:-3px}.r1521-change{grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);padding:7px}.r1521-change .old,.r1521-change .new{font-size:8.2px;min-height:34px}}
+</style>
+
 </body>
 </html>
