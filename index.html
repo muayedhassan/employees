@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.38-CANONICAL-RELEASE-VERSION-FIX">
+<meta name="app-release" content="MOBILE-R1.5.39-SCOPE-TITLES-STATIC-FIX">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -7112,7 +7112,7 @@ body.light-mode:not(.chrome-collapsed):not(.r1495-pass-gate) #r1416-nav-card.r14
   function body(){return document.body||document.documentElement}
   function collapsed(){return !!(document.body&&document.body.classList&&document.body.classList.contains('chrome-collapsed'))}
   function scopeHTML(tab,kind){
-    var data={perm:['fa-id-card','الدائمون','سجل الملاك الدائم','badge-perm'],cont:['fa-file-contract','العقود','سجل موظفي العقود','badge-cont'],admin:['fa-shield-halved','الإدارة','أدوات النظام','']};
+    var data={perm:['fa-id-card','الدائمون','سجل الملاك الدائم','badge-perm'],cont:['fa-file-contract','العقود','سجل موظفي العقود','badge-cont'],admin:['fa-shield-halved','الإدارة','إدارة النظام','']};
     var d=data[kind]||data.perm;var count=d[3]?'<span class="tab-badge" id="'+d[3]+'">'+((tab.querySelector('.tab-badge')||{}).textContent||'0')+'</span>':'';
     return '<i class="fas '+d[0]+'"></i><span class="r1499-scope-title">'+d[1]+'</span><small class="r1499-scope-hint">'+d[2]+'</small>'+count;
   }
@@ -7560,7 +7560,7 @@ body.light-mode #r1502-dashboard .r1502-panel{background:linear-gradient(145deg,
 // MOBILE R1.5.02: replace the legacy dashboard UI with a new standalone professional dashboard while preserving original functions.
 (function(){
 var RELEASE='MOBILE-R1.5.02-DASHBOARD-RADICAL-REBUILD';
-var MAIN=[{key:'perm',num:'01',name:'سجلات الملف',desc:'الموظفون الدائمون',icon:'fa-id-card'},{key:'cont',num:'02',name:'استلام موظف',desc:'موظفو العقود',icon:'fa-file-contract'},{key:'admin',num:'03',name:'أدوات النظام',desc:'لوحة الإدارة',icon:'fa-shield-halved'}];
+var MAIN=[{key:'perm',num:'01',name:'الدائميون',desc:'الموظفون الدائمون',icon:'fa-id-card'},{key:'cont',num:'02',name:'العقود',desc:'موظفو العقود',icon:'fa-file-contract'},{key:'admin',num:'03',name:'إدارة النظام',desc:'لوحة الإدارة',icon:'fa-shield-halved'}];
 var MODULES=[{key:'managernotes',num:'01',name:'الحركات الإدارية',desc:'واجهة محمية',icon:'fa-comments'},{key:'list',num:'02',name:'القائمة',desc:'سجل الموظفين',icon:'fa-list-ul'},{key:'updates',num:'03',name:'آخر التحديثات',desc:'الإضافات والتعديلات',icon:'fa-clock-rotate-left'},{key:'reports',num:'04',name:'التقارير',desc:'الكشوفات والطباعة',icon:'fa-file-lines'},{key:'alerts',num:'05',name:'التنبيهات',desc:'المراجعة والتحذيرات',icon:'fa-bell'},{key:'system',num:'06',name:'حالة النظام',desc:'التحديث والمزامنة',icon:'fa-gauge-high'},{key:'service',num:'07',name:'حاسبة الخدمة',desc:'حساب مدة الخدمة',icon:'fa-calculator'},{key:'jobtitles',num:'08',name:'العناوين الوظيفية',desc:'بحث العنوان والدرجة',icon:'fa-briefcase'},{key:'titlematch',num:'09',name:'مطابقة العنوان',desc:'التطابق الوظيفي',icon:'fa-check-double'}];
 function $(id){return document.getElementById(id)}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
@@ -7617,7 +7617,7 @@ function toggle(){setCollapsed(!collapsed());var sc=document.getElementById('scr
 function syncHandle(){var h=document.getElementById('r1503-chrome-handle');if(!h)return;var c=collapsed();h.setAttribute('aria-pressed',c?'true':'false');h.setAttribute('title',c?'إظهار الشريط العلوي والسفلي':'إخفاء الشريط العلوي والسفلي');h.innerHTML='<span class="r1503-handle-ico"><i class="fas '+(c?'fa-up-right-and-down-left-from-center':'fa-down-left-and-up-right-to-center')+'"></i></span><span class="r1503-handle-text">'+(c?'إظهار الواجهة':'إخفاء الواجهة')+'</span><span class="r1503-handle-drag"><i class="fas fa-arrows-up-down"></i></span>'}
 function ensureHandle(){var h=document.getElementById('r1503-chrome-handle');if(!h){h=document.createElement('button');h.type='button';h.id='r1503-chrome-handle';h.setAttribute('aria-label','إخفاء أو إظهار الشريط العلوي والسفلي');document.body.appendChild(h);h.addEventListener('click',function(ev){ev.preventDefault();toggle()},{passive:false});bindSwipe(h)}syncHandle();return h}
 function bindSwipe(el){if(!el||el.__r1503Swipe)return;el.__r1503Swipe=true;var y0=null,x0=null;function start(ev){var t=(ev.touches&&ev.touches[0])||ev;y0=t.clientY;x0=t.clientX}function end(ev){if(y0==null)return;var t=(ev.changedTouches&&ev.changedTouches[0])||ev;var dy=t.clientY-y0,dx=t.clientX-x0;y0=x0=null;if(Math.abs(dy)>26&&Math.abs(dy)>Math.abs(dx)){setCollapsed(dy<0);ev.preventDefault&&ev.preventDefault()}}el.addEventListener('touchstart',start,{passive:true});el.addEventListener('touchend',end,{passive:false});el.addEventListener('pointerdown',start,{passive:true});el.addEventListener('pointerup',end,{passive:false})}
-function fixScopeTitles(){var map={perm:['سجلات الملف','الموظفون الدائمون'],cont:['استلام موظف','موظفو العقود'],admin:['أدوات النظام','لوحة الإدارة']};Object.keys(map).forEach(function(k){var b=qs('#r1502-dashboard [data-main="'+k+'"]');if(!b)return;var n=b.querySelector('.r1502-name'),d=b.querySelector('.r1502-desc');if(n)n.textContent=map[k][0];if(d)d.textContent=map[k][1]})}
+function fixScopeTitles(){var map={perm:['الدائميون','الموظفون الدائمون'],cont:['العقود','موظفو العقود'],admin:['إدارة النظام','لوحة الإدارة']};Object.keys(map).forEach(function(k){var b=qs('#r1502-dashboard [data-main="'+k+'"]');if(!b)return;var n=b.querySelector('.r1502-name'),d=b.querySelector('.r1502-desc');if(n)n.textContent=map[k][0];if(d)d.textContent=map[k][1]})}
 function tick(){ensureHandle();fixScopeTitles();setTimeout(function(){ensureHandle();fixScopeTitles()},120);}
 document.addEventListener('DOMContentLoaded',tick);window.addEventListener('load',tick);window.addEventListener('pageshow',tick);document.addEventListener('click',function(ev){if(ev.target&&ev.target.closest&&ev.target.closest('#mobile-chrome-toggle'))setTimeout(syncHandle,40);},true);try{new MutationObserver(function(){clearTimeout(window.__r1503T);window.__r1503T=setTimeout(tick,80)}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']})}catch(e){}window.r1503DashboardLayoutChromePolish={release:RELEASE,setCollapsed:setCollapsed,toggle:toggle,sync:tick};
 })();
@@ -8947,7 +8947,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1538';
+  var SW_URL='service-worker.js?v=1539';
   var KEEP_CACHE='employee-registry-ui-r1538';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
@@ -9011,15 +9011,16 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 })();
-</script>\n\n<!-- MOBILE-R1.5.38-CANONICAL-RELEASE-VERSION-FIX
-     Single final release authority. Runs after legacy R1.5.31/R1.5.36 markers so old scripts cannot overwrite the current version. -->
-<script id="r1538-canonical-release-version-fix">
+</script>\n\n<!-- R1539_SCOPE_TITLES_STATIC_FIX -->
+<!-- MOBILE-R1.5.39-SCOPE-TITLES-STATIC-FIX
+     Static scope-title correction on the stable canonical release path. No injected runtime title script. -->
+<script id="r1539-scope-titles-static-fix">
 (function(){
   'use strict';
-  var RELEASE='MOBILE-R1.5.38-CANONICAL-RELEASE-VERSION-FIX';
+  var RELEASE='MOBILE-R1.5.39-SCOPE-TITLES-STATIC-FIX';
   var META_NAME='app-release';
-  var LAST_CHECK_KEY='emp_r1538_last_manual_update_check';
-  var LAST_APPLY_KEY='emp_r1538_last_manual_apply';
+  var LAST_CHECK_KEY='emp_r1539_last_manual_update_check';
+  var LAST_APPLY_KEY='emp_r1539_last_manual_apply';
 
   function setRelease(){
     try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
@@ -9045,7 +9046,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
     if(navigator.onLine===false)return '';
     var u=new URL('index.html',location.href);
     u.searchParams.set('_release_check',Date.now().toString());
-    u.searchParams.set('v','1538');
+    u.searchParams.set('v','1539');
     var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});
     if(!res.ok)throw new Error('HTTP '+res.status);
     return canonicalFromHtml(await res.text());
@@ -9083,7 +9084,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
     if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return;}
     var run=async function(){
       put(LAST_APPLY_KEY,nowISO());
-      try{sessionStorage.setItem('emp_r1538_manual_update_once','1');}catch(e){}
+      try{sessionStorage.setItem('emp_r1539_manual_update_once','1');}catch(e){}
       if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');
       try{
         if('caches' in window){
@@ -9093,14 +9094,14 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
       }catch(e){}
       try{
         if('serviceWorker' in navigator){
-          var reg=await navigator.serviceWorker.register('service-worker.js?v=1538&_u='+Date.now(),{scope:'./',updateViaCache:'none'});
+          var reg=await navigator.serviceWorker.register('service-worker.js?v=1539&_u='+Date.now(),{scope:'./',updateViaCache:'none'});
           try{await reg.update();}catch(e){}
           try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}
         }
       }catch(e){}
       var u=new URL('index.html',location.href);
       u.search='';
-      u.searchParams.set('v','1538');
+      u.searchParams.set('v','1539');
       u.searchParams.set('_manual_update',Date.now().toString());
       location.replace(u.toString());
     };
@@ -9120,11 +9121,11 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   try{r71CheckAll=async function(){await checkUpdate(true);};}catch(e){}
   try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false;};}catch(e){}
   try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط';}catch(e){}return false;};}catch(e){}
-  try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1538',{scope:'./',updateViaCache:'none'});}catch(e){}};}catch(e){}
+  try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1539',{scope:'./',updateViaCache:'none'});}catch(e){}};}catch(e){}
 
   // Keep the release authoritative even if a delayed legacy callback touches APP_RELEASE.
   document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200);});
   window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500);});
-  window.r1538CanonicalReleaseFix={release:RELEASE,check:checkUpdate,apply:applyUpdate,fetchPublishedRelease:fetchPublishedRelease};
+  window.r1539CanonicalReleaseFix={release:RELEASE,check:checkUpdate,apply:applyUpdate,fetchPublishedRelease:fetchPublishedRelease};
 })();
 </script>\n
