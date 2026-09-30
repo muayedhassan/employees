@@ -1746,7 +1746,7 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.22-SYSTEM-UPDATE-CENTER';
+var APP_RELEASE = 'MOBILE-R1.5.23-INSTANT-SCOPE-COUNTERS';
 // R1.5.16: IndexedDB foundation stores secure dataset and change history for future large offline features.
 // R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.
 // R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.
@@ -9092,6 +9092,57 @@ setTimeout(tick,100);setTimeout(tick,700);setInterval(polish,60000);
 window.r1523ScopeCardsPolish={release:RELEASE,fix:tick};
 })();
 </script>
+
+
+<!-- MOBILE R1.5.23: Instant scope counters from small cache + IndexedDB fallback -->
+<script id="r1524-instant-scope-counters-script">
+// MOBILE R1.5.23: show permanent/contract counts immediately from a small cache, then refresh from IndexedDB/BASE.
+(function(){
+var RELEASE='MOBILE-R1.5.23-INSTANT-SCOPE-COUNTERS';
+var KEY='hr_instant_scope_counts_r1523';
+function now(){return new Date().toISOString()}
+function read(){try{var x=JSON.parse(localStorage.getItem(KEY)||'null');return x&&typeof x==='object'?x:null}catch(e){return null}}
+function write(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}}
+function n(x){x=Number(x||0);return isFinite(x)&&x>0?x:0}
+function fmt(x){x=n(x);return x?String(x):''}
+function baseCounts(){try{var p=(BASE&&BASE.perm&&BASE.perm.length)||0,c=(BASE&&BASE.cont&&BASE.cont.length)||0;return {perm:n(p),cont:n(c),total:n(p)+n(c),source:'BASE'}}catch(e){return {perm:0,cont:0,total:0,source:'none'}}}
+function datasetCounts(d){try{var p=(d&&d.perm&&d.perm.length)||0,c=(d&&d.cont&&d.cont.length)||0;return {perm:n(p),cont:n(c),total:n(p)+n(c),source:'dataset'}}catch(e){return {perm:0,cont:0,total:0,source:'none'}}}
+function currentCounts(){var b=baseCounts();if(b.total>0)return b;var r=read();if(r&&n(r.total)>0)return {perm:n(r.perm),cont:n(r.cont),total:n(r.total),source:'cache',savedAt:r.savedAt||''};return b}
+function saveCounts(c,reason){if(!c||n(c.total)<=0)return false;write({release:RELEASE,perm:n(c.perm),cont:n(c.cont),total:n(c.total),savedAt:now(),reason:reason||c.source||'update'});return true}
+function createBadge(card){var ico=card&&card.querySelector('.r1502-ico');if(!ico)return null;var b=ico.querySelector('.r1505-scope-count');if(!b){b=document.createElement('span');b.className='r1505-scope-count';ico.appendChild(b)}return b}
+function placeOne(k,val){var card=document.querySelector('#r1502-dashboard [data-main="'+k+'"]');if(!card)return false;var b=createBadge(card);if(!b)return false;b.textContent=fmt(val);b.style.display=val?'inline-flex':'none';b.title=k==='perm'?'عدد الموظفين الدائمين':'عدد موظفي العقود';card.classList.add('r1524-instant-count-ready');return true}
+function applyCounts(reason){var c=currentCounts();if(c.total>0)saveCounts(c,reason||c.source);placeOne('perm',c.perm);placeOne('cont',c.cont);var admin=document.querySelector('#r1502-dashboard [data-main="admin"] .r1505-scope-count');if(admin)admin.remove();try{document.body.classList.toggle('r1524-counts-ready',c.total>0)}catch(e){}return c}
+function readCentralMirror(){try{if(typeof CENTRAL_CACHE_KEY==='undefined')return null;var raw=localStorage.getItem(CENTRAL_CACHE_KEY);if(!raw)return null;var d=JSON.parse(raw);var c=datasetCounts(d);if(c.total>0){saveCounts(c,'central-cache-mirror');applyCounts('central-cache-mirror');return c}}catch(e){}return null}
+function readIDB(){try{if(window.hrIndexedDB&&typeof window.hrIndexedDB.loadDataset==='function')window.hrIndexedDB.loadDataset().then(function(d){var c=datasetCounts(d);if(c.total>0){saveCounts(c,'indexeddb-latest');applyCounts('indexeddb-latest')}}).catch(function(){})}catch(e){}}
+function wrapApply(){try{if(typeof r1509ApplySecureDataset==='function'&&!r1509ApplySecureDataset.__r1524Wrapped){var old=r1509ApplySecureDataset;r1509ApplySecureDataset=function(){var r=old.apply(this,arguments);setTimeout(function(){applyCounts('apply-secure-dataset')},30);setTimeout(function(){applyCounts('apply-secure-dataset-late')},250);return r};r1509ApplySecureDataset.__r1524Wrapped=true;try{window.r1509ApplySecureDataset=r1509ApplySecureDataset}catch(e){}}}catch(e){}}
+function wrapDashboard(){try{var api=window.r1502DashboardRadicalRebuild;if(api&&api.render&&!api.render.__r1524Wrapped){var oldR=api.render;api.render=function(){var r=oldR.apply(this,arguments);setTimeout(function(){applyCounts('dashboard-render')},0);setTimeout(function(){applyCounts('dashboard-render-late')},120);return r};api.render.__r1524Wrapped=true}if(api&&api.sync&&!api.sync.__r1524Wrapped){var oldS=api.sync;api.sync=function(){var r=oldS.apply(this,arguments);setTimeout(function(){applyCounts('dashboard-sync')},0);return r};api.sync.__r1524Wrapped=true}}catch(e){}
+  try{var p=window.r1523ScopeCardsPolish;if(p&&p.fix&&!p.fix.__r1524Wrapped){var oldF=p.fix;p.fix=function(){var r=oldF.apply(this,arguments);setTimeout(function(){applyCounts('scope-polish-fix')},0);return r};p.fix.__r1524Wrapped=true}}catch(e){}
+}
+function tick(){wrapApply();wrapDashboard();applyCounts('tick');readCentralMirror();readIDB();setTimeout(function(){applyCounts('tick-late')},120);setTimeout(function(){applyCounts('tick-later')},550)}
+// First paint: try the tiny cache before any large dataset is ready.
+tick();
+document.addEventListener('DOMContentLoaded',tick);
+window.addEventListener('load',function(){tick();setTimeout(tick,900);setTimeout(tick,2200)});
+window.addEventListener('pageshow',tick);
+window.addEventListener('online',function(){setTimeout(tick,150)});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)tick()});
+document.addEventListener('click',function(ev){var t=ev.target;if(t&&t.closest&&t.closest('#r1502-dashboard,.main-tabs,#sub-tabs,#secure-refresh-btn,#r1513-secure-refresh-btn'))setTimeout(tick,80)},true);
+try{new MutationObserver(function(){clearTimeout(window.__r1524CountT);window.__r1524CountT=setTimeout(function(){applyCounts('mutation')},45)}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']})}catch(e){}
+setInterval(function(){try{applyCounts('interval')}catch(e){}},2500);
+window.r1524InstantScopeCounters={release:RELEASE,refresh:tick,counts:currentCounts,save:saveCounts};
+})();
+</script>
+<style id="r1524-instant-scope-counters-style">
+/* MOBILE R1.5.23: the count badge has its own tiny cached source, so it appears immediately. */
+body.r1502-ready #r1502-dashboard .r1502-scope-card.r1524-instant-count-ready .r1505-scope-count{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  min-width:19px!important;height:15px!important;padding:0 4px!important;
+  font-family:var(--hr-number-font),Arial,sans-serif!important;font-size:6.8px!important;font-weight:950!important;
+  line-height:1!important;letter-spacing:0!important;white-space:nowrap!important;
+}
+body.r1502-ready #r1502-dashboard .r1502-scope-card.r1524-instant-count-ready .r1505-scope-count:empty{display:none!important}
+@media(max-width:380px){body.r1502-ready #r1502-dashboard .r1502-scope-card.r1524-instant-count-ready .r1505-scope-count{min-width:18px!important;height:14px!important;font-size:6.4px!important;padding:0 3px!important}}
+</style>
 
 </body>
 </html>
