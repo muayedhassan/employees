@@ -8470,5 +8470,116 @@ window.r1519DateDisplayFix={release:RELEASE,format:formatDateValue,install:insta
 })();
 </script>
 
+
+<script id="r1520-date-sanitizer-fix-script">
+// MOBILE R1.5.20: hard date sanitizer for employee modal date fields, including quoted ISO strings.
+(function(){
+var RELEASE='MOBILE-R1.5.20-DATE-SANITIZER-FIX';
+var DATE_FIELDS={birthDate:1,hireDate:1,identityIssueDate:1,appointmentOrderDate:1,firstAssignmentDate:1,nextBonusDate:1,nextPromotionDate:1};
+function pad(n){n=String(n);return n.length<2?'0'+n:n}
+function validYear(y){y=Number(y);return y>=1900&&y<=2100}
+function out(y,m,d){y=Number(y);m=Number(m);d=Number(d);if(!validYear(y)||m<1||m>12||d<1||d>31)return '';return String(y)+'/'+pad(m)+'/'+pad(d)}
+function strip(v){
+  var s=String(v==null?'':v).replace(/\u00a0/g,' ').trim();
+  try{s=decodeURIComponent(s)}catch(e){}
+  s=s.replace(/[“”]/g,'"').replace(/[‘’]/g,"'");
+  s=s.replace(/^\s*[\\\"'`]+|[\\\"'`]+\s*$/g,'').trim();
+  // Date cells sometimes arrive as a JSON string with quotes preserved.
+  s=s.replace(/\\"/g,'"').replace(/^\s*[\"'`]+|[\"'`]+\s*$/g,'').trim();
+  return s;
+}
+function excelSerial(n){
+  n=Number(n);if(!isFinite(n)||n<15000||n>80000)return '';
+  var dt=new Date((Math.floor(n)-25569)*86400*1000);
+  if(isNaN(dt.getTime()))return '';
+  return out(dt.getUTCFullYear(),dt.getUTCMonth()+1,dt.getUTCDate());
+}
+function fixDate(v){
+  if(v===null||v===undefined)return '';
+  if(v instanceof Date&&!isNaN(v.getTime()))return out(v.getFullYear(),v.getMonth()+1,v.getDate());
+  var s=strip(v);if(!s||s==='—'||s==='36'||s==='غير متوفر')return '';
+  var serial=s.replace(/\.0+$/,'');
+  if(/^\d{5}$/.test(serial)){var ex=excelSerial(serial);if(ex)return ex}
+  // ISO anywhere in the value: 2017-12-04T08:00:00.000Z
+  var m=s.match(/(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})(?:[T\s].*)?$/);if(m)return out(m[1],m[2],m[3]);
+  // Arabic/local style: 04/12/2017 or 04-12-2017
+  m=s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})$/);if(m)return out(m[3],m[2],m[1]);
+  // Apps Script Date(...) text
+  m=s.match(/Date\s*\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})/i);if(m)return out(m[1],Number(m[2])+1,m[3]);
+  var p=Date.parse(s);if(!isNaN(p)){var d=new Date(p);return out(d.getFullYear(),d.getMonth()+1,d.getDate())}
+  return s;
+}
+function isDateLabel(txt){return /تاريخ|الميلاد|التولد|التعيين|الهوية|إصدار/i.test(String(txt||''))}
+function looksLikeRawDate(txt){return /\d{4}-\d{1,2}-\d{1,2}T|^\s*[\"']?\d{4}-\d{1,2}-\d{1,2}|^\s*[\"']?\d{5}[\"']?\s*$/.test(String(txt||''))}
+function installProfilePatch(){
+  try{
+    if(typeof profileDisplayValue==='function'&&!profileDisplayValue.__r1520DateSanitizer){
+      var old=profileDisplayValue;
+      profileDisplayValue=function(field,value){
+        if(DATE_FIELDS[field]){
+          try{if(typeof bridgeFieldPublished==='function'&&!bridgeFieldPublished(field))return 'محجوب من نسخة الهاتف'}catch(e){}
+          var f=fixDate(value);return f||'غير متوفر';
+        }
+        var v=old.apply(this,arguments);
+        // Safety net: if the returned display is still a raw ISO date, format it.
+        if(looksLikeRawDate(v)){var f2=fixDate(v);if(f2)return f2}
+        return v;
+      };
+      profileDisplayValue.__r1520DateSanitizer=true;
+    }
+  }catch(e){}
+  try{
+    if(typeof r1411IsNumberOrDateField==='function'&&!r1411IsNumberOrDateField.__r1520DateSanitizer){
+      var old2=r1411IsNumberOrDateField;
+      r1411IsNumberOrDateField=function(field,value){if(DATE_FIELDS[field]||looksLikeRawDate(value))return true;return old2.apply(this,arguments)};
+      r1411IsNumberOrDateField.__r1520DateSanitizer=true;
+    }
+  }catch(e){}
+}
+function sanitizeModalDates(){
+  try{
+    var root=document.getElementById('modal');if(!root)return false;
+    root.querySelectorAll('.m-row').forEach(function(row){
+      var label=(row.querySelector('.m-lbl')||{}).textContent||'';
+      var val=row.querySelector('.m-val');if(!val)return;
+      var raw=val.textContent||'';
+      if(isDateLabel(label)||looksLikeRawDate(raw)){
+        var fixed=fixDate(raw);
+        if(fixed&&fixed!==raw.trim())val.textContent=fixed;
+        if(fixed)val.classList.add('num-font','r1520-date-fixed');
+      }
+    });
+  }catch(e){}
+}
+function installModalPatch(){
+  try{
+    if(typeof openModal==='function'&&!openModal.__r1520DateSanitizer){
+      var old=openModal;
+      openModal=function(){
+        installProfilePatch();
+        var r=old.apply(this,arguments);
+        setTimeout(sanitizeModalDates,0);
+        setTimeout(sanitizeModalDates,120);
+        setTimeout(sanitizeModalDates,400);
+        return r;
+      };
+      openModal.__r1520DateSanitizer=true;
+    }
+  }catch(e){}
+}
+function install(){installProfilePatch();installModalPatch();sanitizeModalDates()}
+install();
+document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,300);setTimeout(sanitizeModalDates,900)});
+window.addEventListener('load',function(){setTimeout(install,300);setTimeout(sanitizeModalDates,1200);setTimeout(sanitizeModalDates,2600)});
+document.addEventListener('click',function(e){if(e.target&&e.target.closest&&e.target.closest('#modal,#profile-tabs-live')){setTimeout(sanitizeModalDates,0);setTimeout(sanitizeModalDates,140)}},true);
+try{var mo=new MutationObserver(function(){sanitizeModalDates()});document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('m-profile-body');if(b)mo.observe(b,{childList:true,subtree:true,characterData:true})})}catch(e){}
+window.r1520DateSanitizerFix={release:RELEASE,format:fixDate,install:install,sanitize:sanitizeModalDates};
+})();
+</script>
+
+<style id="r1520-date-sanitizer-style">
+#modal .m-val.r1520-date-fixed{letter-spacing:.4px;direction:ltr;text-align:center;unicode-bidi:isolate}
+</style>
+
 </body>
 </html>
