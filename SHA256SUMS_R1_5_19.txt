@@ -1,5 +1,0 @@
-94200ca988b9137c51fcbb8d0d5e824229f832e6c9871b07a0406dd753c7a54c  /mnt/data/r1519pkg/index.html
-0f819b0d8b041be7ab87222faf5c34b15c62288c7466ef159ec63baf7ffb9427  /mnt/data/r1519pkg/service-worker.js
-182a3eeb42dc3ff94fa6accc74b81b4debc155d8397e3d37386eb7b9ce3b98ad  /mnt/data/r1519pkg/manifest.webmanifest
-0329836fa96083ced6706ec9dc825e247ccecb112ffd4399b9a8474ce699605e  /mnt/data/r1519pkg/VERSION.txt
-3e1acb7d67757b09c2384af2c8c98f7f2646d4d51f51c492bdc725dbc3d3bbd2  /mnt/data/r1519pkg/scripts/verify-mobile-r1.mjs

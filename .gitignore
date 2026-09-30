@@ -7,3 +7,11 @@ data-source/
 employees.json
 fallback-data.js
 .env
+# Local maintenance artifacts
+_R*_BACKUP_*/
+_R*_REPAIR*_BACKUP_*/
+APPLY_R*.ps1
+INSTALL_PATCH_R*.cmd
+REPAIR_R*.cmd
+REPAIR_R*.ps1
+README_REPAIR_R*.txt
