@@ -12,12 +12,18 @@ const sw = read('service-worker.js');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const version = read('VERSION.txt').trim();
 
-const expected = 'MOBILE-R1.5.15-PERSISTENT-CHANGE-HISTORY';
-if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.15 persistent change history');
+const expected = 'MOBILE-R1.5.16-INDEXEDDB-FOUNDATION';
+if (!index.includes(`APP_RELEASE = '${expected}'`)) fail('APP_RELEASE is not R1.5.16 IndexedDB foundation');
 if (version !== expected) fail('VERSION.txt mismatch');
-if (!String(manifest.description || '').includes('R1.5.15')) fail('manifest description missing R1.5.15');
+if (!String(manifest.description || '').includes('R1.5.16')) fail('manifest description missing R1.5.16');
 
 const requiredMarkers = [
+  'R1.5.16: IndexedDB foundation stores secure dataset and change history for future large offline features.',
+  'MOBILE-R1.5.16-INDEXEDDB-FOUNDATION',
+  'r1516-indexeddb-foundation-script',
+  'hr_mobile_secure_store_r1516',
+  'window.hrIndexedDB',
+  'employee-registry-mobile-r1516-indexeddb-foundation-2026.09.30',
   'R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.',
   'MOBILE-R1.5.15-PERSISTENT-CHANGE-HISTORY',
   'r1515PersistentChangeHistory',

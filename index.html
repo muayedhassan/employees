@@ -1746,7 +1746,8 @@ body.light-mode .r1432-date-chip{background:rgba(255,255,255,.10)!important}
 // ── DATA ─────────────────────────────────────────────────────────────────────
 var BASE = {perm:[], cont:[]};
 var DATA_VERSION = 'غير معروف';
-var APP_RELEASE = 'MOBILE-R1.5.15-PERSISTENT-CHANGE-HISTORY';
+var APP_RELEASE = 'MOBILE-R1.5.16-INDEXEDDB-FOUNDATION';
+// R1.5.16: IndexedDB foundation stores secure dataset and change history for future large offline features.
 // R1.5.15: persistent local change history keeps previous/current values after app restart until a new secure update arrives.
 // R1.5.13: emergency loader rollback keeps R1.5.13 stable refresh and disables broken R1.5.12 change trace.
 // R1.5.10: secure data instant cache shows saved Google Sheets data immediately, then refreshes in background.
@@ -8068,6 +8069,164 @@ window.addEventListener('load',function(){setTimeout(tick,250);setTimeout(tick,1
 document.addEventListener('click',function(){setTimeout(tick,60);setTimeout(tick,400)},true);
 setInterval(function(){try{tick()}catch(e){}},3500);
 window.r1515PersistentChangeHistory={release:RELEASE,restore:restore,persist:persistNow,tick:tick,summary:function(){restore();return currentSummary()}};
+})();
+</script>
+
+
+
+<!-- MOBILE R1.5.16: IndexedDB foundation for future offline modules -->
+<script id="r1516-indexeddb-foundation-script">
+// MOBILE R1.5.16: IndexedDB foundation keeps large datasets and change history outside localStorage.
+(function(){
+var RELEASE='MOBILE-R1.5.16-INDEXEDDB-FOUNDATION';
+var DB_NAME='hr_mobile_secure_store_r1516';
+var DB_VERSION=1;
+var STORES={meta:'meta',datasets:'datasets',changes:'changes'};
+var dbPromise=null;
+function now(){return new Date().toISOString()}
+function hasIDB(){return !!(window.indexedDB)}
+function total(d){try{return ((d&&d.perm)||[]).length+((d&&d.cont)||[]).length}catch(e){return 0}}
+function versionOf(d){try{return (d&&d.meta&&(d.meta.version||d.meta.updatedAt))||''}catch(e){return ''}}
+function clone(v){try{return JSON.parse(JSON.stringify(v))}catch(e){return v}}
+function open(){
+  if(!hasIDB())return Promise.reject(new Error('IndexedDB غير متاح على هذا الجهاز'));
+  if(dbPromise)return dbPromise;
+  dbPromise=new Promise(function(resolve,reject){
+    var req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=function(ev){
+      var db=req.result;
+      if(!db.objectStoreNames.contains(STORES.meta))db.createObjectStore(STORES.meta,{keyPath:'key'});
+      if(!db.objectStoreNames.contains(STORES.datasets)){
+        var ds=db.createObjectStore(STORES.datasets,{keyPath:'key'});
+        try{ds.createIndex('savedAt','savedAt',{unique:false})}catch(e){}
+        try{ds.createIndex('version','version',{unique:false})}catch(e){}
+      }
+      if(!db.objectStoreNames.contains(STORES.changes)){
+        var ch=db.createObjectStore(STORES.changes,{keyPath:'key'});
+        try{ch.createIndex('savedAt','savedAt',{unique:false})}catch(e){}
+      }
+    };
+    req.onsuccess=function(){resolve(req.result)};
+    req.onerror=function(){reject(req.error||new Error('تعذر فتح IndexedDB'))};
+  });
+  return dbPromise;
+}
+async function put(store,obj){
+  var db=await open();
+  return new Promise(function(resolve,reject){
+    var tx=db.transaction(store,'readwrite');
+    tx.objectStore(store).put(obj);
+    tx.oncomplete=function(){resolve(true)};
+    tx.onerror=function(){reject(tx.error||new Error('تعذر حفظ IndexedDB'))};
+  });
+}
+async function get(store,key){
+  var db=await open();
+  return new Promise(function(resolve,reject){
+    var tx=db.transaction(store,'readonly');
+    var req=tx.objectStore(store).get(key);
+    req.onsuccess=function(){resolve(req.result||null)};
+    req.onerror=function(){reject(req.error||new Error('تعذر قراءة IndexedDB'))};
+  });
+}
+async function saveDataset(d,reason){
+  if(!d||!Array.isArray(d.perm)||!Array.isArray(d.cont))return false;
+  var rec={key:'latest',data:clone(d),savedAt:now(),version:versionOf(d),total:total(d),reason:reason||'cache'};
+  await put(STORES.datasets,rec);
+  await put(STORES.meta,{key:'lastDataset',savedAt:rec.savedAt,version:rec.version,total:rec.total,reason:rec.reason,release:RELEASE});
+  return true;
+}
+async function loadDataset(){var r=await get(STORES.datasets,'latest');return r&&r.data?r.data:null}
+async function saveChanges(summary,history,reason){
+  var rec={key:'latest',summary:clone(summary||null),history:clone(history||null),savedAt:now(),reason:reason||'change-trace'};
+  await put(STORES.changes,rec);
+  await put(STORES.meta,{key:'lastChanges',savedAt:rec.savedAt,hasSummary:!!rec.summary,release:RELEASE});
+  return true;
+}
+async function loadChanges(){return await get(STORES.changes,'latest')}
+function lsDataset(){try{return safeParseJSON(localStorage.getItem(CENTRAL_CACHE_KEY))}catch(e){return null}}
+function valid(d){try{return !!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont))}catch(e){return false}}
+function seedLocalStorageFromIndexedDB(){
+  return loadDataset().then(function(d){
+    if(valid(d)){
+      try{localStorage.setItem(CENTRAL_CACHE_KEY,JSON.stringify(d))}catch(e){}
+      return d;
+    }
+    return null;
+  }).catch(function(){return null});
+}
+function migrateFromLocalStorage(){
+  var tasks=[];
+  try{var d=lsDataset();if(valid(d))tasks.push(saveDataset(d,'localStorage-migration'))}catch(e){}
+  try{var s=safeParseJSON(localStorage.getItem(CHANGE_SUMMARY_CACHE_KEY));var h=safeParseJSON(localStorage.getItem(CHANGE_HISTORY_CACHE_KEY));if(s||h)tasks.push(saveChanges(s,h,'localStorage-migration'))}catch(e){}
+  return Promise.all(tasks).then(function(){return true}).catch(function(){return false});
+}
+function wrapCacheCentral(){
+  try{
+    if(typeof cacheCentral!=='function'||cacheCentral.__r1516Wrapped)return false;
+    var old=cacheCentral;
+    cacheCentral=function(d){
+      var r=old.apply(this,arguments);
+      try{saveDataset(d,'cacheCentral').catch(function(){})}catch(e){}
+      return r;
+    };
+    cacheCentral.__r1516Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+function wrapApply(){
+  try{
+    if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1516Wrapped)return false;
+    var old=r1509ApplySecureDataset;
+    r1509ApplySecureDataset=function(d,statusText){
+      var ok=old.apply(this,arguments);
+      try{if(ok){var ds={meta:clone(DATA_META||{}),perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])};saveDataset(ds,'apply-secure-dataset').catch(function(){})}}catch(e){}
+      return ok;
+    };
+    r1509ApplySecureDataset.__r1516Wrapped=true;
+    try{window.r1509ApplySecureDataset=r1509ApplySecureDataset}catch(e){}
+    return true;
+  }catch(e){return false}
+}
+function wrapLoadCentralData(){
+  try{
+    if(typeof loadCentralData!=='function'||loadCentralData.__r1516Wrapped)return false;
+    var old=loadCentralData;
+    loadCentralData=async function(forceRefresh){
+      if(!forceRefresh && !valid(lsDataset())){
+        var idbData=await seedLocalStorageFromIndexedDB();
+        if(valid(idbData)&&typeof r1509ApplySecureDataset==='function'){
+          r1509ApplySecureDataset(idbData,'تم عرض آخر نسخة محفوظة من IndexedDB — يتم تحديث Google Sheets بالخلفية');
+          try{if(typeof r1510RefreshSecureDataInBackground==='function')r1510RefreshSecureDataInBackground()}catch(e){}
+          return;
+        }
+      }
+      await old.apply(this,arguments);
+      try{if(total({perm:BASE.perm||[],cont:BASE.cont||[]})>0){saveDataset({meta:clone(DATA_META||{}),perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])},forceRefresh?'load-force':'load').catch(function(){})}}catch(e){}
+    };
+    loadCentralData.__r1516Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+function wrapChangePersist(){
+  try{
+    var oldPersist=(window.r1515PersistentChangeHistory&&window.r1515PersistentChangeHistory.persist)||null;
+    if(oldPersist&&!oldPersist.__r1516Wrapped){
+      window.r1515PersistentChangeHistory.persist=function(){
+        var r=oldPersist.apply(this,arguments);
+        try{saveChanges((typeof LAST_CHANGE_SUMMARY!=='undefined'?LAST_CHANGE_SUMMARY:null),(typeof CHANGE_HISTORY!=='undefined'?CHANGE_HISTORY:null),'r1515-persist').catch(function(){})}catch(e){}
+        return r;
+      };
+      window.r1515PersistentChangeHistory.persist.__r1516Wrapped=true;
+    }
+  }catch(e){}
+}
+function install(){wrapCacheCentral();wrapApply();wrapLoadCentralData();wrapChangePersist();migrateFromLocalStorage();}
+function status(){return open().then(function(){return Promise.all([get(STORES.meta,'lastDataset'),get(STORES.meta,'lastChanges')])}).then(function(v){return {ok:true,release:RELEASE,dataset:v[0]||null,changes:v[1]||null}}).catch(function(e){return {ok:false,release:RELEASE,error:String(e&&e.message||e)}})}
+window.hrIndexedDB={release:RELEASE,open:open,saveDataset:saveDataset,loadDataset:loadDataset,saveChanges:saveChanges,loadChanges:loadChanges,migrate:migrateFromLocalStorage,status:status,install:install};
+install();
+document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,500);setTimeout(install,2000)});
+window.addEventListener('load',function(){setTimeout(install,300);setTimeout(install,1500);setTimeout(function(){try{status().then(function(s){window.__hrIndexedDBStatus=s})}catch(e){}},3000)});
 })();
 </script>
 
