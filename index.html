@@ -8773,5 +8773,79 @@ window.r1527HardDateSanitizer={release:RELEASE,format:fixDate,sanitize:sanitizeM
 </script>
 <style id="r1527-hard-date-sanitizer-style">#modal .m-val.r1527-date-fixed{letter-spacing:.35px;direction:ltr;text-align:center;unicode-bidi:isolate}</style>
 
+
+<script id="r1528-safe-employee-history-baseline-script">
+// MOBILE R1.5.28: Safe employee history baseline. Normalize dates before comparing so display-format fixes are not stored/shown as real employee changes.
+(function(){
+var RELEASE='MOBILE-R1.5.28-SAFE-EMPLOYEE-HISTORY-BASELINE';
+try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
+var DATE_FIELDS={birthDate:1,hireDate:1,identityIssueDate:1,appointmentOrderDate:1,firstAssignmentDate:1,nextBonusDate:1,nextPromotionDate:1,retirementDate:1,promotionDate:1,bonusDate:1,directDate:1,startDate:1,endDate:1};
+function pad(n){n=String(n);return n.length<2?'0'+n:n;}
+function yearOk(y){y=Number(y);return y>=1900&&y<=2100;}
+function canonical(y,m,d){y=Number(y);m=Number(m);d=Number(d);if(!yearOk(y)||m<1||m>12||d<1||d>31)return '';return String(y)+'-'+pad(m)+'-'+pad(d);}
+function display(c){return c?String(c).replace(/-/g,'/'):'';}
+function strip(v){var s=String(v==null?'':v).replace(/\u00a0/g,' ').replace(/&quot;/g,'"').replace(/&#034;/g,'"').replace(/&#039;/g,"'").replace(/[“”]/g,'"').replace(/[‘’]/g,"'").replace(/\\"/g,'"').trim();try{s=decodeURIComponent(s);}catch(e){}return s.replace(/^\s*["'`]+|["'`]+\s*$/g,'').trim();}
+function isEmptyDateText(s){s=String(s||'').trim();return !s||s==='—'||s==='-'||s==='–'||s==='36'||s==='غير متوفر'||s==='فارغ';}
+function excelDate(n){n=Number(n);if(!isFinite(n)||n<15000||n>80000)return '';var dt=new Date((Math.floor(n)-25569)*86400*1000);if(isNaN(dt.getTime()))return '';return canonical(dt.getUTCFullYear(),dt.getUTCMonth()+1,dt.getUTCDate());}
+function dateCanonical(v){if(v===null||v===undefined)return '';if(v instanceof Date&&!isNaN(v.getTime()))return canonical(v.getFullYear(),v.getMonth()+1,v.getDate());var s=strip(v);if(isEmptyDateText(s))return '';var serial=s.replace(/\.0+$/,'');if(/^\d{5}$/.test(serial)){var ex=excelDate(serial);if(ex)return ex;}var m=s.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})(?:[T\s].*)?$/);if(m)return canonical(m[1],m[2],m[3]);m=s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})$/);if(m)return canonical(m[3],m[2],m[1]);m=s.match(/Date\s*\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})/i);if(m)return canonical(m[1],Number(m[2])+1,m[3]);m=s.match(/(\d{4})-(\d{1,2})-(\d{1,2})T\d{1,2}:\d{2}/);if(m)return canonical(m[1],m[2],m[3]);var p=Date.parse(s);if(!isNaN(p)&&/[T:-]|GMT|UTC|\d{4}\/\d{1,2}\/\d{1,2}/i.test(s)){var d=new Date(p);return canonical(d.getFullYear(),d.getMonth()+1,d.getDate());}return '';}
+function looksLikeDateValue(v){var s=strip(v);return /^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}(?:[T\s].*)?$/.test(s)||/^\d{1,2}[-\/]\d{1,2}[-\/]\d{4}$/.test(s)||/^\d{5}(?:\.0+)?$/.test(s)||/Date\s*\(/i.test(s);}
+function isDateField(field){field=String(field||'');return !!(DATE_FIELDS[field]||/date$/i.test(field)||/Date$/i.test(field)||/تاريخ|الميلاد|التولد|التعيين|المباشرة|الهوية|إصدار|العلاوة|الترقية|الترفيع/i.test(field));}
+var oldHistorySemantic=(typeof historySemanticValue==='function')?historySemanticValue:null;
+historySemanticValue=function(field,v){
+  try{var c=(isDateField(field)||looksLikeDateValue(v))?dateCanonical(v):'';if(c)return c;}catch(e){}
+  if(oldHistorySemantic)return oldHistorySemantic.apply(this,arguments);
+  var s=(v===null||v===undefined)?'':String(v).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim();
+  if(!s||s==='—'||s==='-'||s==='–'||s==='غير متوفر')return '';
+  return s;
+};
+try{window.historySemanticValue=historySemanticValue;}catch(e){}
+var oldCleanHistoryValue=(typeof cleanHistoryValue==='function')?cleanHistoryValue:null;
+cleanHistoryValue=function(field,v){
+  try{var c=(isDateField(field)||looksLikeDateValue(v))?dateCanonical(v):'';if(c)return display(c);}catch(e){}
+  if(oldCleanHistoryValue)return oldCleanHistoryValue.apply(this,arguments);
+  if(v===null||v===undefined||String(v).trim()===''||String(v).trim()==='—')return 'فارغ';
+  return String(v);
+};
+try{window.cleanHistoryValue=cleanHistoryValue;}catch(e){}
+realHistoryChanges=function(changes){
+  return (Array.isArray(changes)?changes:[]).filter(function(c){
+    var a=historySemanticValue(c&&c.field,c&&c.oldValue),b=historySemanticValue(c&&c.field,c&&c.newValue);
+    return a!==b && !(a===''&&b==='');
+  });
+};
+try{window.realHistoryChanges=realHistoryChanges;}catch(e){}
+var oldSanitize=(typeof sanitizeHistorySummaryClient==='function')?sanitizeHistorySummaryClient:null;
+sanitizeHistorySummaryClient=function(v){
+  if(!v)return v;var x;
+  try{x=oldSanitize?oldSanitize(v):JSON.parse(JSON.stringify(v));}catch(e){try{x=JSON.parse(JSON.stringify(v));}catch(_){return v;}}
+  x.added=Array.isArray(x.added)?x.added:[];x.missing=Array.isArray(x.missing)?x.missing:[];
+  x.modified=(Array.isArray(x.modified)?x.modified:[]).map(function(m){m.changes=realHistoryChanges(m&&m.changes);return m;}).filter(function(m){return m&&m.changes&&m.changes.length>0;});
+  x.counts=Object.assign({},x.counts||{},{added:x.added.length,modified:x.modified.length,missing:x.missing.length});
+  if(Number.isFinite(Number(x.counts.excelRows)))x.counts.unchanged=Math.max(0,Number(x.counts.excelRows)-x.added.length-x.modified.length);
+  return x;
+};
+try{window.sanitizeHistorySummaryClient=sanitizeHistorySummaryClient;}catch(e){}
+function read(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+function write(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function sanitizeHistoryObject(h){if(!h||!Array.isArray(h.versions))return h;var out=JSON.parse(JSON.stringify(h));out.versions=out.versions.map(sanitizeHistorySummaryClient).filter(function(v){return v&&((v.modified||[]).length||(v.added||[]).length||(v.missing||[]).length)});return out;}
+function sanitizeStoredHistory(){
+  try{if(typeof LAST_CHANGE_SUMMARY!=='undefined'&&LAST_CHANGE_SUMMARY)LAST_CHANGE_SUMMARY=sanitizeHistorySummaryClient(LAST_CHANGE_SUMMARY);}catch(e){}
+  try{if(typeof CHANGE_HISTORY!=='undefined'&&CHANGE_HISTORY)CHANGE_HISTORY=sanitizeHistoryObject(CHANGE_HISTORY)||CHANGE_HISTORY;}catch(e){}
+  try{if(typeof CHANGE_SUMMARY_CACHE_KEY!=='undefined'&&LAST_CHANGE_SUMMARY)write(CHANGE_SUMMARY_CACHE_KEY,LAST_CHANGE_SUMMARY);}catch(e){}
+  try{if(typeof CHANGE_HISTORY_CACHE_KEY!=='undefined'&&CHANGE_HISTORY)write(CHANGE_HISTORY_CACHE_KEY,CHANGE_HISTORY);}catch(e){}
+  ['emp_change_summary_cache_mobile_r122','hr_persistent_change_summary_r1515'].forEach(function(k){var s=read(k);if(s)write(k,sanitizeHistorySummaryClient(s));});
+  ['emp_change_history_cache_mobile_r122','hr_persistent_change_history_r1515'].forEach(function(k){var h=read(k);if(h)write(k,sanitizeHistoryObject(h));});
+  try{if(window.hrIndexedDB&&typeof window.hrIndexedDB.saveChanges==='function')window.hrIndexedDB.saveChanges((typeof LAST_CHANGE_SUMMARY!=='undefined'?LAST_CHANGE_SUMMARY:null),(typeof CHANGE_HISTORY!=='undefined'?CHANGE_HISTORY:null),'r1528-safe-history-baseline').catch(function(){});}catch(e){}
+}
+function refreshVisibleHistory(){try{if(typeof currentEmp!=='undefined'&&currentEmp&&document.getElementById('modal')&&document.getElementById('modal').classList.contains('open')){var tab=document.querySelector('#profile-tabs-live [data-profile-tab="history"],#modal-inner [data-profile-tab="history"]');if(tab)tab.innerHTML='<i class="fas fa-timeline"></i> السجل <span class="profile-history-badge">'+employeeHistoryEvents(currentEmp).length+'</span>';var panel=document.querySelector('#m-profile-body [data-profile-panel="history"]');if(panel&&typeof r1438HistoryHTML==='function'&&typeof mobileR147Section==='function')panel.innerHTML=mobileR147Section('السجل الزمني','fa-timeline',r1438HistoryHTML(currentEmp));}}catch(e){}
+}
+function install(){sanitizeStoredHistory();refreshVisibleHistory();}
+install();document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,500);setTimeout(install,1600);});window.addEventListener('load',function(){setTimeout(install,300);setTimeout(install,1200);});
+try{var baseLoad=loadCentralData;if(typeof baseLoad==='function'&&!baseLoad.__r1528SafeHistory){loadCentralData=async function(){var r=await baseLoad.apply(this,arguments);setTimeout(install,0);setTimeout(install,500);return r;};loadCentralData.__r1528SafeHistory=true;window.loadCentralData=loadCentralData;}}catch(e){}
+window.r1528SafeEmployeeHistoryBaseline={release:RELEASE,canonicalDate:dateCanonical,displayDate:function(v){return display(dateCanonical(v));},sanitize:install};
+})();
+</script>
+<style id="r1528-safe-history-style">#modal .profile-history-badge{unicode-bidi:isolate}</style>
+
 </body>
 </html>
