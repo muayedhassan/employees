@@ -8469,7 +8469,7 @@ document.addEventListener('DOMContentLoaded',function(){install();setTimeout(ins
 window.addEventListener('load',function(){setTimeout(install,300);setTimeout(install,1200)});
 window.r1519DateDisplayFix={release:RELEASE,format:formatDateValue,install:install};
 })();
-
+</script>
 
 <script id="r1520-date-sanitizer-fix-script">
 // MOBILE R1.5.20: hard date sanitizer for employee modal date fields, including quoted ISO strings.
@@ -8581,6 +8581,7 @@ window.r1520DateSanitizerFix={release:RELEASE,format:fixDate,install:install,san
 #modal .m-val.r1520-date-fixed{letter-spacing:.4px;direction:ltr;text-align:center;unicode-bidi:isolate}
 </style>
 
+<script id="r1526-safe-manual-update-center-script">
 /* ── MOBILE R1.5.26 SAFE MANUAL UPDATE CENTER + DATE SANITIZER ───────────────────────────────
    هذا التصحيح يوقف أي فحص/تطبيق تلقائي لتحديث الواجهة، ويجعل التحديث يدويًا فقط.
    لا يوجد location.reload أو location.replace إلا بعد ضغط المستخدم زر "حدث النظام الآن".
@@ -8746,6 +8747,31 @@ window.r1520DateSanitizerFix={release:RELEASE,format:fixDate,install:install,san
 })();
 
 </script>
+
+
+<script id="r1527-hard-date-sanitizer-recovery-script">
+// MOBILE R1.5.27: final hard date sanitizer recovery after R1.5.19/R1.5.20 split-script issue.
+(function(){
+var RELEASE='MOBILE-R1.5.27-HARD-DATE-SANITIZER-RECOVERY';
+try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
+var DATE_FIELDS={birthDate:1,hireDate:1,identityIssueDate:1,appointmentOrderDate:1,firstAssignmentDate:1,nextBonusDate:1,nextPromotionDate:1};
+function pad(n){n=String(n);return n.length<2?'0'+n:n;}
+function good(y){y=Number(y);return y>=1900&&y<=2100;}
+function out(y,m,d){y=Number(y);m=Number(m);d=Number(d);if(!good(y)||m<1||m>12||d<1||d>31)return '';return String(y)+'/'+pad(m)+'/'+pad(d);}
+function strip(v){var s=String(v==null?'':v).replace(/\u00a0/g,' ').trim();try{s=decodeURIComponent(s);}catch(e){}s=s.replace(/&quot;/g,'"').replace(/&#034;/g,'"').replace(/&#039;/g,"'").replace(/[“”]/g,'"').replace(/[‘’]/g,"'").replace(/\\"/g,'"');s=s.replace(/^\s*["'`]+|["'`]+\s*$/g,'').trim();return s;}
+function excel(n){n=Number(n);if(!isFinite(n)||n<15000||n>80000)return '';var dt=new Date((Math.floor(n)-25569)*86400*1000);if(isNaN(dt.getTime()))return '';return out(dt.getUTCFullYear(),dt.getUTCMonth()+1,dt.getUTCDate());}
+function fixDate(v){if(v===null||v===undefined)return '';if(v instanceof Date&&!isNaN(v.getTime()))return out(v.getFullYear(),v.getMonth()+1,v.getDate());var s=strip(v);if(!s||s==='—'||s==='36'||s==='غير متوفر')return '';var serial=s.replace(/\.0+$/,'');if(/^\d{5}$/.test(serial)){var ex=excel(serial);if(ex)return ex;}var m=s.match(/(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})(?:[T\s].*)?/);if(m)return out(m[1],m[2],m[3]);m=s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})$/);if(m)return out(m[3],m[2],m[1]);m=s.match(/Date\s*\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})/i);if(m)return out(m[1],Number(m[2])+1,m[3]);var p=Date.parse(s);if(!isNaN(p)){var d=new Date(p);return out(d.getFullYear(),d.getMonth()+1,d.getDate());}return s;}
+function isDateLabel(t){return /تاريخ|الميلاد|التولد|التعيين|الهوية|إصدار|المباشرة|الترقية|العلاوة/i.test(String(t||''));}
+function rawDate(t){return /["']?\d{4}-\d{1,2}-\d{1,2}(?:T|\s|["']|$)|^["']?\d{5}["']?$|Date\s*\(/.test(String(t||''));}
+function sanitizeModalDates(){try{var roots=[];var modal=document.getElementById('modal');if(modal)roots.push(modal);var body=document.getElementById('m-profile-body');if(body&&roots.indexOf(body)<0)roots.push(body);roots.forEach(function(root){root.querySelectorAll('.m-row').forEach(function(row){var lbl=(row.querySelector('.m-lbl')||{}).textContent||'';var val=row.querySelector('.m-val');if(!val)return;var raw=val.textContent||'';if(isDateLabel(lbl)||rawDate(raw)){var f=fixDate(raw);if(f&&f!==raw.trim())val.textContent=f;if(f)val.classList.add('num-font','r1527-date-fixed');}});root.querySelectorAll('.m-val,.r11-profile-badge b,.profile-status-v').forEach(function(val){var raw=val.textContent||'';if(rawDate(raw)){var f=fixDate(raw);if(f&&f!==raw.trim()){val.textContent=f;val.classList.add('num-font','r1527-date-fixed');}}});});}catch(e){}}
+function installProfileDisplayPatch(){try{if(typeof profileDisplayValue==='function'&&!profileDisplayValue.__r1527HardDate){var old=profileDisplayValue;profileDisplayValue=function(field,value){if(DATE_FIELDS[field]){try{if(typeof bridgeFieldPublished==='function'&&!bridgeFieldPublished(field))return 'محجوب من نسخة الهاتف';}catch(e){}var f=fixDate(value);return f||'غير متوفر';}var v=old.apply(this,arguments);if(rawDate(v)){var f2=fixDate(v);if(f2)return f2;}return v;};profileDisplayValue.__r1527HardDate=true;}}catch(e){}}
+function installOpenModalPatch(){try{if(typeof openModal==='function'&&!openModal.__r1527HardDate){var old=openModal;openModal=function(){installProfileDisplayPatch();var r=old.apply(this,arguments);setTimeout(sanitizeModalDates,0);setTimeout(sanitizeModalDates,80);setTimeout(sanitizeModalDates,240);setTimeout(sanitizeModalDates,700);return r;};openModal.__r1527HardDate=true;}}catch(e){}}
+function install(){installProfileDisplayPatch();installOpenModalPatch();sanitizeModalDates();}
+install();document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,250);setTimeout(sanitizeModalDates,900);});window.addEventListener('load',function(){setTimeout(install,250);setTimeout(sanitizeModalDates,1200);});document.addEventListener('click',function(e){if(e.target&&e.target.closest&&e.target.closest('#modal,#profile-tabs-live,.profile-tab')){setTimeout(sanitizeModalDates,0);setTimeout(sanitizeModalDates,120);setTimeout(sanitizeModalDates,350);}},true);try{var mo=new MutationObserver(function(){sanitizeModalDates();});document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('modal')||document.body;if(b)mo.observe(b,{childList:true,subtree:true,characterData:true});});}catch(e){}
+window.r1527HardDateSanitizer={release:RELEASE,format:fixDate,sanitize:sanitizeModalDates,install:install};
+})();
+</script>
+<style id="r1527-hard-date-sanitizer-style">#modal .m-val.r1527-date-fixed{letter-spacing:.35px;direction:ltr;text-align:center;unicode-bidi:isolate}</style>
 
 </body>
 </html>
