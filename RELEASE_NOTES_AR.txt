@@ -1,13 +1,11 @@
-Mobile R1.5.45 — Data Release Ledger Recovery
-================================================
+Mobile R1.5.46 — Official Windows DATA Contract
+==================================================
 
-- إنشاء سجل دائم لإصدارات البيانات مرتبط بـ DATA_VERSION فقط.
-- حفظ snapshots محلية لآخر 8 إصدارات بيانات داخل IndexedDB.
-- حفظ ملخصات حتى 30 إصدار بيانات.
-- محاولة استرجاع الإصدارات القديمة من CHANGE_HISTORY وIndexedDB القديم.
-- محاولة استرجاع snapshots القديمة من employee_registry_safety_v1/backups.
-- إذا توفر إصداران ببيانات كاملة، يعاد حساب الجدد والمعدلين والمفقودين بينهما.
-- تحديث واجهة الهاتف لا يغير سجل إصدارات البيانات.
-- إزالة كرت التنبيهات من أقسام البرنامج لأنه يكرر معلومات موجودة في واجهات أخرى.
-- حاسبة الخدمة تأخذ صفًا كاملًا، ثم العناوين الوظيفية ومطابقة العناوين معًا، وحالة النظام في الأسفل.
-- الحفاظ على مطابقة العناوين ومزامنة الحركات الإدارية ونظام التحديث الحالي.
+- Windows/HRSystem becomes the authoritative source for DATA_VERSION and change history.
+- Reads official versionMeta, changeSummary and changeHistory from the secure Google Sheets bridge when available.
+- Preserves exact official DATA-YYYY.MM.DD-HHMMSS names.
+- Removes stale locally generated release names from the R1.5.45 ledger before importing official Windows history.
+- Stores official history in IndexedDB and compatibility caches for offline reopening.
+- Keeps R1.5.45 local snapshot/recovery ledger only as fallback when the bridge does not provide official history.
+- Does not invent historical employee changes when the bridge provides no official summary/history.
+- Keeps dashboard order, removed Alerts card, job titles, title matching, shared administrative review sync, loader, manual UI updates, and employee data logic unchanged.

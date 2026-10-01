@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.45",
-  "short_name": "HR Mobile R1.5.45",
+  "name": "سجل الموظفين - Mobile R1.5.46",
+  "short_name": "HR Mobile R1.5.46",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.45 adds a durable DATA_VERSION release ledger with local snapshot recovery and removes the duplicate Alerts dashboard card.",
+  "description": "R1.5.46 consumes the official Windows DATA_VERSION, change-summary and change-history from the secure data bridge, with the R1.5.45 local ledger retained only as fallback.",
   "icons": [
     {
       "src": "assets/icon-192.png",

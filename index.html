@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.45-DATA-RELEASE-LEDGER-RECOVERY">
+<meta name="app-release" content="MOBILE-R1.5.46-OFFICIAL-DATA-CONTRACT">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -5832,7 +5832,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   }
   function setActive(v){var isPerm=mode==='perm',isCont=mode==='cont',cls=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){var t=document.getElementById(x==='titlematch'?TAB_ID:'stab-'+x);if(t){var on=v===x;t.className='sub-tab'+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');}});}
   function clearMatch(){document.body.classList.remove('subview-titlematch');var v=document.getElementById(VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
-  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1545'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
+  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1546'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
   function buildIndex(data){var rows=(data&&data.rows)||[],by={},any={};rows.forEach(function(r){var d=degLabel(r.degree),t=String(r.title||'').trim(),n=norm(t);if(!d||!n)return;(by[d]=by[d]||{});(by[d][n]=by[d][n]||[]).push(t);(any[n]=any[n]||[]).push(d);});return{by:by,any:any,rows:rows};}
   function suggest(title,degree,idx){var n=norm(title),words=n.split(' ').filter(Boolean),src=(idx.rows||[]).filter(function(r){return degLabel(r.degree)===degree;});var scored=[];src.forEach(function(r){var rn=norm(r.title||'');if(!rn)return;var score=0;words.forEach(function(w){if(w.length>2&&rn.indexOf(w)>=0)score+=2;});if(rn.indexOf(n)>=0||n.indexOf(rn)>=0)score+=5;if(score>0)scored.push({t:r.title,s:score});});return scored.sort(function(a,b){return b.s-a.s;}).slice(0,3).map(function(x){return x.t;});}
   function analyze(){return loadTitles().then(function(data){var idx=buildIndex(data),emps=allEmployees();state.rows=emps.map(function(e,i){var title=String(e.jobTitle||'').trim(),degree=degLabel(e.grade),nt=norm(title),cls='unknown',label='غير موجود',note='العنوان غير موجود في دليل العناوين الوظيفية.',sugg=[];if(!title||!degree){cls='missing';label='نقص بيانات';note=!title&&!degree?'لا يوجد عنوان وظيفي ولا درجة.':(!title?'لا يوجد عنوان وظيفي.':'لا توجد درجة وظيفية واضحة.');}
@@ -8945,8 +8945,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1545';
-  var KEEP_CACHE='employee-registry-ui-r1545';
+  var SW_URL='service-worker.js?v=1546';
+  var KEEP_CACHE='employee-registry-ui-r1546';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -8980,7 +8980,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   async function maintain(){
     await purgeLegacyInterfaceCaches();
     await installFreshWorker();
-    try{localStorage.setItem('hr_mobile_ui_cache_release','1545');}catch(e){}
+    try{localStorage.setItem('hr_mobile_ui_cache_release','1546');}catch(e){}
   }
 
   if(document.readyState==='complete')setTimeout(maintain,0);
@@ -9016,7 +9016,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 </style><script id="r1545-data-release-ledger-script">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.45-DATA-RELEASE-LEDGER-RECOVERY';
+var RELEASE='MOBILE-R1.5.46-OFFICIAL-DATA-CONTRACT';
 var DB_NAME='hr_mobile_data_release_ledger_v1';
 var DB_VERSION=1;
 var STORE='releases';
@@ -9300,15 +9300,365 @@ window.r1545DataReleaseLedger={release:RELEASE,recover:recover,list:all,currentV
 #r1502-dashboard .r1502-module-card[data-key="service"]{grid-column:1 / -1}
 </style>
 <!-- R1545_DATA_RELEASE_LEDGER_RECOVERY -->
-<!-- MOBILE-R1.5.45-DATA-RELEASE-LEDGER-RECOVERY
-     Durable data-release ledger with snapshot recovery. Alerts dashboard card removed. -->
-<script id="r1545-data-release-ledger-recovery">
+<script id="r1546-official-data-contract-script">
+(function(){
+'use strict';
+var RELEASE='MOBILE-R1.5.46-OFFICIAL-DATA-CONTRACT';
+var CACHE_KEY='hr_official_data_contract_r1546';
+var LEDGER_DB='hr_mobile_data_release_ledger_v1';
+var LEDGER_STORE='releases';
+var lastPacket=null;
+var importBusy=false;
+
+function clone(v){try{return JSON.parse(JSON.stringify(v))}catch(e){return v}}
+function clean(v){return v===null||v===undefined?'':String(v).trim()}
+function arr(v){return Array.isArray(v)?v:[]}
+function parseMaybe(v){
+  if(v===null||v===undefined||v==='')return null;
+  if(typeof v==='object')return clone(v);
+  if(typeof v==='string'){try{return JSON.parse(v)}catch(e){return null}}
+  return null;
+}
+function isDataVersion(v){return /^DATA-\d{4}\.\d{2}\.\d{2}-\d{6}$/.test(clean(v))}
+function firstDataVersion(values){
+  for(var i=0;i<values.length;i++){var v=clean(values[i]);if(isDataVersion(v))return v}
+  return '';
+}
+function pick(source,names){
+  source=source||{};
+  for(var i=0;i<names.length;i++){
+    if(source[names[i]]!==undefined&&source[names[i]]!==null)return source[names[i]];
+  }
+  return null;
+}
+function normalizeCounts(c){
+  c=clone(c||{});
+  if(c.published!==undefined){
+    if(c.total===undefined)c.total=c.published;
+    if(c.excelRows===undefined)c.excelRows=c.published;
+  }
+  c.added=Number(c.added||0);
+  c.modified=Number(c.modified||0);
+  c.missing=Number(c.missing||0);
+  if(c.unchanged!==undefined)c.unchanged=Number(c.unchanged||0);
+  return c;
+}
+function normalizeSummary(s,forcedVersion){
+  s=parseMaybe(s);
+  if(!s||typeof s!=='object')return null;
+  var version=firstDataVersion([forcedVersion,s.version,s.dataVersion]);
+  if(!version)return null;
+  var x=clone(s);
+  x.version=version;
+  x.dataVersion=version;
+  x.previousVersion=clean(x.previousVersion);
+  x.updatedAt=x.updatedAt||new Date().toISOString();
+  x.counts=normalizeCounts(x.counts);
+  x.added=arr(x.added);
+  x.modified=arr(x.modified);
+  x.missing=arr(x.missing);
+  x.completedGaps=arr(x.completedGaps);
+  x.qualityRegressions=arr(x.qualityRegressions);
+  x.__r1546Official=true;
+  x.source=x.source||'HRSystem SQL Server';
+  return x;
+}
+function normalizeHistory(h,currentSummary){
+  h=parseMaybe(h);
+  var raw=h&&Array.isArray(h.versions)?h.versions:[];
+  var out=[],seen={};
+  raw.forEach(function(s){
+    var n=normalizeSummary(s);
+    if(!n||seen[n.version])return;
+    seen[n.version]=1;out.push(n);
+  });
+  if(currentSummary&&!seen[currentSummary.version]){
+    seen[currentSummary.version]=1;
+    out.push(clone(currentSummary));
+  }
+  out.sort(function(a,b){
+    var ad=String(a.updatedAt||''),bd=String(b.updatedAt||'');
+    if(ad!==bd)return ad.localeCompare(bd);
+    return String(a.version||'').localeCompare(String(b.version||''));
+  });
+  return {
+    schemaVersion:(h&&h.schemaVersion)||2,
+    updatedAt:(h&&h.updatedAt)||(currentSummary&&currentSummary.updatedAt)||new Date().toISOString(),
+    maxVersions:(h&&h.maxVersions)||60,
+    versions:out,
+    __r1546Official:true
+  };
+}
+function packetFrom(source){
+  source=source||{};
+  var nested=parseMaybe(pick(source,['officialDataContract','dataContract','releaseContract','release']));
+  if(nested&&typeof nested==='object')source=Object.assign({},nested,source);
+
+  var versionMeta=parseMaybe(pick(source,['versionMeta','versionMetadata','version_meta']));
+  if(!versionMeta&&source.meta&&typeof source.meta==='object')versionMeta=clone(source.meta);
+
+  var summary=normalizeSummary(pick(source,['changeSummary','change_summary','summary']));
+  var historyRaw=pick(source,['changeHistory','change_history','history']);
+  var history=parseMaybe(historyRaw);
+
+  var lastHistoryVersion='';
+  if(history&&Array.isArray(history.versions)&&history.versions.length){
+    var hh=history.versions;
+    for(var i=hh.length-1;i>=0;i--){if(isDataVersion(hh[i]&&hh[i].version)){lastHistoryVersion=hh[i].version;break}}
+  }
+
+  var version=firstDataVersion([
+    source.version,
+    versionMeta&&versionMeta.version,
+    summary&&summary.version,
+    lastHistoryVersion
+  ]);
+
+  if(!version)return null;
+  if(summary)summary=normalizeSummary(summary,version);
+  var normalizedHistory=normalizeHistory(history,summary);
+  if(!summary){
+    for(var j=normalizedHistory.versions.length-1;j>=0;j--){
+      if(normalizedHistory.versions[j].version===version){summary=clone(normalizedHistory.versions[j]);break}
+    }
+  }
+
+  // An official version alone is useful for DATA_VERSION, but do not replace
+  // the change ledger unless Windows history/summary is actually present.
+  var hasOfficialChanges=!!(summary||normalizedHistory.versions.length);
+  return {
+    schemaVersion:1546,
+    release:RELEASE,
+    version:version,
+    versionMeta:versionMeta||{},
+    summary:summary,
+    history:normalizedHistory,
+    hasOfficialChanges:hasOfficialChanges,
+    publishedAt:source.publishedAt||(versionMeta&&versionMeta.updatedAt)||(summary&&summary.updatedAt)||'',
+    source:'secure-api'
+  };
+}
+function decorateDataset(dataset,api){
+  if(!dataset||typeof dataset!=='object')return dataset;
+  var p=packetFrom(api||dataset);
+  if(!p)return dataset;
+
+  dataset.meta=Object.assign({},dataset.meta||{},p.versionMeta||{});
+  dataset.meta.version=p.version;
+  dataset.meta.updatedAt=dataset.meta.updatedAt||p.publishedAt||p.version;
+  dataset.meta.mode=dataset.meta.mode||'hrsystem-master';
+  dataset.meta.source=dataset.meta.source||'HRSystem SQL Server';
+  dataset.meta.contractVersion=dataset.meta.contractVersion||'MIC-1.0';
+  dataset.meta.officialChangeHistory=!!p.hasOfficialChanges;
+
+  dataset.versionMeta=clone(p.versionMeta);
+  if(p.summary)dataset.changeSummary=clone(p.summary);
+  if(p.history&&p.history.versions.length)dataset.changeHistory=clone(p.history);
+  dataset.__r1546OfficialPacket=clone(p);
+  lastPacket=clone(p);
+  try{localStorage.setItem(CACHE_KEY,JSON.stringify(p))}catch(e){}
+  return dataset;
+}
+function packetFromDataset(d){
+  if(!d)return null;
+  var p=parseMaybe(d.__r1546OfficialPacket);
+  if(p&&isDataVersion(p.version))return p;
+  return packetFrom(d);
+}
+function cachedPacket(){
+  try{
+    var p=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
+    return p&&isDataVersion(p.version)?p:null;
+  }catch(e){return null}
+}
+function openLedger(){
+  return new Promise(function(resolve,reject){
+    if(!('indexedDB' in window)){reject(new Error('IndexedDB unavailable'));return}
+    var req=indexedDB.open(LEDGER_DB,1);
+    req.onupgradeneeded=function(){
+      var db=req.result;
+      if(!db.objectStoreNames.contains(LEDGER_STORE)){
+        var st=db.createObjectStore(LEDGER_STORE,{keyPath:'version'});
+        try{st.createIndex('updatedAt','updatedAt',{unique:false})}catch(e){}
+      }
+    };
+    req.onsuccess=function(){resolve(req.result)};
+    req.onerror=function(){reject(req.error||new Error('ledger open failed'))};
+  });
+}
+async function seedLedger(history){
+  if(!history||!Array.isArray(history.versions)||!history.versions.length)return false;
+  var db=await openLedger();
+  return new Promise(function(resolve,reject){
+    var tx=db.transaction(LEDGER_STORE,'readwrite');
+    var st=tx.objectStore(LEDGER_STORE);
+    st.clear();
+    history.versions.forEach(function(s){
+      if(!s||!isDataVersion(s.version))return;
+      st.put({
+        version:s.version,
+        previousVersion:s.previousVersion||'',
+        createdAt:s.updatedAt||new Date().toISOString(),
+        updatedAt:s.updatedAt||new Date().toISOString(),
+        source:'official-windows-history-r1546',
+        summary:clone(s),
+        snapshot:null
+      });
+    });
+    tx.oncomplete=function(){resolve(true)};
+    tx.onerror=function(){reject(tx.error||new Error('ledger seed failed'))};
+  });
+}
+function writeCompat(summary,history){
+  try{LAST_CHANGE_SUMMARY=summary?clone(summary):null}catch(e){}
+  try{CHANGE_HISTORY=history?clone(history):{schemaVersion:2,versions:[]}}catch(e){}
+  try{localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(LAST_CHANGE_SUMMARY))}catch(e){}
+  try{localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(CHANGE_HISTORY))}catch(e){}
+  try{localStorage.setItem('hr_persistent_change_summary_r1515',JSON.stringify(LAST_CHANGE_SUMMARY))}catch(e){}
+  try{localStorage.setItem('hr_persistent_change_history_r1515',JSON.stringify(CHANGE_HISTORY))}catch(e){}
+}
+async function importPacket(p,reason){
+  if(importBusy||!p||!isDataVersion(p.version))return false;
+  if(!p.hasOfficialChanges||!p.history||!Array.isArray(p.history.versions)||!p.history.versions.length){
+    try{
+      if(typeof DATA_META==='object'){
+        DATA_META.version=p.version;
+        DATA_META.officialChangeHistory=false;
+      }
+      DATA_VERSION=p.version;
+      updateVersionUI();
+    }catch(e){}
+    return false;
+  }
+
+  importBusy=true;
+  try{
+    var current=p.summary;
+    if(!current){
+      for(var i=p.history.versions.length-1;i>=0;i--){
+        if(p.history.versions[i].version===p.version){current=p.history.versions[i];break}
+      }
+    }
+    if(!current&&p.history.versions.length)current=p.history.versions[p.history.versions.length-1];
+    if(current)current=normalizeSummary(current,p.version);
+
+    p.history=normalizeHistory(p.history,current);
+    p.summary=current;
+    p.hasOfficialChanges=true;
+    p.reason=reason||'official-import';
+    lastPacket=clone(p);
+    try{localStorage.setItem(CACHE_KEY,JSON.stringify(p))}catch(e){}
+
+    try{
+      DATA_VERSION=p.version;
+      if(typeof DATA_META==='object'){
+        DATA_META.version=p.version;
+        DATA_META.officialChangeHistory=true;
+        DATA_META.changeHistorySource='HRSystem Windows';
+      }
+    }catch(e){}
+
+    await seedLedger(p.history);
+    writeCompat(current,p.history);
+
+    try{
+      if(window.hrIndexedDB&&typeof window.hrIndexedDB.saveChanges==='function'){
+        await window.hrIndexedDB.saveChanges(clone(current),clone(p.history),'r1546-official-windows-history');
+      }
+    }catch(e){}
+
+    try{updateVersionUI()}catch(e){}
+    try{updateExcelMasterUI()}catch(e){}
+    try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates()}catch(e){}
+    return true;
+  }catch(e){
+    try{console.warn('R1.5.46 official history import failed',e)}catch(_){}
+    return false;
+  }finally{importBusy=false}
+}
+async function restoreCached(){
+  var p=lastPacket||cachedPacket();
+  if(!p)return false;
+  var dv='';
+  try{dv=clean(DATA_VERSION)}catch(e){}
+  if(dv&&isDataVersion(dv)&&dv!==p.version)return false;
+  return importPacket(p,'cached-official');
+}
+
+function installDatasetWrapper(){
+  try{
+    if(typeof hr1508DatasetFromApi!=='function'||hr1508DatasetFromApi.__r1546Wrapped)return false;
+    var old=hr1508DatasetFromApi;
+    hr1508DatasetFromApi=function(api){
+      var d=old.apply(this,arguments);
+      return decorateDataset(d,api);
+    };
+    hr1508DatasetFromApi.__r1546Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+function installApplyWrapper(){
+  try{
+    if(typeof applyDataset!=='function'||applyDataset.__r1546Wrapped)return false;
+    var old=applyDataset;
+    applyDataset=function(d){
+      var ok=old.apply(this,arguments);
+      if(ok){
+        var p=packetFromDataset(d);
+        if(p)setTimeout(function(){importPacket(p,'dataset-apply')},0);
+      }
+      return ok;
+    };
+    applyDataset.__r1546Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+function installLoadWrapper(){
+  try{
+    if(typeof loadCentralData!=='function'||loadCentralData.__r1546Wrapped)return false;
+    var old=loadCentralData;
+    loadCentralData=async function(){
+      var out=await old.apply(this,arguments);
+      await restoreCached();
+      return out;
+    };
+    loadCentralData.__r1546Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+function install(){installDatasetWrapper();installApplyWrapper();installLoadWrapper()}
+function boot(){
+  install();
+  restoreCached().catch(function(){});
+}
+install();
+document.addEventListener('DOMContentLoaded',function(){boot();setTimeout(boot,700);setTimeout(boot,2200)});
+window.addEventListener('load',function(){setTimeout(boot,250);setTimeout(boot,1200);setTimeout(boot,3500)});
+window.addEventListener('pageshow',function(){setTimeout(boot,150)});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(boot,150)});
+
+window.r1546OfficialDataContract={
+  release:RELEASE,
+  importPacket:importPacket,
+  restore:restoreCached,
+  packet:function(){return clone(lastPacket||cachedPacket())},
+  status:function(){
+    var p=lastPacket||cachedPacket();
+    return p?{version:p.version,hasOfficialChanges:!!p.hasOfficialChanges,historyVersions:p.history&&p.history.versions?p.history.versions.length:0}:null;
+  }
+};
+})();
+</script>
+<!-- R1546_OFFICIAL_DATA_CONTRACT -->
+<!-- MOBILE-R1.5.46-OFFICIAL-DATA-CONTRACT
+     Official Windows DATA_VERSION, change-summary, and change-history are authoritative when supplied by the secure bridge. R1.5.45 local ledger remains fallback only. -->
+<script id="r1546-official-data-contract">
 (function(){
   'use strict';
-  var RELEASE='MOBILE-R1.5.45-DATA-RELEASE-LEDGER-RECOVERY';
+  var RELEASE='MOBILE-R1.5.46-OFFICIAL-DATA-CONTRACT';
   var META_NAME='app-release';
-  var LAST_CHECK_KEY='emp_r1545_last_manual_update_check';
-  var LAST_APPLY_KEY='emp_r1545_last_manual_apply';
+  var LAST_CHECK_KEY='emp_r1546_last_manual_update_check';
+  var LAST_APPLY_KEY='emp_r1546_last_manual_apply';
 
   function setRelease(){
     try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
@@ -9334,7 +9684,7 @@ window.r1545DataReleaseLedger={release:RELEASE,recover:recover,list:all,currentV
     if(navigator.onLine===false)return '';
     var u=new URL('index.html',location.href);
     u.searchParams.set('_release_check',Date.now().toString());
-    u.searchParams.set('v','1545');
+    u.searchParams.set('v','1546');
     var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});
     if(!res.ok)throw new Error('HTTP '+res.status);
     return canonicalFromHtml(await res.text());
@@ -9372,7 +9722,7 @@ window.r1545DataReleaseLedger={release:RELEASE,recover:recover,list:all,currentV
     if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return;}
     var run=async function(){
       put(LAST_APPLY_KEY,nowISO());
-      try{sessionStorage.setItem('emp_r1545_manual_update_once','1');}catch(e){}
+      try{sessionStorage.setItem('emp_r1546_manual_update_once','1');}catch(e){}
       if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');
       try{
         if('caches' in window){
@@ -9382,14 +9732,14 @@ window.r1545DataReleaseLedger={release:RELEASE,recover:recover,list:all,currentV
       }catch(e){}
       try{
         if('serviceWorker' in navigator){
-          var reg=await navigator.serviceWorker.register('service-worker.js?v=1545&_u='+Date.now(),{scope:'./',updateViaCache:'none'});
+          var reg=await navigator.serviceWorker.register('service-worker.js?v=1546&_u='+Date.now(),{scope:'./',updateViaCache:'none'});
           try{await reg.update();}catch(e){}
           try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}
         }
       }catch(e){}
       var u=new URL('index.html',location.href);
       u.search='';
-      u.searchParams.set('v','1545');
+      u.searchParams.set('v','1546');
       u.searchParams.set('_manual_update',Date.now().toString());
       location.replace(u.toString());
     };
@@ -9409,11 +9759,11 @@ window.r1545DataReleaseLedger={release:RELEASE,recover:recover,list:all,currentV
   try{r71CheckAll=async function(){await checkUpdate(true);};}catch(e){}
   try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false;};}catch(e){}
   try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط';}catch(e){}return false;};}catch(e){}
-  try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1545',{scope:'./',updateViaCache:'none'});}catch(e){}};}catch(e){}
+  try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1546',{scope:'./',updateViaCache:'none'});}catch(e){}};}catch(e){}
 
   // Keep the release authoritative even if a delayed legacy callback touches APP_RELEASE.
   document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200);});
   window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500);});
-  window.r1545CanonicalReleaseFix={release:RELEASE,check:checkUpdate,apply:applyUpdate,fetchPublishedRelease:fetchPublishedRelease};
+  window.r1546CanonicalReleaseFix={release:RELEASE,check:checkUpdate,apply:applyUpdate,fetchPublishedRelease:fetchPublishedRelease};
 })();
 </script>\n
