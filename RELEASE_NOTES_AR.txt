@@ -1,11 +1,11 @@
-Mobile R1.5.46 — Official Windows DATA Contract
-==================================================
+Mobile R1.5.47 — Shared Review State
+================================================
 
-- Windows/HRSystem becomes the authoritative source for DATA_VERSION and change history.
-- Reads official versionMeta, changeSummary and changeHistory from the secure Google Sheets bridge when available.
-- Preserves exact official DATA-YYYY.MM.DD-HHMMSS names.
-- Removes stale locally generated release names from the R1.5.45 ledger before importing official Windows history.
-- Stores official history in IndexedDB and compatibility caches for offline reopening.
-- Keeps R1.5.45 local snapshot/recovery ledger only as fallback when the bridge does not provide official history.
-- Does not invent historical employee changes when the bridge provides no official summary/history.
-- Keeps dashboard order, removed Alerts card, job titles, title matching, shared administrative review sync, loader, manual UI updates, and employee data logic unchanged.
+- إصلاح مزامنة "تمت المراجعة" للحركات الإدارية بين جميع الأجهزة.
+- الهاتف لا يعتبر المراجعة ناجحة محليًا إلا بعد تأكيد الخادم.
+- Google Sheet يصبح المرجع النهائي لحالة new/reviewed لكل الأجهزة.
+- حذف السجلات remote القديمة من الكاش إذا لم تعد موجودة في السجل المشترك.
+- حفظ نفس ID المحلي عند إرسال الملاحظة الجديدة لتقليل اختلاف المعرفات.
+- مزامنة عند فتح واجهة الحركات الإدارية وعند عودة التطبيق للواجهة.
+- الإبقاء الكامل على R1.5.46 Official Windows DATA Contract.
+- لا تغيير على بيانات الموظفين أو سجل DATA_VERSION أو ترتيب بطاقات البرنامج.

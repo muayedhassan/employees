@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.46-OFFICIAL-DATA-CONTRACT">
+<meta name="app-release" content="MOBILE-R1.5.47-SHARED-REVIEW-STATE">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -5832,7 +5832,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   }
   function setActive(v){var isPerm=mode==='perm',isCont=mode==='cont',cls=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){var t=document.getElementById(x==='titlematch'?TAB_ID:'stab-'+x);if(t){var on=v===x;t.className='sub-tab'+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');}});}
   function clearMatch(){document.body.classList.remove('subview-titlematch');var v=document.getElementById(VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
-  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1546'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
+  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1547'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
   function buildIndex(data){var rows=(data&&data.rows)||[],by={},any={};rows.forEach(function(r){var d=degLabel(r.degree),t=String(r.title||'').trim(),n=norm(t);if(!d||!n)return;(by[d]=by[d]||{});(by[d][n]=by[d][n]||[]).push(t);(any[n]=any[n]||[]).push(d);});return{by:by,any:any,rows:rows};}
   function suggest(title,degree,idx){var n=norm(title),words=n.split(' ').filter(Boolean),src=(idx.rows||[]).filter(function(r){return degLabel(r.degree)===degree;});var scored=[];src.forEach(function(r){var rn=norm(r.title||'');if(!rn)return;var score=0;words.forEach(function(w){if(w.length>2&&rn.indexOf(w)>=0)score+=2;});if(rn.indexOf(n)>=0||n.indexOf(rn)>=0)score+=5;if(score>0)scored.push({t:r.title,s:score});});return scored.sort(function(a,b){return b.s-a.s;}).slice(0,3).map(function(x){return x.t;});}
   function analyze(){return loadTitles().then(function(data){var idx=buildIndex(data),emps=allEmployees();state.rows=emps.map(function(e,i){var title=String(e.jobTitle||'').trim(),degree=degLabel(e.grade),nt=norm(title),cls='unknown',label='غير موجود',note='العنوان غير موجود في دليل العناوين الوظيفية.',sugg=[];if(!title||!degree){cls='missing';label='نقص بيانات';note=!title&&!degree?'لا يوجد عنوان وظيفي ولا درجة.':(!title?'لا يوجد عنوان وظيفي.':'لا توجد درجة وظيفية واضحة.');}
@@ -6027,7 +6027,7 @@ body.light-mode .r1475-panel,body.light-mode .r1475-note-card{background:#fff;bo
   }
   function jsonp(url,ok,fail){var cb='__hrNotesCb_'+Date.now()+'_'+Math.random().toString(36).slice(2),done=false,sc=document.createElement('script'),timer;window[cb]=function(data){done=true;clearTimeout(timer);try{delete window[cb];}catch(e){window[cb]=undefined;}try{sc.remove();}catch(e){}ok(data||{});};sc.onerror=function(){if(done)return;done=true;clearTimeout(timer);try{delete window[cb];}catch(e){}try{sc.remove();}catch(e){}fail&&fail(new Error('jsonp failed'));};timer=setTimeout(function(){if(done)return;done=true;try{delete window[cb];}catch(e){}try{sc.remove();}catch(e){}fail&&fail(new Error('sync timeout'));},12000);sc.src=url+(url.indexOf('?')>=0?'&':'?')+'callback='+encodeURIComponent(cb)+'&t='+Date.now();document.head.appendChild(sc);}
   function fetchShared(done,opts){opts=opts||{};var manual=!!opts.manual,force=!!opts.force;if(state.syncing){if(done)done(false);return Promise.resolve(false);}if(!manual&&!force&&!r1506CanAutoSync()){if(done)done(false);return Promise.resolve(false);}state.syncing=true;state.lastError='';r1506MarkSync();if(manual)render(false);var url=ENDPOINT+'?key='+encodeURIComponent(API_KEY)+'&includeReviewed=1';return fetch(url+'&t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json();}).then(function(data){if(!data||data.ok===false)throw new Error((data&&data.error)||'sync failed');var notes=mergeNotes(Array.isArray(data.notes)?data.notes:[]);saveSync({lastSync:nowText(),count:notes.length});state.syncing=false;state.lastError='';render(false);if(manual)try{showToast('تمت مزامنة الحركات الإدارية','ok');}catch(e){}if(done)done(true);return true;}).catch(function(){return new Promise(function(resolve){jsonp(url,function(data){if(!data||data.ok===false){state.lastError=(data&&data.error)||'فشل المزامنة';state.syncing=false;render(false);if(done)done(false);resolve(false);return;}var notes=mergeNotes(Array.isArray(data.notes)?data.notes:[]);saveSync({lastSync:nowText(),count:notes.length});state.syncing=false;state.lastError='';render(false);if(manual)try{showToast('تمت مزامنة الحركات الإدارية','ok');}catch(e){}if(done)done(true);resolve(true);},function(){state.syncing=false;state.lastError='تعذر الاتصال بسجل الملاحظات المشترك';if(manual){render(false);try{showToast('تعذر مزامنة الملاحظات','warn');}catch(e){}}else{state.lastError='';}if(done)done(false);resolve(false);});});});}
-  function postShared(note){var payload={key:API_KEY,senderName:note.sender,senderRole:note.senderRole,employeeName:note.employeeName,movementType:typeLabel(note.type),fromBranch:note.fromBranch,toBranch:note.toBranch,note:note.text,deviceId:deviceId(),status:'new'};return fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});}function postReviewStatus(note){if(!note||!note.id)return Promise.reject(new Error('missing note id'));var payload={key:API_KEY,action:'review',id:note.id,noteId:note.id,status:'reviewed',deviceId:deviceId()};return fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});}
+  function postShared(note){var payload={key:API_KEY,id:note.id,senderName:note.sender,senderRole:note.senderRole,employeeName:note.employeeName,movementType:typeLabel(note.type),fromBranch:note.fromBranch,toBranch:note.toBranch,note:note.text,deviceId:deviceId(),status:'new'};return fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});}function postReviewStatus(note){if(!note||!note.id)return Promise.reject(new Error('missing note id'));var payload={key:API_KEY,action:'review',id:note.id,noteId:note.id,status:'reviewed',deviceId:deviceId()};return fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});}
   function ensureTab(){var tabs=$('sub-tabs');if(tabs&&!$(TAB_ID)){var el=document.createElement('div');el.className='sub-tab r1472-module-card r1475-managernotes';el.id=TAB_ID;el.setAttribute('role','tab');el.setAttribute('aria-selected','false');el.onclick=function(){openNotes();};el.innerHTML='<i class="fas fa-comments"></i><span class="r1472-module-title">الحركات الإدارية</span><small class="r1472-module-desc">مشتركة</small>';tabs.appendChild(el);}var scroll=$('scroll');if(scroll&&!$(VIEW_ID)){var v=document.createElement('div');v.id=VIEW_ID;v.style.display='none';v.innerHTML='<div class="r1475-page" id="r1475-page"></div>';scroll.appendChild(v);}}
   function setActiveTab(){['list','updates','reports','alerts','system','service','jobtitles','titlematch','managernotes'].forEach(function(x){var t=x==='managernotes'?$(TAB_ID):$('stab-'+x);if(!t)return;var on=x==='managernotes';var cls=(mode==='cont')?'cont-sub-active':(mode==='admin')?'admin-sub-active':'perm-sub-active';t.className='sub-tab'+(x==='managernotes'?' r1472-module-card r1475-managernotes':'')+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');});}
   function hideOtherViews(){['view-list','view-updates','view-quality','view-reports','view-alerts','view-system','view-service','view-jobtitles','view-titlematch'].forEach(function(id){var x=$(id);if(x)x.style.display='none';});var v=$(VIEW_ID);if(v)v.style.display='block';}
@@ -6203,7 +6203,7 @@ body.light-mode .r1479-sync-live{background:#f8fafc;color:#0f172a;border-color:r
     saveNotes(out);return {notes:out,incoming:incoming,breakdown:breakdown}
   }
   function syncNow(manual,force){manual=!!manual;force=!!force;if(r1506Busy)return Promise.resolve(false);if(!force&&!r1506Allow(manual)){if(manual)toast('تمت المزامنة مؤخرًا، انتظر لحظات ثم أعد المحاولة','warn');return Promise.resolve(false);}r1506Busy=true;r1506Mark();var btn=$('r1475-sync');if(manual&&btn){btn.classList.add('is-loading');btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري المزامنة'}if(manual)live('جاري الاتصال بسجل الملاحظات المشترك...','');var url=ENDPOINT+'?key='+encodeURIComponent(API_KEY)+'&includeReviewed=1&t='+Date.now();return fetch(url,{cache:'no-store'}).then(function(r){return r.json()}).then(function(data){if(!data||data.ok===false)throw new Error((data&&data.error)||'فشل المزامنة');var res=mergeRemote(Array.isArray(data.notes)?data.notes:[]);save(SYNC,{lastSync:nowText(),count:res.notes.length});if(manual||res.incoming){if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes();}if(res.incoming){live('وصلت '+res.incoming+' ملاحظة جديدة من السجل المشترك','ok');if(identity().role==='admin'){playAlert(res.incoming);toast('وصلت '+res.incoming+' ملاحظة إدارية جديدة','ok')}}else if(manual){live('تمت المزامنة ولا توجد ملاحظات جديدة','ok');toast('تمت مزامنة الحركات الإدارية','ok')}return true}).catch(function(e){if(manual){live('تعذر تنفيذ المزامنة الآن. تحقق من الإنترنت أو رابط Google Script.','warn');toast('تعذر مزامنة الملاحظات','warn')}return false}).finally(function(){r1506Busy=false;var b=$('r1475-sync');if(b){b.classList.remove('is-loading');b.innerHTML='<i class="fas fa-arrows-rotate"></i> مزامنة الملاحظات'}})}
-  function sendNow(){var id=identity();if(id.role!=='manager'){toast('غيّر هوية هذا الجهاز إلى مدير الموارد البشرية قبل الإرسال','warn');return}var emp=norm(($('r1475-emp')||{}).value),text=norm(($('r1475-text')||{}).value),type=($('r1475-type')||{}).value||'note';if(!emp){toast('اكتب اسم الموظف أولًا','warn');return}if(!text){toast('اكتب الملاحظة المختصرة','warn');return}var note={id:'LOCAL-'+Date.now(),employeeName:emp,type:type,fromBranch:norm(($('r1475-from')||{}).value),toBranch:norm(($('r1475-to')||{}).value),text:text,sender:'مدير الموارد البشرية',senderRole:'manager',createdAt:nowText(),status:'new',source:'pending',deviceId:deviceId()};var arr=notes();arr.push(note);saveNotes(arr);if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes();live('تمت إضافة الملاحظة محليًا، وجاري إرسالها للسجل المشترك...','');toast('جاري إرسال الملاحظة باسم: '+(note.sender||'مدير الموارد البشرية'),'ok');var payload={key:API_KEY,senderName:note.sender,senderRole:'manager',employeeName:note.employeeName,movementType:typeLabel(note.type),fromBranch:note.fromBranch,toBranch:note.toBranch,note:note.text,deviceId:deviceId(),status:'new'};fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).then(function(){live('تم إرسال الملاحظة. سيتم تأكيد ظهورها بالمزامنة التالية.','ok');setTimeout(function(){syncNow(false,true)},1200)}).catch(function(){live('حُفظت الملاحظة محليًا، لكن تعذر الإرسال للسجل المشترك.','warn');toast('تعذر الإرسال للسجل المشترك','warn')})}
+  function sendNow(){var id=identity();if(id.role!=='manager'){toast('غيّر هوية هذا الجهاز إلى مدير الموارد البشرية قبل الإرسال','warn');return}var emp=norm(($('r1475-emp')||{}).value),text=norm(($('r1475-text')||{}).value),type=($('r1475-type')||{}).value||'note';if(!emp){toast('اكتب اسم الموظف أولًا','warn');return}if(!text){toast('اكتب الملاحظة المختصرة','warn');return}var note={id:'LOCAL-'+Date.now(),employeeName:emp,type:type,fromBranch:norm(($('r1475-from')||{}).value),toBranch:norm(($('r1475-to')||{}).value),text:text,sender:'مدير الموارد البشرية',senderRole:'manager',createdAt:nowText(),status:'new',source:'pending',deviceId:deviceId()};var arr=notes();arr.push(note);saveNotes(arr);if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes();live('تمت إضافة الملاحظة محليًا، وجاري إرسالها للسجل المشترك...','');toast('جاري إرسال الملاحظة باسم: '+(note.sender||'مدير الموارد البشرية'),'ok');var payload={key:API_KEY,id:note.id,senderName:note.sender,senderRole:'manager',employeeName:note.employeeName,movementType:typeLabel(note.type),fromBranch:note.fromBranch,toBranch:note.toBranch,note:note.text,deviceId:deviceId(),status:'new'};fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).then(function(){live('تم إرسال الملاحظة. سيتم تأكيد ظهورها بالمزامنة التالية.','ok');setTimeout(function(){syncNow(false,true)},1200)}).catch(function(){live('حُفظت الملاحظة محليًا، لكن تعذر الإرسال للسجل المشترك.','warn');toast('تعذر الإرسال للسجل المشترك','warn')})}
   function enhance(){var id=identity();var inp=$('r1475-sender-name');if(inp&&id.role==='manager')inp.value='مدير الموارد البشرية';else if(inp&&!inp.value)inp.value=id.name||roleLabel(id.role);var chip=document.querySelector('#r1475-add-panel .r1475-chip');if(chip&&id.role==='manager')chip.innerHTML='<i class="fas fa-paper-plane"></i> مرسلها: مدير الموارد البشرية';}
   document.addEventListener('click',function(ev){var sync=ev.target&&ev.target.closest?ev.target.closest('#r1475-sync'):null;if(sync){ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();syncNow(true);return}var add=ev.target&&ev.target.closest?ev.target.closest('#r1475-add'):null;if(add){ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();sendNow();return}var roleBtn=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-role],[data-r1478-set-role]'):null;if(roleBtn){var role=roleBtn.getAttribute('data-r1475-role')||roleBtn.getAttribute('data-r1478-set-role');if(role){var name=roleLabel(role);saveIdentityDirect(role,name);setTimeout(function(){if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes();toast('تم حفظ هوية الجهاز: '+name,'ok')},40)}}},true);
   document.addEventListener('DOMContentLoaded',enhance);window.addEventListener('load',enhance);window.addEventListener('pageshow',enhance);try{new MutationObserver(function(){clearTimeout(window.__r1479EnhanceT);window.__r1479EnhanceT=setTimeout(enhance,80)}).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
@@ -8945,8 +8945,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1546';
-  var KEEP_CACHE='employee-registry-ui-r1546';
+  var SW_URL='service-worker.js?v=1547';
+  var KEEP_CACHE='employee-registry-ui-r1547';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -9767,3 +9767,320 @@ window.r1546OfficialDataContract={
   window.r1546CanonicalReleaseFix={release:RELEASE,check:checkUpdate,apply:applyUpdate,fetchPublishedRelease:fetchPublishedRelease};
 })();
 </script>\n
+<!-- MOBILE R1.5.47: shared review state across all HR manager devices -->
+<script id="r1547-manager-notes-shared-review-state-script">
+(function(){
+'use strict';
+var RELEASE='MOBILE-R1.5.47-SHARED-REVIEW-STATE';
+var STORE='hr_manager_notes_r1475';
+var IDENT='hr_device_identity_r1475';
+var SYNC='hr_manager_notes_sync_r1476';
+var DEV='hr_device_id_r1476';
+var DELETED='hr_manager_notes_deleted_r1480';
+var suppressSyncUntil=0;
+var busy=false;
+
+function cfg(){
+  var sc=document.getElementById('r1476-manager-notes-sync-script');
+  var txt=sc?String(sc.textContent||''):'';
+  var em=txt.match(/var\s+ENDPOINT='([^']+)'/);
+  var km=txt.match(/var\s+API_KEY='([^']+)'/);
+  return {endpoint:em&&em[1]?em[1]:'',key:km&&km[1]?km[1]:''};
+}
+function load(k,fb){try{var x=JSON.parse(localStorage.getItem(k)||'');return x==null?fb:x}catch(e){return fb}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function notes(){var a=load(STORE,[]);return Array.isArray(a)?a:[]}
+function norm(v){return String(v==null?'':v).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
+function nowText(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};return d.getFullYear()+'/'+p(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())}
+function identity(){var x=load(IDENT,{});return x&&x.role?x:{role:'admin',name:'مسؤول النظام'}}
+function deviceId(){var x='';try{x=localStorage.getItem(DEV)||''}catch(e){}return x}
+function toast(m,t){try{if(typeof showToast==='function')showToast(m,t||'ok')}catch(e){}}
+function remoteType(t){t=norm(t);if(t==='نقل')return'transfer';if(t==='تنسيب')return'assignment';if(t==='إنهاء تنسيب')return'return';if(['transfer','assignment','return','note'].indexOf(t)>=0)return t;return'note'}
+function typeLabel(t){return t==='transfer'?'نقل':t==='assignment'?'تنسيب':t==='return'?'إنهاء تنسيب':'ملاحظة'}
+function sig(n){return [norm(n.employeeName),norm(n.type),norm(n.fromBranch),norm(n.toBranch),norm(n.text)].join('|').toLowerCase()}
+function normalizeRemote(r){
+  var type=remoteType(r.movementType||r.type);
+  return {
+    id:norm(r.id)||('REMOTE-'+sig(r)),
+    employeeName:norm(r.employeeName),
+    type:type,
+    fromBranch:norm(r.fromBranch),
+    toBranch:norm(r.toBranch),
+    text:norm(r.note||r.text),
+    sender:norm(r.senderName||r.sender)||'مدير الموارد البشرية',
+    senderRole:norm(r.senderRole)||'manager',
+    createdAt:norm(r.createdAt)||'',
+    status:norm(r.status)==='reviewed'?'reviewed':'new',
+    source:'remote',
+    deviceId:norm(r.deviceId),
+    reviewedAt:norm(r.reviewedAt),
+    reviewedBy:norm(r.reviewedBy)
+  };
+}
+function deletedMap(){
+  var m={};var a=load(DELETED,[]);
+  if(Array.isArray(a))a.forEach(function(k){if(k)m[String(k)]=1});
+  return m;
+}
+function mergeAuthoritative(remote){
+  var local=notes(),out=[],seen={},deleted=deletedMap();
+  (remote||[]).map(normalizeRemote).forEach(function(n){
+    if(!n.employeeName&&!n.text)return;
+    var k=n.id||sig(n),s=sig(n);
+    if(deleted[k]||deleted[s])return;
+    if(seen[k]||seen[s])return;
+    seen[k]=1;seen[s]=1;
+    out.push(n);
+  });
+
+  // Keep only truly local/pending notes that have not yet appeared on the server.
+  // Remote-source rows absent from the server are not resurrected from stale local cache.
+  local.forEach(function(n){
+    var source=String(n&&n.source||'');
+    if(source==='remote')return;
+    if(n&&n.status==='reviewed')return;
+    var k=n&&n.id?n.id:sig(n),s=sig(n||{});
+    if(deleted[k]||deleted[s])return;
+    if(seen[k]||seen[s])return;
+    seen[k]=1;seen[s]=1;
+    out.push(n);
+  });
+
+  save(STORE,out);
+  return out;
+}
+function jsonp(params,timeoutMs){
+  timeoutMs=timeoutMs||15000;
+  return new Promise(function(resolve,reject){
+    var c=cfg();
+    if(!c.endpoint||!c.key){reject(new Error('manager notes config missing'));return}
+    var cb='__r1547Notes_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    var sc=document.createElement('script'),done=false,timer;
+    params=params||{};
+    params.key=c.key;
+    params.callback=cb;
+    params.t=Date.now();
+    function cleanup(){try{delete window[cb]}catch(e){window[cb]=undefined}try{sc.remove()}catch(e){}}
+    window[cb]=function(data){if(done)return;done=true;clearTimeout(timer);cleanup();resolve(data||{})};
+    sc.onerror=function(){if(done)return;done=true;clearTimeout(timer);cleanup();reject(new Error('manager notes request failed'))};
+    timer=setTimeout(function(){if(done)return;done=true;cleanup();reject(new Error('manager notes request timeout'))},timeoutMs);
+    var q=Object.keys(params).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(params[k]==null?'':params[k])}).join('&');
+    sc.async=true;
+    sc.src=c.endpoint+(c.endpoint.indexOf('?')>=0?'&':'?')+q;
+    document.head.appendChild(sc);
+  });
+}
+function refreshView(){
+  if(!document.body.classList.contains('subview-managernotes'))return;
+  if(typeof window.r1475OpenManagerNotes!=='function')return;
+  suppressSyncUntil=Date.now()+1300;
+  try{window.r1475OpenManagerNotes()}catch(e){}
+}
+async function syncNow(manual,force){
+  if(Date.now()<suppressSyncUntil&&!manual)return true;
+  if(busy)return false;
+  busy=true;
+  try{
+    var id=identity();
+    var data=await jsonp({
+      includeReviewed:'1',
+      role:id.role==='manager'?'hr_manager':'system_admin'
+    },18000);
+    if(!data||data.ok===false)throw new Error((data&&data.error)||'sync failed');
+    var merged=mergeAuthoritative(Array.isArray(data.notes)?data.notes:[]);
+    save(SYNC,{lastSync:nowText(),count:merged.length,sharedState:true,release:'R1.5.47'});
+    refreshView();
+    if(manual)toast('تمت مزامنة الحركات الإدارية بين جميع الأجهزة','ok');
+    return true;
+  }catch(e){
+    if(manual)toast('تعذر مزامنة الحركات الإدارية الآن','warn');
+    return false;
+  }finally{busy=false}
+}
+function findLocalNote(id){
+  var a=notes();
+  for(var i=0;i<a.length;i++)if(String(a[i].id||'')===String(id||''))return a[i];
+  return null;
+}
+async function confirmReview(note,button){
+  var id=identity();
+  if(id.role!=='admin'){
+    toast('اعتماد تمت المراجعة مخصص لمسؤول النظام','warn');
+    return false;
+  }
+  if(!note){toast('تعذر العثور على الملاحظة','warn');return false}
+  if(button){button.disabled=true;button.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الاعتماد'}
+
+  try{
+    var data=await jsonp({
+      action:'review',
+      id:note.id||'',
+      noteId:note.id||'',
+      status:'reviewed',
+      reviewedBy:id.name||'مسؤول النظام',
+      employeeName:note.employeeName||'',
+      movementType:typeLabel(note.type),
+      fromBranch:note.fromBranch||'',
+      toBranch:note.toBranch||'',
+      note:note.text||'',
+      deviceId:deviceId()
+    },18000);
+
+    if(!data||data.ok!==true||String(data.status||'')!=='reviewed'){
+      throw new Error((data&&data.error)||'review not confirmed');
+    }
+
+    var a=notes();
+    a.forEach(function(n){
+      if(String(n.id||'')===String(note.id||'')||sig(n)===sig(note)){
+        n.status='reviewed';
+        n.source='remote';
+        if(data.id)n.id=String(data.id);
+        n.reviewedAt=data.reviewedAt||new Date().toISOString();
+        n.reviewedBy=data.reviewedBy||id.name||'مسؤول النظام';
+      }
+    });
+    save(STORE,a);
+    toast('تم اعتماد المراجعة في السجل المشترك','ok');
+    await syncNow(false,true);
+    refreshView();
+    return true;
+  }catch(e){
+    toast('لم يتم اعتماد المراجعة مركزيًا، الملاحظة بقيت نشطة','warn');
+    if(button){button.disabled=false;button.innerHTML='<i class="fas fa-check"></i> تمت المراجعة'}
+    return false;
+  }
+}
+
+// Capture review before the legacy local-only handler can mark it reviewed.
+document.addEventListener('click',function(ev){
+  var b=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-review]'):null;
+  if(!b)return;
+  ev.preventDefault();
+  ev.stopPropagation();
+  ev.stopImmediatePropagation();
+  var note=findLocalNote(b.getAttribute('data-r1475-review'));
+  confirmReview(note,b);
+},true);
+
+// Make open-screen sync use the authoritative R1.5.47 path.
+window.r1479ManagerNotesSyncNow=syncNow;
+window.r1476SyncManagerNotes=function(done,opts){
+  opts=opts||{};
+  return syncNow(!!opts.manual,!!opts.force).then(function(ok){if(done)done(ok);return ok});
+};
+
+window.addEventListener('pageshow',function(){if(document.body.classList.contains('subview-managernotes'))setTimeout(function(){syncNow(false,true)},250)});
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('subview-managernotes'))setTimeout(function(){syncNow(false,true)},350)});
+setInterval(function(){if(!document.hidden&&document.body.classList.contains('subview-managernotes'))syncNow(false,true)},30000);
+
+window.r1547ManagerNotesSharedReview={
+  release:RELEASE,
+  sync:syncNow,
+  review:confirmReview,
+  merge:mergeAuthoritative
+};
+})();
+</script>
+
+<!-- R1547_SHARED_REVIEW_STATE -->
+<!-- MOBILE-R1.5.47-SHARED-REVIEW-STATE
+     Server-confirmed shared review state for administrative movements across all devices. -->
+<script id="r1547-canonical-release">
+(function(){
+'use strict';
+var RELEASE='MOBILE-R1.5.47-SHARED-REVIEW-STATE';
+var META_NAME='app-release';
+var LAST_CHECK_KEY='emp_r1547_last_manual_update_check';
+var LAST_APPLY_KEY='emp_r1547_last_manual_apply';
+
+function setRelease(){
+  try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}
+  try{window.APP_RELEASE=RELEASE}catch(e){}
+  try{var m=document.querySelector('meta[name="'+META_NAME+'"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}
+  try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}
+}
+function put(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function nowISO(){return new Date().toISOString()}
+function canonicalFromHtml(txt){
+  txt=String(txt||'');
+  var m=txt.match(/<meta\s+name=["']app-release["']\s+content=["']([^"']+)["'][^>]*>/i);
+  if(!m)m=txt.match(/<meta\s+content=["']([^"']+)["']\s+name=["']app-release["'][^>]*>/i);
+  if(m&&m[1])return m[1];
+  return '';
+}
+async function fetchPublishedRelease(){
+  if(navigator.onLine===false)return '';
+  var u=new URL('index.html',location.href);
+  u.searchParams.set('_release_check',Date.now().toString());
+  u.searchParams.set('v','1547');
+  var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  return canonicalFromHtml(await res.text());
+}
+async function checkUpdate(showMessage){
+  setRelease();
+  if(navigator.onLine===false){
+    try{R71_UPDATE_STATE='offline';R122_AUTO_STATUS='بدون إنترنت'}catch(e){}
+    if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');
+    return false;
+  }
+  try{
+    if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');
+    var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);
+    try{
+      R71_REMOTE_RELEASE=remote||RELEASE;
+      R122_LAST_REMOTE_RELEASE=remote||R122_LAST_REMOTE_RELEASE;
+      R71_UPDATE_STATE=has?'new':'current';
+      R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث';
+    }catch(e){}
+    put(LAST_CHECK_KEY,nowISO());
+    put('emp_mobile_last_auto_check_r122',nowISO());
+    if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');
+    try{if(typeof updateSystemTabDot==='function')updateSystemTabDot();if(typeof subView!=='undefined'&&subView==='system'&&typeof buildSystemCenter==='function')buildSystemCenter()}catch(e){}
+    return has;
+  }catch(e){
+    try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}
+    if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');
+    return false;
+  }
+}
+async function applyUpdate(){
+  setRelease();
+  if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}
+  var run=async function(){
+    put(LAST_APPLY_KEY,nowISO());
+    try{sessionStorage.setItem('emp_r1547_manual_update_once','1')}catch(e){}
+    if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');
+    try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}
+    try{
+      if('serviceWorker' in navigator){
+        var reg=await navigator.serviceWorker.register('service-worker.js?v=1547&_u='+Date.now(),{scope:'./',updateViaCache:'none'});
+        try{await reg.update()}catch(e){}
+        try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}
+      }
+    }catch(e){}
+    var u=new URL('index.html',location.href);
+    u.search='';
+    u.searchParams.set('v','1547');
+    u.searchParams.set('_manual_update',Date.now().toString());
+    location.replace(u.toString());
+  };
+  if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);
+  else if(window.confirm('تحديث النظام يدويًا؟'))await run();
+}
+setRelease();
+try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}
+try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}
+try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}
+try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}
+try{r71ForceRefresh=applyUpdate}catch(e){}
+try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}
+try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}
+try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}
+try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1547',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});
+window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});
+window.r1547CanonicalReleaseFix={release:RELEASE,check:checkUpdate,apply:applyUpdate,fetchPublishedRelease:fetchPublishedRelease};
+})();
+</script>

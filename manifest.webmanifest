@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.46",
-  "short_name": "HR Mobile R1.5.46",
+  "name": "سجل الموظفين - Mobile R1.5.47",
+  "short_name": "HR Mobile R1.5.47",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.46 consumes the official Windows DATA_VERSION, change-summary and change-history from the secure data bridge, with the R1.5.45 local ledger retained only as fallback.",
+  "description": "R1.5.47 adds server-confirmed shared review state for administrative movements across all manager devices while preserving the R1.5.46 official Windows DATA contract.",
   "icons": [
     {
       "src": "assets/icon-192.png",
