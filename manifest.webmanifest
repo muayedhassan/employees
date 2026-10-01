@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.47",
-  "short_name": "HR Mobile R1.5.47",
+  "name": "سجل الموظفين - Mobile R1.5.48",
+  "short_name": "HR Mobile R1.5.48",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.47 adds server-confirmed shared review state for administrative movements across all manager devices while preserving the R1.5.46 official Windows DATA contract.",
+  "description": "R1.5.48 makes Google Sheet the final authority for administrative movement status across all devices and prevents local tombstones from hiding remote active notes.",
   "icons": [
     {
       "src": "assets/icon-192.png",
