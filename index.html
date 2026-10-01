@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.44-DATA-CHANGE-LEDGER-STICKY">
+<meta name="app-release" content="MOBILE-R1.5.45-DATA-RELEASE-LEDGER-RECOVERY">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -5832,7 +5832,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   }
   function setActive(v){var isPerm=mode==='perm',isCont=mode==='cont',cls=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){var t=document.getElementById(x==='titlematch'?TAB_ID:'stab-'+x);if(t){var on=v===x;t.className='sub-tab'+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');}});}
   function clearMatch(){document.body.classList.remove('subview-titlematch');var v=document.getElementById(VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
-  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1544'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
+  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1545'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
   function buildIndex(data){var rows=(data&&data.rows)||[],by={},any={};rows.forEach(function(r){var d=degLabel(r.degree),t=String(r.title||'').trim(),n=norm(t);if(!d||!n)return;(by[d]=by[d]||{});(by[d][n]=by[d][n]||[]).push(t);(any[n]=any[n]||[]).push(d);});return{by:by,any:any,rows:rows};}
   function suggest(title,degree,idx){var n=norm(title),words=n.split(' ').filter(Boolean),src=(idx.rows||[]).filter(function(r){return degLabel(r.degree)===degree;});var scored=[];src.forEach(function(r){var rn=norm(r.title||'');if(!rn)return;var score=0;words.forEach(function(w){if(w.length>2&&rn.indexOf(w)>=0)score+=2;});if(rn.indexOf(n)>=0||n.indexOf(rn)>=0)score+=5;if(score>0)scored.push({t:r.title,s:score});});return scored.sort(function(a,b){return b.s-a.s;}).slice(0,3).map(function(x){return x.t;});}
   function analyze(){return loadTitles().then(function(data){var idx=buildIndex(data),emps=allEmployees();state.rows=emps.map(function(e,i){var title=String(e.jobTitle||'').trim(),degree=degLabel(e.grade),nt=norm(title),cls='unknown',label='غير موجود',note='العنوان غير موجود في دليل العناوين الوظيفية.',sugg=[];if(!title||!degree){cls='missing';label='نقص بيانات';note=!title&&!degree?'لا يوجد عنوان وظيفي ولا درجة.':(!title?'لا يوجد عنوان وظيفي.':'لا توجد درجة وظيفية واضحة.');}
@@ -7559,7 +7559,7 @@ body.light-mode #r1502-dashboard .r1502-panel{background:linear-gradient(145deg,
 (function(){
 var RELEASE='MOBILE-R1.5.02-DASHBOARD-RADICAL-REBUILD';
 var MAIN=[{key:'perm',num:'01',name:'الدائميون',desc:'الموظفون الدائمون',icon:'fa-id-card'},{key:'cont',num:'02',name:'العقود',desc:'موظفو العقود',icon:'fa-file-contract'},{key:'admin',num:'03',name:'إدارة النظام',desc:'لوحة الإدارة',icon:'fa-shield-halved'}];
-var MODULES=[{key:'list',num:'01',name:'القائمة',desc:'سجل الموظفين',icon:'fa-list-ul'},{key:'reports',num:'02',name:'التقارير',desc:'الكشوفات والطباعة',icon:'fa-file-lines'},{key:'updates',num:'03',name:'آخر التحديثات',desc:'الإضافات والتعديلات',icon:'fa-clock-rotate-left'},{key:'managernotes',num:'04',name:'الحركات الإدارية',desc:'واجهة محمية',icon:'fa-comments'},{key:'alerts',num:'05',name:'التنبيهات',desc:'المراجعة والتحذيرات',icon:'fa-bell'},{key:'service',num:'06',name:'حاسبة الخدمة',desc:'حساب مدة الخدمة',icon:'fa-calculator'},{key:'jobtitles',num:'07',name:'العناوين الوظيفية',desc:'بحث العنوان والدرجة',icon:'fa-briefcase'},{key:'titlematch',num:'08',name:'مطابقة العناوين',desc:'التطابق الوظيفي',icon:'fa-check-double'},{key:'system',num:'09',name:'حالة النظام',desc:'التحديث والمزامنة',icon:'fa-gauge-high'}];
+var MODULES=[{key:'list',num:'01',name:'القائمة',desc:'سجل الموظفين',icon:'fa-list-ul'},{key:'reports',num:'02',name:'التقارير',desc:'الكشوفات والطباعة',icon:'fa-file-lines'},{key:'updates',num:'03',name:'آخر التحديثات',desc:'الإضافات والتعديلات',icon:'fa-clock-rotate-left'},{key:'managernotes',num:'04',name:'الحركات الإدارية',desc:'واجهة محمية',icon:'fa-comments'},{key:'service',num:'05',name:'حاسبة الخدمة',desc:'حساب مدة الخدمة',icon:'fa-calculator'},{key:'jobtitles',num:'06',name:'العناوين الوظيفية',desc:'بحث العنوان والدرجة',icon:'fa-briefcase'},{key:'titlematch',num:'07',name:'مطابقة العناوين',desc:'التطابق الوظيفي',icon:'fa-check-double'},{key:'system',num:'08',name:'حالة النظام',desc:'التحديث والمزامنة',icon:'fa-gauge-high'}];
 function $(id){return document.getElementById(id)}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function currentMode(){try{if(window.mode)return window.mode}catch(e){}var a=document.querySelector('#mtab-perm.perm-active,#mtab-cont.cont-active,#mtab-admin.admin-active');return a?String(a.id||'').replace('mtab-',''):'perm'}
@@ -8945,8 +8945,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1544';
-  var KEEP_CACHE='employee-registry-ui-r1544';
+  var SW_URL='service-worker.js?v=1545';
+  var KEEP_CACHE='employee-registry-ui-r1545';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -8980,7 +8980,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   async function maintain(){
     await purgeLegacyInterfaceCaches();
     await installFreshWorker();
-    try{localStorage.setItem('hr_mobile_ui_cache_release','1544');}catch(e){}
+    try{localStorage.setItem('hr_mobile_ui_cache_release','1545');}catch(e){}
   }
 
   if(document.readyState==='complete')setTimeout(maintain,0);
@@ -9013,13 +9013,17 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 #r1502-dashboard .r1502-module-card[data-key="system"]{
   grid-column:1 / -1;
 }
-</style><script id="r1544-data-change-ledger-sticky-script">
+</style><script id="r1545-data-release-ledger-script">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.44-DATA-CHANGE-LEDGER-STICKY';
-var STATE_KEY='hr_data_change_ledger_r1544';
-var memoryState=null;
-var restoring=false;
+var RELEASE='MOBILE-R1.5.45-DATA-RELEASE-LEDGER-RECOVERY';
+var DB_NAME='hr_mobile_data_release_ledger_v1';
+var DB_VERSION=1;
+var STORE='releases';
+var MAX_RELEASES=30;
+var MAX_SNAPSHOTS=8;
+var dbPromise=null;
+var busy=false;
 var FIELDS=['name','fourName','motherName','gender','identityNo','identityIssueDate','identityIssuer','division','employmentStatus','education','jobTitle','specialization','grade','step','salary','birthDate','hireDate','firstAssignmentDate','nextBonusDate','nextPromotionDate','notes','serviceNotes','appointmentOrderNo','appointmentOrderDate','employeeNo','num'];
 
 function clone(v){try{return JSON.parse(JSON.stringify(v))}catch(e){return v}}
@@ -9027,162 +9031,284 @@ function arr(v){return Array.isArray(v)?v:[]}
 function clean(v){return v===null||v===undefined?'':String(v).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
 function sem(field,v){var s=clean(v);if(s==='—'||s==='غير متوفر')return '';if(field==='salary'||field==='grade'||field==='step'||field==='num'){var n=Number(String(s).replace(/[^0-9.\-]/g,''));return isNaN(n)?s:String(n)}return s}
 function now(){return new Date().toISOString()}
-function dataVersion(){try{var v=clean(typeof DATA_VERSION!=='undefined'?DATA_VERSION:'');return v&&v!=='غير معروف'?v:''}catch(e){return ''}}
+function currentVersion(){try{var v=clean(typeof DATA_VERSION!=='undefined'?DATA_VERSION:'');return v&&v!=='غير معروف'?v:''}catch(e){return ''}}
 function snapshot(){try{return {perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])}}catch(e){return {perm:[],cont:[]}}}
+function total(ds){return arr(ds&&ds.perm).length+arr(ds&&ds.cont).length}
+function validSnapshot(ds){return !!(ds&&Array.isArray(ds.perm)&&Array.isArray(ds.cont)&&total(ds)>0)}
 function typeOf(e,fallback){return e&&e.type?String(e.type):(fallback||'')}
 function key(e,fallbackType){if(!e)return '';var t=typeOf(e,fallbackType),emp=clean(e.employeeNo);if(emp)return t+'|emp|'+emp;var id=clean(e.integrationId||e.id||e.bridgeId);if(id)return t+'|id|'+id;var num=clean(e.num);if(num)return t+'|num|'+num;var name=clean(e.name);return name?t+'|name|'+name:''}
-function indexData(ds){var m={};arr(ds.perm).forEach(function(e){var k=key(e,'perm');if(k)m[k]=e});arr(ds.cont).forEach(function(e){var k=key(e,'cont');if(k)m[k]=e});return m}
+function mapData(ds){var m={};arr(ds&&ds.perm).forEach(function(e){var k=key(e,'perm');if(k)m[k]=e});arr(ds&&ds.cont).forEach(function(e){var k=key(e,'cont');if(k)m[k]=e});return m}
 function ref(e){return {id:e.id||'',integrationId:e.integrationId||e.id||'',bridgeId:e.bridgeId||'',employeeNo:e.employeeNo||'',num:e.num||'',name:e.name||'',type:e.type||''}}
 function changes(a,b){var out=[];FIELDS.forEach(function(f){var x=a?a[f]:'',y=b?b[f]:'';if(sem(f,x)!==sem(f,y))out.push({field:f,oldValue:x==null?'':x,newValue:y==null?'':y})});return out}
-function meaningfulChanges(ch){return arr(ch).some(function(c){return clean(c&&c.oldValue)!==clean(c&&c.newValue)})}
-function meaningfulSummary(s){if(!s||typeof s!=='object')return false;if(s.__r1544CurrentDataVersion===true)return true;if(arr(s.modified).some(function(x){return meaningfulChanges(x&&x.changes)}))return true;return arr(s.added).length>0||arr(s.missing).length>0}
-function emptySummary(v,prev){return {schemaVersion:1544,source:'data-version-ledger',__r1544CurrentDataVersion:true,dataVersion:v||'',version:v||'',previousVersion:prev||'',updatedAt:now(),counts:{modified:0,added:0,missing:0,total:0,excelRows:0},modified:[],added:[],missing:[]}}
-function diffSummary(before,after,v,prev){
-  var old=indexData(before||{}),nu=indexData(after||{}),modified=[],added=[],missing=[];
+function summary(before,after,v,prev,stamp,source){
+  var old=mapData(before||{}),nu=mapData(after||{}),modified=[],added=[],missing=[];
   Object.keys(nu).forEach(function(k){var n=nu[k],o=old[k];if(!o){added.push(ref(n));return}var ch=changes(o,n);if(ch.length){var x=ref(n);x.previousName=o.name||'';x.changes=ch;modified.push(x)}});
   Object.keys(old).forEach(function(k){if(!nu[k])missing.push(ref(old[k]))});
-  var total=arr(after&&after.perm).length+arr(after&&after.cont).length;
-  return {schemaVersion:1544,source:'data-version-ledger',__r1544CurrentDataVersion:true,dataVersion:v||'',version:v||'',previousVersion:prev||'',updatedAt:now(),counts:{modified:modified.length,added:added.length,missing:missing.length,total:total,excelRows:total},modified:modified,added:added,missing:missing};
+  var tt=total(after);
+  return {schemaVersion:1545,source:source||'data-release-ledger',__r1544CurrentDataVersion:true,__r1545DataRelease:true,dataVersion:v||'',version:v||'',previousVersion:prev||'',updatedAt:stamp||now(),counts:{modified:modified.length,added:added.length,missing:missing.length,total:tt,excelRows:tt},modified:modified,added:added,missing:missing};
 }
-function normalizeSummary(s,v){var x=clone(s||emptySummary(v,''));x.schemaVersion=1544;x.__r1544CurrentDataVersion=true;x.dataVersion=v||x.dataVersion||x.version||'';x.version=x.dataVersion;x.updatedAt=x.updatedAt||now();x.counts=x.counts||{};x.modified=arr(x.modified);x.added=arr(x.added);x.missing=arr(x.missing);return x}
-function normalizeHistory(h){var x=(h&&Array.isArray(h.versions))?clone(h):{schemaVersion:1544,versions:[]};x.schemaVersion=1544;x.versions=arr(x.versions);return x}
-function readJSON(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
-function writeJSON(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
-function readState(){if(memoryState&&memoryState.dataVersion)return memoryState;var x=readJSON(STATE_KEY);if(x&&x.dataVersion){memoryState=x;return x}return null}
-function mergeHistory(h,s,dropVersion){h=normalizeHistory(h);var v=clean(s&&s.dataVersion);h.versions=h.versions.filter(function(x){if(!x)return false;var xv=clean(x.dataVersion||x.version);if(v&&xv===v)return false;if(dropVersion&&xv===dropVersion)return false;return true});h.versions.push(clone(s));if(h.versions.length>30)h.versions=h.versions.slice(-30);return h}
-function installState(st){
-  if(!st||!st.dataVersion)return false;
-  memoryState=st;
-  try{LAST_CHANGE_SUMMARY=clone(st.summary||emptySummary(st.dataVersion,''))}catch(e){}
-  try{CHANGE_HISTORY=normalizeHistory(st.history)}catch(e){}
-  writeJSON(STATE_KEY,st);
-  try{writeJSON(CHANGE_SUMMARY_CACHE_KEY,LAST_CHANGE_SUMMARY)}catch(e){}
-  try{writeJSON(CHANGE_HISTORY_CACHE_KEY,CHANGE_HISTORY)}catch(e){}
-  writeJSON('hr_persistent_change_summary_r1515',LAST_CHANGE_SUMMARY);
-  writeJSON('hr_persistent_change_history_r1515',CHANGE_HISTORY);
+function baseline(ds,v,stamp,source){
+  var s=summary({perm:[],cont:[]},{perm:[],cont:[]},v,'',stamp,source||'data-release-baseline');
+  s.counts.total=total(ds);s.counts.excelRows=total(ds);
+  return s;
+}
+function normalizeSummary(s,v){
+  var x=clone(s||{}),vv=clean(v||x.dataVersion||x.version);
+  if(!vv)return null;
+  x.schemaVersion=1545;x.__r1544CurrentDataVersion=true;x.__r1545DataRelease=true;x.dataVersion=vv;x.version=vv;x.updatedAt=x.updatedAt||now();x.counts=x.counts||{};x.modified=arr(x.modified);x.added=arr(x.added);x.missing=arr(x.missing);return x;
+}
+function openDB(){
+  if(dbPromise)return dbPromise;
+  dbPromise=new Promise(function(resolve,reject){
+    var req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=function(){
+      var db=req.result;
+      if(!db.objectStoreNames.contains(STORE)){
+        var st=db.createObjectStore(STORE,{keyPath:'version'});
+        try{st.createIndex('updatedAt','updatedAt',{unique:false})}catch(e){}
+      }
+    };
+    req.onsuccess=function(){resolve(req.result)};
+    req.onerror=function(){reject(req.error||new Error('release ledger open failed'))};
+  });
+  return dbPromise;
+}
+async function put(rec){
+  var db=await openDB();
+  return new Promise(function(resolve,reject){
+    var tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(rec);
+    tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error||new Error('release ledger write failed'))};
+  });
+}
+async function get(v){
+  var db=await openDB();
+  return new Promise(function(resolve,reject){
+    var tx=db.transaction(STORE,'readonly'),q=tx.objectStore(STORE).get(v);
+    q.onsuccess=function(){resolve(q.result||null)};q.onerror=function(){reject(q.error||new Error('release ledger read failed'))};
+  });
+}
+async function all(){
+  var db=await openDB();
+  return new Promise(function(resolve,reject){
+    var tx=db.transaction(STORE,'readonly'),q=tx.objectStore(STORE).getAll();
+    q.onsuccess=function(){resolve(arr(q.result))};q.onerror=function(){reject(q.error||new Error('release ledger list failed'))};
+  });
+}
+async function del(v){
+  var db=await openDB();
+  return new Promise(function(resolve,reject){
+    var tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(v);
+    tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error||new Error('release ledger delete failed'))};
+  });
+}
+function orderRecords(list){return arr(list).slice().sort(function(a,b){return String(a.updatedAt||a.createdAt||'').localeCompare(String(b.updatedAt||b.createdAt||''))})}
+function compatHistories(){
+  var out=[];
+  try{if(typeof CHANGE_HISTORY!=='undefined'&&CHANGE_HISTORY&&Array.isArray(CHANGE_HISTORY.versions))out.push(CHANGE_HISTORY)}catch(e){}
+  ['emp_change_history_cache_mobile_r122','hr_persistent_change_history_r1515'].forEach(function(k){try{var h=JSON.parse(localStorage.getItem(k)||'null');if(h&&Array.isArray(h.versions))out.push(h)}catch(e){}});
+  try{var st=JSON.parse(localStorage.getItem('hr_data_change_ledger_r1544')||'null');if(st&&st.history&&Array.isArray(st.history.versions))out.push(st.history)}catch(e){}
+  return out;
+}
+async function importSummary(s,source){
+  var ns=normalizeSummary(s);
+  if(!ns)return false;
+  var old=await get(ns.version);
+  var rec=old||{version:ns.version,createdAt:ns.updatedAt||now()};
+  if(!rec.summary||arr(ns.modified).length||arr(ns.added).length||arr(ns.missing).length)rec.summary=ns;
+  rec.updatedAt=rec.updatedAt||ns.updatedAt||now();
+  rec.previousVersion=rec.previousVersion||ns.previousVersion||'';
+  rec.source=rec.source||source||'compat-history';
+  await put(rec);
   return true;
 }
-async function saveState(st,reason){
-  if(!st||!st.dataVersion)return false;
-  installState(st);
-  try{if(window.hrIndexedDB&&typeof window.hrIndexedDB.saveChanges==='function')await window.hrIndexedDB.saveChanges(clone(st.summary),clone(st.history),'r1544-'+clean(reason||'save'))}catch(e){}
-  return true;
-}
-function legacyState(v){
-  var s=null,h=null;
-  try{s=readJSON(CHANGE_SUMMARY_CACHE_KEY)||readJSON('hr_persistent_change_summary_r1515')}catch(e){}
-  try{h=readJSON(CHANGE_HISTORY_CACHE_KEY)||readJSON('hr_persistent_change_history_r1515')}catch(e){}
-  if(!s){var hv=normalizeHistory(h).versions;for(var i=hv.length-1;i>=0;i--){if(meaningfulSummary(hv[i])){s=hv[i];break}}}
-  if(!s)return null;
-  var oldV=clean(s.dataVersion||s.version);
-  var ns=normalizeSummary(s,v);
-  return {schemaVersion:1544,dataVersion:v,summary:ns,history:mergeHistory(h,ns,oldV),savedAt:now(),migrated:true};
-}
-function stateFromIDB(rec,v){
-  if(!rec||(!rec.summary&&!rec.history))return null;
-  var s=rec.summary||null,rv=clean(s&&(s.dataVersion||s.version));
-  if(!rv)rv=v;
-  if(!rv)return null;
-  if(!s)s=emptySummary(rv,'');
-  var ns=normalizeSummary(s,rv);
-  return {schemaVersion:1544,dataVersion:rv,summary:ns,history:mergeHistory(rec.history,ns,''),savedAt:rec.savedAt||now()};
-}
-async function restore(reason){
-  if(restoring)return false;
-  restoring=true;
+async function importCompat(){
+  var hs=compatHistories();
+  for(var i=0;i<hs.length;i++){
+    var vv=arr(hs[i].versions);
+    for(var j=0;j<vv.length;j++)await importSummary(vv[j],'compat-history');
+  }
   try{
-    var v=dataVersion(),st=readState();
-    if(st&&(!v||st.dataVersion===v)){installState(st);return true}
-    var rec=null;
-    try{if(window.hrIndexedDB&&typeof window.hrIndexedDB.loadChanges==='function')rec=await window.hrIndexedDB.loadChanges()}catch(e){}
-    var idb=stateFromIDB(rec,v);
-    if(idb&&(!v||idb.dataVersion===v)){await saveState(idb,reason||'idb-restore');return true}
-    if(v&&!st){
-      var legacy=legacyState(v);
-      if(legacy){await saveState(legacy,'legacy-migration');return true}
+    if(window.hrIndexedDB&&typeof window.hrIndexedDB.loadChanges==='function'){
+      var c=await window.hrIndexedDB.loadChanges();
+      if(c&&c.history&&Array.isArray(c.history.versions)){
+        for(var k=0;k<c.history.versions.length;k++)await importSummary(c.history.versions[k],'indexeddb-history');
+      }
+      if(c&&c.summary)await importSummary(c.summary,'indexeddb-summary');
     }
-    return false;
-  }finally{restoring=false}
+  }catch(e){}
 }
-async function advance(beforeV,beforeSummary,beforeData,reason){
-  var afterV=dataVersion();
-  if(!beforeV||!afterV||beforeV===afterV){await restore('same-data-version');return false}
-  var st=readState();
-  if(st&&st.dataVersion===afterV){installState(st);return true}
-  var current=null;
-  try{current=(typeof LAST_CHANGE_SUMMARY!=='undefined')?LAST_CHANGE_SUMMARY:null}catch(e){}
-  var candidate=null;
-  if(current&&current!==beforeSummary&&meaningfulSummary(current))candidate=normalizeSummary(current,afterV);
-  if(!candidate)candidate=diffSummary(beforeData,snapshot(),afterV,beforeV);
-  candidate.previousVersion=beforeV;
-  var previous=st||legacyState(beforeV);
-  var history=mergeHistory(previous&&previous.history,candidate,'');
-  var next={schemaVersion:1544,dataVersion:afterV,summary:candidate,history:history,savedAt:now(),reason:clean(reason||'data-version-change')};
-  await saveState(next,'new-data-version');
-  try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates()}catch(e){}
-  try{if(typeof updateExcelMasterUI==='function')updateExcelMasterUI()}catch(e){}
+async function importSafetyBackups(){
+  if(typeof idbGetAll!=='function')return 0;
+  var items=[];
+  try{items=await idbGetAll('backups')}catch(e){return 0}
+  items=arr(items).filter(function(x){return x&&clean(x.sourceVersion)&&Array.isArray(x.perm)&&Array.isArray(x.cont)}).sort(function(a,b){return String(a.createdAt||'').localeCompare(String(b.createdAt||''))});
+  var byVersion={};
+  items.forEach(function(x){byVersion[clean(x.sourceVersion)]=x});
+  var keys=Object.keys(byVersion),count=0;
+  for(var i=0;i<keys.length;i++){
+    var v=keys[i],x=byVersion[v],old=await get(v);
+    var rec=old||{version:v,createdAt:x.createdAt||now()};
+    if(!rec.snapshot)rec.snapshot={perm:clone(x.perm),cont:clone(x.cont)};
+    rec.updatedAt=rec.updatedAt||x.createdAt||now();
+    rec.source=rec.source||'safety-backup-recovery';
+    await put(rec);count++;
+  }
+  return count;
+}
+async function ensureCurrent(){
+  var v=currentVersion(),ds=snapshot();
+  if(!v||!validSnapshot(ds))return false;
+  var rec=await get(v);
+  if(!rec){
+    rec={version:v,createdAt:now(),updatedAt:now(),source:'current-data-baseline',snapshot:clone(ds),summary:null};
+    await put(rec);
+  }else if(!rec.snapshot){
+    rec.snapshot=clone(ds);rec.source=rec.source||'current-data-snapshot';await put(rec);
+  }
   return true;
 }
-function sync(){var v=dataVersion(),st=readState();if(st&&v&&st.dataVersion===v){installState(st);return st}return null}
-function wrapBuild(){
-  try{if(typeof buildUpdates!=='function'||buildUpdates.__r1544Wrapped)return false;var old=buildUpdates;buildUpdates=function(){sync();return old.apply(this,arguments)};buildUpdates.__r1544Wrapped=true;return true}catch(e){return false}
+async function rebuild(){
+  var list=orderRecords(await all());
+  for(var i=0;i<list.length;i++){
+    var cur=list[i],prev=i>0?list[i-1]:null;
+    if(!cur.summary){
+      if(prev&&validSnapshot(prev.snapshot)&&validSnapshot(cur.snapshot)){
+        cur.summary=summary(prev.snapshot,cur.snapshot,cur.version,prev.version,cur.updatedAt||cur.createdAt,'snapshot-recovery');
+        cur.previousVersion=prev.version;
+      }else{
+        cur.summary=baseline(cur.snapshot||{perm:[],cont:[]},cur.version,cur.updatedAt||cur.createdAt,'release-baseline');
+        cur.previousVersion=cur.previousVersion||'';
+      }
+      await put(cur);
+    }else{
+      cur.summary=normalizeSummary(cur.summary,cur.version);
+      if(prev&&!cur.summary.previousVersion)cur.summary.previousVersion=prev.version;
+      cur.previousVersion=cur.summary.previousVersion||cur.previousVersion||'';
+      await put(cur);
+    }
+  }
+  return orderRecords(await all());
 }
-function wrapExcel(){
-  try{if(typeof updateExcelMasterUI!=='function'||updateExcelMasterUI.__r1544Wrapped)return false;var old=updateExcelMasterUI;updateExcelMasterUI=function(){sync();return old.apply(this,arguments)};updateExcelMasterUI.__r1544Wrapped=true;return true}catch(e){return false}
+async function prune(){
+  var list=orderRecords(await all());
+  if(list.length>MAX_RELEASES){
+    var extra=list.slice(0,list.length-MAX_RELEASES);
+    for(var i=0;i<extra.length;i++)await del(extra[i].version);
+    list=orderRecords(await all());
+  }
+  var withSnap=list.filter(function(x){return validSnapshot(x.snapshot)});
+  if(withSnap.length>MAX_SNAPSHOTS){
+    var drop=withSnap.slice(0,withSnap.length-MAX_SNAPSHOTS);
+    for(var j=0;j<drop.length;j++){drop[j].snapshot=null;await put(drop[j])}
+  }
+}
+async function publish(){
+  var list=orderRecords(await all()),versions=list.map(function(x){return normalizeSummary(x.summary,x.version)}).filter(Boolean);
+  var cv=currentVersion(),cur=versions.find(function(x){return clean(x.version)===cv})||versions[versions.length-1]||null;
+  try{CHANGE_HISTORY={schemaVersion:1545,versions:clone(versions)}}catch(e){}
+  try{LAST_CHANGE_SUMMARY=cur?clone(cur):null}catch(e){}
+  try{localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(CHANGE_HISTORY))}catch(e){}
+  try{if(cur)localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(cur))}catch(e){}
+  try{localStorage.setItem('hr_persistent_change_history_r1515',JSON.stringify(CHANGE_HISTORY))}catch(e){}
+  try{if(cur)localStorage.setItem('hr_persistent_change_summary_r1515',JSON.stringify(cur))}catch(e){}
+  try{if(window.hrIndexedDB&&typeof window.hrIndexedDB.saveChanges==='function')await window.hrIndexedDB.saveChanges(cur,CHANGE_HISTORY,'r1545-data-release-ledger')}catch(e){}
+  try{if(typeof updateExcelMasterUI==='function')updateExcelMasterUI()}catch(e){}
+  return {versions:versions,current:cur};
+}
+async function recover(){
+  if(busy)return false;busy=true;
+  try{
+    await importCompat();
+    await importSafetyBackups();
+    await ensureCurrent();
+    await rebuild();
+    await prune();
+    await publish();
+    return true;
+  }catch(e){
+    try{console.warn('R1.5.45 ledger recovery skipped',e)}catch(_){}
+    return false;
+  }finally{busy=false}
+}
+async function captureTransition(beforeV,beforeData,reason){
+  var afterV=currentVersion(),afterData=snapshot();
+  if(!beforeV||!afterV||beforeV===afterV||!validSnapshot(afterData)){await recover();return false}
+  var old=await get(beforeV);
+  if(!old)old={version:beforeV,createdAt:now(),updatedAt:now(),source:'captured-before-transition'};
+  if(!old.snapshot&&validSnapshot(beforeData))old.snapshot=clone(beforeData);
+  await put(old);
+  var cur=await get(afterV);
+  if(!cur)cur={version:afterV,createdAt:now(),updatedAt:now(),source:reason||'data-version-change'};
+  cur.snapshot=clone(afterData);
+  cur.previousVersion=beforeV;
+  cur.summary=summary(old.snapshot||beforeData,afterData,afterV,beforeV,cur.updatedAt,'official-data-version-change');
+  await put(cur);
+  await rebuild();await prune();await publish();
+  try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates()}catch(e){}
+  return true;
 }
 function wrapApply(){
   try{
-    if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1544Wrapped)return false;
+    if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1545Wrapped)return false;
     var old=r1509ApplySecureDataset;
     r1509ApplySecureDataset=function(){
-      var beforeV=dataVersion(),beforeSummary=null,beforeData=snapshot();
-      try{beforeSummary=(typeof LAST_CHANGE_SUMMARY!=='undefined')?LAST_CHANGE_SUMMARY:null}catch(e){}
-      var ok=old.apply(this,arguments),afterV=dataVersion();
-      if(ok&&beforeV&&afterV&&beforeV!==afterV)setTimeout(function(){advance(beforeV,beforeSummary,beforeData,'secure-apply')},0);
-      else if(ok)setTimeout(function(){restore('secure-same-version')},0);
+      var beforeV=currentVersion(),beforeData=snapshot();
+      var ok=old.apply(this,arguments),afterV=currentVersion();
+      if(ok&&beforeV&&afterV&&beforeV!==afterV)setTimeout(function(){captureTransition(beforeV,beforeData,'secure-apply')},0);
+      else if(ok)setTimeout(recover,0);
       return ok;
     };
-    r1509ApplySecureDataset.__r1544Wrapped=true;
+    r1509ApplySecureDataset.__r1545Wrapped=true;
     try{window.r1509ApplySecureDataset=r1509ApplySecureDataset}catch(e){}
     return true;
   }catch(e){return false}
 }
 function wrapLoad(){
   try{
-    if(typeof loadCentralData!=='function'||loadCentralData.__r1544Wrapped)return false;
+    if(typeof loadCentralData!=='function'||loadCentralData.__r1545Wrapped)return false;
     var old=loadCentralData;
     loadCentralData=async function(){
-      var beforeV=dataVersion(),beforeSummary=null,beforeData=snapshot();
-      try{beforeSummary=(typeof LAST_CHANGE_SUMMARY!=='undefined')?LAST_CHANGE_SUMMARY:null}catch(e){}
-      var out=await old.apply(this,arguments),afterV=dataVersion();
-      if(beforeV&&afterV&&beforeV!==afterV)await advance(beforeV,beforeSummary,beforeData,'load-central');
-      else await restore('load-central-same-version');
+      var beforeV=currentVersion(),beforeData=snapshot(),out=await old.apply(this,arguments),afterV=currentVersion();
+      if(beforeV&&afterV&&beforeV!==afterV)await captureTransition(beforeV,beforeData,'load-central');
+      else await recover();
       return out;
     };
-    loadCentralData.__r1544Wrapped=true;
+    loadCentralData.__r1545Wrapped=true;
     return true;
   }catch(e){return false}
 }
-function install(){wrapBuild();wrapExcel();wrapApply();wrapLoad()}
-function boot(){install();restore('boot').then(function(ok){if(ok){try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates()}catch(e){}try{if(typeof updateExcelMasterUI==='function')updateExcelMasterUI()}catch(e){}}}).catch(function(){})}
+function wrapBuild(){
+  try{
+    if(typeof buildUpdates!=='function'||buildUpdates.__r1545Wrapped)return false;
+    var old=buildUpdates;
+    buildUpdates=function(){var r=old.apply(this,arguments);setTimeout(recover,0);return r};
+    buildUpdates.__r1545Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+function install(){wrapApply();wrapLoad();wrapBuild()}
+function boot(){install();recover().then(function(){try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates()}catch(e){}}).catch(function(){})}
 install();
-document.addEventListener('DOMContentLoaded',function(){boot();setTimeout(boot,500);setTimeout(boot,1800)});
-window.addEventListener('load',function(){setTimeout(boot,250);setTimeout(boot,1200);setTimeout(boot,3000)});
-window.addEventListener('pageshow',function(){setTimeout(boot,120)});
-document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(boot,120)});
-window.r1544DataChangeLedger={release:RELEASE,restore:restore,state:function(){return clone(readState())},dataVersion:dataVersion};
+document.addEventListener('DOMContentLoaded',function(){boot();setTimeout(boot,600);setTimeout(boot,1800)});
+window.addEventListener('load',function(){setTimeout(boot,300);setTimeout(boot,1400);setTimeout(boot,3200)});
+window.addEventListener('pageshow',function(){setTimeout(boot,160)});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(boot,160)});
+window.r1545DataReleaseLedger={release:RELEASE,recover:recover,list:all,currentVersion:currentVersion};
 })();
 </script>
-<!-- R1544_DATA_CHANGE_LEDGER_STICKY -->
-<!-- MOBILE-R1.5.44-DATA-CHANGE-LEDGER-STICKY
-     Data-change ledger persistence fix. Mobile interface releases no longer clear the current Windows data-change set. -->
-<script id="r1544-data-change-ledger-sticky">
+<style id="r1545-dashboard-alert-removal-style">
+#r1502-dashboard .r1502-module-card[data-key="service"]{grid-column:1 / -1}
+</style>
+<!-- R1545_DATA_RELEASE_LEDGER_RECOVERY -->
+<!-- MOBILE-R1.5.45-DATA-RELEASE-LEDGER-RECOVERY
+     Durable data-release ledger with snapshot recovery. Alerts dashboard card removed. -->
+<script id="r1545-data-release-ledger-recovery">
 (function(){
   'use strict';
-  var RELEASE='MOBILE-R1.5.44-DATA-CHANGE-LEDGER-STICKY';
+  var RELEASE='MOBILE-R1.5.45-DATA-RELEASE-LEDGER-RECOVERY';
   var META_NAME='app-release';
-  var LAST_CHECK_KEY='emp_r1544_last_manual_update_check';
-  var LAST_APPLY_KEY='emp_r1544_last_manual_apply';
+  var LAST_CHECK_KEY='emp_r1545_last_manual_update_check';
+  var LAST_APPLY_KEY='emp_r1545_last_manual_apply';
 
   function setRelease(){
     try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
@@ -9208,7 +9334,7 @@ window.r1544DataChangeLedger={release:RELEASE,restore:restore,state:function(){r
     if(navigator.onLine===false)return '';
     var u=new URL('index.html',location.href);
     u.searchParams.set('_release_check',Date.now().toString());
-    u.searchParams.set('v','1544');
+    u.searchParams.set('v','1545');
     var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});
     if(!res.ok)throw new Error('HTTP '+res.status);
     return canonicalFromHtml(await res.text());
@@ -9246,7 +9372,7 @@ window.r1544DataChangeLedger={release:RELEASE,restore:restore,state:function(){r
     if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return;}
     var run=async function(){
       put(LAST_APPLY_KEY,nowISO());
-      try{sessionStorage.setItem('emp_r1544_manual_update_once','1');}catch(e){}
+      try{sessionStorage.setItem('emp_r1545_manual_update_once','1');}catch(e){}
       if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');
       try{
         if('caches' in window){
@@ -9256,14 +9382,14 @@ window.r1544DataChangeLedger={release:RELEASE,restore:restore,state:function(){r
       }catch(e){}
       try{
         if('serviceWorker' in navigator){
-          var reg=await navigator.serviceWorker.register('service-worker.js?v=1544&_u='+Date.now(),{scope:'./',updateViaCache:'none'});
+          var reg=await navigator.serviceWorker.register('service-worker.js?v=1545&_u='+Date.now(),{scope:'./',updateViaCache:'none'});
           try{await reg.update();}catch(e){}
           try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}
         }
       }catch(e){}
       var u=new URL('index.html',location.href);
       u.search='';
-      u.searchParams.set('v','1544');
+      u.searchParams.set('v','1545');
       u.searchParams.set('_manual_update',Date.now().toString());
       location.replace(u.toString());
     };
@@ -9283,11 +9409,11 @@ window.r1544DataChangeLedger={release:RELEASE,restore:restore,state:function(){r
   try{r71CheckAll=async function(){await checkUpdate(true);};}catch(e){}
   try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false;};}catch(e){}
   try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط';}catch(e){}return false;};}catch(e){}
-  try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1544',{scope:'./',updateViaCache:'none'});}catch(e){}};}catch(e){}
+  try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1545',{scope:'./',updateViaCache:'none'});}catch(e){}};}catch(e){}
 
   // Keep the release authoritative even if a delayed legacy callback touches APP_RELEASE.
   document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200);});
   window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500);});
-  window.r1544CanonicalReleaseFix={release:RELEASE,check:checkUpdate,apply:applyUpdate,fetchPublishedRelease:fetchPublishedRelease};
+  window.r1545CanonicalReleaseFix={release:RELEASE,check:checkUpdate,apply:applyUpdate,fetchPublishedRelease:fetchPublishedRelease};
 })();
 </script>\n

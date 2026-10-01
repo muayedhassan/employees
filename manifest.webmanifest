@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.44",
-  "short_name": "HR Mobile R1.5.44",
+  "name": "سجل الموظفين - Mobile R1.5.45",
+  "short_name": "HR Mobile R1.5.45",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.44 keeps the current data-change ledger across app-interface updates and advances it only when DATA_VERSION changes.",
+  "description": "R1.5.45 adds a durable DATA_VERSION release ledger with local snapshot recovery and removes the duplicate Alerts dashboard card.",
   "icons": [
     {
       "src": "assets/icon-192.png",
