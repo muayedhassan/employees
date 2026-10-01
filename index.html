@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.43-DASHBOARD-CARD-ORDER">
+<meta name="app-release" content="MOBILE-R1.5.44-DATA-CHANGE-LEDGER-STICKY">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -2234,8 +2234,6 @@ async function loadCentralData(forceRefresh){
   try{
     var secure=await hr1508FetchSecureDataset(forceRefresh);
     if(secure && applyDataset(secure)){
-      LAST_CHANGE_SUMMARY=null;
-      CHANGE_HISTORY={schemaVersion:1,versions:[]};
       cacheCentral(secure);
       LAST_DATA_STATUS='تم تحميل بيانات الدائمين والعقود من Google Sheets الآمنة: '+BASE.perm.length+' دائم • '+BASE.cont.length+' عقد';
       updateExcelMasterUI();
@@ -5834,7 +5832,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   }
   function setActive(v){var isPerm=mode==='perm',isCont=mode==='cont',cls=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){var t=document.getElementById(x==='titlematch'?TAB_ID:'stab-'+x);if(t){var on=v===x;t.className='sub-tab'+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');}});}
   function clearMatch(){document.body.classList.remove('subview-titlematch');var v=document.getElementById(VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
-  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1543'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
+  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1544'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
   function buildIndex(data){var rows=(data&&data.rows)||[],by={},any={};rows.forEach(function(r){var d=degLabel(r.degree),t=String(r.title||'').trim(),n=norm(t);if(!d||!n)return;(by[d]=by[d]||{});(by[d][n]=by[d][n]||[]).push(t);(any[n]=any[n]||[]).push(d);});return{by:by,any:any,rows:rows};}
   function suggest(title,degree,idx){var n=norm(title),words=n.split(' ').filter(Boolean),src=(idx.rows||[]).filter(function(r){return degLabel(r.degree)===degree;});var scored=[];src.forEach(function(r){var rn=norm(r.title||'');if(!rn)return;var score=0;words.forEach(function(w){if(w.length>2&&rn.indexOf(w)>=0)score+=2;});if(rn.indexOf(n)>=0||n.indexOf(rn)>=0)score+=5;if(score>0)scored.push({t:r.title,s:score});});return scored.sort(function(a,b){return b.s-a.s;}).slice(0,3).map(function(x){return x.t;});}
   function analyze(){return loadTitles().then(function(data){var idx=buildIndex(data),emps=allEmployees();state.rows=emps.map(function(e,i){var title=String(e.jobTitle||'').trim(),degree=degLabel(e.grade),nt=norm(title),cls='unknown',label='غير موجود',note='العنوان غير موجود في دليل العناوين الوظيفية.',sugg=[];if(!title||!degree){cls='missing';label='نقص بيانات';note=!title&&!degree?'لا يوجد عنوان وظيفي ولا درجة.':(!title?'لا يوجد عنوان وظيفي.':'لا توجد درجة وظيفية واضحة.');}
@@ -7929,7 +7927,6 @@ function makeSummary(before,after,reason){
   if(!modified.length&&!added.length&&!missing.length)return null;
   var now=new Date().toISOString();
   var version=(typeof DATA_VERSION!=='undefined'&&DATA_VERSION&&DATA_VERSION!=='غير معروف')?String(DATA_VERSION):now;
-  if(version===window.__r1514LastVersion){version=now}
   window.__r1514LastVersion=version;
   return {schemaVersion:1514,source:'local-secure-cache-diff',reason:reason||'secure-refresh',version:version,previousVersion:(LAST_CHANGE_SUMMARY&&LAST_CHANGE_SUMMARY.version)||'',updatedAt:now,counts:{modified:modified.length,added:added.length,missing:missing.length,total:newTotal,excelRows:newTotal},modified:modified,added:added,missing:missing};
 }
@@ -7986,6 +7983,7 @@ function meaningfulChanges(changes){
 }
 function meaningfulSummary(s){
   if(!s||typeof s!=='object')return false;
+  if(s.__r1544CurrentDataVersion===true)return true;
   if(arr(s.modified).some(function(x){return meaningfulChanges(x&&x.changes)}))return true;
   if(arr(s.added).length||arr(s.missing).length)return true;
   return false;
@@ -8947,8 +8945,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1543';
-  var KEEP_CACHE='employee-registry-ui-r1543';
+  var SW_URL='service-worker.js?v=1544';
+  var KEEP_CACHE='employee-registry-ui-r1544';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -8982,7 +8980,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   async function maintain(){
     await purgeLegacyInterfaceCaches();
     await installFreshWorker();
-    try{localStorage.setItem('hr_mobile_ui_cache_release','1543');}catch(e){}
+    try{localStorage.setItem('hr_mobile_ui_cache_release','1544');}catch(e){}
   }
 
   if(document.readyState==='complete')setTimeout(maintain,0);
@@ -9015,16 +9013,176 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 #r1502-dashboard .r1502-module-card[data-key="system"]{
   grid-column:1 / -1;
 }
-</style><!-- R1543_DASHBOARD_CARD_ORDER -->
-<!-- MOBILE-R1.5.43-DASHBOARD-CARD-ORDER
-     Static scope-title correction on the stable canonical release path. No injected runtime title script. -->
-<script id="r1543-dashboard-card-order">
+</style><script id="r1544-data-change-ledger-sticky-script">
+(function(){
+'use strict';
+var RELEASE='MOBILE-R1.5.44-DATA-CHANGE-LEDGER-STICKY';
+var STATE_KEY='hr_data_change_ledger_r1544';
+var memoryState=null;
+var restoring=false;
+var FIELDS=['name','fourName','motherName','gender','identityNo','identityIssueDate','identityIssuer','division','employmentStatus','education','jobTitle','specialization','grade','step','salary','birthDate','hireDate','firstAssignmentDate','nextBonusDate','nextPromotionDate','notes','serviceNotes','appointmentOrderNo','appointmentOrderDate','employeeNo','num'];
+
+function clone(v){try{return JSON.parse(JSON.stringify(v))}catch(e){return v}}
+function arr(v){return Array.isArray(v)?v:[]}
+function clean(v){return v===null||v===undefined?'':String(v).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
+function sem(field,v){var s=clean(v);if(s==='—'||s==='غير متوفر')return '';if(field==='salary'||field==='grade'||field==='step'||field==='num'){var n=Number(String(s).replace(/[^0-9.\-]/g,''));return isNaN(n)?s:String(n)}return s}
+function now(){return new Date().toISOString()}
+function dataVersion(){try{var v=clean(typeof DATA_VERSION!=='undefined'?DATA_VERSION:'');return v&&v!=='غير معروف'?v:''}catch(e){return ''}}
+function snapshot(){try{return {perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])}}catch(e){return {perm:[],cont:[]}}}
+function typeOf(e,fallback){return e&&e.type?String(e.type):(fallback||'')}
+function key(e,fallbackType){if(!e)return '';var t=typeOf(e,fallbackType),emp=clean(e.employeeNo);if(emp)return t+'|emp|'+emp;var id=clean(e.integrationId||e.id||e.bridgeId);if(id)return t+'|id|'+id;var num=clean(e.num);if(num)return t+'|num|'+num;var name=clean(e.name);return name?t+'|name|'+name:''}
+function indexData(ds){var m={};arr(ds.perm).forEach(function(e){var k=key(e,'perm');if(k)m[k]=e});arr(ds.cont).forEach(function(e){var k=key(e,'cont');if(k)m[k]=e});return m}
+function ref(e){return {id:e.id||'',integrationId:e.integrationId||e.id||'',bridgeId:e.bridgeId||'',employeeNo:e.employeeNo||'',num:e.num||'',name:e.name||'',type:e.type||''}}
+function changes(a,b){var out=[];FIELDS.forEach(function(f){var x=a?a[f]:'',y=b?b[f]:'';if(sem(f,x)!==sem(f,y))out.push({field:f,oldValue:x==null?'':x,newValue:y==null?'':y})});return out}
+function meaningfulChanges(ch){return arr(ch).some(function(c){return clean(c&&c.oldValue)!==clean(c&&c.newValue)})}
+function meaningfulSummary(s){if(!s||typeof s!=='object')return false;if(s.__r1544CurrentDataVersion===true)return true;if(arr(s.modified).some(function(x){return meaningfulChanges(x&&x.changes)}))return true;return arr(s.added).length>0||arr(s.missing).length>0}
+function emptySummary(v,prev){return {schemaVersion:1544,source:'data-version-ledger',__r1544CurrentDataVersion:true,dataVersion:v||'',version:v||'',previousVersion:prev||'',updatedAt:now(),counts:{modified:0,added:0,missing:0,total:0,excelRows:0},modified:[],added:[],missing:[]}}
+function diffSummary(before,after,v,prev){
+  var old=indexData(before||{}),nu=indexData(after||{}),modified=[],added=[],missing=[];
+  Object.keys(nu).forEach(function(k){var n=nu[k],o=old[k];if(!o){added.push(ref(n));return}var ch=changes(o,n);if(ch.length){var x=ref(n);x.previousName=o.name||'';x.changes=ch;modified.push(x)}});
+  Object.keys(old).forEach(function(k){if(!nu[k])missing.push(ref(old[k]))});
+  var total=arr(after&&after.perm).length+arr(after&&after.cont).length;
+  return {schemaVersion:1544,source:'data-version-ledger',__r1544CurrentDataVersion:true,dataVersion:v||'',version:v||'',previousVersion:prev||'',updatedAt:now(),counts:{modified:modified.length,added:added.length,missing:missing.length,total:total,excelRows:total},modified:modified,added:added,missing:missing};
+}
+function normalizeSummary(s,v){var x=clone(s||emptySummary(v,''));x.schemaVersion=1544;x.__r1544CurrentDataVersion=true;x.dataVersion=v||x.dataVersion||x.version||'';x.version=x.dataVersion;x.updatedAt=x.updatedAt||now();x.counts=x.counts||{};x.modified=arr(x.modified);x.added=arr(x.added);x.missing=arr(x.missing);return x}
+function normalizeHistory(h){var x=(h&&Array.isArray(h.versions))?clone(h):{schemaVersion:1544,versions:[]};x.schemaVersion=1544;x.versions=arr(x.versions);return x}
+function readJSON(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+function writeJSON(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+function readState(){if(memoryState&&memoryState.dataVersion)return memoryState;var x=readJSON(STATE_KEY);if(x&&x.dataVersion){memoryState=x;return x}return null}
+function mergeHistory(h,s,dropVersion){h=normalizeHistory(h);var v=clean(s&&s.dataVersion);h.versions=h.versions.filter(function(x){if(!x)return false;var xv=clean(x.dataVersion||x.version);if(v&&xv===v)return false;if(dropVersion&&xv===dropVersion)return false;return true});h.versions.push(clone(s));if(h.versions.length>30)h.versions=h.versions.slice(-30);return h}
+function installState(st){
+  if(!st||!st.dataVersion)return false;
+  memoryState=st;
+  try{LAST_CHANGE_SUMMARY=clone(st.summary||emptySummary(st.dataVersion,''))}catch(e){}
+  try{CHANGE_HISTORY=normalizeHistory(st.history)}catch(e){}
+  writeJSON(STATE_KEY,st);
+  try{writeJSON(CHANGE_SUMMARY_CACHE_KEY,LAST_CHANGE_SUMMARY)}catch(e){}
+  try{writeJSON(CHANGE_HISTORY_CACHE_KEY,CHANGE_HISTORY)}catch(e){}
+  writeJSON('hr_persistent_change_summary_r1515',LAST_CHANGE_SUMMARY);
+  writeJSON('hr_persistent_change_history_r1515',CHANGE_HISTORY);
+  return true;
+}
+async function saveState(st,reason){
+  if(!st||!st.dataVersion)return false;
+  installState(st);
+  try{if(window.hrIndexedDB&&typeof window.hrIndexedDB.saveChanges==='function')await window.hrIndexedDB.saveChanges(clone(st.summary),clone(st.history),'r1544-'+clean(reason||'save'))}catch(e){}
+  return true;
+}
+function legacyState(v){
+  var s=null,h=null;
+  try{s=readJSON(CHANGE_SUMMARY_CACHE_KEY)||readJSON('hr_persistent_change_summary_r1515')}catch(e){}
+  try{h=readJSON(CHANGE_HISTORY_CACHE_KEY)||readJSON('hr_persistent_change_history_r1515')}catch(e){}
+  if(!s){var hv=normalizeHistory(h).versions;for(var i=hv.length-1;i>=0;i--){if(meaningfulSummary(hv[i])){s=hv[i];break}}}
+  if(!s)return null;
+  var oldV=clean(s.dataVersion||s.version);
+  var ns=normalizeSummary(s,v);
+  return {schemaVersion:1544,dataVersion:v,summary:ns,history:mergeHistory(h,ns,oldV),savedAt:now(),migrated:true};
+}
+function stateFromIDB(rec,v){
+  if(!rec||(!rec.summary&&!rec.history))return null;
+  var s=rec.summary||null,rv=clean(s&&(s.dataVersion||s.version));
+  if(!rv)rv=v;
+  if(!rv)return null;
+  if(!s)s=emptySummary(rv,'');
+  var ns=normalizeSummary(s,rv);
+  return {schemaVersion:1544,dataVersion:rv,summary:ns,history:mergeHistory(rec.history,ns,''),savedAt:rec.savedAt||now()};
+}
+async function restore(reason){
+  if(restoring)return false;
+  restoring=true;
+  try{
+    var v=dataVersion(),st=readState();
+    if(st&&(!v||st.dataVersion===v)){installState(st);return true}
+    var rec=null;
+    try{if(window.hrIndexedDB&&typeof window.hrIndexedDB.loadChanges==='function')rec=await window.hrIndexedDB.loadChanges()}catch(e){}
+    var idb=stateFromIDB(rec,v);
+    if(idb&&(!v||idb.dataVersion===v)){await saveState(idb,reason||'idb-restore');return true}
+    if(v&&!st){
+      var legacy=legacyState(v);
+      if(legacy){await saveState(legacy,'legacy-migration');return true}
+    }
+    return false;
+  }finally{restoring=false}
+}
+async function advance(beforeV,beforeSummary,beforeData,reason){
+  var afterV=dataVersion();
+  if(!beforeV||!afterV||beforeV===afterV){await restore('same-data-version');return false}
+  var st=readState();
+  if(st&&st.dataVersion===afterV){installState(st);return true}
+  var current=null;
+  try{current=(typeof LAST_CHANGE_SUMMARY!=='undefined')?LAST_CHANGE_SUMMARY:null}catch(e){}
+  var candidate=null;
+  if(current&&current!==beforeSummary&&meaningfulSummary(current))candidate=normalizeSummary(current,afterV);
+  if(!candidate)candidate=diffSummary(beforeData,snapshot(),afterV,beforeV);
+  candidate.previousVersion=beforeV;
+  var previous=st||legacyState(beforeV);
+  var history=mergeHistory(previous&&previous.history,candidate,'');
+  var next={schemaVersion:1544,dataVersion:afterV,summary:candidate,history:history,savedAt:now(),reason:clean(reason||'data-version-change')};
+  await saveState(next,'new-data-version');
+  try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates()}catch(e){}
+  try{if(typeof updateExcelMasterUI==='function')updateExcelMasterUI()}catch(e){}
+  return true;
+}
+function sync(){var v=dataVersion(),st=readState();if(st&&v&&st.dataVersion===v){installState(st);return st}return null}
+function wrapBuild(){
+  try{if(typeof buildUpdates!=='function'||buildUpdates.__r1544Wrapped)return false;var old=buildUpdates;buildUpdates=function(){sync();return old.apply(this,arguments)};buildUpdates.__r1544Wrapped=true;return true}catch(e){return false}
+}
+function wrapExcel(){
+  try{if(typeof updateExcelMasterUI!=='function'||updateExcelMasterUI.__r1544Wrapped)return false;var old=updateExcelMasterUI;updateExcelMasterUI=function(){sync();return old.apply(this,arguments)};updateExcelMasterUI.__r1544Wrapped=true;return true}catch(e){return false}
+}
+function wrapApply(){
+  try{
+    if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1544Wrapped)return false;
+    var old=r1509ApplySecureDataset;
+    r1509ApplySecureDataset=function(){
+      var beforeV=dataVersion(),beforeSummary=null,beforeData=snapshot();
+      try{beforeSummary=(typeof LAST_CHANGE_SUMMARY!=='undefined')?LAST_CHANGE_SUMMARY:null}catch(e){}
+      var ok=old.apply(this,arguments),afterV=dataVersion();
+      if(ok&&beforeV&&afterV&&beforeV!==afterV)setTimeout(function(){advance(beforeV,beforeSummary,beforeData,'secure-apply')},0);
+      else if(ok)setTimeout(function(){restore('secure-same-version')},0);
+      return ok;
+    };
+    r1509ApplySecureDataset.__r1544Wrapped=true;
+    try{window.r1509ApplySecureDataset=r1509ApplySecureDataset}catch(e){}
+    return true;
+  }catch(e){return false}
+}
+function wrapLoad(){
+  try{
+    if(typeof loadCentralData!=='function'||loadCentralData.__r1544Wrapped)return false;
+    var old=loadCentralData;
+    loadCentralData=async function(){
+      var beforeV=dataVersion(),beforeSummary=null,beforeData=snapshot();
+      try{beforeSummary=(typeof LAST_CHANGE_SUMMARY!=='undefined')?LAST_CHANGE_SUMMARY:null}catch(e){}
+      var out=await old.apply(this,arguments),afterV=dataVersion();
+      if(beforeV&&afterV&&beforeV!==afterV)await advance(beforeV,beforeSummary,beforeData,'load-central');
+      else await restore('load-central-same-version');
+      return out;
+    };
+    loadCentralData.__r1544Wrapped=true;
+    return true;
+  }catch(e){return false}
+}
+function install(){wrapBuild();wrapExcel();wrapApply();wrapLoad()}
+function boot(){install();restore('boot').then(function(ok){if(ok){try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates()}catch(e){}try{if(typeof updateExcelMasterUI==='function')updateExcelMasterUI()}catch(e){}}}).catch(function(){})}
+install();
+document.addEventListener('DOMContentLoaded',function(){boot();setTimeout(boot,500);setTimeout(boot,1800)});
+window.addEventListener('load',function(){setTimeout(boot,250);setTimeout(boot,1200);setTimeout(boot,3000)});
+window.addEventListener('pageshow',function(){setTimeout(boot,120)});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(boot,120)});
+window.r1544DataChangeLedger={release:RELEASE,restore:restore,state:function(){return clone(readState())},dataVersion:dataVersion};
+})();
+</script>
+<!-- R1544_DATA_CHANGE_LEDGER_STICKY -->
+<!-- MOBILE-R1.5.44-DATA-CHANGE-LEDGER-STICKY
+     Data-change ledger persistence fix. Mobile interface releases no longer clear the current Windows data-change set. -->
+<script id="r1544-data-change-ledger-sticky">
 (function(){
   'use strict';
-  var RELEASE='MOBILE-R1.5.43-DASHBOARD-CARD-ORDER';
+  var RELEASE='MOBILE-R1.5.44-DATA-CHANGE-LEDGER-STICKY';
   var META_NAME='app-release';
-  var LAST_CHECK_KEY='emp_r1543_last_manual_update_check';
-  var LAST_APPLY_KEY='emp_r1543_last_manual_apply';
+  var LAST_CHECK_KEY='emp_r1544_last_manual_update_check';
+  var LAST_APPLY_KEY='emp_r1544_last_manual_apply';
 
   function setRelease(){
     try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
@@ -9050,7 +9208,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
     if(navigator.onLine===false)return '';
     var u=new URL('index.html',location.href);
     u.searchParams.set('_release_check',Date.now().toString());
-    u.searchParams.set('v','1543');
+    u.searchParams.set('v','1544');
     var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});
     if(!res.ok)throw new Error('HTTP '+res.status);
     return canonicalFromHtml(await res.text());
@@ -9088,7 +9246,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
     if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return;}
     var run=async function(){
       put(LAST_APPLY_KEY,nowISO());
-      try{sessionStorage.setItem('emp_r1543_manual_update_once','1');}catch(e){}
+      try{sessionStorage.setItem('emp_r1544_manual_update_once','1');}catch(e){}
       if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');
       try{
         if('caches' in window){
@@ -9098,14 +9256,14 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
       }catch(e){}
       try{
         if('serviceWorker' in navigator){
-          var reg=await navigator.serviceWorker.register('service-worker.js?v=1543&_u='+Date.now(),{scope:'./',updateViaCache:'none'});
+          var reg=await navigator.serviceWorker.register('service-worker.js?v=1544&_u='+Date.now(),{scope:'./',updateViaCache:'none'});
           try{await reg.update();}catch(e){}
           try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});}catch(e){}
         }
       }catch(e){}
       var u=new URL('index.html',location.href);
       u.search='';
-      u.searchParams.set('v','1543');
+      u.searchParams.set('v','1544');
       u.searchParams.set('_manual_update',Date.now().toString());
       location.replace(u.toString());
     };
@@ -9125,11 +9283,11 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   try{r71CheckAll=async function(){await checkUpdate(true);};}catch(e){}
   try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false;};}catch(e){}
   try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط';}catch(e){}return false;};}catch(e){}
-  try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1543',{scope:'./',updateViaCache:'none'});}catch(e){}};}catch(e){}
+  try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1544',{scope:'./',updateViaCache:'none'});}catch(e){}};}catch(e){}
 
   // Keep the release authoritative even if a delayed legacy callback touches APP_RELEASE.
   document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200);});
   window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500);});
-  window.r1543CanonicalReleaseFix={release:RELEASE,check:checkUpdate,apply:applyUpdate,fetchPublishedRelease:fetchPublishedRelease};
+  window.r1544CanonicalReleaseFix={release:RELEASE,check:checkUpdate,apply:applyUpdate,fetchPublishedRelease:fetchPublishedRelease};
 })();
 </script>\n
