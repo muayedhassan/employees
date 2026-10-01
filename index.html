@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.49-ADMIN-ARCHIVE-SHARED-DELETE">
+<meta name="app-release" content="MOBILE-R1.5.50-QUIET-MANAGER-NOTES-SYNC">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -5832,7 +5832,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   }
   function setActive(v){var isPerm=mode==='perm',isCont=mode==='cont',cls=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){var t=document.getElementById(x==='titlematch'?TAB_ID:'stab-'+x);if(t){var on=v===x;t.className='sub-tab'+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');}});}
   function clearMatch(){document.body.classList.remove('subview-titlematch');var v=document.getElementById(VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
-  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1549'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
+  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1550'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
   function buildIndex(data){var rows=(data&&data.rows)||[],by={},any={};rows.forEach(function(r){var d=degLabel(r.degree),t=String(r.title||'').trim(),n=norm(t);if(!d||!n)return;(by[d]=by[d]||{});(by[d][n]=by[d][n]||[]).push(t);(any[n]=any[n]||[]).push(d);});return{by:by,any:any,rows:rows};}
   function suggest(title,degree,idx){var n=norm(title),words=n.split(' ').filter(Boolean),src=(idx.rows||[]).filter(function(r){return degLabel(r.degree)===degree;});var scored=[];src.forEach(function(r){var rn=norm(r.title||'');if(!rn)return;var score=0;words.forEach(function(w){if(w.length>2&&rn.indexOf(w)>=0)score+=2;});if(rn.indexOf(n)>=0||n.indexOf(rn)>=0)score+=5;if(score>0)scored.push({t:r.title,s:score});});return scored.sort(function(a,b){return b.s-a.s;}).slice(0,3).map(function(x){return x.t;});}
   function analyze(){return loadTitles().then(function(data){var idx=buildIndex(data),emps=allEmployees();state.rows=emps.map(function(e,i){var title=String(e.jobTitle||'').trim(),degree=degLabel(e.grade),nt=norm(title),cls='unknown',label='غير موجود',note='العنوان غير موجود في دليل العناوين الوظيفية.',sugg=[];if(!title||!degree){cls='missing';label='نقص بيانات';note=!title&&!degree?'لا يوجد عنوان وظيفي ولا درجة.':(!title?'لا يوجد عنوان وظيفي.':'لا توجد درجة وظيفية واضحة.');}
@@ -7758,12 +7758,12 @@ function autoSyncWhenOpen(){try{if(document.hidden)return;if(!document.body.clas
 function tick(){patchCounts();dashboardReady();visibleLog();}
 document.addEventListener('DOMContentLoaded',function(){tick();setTimeout(tick,150);setTimeout(tick,600);setTimeout(tick,1500)});
 window.addEventListener('load',function(){setTimeout(tick,160);setTimeout(tick,900);setTimeout(dashboardReady,1800)});
-window.addEventListener('pageshow',function(){setTimeout(tick,120);setTimeout(autoSyncWhenOpen,800)});
+window.addEventListener('pageshow',function(){setTimeout(tick,120)});
 document.addEventListener('click',function(ev){var add=ev.target&&ev.target.closest?ev.target.closest('#r1475-add'):null;if(add){setTimeout(refreshAfterSend,120);setTimeout(refreshAfterSend,1100);setTimeout(refreshAfterSend,2600)}var mov=ev.target&&ev.target.closest?ev.target.closest('#stab-managernotes,[data-key="managernotes"]'):null;if(mov){setTimeout(visibleLog,250);setTimeout(autoSyncWhenOpen,900)}},true);
-window.addEventListener('focus',function(){setTimeout(tick,80);setTimeout(autoSyncWhenOpen,500)});
-document.addEventListener('visibilitychange',function(){if(!document.hidden){setTimeout(tick,80);setTimeout(autoSyncWhenOpen,700)}});
+window.addEventListener('focus',function(){setTimeout(tick,80)});
+document.addEventListener('visibilitychange',function(){if(!document.hidden){setTimeout(tick,80)}});
 try{new MutationObserver(function(){clearTimeout(window.__r1505T);window.__r1505T=setTimeout(tick,80)}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']})}catch(e){}
-setInterval(function(){tick()},45000);setInterval(function(){autoSyncWhenOpen()},300000);
+setInterval(function(){tick()},45000);
 window.r1505NotesChromeCountsHeaderFix={release:RELEASE,fix:tick,visibleLog:visibleLog,patchCounts:patchCounts};
 })();
 </script>
@@ -8945,8 +8945,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1549';
-  var KEEP_CACHE='employee-registry-ui-r1549';
+  var SW_URL='service-worker.js?v=1550';
+  var KEEP_CACHE='employee-registry-ui-r1550';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -9969,9 +9969,7 @@ window.r1476SyncManagerNotes=function(done,opts){
   return syncNow(!!opts.manual,!!opts.force).then(function(ok){if(done)done(ok);return ok});
 };
 
-window.addEventListener('pageshow',function(){if(document.body.classList.contains('subview-managernotes'))setTimeout(function(){syncNow(false,true)},250)});
-document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('subview-managernotes'))setTimeout(function(){syncNow(false,true)},350)});
-setInterval(function(){if(!document.hidden&&document.body.classList.contains('subview-managernotes'))syncNow(false,true)},30000);
+/* R1.5.50: no periodic/pageshow/visibility auto-sync. Open/manual/action sync only. */
 
 window.r1547ManagerNotesSharedReview={
   release:RELEASE,
@@ -10489,5 +10487,113 @@ try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator
 document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});
 window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});
 window.r1549CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
+})();
+</script>
+
+<!-- R1550_QUIET_MANAGER_NOTES_SYNC -->
+<!-- MOBILE-R1.5.50-QUIET-MANAGER-NOTES-SYNC
+     Manager notes sync only on screen-open, manual sync, send, review and shared delete. -->
+<script id="r1550-quiet-manager-notes-sync-script">
+(function(){
+'use strict';
+var RELEASE='MOBILE-R1.5.50-QUIET-MANAGER-NOTES-SYNC';
+function mark(){try{document.body.classList.add('r1550-quiet-notes-sync')}catch(e){}}
+mark();
+document.addEventListener('DOMContentLoaded',mark);
+window.addEventListener('load',mark);
+window.r1550QuietManagerNotesSync={
+  release:RELEASE,
+  mode:'open-manual-action-only',
+  periodic:false,
+  focusSync:false,
+  visibilitySync:false
+};
+})();
+</script>
+
+<!-- MOBILE-R1.5.50-QUIET-MANAGER-NOTES-SYNC -->
+<script id="r1550-canonical-release">
+(function(){
+'use strict';
+var RELEASE='MOBILE-R1.5.50-QUIET-MANAGER-NOTES-SYNC';
+function setRelease(){
+  try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}
+  try{window.APP_RELEASE=RELEASE}catch(e){}
+  try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}
+  try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}
+}
+function canonicalFromHtml(txt){
+  txt=String(txt||'');
+  var m=txt.match(/<meta\s+name=["']app-release["']\s+content=["']([^"']+)["'][^>]*>/i);
+  if(!m)m=txt.match(/<meta\s+content=["']([^"']+)["']\s+name=["']app-release["'][^>]*>/i);
+  return m&&m[1]?m[1]:'';
+}
+async function fetchPublishedRelease(){
+  if(navigator.onLine===false)return '';
+  var u=new URL('index.html',location.href);
+  u.searchParams.set('_release_check',Date.now().toString());
+  u.searchParams.set('v','1550');
+  var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  return canonicalFromHtml(await res.text());
+}
+async function checkUpdate(showMessage){
+  setRelease();
+  if(navigator.onLine===false){
+    if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');
+    return false;
+  }
+  try{
+    if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');
+    var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);
+    try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث'}catch(e){}
+    if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');
+    return has;
+  }catch(e){
+    try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}
+    if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');
+    return false;
+  }
+}
+async function applyUpdate(){
+  setRelease();
+  if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}
+  var run=async function(){
+    if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');
+    try{
+      if('caches' in window){
+        var keys=await caches.keys();
+        await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}));
+      }
+    }catch(e){}
+    try{
+      if('serviceWorker' in navigator){
+        var reg=await navigator.serviceWorker.register('service-worker.js?v=1550&_u='+Date.now(),{scope:'./',updateViaCache:'none'});
+        try{await reg.update()}catch(e){}
+        try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}
+      }
+    }catch(e){}
+    var u=new URL('index.html',location.href);
+    u.search='';
+    u.searchParams.set('v','1550');
+    u.searchParams.set('_manual_update',Date.now().toString());
+    location.replace(u.toString());
+  };
+  if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);
+  else if(window.confirm('تحديث النظام يدويًا؟'))await run();
+}
+setRelease();
+try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}
+try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}
+try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}
+try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}
+try{r71ForceRefresh=applyUpdate}catch(e){}
+try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}
+try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}
+try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}
+try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1550',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});
+window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});
+window.r1550CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
 })();
 </script>
