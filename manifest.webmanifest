@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.60",
-  "short_name": "HR Mobile R1.5.60",
+  "name": "سجل الموظفين - Mobile R1.5.61",
+  "short_name": "HR Mobile R1.5.61",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.60 Career Experience V4 reduces visual clutter and keeps only essential career information visible, with secondary explanations collapsed.",
+  "description": "R1.5.61 presentation-only visual polish for Career Experience V4: typography, icon treatment, refined color palette, timeline emphasis and subtle interactions.",
   "icons": [
     {
       "src": "assets/icon-192.png",
