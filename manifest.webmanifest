@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.55",
-  "short_name": "HR Mobile R1.5.55",
+  "name": "سجل الموظفين - Mobile R1.5.56",
+  "short_name": "HR Mobile R1.5.56",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.55 professional Career Progression UI with explicit advisory status, employee context, reference steps, audit explanation and analysis data.",
+  "description": "R1.5.56 expands the explicit Career Progression map to 40 chains and 267 exact directory steps without heuristic inference.",
   "icons": [
     {
       "src": "assets/icon-192.png",

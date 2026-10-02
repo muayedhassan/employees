@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.55-CAREER-PROFESSIONAL-UI",
+  "release": "MOBILE-R1.5.56-CAREER-MAP-EXPANSION-BATCH1",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
   "sourceTotal": 1316,
-  "validatedChainCount": 16,
-  "validatedStepCount": 102,
+  "validatedChainCount": 40,
+  "validatedStepCount": 267,
   "policy": {
     "allowHeuristicInference": false,
     "requireEducationPresence": true,
@@ -22,7 +22,8 @@
     "أي عنوان له أكثر من تطابق لا يعطل واجهة التدرج؛ يعالج كغموض خاص بالموظف ولا يظهر معه عنوان قادم.",
     "كل خطوة في هذا الملف يجب أن توجد حرفياً في دليل العناوين الوظيفية ضمن الدرجة نفسها.",
     "التحصيل الدراسي مطلوب لعرض نتيجة موظف محددة، لكنه لا يُفسَّر كشرط أهلية ما لم تتوفر قاعدة رسمية تربطه بالسلسلة.",
-    "الاختصاص معروض فقط في هذه المرحلة ولا يدخل في القرار حتى اكتمال مصدره."
+    "الاختصاص معروض فقط في هذه المرحلة ولا يدخل في القرار حتى اكتمال مصدره.",
+    "R1.5.56 Batch 1 أضاف 24 سلسلة صريحة و165 خطوة حرفية من دليل العناوين، وتوقفت السلاسل الجزئية عند آخر درجة مثبتة دون استنتاج أي عنوان مفقود."
   ],
   "chains": [
     {
@@ -644,6 +645,1023 @@
           "grade": 5,
           "degree": "الخامسة",
           "title": "مدقق حسابات اقدم"
+        }
+      ]
+    },
+    {
+      "id": "marine_general",
+      "name": "البحرية العامة",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون بحري"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "بحري"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "بحري اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس بحري"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس بحري"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس بحري اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس بحري اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "information_investigation",
+      "name": "تحري المعلومات",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون تحري معلومات"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "تحري معلومات"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "تحري معلومات اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس تحري معلومات"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس تحري معلومات"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس تحري معلومات اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس تحري معلومات اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "biotech_technician",
+      "name": "التقنية الأحيائية",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون تقني احيائي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "تقني احيائي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "تقني احيائي اول"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "تقني احيائي اقدم"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معاون رئيس تقني احيائي"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس تقني احيائي"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس تقني احيائي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "information_technician",
+      "name": "تقنية المعلوماتية",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون تقني معلوماتية"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "تقني معلوماتية"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "تقني معلوماتية اول"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "تقني معلوماتية اقدم"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معاون رئيس تقني معلوماتية"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس تقني معلوماتية"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس تقني معلوماتية اقدم"
+        }
+      ]
+    },
+    {
+      "id": "food_production",
+      "name": "إنتاج الأغذية",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون منتج اغذية"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "منتج اغذية"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "منتج اغذية اول"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "منتج اغذية اقدم"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معاون رئيس منتج اغذية"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس منتج اغذية"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس منتج اغذية اقدم"
+        }
+      ]
+    },
+    {
+      "id": "weather_observer",
+      "name": "الرصد الجوي",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "راصد جوي متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون راصد جوي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "راصد جوي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "راصد جوي اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس راصد جوي"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس راصد جوي"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس راصد جوي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "aircraft_captain",
+      "name": "ربان الطائرة",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون ربان طائرة"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون ربان طائرة اقدم"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "ربان طائرة"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "ربان طائرة اقدم"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس ربان طائرة"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس ربان طائرة اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس ربان طائرة اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "marine_officer",
+      "name": "الضابط البحري",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون ضابط بحري"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "ضابط بحري اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "ضابط بحري اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس ضابط بحري"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس ضابط بحري"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس ضابط بحري اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس ضابط بحري اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "air_operations_officer",
+      "name": "عمليات جوية",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون ضابط عمليات جوية"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "ضابط عمليات جوية"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "ضابط عمليات جوية اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس ضابط عمليات جوية"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس ضابط عمليات جوية"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس ضابط عمليات جوية اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس ضابط عمليات جوية اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "applied_laser",
+      "name": "الليزر التطبيقي",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون ليزر تطبيقي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "ليزر تطبيقي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "ليزر تطبيقي اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس ليزر تطبيقي"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس ليزر تطبيقي"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس ليزر تطبيقي اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس ليزر تطبيقي اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "judicial_investigation",
+      "name": "التحقيق القضائي",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "محقق قضائي خامس"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "محقق قضائي رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "محقق قضائي ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "محقق قضائي ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "محقق قضائي اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "محقق قضائي اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "محقق قضائي اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "teaching_school",
+      "name": "التدريس",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مدرس رابع"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مدرس ثالث"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مدرس ثاني"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "مدرس اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مدرس اقدم"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مدرس اقدم ثاني"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مدرس اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "educational_guidance",
+      "name": "الإرشاد التربوي",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مرشد تربوي رابع"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مرشد تربوي ثالث"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مرشد تربوي ثاني"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "مرشد تربوي اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مرشد تربوي اقدم"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مرشد تربوي اقدم ثاني"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مرشد تربوي اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "university_teaching",
+      "name": "التعليم الجامعي",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معلم جامعي رابع"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معلم جامعي ثالث"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معلم جامعي ثاني"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معلم جامعي اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معلم جامعي اقدم"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "معلم جامعي اقدم ثاني"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "معلم جامعي اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "industrial_teaching",
+      "name": "التعليم الصناعي",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معلم صناعي خامس"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معلم صناعي رابع"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معلم صناعي ثالث"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معلم صناعي ثاني"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معلم صناعي اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معلم صناعي اقدم"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "معلم صناعي اقدم ثاني"
+        }
+      ]
+    },
+    {
+      "id": "inspection",
+      "name": "التفتيش",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مفتش"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مفتش خامس"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مفتش رابع"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "مفتش ثالث"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مفتش ثاني"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مفتش اول"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مفتش اول اقدم"
+        }
+      ]
+    },
+    {
+      "id": "hall_control",
+      "name": "مراقبة القاعات",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون مراقب قاعة"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مراقب قاعة"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مراقب قاعة اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مراقب قاعة اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مراقب قاعة"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مراقب قاعة"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مراقب قاعة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "registration_clerk",
+      "name": "مأمور التسجيل",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "مامور تسجيل رابع"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "مامور تسجيل ثالث"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مامور تسجيل ثاني"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مامور تسجيل اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مامور تسجيل اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مأمور تسجيل"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مأمور تسجيل"
+        }
+      ]
+    },
+    {
+      "id": "quality_specialist",
+      "name": "اختصاص الجودة",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون اختصاصي جودة"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "اختصاصي جودة"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "اختصاصي جودة اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس اختصاصي جودة"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس اختصاصي جودة"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس اختصاصي جودة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "biology",
+      "name": "البايولوجي",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون بايولوجي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "بايولوجي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "بايولوجي اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس بايولوجي"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس بايولوجي"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس بايولوجي اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس بايولوجيين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "bacteriology",
+      "name": "البكتريولوجي",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون بكتريولوجي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "بكتريولوجي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "بكتريولوجي اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس بكتريولوجي"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس بكتريولوجي"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس بكتريولوجي اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس بكتريولوجيين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "geology",
+      "name": "الجيولوجيا",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون جيولوجي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "جيولوجي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "جيولوجي اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس جيولوجي"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس جيولوجي"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس جيولوجي اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس جيولوجيين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "software_testing",
+      "name": "فحص البرامج",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون فاحص برامج"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "فاحص برامج"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "فاحص برامج اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس فاحص برامج"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس فاحص برامج"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس فاحص برامج اقدم"
+        }
+      ]
+    },
+    {
+      "id": "finance_clerk",
+      "name": "مأمور المال",
+      "status": "explicit-config",
+      "validation": "exact-directory-consecutive-degrees",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون مامور مال"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مامور مال خامس"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مامور مال رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مامور مال ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "مامور مال ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مامور مال اول"
         }
       ]
     }
