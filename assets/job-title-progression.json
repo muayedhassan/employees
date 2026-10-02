@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.51-CAREER-PROGRESSION-FOUNDATION",
+  "release": "MOBILE-R1.5.52-CAREER-AMBIGUITY-ISOLATION",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
@@ -12,10 +12,12 @@
     "requireEducationPresence": true,
     "useSpecializationForDecision": false,
     "specializationStatus": "deferred_until_source_completion",
-    "employeeDataWriteBack": false
+    "employeeDataWriteBack": false,
+    "allowCrossChainTitleAmbiguity": true
   },
   "notes": [
     "لا ينشئ النظام أي عنوان وظيفي بالاستنتاج أو التشابه.",
+    "تكرار العنوان بين أكثر من سلسلة لا يعطل الخريطة؛ يصبح حالة غموض تخص الموظف ولا يظهر معها عنوان قادم حتى حسم الاختصاص أو المراجعة.",
     "كل خطوة في هذا الملف يجب أن توجد حرفياً في دليل العناوين الوظيفية ضمن الدرجة نفسها.",
     "التحصيل الدراسي مطلوب لعرض نتيجة موظف محددة، لكنه لا يُفسَّر كشرط أهلية ما لم تتوفر قاعدة رسمية تربطه بالسلسلة.",
     "الاختصاص معروض فقط في هذه المرحلة ولا يدخل في القرار حتى اكتمال مصدره."
