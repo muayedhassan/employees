@@ -1,0 +1,647 @@
+{
+  "schemaVersion": 1,
+  "release": "MOBILE-R1.5.51-CAREER-PROGRESSION-FOUNDATION",
+  "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
+  "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
+  "sourceSheet": "قائمة موحدة",
+  "sourceTotal": 1316,
+  "validatedChainCount": 16,
+  "validatedStepCount": 102,
+  "policy": {
+    "allowHeuristicInference": false,
+    "requireEducationPresence": true,
+    "useSpecializationForDecision": false,
+    "specializationStatus": "deferred_until_source_completion",
+    "employeeDataWriteBack": false
+  },
+  "notes": [
+    "لا ينشئ النظام أي عنوان وظيفي بالاستنتاج أو التشابه.",
+    "كل خطوة في هذا الملف يجب أن توجد حرفياً في دليل العناوين الوظيفية ضمن الدرجة نفسها.",
+    "التحصيل الدراسي مطلوب لعرض نتيجة موظف محددة، لكنه لا يُفسَّر كشرط أهلية ما لم تتوفر قاعدة رسمية تربطه بالسلسلة.",
+    "الاختصاص معروض فقط في هذه المرحلة ولا يدخل في القرار حتى اكتمال مصدره."
+  ],
+  "chains": [
+    {
+      "id": "programming",
+      "name": "البرمجة",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مبرمج"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مبرمج"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مبرمج اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مبرمجين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مبرمجين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مبرمجين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مبرمجين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "statistics",
+      "name": "الإحصاء",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون احصائي متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون احصائي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "احصائي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "احصائي اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس احصائيين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس احصائيين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس احصائيين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس احصائيين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "translation",
+      "name": "الترجمة",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مترجم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مترجم"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مترجم اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مترجمين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مترجمين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مترجمين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مترجمين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "legal",
+      "name": "السلسلة القانونية",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون قانوني"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "قانوني"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مشاور قانوني مساعد"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "مشاور قانوني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مشاور قانوني اقدم"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مستشار قانوني مساعد"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مستشار قانوني"
+        }
+      ]
+    },
+    {
+      "id": "chemistry",
+      "name": "الكيمياء",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون كيمياوي متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون كيمياوي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "كيمياوي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "كيمياوي اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس كيمياويين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس كيمياويين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس كيمياوي اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس كيمياويين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "engineering_general",
+      "name": "الهندسة العامة",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مهندس"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مهندس"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مهندس اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مهندسين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مهندسين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مهندسين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مهندسين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "engineering_agri",
+      "name": "الهندسة الزراعية",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مهندس زراعي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مهندس زراعي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مهندس زراعي اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مهندسين زراعيين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مهندسين زراعيين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مهندسين زراعيين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مهندسين زراعيين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "engineering_aircraft",
+      "name": "هندسة الطائرات",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مهندس طائرات"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مهندس طائرات"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مهندس طائرات اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مهندسي طائرات"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مهندسي طائرات"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مهندسي طائرات اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مهندسين طائرات اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "engineering_air",
+      "name": "الهندسة الجوية",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مهندس جوي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مهندس جوي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مهندس جوي اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مهندسين جويين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مهندسين جويين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مهندسين جويين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مهندسين جويين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "engineering_marine",
+      "name": "الهندسة البحرية",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مهندس بحري"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مهندس بحري"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مهندس بحري اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مهندسين بحريين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مهندسين بحريين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مهندسين بحريين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مهندسين بحريين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "health_admin",
+      "name": "الإدارة الصحية",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "اداري صحي متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "اداري صحي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس اداري صحي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس اداري صحي"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس اداري صحي ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس اداري صحي اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "اداري صحي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "agri_guidance",
+      "name": "الإرشاد الزراعي",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "مراقب زراعي"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مرشد زراعي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مرشد زراعي اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معاون رئيس مرشدين زراعيين"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس مرشدين زراعيين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مرشدين زراعيين اقدم"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مرشدين زراعيين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "social_research",
+      "name": "البحث الاجتماعي",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "باحث اجتماعي خامس"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "باحث اجتماعي رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "باحث اجتماعي ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "باحث اجتماعي ثان"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "باحث اجتماعي اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "باحث اجتماعي اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "باحث اجتماعي اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "accounting",
+      "name": "المحاسبة",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون محاسب"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "محاسب"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "محاسب اقدم"
+        }
+      ]
+    },
+    {
+      "id": "audit",
+      "name": "التدقيق",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مدقق"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مدقق"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مدقق اقدم"
+        }
+      ]
+    },
+    {
+      "id": "audit_accounts",
+      "name": "تدقيق الحسابات",
+      "status": "explicit-config",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مدقق حسابات"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مدقق حسابات"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مدقق حسابات اقدم"
+        }
+      ]
+    }
+  ]
+}
