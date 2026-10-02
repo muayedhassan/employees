@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.58",
-  "short_name": "HR Mobile R1.5.58",
+  "name": "سجل الموظفين - Mobile R1.5.59",
+  "short_name": "HR Mobile R1.5.59",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.58 expands exact career coverage to 850/1316 titles and explains every partial-chain stop without heuristic bridging.",
+  "description": "R1.5.59 adds qualification context, explicit chain boundaries, upper-segment warnings and a stronger visual architecture without inferring education rules.",
   "icons": [
     {
       "src": "assets/icon-192.png",

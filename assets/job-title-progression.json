@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.58-CAREER-COVERAGE-EXPLAINABILITY",
+  "release": "MOBILE-R1.5.59-QUALIFICATION-CONTEXT-VISUAL-V3",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
@@ -14,7 +14,11 @@
     "specializationStatus": "deferred_until_source_completion",
     "employeeDataWriteBack": false,
     "allowCrossChainTitleAmbiguity": true,
-    "ambiguityHandling": "employee-scoped-no-next"
+    "ambiguityHandling": "employee-scoped-no-next",
+    "educationRole": "required-context",
+    "educationMappingSourceAvailable": false,
+    "educationDecisionMode": "context-only-until-authoritative-map",
+    "educationDecisionNote": "التحصيل الدراسي موجود في سجل الموظف ويظهر في التحليل، لكن دليل العناوين الحالي لا يحتوي جدول ربط رسمي بين التحصيل ودرجة البداية/العنوان؛ لذلك لا يستخدم للحسم الآلي."
   },
   "notes": [
     "لا ينشئ النظام أي عنوان وظيفي بالاستنتاج أو التشابه.",
@@ -66,7 +70,15 @@
           "degree": "الأولى",
           "title": "رئيس مبرمجين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "statistics",
@@ -113,7 +125,15 @@
           "degree": "الأولى",
           "title": "رئيس احصائيين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "translation",
@@ -155,7 +175,15 @@
           "degree": "الأولى",
           "title": "رئيس مترجمين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "legal",
@@ -197,7 +225,15 @@
           "degree": "الأولى",
           "title": "مستشار قانوني"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "chemistry",
@@ -244,7 +280,15 @@
           "degree": "الأولى",
           "title": "رئيس كيمياويين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "engineering_general",
@@ -286,7 +330,15 @@
           "degree": "الأولى",
           "title": "رئيس مهندسين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "engineering_agri",
@@ -328,7 +380,15 @@
           "degree": "الأولى",
           "title": "رئيس مهندسين زراعيين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "engineering_aircraft",
@@ -370,7 +430,15 @@
           "degree": "الأولى",
           "title": "رئيس مهندسين طائرات اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "engineering_air",
@@ -412,7 +480,15 @@
           "degree": "الأولى",
           "title": "رئيس مهندسين جويين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "engineering_marine",
@@ -454,7 +530,15 @@
           "degree": "الأولى",
           "title": "رئيس مهندسين بحريين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "health_admin",
@@ -497,7 +581,15 @@
           "title": "اداري صحي اقدم"
         }
       ],
-      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج.",
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "agri_guidance",
@@ -540,7 +632,15 @@
           "title": "رئيس مرشدين زراعيين اقدم اول"
         }
       ],
-      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج.",
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "social_research",
@@ -582,7 +682,15 @@
           "degree": "الأولى",
           "title": "باحث اجتماعي اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "accounting",
@@ -605,7 +713,15 @@
           "title": "محاسب اقدم"
         }
       ],
-      "stopReason": "تتوقف سلسلة «المحاسبة» عند الدرجة الخامسة. توجد في الدليل عناوين إدارية تبدأ في الدرجة الرابعة بـ «معاون مدير حسابات» ثم «مدير حسابات»، لكنها أصبحت مقطعًا مستقلًا ولم يتم ربطها تلقائيًا بالمحاسبة لأن مصدر العناوين لا يتضمن علاقة انتقال صريحة بين التسميتين."
+      "stopReason": "تتوقف سلسلة «المحاسبة» عند الدرجة الخامسة. توجد في الدليل عناوين إدارية تبدأ في الدرجة الرابعة بـ «معاون مدير حسابات» ثم «مدير حسابات»، لكنها أصبحت مقطعًا مستقلًا ولم يتم ربطها تلقائيًا بالمحاسبة لأن مصدر العناوين لا يتضمن علاقة انتقال صريحة بين التسميتين.",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "audit",
@@ -628,7 +744,15 @@
           "title": "مدقق اقدم"
         }
       ],
-      "stopReason": "تتوقف سلسلة «التدقيق» عند الدرجة الخامسة. توجد في الدليل عناوين إدارية تبدأ في الدرجة الرابعة بـ «معاون مدير تدقيق» ثم «مدير تدقيق»، لكنها أصبحت مقطعًا مستقلًا ولم يتم ربطها تلقائيًا بالتدقيق لأن مصدر العناوين لا يتضمن علاقة انتقال صريحة بين التسميتين."
+      "stopReason": "تتوقف سلسلة «التدقيق» عند الدرجة الخامسة. توجد في الدليل عناوين إدارية تبدأ في الدرجة الرابعة بـ «معاون مدير تدقيق» ثم «مدير تدقيق»، لكنها أصبحت مقطعًا مستقلًا ولم يتم ربطها تلقائيًا بالتدقيق لأن مصدر العناوين لا يتضمن علاقة انتقال صريحة بين التسميتين.",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "audit_accounts",
@@ -651,7 +775,15 @@
           "title": "مدقق حسابات اقدم"
         }
       ],
-      "stopReason": "تتوقف سلسلة «تدقيق الحسابات» عند الدرجة الخامسة. توجد في الدليل عناوين إدارية تبدأ في الرابعة بـ «معاون مدير تدقيق حسابات» وتمتد إلى الثانية، لكنها أصبحت مقطعًا مستقلًا ولم يتم ربطها تلقائيًا. كما لم يُنشأ عنوان للدرجة الأولى لأنه غير مثبت ضمن هذا المقطع."
+      "stopReason": "تتوقف سلسلة «تدقيق الحسابات» عند الدرجة الخامسة. توجد في الدليل عناوين إدارية تبدأ في الرابعة بـ «معاون مدير تدقيق حسابات» وتمتد إلى الثانية، لكنها أصبحت مقطعًا مستقلًا ولم يتم ربطها تلقائيًا. كما لم يُنشأ عنوان للدرجة الأولى لأنه غير مثبت ضمن هذا المقطع.",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "marine_general",
@@ -694,7 +826,15 @@
           "degree": "الأولى",
           "title": "رئيس بحري اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "information_investigation",
@@ -737,7 +877,15 @@
           "degree": "الأولى",
           "title": "رئيس تحري معلومات اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "biotech_technician",
@@ -780,7 +928,15 @@
           "degree": "الأولى",
           "title": "رئيس تقني احيائي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "information_technician",
@@ -823,7 +979,15 @@
           "degree": "الأولى",
           "title": "رئيس تقني معلوماتية اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "food_production",
@@ -866,7 +1030,15 @@
           "degree": "الأولى",
           "title": "رئيس منتج اغذية اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "weather_observer",
@@ -910,7 +1082,15 @@
           "title": "رئيس راصد جوي اقدم"
         }
       ],
-      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج.",
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "aircraft_captain",
@@ -953,7 +1133,15 @@
           "degree": "الأولى",
           "title": "رئيس ربان طائرة اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "marine_officer",
@@ -996,7 +1184,15 @@
           "degree": "الأولى",
           "title": "رئيس ضابط بحري اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "air_operations_officer",
@@ -1039,7 +1235,15 @@
           "degree": "الأولى",
           "title": "رئيس ضابط عمليات جوية اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "applied_laser",
@@ -1082,7 +1286,15 @@
           "degree": "الأولى",
           "title": "رئيس ليزر تطبيقي اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "judicial_investigation",
@@ -1125,7 +1337,15 @@
           "degree": "الأولى",
           "title": "محقق قضائي اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "teaching_school",
@@ -1168,7 +1388,15 @@
           "degree": "الأولى",
           "title": "مدرس اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "educational_guidance",
@@ -1211,7 +1439,15 @@
           "degree": "الأولى",
           "title": "مرشد تربوي اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "university_teaching",
@@ -1254,7 +1490,15 @@
           "degree": "الأولى",
           "title": "معلم جامعي اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "industrial_teaching",
@@ -1298,7 +1542,15 @@
           "title": "معلم صناعي اقدم ثاني"
         }
       ],
-      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج.",
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "inspection",
@@ -1341,7 +1593,15 @@
           "degree": "الأولى",
           "title": "مفتش اول اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "hall_control",
@@ -1385,7 +1645,15 @@
           "title": "رئيس مراقب قاعة اقدم"
         }
       ],
-      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج.",
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "registration_clerk",
@@ -1429,7 +1697,15 @@
           "title": "رئيس مأمور تسجيل"
         }
       ],
-      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثالثة لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثالثة لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج.",
+      "coverageStartGrade": 9,
+      "coverageStartDegree": "التاسعة",
+      "coverageEndGrade": 3,
+      "coverageEndDegree": "الثالثة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة التاسعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "quality_specialist",
@@ -1468,7 +1744,15 @@
           "title": "رئيس اختصاصي جودة اقدم"
         }
       ],
-      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج.",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "biology",
@@ -1511,7 +1795,15 @@
           "degree": "الأولى",
           "title": "رئيس بايولوجيين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "bacteriology",
@@ -1554,7 +1846,15 @@
           "degree": "الأولى",
           "title": "رئيس بكتريولوجيين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "geology",
@@ -1597,7 +1897,15 @@
           "degree": "الأولى",
           "title": "رئيس جيولوجيين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "software_testing",
@@ -1636,7 +1944,15 @@
           "title": "رئيس فاحص برامج اقدم"
         }
       ],
-      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج.",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "finance_clerk",
@@ -1675,7 +1991,15 @@
           "title": "مامور مال اول"
         }
       ],
-      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثالثة لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثالثة لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج.",
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 3,
+      "coverageEndDegree": "الثالثة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_001",
@@ -1721,7 +2045,15 @@
           "degree": "الثالثة",
           "title": "بحار سابع"
         }
-      ]
+      ],
+      "coverageStartGrade": 9,
+      "coverageStartDegree": "التاسعة",
+      "coverageEndGrade": 3,
+      "coverageEndDegree": "الثالثة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة التاسعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_002",
@@ -1767,7 +2099,15 @@
           "degree": "الثانية",
           "title": "رئيس معاون طبي اطراف ومساند اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_003",
@@ -1813,7 +2153,15 @@
           "degree": "الثانية",
           "title": "رئيس معاون طبي غذائي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_004",
@@ -1859,7 +2207,15 @@
           "degree": "الثانية",
           "title": "رئيس فاحص بصر اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_005",
@@ -1905,7 +2261,15 @@
           "degree": "الثانية",
           "title": "رئيس مساعد مختبر اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_006",
@@ -1951,7 +2315,15 @@
           "degree": "الثانية",
           "title": "رئيس معاون وقائي اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_007",
@@ -1997,7 +2369,15 @@
           "degree": "الثانية",
           "title": "رئيس معاون وقائي اسنان اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_008",
@@ -2038,7 +2418,15 @@
           "degree": "الرابعة",
           "title": "رئيس مأمور بدالة اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 9,
+      "coverageStartDegree": "التاسعة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة التاسعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_009",
@@ -2079,7 +2467,15 @@
           "degree": "الخامسة",
           "title": "رئيس مأمور مائدة اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_010",
@@ -2120,7 +2516,15 @@
           "degree": "الأولى",
           "title": "محاسب قانوني اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 6,
+      "coverageStartDegree": "السادسة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_011",
@@ -2161,7 +2565,15 @@
           "degree": "الثانية",
           "title": "رئيس مساعد مخدر اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_012",
@@ -2197,7 +2609,15 @@
           "degree": "الأولى",
           "title": "رئيس ادلة جنائية اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 5,
+      "coverageStartDegree": "الخامسة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الخامسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_013",
@@ -2233,7 +2653,15 @@
           "degree": "الثانية",
           "title": "رئيس معاون ذوي احتياجات خاصة اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 6,
+      "coverageStartDegree": "السادسة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_014",
@@ -2269,7 +2697,15 @@
           "degree": "الثانية",
           "title": "رئيس ضابط مخابرة اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 6,
+      "coverageStartDegree": "السادسة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_015",
@@ -2305,7 +2741,15 @@
           "degree": "الثانية",
           "title": "رئيس فاحص نقد اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 6,
+      "coverageStartDegree": "السادسة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_016",
@@ -2341,7 +2785,15 @@
           "degree": "الخامسة",
           "title": "مؤذن اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 9,
+      "coverageStartDegree": "التاسعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة التاسعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_017",
@@ -2377,7 +2829,15 @@
           "degree": "الثالثة",
           "title": "محقق اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 3,
+      "coverageEndDegree": "الثالثة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_018",
@@ -2413,7 +2873,15 @@
           "degree": "الثانية",
           "title": "رئيس مسعفين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 6,
+      "coverageStartDegree": "السادسة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_019",
@@ -2449,7 +2917,15 @@
           "degree": "الأولى",
           "title": "مشرف تربوي اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 5,
+      "coverageStartDegree": "الخامسة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الخامسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_020",
@@ -2485,7 +2961,15 @@
           "degree": "الثالثة",
           "title": "معلم ومعلم جامعي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 3,
+      "coverageEndDegree": "الثالثة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_021",
@@ -2521,7 +3005,15 @@
           "degree": "الرابعة",
           "title": "رئيس ممرض او ممرضة ماهرة اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_022",
@@ -2557,7 +3049,15 @@
           "degree": "الخامسة",
           "title": "رئيس موظف خدمة اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 9,
+      "coverageStartDegree": "التاسعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة التاسعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_023",
@@ -2588,7 +3088,15 @@
           "degree": "الأولى",
           "title": "رئيس ابحاث اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_024",
@@ -2619,7 +3127,15 @@
           "degree": "الأولى",
           "title": "رئيس اثاريين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_025",
@@ -2650,7 +3166,15 @@
           "degree": "الرابعة",
           "title": "معاون رئيس اختصاص الغام"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_026",
@@ -2681,7 +3205,15 @@
           "degree": "الأولى",
           "title": "مدير اعلامي اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_027",
@@ -2712,7 +3244,15 @@
           "degree": "الخامسة",
           "title": "امام ثالث"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_028",
@@ -2743,7 +3283,15 @@
           "degree": "الأولى",
           "title": "رئيس امناء مكتبة اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_029",
@@ -2774,7 +3322,15 @@
           "degree": "الرابعة",
           "title": "باحث صحة بيئة اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_030",
@@ -2805,7 +3361,15 @@
           "degree": "الأولى",
           "title": "مدير تدقيق اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_031",
@@ -2836,7 +3400,15 @@
           "degree": "الخامسة",
           "title": "رئيس تقني اجهزة طبية"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_032",
@@ -2867,7 +3439,15 @@
           "degree": "الرابعة",
           "title": "رئيس حرفيين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_033",
@@ -2898,7 +3478,15 @@
           "degree": "الأولى",
           "title": "مدير حسابات اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_034",
@@ -2929,7 +3517,15 @@
           "degree": "الثانية",
           "title": "رئيس رسامين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 5,
+      "coverageStartDegree": "الخامسة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الخامسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_035",
@@ -2960,7 +3556,15 @@
           "degree": "الرابعة",
           "title": "رئيس سواق اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_036",
@@ -2991,7 +3595,15 @@
           "degree": "السابعة",
           "title": "طباخ اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 7,
+      "coverageEndDegree": "السابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_037",
@@ -3022,7 +3634,15 @@
           "degree": "الرابعة",
           "title": "رئيس معاون طبي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_038",
@@ -3053,7 +3673,15 @@
           "degree": "الخامسة",
           "title": "رئيس معاون طبي صحة مجتمع"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_039",
@@ -3084,7 +3712,15 @@
           "degree": "الأولى",
           "title": "رئيس طيارين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_040",
@@ -3115,7 +3751,15 @@
           "degree": "الرابعة",
           "title": "فاحص مواد اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_041",
@@ -3146,7 +3790,15 @@
           "degree": "الخامسة",
           "title": "فنان اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_042",
@@ -3177,7 +3829,15 @@
           "degree": "الأولى",
           "title": "رئيس فنانين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_043",
@@ -3208,7 +3868,15 @@
           "degree": "الأولى",
           "title": "مدير فني اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_044",
@@ -3239,7 +3907,15 @@
           "degree": "الخامسة",
           "title": "معاون قضائي ثالث"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_045",
@@ -3270,7 +3946,15 @@
           "degree": "الأولى",
           "title": "رئيس متنبئين جويين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_046",
@@ -3301,7 +3985,15 @@
           "degree": "الرابعة",
           "title": "محلل مختبر اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_047",
@@ -3332,7 +4024,15 @@
           "degree": "الأولى",
           "title": "مدير مخازن اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_048",
@@ -3363,7 +4063,15 @@
           "degree": "الخامسة",
           "title": "مخرج اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_049",
@@ -3394,7 +4102,15 @@
           "degree": "الأولى",
           "title": "رئيس مخرجين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_050",
@@ -3425,7 +4141,15 @@
           "degree": "الأولى",
           "title": "رئيس مدربين رياضي اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_051",
@@ -3456,7 +4180,15 @@
           "degree": "الخامسة",
           "title": "مراسل اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_052",
@@ -3487,7 +4219,15 @@
           "degree": "الأولى",
           "title": "رئيس مراسلين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_053",
@@ -3518,7 +4258,15 @@
           "degree": "الخامسة",
           "title": "مراقب اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_054",
@@ -3549,7 +4297,15 @@
           "degree": "الخامسة",
           "title": "مراقب جوي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_055",
@@ -3580,7 +4336,15 @@
           "degree": "الخامسة",
           "title": "مراقب فني اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_056",
@@ -3611,7 +4375,15 @@
           "degree": "الخامسة",
           "title": "مراقب مطار اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_057",
@@ -3642,7 +4414,15 @@
           "degree": "الخامسة",
           "title": "مراقب نقل جوي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_058",
@@ -3673,7 +4453,15 @@
           "degree": "الخامسة",
           "title": "مرشد اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_059",
@@ -3704,7 +4492,15 @@
           "degree": "الثانية",
           "title": "رئيس مساحين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 5,
+      "coverageStartDegree": "الخامسة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الخامسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_060",
@@ -3735,7 +4531,15 @@
           "degree": "الأولى",
           "title": "مشرف فني اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_061",
@@ -3766,7 +4570,15 @@
           "degree": "الأولى",
           "title": "رئيس مصححين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_062",
@@ -3797,7 +4609,15 @@
           "degree": "الأولى",
           "title": "رئيس مصممين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_063",
@@ -3828,7 +4648,15 @@
           "degree": "الأولى",
           "title": "رئيس مضيفين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_064",
@@ -3859,7 +4687,15 @@
           "degree": "الأولى",
           "title": "رئيس معدي برامج اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_065",
@@ -3890,7 +4726,15 @@
           "degree": "الأولى",
           "title": "رئيس معلقين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_066",
@@ -3921,7 +4765,15 @@
           "degree": "الأولى",
           "title": "رئيس مقدمي برامج اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_067",
@@ -3952,7 +4804,15 @@
           "degree": "الثانية",
           "title": "منظم ارشيف اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 5,
+      "coverageStartDegree": "الخامسة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الخامسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_068",
@@ -3983,7 +4843,15 @@
           "degree": "الأولى",
           "title": "رئيس مهندسين اطراف ومساند اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_069",
@@ -4014,7 +4882,15 @@
           "degree": "الأولى",
           "title": "رئيس مهندسين تقنيين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_070",
@@ -4045,7 +4921,15 @@
           "degree": "الأولى",
           "title": "رئيس مهندسين طب حياتي اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_071",
@@ -4076,7 +4960,15 @@
           "degree": "الرابعة",
           "title": "معاون رئيس مونيتير"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_072",
@@ -4107,7 +4999,15 @@
           "degree": "الخامسة",
           "title": "واعظ ثالث"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_073",
@@ -4133,7 +5033,15 @@
           "degree": "الثانية",
           "title": "رئيس ابحاث علوم جو اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_074",
@@ -4159,7 +5067,15 @@
           "degree": "الخامسة",
           "title": "اختصاص نظم ومعلومات اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_075",
@@ -4185,7 +5101,15 @@
           "degree": "الأولى",
           "title": "رئيس اطباء اسنان اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_076",
@@ -4211,7 +5135,15 @@
           "degree": "الأولى",
           "title": "رئيس اطباء عموميين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_077",
@@ -4237,7 +5169,15 @@
           "degree": "الأولى",
           "title": "رئيس اطباء ممارسين بفرع اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_078",
@@ -4263,7 +5203,15 @@
           "degree": "الرابعة",
           "title": "امام وواعظ اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 6,
+      "coverageStartDegree": "السادسة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_079",
@@ -4289,7 +5237,15 @@
           "degree": "السابعة",
           "title": "امين صندوق اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 9,
+      "coverageStartDegree": "التاسعة",
+      "coverageEndGrade": 7,
+      "coverageEndDegree": "السابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة التاسعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_080",
@@ -4315,7 +5271,15 @@
           "degree": "الأولى",
           "title": "امين متحف اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_081",
@@ -4341,7 +5305,15 @@
           "degree": "الخامسة",
           "title": "امين مخزن اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_082",
@@ -4367,7 +5339,15 @@
           "degree": "الخامسة",
           "title": "امين مكتبة اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_083",
@@ -4393,7 +5373,15 @@
           "degree": "الخامسة",
           "title": "باحث اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_084",
@@ -4419,7 +5407,15 @@
           "degree": "الثانية",
           "title": "مدير تدقيق حسابات اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_085",
@@ -4445,7 +5441,15 @@
           "degree": "الأولى",
           "title": "مدير تسجيل عقاري اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_086",
@@ -4471,7 +5475,15 @@
           "degree": "الخامسة",
           "title": "تقني طبي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_087",
@@ -4497,7 +5509,15 @@
           "degree": "الثانية",
           "title": "رئيس تقنيين اجهزة طبية اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_088",
@@ -4523,7 +5543,15 @@
           "degree": "الأولى",
           "title": "رئيس تقنيين طبيين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_089",
@@ -4549,7 +5577,15 @@
           "degree": "الثامنة",
           "title": "حارس اصلاحية ثالث"
         }
-      ]
+      ],
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 8,
+      "coverageEndDegree": "الثامنة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_090",
@@ -4575,7 +5611,15 @@
           "degree": "الخامسة",
           "title": "رئيس حراس اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_091",
@@ -4601,7 +5645,15 @@
           "degree": "الثامنة",
           "title": "خادم ومؤذن ثالث"
         }
-      ]
+      ],
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 8,
+      "coverageEndDegree": "الثامنة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_092",
@@ -4627,7 +5679,15 @@
           "degree": "السادسة",
           "title": "رسام اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 6,
+      "coverageEndDegree": "السادسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_093",
@@ -4653,7 +5713,15 @@
           "degree": "السادسة",
           "title": "رسام هندسي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 6,
+      "coverageEndDegree": "السادسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_094",
@@ -4679,7 +5747,15 @@
           "degree": "الثانية",
           "title": "رئيس رقباء اصلاحية اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_095",
@@ -4705,7 +5781,15 @@
           "degree": "الخامسة",
           "title": "رقيب مالي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_096",
@@ -4731,7 +5815,15 @@
           "degree": "الثامنة",
           "title": "سائق اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 8,
+      "coverageEndDegree": "الثامنة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_097",
@@ -4757,7 +5849,15 @@
           "degree": "الأولى",
           "title": "سادن اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_098",
@@ -4783,7 +5883,15 @@
           "degree": "الخامسة",
           "title": "رئيس سواق اطفاء اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_099",
@@ -4809,7 +5917,15 @@
           "degree": "الأولى",
           "title": "رئيس صحة بيئة اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_100",
@@ -4835,7 +5951,15 @@
           "degree": "الأولى",
           "title": "رئيس صيادلة اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_101",
@@ -4861,7 +5985,15 @@
           "degree": "الثانية",
           "title": "صيدلي اختصاص اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_102",
@@ -4887,7 +6019,15 @@
           "degree": "الثانية",
           "title": "طبيب اختصاص اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_103",
@@ -4913,7 +6053,15 @@
           "degree": "الثانية",
           "title": "طبيب اسنان اختصاص اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_104",
@@ -4939,7 +6087,15 @@
           "degree": "الخامسة",
           "title": "طيار اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_105",
@@ -4965,7 +6121,15 @@
           "degree": "الثامنة",
           "title": "غواص اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 8,
+      "coverageEndDegree": "الثامنة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_106",
@@ -4991,7 +6155,15 @@
           "degree": "الخامسة",
           "title": "رئيس غواصين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_107",
@@ -5017,7 +6189,15 @@
           "degree": "الأولى",
           "title": "رئيس فاحصي مواد اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_108",
@@ -5043,7 +6223,15 @@
           "degree": "الخامسة",
           "title": "فيزياوي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_109",
@@ -5069,7 +6257,15 @@
           "degree": "الثانية",
           "title": "رئيس قابلات ماهرات اقدم أول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_110",
@@ -5095,7 +6291,15 @@
           "degree": "الثامنة",
           "title": "قارئ ومؤذن ثالث"
         }
-      ]
+      ],
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 8,
+      "coverageEndDegree": "الثامنة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_111",
@@ -5121,7 +6325,15 @@
           "degree": "الأولى",
           "title": "مدير قاصرين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_112",
@@ -5147,7 +6359,15 @@
           "degree": "الأولى",
           "title": "كاتب عدل اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_113",
@@ -5173,7 +6393,15 @@
           "degree": "الرابعة",
           "title": "رئيس كتاب طابعة اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 6,
+      "coverageStartDegree": "السادسة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_114",
@@ -5199,7 +6427,15 @@
           "degree": "الخامسة",
           "title": "متنبئ جوي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_115",
@@ -5225,7 +6461,15 @@
           "degree": "الخامسة",
           "title": "رئيس محصلين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_116",
@@ -5251,7 +6495,15 @@
           "degree": "الخامسة",
           "title": "محلل انظمة اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_117",
@@ -5277,7 +6529,15 @@
           "degree": "الأولى",
           "title": "رئيس محللي مختبر اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_118",
@@ -5303,7 +6563,15 @@
           "degree": "الخامسة",
           "title": "رئيس مساعد مختبر صناعة اسنان"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_119",
@@ -5329,7 +6597,15 @@
           "degree": "الأولى",
           "title": "رئيس مخططين عمرانيين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_120",
@@ -5355,7 +6631,15 @@
           "degree": "الخامسة",
           "title": "مخمن اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_121",
@@ -5381,7 +6665,15 @@
           "degree": "الثانية",
           "title": "رئيس مخمنيين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_122",
@@ -5407,7 +6699,15 @@
           "degree": "الخامسة",
           "title": "مدرب رياضي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_123",
@@ -5433,7 +6733,15 @@
           "degree": "الخامسة",
           "title": "مدرب فني اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_124",
@@ -5459,7 +6767,15 @@
           "degree": "الثانية",
           "title": "رئيس مدربين فنيين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_125",
@@ -5485,7 +6801,15 @@
           "degree": "الثانية",
           "title": "رئيس مراقب لاسلكي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_126",
@@ -5511,7 +6835,15 @@
           "degree": "الثانية",
           "title": "رئيس مراقبي نقل جوي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_127",
@@ -5537,7 +6869,15 @@
           "degree": "الثانية",
           "title": "رئيس مرشدين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_128",
@@ -5563,7 +6903,15 @@
           "degree": "السادسة",
           "title": "مساح اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 6,
+      "coverageEndDegree": "السادسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_129",
@@ -5589,7 +6937,15 @@
           "degree": "الثالثة",
           "title": "مشاور سياسي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 5,
+      "coverageStartDegree": "الخامسة",
+      "coverageEndGrade": 3,
+      "coverageEndDegree": "الثالثة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الخامسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_130",
@@ -5615,7 +6971,15 @@
           "degree": "الخامسة",
           "title": "مشرح اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_131",
@@ -5641,7 +7005,15 @@
           "degree": "الرابعة",
           "title": "رئيس مشرف بيانات"
         }
-      ]
+      ],
+      "coverageStartGrade": 6,
+      "coverageStartDegree": "السادسة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_132",
@@ -5667,7 +7039,15 @@
           "degree": "الخامسة",
           "title": "مشرف سياحي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_133",
@@ -5693,7 +7073,15 @@
           "degree": "الأولى",
           "title": "رئيس مشرفين سياحيين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_134",
@@ -5719,7 +7107,15 @@
           "degree": "الثانية",
           "title": "رئيس مشغل حاسبة اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_135",
@@ -5745,7 +7141,15 @@
           "degree": "الخامسة",
           "title": "مصحح اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_136",
@@ -5771,7 +7175,15 @@
           "degree": "الخامسة",
           "title": "مصمم اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_137",
@@ -5797,7 +7209,15 @@
           "degree": "الخامسة",
           "title": "مصمم برامج اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_138",
@@ -5823,7 +7243,15 @@
           "degree": "الثانية",
           "title": "رئيس مصممين برامج اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_139",
@@ -5849,7 +7277,15 @@
           "degree": "الخامسة",
           "title": "مصور اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_140",
@@ -5875,7 +7311,15 @@
           "degree": "الثانية",
           "title": "رئيس مصور شعاعي اقدم ثاني"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_141",
@@ -5901,7 +7345,15 @@
           "degree": "الأولى",
           "title": "رئيس مصورين اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_142",
@@ -5927,7 +7379,15 @@
           "degree": "الخامسة",
           "title": "رئيس مصورين شعاعيين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_143",
@@ -5953,7 +7413,15 @@
           "degree": "السابعة",
           "title": "مضمد اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 9,
+      "coverageStartDegree": "التاسعة",
+      "coverageEndGrade": 7,
+      "coverageEndDegree": "السابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة التاسعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_144",
@@ -5979,7 +7447,15 @@
           "degree": "الرابعة",
           "title": "رئيس مضمدين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 6,
+      "coverageStartDegree": "السادسة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_145",
@@ -6005,7 +7481,15 @@
           "degree": "الثانية",
           "title": "رئيس معالج طبيعي اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_146",
@@ -6031,7 +7515,15 @@
           "degree": "الخامسة",
           "title": "رئيس معالجين طبيعيين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_147",
@@ -6057,7 +7549,15 @@
           "degree": "الخامسة",
           "title": "معد برامج اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_148",
@@ -6083,7 +7583,15 @@
           "degree": "الخامسة",
           "title": "معلق اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_149",
@@ -6109,7 +7617,15 @@
           "degree": "الثانية",
           "title": "معلم اقدم ثاني"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_150",
@@ -6135,7 +7651,15 @@
           "degree": "الخامسة",
           "title": "مقدم برامج اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_151",
@@ -6161,7 +7685,15 @@
           "degree": "الثانية",
           "title": "ممرض جامعي اختصاص اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_152",
@@ -6187,7 +7719,15 @@
           "degree": "الثانية",
           "title": "رئيس منتجي تأمين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_153",
@@ -6213,7 +7753,15 @@
           "degree": "الثالثة",
           "title": "رئيس منتجين اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 5,
+      "coverageStartDegree": "الخامسة",
+      "coverageEndGrade": 3,
+      "coverageEndDegree": "الثالثة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "mid-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الخامسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
     },
     {
       "id": "r1558_family_154",
@@ -6239,7 +7787,15 @@
           "degree": "الأولى",
           "title": "منفذ عدل اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_155",
@@ -6265,7 +7821,15 @@
           "degree": "الأولى",
           "title": "رئيس منقب اثار اقدم اول"
         }
-      ]
+      ],
+      "coverageStartGrade": 3,
+      "coverageStartDegree": "الثالثة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     },
     {
       "id": "r1558_family_156",
@@ -6291,7 +7855,15 @@
           "degree": "الخامسة",
           "title": "مهندس تقني اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
     },
     {
       "id": "r1558_family_157",
@@ -6317,7 +7889,15 @@
           "degree": "الثانية",
           "title": "رئيس هيئة الرقابة المالية اقدم"
         }
-      ]
+      ],
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false,
+      "upperSegment": true,
+      "coverageClass": "upper-segment",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
     }
   ],
   "coverage": {
@@ -6328,5 +7908,31 @@
     "batchAddedChains": 157,
     "batchAddedSteps": 583,
     "rule": "exact consecutive audited family segments; no gap bridging; no multi-candidate grade choice"
+  },
+  "coverageProfiles": {
+    "extendsToFirst": 73,
+    "partial": 124,
+    "upperSegments": 63,
+    "startGradeDistribution": {
+      "3": 18,
+      "4": 45,
+      "5": 7,
+      "6": 9,
+      "7": 72,
+      "8": 32,
+      "9": 7,
+      "10": 7
+    },
+    "note": "بداية التغطية هي أول درجة مثبتة داخل المقطع الحالي ولا تعني بداية التعيين."
+  },
+  "remainingAudit": {
+    "totalTitles": 466,
+    "familyCount": 308,
+    "isolatedFamilies": 205,
+    "twoConsecutiveCandidateFamilies": 73,
+    "ambiguousFamilies": 17,
+    "gapFamilies": 27,
+    "status": "review-only-not-active",
+    "note": "هذه الأرقام تستخدم لتنظيم التدقيق القادم فقط ولا تدخل في التدرج الآلي."
   }
 }
