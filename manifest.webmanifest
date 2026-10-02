@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.59",
-  "short_name": "HR Mobile R1.5.59",
+  "name": "سجل الموظفين - Mobile R1.5.60",
+  "short_name": "HR Mobile R1.5.60",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.59 adds qualification context, explicit chain boundaries, upper-segment warnings and a stronger visual architecture without inferring education rules.",
+  "description": "R1.5.60 Career Experience V4 reduces visual clutter and keeps only essential career information visible, with secondary explanations collapsed.",
   "icons": [
     {
       "src": "assets/icon-192.png",
