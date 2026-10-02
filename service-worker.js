@@ -1,8 +1,8 @@
-/* MOBILE-R1.5.53-SERVICE-WORKER-NO-STALE-UI */
-const SW_RELEASE = 'MOBILE-R1.5.53-SERVICE-WORKER-NO-STALE-UI';
-const UI_CACHE = 'employee-registry-ui-r1553';
+/* MOBILE-R1.5.54-SERVICE-WORKER-NO-STALE-UI */
+const SW_RELEASE = 'MOBILE-R1.5.54-SERVICE-WORKER-NO-STALE-UI';
+const UI_CACHE = 'employee-registry-ui-r1554';
 const LEGACY_PREFIX = 'employee-registry-';
-const OFFLINE_INDEX = new Request(new URL('./__offline_index_r1553__', self.registration.scope).toString());
+const OFFLINE_INDEX = new Request(new URL('./__offline_index_r1554__', self.registration.scope).toString());
 
 self.addEventListener('install', event => {
   event.waitUntil(self.skipWaiting());
