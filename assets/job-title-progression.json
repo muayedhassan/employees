@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.57-CAREER-DASHBOARD-UI-OVERHAUL",
+  "release": "MOBILE-R1.5.58-CAREER-COVERAGE-EXPLAINABILITY",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
   "sourceTotal": 1316,
-  "validatedChainCount": 40,
-  "validatedStepCount": 267,
+  "validatedChainCount": 197,
+  "validatedStepCount": 850,
   "policy": {
     "allowHeuristicInference": false,
     "requireEducationPresence": true,
@@ -496,7 +496,8 @@
           "degree": "الثانية",
           "title": "اداري صحي اقدم"
         }
-      ]
+      ],
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
     },
     {
       "id": "agri_guidance",
@@ -538,7 +539,8 @@
           "degree": "الثانية",
           "title": "رئيس مرشدين زراعيين اقدم اول"
         }
-      ]
+      ],
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
     },
     {
       "id": "social_research",
@@ -602,7 +604,8 @@
           "degree": "الخامسة",
           "title": "محاسب اقدم"
         }
-      ]
+      ],
+      "stopReason": "تتوقف سلسلة «المحاسبة» عند الدرجة الخامسة. توجد في الدليل عناوين إدارية تبدأ في الدرجة الرابعة بـ «معاون مدير حسابات» ثم «مدير حسابات»، لكنها أصبحت مقطعًا مستقلًا ولم يتم ربطها تلقائيًا بالمحاسبة لأن مصدر العناوين لا يتضمن علاقة انتقال صريحة بين التسميتين."
     },
     {
       "id": "audit",
@@ -624,7 +627,8 @@
           "degree": "الخامسة",
           "title": "مدقق اقدم"
         }
-      ]
+      ],
+      "stopReason": "تتوقف سلسلة «التدقيق» عند الدرجة الخامسة. توجد في الدليل عناوين إدارية تبدأ في الدرجة الرابعة بـ «معاون مدير تدقيق» ثم «مدير تدقيق»، لكنها أصبحت مقطعًا مستقلًا ولم يتم ربطها تلقائيًا بالتدقيق لأن مصدر العناوين لا يتضمن علاقة انتقال صريحة بين التسميتين."
     },
     {
       "id": "audit_accounts",
@@ -646,7 +650,8 @@
           "degree": "الخامسة",
           "title": "مدقق حسابات اقدم"
         }
-      ]
+      ],
+      "stopReason": "تتوقف سلسلة «تدقيق الحسابات» عند الدرجة الخامسة. توجد في الدليل عناوين إدارية تبدأ في الرابعة بـ «معاون مدير تدقيق حسابات» وتمتد إلى الثانية، لكنها أصبحت مقطعًا مستقلًا ولم يتم ربطها تلقائيًا. كما لم يُنشأ عنوان للدرجة الأولى لأنه غير مثبت ضمن هذا المقطع."
     },
     {
       "id": "marine_general",
@@ -904,7 +909,8 @@
           "degree": "الثانية",
           "title": "رئيس راصد جوي اقدم"
         }
-      ]
+      ],
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
     },
     {
       "id": "aircraft_captain",
@@ -1291,7 +1297,8 @@
           "degree": "الثانية",
           "title": "معلم صناعي اقدم ثاني"
         }
-      ]
+      ],
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
     },
     {
       "id": "inspection",
@@ -1377,7 +1384,8 @@
           "degree": "الثانية",
           "title": "رئيس مراقب قاعة اقدم"
         }
-      ]
+      ],
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
     },
     {
       "id": "registration_clerk",
@@ -1420,7 +1428,8 @@
           "degree": "الثالثة",
           "title": "رئيس مأمور تسجيل"
         }
-      ]
+      ],
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثالثة لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
     },
     {
       "id": "quality_specialist",
@@ -1458,7 +1467,8 @@
           "degree": "الثانية",
           "title": "رئيس اختصاصي جودة اقدم"
         }
-      ]
+      ],
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
     },
     {
       "id": "biology",
@@ -1625,7 +1635,8 @@
           "degree": "الثانية",
           "title": "رئيس فاحص برامج اقدم"
         }
-      ]
+      ],
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثانية لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
     },
     {
       "id": "finance_clerk",
@@ -1663,7 +1674,4659 @@
           "degree": "الثالثة",
           "title": "مامور مال اول"
         }
+      ],
+      "stopReason": "تتوقف هذه السلسلة عند الدرجة الثالثة لأن الخريطة الحالية لا تحتوي خطوة صريحة معتمدة للدرجة التالية ضمن السلسلة نفسها؛ لم يتم إنشاء عنوان أو ربط مسار بالاستنتاج."
+    },
+    {
+      "id": "r1558_family_001",
+      "name": "بحار",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "بحار",
+      "stopReason": "تتوقف سلسلة «بحار» عند الدرجة الثالثة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثانية، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "بحار اول"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "بحار ثاني"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "بحار ثالث"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "بحار رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "بحار خامس"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "بحار سادس"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "بحار سابع"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_002",
+      "name": "طبي اطراف ومساند",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "طبي اطراف ومساند",
+      "stopReason": "تتوقف سلسلة «طبي اطراف ومساند» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون طبي اطراف ومساند متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون طبي اطراف ومساند اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس معاون طبي اطراف ومساند"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس معاون طبي اطراف ومساند"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس معاون طبي اطراف ومساند ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس معاون طبي اطراف ومساند اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس معاون طبي اطراف ومساند اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_003",
+      "name": "طبي غذائي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "طبي غذائي",
+      "stopReason": "تتوقف سلسلة «طبي غذائي» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون طبي غذائي متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون طبي غذائي اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس طبي غذائي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس معاون طبي غذائي"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس معاون طبي غذائي ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس معاون طبي غذائي اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس معاون طبي غذائي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_004",
+      "name": "فاحص بصر",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "فاحص بصر",
+      "stopReason": "تتوقف سلسلة «فاحص بصر» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "فاحص بصر متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "فاحص بصر"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس فاحص بصر"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس فاحص بصر"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس فاحص بصر ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس فاحص بصر اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس فاحص بصر اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_005",
+      "name": "مختبر",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مختبر",
+      "stopReason": "تتوقف سلسلة «مختبر» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون مختبر متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مختبر اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس معاون مختبر"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس معاون مختبر"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس مساعد مختبر اقدم"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مساعد مختبر اقدم ثاني"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مساعد مختبر اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_006",
+      "name": "وقائي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "وقائي",
+      "stopReason": "تتوقف سلسلة «وقائي» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون وقائي متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون وقائي اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس معاون وقائي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس معاون وقائي"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس معاون وقائي اقدم"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس معاون وقائي اقدم ثاني"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس معاون وقائي اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_007",
+      "name": "وقائي اسنان",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "وقائي اسنان",
+      "stopReason": "تتوقف سلسلة «وقائي اسنان» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون وقائي اسنان متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون وقائي اسنان اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس وقائي اسنان"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس معاون وقائي اسنان"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس معاون وقائي اسنان ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس معاون وقائي اسنان اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس معاون وقائي اسنان اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_008",
+      "name": "مأمور بدالة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مامور بداله",
+      "stopReason": "تتوقف سلسلة «مأمور بدالة» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "معاون مأمور بدالة"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "مأمور بدالة"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مأمور بدالة ثاني"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مأمور بدالة اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مأمور بدالة اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس مأمور بدالة اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_009",
+      "name": "مأمور مائدة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مامور مائده",
+      "stopReason": "تتوقف سلسلة «مأمور مائدة» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "معاون مأمور مائدة"
+        },
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "مأمور مائدة"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "مأمور مائدة أول"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مأمور مائدة اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رئيس مأمور مائدة"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس مأمور مائدة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_010",
+      "name": "محاسب قانوني",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "محاسب قانوني",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "محاسب قانوني سادس"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "محاسب قانوني خامس"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "محاسب قانوني رابع"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "محاسب قانوني ثالث"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "محاسب قانوني ثاني"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "محاسب قانوني اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_011",
+      "name": "مخدر",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مخدر",
+      "stopReason": "تتوقف سلسلة «مخدر» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مساعد مخدر"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس مساعد مخدر"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس مساعد مخدر"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس مساعد مخدر ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مساعد مخدر اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مساعد مخدر اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_012",
+      "name": "ادلة جنائية",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "ادله جنائيه",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس معاون ادلة جنائية"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس ادلة جنائية رابع"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس ادلة جنائية ثالث"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس ادلة جنائية"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس ادلة جنائية اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_013",
+      "name": "ذوي احتياجات خاصة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "ذوي احتياجات خاصه",
+      "stopReason": "تتوقف سلسلة «ذوي احتياجات خاصة» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس معاون ذوي احتياجات خاصة"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس معاون ذوي احتياجات خاصة"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس معاون ذوي احتياجات خاصة ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس معاون ذوي احتياجات خاصة اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس معاون ذوي احتياجات خاصة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_014",
+      "name": "ضابط مخابرة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "ضابط مخابره",
+      "stopReason": "تتوقف سلسلة «ضابط مخابرة» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "ضابط مخابرة"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "ضابط مخابرة اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس ضابط مخابرة"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس ضابط مخابرة"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس ضابط مخابرة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_015",
+      "name": "فاحص نقد",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "فاحص نقد",
+      "stopReason": "تتوقف سلسلة «فاحص نقد» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "فاحص نقد اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "فاحص نقد اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس فاحص نقد"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس فاحص نقد"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس فاحص نقد اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_016",
+      "name": "مؤذن",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مؤذن",
+      "stopReason": "تتوقف سلسلة «مؤذن» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "مؤذن رابع"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "مؤذن ثالث"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مؤذن ثاني"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مؤذن اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مؤذن اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_017",
+      "name": "محقق",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "محقق",
+      "stopReason": "تتوقف سلسلة «محقق» عند الدرجة الثالثة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثانية، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "محقق خامس"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "محقق رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "محقق ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "محقق ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "محقق اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_018",
+      "name": "مسعفين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مسعفين",
+      "stopReason": "تتوقف سلسلة «مسعفين» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس مسعفين"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس مسعفين"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس مسعفين ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مسعفين اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مسعفين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_019",
+      "name": "مشرف تربوي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مشرف تربوي",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مشرف تربوي"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "مشرف تربوي اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مشرف تربوي اقدم"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مشرف تربوي اقدم ثاني"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مشرف تربوي اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_020",
+      "name": "معلم ومعلم جامعي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "معلم ومعلم جامعي",
+      "stopReason": "تتوقف سلسلة «معلم ومعلم جامعي» عند الدرجة الثالثة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثانية، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معلم ومعلم جامعي رابع"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معلم ومعلم جامعي ثالث"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معلم ومعلم جامعي ثاني"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معلم ومعلم جامعي اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معلم ومعلم جامعي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_021",
+      "name": "ممرض او ممرضة ماهرة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "ممرض او ممرضه ماهره",
+      "stopReason": "تتوقف سلسلة «ممرض او ممرضة ماهرة» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "ممرض او ممرضة ماهرة"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "ممرض او ممرضة ماهرة اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس ممرض او ممرضة ماهرة"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس ممرض او ممرضة ماهرة"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس ممرض او ممرضة ماهرة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_022",
+      "name": "موظف خدمة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "موظف خدمه",
+      "stopReason": "تتوقف سلسلة «موظف خدمة» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "موظف خدمة اول"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "موظف خدمة اقدم"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون رئيس موظف خدمة"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رئيس موظف خدمة"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس موظف خدمة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_023",
+      "name": "ابحاث",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "ابحاث",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس ابحاث"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس ابحاث"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس ابحاث اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس ابحاث اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_024",
+      "name": "آثاريين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "اثاريين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس آثاريين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس آثاريين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس آثاريين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس اثاريين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_025",
+      "name": "اختصاص الغام",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "اختصاص الغام",
+      "stopReason": "تتوقف سلسلة «اختصاص الغام» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون اختصاص الغام"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "اختصاص الغام"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "اختصاص الغام اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس اختصاص الغام"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_026",
+      "name": "اعلامي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "اعلامي",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون مدير اعلامي"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مدير اعلامي"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مدير اعلامي اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مدير اعلامي اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_027",
+      "name": "امام",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "امام",
+      "stopReason": "تتوقف سلسلة «امام» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون امام"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "امام خامس"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "امام رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "امام ثالث"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_028",
+      "name": "امناء مكتبة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "امناء مكتبه",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس امناء مكتبة"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس امناء مكتبة"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس امناء مكتبة اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس امناء مكتبة اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_029",
+      "name": "باحث صحة بيئة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "باحث صحه بيئه",
+      "stopReason": "تتوقف سلسلة «باحث صحة بيئة» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون باحث صحة بيئة"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "باحث صحة بيئة"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "باحث صحة بيئة اول"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "باحث صحة بيئة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_030",
+      "name": "تدقيق",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "تدقيق",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون مدير تدقيق"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مدير تدقيق"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مدير تدقيق اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مدير تدقيق اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_031",
+      "name": "تقني اجهزة طبية",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "تقني اجهزه طبيه",
+      "stopReason": "تتوقف سلسلة «تقني اجهزة طبية» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "تقني اجهزة طبية"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون تقني اجهزة طبية اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس تقني اجهزة طبية"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس تقني اجهزة طبية"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_032",
+      "name": "حرفيين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "حرفيين",
+      "stopReason": "تتوقف سلسلة «حرفيين» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون رئيس حرفيين"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رئيس حرفيين"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس حرفيين اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس حرفيين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_033",
+      "name": "حسابات",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "حسابات",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون مدير حسابات"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مدير حسابات"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مدير حسابات اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مدير حسابات اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_034",
+      "name": "رسامين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "رسامين",
+      "stopReason": "تتوقف سلسلة «رسامين» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معاون رئيس رسامين"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس رسامين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس رسامين اقدم"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس رسامين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_035",
+      "name": "سواق",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "سواق",
+      "stopReason": "تتوقف سلسلة «سواق» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون رئيس سواق"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رئيس سواق"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس سواق اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس سواق اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_036",
+      "name": "طباخ",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "طباخ",
+      "stopReason": "تتوقف سلسلة «طباخ» عند الدرجة السابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة السادسة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "معاون طباخ"
+        },
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "طباخ"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "طباخ اقدم  أول"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "طباخ اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_037",
+      "name": "طبي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "طبي",
+      "stopReason": "تتوقف سلسلة «طبي» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون طبي اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس معاون طبي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس معاون طبي"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس معاون طبي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_038",
+      "name": "طبي صحة مجتمع",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "طبي صحه مجتمع",
+      "stopReason": "تتوقف سلسلة «طبي صحة مجتمع» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون طبي صحة مجتمع"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون طبي صحة مجتمع اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس معاون طبي صحة مجتمع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس معاون طبي صحة مجتمع"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_039",
+      "name": "طيارين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "طيارين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس طيارين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس طيارين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس طيارين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس طيارين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_040",
+      "name": "فاحص مواد",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "فاحص مواد",
+      "stopReason": "تتوقف سلسلة «فاحص مواد» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون فاحص مواد"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "فاحص مواد"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "فاحص مواد اول"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "فاحص مواد اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_041",
+      "name": "فنان",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "فنان",
+      "stopReason": "تتوقف سلسلة «فنان» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "فنان متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "فنان"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "فنان اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "فنان اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_042",
+      "name": "فنانين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "فنانين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس فنانين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس فنانين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس فنانين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس فنانين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_043",
+      "name": "فني",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "فني",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون مدير فني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مدير فني"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مدير فني اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مدير فني اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_044",
+      "name": "قضائي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "قضائي",
+      "stopReason": "تتوقف سلسلة «قضائي» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون قضائي سادس"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون قضائي خامس"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون قضائي رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معاون قضائي ثالث"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_045",
+      "name": "متنبئين جويين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "متنبئين جويين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس متنبئين جويين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس متنبئين جويين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس متنبئين جويين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس متنبئين جويين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_046",
+      "name": "محلل مختبر",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "محلل مختبر",
+      "stopReason": "تتوقف سلسلة «محلل مختبر» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون محلل مختبر"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "محلل مختبر"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "محلل مختبر اول"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "محلل مختبر اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_047",
+      "name": "مخازن",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مخازن",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون مدير مخازن"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مدير مخازن"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مدير مخازن اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مدير مخازن اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_048",
+      "name": "مخرج",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مخرج",
+      "stopReason": "تتوقف سلسلة «مخرج» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "مخرج متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مخرج"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مخرج"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مخرج اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_049",
+      "name": "مخرجين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مخرجين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مخرجين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مخرجين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مخرجين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مخرجين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_050",
+      "name": "مدربين رياضي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مدربين رياضي",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مدربين رياضي"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مدربين رياضي"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مدربين رياضي اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مدربين رياضي اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_051",
+      "name": "مراسل",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مراسل",
+      "stopReason": "تتوقف سلسلة «مراسل» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "مراسل متدرب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مراسل"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مراسل اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مراسل اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_052",
+      "name": "مراسلين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مراسلين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مراسلين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مراسلين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مراسلين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مراسلين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_053",
+      "name": "مراقب",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مراقب",
+      "stopReason": "تتوقف سلسلة «مراقب» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون مراقب"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مراقب"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مراقب اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مراقب اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_054",
+      "name": "مراقب جوي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مراقب جوي",
+      "stopReason": "تتوقف سلسلة «مراقب جوي» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون مراقب جوي"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مراقب جوي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مراقب جوي اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مراقب جوي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_055",
+      "name": "مراقب فني",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مراقب فني",
+      "stopReason": "تتوقف سلسلة «مراقب فني» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون مراقب فني"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مراقب فني"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مراقب فني اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مراقب فني اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_056",
+      "name": "مراقب مطار",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مراقب مطار",
+      "stopReason": "تتوقف سلسلة «مراقب مطار» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون مراقب مطار"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مراقب مطار"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مراقب مطار اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مراقب مطار اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_057",
+      "name": "مراقب نقل جوي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مراقب نقل جوي",
+      "stopReason": "تتوقف سلسلة «مراقب نقل جوي» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون مراقب نقل جوي"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مراقب نقل جوي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مراقب نقل جوي اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مراقب نقل جوي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_058",
+      "name": "مرشد",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مرشد",
+      "stopReason": "تتوقف سلسلة «مرشد» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون مرشد"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مرشد"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مرشد اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مرشد اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_059",
+      "name": "مساحين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مساحين",
+      "stopReason": "تتوقف سلسلة «مساحين» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معاون رئيس مساحين"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس مساحين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مساحين اقدم"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مساحين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_060",
+      "name": "مشرف فني",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مشرف فني",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "مشرف فني اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مشرف فني اقدم"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مشرف فني اقدم ثاني"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مشرف فني اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_061",
+      "name": "مصححين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مصححين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مصححين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مصححين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مصححين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مصححين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_062",
+      "name": "مصممين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مصممين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مصممين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مصممين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مصممين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مصممين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_063",
+      "name": "مضيفين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مضيفين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مضيفين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مضيفين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مضيفين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مضيفين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_064",
+      "name": "معدي برامج",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "معدي برامج",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس معدي برامج"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس معدي برامج"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس معدي برامج اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس معدي برامج اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_065",
+      "name": "معلقين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "معلقين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس معلقين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس معلقين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس معلقين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس معلقين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_066",
+      "name": "مقدمي برامج",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مقدمي برامج",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مقدمي برامج"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مقدمي برامج"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مقدمي برامج اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مقدمي برامج اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_067",
+      "name": "منظم ارشيف",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "منظم ارشيف",
+      "stopReason": "تتوقف سلسلة «منظم ارشيف» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "منظم ارشيف اول"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "منظم ارشيف اقدم"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "منظم ارشيف اقدم ثاني"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "منظم ارشيف اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_068",
+      "name": "مهندسين اطراف ومساند",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مهندسين اطراف ومساند",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مهندسين اطراف ومساند"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مهندسين اطراف ومساند"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مهندسين اطراف ومساند اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مهندسين اطراف ومساند اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_069",
+      "name": "مهندسين تقنيين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مهندسين تقنيين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مهندسين تقنيين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مهندسين تقنيين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مهندسين تقنيين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مهندسين تقنيين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_070",
+      "name": "مهندسين طب حياتي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مهندسين طب حياتي",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مهندسين طب حياتي"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مهندسين طب حياتي"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مهندسين طب حياتي اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مهندسين طب حياتي اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_071",
+      "name": "مونيتير",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مونيتير",
+      "stopReason": "تتوقف سلسلة «مونيتير» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مونيتير"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مونيتير اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مونيتير اقدم"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مونيتير"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_072",
+      "name": "واعظ",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "واعظ",
+      "stopReason": "تتوقف سلسلة «واعظ» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون واعظ"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "واعظ خامس"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "واعظ رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "واعظ ثالث"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_073",
+      "name": "ابحاث علوم جو",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "ابحاث علوم جو",
+      "stopReason": "تتوقف سلسلة «ابحاث علوم جو» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس ابحاث علوم جو"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس ابحاث علوم جو"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس ابحاث علوم جو اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_074",
+      "name": "اختصاص نظم ومعلومات",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "اختصاص نظم ومعلومات",
+      "stopReason": "تتوقف سلسلة «اختصاص نظم ومعلومات» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون اختصاص نظم ومعلومات"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "اختصاص نظم ومعلومات"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "اختصاص نظم ومعلومات اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_075",
+      "name": "اطباء اسنان",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "اطباء اسنان",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس اطباء اسنان"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس اطباء اسنان اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس اطباء اسنان اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_076",
+      "name": "اطباء عموميين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "اطباء عموميين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس اطباء عموميين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس اطباء عموميين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس اطباء عموميين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_077",
+      "name": "اطباء ممارسين بفرع",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "اطباء ممارسين بفرع",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس اطباء ممارسين بفرع"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس اطباء ممارسين بفرع اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس اطباء ممارسين بفرع اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_078",
+      "name": "امام وواعظ",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "امام وواعظ",
+      "stopReason": "تتوقف سلسلة «امام وواعظ» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "امام وواعظ ثالث"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "امام وواعظ ثاني"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "امام وواعظ اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_079",
+      "name": "امين صندوق",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "امين صندوق",
+      "stopReason": "تتوقف سلسلة «امين صندوق» عند الدرجة السابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة السادسة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "معاون امين صندوق"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "امين صندوق"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "امين صندوق اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_080",
+      "name": "امين متحف",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "امين متحف",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "امين متحف اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "امين متحف اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "امين متحف اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_081",
+      "name": "امين مخزن",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "امين مخزن",
+      "stopReason": "تتوقف سلسلة «امين مخزن» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون امين مخزن"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "امين مخزن"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "امين مخزن اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_082",
+      "name": "امين مكتبة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "امين مكتبه",
+      "stopReason": "تتوقف سلسلة «امين مكتبة» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون امين مكتبة"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "امين مكتبة"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "امين مكتبة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_083",
+      "name": "باحث",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "باحث",
+      "stopReason": "تتوقف سلسلة «باحث» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون باحث"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "باحث"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "باحث اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_084",
+      "name": "تدقيق حسابات",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "تدقيق حسابات",
+      "stopReason": "تتوقف سلسلة «تدقيق حسابات» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون مدير تدقيق حسابات"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مدير تدقيق حسابات"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مدير تدقيق حسابات اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_085",
+      "name": "تسجيل عقاري",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "تسجيل عقاري",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مدير تسجيل عقاري"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مدير تسجيل عقاري اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مدير تسجيل عقاري اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_086",
+      "name": "تقني طبي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "تقني طبي",
+      "stopReason": "تتوقف سلسلة «تقني طبي» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "تقني طبي متدرب"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "تقني طبي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "تقني طبي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_087",
+      "name": "تقنيين اجهزة طبية",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "تقنيين اجهزه طبيه",
+      "stopReason": "تتوقف سلسلة «تقنيين اجهزة طبية» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس تقنيين اجهزة طبية"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس تقنيين اجهزة طبية اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس تقنيين اجهزة طبية اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_088",
+      "name": "تقنيين طبيين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "تقنيين طبيين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس تقنيين طبيين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس تقنيين طبيين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس تقنيين طبيين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_089",
+      "name": "حارس اصلاحية",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "حارس اصلاحيه",
+      "stopReason": "تتوقف سلسلة «حارس اصلاحية» عند الدرجة الثامنة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة السابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "حارس اصلاحية خامس"
+        },
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "حارس اصلاحية رابع"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "حارس اصلاحية ثالث"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_090",
+      "name": "حراس",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "حراس",
+      "stopReason": "تتوقف سلسلة «حراس» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون رئيس حراس"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رئيس حراس"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس حراس اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_091",
+      "name": "خادم ومؤذن",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "خادم ومؤذن",
+      "stopReason": "تتوقف سلسلة «خادم ومؤذن» عند الدرجة الثامنة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة السابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "خادم ومؤذن خامس"
+        },
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "خادم ومؤذن رابع"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "خادم ومؤذن ثالث"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_092",
+      "name": "رسام",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "رسام",
+      "stopReason": "تتوقف سلسلة «رسام» عند الدرجة السادسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الخامسة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون رسام"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "رسام"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رسام اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_093",
+      "name": "رسام هندسي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "رسام هندسي",
+      "stopReason": "تتوقف سلسلة «رسام هندسي» عند الدرجة السادسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الخامسة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون رسام هندسي"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "رسام هندسي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رسام هندسي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_094",
+      "name": "رقباء اصلاحية",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "رقباء اصلاحيه",
+      "stopReason": "تتوقف سلسلة «رقباء اصلاحية» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس رقباء اصلاحية"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس رقباء اصلاحية اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس رقباء اصلاحية اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_095",
+      "name": "رقيب مالي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "رقيب مالي",
+      "stopReason": "تتوقف سلسلة «رقيب مالي» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون رقيب مالي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رقيب مالي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رقيب مالي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_096",
+      "name": "سائق",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "سائق",
+      "stopReason": "تتوقف سلسلة «سائق» عند الدرجة الثامنة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة السابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "سائق ثالث"
+        },
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "سائق اول"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "سائق اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_097",
+      "name": "سادن",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "سادن",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "سادن اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "سادن اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "سادن اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_098",
+      "name": "سواق اطفاء",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "سواق اطفاء",
+      "stopReason": "تتوقف سلسلة «سواق اطفاء» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون رئيس سواق اطفاء"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رئيس سواق اطفاء"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس سواق اطفاء اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_099",
+      "name": "صحة بيئة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "صحه بيئه",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معاون رئيس صحة بيئة"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس صحة بيئة"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس صحة بيئة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_100",
+      "name": "صيادلة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "صيادله",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس صيادلة"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس صيادلة اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس صيادلة اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_101",
+      "name": "صيدلي اختصاص",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "صيدلي اختصاص",
+      "stopReason": "تتوقف سلسلة «صيدلي اختصاص» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "صيدلي اختصاص اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "صيدلي اختصاص"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "صيدلي اختصاص اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_102",
+      "name": "طبيب اختصاص",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "طبيب اختصاص",
+      "stopReason": "تتوقف سلسلة «طبيب اختصاص» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "طبيب اختصاص اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "طبيب اختصاص"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "طبيب اختصاص اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_103",
+      "name": "طبيب اسنان اختصاص",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "طبيب اسنان اختصاص",
+      "stopReason": "تتوقف سلسلة «طبيب اسنان اختصاص» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "طبيب اسنان اختصاص اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "طبيب اسنان اختصاص"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "طبيب اسنان اختصاص اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_104",
+      "name": "طيار",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "طيار",
+      "stopReason": "تتوقف سلسلة «طيار» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون طيار"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "طيار"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "طيار اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_105",
+      "name": "غواص",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "غواص",
+      "stopReason": "تتوقف سلسلة «غواص» عند الدرجة الثامنة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة السابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "مساعد غواص"
+        },
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "غواص"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "غواص اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_106",
+      "name": "غواصين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "غواصين",
+      "stopReason": "تتوقف سلسلة «غواصين» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون رئيس غواصين"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رئيس غواصين"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس غواصين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_107",
+      "name": "فاحصي مواد",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "فاحصي مواد",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معاون رئيس فاحصي مواد"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس فاحصي مواد"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس فاحصي مواد اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_108",
+      "name": "فيزياوي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "فيزياوي",
+      "stopReason": "تتوقف سلسلة «فيزياوي» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون فيزياوي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "فيزياوي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "فيزياوي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_109",
+      "name": "قابلات ماهرات",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "قابلات ماهرات",
+      "stopReason": "تتوقف سلسلة «قابلات ماهرات» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس قابلات ماهرات اقدم"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس قابلات ماهرات اقدم ثاني"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس قابلات ماهرات اقدم أول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_110",
+      "name": "قارئ ومؤذن",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "قارئ ومؤذن",
+      "stopReason": "تتوقف سلسلة «قارئ ومؤذن» عند الدرجة الثامنة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة السابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "قارئ ومؤذن خامس"
+        },
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "قارئ ومؤذن رابع"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "قارئ ومؤذن ثالث"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_111",
+      "name": "قاصرين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "قاصرين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مدير قاصرين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "مدير قاصرين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "مدير قاصرين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_112",
+      "name": "كاتب عدل",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "كاتب عدل",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "كاتب عدل اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "كاتب عدل اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "كاتب عدل اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_113",
+      "name": "كتاب طابعة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "كتاب طابعه",
+      "stopReason": "تتوقف سلسلة «كتاب طابعة» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس كتاب طابعة"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس كتاب طابعة"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس كتاب طابعة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_114",
+      "name": "متنبئ جوي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "متنبئ جوي",
+      "stopReason": "تتوقف سلسلة «متنبئ جوي» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون متنبئ جوي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "متنبئ جوي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "متنبئ جوي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_115",
+      "name": "محصلين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "محصلين",
+      "stopReason": "تتوقف سلسلة «محصلين» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون رئيس محصلين"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رئيس محصلين"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس محصلين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_116",
+      "name": "محلل انظمة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "محلل انظمه",
+      "stopReason": "تتوقف سلسلة «محلل انظمة» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون محلل انظمة"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "محلل انظمة"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "محلل انظمة اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_117",
+      "name": "محللي مختبر",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "محللي مختبر",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معاون رئيس محللي مختبر"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس محللي مختبر"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس محللي مختبر اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_118",
+      "name": "مختبر صناعة اسنان",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مختبر صناعه اسنان",
+      "stopReason": "تتوقف سلسلة «مختبر صناعة اسنان» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مساعد مختبر صناعة اسنان اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس مساعد مختبر صناعة اسنان"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس مساعد مختبر صناعة اسنان"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_119",
+      "name": "مخططين عمرانيين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مخططين عمرانيين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معاون رئيس مخططين عمرانيين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مخططين عمرانيين"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مخططين عمرانيين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_120",
+      "name": "مخمن",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مخمن",
+      "stopReason": "تتوقف سلسلة «مخمن» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مخمن"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مخمن"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مخمن اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_121",
+      "name": "مخمنيين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مخمنيين",
+      "stopReason": "تتوقف سلسلة «مخمنيين» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مخمنيين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مخمنيين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مخمنيين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_122",
+      "name": "مدرب رياضي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مدرب رياضي",
+      "stopReason": "تتوقف سلسلة «مدرب رياضي» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مدرب رياضي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مدرب رياضي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مدرب رياضي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_123",
+      "name": "مدرب فني",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مدرب فني",
+      "stopReason": "تتوقف سلسلة «مدرب فني» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مدرب فني"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مدرب فني"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مدرب فني اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_124",
+      "name": "مدربين فنيين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مدربين فنيين",
+      "stopReason": "تتوقف سلسلة «مدربين فنيين» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مدربين فنيين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مدربين فنيين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مدربين فنيين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_125",
+      "name": "مراقب لاسلكي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مراقب لاسلكي",
+      "stopReason": "تتوقف سلسلة «مراقب لاسلكي» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مراقب لاسلكي"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مراقب لاسلكي"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مراقب لاسلكي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_126",
+      "name": "مراقبي نقل جوي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مراقبي نقل جوي",
+      "stopReason": "تتوقف سلسلة «مراقبي نقل جوي» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مراقبي نقل جوي"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مراقبي نقل جوي"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مراقبي نقل جوي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_127",
+      "name": "مرشدين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مرشدين",
+      "stopReason": "تتوقف سلسلة «مرشدين» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مرشدين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مرشدين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مرشدين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_128",
+      "name": "مساح",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مساح",
+      "stopReason": "تتوقف سلسلة «مساح» عند الدرجة السادسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الخامسة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معاون مساح"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مساح"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مساح اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_129",
+      "name": "مشاور سياسي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مشاور سياسي",
+      "stopReason": "تتوقف سلسلة «مشاور سياسي» عند الدرجة الثالثة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثانية، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مساعد مشاور سياسي"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "مشاور سياسي"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "مشاور سياسي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_130",
+      "name": "مشرح",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مشرح",
+      "stopReason": "تتوقف سلسلة «مشرح» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مشرح"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مشرح اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مشرح اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_131",
+      "name": "مشرف بيانات",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مشرف بيانات",
+      "stopReason": "تتوقف سلسلة «مشرف بيانات» عند الدرجة الرابعة. لم تُضف الدرجة الثالثة لأن الدليل يحتوي أكثر من عنوان محتمل لهذه العائلة في الدرجة نفسها: رئيس مشرف بيانات اقدم، رئيس مشرف بيانات اقدم ثاني. لم يتم اختيار أي منها تلقائيًا. توجد عناوين أخرى بعد فجوة في الدرجات، ولم يتم القفز فوق الفجوة لدمجها.",
+      "steps": [
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مشرف بيانات اقدم"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معاون رئيس مشرف بيانات"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس مشرف بيانات"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_132",
+      "name": "مشرف سياحي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مشرف سياحي",
+      "stopReason": "تتوقف سلسلة «مشرف سياحي» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مشرف سياحي"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مشرف سياحي"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مشرف سياحي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_133",
+      "name": "مشرفين سياحيين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مشرفين سياحيين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مشرفين سياحيين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مشرفين سياحيين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مشرفين سياحيين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_134",
+      "name": "مشغل حاسبة",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مشغل حاسبه",
+      "stopReason": "تتوقف سلسلة «مشغل حاسبة» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس مشغل حاسبة ثالث"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مشغل حاسبة ثاني"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مشغل حاسبة اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_135",
+      "name": "مصحح",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مصحح",
+      "stopReason": "تتوقف سلسلة «مصحح» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مصحح"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مصحح"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مصحح اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_136",
+      "name": "مصمم",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مصمم",
+      "stopReason": "تتوقف سلسلة «مصمم» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مصمم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مصمم"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مصمم اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_137",
+      "name": "مصمم برامج",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مصمم برامج",
+      "stopReason": "تتوقف سلسلة «مصمم برامج» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مصمم برامج"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مصمم برامج"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مصمم برامج اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_138",
+      "name": "مصممين برامج",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مصممين برامج",
+      "stopReason": "تتوقف سلسلة «مصممين برامج» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس مصممين برامج"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مصممين برامج"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مصممين برامج اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_139",
+      "name": "مصور",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مصور",
+      "stopReason": "تتوقف سلسلة «مصور» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مصور"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مصور"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مصور اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_140",
+      "name": "مصور شعاعي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مصور شعاعي",
+      "stopReason": "تتوقف سلسلة «مصور شعاعي» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس مصور شعاعي اقدم رابع"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مصور شعاعي اقدم ثالث"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مصور شعاعي اقدم ثاني"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_141",
+      "name": "مصورين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مصورين",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس مصورين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس مصورين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس مصورين اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_142",
+      "name": "مصورين شعاعيين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مصورين شعاعيين",
+      "stopReason": "تتوقف سلسلة «مصورين شعاعيين» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون رئيس مصورين شعاعيين"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رئيس مصورين شعاعيين"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس مصورين شعاعيين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_143",
+      "name": "مضمد",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مضمد",
+      "stopReason": "تتوقف سلسلة «مضمد» عند الدرجة السابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة السادسة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "معاون مضمد"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "مضمد"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مضمد اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_144",
+      "name": "مضمدين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مضمدين",
+      "stopReason": "تتوقف سلسلة «مضمدين» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس مضمدين"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس مضمدين"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس مضمدين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_145",
+      "name": "معالج طبيعي",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "معالج طبيعي",
+      "stopReason": "تتوقف سلسلة «معالج طبيعي» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس معالج طبيعي ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس معالج طبيعي اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس معالج طبيعي اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_146",
+      "name": "معالجين طبيعيين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "معالجين طبيعيين",
+      "stopReason": "تتوقف سلسلة «معالجين طبيعيين» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون معالجين طبيعيين"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رئيس معالجين طبيعيين"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس معالجين طبيعيين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_147",
+      "name": "معد برامج",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "معد برامج",
+      "stopReason": "تتوقف سلسلة «معد برامج» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معد برامج متدرب"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معد برامج"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معد برامج اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_148",
+      "name": "معلق",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "معلق",
+      "stopReason": "تتوقف سلسلة «معلق» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معلق متدرب"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معلق"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معلق اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_149",
+      "name": "معلم",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "معلم",
+      "stopReason": "تتوقف سلسلة «معلم» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معلم اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معلم اقدم"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "معلم اقدم ثاني"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_150",
+      "name": "مقدم برامج",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مقدم برامج",
+      "stopReason": "تتوقف سلسلة «مقدم برامج» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مقدم برامج متدرب"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مقدم برامج"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مقدم برامج اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_151",
+      "name": "ممرض جامعي اختصاص",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "ممرض جامعي اختصاص",
+      "stopReason": "تتوقف سلسلة «ممرض جامعي اختصاص» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "ممرض جامعي اختصاص اول"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "ممرض جامعي اختصاص"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "ممرض جامعي اختصاص اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_152",
+      "name": "منتجي تأمين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "منتجي تامين",
+      "stopReason": "تتوقف سلسلة «منتجي تأمين» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس منتجي تأمين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس منتجي تأمين اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس منتجي تأمين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_153",
+      "name": "منتجين",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "منتجين",
+      "stopReason": "تتوقف سلسلة «منتجين» عند الدرجة الثالثة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثانية، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معاون رئيس منتجين"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس منتجين"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس منتجين اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_154",
+      "name": "منفذ عدل",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "منفذ عدل",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "منفذ عدل اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "منفذ عدل اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "منفذ عدل اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_155",
+      "name": "منقب اثار",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "منقب اثار",
+      "stopReason": "",
+      "steps": [
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "منقب اثار اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس منقب اثار اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "رئيس منقب اثار اقدم اول"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_156",
+      "name": "مهندس تقني",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "مهندس تقني",
+      "stopReason": "تتوقف سلسلة «مهندس تقني» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون مهندس تقني"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مهندس تقني"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مهندس تقني اقدم"
+        }
+      ]
+    },
+    {
+      "id": "r1558_family_157",
+      "name": "هيئة الرقابة المالية",
+      "status": "explicit-audited-family-segment",
+      "releaseAdded": "R1.5.58",
+      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "familyKey": "هيئه الرقابه الماليه",
+      "stopReason": "تتوقف سلسلة «هيئة الرقابة المالية» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون رئيس هيئة الرقابة المالية"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس هيئة الرقابة المالية"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس هيئة الرقابة المالية اقدم"
+        }
       ]
     }
-  ]
+  ],
+  "coverage": {
+    "directoryTitles": 1316,
+    "mappedTitles": 850,
+    "unmappedTitles": 466,
+    "exactCoveragePercent": 64.6,
+    "batchAddedChains": 157,
+    "batchAddedSteps": 583,
+    "rule": "exact consecutive audited family segments; no gap bridging; no multi-candidate grade choice"
+  }
 }

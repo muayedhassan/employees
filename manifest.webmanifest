@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.57",
-  "short_name": "HR Mobile R1.5.57",
+  "name": "سجل الموظفين - Mobile R1.5.58",
+  "short_name": "HR Mobile R1.5.58",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.57 Career Dashboard UI Overhaul: visible 40/267/1316 KPIs, professional employee analysis dashboard and organized 40-chain guide.",
+  "description": "R1.5.58 expands exact career coverage to 850/1316 titles and explains every partial-chain stop without heuristic bridging.",
   "icons": [
     {
       "src": "assets/icon-192.png",
