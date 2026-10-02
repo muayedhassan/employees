@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.56-CAREER-MAP-EXPANSION-BATCH1">
+<meta name="app-release" content="MOBILE-R1.5.57-CAREER-DASHBOARD-UI-OVERHAUL">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -5832,7 +5832,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   }
   function setActive(v){var isPerm=mode==='perm',isCont=mode==='cont',cls=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){var t=document.getElementById(x==='titlematch'?TAB_ID:'stab-'+x);if(t){var on=v===x;t.className='sub-tab'+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');}});}
   function clearMatch(){document.body.classList.remove('subview-titlematch');var v=document.getElementById(VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
-  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1556'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
+  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1557'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
   function buildIndex(data){var rows=(data&&data.rows)||[],by={},any={};rows.forEach(function(r){var d=degLabel(r.degree),t=String(r.title||'').trim(),n=norm(t);if(!d||!n)return;(by[d]=by[d]||{});(by[d][n]=by[d][n]||[]).push(t);(any[n]=any[n]||[]).push(d);});return{by:by,any:any,rows:rows};}
   function suggest(title,degree,idx){var n=norm(title),words=n.split(' ').filter(Boolean),src=(idx.rows||[]).filter(function(r){return degLabel(r.degree)===degree;});var scored=[];src.forEach(function(r){var rn=norm(r.title||'');if(!rn)return;var score=0;words.forEach(function(w){if(w.length>2&&rn.indexOf(w)>=0)score+=2;});if(rn.indexOf(n)>=0||n.indexOf(rn)>=0)score+=5;if(score>0)scored.push({t:r.title,s:score});});return scored.sort(function(a,b){return b.s-a.s;}).slice(0,3).map(function(x){return x.t;});}
   function analyze(){return loadTitles().then(function(data){var idx=buildIndex(data),emps=allEmployees();state.rows=emps.map(function(e,i){var title=String(e.jobTitle||'').trim(),degree=degLabel(e.grade),nt=norm(title),cls='unknown',label='غير موجود',note='العنوان غير موجود في دليل العناوين الوظيفية.',sugg=[];if(!title||!degree){cls='missing';label='نقص بيانات';note=!title&&!degree?'لا يوجد عنوان وظيفي ولا درجة.':(!title?'لا يوجد عنوان وظيفي.':'لا توجد درجة وظيفية واضحة.');}
@@ -8945,8 +8945,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1556';
-  var KEEP_CACHE='employee-registry-ui-r1556';
+  var SW_URL='service-worker.js?v=1557';
+  var KEEP_CACHE='employee-registry-ui-r1557';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -10702,12 +10702,340 @@ body.light-mode #view-career .r1555-why summary{color:#173358}
 }
 </style>
 
+
+<style id="r1557-career-dashboard-ui-style">
+/* R1557_CAREER_DASHBOARD_UI_OVERHAUL */
+#view-career{
+  --c57-surface:rgba(8,23,49,.96);
+  --c57-card:rgba(255,255,255,.045);
+  --c57-line:rgba(152,211,255,.12);
+  --c57-text:#f5f9ff;
+  --c57-muted:rgba(221,234,251,.65);
+  --c57-cyan:#79e7ff;
+  --c57-blue:#8bbcff;
+  --c57-green:#8ff0ae;
+  --c57-amber:#ffd789;
+}
+#view-career .r1551-page{max-width:920px;margin:0 auto;padding:10px 10px 46px;gap:13px}
+#view-career .r1557-dashboard{
+  position:relative;overflow:hidden;border-radius:28px;padding:18px;
+  background:
+    radial-gradient(circle at 85% -10%,rgba(64,170,255,.18),transparent 36%),
+    radial-gradient(circle at 5% 105%,rgba(80,226,255,.10),transparent 34%),
+    linear-gradient(150deg,#0b2145 0%,#07152f 54%,#060e23 100%);
+  border:1px solid rgba(129,210,255,.16);
+  box-shadow:0 18px 46px rgba(0,0,0,.22);
+}
+#view-career .r1557-dashboard-top{display:grid;grid-template-columns:58px minmax(0,1fr);gap:13px;align-items:center}
+#view-career .r1557-main-icon{
+  width:58px;height:58px;border-radius:19px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg,rgba(121,231,255,.19),rgba(91,132,255,.14));
+  border:1px solid rgba(121,231,255,.20);color:#e9fbff;font-size:24px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+#view-career .r1557-eyebrow{font-size:10px;font-weight:900;letter-spacing:.2px;color:var(--c57-cyan);margin-bottom:3px}
+#view-career .r1557-title{font:900 22px var(--hr-title-font,'Zain',Tahoma,sans-serif);color:#fff;line-height:1.25}
+#view-career .r1557-subtitle{font-size:11.5px;line-height:1.85;color:rgba(228,239,255,.72);margin-top:5px;max-width:650px}
+#view-career .r1557-badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+#view-career .r1557-badge{
+  display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.045);
+  font-size:9px;font-weight:900;color:#e6f3ff
+}
+#view-career .r1557-badge.safe{border-color:rgba(68,220,128,.22);background:rgba(40,190,100,.07);color:#c9f8d8}
+#view-career .r1557-badge.readonly{border-color:rgba(105,167,255,.22);background:rgba(80,130,255,.07);color:#d8eaff}
+#view-career .r1557-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:17px}
+#view-career .r1557-kpi{
+  min-height:94px;border-radius:20px;padding:12px 13px;
+  background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.025));
+  border:1px solid rgba(255,255,255,.09);display:flex;flex-direction:column;justify-content:center;
+}
+#view-career .r1557-kpi-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#view-career .r1557-kpi i{font-size:14px;color:var(--c57-cyan);opacity:.9}
+#view-career .r1557-kpi b{
+  font:900 28px var(--hr-number-font,'Arial',sans-serif);line-height:1;color:#fff;direction:ltr;text-align:right;
+}
+#view-career .r1557-kpi span{margin-top:8px;font-size:10px;font-weight:800;color:rgba(225,238,255,.72);line-height:1.5}
+#view-career .r1557-kpi small{display:block;margin-top:3px;font-size:8px;color:rgba(218,232,252,.44)}
+#view-career .r1557-integrity{
+  margin-top:10px;padding:9px 11px;border-radius:14px;border:1px solid rgba(121,231,255,.10);
+  background:rgba(121,231,255,.035);display:flex;align-items:center;gap:8px;
+  color:rgba(221,240,255,.67);font-size:9px;line-height:1.65
+}
+#view-career .r1557-nav{
+  padding:7px;border-radius:20px;background:rgba(5,15,34,.58);border:1px solid rgba(144,201,255,.10);
+  display:grid;grid-template-columns:1fr 1fr;gap:7px
+}
+#view-career .r1551-mode{
+  min-height:48px;border-radius:15px;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:8px;
+  border:1px solid transparent;transition:.16s ease
+}
+#view-career .r1551-mode.active{
+  background:linear-gradient(145deg,rgba(67,180,255,.14),rgba(75,125,255,.10));
+  border-color:rgba(121,231,255,.22);color:#f5fbff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)
+}
+#view-career .r1557-panel{
+  border-radius:24px;padding:15px;background:linear-gradient(150deg,rgba(10,27,56,.92),rgba(7,18,40,.94));
+  border:1px solid rgba(144,201,255,.11);box-shadow:0 12px 30px rgba(0,0,0,.12)
+}
+#view-career .r1557-section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:13px}
+#view-career .r1557-section-title{display:flex;gap:10px;align-items:flex-start;min-width:0}
+#view-career .r1557-section-icon{
+  width:37px;height:37px;flex:0 0 37px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  background:rgba(121,231,255,.075);border:1px solid rgba(121,231,255,.13);color:var(--c57-cyan)
+}
+#view-career .r1557-section-copy b{display:block;color:#fff;font:900 14px var(--hr-title-font,'Zain',Tahoma,sans-serif)}
+#view-career .r1557-section-copy span{display:block;color:var(--c57-muted);font-size:9.5px;line-height:1.7;margin-top:2px}
+#view-career .r1557-count{
+  flex:0 0 auto;padding:6px 9px;border-radius:999px;background:rgba(121,231,255,.07);
+  border:1px solid rgba(121,231,255,.13);color:#c8f6ff;font-size:9px;font-weight:900
+}
+#view-career .r1551-search{gap:8px}
+#view-career .r1551-searchbox{
+  min-height:50px;border-radius:16px;background:rgba(2,12,29,.56);
+  border:1px solid rgba(121,231,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.025)
+}
+#view-career .r1551-input{font-size:12px}
+#view-career .r1551-clear{width:50px;min-width:50px;height:50px;border-radius:16px}
+#view-career .r1557-search-help{
+  margin-top:9px;padding:9px 10px;border-radius:13px;background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.06);font-size:9px;line-height:1.7;color:rgba(218,233,252,.58)
+}
+#view-career .r1551-results{margin-top:11px;display:grid;gap:8px}
+#view-career .r1551-result{
+  border-radius:18px;padding:11px 12px;min-height:66px;
+  grid-template-columns:44px minmax(0,1fr) auto;background:rgba(255,255,255,.032);
+  border:1px solid rgba(255,255,255,.075);box-shadow:none
+}
+#view-career .r1551-result:active{transform:scale(.995)}
+#view-career .r1551-rico{width:44px;height:44px;border-radius:14px;background:rgba(121,231,255,.08);border:1px solid rgba(121,231,255,.13)}
+#view-career .r1551-rname{font-size:12px;color:#fff}
+#view-career .r1551-rmeta{font-size:9px;line-height:1.65;color:rgba(218,232,251,.57)}
+#view-career .r1551-rgrade{font-size:9px;padding:6px 8px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+#view-career .r1557-empty{
+  min-height:170px;border-radius:18px;border:1px dashed rgba(134,192,245,.15);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;
+  color:rgba(220,234,251,.50);font-size:10px;line-height:1.8;background:rgba(255,255,255,.015)
+}
+#view-career .r1557-empty i{font-size:25px;margin-bottom:10px;color:rgba(121,231,255,.55)}
+#view-career .r1557-employee-card{
+  border-radius:25px;padding:16px;background:
+    radial-gradient(circle at 90% 0,rgba(121,231,255,.12),transparent 35%),
+    linear-gradient(145deg,rgba(15,47,82,.92),rgba(7,21,46,.96));
+  border:1px solid rgba(121,231,255,.15);box-shadow:0 14px 32px rgba(0,0,0,.14)
+}
+#view-career .r1557-employee-main{display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:12px;align-items:center}
+#view-career .r1557-avatar{
+  width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg,rgba(121,231,255,.17),rgba(95,133,255,.12));
+  border:1px solid rgba(121,231,255,.17);color:#eafcff;font-size:20px
+}
+#view-career .r1557-employee-name{font:900 16px var(--hr-title-font,'Zain',Tahoma,sans-serif);color:#fff;line-height:1.35}
+#view-career .r1557-employee-role{margin-top:4px;font-size:10px;line-height:1.7;color:rgba(223,237,255,.67)}
+#view-career .r1557-change{
+  border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.045);color:#e8f4ff;
+  border-radius:13px;padding:8px 10px;font-size:9px;font-weight:900;white-space:nowrap
+}
+#view-career .r1557-employee-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+#view-career .r1557-chip{
+  display:inline-flex;align-items:center;gap:6px;padding:7px 9px;border-radius:11px;
+  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.065);
+  color:#dcecff;font-size:9px;font-weight:800
+}
+#view-career .r1557-match{
+  border-radius:20px;padding:13px 14px;border:1px solid;display:grid;grid-template-columns:42px minmax(0,1fr);gap:11px;align-items:center
+}
+#view-career .r1557-match-ico{
+  width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:17px
+}
+#view-career .r1557-match b{display:block;font-size:12px}
+#view-career .r1557-match span{display:block;margin-top:4px;font-size:9.5px;line-height:1.75}
+#view-career .r1557-match.ok{background:rgba(35,190,90,.065);border-color:rgba(64,220,120,.20);color:#cef9da}
+#view-career .r1557-match.ok .r1557-match-ico{background:rgba(44,210,105,.09)}
+#view-career .r1557-match.warn{background:rgba(240,165,25,.065);border-color:rgba(255,190,65,.20);color:#ffe4af}
+#view-career .r1557-match.warn .r1557-match-ico{background:rgba(255,180,40,.09)}
+#view-career .r1557-match.info{background:rgba(70,130,245,.065);border-color:rgba(110,165,255,.20);color:#dbeaff}
+#view-career .r1557-match.info .r1557-match-ico{background:rgba(80,140,255,.09)}
+#view-career .r1557-progress-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+#view-career .r1557-stage{
+  position:relative;min-height:132px;border-radius:19px;padding:12px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.075);
+  display:flex;flex-direction:column
+}
+#view-career .r1557-stage.current{
+  background:linear-gradient(145deg,rgba(72,196,255,.10),rgba(70,110,255,.07));
+  border-color:rgba(121,231,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)
+}
+#view-career .r1557-stage.next{border-color:rgba(255,207,105,.16);background:rgba(255,190,70,.035)}
+#view-career .r1557-stage-label{font-size:8.5px;font-weight:900;color:rgba(220,234,252,.51);line-height:1.45}
+#view-career .r1557-stage-title{font-size:11.5px;font-weight:900;color:#fff;line-height:1.65;margin-top:12px}
+#view-career .r1557-stage-degree{font-size:9px;color:rgba(221,235,254,.56);margin-top:auto;padding-top:10px}
+#view-career .r1557-here{
+  position:absolute;left:9px;top:9px;padding:4px 7px;border-radius:999px;
+  background:rgba(121,231,255,.09);border:1px solid rgba(121,231,255,.17);
+  color:#c6f7ff;font-size:7.5px;font-weight:900
+}
+#view-career .r1557-path-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}
+#view-career .r1557-path-badge{
+  padding:6px 9px;border-radius:999px;background:rgba(121,231,255,.06);
+  border:1px solid rgba(121,231,255,.12);color:#c7f5ff;font-size:8.5px;font-weight:900
+}
+#view-career .r1557-timeline{display:grid;gap:0}
+#view-career .r1557-line{display:grid;grid-template-columns:48px minmax(0,1fr);gap:11px;position:relative;padding-bottom:13px}
+#view-career .r1557-line:not(:last-child):before{
+  content:'';position:absolute;right:23px;top:44px;bottom:0;width:1px;background:linear-gradient(rgba(121,231,255,.18),rgba(121,231,255,.04))
+}
+#view-career .r1557-node{
+  width:46px;height:46px;border-radius:15px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);
+  color:rgba(226,239,255,.63);font:900 14px var(--hr-number-font,'Arial',sans-serif);z-index:1
+}
+#view-career .r1557-line.current .r1557-node{
+  background:linear-gradient(145deg,rgba(121,231,255,.16),rgba(86,137,255,.10));
+  border-color:rgba(121,231,255,.24);color:#fff;box-shadow:0 0 0 4px rgba(121,231,255,.035)
+}
+#view-career .r1557-line-body{min-height:46px;border-radius:15px;padding:9px 11px;background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.055)}
+#view-career .r1557-line.current .r1557-line-body{background:rgba(121,231,255,.045);border-color:rgba(121,231,255,.14)}
+#view-career .r1557-line-title{font-size:10.5px;font-weight:900;color:#f4f8ff;line-height:1.55}
+#view-career .r1557-line-meta{font-size:8.5px;color:rgba(219,233,252,.49);margin-top:3px;line-height:1.55}
+#view-career .r1557-current-tag{
+  display:inline-block;margin-inline-start:6px;padding:3px 6px;border-radius:999px;
+  background:rgba(121,231,255,.09);border:1px solid rgba(121,231,255,.14);color:#bff5ff;font-size:7px;font-weight:900
+}
+#view-career .r1557-ambiguity{
+  border-radius:20px;padding:13px;border:1px solid rgba(255,185,55,.18);background:rgba(255,180,45,.045)
+}
+#view-career .r1557-candidate-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+#view-career .r1557-candidate{
+  padding:6px 9px;border-radius:999px;background:rgba(255,180,45,.055);border:1px solid rgba(255,190,65,.14);
+  color:#ffe1a4;font-size:8.5px;font-weight:900
+}
+#view-career .r1557-audit{
+  border-radius:19px;overflow:hidden;border:1px solid rgba(255,255,255,.075);background:rgba(255,255,255,.023)
+}
+#view-career .r1557-audit summary{
+  list-style:none;cursor:pointer;padding:13px 14px;display:flex;align-items:center;gap:9px;
+  color:#eef6ff;font-size:10.5px;font-weight:900
+}
+#view-career .r1557-audit summary::-webkit-details-marker{display:none}
+#view-career .r1557-audit-body{padding:0 14px 14px;color:rgba(220,234,252,.62);font-size:9.5px;line-height:1.9}
+#view-career .r1557-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#view-career .r1557-fact{
+  min-height:78px;border-radius:15px;padding:10px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06)
+}
+#view-career .r1557-fact span{display:block;color:rgba(218,233,252,.47);font-size:8px;font-weight:900}
+#view-career .r1557-fact b{display:block;color:#f4f8ff;font-size:10px;line-height:1.6;margin-top:7px;word-break:break-word}
+#view-career .r1557-analysis-note{
+  margin-top:9px;padding:9px 10px;border-radius:13px;background:rgba(75,135,255,.045);
+  border:1px solid rgba(105,165,255,.10);color:rgba(216,233,255,.60);font-size:8.8px;line-height:1.75
+}
+#view-career .r1557-guide-intro{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 12px;
+  border-radius:16px;background:rgba(121,231,255,.03);border:1px solid rgba(121,231,255,.09);margin-bottom:11px
+}
+#view-career .r1557-guide-intro b{font-size:10.5px;color:#eef9ff}
+#view-career .r1557-guide-intro span{display:block;font-size:8.8px;line-height:1.65;color:rgba(218,233,252,.53);margin-top:3px}
+#view-career .r1557-guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#view-career .r1557-chain{
+  border-radius:18px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);overflow:hidden
+}
+#view-career .r1557-chain summary{
+  list-style:none;cursor:pointer;padding:12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:center
+}
+#view-career .r1557-chain summary::-webkit-details-marker{display:none}
+#view-career .r1557-chain-name{font-size:10.5px;font-weight:900;color:#f4f9ff;line-height:1.5}
+#view-career .r1557-chain-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+#view-career .r1557-chain-meta span{
+  padding:4px 6px;border-radius:8px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.055);
+  color:rgba(218,233,252,.52);font-size:7.5px;font-weight:800
+}
+#view-career .r1557-chain-open{
+  width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  background:rgba(121,231,255,.05);border:1px solid rgba(121,231,255,.10);color:#bff5ff
+}
+#view-career .r1557-chain-body{padding:0 12px 12px}
+#view-career .r1557-guide-step{
+  display:grid;grid-template-columns:36px minmax(0,1fr);gap:9px;align-items:center;
+  padding:7px 0;border-top:1px solid rgba(255,255,255,.045)
+}
+#view-career .r1557-guide-grade{
+  width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+  background:rgba(121,231,255,.045);border:1px solid rgba(121,231,255,.09);
+  color:#c8f6ff;font:900 11px var(--hr-number-font,'Arial',sans-serif)
+}
+#view-career .r1557-guide-title{font-size:9px;font-weight:850;color:#eef6ff;line-height:1.55}
+#view-career .r1557-guide-degree{font-size:7.8px;color:rgba(217,232,251,.45);margin-top:2px}
+#view-career .r1557-source{
+  border-radius:15px;padding:10px 11px;background:rgba(255,255,255,.018);border:1px solid rgba(255,255,255,.05);
+  color:rgba(211,227,248,.45);font-size:8px;line-height:1.75
+}
+.r1557-profile-career{
+  margin-top:10px;border-radius:17px;padding:11px;background:linear-gradient(145deg,rgba(13,44,77,.90),rgba(8,25,51,.92));
+  border:1px solid rgba(121,231,255,.14)
+}
+.r1557-profile-career-head{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:900;color:#fff}
+.r1557-profile-career-state{margin-inline-start:auto;padding:4px 6px;border-radius:999px;background:rgba(121,231,255,.06);border:1px solid rgba(121,231,255,.11);font-size:7.5px;color:#c9f7ff}
+.r1557-profile-career-body{margin-top:7px;font-size:9px;line-height:1.7;color:rgba(221,235,253,.67)}
+.r1557-profile-career-btn{
+  width:100%;margin-top:9px;border:1px solid rgba(121,231,255,.15);background:rgba(121,231,255,.07);
+  color:#eafaff;border-radius:12px;padding:8px;font-size:9px;font-weight:900
+}
+body.light-mode #view-career{--c57-text:#112946;--c57-muted:#60758d}
+body.light-mode #view-career .r1557-dashboard{background:linear-gradient(145deg,#f6fbff,#edf5ff);border-color:rgba(60,130,200,.14);box-shadow:0 14px 36px rgba(25,70,120,.08)}
+body.light-mode #view-career .r1557-title,
+body.light-mode #view-career .r1557-section-copy b,
+body.light-mode #view-career .r1557-kpi b,
+body.light-mode #view-career .r1557-employee-name,
+body.light-mode #view-career .r1557-stage-title,
+body.light-mode #view-career .r1557-line-title,
+body.light-mode #view-career .r1557-fact b,
+body.light-mode #view-career .r1557-chain-name,
+body.light-mode #view-career .r1557-guide-title{color:#102a4c}
+body.light-mode #view-career .r1557-panel{background:#f9fcff;border-color:rgba(60,130,200,.11);box-shadow:0 10px 25px rgba(30,80,130,.055)}
+body.light-mode #view-career .r1551-result,
+body.light-mode #view-career .r1557-stage,
+body.light-mode #view-career .r1557-line-body,
+body.light-mode #view-career .r1557-fact,
+body.light-mode #view-career .r1557-chain{background:#fff;border-color:rgba(50,110,175,.10)}
+@media(max-width:680px){
+  #view-career .r1557-dashboard{padding:15px}
+  #view-career .r1557-title{font-size:20px}
+  #view-career .r1557-kpi{min-height:88px}
+  #view-career .r1557-kpi b{font-size:25px}
+  #view-career .r1557-guide-grid{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+  #view-career .r1557-dashboard-top{grid-template-columns:50px minmax(0,1fr);gap:10px}
+  #view-career .r1557-main-icon{width:50px;height:50px;border-radius:16px;font-size:21px}
+  #view-career .r1557-subtitle{font-size:10.5px}
+  #view-career .r1557-kpis{gap:6px}
+  #view-career .r1557-kpi{padding:10px;min-height:82px;border-radius:17px}
+  #view-career .r1557-kpi b{font-size:22px}
+  #view-career .r1557-kpi span{font-size:8.5px}
+  #view-career .r1557-kpi small{display:none}
+  #view-career .r1557-progress-grid{grid-template-columns:1fr}
+  #view-career .r1557-stage{min-height:auto}
+  #view-career .r1557-here{position:static;display:inline-flex;width:max-content;margin-top:8px}
+  #view-career .r1557-facts{grid-template-columns:1fr 1fr}
+  #view-career .r1557-employee-main{grid-template-columns:48px minmax(0,1fr)}
+  #view-career .r1557-avatar{width:48px;height:48px}
+  #view-career .r1557-change{grid-column:1/-1;width:100%;margin-top:2px}
+}
+@media(max-width:360px){
+  #view-career .r1557-kpis{grid-template-columns:1fr}
+  #view-career .r1557-kpi{min-height:70px}
+  #view-career .r1557-facts{grid-template-columns:1fr}
+}
+</style>
+
 <script id="r1551-career-progression-script">
 // R1555_CAREER_PROFESSIONAL_UI | presentation-only professional career interface; R1.5.54 search and matching logic retained.
 // R1556_CAREER_MAP_EXPANSION_BATCH1 | 24 explicit chains / 165 exact steps added; no heuristic inference.
+// R1557_CAREER_DASHBOARD_UI_OVERHAUL | always-visible 40/267/1316 KPIs and full career dashboard redesign.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.56-CAREER-MAP-EXPANSION-BATCH1';
+var RELEASE='MOBILE-R1.5.57-CAREER-DASHBOARD-UI-OVERHAUL';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -10726,22 +11054,22 @@ function validateResources(map,jobs){if(!map||!Array.isArray(map.chains))throw n
 function loadResources(){if(state.ready)return Promise.resolve(state);if(loading)return loading;loading=Promise.all([fetch(MAP_URL+'?v='+encodeURIComponent((window.APP_RELEASE||RELEASE)),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('تعذر تحميل خريطة التدرج');return r.json()}),fetch(JOB_URL+'?v='+encodeURIComponent((window.APP_RELEASE||RELEASE)),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('تعذر تحميل دليل العناوين');return r.json()})]).then(function(x){validateResources(x[0],x[1]);state.map=x[0];state.jobs=x[1];state.ready=true;state.error='';return state}).catch(function(e){state.error=(e&&e.message)||'تعذر تحميل بيانات التدرج';state.ready=false;throw e}).finally(function(){loading=null});return loading}
 function findTitleMatches(title){var out=[],n=norm(title);if(!n||!state.map)return out;state.map.chains.forEach(function(c){c.steps.forEach(function(st){if(norm(st.title)===n)out.push({chain:c,step:st})})});return out}
 function analyze(emp){var result={status:'unknown',emp:emp||{},chain:null,step:null,prev:null,next:null,message:''};if(!emp){result.status='none';result.message='اختر موظفًا لعرض التدرج.';return result}if(missing(emp.education)){result.status='missing-education';result.message='التحصيل الدراسي غير مكتمل، لذلك لا يتم إصدار نتيجة تدرج لهذا الموظف.';return result}if(missing(emp.jobTitle)){result.status='missing-title';result.message='العنوان الوظيفي غير مكتمل، ولا يمكن تحديد مسار بدون عنوان حالي.';return result}var g=gradeNum(emp.grade);if(!g){result.status='missing-grade';result.message='الدرجة الحالية غير مكتملة، ولا يتم تخمينها.';return result}var matches=findTitleMatches(emp.jobTitle);if(!matches.length){result.status='unmapped';result.message='لا يوجد مسار صريح لهذا العنوان في الإصدار الحالي، ولم يتم إجراء أي تخمين.';return result}if(matches.length!==1){result.status='ambiguous';result.message='العنوان الحالي مستخدم في أكثر من سلسلة صريحة. الحالة: يتطلب تحديد الاختصاص / يحتاج مراجعة. لن يتم اقتراح عنوان قادم قبل حسم المسار من مصدر معتمد.';return result}result.chain=matches[0].chain;result.step=matches[0].step;if(Number(result.step.grade)!==g){result.status='grade-mismatch';result.message='العنوان موجود في خريطة التدرج، لكن الدرجة المسجلة للموظف لا تطابق الدرجة المقابلة له في دليل العناوين. لن يتم اقتراح عنوان تالٍ حتى تتم المراجعة.';return result}result.prev=result.chain.steps.find(function(x){return Number(x.grade)===g+1})||null;result.next=result.chain.steps.find(function(x){return Number(x.grade)===g-1})||null;result.status='verified';result.message='تمت المطابقة على سلسلة صريحة، وكل عنوان ظاهر موجود في دليل العناوين ضمن درجته. لا توجد عناوين مولدة أو متوقعة خوارزميًا.';return result}
-function statusHTML(a){var cls='info',ico='fa-circle-info',title='حالة مرجعية';if(a.status==='verified'){cls='ok';ico='fa-circle-check';title='مطابقة صريحة'}else if(a.status==='ambiguous'){cls='warn';ico='fa-code-branch';title='يتطلب تحديد الاختصاص'}else if(['grade-mismatch','missing-education','missing-title','missing-grade'].indexOf(a.status)>=0){cls='warn';ico='fa-triangle-exclamation';title='يحتاج مراجعة'}else if(a.status==='unmapped'){cls='info';ico='fa-shield-halved';title='غير مربوط حاليًا'}return '<div class="r1555-match-card '+cls+'"><div class="r1555-match-icon"><i class="fas '+ico+'"></i></div><div><b>'+title+'</b><span>'+esc(a.message)+'</span></div></div>'}
-function mini(label,st,cls){return '<div class="r1551-stepmini '+(cls||'')+'"><span>'+esc(label)+'</span><b>'+esc(st?st.title:'غير محدد')+'</b><em>'+esc(st?('الدرجة '+st.degree):'لا توجد خطوة صريحة')+'</em></div>'}
-function timeline(chain,currentGrade){if(!chain)return '';var steps=chain.steps.slice().sort(function(a,b){return Number(b.grade)-Number(a.grade)});return '<div class="r1551-timeline">'+steps.map(function(st){var g=Number(st.grade),cls=g===currentGrade?'current':(g<currentGrade?'future':'past'),note=g===currentGrade?'الوضع الحالي':(g<currentGrade?'مرحلة لاحقة في المسار':'مرحلة سابقة في المسار');return '<div class="r1551-line '+cls+'"><div class="r1551-node">'+g+'</div><div class="r1551-linebody"><b>'+esc(st.title)+'</b><span>الدرجة '+esc(st.degree)+' • '+note+'</span></div></div>'}).join('')+'</div>'}
-function facts(emp){return '<div class="r1551-facts"><div class="r1551-fact"><span>التحصيل الدراسي</span><b>'+esc(missing(emp.education)?'غير مكتمل':emp.education)+'</b></div><div class="r1551-fact"><span>الدرجة الحالية</span><b>'+esc(gradeNum(emp.grade)?degreeName(gradeNum(emp.grade)):'غير مكتملة')+'</b></div><div class="r1551-fact"><span>العنوان الحالي</span><b>'+esc(missing(emp.jobTitle)?'غير مكتمل':emp.jobTitle)+'</b></div><div class="r1551-fact"><span>الاختصاص</span><b>'+esc(missing(emp.specialization)?'غير مكتمل حاليًا':emp.specialization)+'</b></div><div class="r1551-fact"><span>المرحلة</span><b>'+esc(missing(emp.step)?'—':emp.step)+'</b></div><div class="r1551-fact"><span>الرقم الوظيفي</span><b>'+esc(missing(emp.employeeNo||emp.num)?'—':(emp.employeeNo||emp.num))+'</b></div></div>'}
-function employeeDetail(emp){var a=analyze(emp),g=gradeNum(emp.grade),matches=findTitleMatches(emp.jobTitle),chainTag=a.chain?'<span class="r1551-chainname"><i class="fas fa-route"></i>'+esc(a.chain.name)+'</span>':'';var unique={},candidates=[];matches.forEach(function(m){if(m&&m.chain&&!unique[m.chain.id]){unique[m.chain.id]=1;candidates.push(m.chain)}});var path='';if(a.chain){path='<section class="r1551-panel"><div class="r1555-section-title"><i class="fas fa-route"></i><div><b>المسار الوظيفي المرجعي</b><small>المراحل المسجلة صراحة في دليل التدرج</small></div><span style="margin-inline-start:auto">'+chainTag+'</span></div>'+timeline(a.chain,a.status==='verified'?g:Number(a.step&&a.step.grade||0))+'</section>'}var ambiguity='';if(a.status==='ambiguous'){ambiguity='<section class="r1555-ambiguity"><div class="r1555-ambiguity-title"><i class="fas fa-code-branch"></i> المسارات المرتبطة بهذا العنوان</div><div class="r1555-candidates">'+(candidates.length?candidates.map(function(c){return '<span class="r1555-candidate">'+esc(c.name)+'</span>'}).join(''):'<span class="r1555-candidate">يتطلب مراجعة المصدر</span>')+'</div><div class="r1555-ambiguity-note">هذه المسارات معروضة كمرجع فقط، ولم يتم اختيار أي مسار منها تلقائيًا، ولا يظهر عنوان قادم حتى حسم الاختصاص أو المراجعة.</div></section>'}var why='';if(a.status==='verified')why='تم العثور على العنوان الحالي ضمن سلسلة صريحة واحدة، وتطابقت الدرجة المسجلة مع موضع العنوان في تلك السلسلة. لم يُستخدم تشابه كلمات أو عنوان مولد.';else if(a.status==='ambiguous')why='العنوان الحالي له أكثر من تطابق صريح في خريطة التدرج، لذلك امتنع النظام عن اختيار مسار أو عنوان تالٍ تلقائيًا.';else if(a.status==='grade-mismatch')why='العنوان موجود في خريطة التدرج، لكن الدرجة المسجلة للموظف لا تطابق الدرجة المقابلة لهذا العنوان، لذلك أوقف النظام اقتراح الخطوة التالية.';else if(a.status==='unmapped')why='العنوان الحالي غير مربوط بمسار صريح في الإصدار الحالي، لذلك لم يُنشئ النظام مسارًا بالاستنتاج.';else why='النتيجة الحالية محدودة بسبب نقص أحد الحقول المطلوبة للتحليل، ولم يتم تعويضه بأي قيمة متوقعة.';return '<div class="r1551-employee"><section class="r1555-employee-hero"><div class="r1555-employee-top"><div class="r1555-avatar"><i class="fas fa-user-tie"></i></div><div><div class="r1555-name">'+esc(emp.name||'—')+'</div><div class="r1555-role">'+esc(missing(emp.jobTitle)?'عنوان وظيفي غير مكتمل':emp.jobTitle)+' • '+esc(gradeNum(emp.grade)?('الدرجة '+degreeName(g)):'درجة غير مكتملة')+'</div></div><button class="r1555-change" type="button" data-r1551-back><i class="fas fa-arrow-right-arrow-left"></i> تغيير الموظف</button></div><div class="r1555-employee-meta"><span class="r1555-meta"><i class="fas fa-graduation-cap"></i>'+esc(missing(emp.education)?'تحصيل غير مكتمل':emp.education)+'</span><span class="r1555-meta"><i class="fas fa-building"></i>'+esc(emp.division||'—')+'</span></div></section>'+statusHTML(a)+(a.status==='verified'?'<section class="r1551-panel r1555-progress-card"><div class="r1555-section-title"><i class="fas fa-arrow-trend-up"></i><div><b>وضعك داخل المسار</b><small>عرض مرجعي فقط ولا يمثل استحقاق ترقية</small></div></div><div class="r1551-three">'+mini('السابق',a.prev,'')+mini('الحالي',a.step,'current')+mini('الخطوة التالية في المسار المرجعي',a.next,'next')+'</div></section>':'')+ambiguity+path+'<details class="r1555-why"><summary><i class="fas fa-circle-question"></i> لماذا ظهرت هذه النتيجة؟</summary><div class="r1555-why-body">'+esc(why)+'</div></details><section class="r1551-panel r1555-analysis-data"><div class="r1555-section-title"><i class="fas fa-database"></i><div><b>البيانات المستخدمة في التحليل</b><small>القيم المقروءة من سجل الموظف فقط</small></div></div>'+facts(emp)+'<div class="r1555-analysis-note"><i class="fas fa-circle-info"></i> الاختصاص معروض حاليًا لكنه لا يدخل في قرار اختيار المسار حتى يكتمل مصدره المعتمد، ولا تُكتب أي تغييرات على سجل الموظف.</div></section><div class="r1551-source r1555-source-footer"><strong>قاعدة الأمان:</strong> التدرج استشاري وتحليلي، ويعرض فقط المسارات الصريحة المعتمدة في الملف الحالي. لا توجد عناوين مولدة أو قرارات ترقية آلية.</div></div>'}
+function statusHTML(a){var cls='info',ico='fa-circle-info',title='حالة مرجعية';if(a.status==='verified'){cls='ok';ico='fa-circle-check';title='مطابقة صريحة'}else if(a.status==='ambiguous'){cls='warn';ico='fa-code-branch';title='يتطلب تحديد الاختصاص'}else if(['grade-mismatch','missing-education','missing-title','missing-grade'].indexOf(a.status)>=0){cls='warn';ico='fa-triangle-exclamation';title='يحتاج مراجعة'}else if(a.status==='unmapped'){cls='info';ico='fa-shield-halved';title='غير مربوط حاليًا'}return '<div class="r1557-match '+cls+'"><div class="r1557-match-ico"><i class="fas '+ico+'"></i></div><div><b>'+title+'</b><span>'+esc(a.message)+'</span></div></div>'}
+function mini(label,st,cls){return '<div class="r1557-stage '+(cls||'')+'"><span class="r1557-stage-label">'+esc(label)+'</span><b class="r1557-stage-title">'+esc(st?st.title:'لا توجد خطوة صريحة')+'</b><span class="r1557-stage-degree">'+esc(st?('الدرجة '+st.degree):'لا يوجد عنوان مثبت في الدليل')+'</span>'+(cls==='current'?'<span class="r1557-here">أنت هنا</span>':'')+'</div>'}
+function timeline(chain,currentGrade){if(!chain)return '';var steps=chain.steps.slice().sort(function(a,b){return Number(b.grade)-Number(a.grade)});return '<div class="r1557-timeline">'+steps.map(function(st){var g=Number(st.grade),cls=g===currentGrade?'current':(g<currentGrade?'future':'past'),note=g===currentGrade?'الوضع الحالي':(g<currentGrade?'مرحلة لاحقة في المسار':'مرحلة سابقة في المسار');return '<div class="r1557-line '+cls+'"><div class="r1557-node">'+g+'</div><div class="r1557-line-body"><div class="r1557-line-title">'+esc(st.title)+(g===currentGrade?'<span class="r1557-current-tag">الحالي</span>':'')+'</div><div class="r1557-line-meta">الدرجة '+esc(st.degree)+' • '+note+'</div></div></div>'}).join('')+'</div>'}
+function facts(emp){return '<div class="r1557-facts"><div class="r1557-fact"><span>التحصيل الدراسي</span><b>'+esc(missing(emp.education)?'غير مكتمل':emp.education)+'</b></div><div class="r1557-fact"><span>الدرجة الحالية</span><b>'+esc(gradeNum(emp.grade)?degreeName(gradeNum(emp.grade)):'غير مكتملة')+'</b></div><div class="r1557-fact"><span>العنوان الحالي</span><b>'+esc(missing(emp.jobTitle)?'غير مكتمل':emp.jobTitle)+'</b></div><div class="r1557-fact"><span>الاختصاص</span><b>'+esc(missing(emp.specialization)?'غير مكتمل حاليًا':emp.specialization)+'</b></div><div class="r1557-fact"><span>المرحلة</span><b>'+esc(missing(emp.step)?'—':emp.step)+'</b></div><div class="r1557-fact"><span>الرقم الوظيفي</span><b>'+esc(missing(emp.employeeNo||emp.num)?'—':(emp.employeeNo||emp.num))+'</b></div></div>'}
+function employeeDetail(emp){var a=analyze(emp),g=gradeNum(emp.grade),matches=findTitleMatches(emp.jobTitle),unique={},candidates=[];matches.forEach(function(m){if(m&&m.chain&&!unique[m.chain.id]){unique[m.chain.id]=1;candidates.push(m.chain)}});var path='';if(a.chain){var grades=a.chain.steps.map(function(s){return Number(s.grade)}),minG=Math.min.apply(null,grades),maxG=Math.max.apply(null,grades),range='من '+degreeName(maxG)+' إلى '+degreeName(minG),coverage=minG===1?'يمتد إلى الدرجة الأولى':'سلسلة جزئية مثبتة حتى '+degreeName(minG);path='<section class="r1557-panel"><div class="r1557-path-head"><div class="r1557-section-title"><div class="r1557-section-icon"><i class="fas fa-route"></i></div><div class="r1557-section-copy"><b>المسار الوظيفي الكامل</b><span>'+esc(a.chain.name)+' • '+esc(range)+'</span></div></div><span class="r1557-path-badge">'+esc(coverage)+'</span></div>'+timeline(a.chain,a.status==='verified'?g:Number(a.step&&a.step.grade||0))+'</section>'}var ambiguity='';if(a.status==='ambiguous'){ambiguity='<section class="r1557-ambiguity"><div class="r1557-section-title"><div class="r1557-section-icon"><i class="fas fa-code-branch"></i></div><div class="r1557-section-copy"><b>المسارات المرتبطة بهذا العنوان</b><span>مرجع للمراجعة فقط، ولم يتم اختيار أي مسار تلقائيًا</span></div></div><div class="r1557-candidate-list">'+(candidates.length?candidates.map(function(c){return '<span class="r1557-candidate">'+esc(c.name)+'</span>'}).join(''):'<span class="r1557-candidate">يتطلب مراجعة المصدر</span>')+'</div></section>'}var why='';if(a.status==='verified')why='تم العثور على العنوان الحالي ضمن سلسلة صريحة واحدة، وتطابقت الدرجة المسجلة مع موضع العنوان داخل السلسلة. النتيجة مأخوذة من الدليل حرفيًا ولم يُستخدم تشابه كلمات أو عنوان مولد.';else if(a.status==='ambiguous')why='العنوان الحالي له أكثر من تطابق صريح، لذلك امتنع النظام عن اختيار مسار أو عنوان تالٍ تلقائيًا إلى أن يتوفر عامل حسم معتمد.';else if(a.status==='grade-mismatch')why='العنوان موجود في خريطة التدرج، لكن الدرجة المسجلة لا تطابق موضعه الصريح في السلسلة، لذلك تم إيقاف اقتراح الخطوة التالية.';else if(a.status==='unmapped')why='العنوان الحالي غير مربوط بمسار صريح ضمن الخريطة الحالية، لذلك لم ينشئ النظام مسارًا بالاستنتاج.';else why='التحليل متوقف بسبب نقص أحد الحقول المطلوبة، ولم يتم تعويض الحقل بقيمة متوقعة.';var employeeGrade=gradeNum(emp.grade);return '<div class="r1551-employee"><section class="r1557-employee-card"><div class="r1557-employee-main"><div class="r1557-avatar"><i class="fas fa-user-tie"></i></div><div><div class="r1557-employee-name">'+esc(emp.name||'—')+'</div><div class="r1557-employee-role">'+esc(missing(emp.jobTitle)?'عنوان وظيفي غير مكتمل':emp.jobTitle)+' • '+esc(employeeGrade?('الدرجة '+degreeName(employeeGrade)):'درجة غير مكتملة')+'</div></div><button class="r1557-change" type="button" data-r1551-back><i class="fas fa-arrow-right-arrow-left"></i> تغيير الموظف</button></div><div class="r1557-employee-chips"><span class="r1557-chip"><i class="fas fa-graduation-cap"></i>'+esc(missing(emp.education)?'تحصيل غير مكتمل':emp.education)+'</span><span class="r1557-chip"><i class="fas fa-building"></i>'+esc(emp.division||'—')+'</span><span class="r1557-chip"><i class="fas fa-id-badge"></i>'+esc(missing(emp.employeeNo||emp.num)?'رقم غير متاح':(emp.employeeNo||emp.num))+'</span></div></section>'+statusHTML(a)+(a.status==='verified'?'<section class="r1557-panel"><div class="r1557-section-head"><div class="r1557-section-title"><div class="r1557-section-icon"><i class="fas fa-arrow-trend-up"></i></div><div class="r1557-section-copy"><b>وضع الموظف داخل المسار</b><span>عرض مرجعي فقط ولا يمثل استحقاق ترقية أو قرارًا إداريًا</span></div></div></div><div class="r1557-progress-grid">'+mini('السابق',a.prev,'')+mini('الحالي',a.step,'current')+mini('الخطوة التالية في المسار المرجعي',a.next,'next')+'</div></section>':'')+ambiguity+path+'<details class="r1557-audit"><summary><i class="fas fa-circle-question"></i> لماذا ظهرت هذه النتيجة؟</summary><div class="r1557-audit-body">'+esc(why)+'</div></details><section class="r1557-panel"><div class="r1557-section-head"><div class="r1557-section-title"><div class="r1557-section-icon"><i class="fas fa-database"></i></div><div class="r1557-section-copy"><b>البيانات المستخدمة في التحليل</b><span>القيم المقروءة من سجل الموظف فقط</span></div></div></div>'+facts(emp)+'<div class="r1557-analysis-note"><i class="fas fa-circle-info"></i> الاختصاص معروض حاليًا لكنه لا يدخل في حسم المسار حتى يكتمل مصدره المعتمد. لا تتم كتابة أي تغييرات على سجل الموظف.</div></section></div>'}
 function filteredEmployees(){var q=String(state.q||'').trim();if(!q)return [];var arr=allEmployees(),base=[];try{if(typeof smartSearch==='function')base=smartSearch(state.q,arr)||[]}catch(e){base=[]}var qn=norm(q),seen={},out=[];function add(e){if(!e)return;var k=String(e.id||e.employeeNo||e.num||e.name||'');if(seen[k])return;seen[k]=1;out.push(e)}base.forEach(add);if(qn)arr.forEach(function(e){if(norm(e.jobTitle||'').indexOf(qn)>=0)add(e)});return out.slice(0,80)}
-function searchHTML(){var rows=filteredEmployees(),count=rows.length;return '<section class="r1551-panel"><div class="r1555-search-top"><div class="r1551-head" style="margin:0"><i class="fas fa-user-magnifying-glass"></i><div><b>اختيار موظف</b><small>ابحث بالاسم أو الرقم الوظيفي أو العنوان</small></div></div>'+(state.q?'<span class="r1555-result-count">'+count+' نتيجة</span>':'')+'</div><div class="r1551-search"><div class="r1551-searchbox"><i class="fas fa-magnifying-glass"></i><input id="r1551-q" class="r1551-input" type="search" value="'+esc(state.q)+'" placeholder="اسم الموظف، الرقم الوظيفي، أو العنوان"></div><button class="r1551-clear" type="button" id="r1551-clear" aria-label="مسح"><i class="fas fa-xmark"></i></button></div><div class="r1551-hint">البحث فقط لا يحدد المسار. بعد اختيار الموظف، يعتمد التحليل على التحصيل والدرجة والعنوان الحالي والمسارات الصريحة المعتمدة.</div><div class="r1551-results">'+(!state.q?'<div class="r1551-empty"><i class="fas fa-magnifying-glass"></i>اكتب اسم موظف أو رقمًا وظيفيًا لبدء البحث.</div>':(!rows.length?'<div class="r1551-empty"><i class="fas fa-user-slash"></i>لم تظهر نتيجة مطابقة. جرّب جزءًا من الاسم أو الرقم الوظيفي.</div>':rows.map(function(e){return '<button class="r1551-result" type="button" data-r1551-emp="'+esc(String(e.id||e.employeeNo||e.num||''))+'"><span class="r1551-rico"><i class="fas fa-user"></i></span><span><span class="r1551-rname">'+esc(e.name||'—')+'</span><span class="r1551-rmeta"><span>'+esc(e.jobTitle||'بدون عنوان')+'</span><span>•</span><span>'+esc(e.education||'بدون تحصيل')+'</span></span></span><span class="r1551-rgrade">'+esc(gradeNum(e.grade)?degreeName(gradeNum(e.grade)):'درجة؟')+'</span></button>'}).join('')))+'</div></section>'}
-function guideHTML(){var chains=(state.map&&state.map.chains)||[];if(state.selectedChain){var c=chains.find(function(x){return x.id===state.selectedChain});if(c)return '<section class="r1551-panel"><div class="r1551-head"><button class="r1551-back" type="button" data-r1551-guide-back><i class="fas fa-arrow-right"></i> كل السلاسل</button><div style="margin-inline-start:auto"><span class="r1551-chainname"><i class="fas fa-route"></i>'+esc(c.name)+'</span></div></div>'+timeline(c,0)+'<div class="r1551-source"><strong>ملاحظة:</strong> هذه سلسلة مضافة صراحة من عناوين موجودة في دليل الدرجات. لا تعني وحدها استحقاقًا قانونيًا للترقية أو تحقق شروط الخدمة.</div></section>'}return '<section class="r1551-panel"><div class="r1551-head"><i class="fas fa-diagram-project"></i><div><b>دليل السلاسل المضافة</b><small>'+chains.length+' سلسلة أولية قابلة للتوسع مستقبلًا</small></div></div><div class="r1551-chain-grid">'+chains.map(function(c){var a=c.steps[0],z=c.steps[c.steps.length-1];return '<button type="button" class="r1551-chain" data-r1551-chain="'+esc(c.id)+'"><b>'+esc(c.name)+'</b><small>'+esc(a.title)+' ← … ← '+esc(z.title)+'</small><span class="r1551-chain-range">'+c.steps.length+' درجات موثقة</span></button>'}).join('')+'</div></section>'}
-function shell(){var page=ensureView();if(!state.ready){page.innerHTML='<div class="r1551-page"><section class="r1551-panel"><div class="r1551-empty"><i class="fas fa-spinner fa-spin"></i>جاري التحقق من خريطة التدرج ودليل العناوين…</div></section></div>';return}var body=state.selected&&state.mode==='employee'?employeeDetail(state.selected):(state.mode==='guide'?guideHTML():searchHTML());var info='<details class="r1555-guide-info"><summary><i class="fas fa-circle-info"></i> حول دليل التدرج</summary><div class="r1551-kpis"><div class="r1551-kpi"><b>'+esc(state.map.validatedChainCount||state.map.chains.length)+'</b><span>مسار صريح</span></div><div class="r1551-kpi"><b>'+esc(state.map.validatedStepCount||'—')+'</b><span>خطوة موثقة</span></div><div class="r1551-kpi"><b>'+esc(state.map.sourceTotal||'—')+'</b><span>عنوان في الدليل</span></div></div></details>';page.innerHTML='<div class="r1551-page"><section class="r1551-hero"><div class="r1551-hero-top"><div class="r1551-hero-ico"><i class="fas fa-arrow-trend-up"></i></div><div class="r1555-hero-copy"><div class="r1551-hero-title">التدرج الوظيفي</div><div class="r1551-hero-sub">مسار وظيفي مرجعي مبني على البيانات المعتمدة والمسارات الصريحة فقط</div><div class="r1555-advisory"><span class="r1555-pill safe"><i class="fas fa-shield-halved"></i> بدون تخمين</span><span class="r1555-pill readonly"><i class="fas fa-eye"></i> استشاري فقط • بدون تعديل للبيانات</span></div></div></div>'+info+'</section><section class="r1551-panel"><div class="r1551-modebar"><button type="button" class="r1551-mode '+(state.mode==='employee'?'active':'')+'" data-r1551-mode="employee"><i class="fas fa-user"></i> تدرج موظف</button><button type="button" class="r1551-mode '+(state.mode==='guide'?'active':'')+'" data-r1551-mode="guide"><i class="fas fa-diagram-project"></i> دليل السلاسل</button></div></section>'+body+'<div class="r1551-source r1555-source-footer"><strong>المصدر:</strong> '+esc(state.map.sourceFile||'دليل العناوين')+' — '+esc(state.map.sourceSheet||'')+'. هذه الواجهة للقراءة والتحليل فقط ولا تكتب أي تغيير في سجل الموظف.</div></div>';bind()}
+function searchHTML(){var rows=filteredEmployees(),count=rows.length;return '<section class="r1557-panel"><div class="r1557-section-head"><div class="r1557-section-title"><div class="r1557-section-icon"><i class="fas fa-user-magnifying-glass"></i></div><div class="r1557-section-copy"><b>البحث عن موظف</b><span>ابحث بالاسم أو الرقم الوظيفي أو العنوان الوظيفي</span></div></div>'+(state.q?'<span class="r1557-count">'+count+' نتيجة</span>':'')+'</div><div class="r1551-search"><div class="r1551-searchbox"><i class="fas fa-magnifying-glass"></i><input id="r1551-q" class="r1551-input" type="search" value="'+esc(state.q)+'" placeholder="اكتب الاسم، الرقم الوظيفي، أو العنوان"></div><button class="r1551-clear" type="button" id="r1551-clear" aria-label="مسح"><i class="fas fa-xmark"></i></button></div><div class="r1557-search-help"><i class="fas fa-shield-halved"></i> البحث لا يحدد المسار بحد ذاته. بعد اختيار الموظف، يعتمد التحليل فقط على التحصيل والدرجة والعنوان والمسارات الصريحة المعتمدة.</div><div class="r1551-results">'+(!state.q?'<div class="r1557-empty"><i class="fas fa-magnifying-glass"></i><b>ابدأ باختيار موظف</b><span>اكتب جزءًا من الاسم أو الرقم الوظيفي لعرض النتائج.</span></div>':(!rows.length?'<div class="r1557-empty"><i class="fas fa-user-slash"></i><b>لا توجد نتيجة مطابقة</b><span>جرّب جزءًا أقصر من الاسم أو ابحث بالرقم الوظيفي.</span></div>':rows.map(function(e){return '<button class="r1551-result" type="button" data-r1551-emp="'+esc(String(e.id||e.employeeNo||e.num||''))+'"><span class="r1551-rico"><i class="fas fa-user"></i></span><span><span class="r1551-rname">'+esc(e.name||'—')+'</span><span class="r1551-rmeta"><span>'+esc(e.jobTitle||'بدون عنوان')+'</span><span>•</span><span>'+esc(e.education||'بدون تحصيل')+'</span></span></span><span class="r1551-rgrade">'+esc(gradeNum(e.grade)?degreeName(gradeNum(e.grade)):'درجة؟')+'</span></button>'}).join('')))+'</div></section>'}
+function guideHTML(){var chains=(state.map.chains||[]).slice().sort(function(a,b){return String(a.name||'').localeCompare(String(b.name||''),'ar')});return '<section class="r1557-panel"><div class="r1557-section-head"><div class="r1557-section-title"><div class="r1557-section-icon"><i class="fas fa-diagram-project"></i></div><div class="r1557-section-copy"><b>دليل السلاسل الوظيفية</b><span>جميع المسارات الصريحة المضافة إلى النظام مرتبة في بطاقات مستقلة</span></div></div><span class="r1557-count">'+chains.length+' سلسلة</span></div><div class="r1557-guide-intro"><div><b>كيفية قراءة الدليل</b><span>افتح أي سلسلة لمشاهدة خطواتها ودرجاتها. السلسلة الجزئية تتوقف عند آخر درجة مثبتة ولا يتم إكمالها بالتخمين.</span></div><i class="fas fa-book-open" style="color:#79e7ff"></i></div><div class="r1557-guide-grid">'+chains.map(function(c){var steps=(c.steps||[]).slice().sort(function(a,b){return Number(b.grade)-Number(a.grade)}),grades=steps.map(function(s){return Number(s.grade)}),maxG=Math.max.apply(null,grades),minG=Math.min.apply(null,grades),complete=minG===1,status=complete?'يمتد إلى الأولى':'جزئي حتى '+degreeName(minG);return '<details class="r1557-chain"><summary><div><div class="r1557-chain-name">'+esc(c.name)+'</div><div class="r1557-chain-meta"><span>'+steps.length+' خطوات</span><span>من '+esc(degreeName(maxG))+' إلى '+esc(degreeName(minG))+'</span><span>'+esc(status)+'</span></div></div><span class="r1557-chain-open"><i class="fas fa-chevron-down"></i></span></summary><div class="r1557-chain-body">'+steps.map(function(st){return '<div class="r1557-guide-step"><div class="r1557-guide-grade">'+esc(st.grade)+'</div><div><div class="r1557-guide-title">'+esc(st.title)+'</div><div class="r1557-guide-degree">الدرجة '+esc(st.degree)+'</div></div></div>'}).join('')+'</div></details>'}).join('')+'</div></section>'}
+function shell(){var page=ensureView();if(!state.ready){page.innerHTML='<div class="r1551-page"><section class="r1557-panel"><div class="r1557-empty"><i class="fas fa-spinner fa-spin"></i><b>جاري تجهيز لوحة التدرج</b><span>يتم التحقق من خريطة المسارات ودليل العناوين…</span></div></section></div>';return}var chainCount=Number(state.map.validatedChainCount||0)||40,stepCount=Number(state.map.validatedStepCount||0)||267,sourceTotal=Number(state.map.sourceTotal||0)||1316;var body=state.selected&&state.mode==='employee'?employeeDetail(state.selected):(state.mode==='guide'?guideHTML():searchHTML());page.innerHTML='<div class="r1551-page"><section class="r1557-dashboard"><div class="r1557-dashboard-top"><div class="r1557-main-icon"><i class="fas fa-arrow-trend-up"></i></div><div><div class="r1557-eyebrow">لوحة المسار الوظيفي</div><div class="r1557-title">التدرج الوظيفي</div><div class="r1557-subtitle">لوحة مرجعية لتحليل المسار الوظيفي اعتمادًا على البيانات المعتمدة والسلاسل الصريحة فقط.</div><div class="r1557-badges"><span class="r1557-badge safe"><i class="fas fa-shield-halved"></i> بدون تخمين</span><span class="r1557-badge readonly"><i class="fas fa-eye"></i> استشاري فقط • قراءة فقط</span></div></div></div><div class="r1557-kpis"><div class="r1557-kpi" data-r1557-kpi="40 مسارًا صريحًا"><div class="r1557-kpi-top"><i class="fas fa-route"></i><b>'+chainCount+'</b></div><span>مسارًا صريحًا</span><small>سلاسل معتمدة داخل خريطة التدرج</small></div><div class="r1557-kpi" data-r1557-kpi="267 خطوة موثقة"><div class="r1557-kpi-top"><i class="fas fa-list-check"></i><b>'+stepCount+'</b></div><span>خطوة موثقة</span><small>عناوين مرتبطة بدرجاتها حرفيًا</small></div><div class="r1557-kpi" data-r1557-kpi="1316 عنوانًا في الدليل"><div class="r1557-kpi-top"><i class="fas fa-book"></i><b>'+sourceTotal+'</b></div><span>عنوانًا في الدليل</span><small>المصدر المرجعي الكامل للعناوين</small></div></div><div class="r1557-integrity"><i class="fas fa-circle-check"></i><span>الخريطة الحالية: '+chainCount+' مسارًا / '+stepCount+' خطوة، وسياسة المطابقة الصريحة مفعلة بدون توليد أو استنتاج للعناوين.</span></div></section><section class="r1557-nav"><button type="button" class="r1551-mode '+(state.mode==='employee'?'active':'')+'" data-r1551-mode="employee"><i class="fas fa-user"></i> تدرج موظف</button><button type="button" class="r1551-mode '+(state.mode==='guide'?'active':'')+'" data-r1551-mode="guide"><i class="fas fa-diagram-project"></i> دليل السلاسل</button></section>'+body+'<div class="r1557-source"><strong>المصدر:</strong> '+esc(state.map.sourceFile||'دليل العناوين')+' — '+esc(state.map.sourceSheet||'')+'. الواجهة تحليلية للقراءة فقط ولا تكتب أي تغيير في سجل الموظف أو الحركات الإدارية.</div></div>';bind()}
 function renderError(msg){var page=ensureView();page.innerHTML='<div class="r1551-page"><section class="r1551-panel"><div class="r1551-status warn"><i class="fas fa-triangle-exclamation"></i><div><b>تعذر تشغيل التدرج بأمان</b><span>'+esc(msg||state.error||'خطأ غير معروف')+'</span></div></div><div class="r1551-source" style="margin-top:10px">لم يتم عرض أي عنوان مقترح لأن التحقق من المصدر لم يكتمل.</div></section></div>'}
 function findEmployee(id){return allEmployees().find(function(e){return String(e.id||e.employeeNo||e.num||'')===String(id)})||null}
 function bind(){var page=ensureView();page.querySelectorAll('[data-r1551-mode]').forEach(function(b){b.onclick=function(){state.mode=this.getAttribute('data-r1551-mode')||'employee';state.selected=null;state.selectedChain='';shell()}});var q=$('r1551-q');if(q){q.oninput=function(){state.q=this.value||'';shell();var x=$('r1551-q');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(e){}}}}var clear=$('r1551-clear');if(clear)clear.onclick=function(){state.q='';shell();var x=$('r1551-q');if(x)x.focus()};page.querySelectorAll('[data-r1551-emp]').forEach(function(b){b.onclick=function(){var e=findEmployee(this.getAttribute('data-r1551-emp'));if(e){state.selected=e;shell();var sc=$('scroll');if(sc)sc.scrollTo({top:0,behavior:'smooth'})}}});var back=page.querySelector('[data-r1551-back]');if(back)back.onclick=function(){state.selected=null;shell()};page.querySelectorAll('[data-r1551-chain]').forEach(function(b){b.onclick=function(){state.selectedChain=this.getAttribute('data-r1551-chain')||'';shell()}});var gb=page.querySelector('[data-r1551-guide-back]');if(gb)gb.onclick=function(){state.selectedChain='';shell()}}
 function hideOtherViews(){['view-list','view-updates','view-reports','view-alerts','view-system','view-service','view-jobtitles','view-titlematch','view-managernotes','view-admin'].forEach(function(id){var v=$(id);if(v)v.style.display='none'});var ss=$('search-sec'),pg=$('pg');if(ss)ss.style.display='none';if(pg)pg.style.display='none'}
 function openCareer(emp){ensureView();try{subView='career'}catch(e){window.subView='career'}try{document.body.classList.remove('subview-list','subview-updates','subview-quality','subview-reports','subview-alerts','subview-system','subview-service','subview-jobtitles','subview-titlematch','subview-managernotes','subview-career');document.body.classList.add('subview-career')}catch(e){}hideOtherViews();var v=$(PAGE_ID);if(v)v.style.display='block';state.mode='employee';state.selected=emp&&emp.type==='perm'?emp:null;state.selectedChain='';shell();loadResources().then(function(){if(emp&&emp.type==='perm')state.selected=emp;shell()}).catch(function(e){renderError((e&&e.message)||state.error)});try{if(typeof mobileR146SyncChrome==='function')mobileR146SyncChrome()}catch(e){}try{if(window.r1502DashboardRadicalRebuild&&window.r1502DashboardRadicalRebuild.sync)window.r1502DashboardRadicalRebuild.sync()}catch(e){}var sc=$('scroll');if(sc)sc.scrollTo({top:0,behavior:'smooth'})}
 function closeCareer(){var v=$(PAGE_ID);if(v)v.style.display='none';try{document.body.classList.remove('subview-career')}catch(e){}}
-function previewHTML(emp,a){var status=a.status==='verified'?'مطابقة صريحة':(a.status==='ambiguous'?'يتطلب تحديد الاختصاص':(a.status==='grade-mismatch'?'يحتاج مراجعة':(a.status==='unmapped'?'غير مربوط حاليًا':'مراجعة البيانات'))),text='';if(a.status==='verified'){text='<b>'+esc(a.step.title)+'</b> • '+esc('الدرجة '+a.step.degree)+(a.next?' • الخطوة المرجعية التالية: <b>'+esc(a.next.title)+'</b>':'')}else text=esc(a.message);return '<div class="r1551-profile-career" id="r1551-profile-career"><div class="r1551-profile-career-head"><i class="fas fa-arrow-trend-up"></i> التدرج الوظيفي <span style="margin-inline-start:auto;font-size:8px;opacity:.72">'+esc(status)+'</span></div><div class="r1551-profile-career-body">'+text+'</div><button type="button" class="r1551-profile-career-btn" data-r1551-open-career><i class="fas fa-route"></i> فتح المسار الكامل</button></div>'}
+function previewHTML(emp,a){var status=a.status==='verified'?'مطابقة صريحة':(a.status==='ambiguous'?'يتطلب تحديد الاختصاص':(a.status==='grade-mismatch'?'يحتاج مراجعة':(a.status==='unmapped'?'غير مربوط حاليًا':'مراجعة البيانات'))),text='';if(a.status==='verified'){text='<b>'+esc(a.step.title)+'</b> • '+esc('الدرجة '+a.step.degree)+(a.next?' • الخطوة المرجعية التالية: <b>'+esc(a.next.title)+'</b>':'')}else text=esc(a.message);return '<div class="r1557-profile-career" id="r1551-profile-career"><div class="r1557-profile-career-head"><i class="fas fa-arrow-trend-up"></i> التدرج الوظيفي <span class="r1557-profile-career-state">'+esc(status)+'</span></div><div class="r1557-profile-career-body">'+text+'</div><button type="button" class="r1557-profile-career-btn" data-r1551-open-career><i class="fas fa-route"></i> فتح لوحة التدرج الوظيفي</button></div>'}
 function enhanceEmployeeModal(emp){if(!emp||emp.type!=='perm')return;loadResources().then(function(){var panel=document.querySelector('#modal-inner [data-profile-panel="job"]');if(!panel)return;var old=panel.querySelector('#r1551-profile-career');if(old)old.remove();var box=document.createElement('div');box.innerHTML=previewHTML(emp,analyze(emp));var node=box.firstElementChild;if(node)panel.appendChild(node);var btn=panel.querySelector('[data-r1551-open-career]');if(btn)btn.onclick=function(){var m=$('modal');if(m)m.classList.remove('open');openCareer(emp)}}).catch(function(){})}
 var oldOpen=window.openModal; if(typeof oldOpen==='function'){window.openModal=openModal=function(emp){var r=oldOpen.apply(this,arguments);setTimeout(function(){enhanceEmployeeModal(emp)},30);return r}}
 var oldLabel=window.mobileR146SubLabel;window.mobileR146SubLabel=function(){try{if(subView==='career')return 'التدرج الوظيفي'}catch(e){}return typeof oldLabel==='function'?oldLabel.apply(this,arguments):''}
@@ -10754,13 +11082,13 @@ window.r1551CareerProgression={release:RELEASE,open:openCareer,analyze:function(
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.56-CAREER-MAP-EXPANSION-BATCH1';
+var RELEASE='MOBILE-R1.5.57-CAREER-DASHBOARD-UI-OVERHAUL';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
-async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1556');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
+async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1557');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
 async function checkUpdate(showMessage){setRelease();if(navigator.onLine===false){if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');return false}try{if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث'}catch(e){}if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');return has}catch(e){try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');return false}}
-async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1556&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1556');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
-setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1556',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1557&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1557');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
+setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1557',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
 document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});window.r1551CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
 })();
 </script>
