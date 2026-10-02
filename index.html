@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.61-CAREER-VISUAL-POLISH">
+<meta name="app-release" content="MOBILE-R1.5.62-CAREER-UI-REBUILD">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -5832,7 +5832,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   }
   function setActive(v){var isPerm=mode==='perm',isCont=mode==='cont',cls=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){var t=document.getElementById(x==='titlematch'?TAB_ID:'stab-'+x);if(t){var on=v===x;t.className='sub-tab'+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');}});}
   function clearMatch(){document.body.classList.remove('subview-titlematch');var v=document.getElementById(VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
-  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1561'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
+  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1562'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
   function buildIndex(data){var rows=(data&&data.rows)||[],by={},any={};rows.forEach(function(r){var d=degLabel(r.degree),t=String(r.title||'').trim(),n=norm(t);if(!d||!n)return;(by[d]=by[d]||{});(by[d][n]=by[d][n]||[]).push(t);(any[n]=any[n]||[]).push(d);});return{by:by,any:any,rows:rows};}
   function suggest(title,degree,idx){var n=norm(title),words=n.split(' ').filter(Boolean),src=(idx.rows||[]).filter(function(r){return degLabel(r.degree)===degree;});var scored=[];src.forEach(function(r){var rn=norm(r.title||'');if(!rn)return;var score=0;words.forEach(function(w){if(w.length>2&&rn.indexOf(w)>=0)score+=2;});if(rn.indexOf(n)>=0||n.indexOf(rn)>=0)score+=5;if(score>0)scored.push({t:r.title,s:score});});return scored.sort(function(a,b){return b.s-a.s;}).slice(0,3).map(function(x){return x.t;});}
   function analyze(){return loadTitles().then(function(data){var idx=buildIndex(data),emps=allEmployees();state.rows=emps.map(function(e,i){var title=String(e.jobTitle||'').trim(),degree=degLabel(e.grade),nt=norm(title),cls='unknown',label='غير موجود',note='العنوان غير موجود في دليل العناوين الوظيفية.',sugg=[];if(!title||!degree){cls='missing';label='نقص بيانات';note=!title&&!degree?'لا يوجد عنوان وظيفي ولا درجة.':(!title?'لا يوجد عنوان وظيفي.':'لا توجد درجة وظيفية واضحة.');}
@@ -8945,8 +8945,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1561';
-  var KEEP_CACHE='employee-registry-ui-r1561';
+  var SW_URL='service-worker.js?v=1562';
+  var KEEP_CACHE='employee-registry-ui-r1562';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -11364,637 +11364,341 @@ body.light-mode #view-career .r1560-details{background:#fff;border-color:rgba(55
 </style>
 
 
-<style id="r1561-career-visual-polish-style">
-/* R1561_CAREER_VISUAL_POLISH */
-/* Presentation-only polish over R1.5.60. No search/matching/data logic lives here. */
 
+<style id="r1562-career-ui-rebuild-style">
+/* R1562_CAREER_UI_REBUILD */
 #view-career{
-  --v61-ink:#061226;
-  --v61-ink-2:#0a1c37;
-  --v61-surface:rgba(9,27,54,.92);
-  --v61-surface-soft:rgba(255,255,255,.032);
-  --v61-line:rgba(147,211,255,.115);
-  --v61-line-strong:rgba(123,232,255,.18);
-  --v61-text:#f7fbff;
-  --v61-muted:rgba(222,236,253,.60);
-  --v61-faint:rgba(219,233,251,.40);
-  --v61-cyan:#7ce8ff;
-  --v61-cyan-soft:rgba(124,232,255,.10);
-  --v61-blue:#97baff;
-  --v61-green:#a5f0b9;
-  --v61-amber:#ffdb98;
-  --v61-shadow:0 14px 34px rgba(0,0,0,.16);
+  --v62-bg:#061324;
+  --v62-bg-2:#0b1f39;
+  --v62-panel:rgba(10,26,49,.94);
+  --v62-panel-2:rgba(255,255,255,.026);
+  --v62-panel-3:rgba(255,255,255,.018);
+  --v62-line:rgba(147,211,255,.10);
+  --v62-line-strong:rgba(124,232,255,.17);
+  --v62-text:#f6fbff;
+  --v62-soft:rgba(226,239,255,.72);
+  --v62-muted:rgba(220,234,252,.50);
+  --v62-faint:rgba(219,233,251,.34);
+  --v62-cyan:#7ce8ff;
+  --v62-blue:#95b6ff;
+  --v62-green:#aaf1bc;
+  --v62-amber:#ffdda0;
+  --v62-shadow:0 18px 42px rgba(0,0,0,.20);
 }
-
-/* Global rhythm */
 #view-career .r1551-page{
-  max-width:900px;
-  gap:11px;
-  padding:10px 10px 50px;
+  max-width:860px;
+  padding:12px 12px 58px !important;
+  gap:12px !important;
 }
-#view-career button,
-#view-career input,
-#view-career summary{
-  -webkit-tap-highlight-color:transparent;
-}
-#view-career button{
-  transition:transform .14s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
-}
+#view-career button,#view-career input,#view-career summary{-webkit-tap-highlight-color:transparent}
+#view-career button{transition:transform .14s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease}
 #view-career button:active{transform:scale(.985)}
 
-/* Compact premium header */
-#view-career .r1560-top{
-  position:relative;
-  overflow:hidden;
-  border-radius:25px;
-  padding:16px 17px 14px;
+/* stage */
+#view-career .r1562-stage{
+  position:relative;overflow:hidden;
+  border-radius:28px;
+  padding:18px 18px 16px;
   background:
-    radial-gradient(circle at 90% -20%,rgba(83,193,255,.16),transparent 36%),
-    linear-gradient(150deg,rgba(13,43,83,.97),rgba(7,20,43,.99) 66%);
-  border:1px solid var(--v61-line);
-  box-shadow:var(--v61-shadow), inset 0 1px 0 rgba(255,255,255,.035);
+    radial-gradient(circle at 88% -10%, rgba(124,232,255,.13), transparent 32%),
+    radial-gradient(circle at 0% 100%, rgba(102,130,255,.10), transparent 28%),
+    linear-gradient(155deg, rgba(11,34,64,.98), rgba(6,18,35,.995) 72%);
+  border:1px solid var(--v62-line);
+  box-shadow:var(--v62-shadow), inset 0 1px 0 rgba(255,255,255,.025);
 }
-#view-career .r1560-top:after{
-  content:'';
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:linear-gradient(110deg,transparent 0%,rgba(255,255,255,.025) 37%,transparent 62%);
+#view-career .r1562-stage:before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.022) 38%,transparent 65%);
 }
-#view-career .r1560-topline{gap:12px;position:relative;z-index:1}
-#view-career .r1560-icon{
-  position:relative;
-  width:47px;height:47px;flex-basis:47px;
-  border-radius:15px;
-  background:linear-gradient(145deg,rgba(124,232,255,.14),rgba(102,139,255,.075));
-  border:1px solid rgba(124,232,255,.16);
-  color:#effcff;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 8px 20px rgba(31,153,225,.08);
-}
-#view-career .r1560-icon:after{
-  content:'';
-  position:absolute;
-  width:5px;height:5px;
-  border-radius:50%;
-  left:5px;top:5px;
-  background:var(--v61-green);
-  box-shadow:0 0 9px rgba(165,240,185,.45);
-}
-#view-career .r1560-title{
-  font-family:var(--hr-title-font,'Zain',Tahoma,sans-serif);
-  font-size:20px;
-  font-weight:900;
-  line-height:1.25;
-  color:var(--v61-text);
-  letter-spacing:-.15px;
-}
-#view-career .r1560-sub{
-  font-size:9px;
-  line-height:1.65;
-  color:var(--v61-muted);
-  margin-top:3px;
-}
-#view-career .r1560-meta{
-  position:relative;z-index:1;
-  gap:6px;
-  margin-top:12px;
-  padding-top:10px;
-  border-top:1px solid rgba(255,255,255,.055);
-}
-#view-career .r1560-meta span{
-  min-height:28px;
-  padding:5px 9px;
-  background:rgba(255,255,255,.027);
+#view-career .r1562-kicker{display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative;z-index:1}
+#view-career .r1562-kicker span{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 9px;border-radius:999px;
+  background:rgba(255,255,255,.028);
   border:1px solid rgba(255,255,255,.055);
-  color:rgba(230,242,255,.69);
-  backdrop-filter:blur(4px);
+  color:var(--v62-soft);font-size:7.2px;font-weight:900;letter-spacing:.15px
 }
-#view-career .r1560-meta b{
-  font-family:var(--hr-number-font,'Arial',sans-serif);
-  font-size:10.5px;
-  color:#fff;
+#view-career .r1562-kicker i{color:var(--v62-cyan)}
+#view-career .r1562-mark{
+  width:52px;height:52px;border-radius:17px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg, rgba(124,232,255,.12), rgba(118,140,255,.06));
+  border:1px solid rgba(124,232,255,.16);color:#effcff;font-size:18px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 10px 24px rgba(38,128,210,.10)
 }
-#view-career .r1560-meta .safe{
-  background:rgba(72,205,120,.045);
-  border-color:rgba(99,226,145,.12);
-  color:#d8fae2;
+#view-career .r1562-title{position:relative;z-index:1;margin-top:12px;font:900 22px var(--hr-title-font,'Zain',Tahoma,sans-serif);color:#fff;line-height:1.18;letter-spacing:-.18px}
+#view-career .r1562-sub{position:relative;z-index:1;margin-top:5px;font-size:9px;line-height:1.75;color:var(--v62-soft);max-width:88%}
+#view-career .r1562-hero-tags{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+#view-career .r1562-tag{
+  display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:6px 10px;border-radius:999px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.055);
+  color:var(--v62-soft);font-size:8px;font-weight:800
 }
-#view-career .r1560-note{
-  position:relative;z-index:1;
-  margin-top:8px;
-  font-size:7.8px;
-  color:rgba(215,231,250,.43);
-}
-#view-career .r1560-note i{color:var(--v61-cyan)}
+#view-career .r1562-tag b{font:900 10.5px var(--hr-number-font,'Arial',sans-serif);color:#fff}
+#view-career .r1562-tag.safe{background:rgba(60,190,110,.045);border-color:rgba(96,228,140,.12);color:#d9f9e2}
+#view-career .r1562-note{position:relative;z-index:1;margin-top:10px;font-size:7.6px;line-height:1.7;color:var(--v62-faint)}
+#view-career .r1562-note i{color:var(--v62-cyan);margin-inline-end:4px}
 
-/* Tabs */
-#view-career .r1560-tabs{
-  gap:5px;
-  padding:5px;
-  border-radius:17px;
-  background:rgba(4,13,29,.72);
-  border:1px solid rgba(137,199,255,.085);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+/* tabs */
+#view-career .r1562-tabs{
+  display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;
+  border-radius:18px;background:rgba(4,13,29,.75);border:1px solid rgba(137,199,255,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.02)
 }
 #view-career .r1551-mode{
-  position:relative;
-  min-height:44px;
-  border-radius:12px;
-  color:rgba(221,235,253,.52);
-  font-size:9.7px;
+  min-height:46px !important;border-radius:13px !important;font-size:9.7px !important;font-weight:900 !important;
+  color:rgba(222,236,253,.53) !important;background:transparent !important;border:1px solid transparent !important;
+  display:flex;align-items:center;justify-content:center;gap:7px
 }
-#view-career .r1551-mode i{font-size:11px;opacity:.76}
+#view-career .r1551-mode i{font-size:11px;opacity:.78}
 #view-career .r1551-mode.active{
-  color:#f4fbff;
-  background:linear-gradient(145deg,rgba(87,196,255,.11),rgba(87,127,255,.055));
-  border-color:rgba(124,232,255,.15);
-  box-shadow:0 5px 14px rgba(0,0,0,.07),inset 0 1px 0 rgba(255,255,255,.035);
+  color:#f4fbff !important;
+  background:linear-gradient(145deg, rgba(86,194,255,.11), rgba(103,136,255,.05)) !important;
+  border-color:rgba(124,232,255,.14) !important;
+  box-shadow:0 7px 18px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.03)
 }
-#view-career .r1551-mode.active i{color:var(--v61-cyan);opacity:1}
+#view-career .r1551-mode.active i{color:var(--v62-cyan);opacity:1}
 
-/* Main surfaces */
-#view-career .r1560-surface{
-  border-radius:22px;
-  padding:14px;
-  background:
-    linear-gradient(150deg,rgba(10,30,59,.94),rgba(6,18,41,.97));
-  border:1px solid var(--v61-line);
-  box-shadow:0 10px 26px rgba(0,0,0,.11),inset 0 1px 0 rgba(255,255,255,.022);
+/* section surfaces */
+#view-career .r1562-surface{
+  border-radius:24px;padding:15px;
+  background:linear-gradient(160deg, rgba(9,26,50,.95), rgba(6,18,38,.985));
+  border:1px solid var(--v62-line);
+  box-shadow:0 12px 30px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.02)
 }
-#view-career .r1560-head{margin-bottom:11px}
-#view-career .r1560-head-main{gap:9px}
-#view-career .r1560-head-main>i{
-  width:30px;height:30px;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:10px;
-  background:var(--v61-cyan-soft);
-  border:1px solid rgba(124,232,255,.10);
-  color:var(--v61-cyan);
-  font-size:11px;
-}
-#view-career .r1560-head-main b{
-  font-family:var(--hr-title-font,'Zain',Tahoma,sans-serif);
-  font-size:12.5px;
-  color:#f6fbff;
-}
-#view-career .r1560-head-main small{color:var(--v61-faint)}
-#view-career .r1560-count{
-  background:rgba(124,232,255,.045);
-  border-color:rgba(124,232,255,.095);
-  color:#c9f7ff;
-}
+#view-career .r1562-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px}
+#view-career .r1562-head h3{margin:0;font:900 13px var(--hr-title-font,'Zain',Tahoma,sans-serif);color:#f5fbff;line-height:1.3}
+#view-career .r1562-head p{margin:3px 0 0;font-size:7.8px;color:var(--v62-faint);line-height:1.55}
+#view-career .r1562-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;background:rgba(124,232,255,.045);border:1px solid rgba(124,232,255,.08);color:#cdf7ff;font-size:7px;font-weight:900;white-space:nowrap}
 
-/* Search */
+/* search */
+#view-career .r1562-searchWrap{display:grid;gap:10px}
+#view-career .r1551-search{display:grid;grid-template-columns:1fr 52px;gap:8px;align-items:stretch}
 #view-career .r1551-searchbox{
-  min-height:49px;
-  border-radius:15px;
-  background:rgba(2,11,26,.52);
-  border:1px solid rgba(124,232,255,.105);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.018);
-  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+  min-height:52px !important;border-radius:17px !important;padding-inline:15px !important;
+  background:rgba(3,12,27,.58) !important;border:1px solid rgba(124,232,255,.11) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018)
 }
 #view-career .r1551-searchbox:focus-within{
-  border-color:rgba(124,232,255,.27);
-  background:rgba(4,17,36,.68);
-  box-shadow:0 0 0 3px rgba(124,232,255,.045),inset 0 1px 0 rgba(255,255,255,.025);
+  border-color:rgba(124,232,255,.24) !important;background:rgba(4,16,35,.74) !important;
+  box-shadow:0 0 0 3px rgba(124,232,255,.04), inset 0 1px 0 rgba(255,255,255,.025)
 }
-#view-career .r1551-searchbox>i{color:var(--v61-cyan);opacity:.76}
-#view-career .r1551-input{
-  font-family:inherit;
-  color:#f6fbff;
-  caret-color:var(--v61-cyan);
-}
-#view-career .r1551-input::placeholder{color:rgba(218,233,251,.30)}
+#view-career .r1551-searchbox>i{color:var(--v62-cyan) !important;opacity:.82}
+#view-career .r1551-input{color:#f7fbff !important;font-size:10.5px !important;caret-color:var(--v62-cyan)}
+#view-career .r1551-input::placeholder{color:rgba(220,234,252,.28)}
 #view-career .r1551-clear{
-  border-radius:15px;
-  color:rgba(222,236,253,.64);
-  border-color:rgba(255,255,255,.06);
-  background:rgba(255,255,255,.025);
+  min-width:52px !important;width:52px !important;height:52px !important;border-radius:17px !important;
+  background:rgba(255,255,255,.026) !important;border:1px solid rgba(255,255,255,.055) !important;color:var(--v62-soft) !important
 }
-#view-career .r1551-clear:active{background:rgba(255,255,255,.055)}
-#view-career .r1560-searchhint{color:rgba(214,230,249,.37)}
-
-/* Search results */
-#view-career .r1551-results{gap:7px}
+#view-career .r1551-clear:hover{background:rgba(255,255,255,.04) !important}
+#view-career .r1562-searchHelp{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:7.6px;color:var(--v62-faint);line-height:1.7}
+#view-career .r1562-searchHelp span{display:inline-flex;align-items:center;gap:5px}
+#view-career .r1562-searchHelp i{color:var(--v62-cyan)}
+#view-career .r1551-results{display:grid;gap:7px !important}
+#view-career .r1562-empty{
+  padding:28px 16px;text-align:center;color:var(--v62-muted);font-size:8.8px;line-height:1.7;
+  background:rgba(255,255,255,.014);border:1px dashed rgba(124,232,255,.09);border-radius:18px
+}
+#view-career .r1562-empty i{display:block;font-size:20px;color:rgba(124,232,255,.46);margin-bottom:8px}
 #view-career .r1551-result{
-  min-height:60px;
-  padding:9px 10px;
-  border-radius:16px;
-  background:rgba(255,255,255,.022);
-  border:1px solid rgba(255,255,255,.052);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.012);
+  grid-template-columns:42px minmax(0,1fr) auto !important;min-height:62px !important;padding:10px !important;border-radius:17px !important;
+  background:rgba(255,255,255,.022) !important;border:1px solid rgba(255,255,255,.05) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.012)
 }
-#view-career .r1551-result:hover{
-  border-color:rgba(124,232,255,.12);
-  background:rgba(124,232,255,.026);
-}
+#view-career .r1551-result:hover{border-color:rgba(124,232,255,.12) !important;background:rgba(124,232,255,.025) !important}
 #view-career .r1551-rico{
-  position:relative;
-  border-radius:13px;
-  background:linear-gradient(145deg,rgba(124,232,255,.075),rgba(115,145,255,.035));
-  border-color:rgba(124,232,255,.10);
-  color:#dffaff;
+  width:42px;height:42px;border-radius:14px !important;background:linear-gradient(145deg, rgba(124,232,255,.09), rgba(112,135,255,.045)) !important;
+  border:1px solid rgba(124,232,255,.10) !important;color:#eafcff !important;position:relative
 }
-#view-career .r1551-rico:after{
-  content:'';
-  width:4px;height:4px;border-radius:50%;
-  position:absolute;left:4px;bottom:4px;
-  background:var(--v61-green);
-}
-#view-career .r1551-rname{
-  font-family:var(--hr-title-font,'Zain',Tahoma,sans-serif);
-  font-size:11px;
-  color:#f5faff;
-}
-#view-career .r1551-rmeta{color:rgba(216,231,250,.43)}
-#view-career .r1551-rgrade{
-  border-radius:9px;
-  color:#dcedff;
-  background:rgba(255,255,255,.025);
-  border:1px solid rgba(255,255,255,.05);
-}
+#view-career .r1551-rico:after{content:'';position:absolute;left:4px;bottom:4px;width:5px;height:5px;border-radius:50%;background:var(--v62-green)}
+#view-career .r1551-rname{font:900 11px var(--hr-title-font,'Zain',Tahoma,sans-serif) !important;color:#f5fbff !important}
+#view-career .r1551-rmeta{font-size:7.6px !important;line-height:1.55 !important;color:var(--v62-muted) !important}
+#view-career .r1551-rgrade{padding:6px 8px;border-radius:10px !important;background:rgba(255,255,255,.023) !important;border:1px solid rgba(255,255,255,.045) !important;color:#deedff !important;font-size:7.2px !important;font-weight:900 !important}
 
-/* Employee identity */
-#view-career .r1560-person{
-  position:relative;
-  overflow:hidden;
-  border-radius:23px;
-  padding:15px;
+/* employee */
+#view-career .r1562-employeeShell{display:grid;gap:10px}
+#view-career .r1562-profile{
+  position:relative;overflow:hidden;border-radius:26px;padding:16px;
   background:
-    radial-gradient(circle at 92% -5%,rgba(124,232,255,.09),transparent 35%),
-    linear-gradient(145deg,rgba(14,45,79,.94),rgba(6,20,44,.985));
-  border:1px solid rgba(124,232,255,.13);
-  box-shadow:0 11px 28px rgba(0,0,0,.11),inset 0 1px 0 rgba(255,255,255,.025);
+    radial-gradient(circle at 93% -10%, rgba(124,232,255,.09), transparent 34%),
+    linear-gradient(155deg, rgba(13,39,70,.97), rgba(7,19,38,.99));
+  border:1px solid rgba(124,232,255,.12);
+  box-shadow:0 14px 34px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.02)
 }
-#view-career .r1560-person:before{
-  content:'';
-  position:absolute;
-  right:0;top:0;bottom:0;width:2px;
-  background:linear-gradient(var(--v61-cyan),rgba(124,232,255,0));
-  opacity:.55;
+#view-career .r1562-profile:before{content:'';position:absolute;right:0;top:16px;bottom:16px;width:2px;border-radius:2px;background:linear-gradient(var(--v62-cyan),rgba(124,232,255,0));opacity:.62}
+#view-career .r1562-profileTop{display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:11px;align-items:center}
+#view-career .r1562-avatar{
+  width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;position:relative;
+  background:linear-gradient(145deg, rgba(124,232,255,.13), rgba(112,138,255,.07));
+  border:1px solid rgba(124,232,255,.15);color:#effcff;font-size:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.045)
 }
-#view-career .r1560-person-top{gap:11px}
-#view-career .r1560-avatar{
-  position:relative;
-  width:49px;height:49px;
-  border-radius:16px;
-  background:linear-gradient(145deg,rgba(124,232,255,.14),rgba(99,132,255,.07));
-  border-color:rgba(124,232,255,.14);
-  color:#effcff;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.045);
+#view-career .r1562-avatar:after{content:'';position:absolute;left:4px;bottom:4px;width:8px;height:8px;border-radius:50%;background:var(--v62-green);border:2px solid #0b2748}
+#view-career .r1562-name{font:900 16px var(--hr-title-font,'Zain',Tahoma,sans-serif);color:#fff;line-height:1.25;letter-spacing:-.14px}
+#view-career .r1562-role{margin-top:3px;font-size:8.4px;line-height:1.6;color:var(--v62-soft)}
+#view-career .r1562-change{
+  min-height:35px;padding:7px 10px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);color:#e8f4ff;font-size:7.6px;font-weight:900
 }
-#view-career .r1560-avatar:after{
-  content:'';
-  position:absolute;left:3px;bottom:3px;
-  width:7px;height:7px;border-radius:50%;
-  background:var(--v61-green);
-  border:2px solid #0b2444;
+#view-career .r1562-change:hover{background:rgba(124,232,255,.04);border-color:rgba(124,232,255,.13)}
+#view-career .r1562-pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.05)}
+#view-career .r1562-pill{
+  display:inline-flex;align-items:center;gap:6px;min-height:31px;padding:6px 10px;border-radius:999px;
+  background:rgba(255,255,255,.024);border:1px solid rgba(255,255,255,.048);color:var(--v62-soft);font-size:7.9px;font-weight:800
 }
-#view-career .r1560-name{
-  font-family:var(--hr-title-font,'Zain',Tahoma,sans-serif);
-  font-size:15px;
-  font-weight:900;
-  color:#fff;
-  letter-spacing:-.1px;
-}
-#view-career .r1560-role{
-  color:rgba(224,238,255,.59);
-  font-size:8.5px;
-}
-#view-career .r1560-change{
-  min-height:34px;
-  border-radius:11px;
-  padding:7px 9px;
-  border-color:rgba(255,255,255,.075);
-  background:rgba(255,255,255,.028);
-  color:#e8f4ff;
-}
-#view-career .r1560-change:hover{
-  border-color:rgba(124,232,255,.13);
-  background:rgba(124,232,255,.04);
-}
-#view-career .r1560-person-line{
-  gap:10px;
-  margin-top:11px;
-  padding-top:9px;
-  border-top-color:rgba(255,255,255,.05);
-}
-#view-career .r1560-person-line i{color:var(--v61-cyan);opacity:.78}
-#view-career .r1560-person-line b{color:#f6fbff}
-#view-career .r1560-edu-note{color:rgba(215,231,250,.38)}
+#view-career .r1562-pill i{color:var(--v62-cyan)}
+#view-career .r1562-pill b{color:#f6fbff;font-size:8.3px}
+#view-career .r1562-context{margin-top:9px;font-size:7.4px;line-height:1.7;color:var(--v62-faint)}
+#view-career .r1562-context i{color:var(--v62-cyan)}
 
-/* Match status */
 #view-career .r1560-status{
-  position:relative;
-  padding:10px 12px;
-  border-radius:16px;
-  gap:9px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.018);
+  border-radius:18px !important;padding:10px 12px !important;display:grid !important;grid-template-columns:28px minmax(0,1fr) !important;gap:9px !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.016)
 }
-#view-career .r1560-status>i{
-  width:27px;height:27px;flex:0 0 27px;
-  border-radius:9px;
-  display:flex;align-items:center;justify-content:center;
-  margin-top:0;
-  background:rgba(255,255,255,.035);
-}
-#view-career .r1560-status b{
-  font-family:var(--hr-title-font,'Zain',Tahoma,sans-serif);
-  font-size:9.6px;
-}
-#view-career .r1560-status.ok{
-  background:linear-gradient(145deg,rgba(47,190,100,.05),rgba(38,135,92,.025));
-  border-color:rgba(86,222,136,.14);
-}
-#view-career .r1560-status.ok>i{color:var(--v61-green)}
-#view-career .r1560-status.warn{
-  background:linear-gradient(145deg,rgba(242,170,35,.052),rgba(160,105,25,.025));
-  border-color:rgba(255,194,78,.14);
-}
-#view-career .r1560-status.warn>i{color:var(--v61-amber)}
-#view-career .r1560-status.info{
-  background:linear-gradient(145deg,rgba(77,140,245,.05),rgba(65,100,180,.025));
-  border-color:rgba(115,168,255,.13);
-}
-#view-career .r1560-status.info>i{color:#b7d4ff}
+#view-career .r1560-status>i{width:28px;height:28px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.035);margin-top:0 !important}
+#view-career .r1560-status b{display:block;font:900 10px var(--hr-title-font,'Zain',Tahoma,sans-serif);margin-bottom:2px}
+#view-career .r1560-status span{display:block;font-size:8px;line-height:1.65}
+#view-career .r1560-status.ok{background:linear-gradient(145deg, rgba(45,188,98,.06), rgba(30,116,66,.02)) !important;border-color:rgba(84,220,134,.14) !important;color:#d4f9df !important}
+#view-career .r1560-status.warn{background:linear-gradient(145deg, rgba(242,170,35,.055), rgba(154,98,24,.02)) !important;border-color:rgba(255,194,78,.14) !important;color:#ffe4af !important}
+#view-career .r1560-status.info{background:linear-gradient(145deg, rgba(77,140,245,.055), rgba(52,87,162,.02)) !important;border-color:rgba(116,168,255,.13) !important;color:#dceaff !important}
 
-/* Career path */
-#view-career .r1560-path-summary{
-  margin-bottom:11px;
+/* path */
+#view-career .r1562-path{
+  border-radius:24px;padding:15px;background:linear-gradient(160deg, rgba(9,26,50,.95), rgba(6,18,38,.985));
+  border:1px solid var(--v62-line);box-shadow:0 12px 30px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.02)
 }
-#view-career .r1560-path-summary .main b{
-  font-family:var(--hr-title-font,'Zain',Tahoma,sans-serif);
-  font-size:11.5px;
-  color:#f6fbff;
+#view-career .r1562-pathTop{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:stretch;margin-bottom:10px}
+#view-career .r1562-now{
+  border-radius:18px;padding:12px;background:linear-gradient(145deg, rgba(255,255,255,.03), rgba(255,255,255,.018));
+  border:1px solid rgba(255,255,255,.048)
 }
-#view-career .r1560-path-summary .main span{color:var(--v61-faint)}
-#view-career .r1560-next{
-  border-radius:12px;
-  background:linear-gradient(145deg,rgba(124,232,255,.055),rgba(110,145,255,.028));
-  border-color:rgba(124,232,255,.095);
+#view-career .r1562-now small{display:block;font-size:7px;color:var(--v62-faint);line-height:1.5}
+#view-career .r1562-now b{display:block;margin-top:3px;font:900 12.2px var(--hr-title-font,'Zain',Tahoma,sans-serif);color:#f5fbff;line-height:1.45}
+#view-career .r1562-now span{display:block;margin-top:4px;font-size:7.5px;color:var(--v62-soft)}
+#view-career .r1562-nextMini{
+  min-width:118px;border-radius:18px;padding:12px 11px;text-align:right;
+  background:linear-gradient(145deg, rgba(124,232,255,.05), rgba(104,139,255,.028));
+  border:1px solid rgba(124,232,255,.09)
 }
-#view-career .r1560-next span{color:rgba(218,233,251,.40)}
-#view-career .r1560-next b{color:#eafaff}
-
-#view-career .r1560-timeline{gap:1px}
-#view-career .r1560-line{
-  grid-template-columns:39px minmax(0,1fr);
-  gap:9px;
-  padding-bottom:7px;
-}
-#view-career .r1560-line:not(:last-child):before{
-  right:19px;
-  top:35px;
-  background:linear-gradient(rgba(124,232,255,.15),rgba(124,232,255,.035));
-}
+#view-career .r1562-nextMini small{display:block;font-size:7px;color:var(--v62-faint)}
+#view-career .r1562-nextMini b{display:block;margin-top:4px;font-size:8.4px;line-height:1.6;color:#ecfbff}
+#view-career .r1562-pathHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+#view-career .r1562-pathHead h4{margin:0;font:900 12px var(--hr-title-font,'Zain',Tahoma,sans-serif);color:#f5fbff}
+#view-career .r1562-pathHead span{font-size:7.2px;color:var(--v62-faint)}
+#view-career .r1560-timeline{display:grid;gap:1px !important}
+#view-career .r1560-line{grid-template-columns:42px minmax(0,1fr) !important;gap:10px !important;padding-bottom:9px !important;position:relative}
+#view-career .r1560-line:not(:last-child):before{content:'';position:absolute;right:20px;top:38px;bottom:0;width:1px;background:linear-gradient(rgba(124,232,255,.16), rgba(124,232,255,.03)) !important}
 #view-career .r1560-node{
-  position:relative;
-  width:38px;height:38px;
-  border-radius:12px;
-  font-family:var(--hr-number-font,'Arial',sans-serif);
-  font-size:10.5px;
-  background:rgba(255,255,255,.025);
-  border-color:rgba(255,255,255,.055);
-  color:rgba(224,238,255,.53);
-  transition:all .18s ease;
-}
-#view-career .r1560-line.past .r1560-node{
-  color:rgba(224,238,255,.38);
-  background:rgba(255,255,255,.017);
-}
-#view-career .r1560-line.future .r1560-node{
-  border-style:dashed;
-  color:rgba(223,237,255,.62);
-}
-#view-career .r1560-line.current .r1560-node{
-  background:linear-gradient(145deg,rgba(124,232,255,.18),rgba(105,142,255,.10));
-  border-color:rgba(124,232,255,.27);
-  color:#fff;
-  box-shadow:0 0 0 4px rgba(124,232,255,.04),0 7px 20px rgba(44,161,225,.08);
-}
-#view-career .r1560-line.current .r1560-node:after{
-  content:'';
-  position:absolute;
-  inset:-4px;
-  border:1px solid rgba(124,232,255,.13);
-  border-radius:15px;
+  width:40px !important;height:40px !important;border-radius:14px !important;position:relative;
+  background:rgba(255,255,255,.022) !important;border:1px solid rgba(255,255,255,.05) !important;color:rgba(226,239,255,.52) !important;
+  font:900 10.6px var(--hr-number-font,'Arial',sans-serif) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.015)
 }
 #view-career .r1560-linebody{
-  min-height:38px;
-  border-radius:12px;
-  padding:7px 10px;
-  background:rgba(255,255,255,.015);
+  min-height:40px !important;padding:8px 10px !important;border-radius:13px !important;background:rgba(255,255,255,.016) !important;border:1px solid transparent !important
 }
-#view-career .r1560-line.current .r1560-linebody{
-  background:linear-gradient(145deg,rgba(124,232,255,.037),rgba(100,130,255,.018));
-  border-color:rgba(124,232,255,.09);
+#view-career .r1560-line.past .r1560-node{background:rgba(255,255,255,.015) !important;color:rgba(226,239,255,.34) !important}
+#view-career .r1560-line.future .r1560-node{border-style:dashed !important;color:rgba(225,238,255,.63) !important}
+#view-career .r1560-line.current .r1560-node{
+  background:linear-gradient(145deg, rgba(124,232,255,.18), rgba(104,139,255,.10)) !important;
+  border-color:rgba(124,232,255,.28) !important;color:#fff !important;box-shadow:0 0 0 4px rgba(124,232,255,.04),0 9px 22px rgba(44,161,225,.08)
 }
-#view-career .r1560-linetitle{
-  font-size:9px;
-  color:#f2f8ff;
-}
-#view-career .r1560-current{
-  padding:2px 5px;
-  border-radius:999px;
-  background:rgba(124,232,255,.07);
-  border:1px solid rgba(124,232,255,.10);
-  color:#c8f7ff;
-}
+#view-career .r1560-line.current .r1560-node:after{content:'';position:absolute;inset:-4px;border:1px solid rgba(124,232,255,.12);border-radius:17px}
+#view-career .r1560-line.current .r1560-linebody{background:linear-gradient(145deg, rgba(124,232,255,.04), rgba(100,130,255,.018)) !important;border-color:rgba(124,232,255,.09) !important}
+#view-career .r1560-linetitle{font:900 9px var(--hr-title-font,'Zain',Tahoma,sans-serif) !important;color:#f2f8ff !important;line-height:1.5 !important}
+#view-career .r1560-linemeta{font-size:7px !important;color:var(--v62-faint) !important;margin-top:2px !important}
+#view-career .r1560-current{display:inline-flex;align-items:center;gap:4px;margin-inline-start:6px !important;padding:2px 6px;border-radius:999px;background:rgba(124,232,255,.075);border:1px solid rgba(124,232,255,.095);color:#c9f7ff;font-size:6.6px !important}
 
-/* Collapsible secondary details */
+/* collapsible details */
 #view-career .r1560-details{
-  border-radius:16px;
-  border-color:rgba(255,255,255,.055);
-  background:rgba(255,255,255,.014);
-  transition:border-color .18s ease,background .18s ease;
+  border-radius:17px !important;overflow:hidden;border:1px solid rgba(255,255,255,.05) !important;background:rgba(255,255,255,.015) !important;
+  transition:border-color .18s ease, background .18s ease
 }
-#view-career .r1560-details[open]{
-  border-color:rgba(124,232,255,.09);
-  background:rgba(124,232,255,.015);
-}
+#view-career .r1560-details[open]{border-color:rgba(124,232,255,.09) !important;background:rgba(124,232,255,.014) !important}
 #view-career .r1560-details summary{
-  position:relative;
-  min-height:42px;
-  padding:10px 34px 10px 11px;
-  color:rgba(235,245,255,.82);
+  list-style:none !important;cursor:pointer;position:relative;min-height:44px;padding:11px 38px 11px 12px !important;
+  display:flex;align-items:center;gap:8px;font-size:8.5px !important;font-weight:900 !important;color:#ebf5ff !important
 }
-#view-career .r1560-details summary i{
-  color:var(--v61-cyan);
-  opacity:.76;
-}
-#view-career .r1560-details summary:after{
-  content:'‹';
-  position:absolute;
-  right:12px;
-  top:50%;
-  transform:translateY(-50%) rotate(0deg);
-  font-size:18px;
-  line-height:1;
-  color:rgba(218,233,251,.38);
-  transition:transform .18s ease,color .18s ease;
-}
-#view-career .r1560-details[open] summary:after{
-  transform:translateY(-50%) rotate(-90deg);
-  color:var(--v61-cyan);
-}
-#view-career .r1560-detailbody{
-  border-top:1px solid rgba(255,255,255,.04);
-  padding:10px 11px 11px;
-  color:rgba(218,233,251,.53);
-}
-#view-career .r1560-detailgrid div{
-  border-radius:11px;
-  background:rgba(255,255,255,.019);
-  border-color:rgba(255,255,255,.04);
-}
-#view-career .r1560-detailgrid b{color:#f1f8ff}
-#view-career .r1560-alert{
-  padding:7px 8px;
-  border-radius:10px;
-  background:rgba(255,182,62,.035);
-  border:1px solid rgba(255,194,78,.08);
-  color:#ffdfa5;
-}
+#view-career .r1560-details summary::-webkit-details-marker{display:none}
+#view-career .r1560-details summary i{color:var(--v62-cyan);opacity:.82}
+#view-career .r1560-details summary:after{content:'‹';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:18px;color:rgba(219,233,251,.34);transition:transform .18s ease,color .18s ease}
+#view-career .r1560-details[open] summary:after{transform:translateY(-50%) rotate(-90deg);color:var(--v62-cyan)}
+#view-career .r1560-detailbody{padding:0 12px 12px !important;border-top:1px solid rgba(255,255,255,.04);font-size:8px !important;line-height:1.72 !important;color:var(--v62-muted) !important}
+#view-career .r1560-detailgrid{display:grid !important;grid-template-columns:1fr 1fr;gap:7px !important;margin:10px 0 8px}
+#view-career .r1560-detailgrid div{padding:8px 9px !important;border-radius:11px !important;background:rgba(255,255,255,.018) !important;border:1px solid rgba(255,255,255,.04) !important}
+#view-career .r1560-detailgrid span{display:block;font-size:6.8px !important;color:var(--v62-faint) !important}
+#view-career .r1560-detailgrid b{display:block;margin-top:3px;font-size:8.2px !important;color:#f1f8ff !important}
+#view-career .r1560-alert{margin-top:8px;padding:7px 8px;border-radius:10px;background:rgba(255,185,62,.035) !important;border:1px solid rgba(255,194,78,.08) !important;color:#ffdfa5 !important}
 
-/* Guide - editorial list, not card wall */
-#view-career .r1560-guide-group{
-  border-top-color:rgba(255,255,255,.045);
+/* guide */
+#view-career .r1562-about{
+  margin-bottom:10px;padding:11px 12px;border-radius:16px;background:rgba(255,255,255,.018);border:1px solid rgba(255,255,255,.045)
 }
-#view-career .r1560-guide-group>summary{
-  position:relative;
-  min-height:48px;
-  padding:10px 28px 10px 2px;
-}
-#view-career .r1560-guide-group>summary:after{
-  content:'‹';
-  position:absolute;right:5px;top:50%;
-  transform:translateY(-50%);
-  color:rgba(219,233,251,.35);
-  transition:transform .18s ease,color .18s ease;
-}
-#view-career .r1560-guide-group[open]>summary:after{
-  transform:translateY(-50%) rotate(-90deg);
-  color:var(--v61-cyan);
-}
-#view-career .r1560-guide-label{
-  font-family:var(--hr-title-font,'Zain',Tahoma,sans-serif);
-  font-size:9.4px;
-  color:#f0f8ff;
-}
-#view-career .r1560-guide-label small{
-  font-family:inherit;
-  color:rgba(214,230,249,.39);
-}
-#view-career .r1560-guide-count{
-  padding:3px 6px;
-  border-radius:999px;
-  background:rgba(124,232,255,.04);
-  border:1px solid rgba(124,232,255,.075);
-  color:#c8f6ff;
-}
-#view-career .r1560-chain{
-  border-top-color:rgba(255,255,255,.038);
-}
-#view-career .r1560-chain>summary{
-  min-height:47px;
-  padding:9px 2px;
-}
-#view-career .r1560-chainname{
-  font-family:var(--hr-title-font,'Zain',Tahoma,sans-serif);
-  font-size:9.2px;
-  color:#f1f8ff;
-}
-#view-career .r1560-chainmeta{color:rgba(214,230,249,.39)}
-#view-career .r1560-tag{
-  background:rgba(255,255,255,.018);
-  border-color:rgba(255,255,255,.045);
-  color:rgba(220,234,252,.48);
-}
-#view-career .r1560-tag.upper{
-  background:rgba(255,184,62,.025);
-  border-color:rgba(255,194,78,.09);
-  color:#ffdda0;
-}
+#view-career .r1562-aboutTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+#view-career .r1562-aboutTitle{font:900 10px var(--hr-title-font,'Zain',Tahoma,sans-serif);color:#f1f8ff}
+#view-career .r1562-aboutText{font-size:7.5px;line-height:1.65;color:var(--v62-muted)}
+#view-career .r1562-aboutPills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+#view-career .r1562-aboutPills span{display:inline-flex;align-items:center;gap:5px;padding:4px 7px;border-radius:999px;background:rgba(124,232,255,.035);border:1px solid rgba(124,232,255,.06);color:#d0f7ff;font-size:7px}
+#view-career .r1560-guide-group{border-top:1px solid rgba(255,255,255,.045) !important}
+#view-career .r1560-guide-group:first-of-type{border-top:0 !important}
+#view-career .r1560-guide-group>summary{list-style:none;cursor:pointer;position:relative;min-height:50px;padding:10px 30px 10px 2px !important;display:flex;align-items:center;justify-content:space-between;gap:10px}
+#view-career .r1560-guide-group>summary::-webkit-details-marker{display:none}
+#view-career .r1560-guide-group>summary:after{content:'‹';position:absolute;right:5px;top:50%;transform:translateY(-50%);color:rgba(219,233,251,.35);transition:transform .18s ease,color .18s ease}
+#view-career .r1560-guide-group[open]>summary:after{transform:translateY(-50%) rotate(-90deg);color:var(--v62-cyan)}
+#view-career .r1560-guide-label{font:900 9.3px var(--hr-title-font,'Zain',Tahoma,sans-serif) !important;color:#f0f8ff !important}
+#view-career .r1560-guide-label small{display:block;margin-top:2px;font:400 7px inherit !important;color:var(--v62-faint) !important}
+#view-career .r1560-guide-count{display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:24px;padding:0 8px;border-radius:999px;background:rgba(124,232,255,.04) !important;border:1px solid rgba(124,232,255,.075) !important;color:#c8f6ff !important;font-size:7px !important;font-weight:900 !important}
+#view-career .r1560-chain{border-top:1px solid rgba(255,255,255,.04) !important}
+#view-career .r1560-chain:first-child{border-top:0 !important}
+#view-career .r1560-chain>summary{list-style:none;cursor:pointer;padding:10px 2px !important;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
+#view-career .r1560-chain>summary::-webkit-details-marker{display:none}
+#view-career .r1560-chainname{font:900 9.2px var(--hr-title-font,'Zain',Tahoma,sans-serif) !important;color:#f1f8ff !important}
+#view-career .r1560-chainmeta{font-size:7px !important;color:var(--v62-faint) !important;margin-top:2px}
+#view-career .r1560-tag{display:inline-flex;align-items:center;justify-content:center;min-height:25px;padding:0 8px;border-radius:999px !important;background:rgba(255,255,255,.018) !important;border:1px solid rgba(255,255,255,.045) !important;color:rgba(220,234,252,.50) !important;font-size:6.6px !important}
+#view-career .r1560-tag.upper{background:rgba(255,185,62,.022) !important;border-color:rgba(255,194,78,.08) !important;color:#ffdda0 !important}
+#view-career .r1560-chainbody{padding:0 2px 10px !important}
+#view-career .r1560-auditline{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.045);font-size:7.3px !important;line-height:1.65 !important;color:var(--v62-faint) !important}
+#view-career .r1562-footer{font-size:7px;line-height:1.55;color:rgba(208,224,245,.32);padding:3px 2px}
 
-/* Source line */
-#view-career .r1560-source{
-  padding:4px 3px;
-  color:rgba(207,224,245,.31);
-}
-
-/* Light mode */
 body.light-mode #view-career{
-  --v61-text:#102b4d;
-  --v61-muted:#657b91;
-  --v61-faint:#8597aa;
+  --v62-text:#102b4d;--v62-soft:#5a738a;--v62-muted:#788ea3;--v62-faint:#8ea1b3;
 }
-body.light-mode #view-career .r1560-top{
+body.light-mode #view-career .r1562-stage{
   background:
-    radial-gradient(circle at 90% -20%,rgba(93,179,235,.12),transparent 36%),
-    linear-gradient(145deg,#f8fcff,#eef6ff);
-  border-color:rgba(55,125,195,.12);
-  box-shadow:0 12px 30px rgba(25,70,120,.055),inset 0 1px 0 #fff;
+    radial-gradient(circle at 88% -10%, rgba(93,179,235,.12), transparent 32%),
+    radial-gradient(circle at 0% 100%, rgba(131,160,255,.10), transparent 28%),
+    linear-gradient(155deg, #f8fcff, #eff6ff 72%);
+  border-color:rgba(55,125,195,.12);box-shadow:0 12px 32px rgba(25,70,120,.055), inset 0 1px 0 #fff
 }
-body.light-mode #view-career .r1560-title,
-body.light-mode #view-career .r1560-head-main b,
-body.light-mode #view-career .r1560-name,
-body.light-mode #view-career .r1560-path-summary .main b,
-body.light-mode #view-career .r1560-linetitle,
+body.light-mode #view-career .r1562-title,
+body.light-mode #view-career .r1562-head h3,
+body.light-mode #view-career .r1562-name,
+body.light-mode #view-career .r1562-aboutTitle,
+body.light-mode #view-career .r1560-guide-label,
 body.light-mode #view-career .r1560-chainname,
-body.light-mode #view-career .r1560-guide-label{
-  color:#102b4d;
-}
-body.light-mode #view-career .r1560-surface,
-body.light-mode #view-career .r1560-details{
-  background:#fff;
-  border-color:rgba(55,120,180,.085);
-  box-shadow:0 9px 22px rgba(25,70,120,.045);
-}
-body.light-mode #view-career .r1551-searchbox{
-  background:#f8fbff;
-  border-color:rgba(60,125,185,.12);
-}
-body.light-mode #view-career .r1551-input{color:#153450}
-body.light-mode #view-career .r1551-result{
-  background:#fff;
-  border-color:rgba(55,120,180,.075);
-}
-body.light-mode #view-career .r1560-person{
-  background:linear-gradient(145deg,#f7fbff,#eef7ff);
-  border-color:rgba(55,130,195,.11);
-}
-body.light-mode #view-career .r1560-role,
-body.light-mode #view-career .r1560-person-line{color:#667d93}
-body.light-mode #view-career .r1560-person-line b{color:#193957}
+body.light-mode #view-career .r1560-linetitle,
+body.light-mode #view-career .r1562-pathHead h4,
+body.light-mode #view-career .r1562-now b{color:#102b4d}
+body.light-mode #view-career .r1562-surface,
+body.light-mode #view-career .r1562-path,
+body.light-mode #view-career .r1560-details,
+body.light-mode #view-career .r1562-profile{background:#fff;border-color:rgba(55,120,180,.085);box-shadow:0 9px 24px rgba(25,70,120,.045)}
+body.light-mode #view-career .r1551-searchbox{background:#f8fbff !important;border-color:rgba(60,125,185,.12) !important}
+body.light-mode #view-career .r1551-input{color:#153450 !important}
+body.light-mode #view-career .r1551-result{background:#fff !important;border-color:rgba(55,120,180,.075) !important}
 
-/* Motion kept subtle and optional */
-@media (prefers-reduced-motion:no-preference){
-  #view-career .r1560-top,
-  #view-career .r1560-surface,
-  #view-career .r1560-person,
-  #view-career .r1560-status{
-    animation:r1561Enter .24s ease both;
-  }
-  @keyframes r1561Enter{
-    from{opacity:.01;transform:translateY(4px)}
-    to{opacity:1;transform:translateY(0)}
-  }
+@media(prefers-reduced-motion:no-preference){
+  #view-career .r1562-stage,#view-career .r1562-surface,#view-career .r1562-profile,#view-career .r1562-path{animation:r1562Enter .24s ease both}
+  @keyframes r1562Enter{from{opacity:.01;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 }
-@media (prefers-reduced-motion:reduce){
-  #view-career *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
-}
-
-/* Mobile tuning */
+@media(prefers-reduced-motion:reduce){#view-career *{transition:none !important;animation:none !important;scroll-behavior:auto !important}}
 @media(max-width:520px){
-  #view-career .r1560-top{padding:15px}
-  #view-career .r1560-icon{width:44px;height:44px;flex-basis:44px}
-  #view-career .r1560-title{font-size:19px}
-  #view-career .r1560-meta span{padding:5px 7px}
-  #view-career .r1560-person{padding:14px}
-  #view-career .r1560-avatar{width:45px;height:45px}
-  #view-career .r1560-next{max-width:48%}
+  #view-career .r1562-stage{padding:16px}
+  #view-career .r1562-title{font-size:20px}
+  #view-career .r1562-sub{max-width:100%}
+  #view-career .r1562-profileTop{grid-template-columns:54px minmax(0,1fr)}
+  #view-career .r1562-change{grid-column:1/-1;width:100%}
+  #view-career .r1562-pathTop{grid-template-columns:1fr}
+  #view-career .r1562-nextMini{min-width:0}
 }
 </style>
+
 
 <script id="r1551-career-progression-script">
 // R1555_CAREER_PROFESSIONAL_UI | presentation-only professional career interface; R1.5.54 search and matching logic retained.
@@ -12004,9 +11708,10 @@ body.light-mode #view-career .r1560-person-line b{color:#193957}
 // R1559_QUALIFICATION_CONTEXT_VISUAL_V3 | qualification context + explicit coverage boundaries + stronger visual architecture.
 // R1560_CAREER_EXPERIENCE_V4 | compact career experience; essential information visible, secondary explanation collapsed.
 // R1561_CAREER_VISUAL_POLISH | presentation-only typography/icon/color/timeline polish over V4.
+// R1562_CAREER_UI_REBUILD | stronger layout rebuild over R1.5.61 while preserving explicit-only logic.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.61-CAREER-VISUAL-POLISH';
+var RELEASE='MOBILE-R1.5.62-CAREER-UI-REBUILD';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -12027,13 +11732,13 @@ function findTitleMatches(title){var out=[],n=norm(title);if(!n||!state.map)retu
 function analyze(emp){var result={status:'unknown',emp:emp||{},chain:null,step:null,prev:null,next:null,message:''};if(!emp){result.status='none';result.message='اختر موظفًا لعرض التدرج.';return result}if(missing(emp.education)){result.status='missing-education';result.message='التحصيل الدراسي غير مكتمل، لذلك لا يتم إصدار نتيجة تدرج لهذا الموظف.';return result}if(missing(emp.jobTitle)){result.status='missing-title';result.message='العنوان الوظيفي غير مكتمل، ولا يمكن تحديد مسار بدون عنوان حالي.';return result}var g=gradeNum(emp.grade);if(!g){result.status='missing-grade';result.message='الدرجة الحالية غير مكتملة، ولا يتم تخمينها.';return result}var matches=findTitleMatches(emp.jobTitle);if(!matches.length){result.status='unmapped';result.message='لا يوجد مسار صريح لهذا العنوان في الإصدار الحالي، ولم يتم إجراء أي تخمين.';return result}if(matches.length!==1){result.status='ambiguous';result.message='العنوان الحالي مستخدم في أكثر من سلسلة صريحة. الحالة: يتطلب تحديد الاختصاص / يحتاج مراجعة. لن يتم اقتراح عنوان قادم قبل حسم المسار من مصدر معتمد.';return result}result.chain=matches[0].chain;result.step=matches[0].step;if(Number(result.step.grade)!==g){result.status='grade-mismatch';result.message='العنوان موجود في خريطة التدرج، لكن الدرجة المسجلة للموظف لا تطابق الدرجة المقابلة له في دليل العناوين. لن يتم اقتراح عنوان تالٍ حتى تتم المراجعة.';return result}result.prev=result.chain.steps.find(function(x){return Number(x.grade)===g+1})||null;result.next=result.chain.steps.find(function(x){return Number(x.grade)===g-1})||null;result.status='verified';result.message='تمت المطابقة على سلسلة صريحة، وكل عنوان ظاهر موجود في دليل العناوين ضمن درجته. لا توجد عناوين مولدة أو متوقعة خوارزميًا.';return result}
 function statusHTML(a){var cls='info',ico='fa-circle-info',title='حالة مرجعية';if(a.status==='verified'){cls='ok';ico='fa-circle-check';title='مطابقة صريحة'}else if(a.status==='ambiguous'){cls='warn';ico='fa-code-branch';title='يتطلب تحديد الاختصاص'}else if(['grade-mismatch','missing-education','missing-title','missing-grade'].indexOf(a.status)>=0){cls='warn';ico='fa-triangle-exclamation';title='يحتاج مراجعة'}else if(a.status==='unmapped'){cls='info';ico='fa-shield-halved';title='غير مربوط حاليًا'}return '<div class="r1560-status '+cls+'"><i class="fas '+ico+'"></i><div><b>'+title+'</b><span>'+esc(a.message)+'</span></div></div>'}
 function mini(label,st,cls){return '<div class="r1557-stage '+(cls||'')+'"><span class="r1557-stage-label">'+esc(label)+'</span><b class="r1557-stage-title">'+esc(st?st.title:'لا توجد خطوة صريحة')+'</b><span class="r1557-stage-degree">'+esc(st?('الدرجة '+st.degree):'لا يوجد عنوان مثبت في الدليل')+'</span>'+(cls==='current'?'<span class="r1557-here">أنت هنا</span>':'')+'</div>'}
-function timeline(chain,currentGrade){if(!chain)return '';var steps=chain.steps.slice().sort(function(a,b){return Number(b.grade)-Number(a.grade)});return '<div class="r1560-timeline">'+steps.map(function(st){var g=Number(st.grade),cls=g===currentGrade?'current':(g<currentGrade?'future':'past'),note=g===currentGrade?'الحالي':(g<currentGrade?'لاحق':'سابق');return '<div class="r1560-line '+cls+'"><div class="r1560-node">'+g+'</div><div class="r1560-linebody"><div class="r1560-linetitle">'+esc(st.title)+(g===currentGrade?'<span class="r1560-current">• أنت هنا</span>':'')+'</div><div class="r1560-linemeta">الدرجة '+esc(st.degree)+' • '+note+'</div></div></div>'}).join('')+'</div>'}
+function timeline(chain,currentGrade){if(!chain)return '';var steps=chain.steps.slice().sort(function(a,b){return Number(b.grade)-Number(a.grade)});return '<div class="r1560-timeline">'+steps.map(function(st){var g=Number(st.grade),cls=g===currentGrade?'current':(g<currentGrade?'future':'past'),note=g===currentGrade?'الحالي':(g<currentGrade?'لاحق':'سابق');return '<div class="r1560-line '+cls+'"><div class="r1560-node">'+g+'</div><div class="r1560-linebody"><div class="r1560-linetitle">'+esc(st.title)+(g===currentGrade?'<span class="r1560-current">أنت هنا</span>':'')+'</div><div class="r1560-linemeta">'+esc(st.degree)+' • '+note+'</div></div></div>'}).join('')+'</div>'}
 function facts(emp){return '<div class="r1557-facts"><div class="r1557-fact"><span>التحصيل الدراسي</span><b>'+esc(missing(emp.education)?'غير مكتمل':emp.education)+'</b></div><div class="r1557-fact"><span>الدرجة الحالية</span><b>'+esc(gradeNum(emp.grade)?degreeName(gradeNum(emp.grade)):'غير مكتملة')+'</b></div><div class="r1557-fact"><span>العنوان الحالي</span><b>'+esc(missing(emp.jobTitle)?'غير مكتمل':emp.jobTitle)+'</b></div><div class="r1557-fact"><span>الاختصاص</span><b>'+esc(missing(emp.specialization)?'غير مكتمل حاليًا':emp.specialization)+'</b></div><div class="r1557-fact"><span>المرحلة</span><b>'+esc(missing(emp.step)?'—':emp.step)+'</b></div><div class="r1557-fact"><span>الرقم الوظيفي</span><b>'+esc(missing(emp.employeeNo||emp.num)?'—':(emp.employeeNo||emp.num))+'</b></div></div>'}
-function employeeDetail(emp){var a=analyze(emp),g=gradeNum(emp.grade),c=a.chain,start=c?Number(c.coverageStartGrade||0):0,end=c?Number(c.coverageEndGrade||0):0,isUpper=!!(c&&c.upperSegment),nextTitle=a.next?a.next.title:'لا توجد خطوة صريحة';var why='';if(a.status==='verified')why='العنوان والدرجة متطابقان داخل سلسلة صريحة واحدة.';else if(a.status==='ambiguous')why='العنوان له أكثر من تطابق صريح، لذلك لم يُختر مسار تلقائيًا.';else if(a.status==='grade-mismatch')why='العنوان موجود لكن الدرجة لا تطابق موضعه الصريح.';else if(a.status==='unmapped')why='العنوان غير مربوط بمسار صريح حاليًا.';else why='التحليل محدود بسبب نقص أحد الحقول المطلوبة.';var path='';if(c){path='<section class="r1560-surface"><div class="r1560-path-summary"><div class="main"><b>'+esc(c.name)+'</b><span>المسار المثبت من الدليل الحالي</span></div><div class="r1560-next"><span>الخطوة التالية</span><b>'+esc(nextTitle)+'</b></div></div>'+timeline(c,a.status==='verified'?g:Number(a.step&&a.step.grade||0))+'</section>'}var details='';if(c){details='<details class="r1560-details"><summary><i class="fas fa-circle-info"></i> تفاصيل وحدود المسار</summary><div class="r1560-detailbody"><div class="r1560-detailgrid"><div><span>بداية التغطية المثبتة</span><b>'+esc(c.coverageStartDegree||degreeName(start))+'</b></div><div><span>نهاية التغطية المثبتة</span><b>'+esc(c.coverageEndDegree||degreeName(end))+'</b></div></div><div>'+esc(c.startReason||'بداية التغطية لا تعني بداية التعيين.')+'</div>'+(isUpper?'<div class="r1560-alert"><i class="fas fa-triangle-exclamation"></i> مقطع علوي؛ لا يمثل بداية تعيين.</div>':'')+(end>1&&c.stopReason?'<div class="r1560-alert"><b>سبب التوقف:</b> '+esc(c.stopReason)+'</div>':'')+'</div></details>'}var ambiguity='';if(a.status==='ambiguous'){var matches=findTitleMatches(emp.jobTitle),seen={},names=[];matches.forEach(function(m){if(m&&m.chain&&!seen[m.chain.id]){seen[m.chain.id]=1;names.push(m.chain.name)}});ambiguity='<details class="r1560-details"><summary><i class="fas fa-code-branch"></i> المسارات المحتملة</summary><div class="r1560-detailbody">'+esc(names.join(' • ')||'يتطلب مراجعة المصدر')+'<div class="r1560-alert">لم يتم اختيار أي مسار تلقائيًا.</div></div></details>'}return '<div class="r1551-employee"><section class="r1560-person"><div class="r1560-person-top"><div class="r1560-avatar"><i class="fas fa-user-tie"></i></div><div><div class="r1560-name">'+esc(emp.name||'—')+'</div><div class="r1560-role">'+esc(missing(emp.jobTitle)?'عنوان غير مكتمل':emp.jobTitle)+' • '+esc(g?('الدرجة '+degreeName(g)):'درجة غير مكتملة')+'</div></div><button class="r1560-change" type="button" data-r1551-back>تغيير الموظف</button></div><div class="r1560-person-line"><span><i class="fas fa-graduation-cap"></i> التحصيل: <b>'+esc(missing(emp.education)?'غير مكتمل':emp.education)+'</b></span><span><i class="fas fa-id-badge"></i> الرقم: <b>'+esc(missing(emp.employeeNo||emp.num)?'—':(emp.employeeNo||emp.num))+'</b></span></div><div class="r1560-edu-note">التحصيل ظاهر للتحقق؛ لا توجد قاعدة ربط رسمية داخل المصدر الحالي تربطه بدرجة بداية محددة.</div></section>'+statusHTML(a)+path+details+ambiguity+'<details class="r1560-details"><summary><i class="fas fa-circle-question"></i> لماذا ظهرت هذه النتيجة؟</summary><div class="r1560-detailbody">'+esc(why)+'</div></details><details class="r1560-details"><summary><i class="fas fa-database"></i> البيانات المستخدمة</summary><div class="r1560-detailbody">'+facts(emp)+'</div></details></div>'}
+function employeeDetail(emp){var a=analyze(emp),g=gradeNum(emp.grade),c=a.chain,start=c?Number(c.coverageStartGrade||0):0,end=c?Number(c.coverageEndGrade||0):0,isUpper=!!(c&&c.upperSegment),currentTitle=a.step&&a.step.title?a.step.title:(emp.jobTitle||'—'),currentDegree=a.step&&a.step.degree?a.step.degree:(g?degreeName(g):'—'),nextTitle=a.next?a.next.title:'لا توجد خطوة صريحة';var why='';if(a.status==='verified')why='العنوان والدرجة متطابقان داخل سلسلة صريحة واحدة.';else if(a.status==='ambiguous')why='العنوان له أكثر من تطابق صريح، لذلك لم يُختر مسار تلقائيًا.';else if(a.status==='grade-mismatch')why='العنوان موجود لكن الدرجة لا تطابق موضعه الصريح.';else if(a.status==='unmapped')why='العنوان غير مربوط بمسار صريح حاليًا.';else why='التحليل محدود بسبب نقص أحد الحقول المطلوبة.';var path='';if(c){path='<section class="r1562-path"><div class="r1562-pathTop"><div class="r1562-now"><small>المشهد الحالي</small><b>'+esc(currentTitle)+'</b><span>'+esc(currentDegree)+' • موضع القراءة الحالي</span></div><div class="r1562-nextMini"><small>خطوة تالية صريحة</small><b>'+esc(nextTitle)+'</b></div></div><div class="r1562-pathHead"><h4>'+esc(c.name)+'</h4><span>المسار المثبت من الدليل الحالي</span></div>'+timeline(c,a.status==='verified'?g:Number(a.step&&a.step.grade||0))+'</section>'}var details='';if(c){details='<details class="r1560-details"><summary><i class="fas fa-circle-info"></i> تفاصيل وحدود المسار</summary><div class="r1560-detailbody"><div class="r1560-detailgrid"><div><span>بداية التغطية المثبتة</span><b>'+esc(c.coverageStartDegree||degreeName(start))+'</b></div><div><span>نهاية التغطية المثبتة</span><b>'+esc(c.coverageEndDegree||degreeName(end))+'</b></div></div><div>'+esc(c.startReason||'بداية التغطية لا تعني بداية التعيين.')+'</div>'+(isUpper?'<div class="r1560-alert"><i class="fas fa-triangle-exclamation"></i> مقطع علوي؛ لا يمثل بداية تعيين.</div>':'')+(end>1&&c.stopReason?'<div class="r1560-alert"><b>سبب التوقف:</b> '+esc(c.stopReason)+'</div>':'')+'</div></details>'}var ambiguity='';if(a.status==='ambiguous'){var matches=findTitleMatches(emp.jobTitle),seen={},names=[];matches.forEach(function(m){if(m&&m.chain&&!seen[m.chain.id]){seen[m.chain.id]=1;names.push(m.chain.name)}});ambiguity='<details class="r1560-details"><summary><i class="fas fa-code-branch"></i> المسارات المحتملة</summary><div class="r1560-detailbody">'+esc(names.join(' • ')||'يتطلب مراجعة المصدر')+'<div class="r1560-alert">لم يتم اختيار أي مسار تلقائيًا.</div></div></details>'}return '<div class="r1562-employeeShell"><section class="r1562-profile"><div class="r1562-profileTop"><div class="r1562-avatar"><i class="fas fa-user-tie"></i></div><div><div class="r1562-name">'+esc(emp.name||'—')+'</div><div class="r1562-role">'+esc(missing(emp.jobTitle)?'عنوان غير مكتمل':emp.jobTitle)+' • '+esc(g?('الدرجة '+degreeName(g)):'درجة غير مكتملة')+'</div></div><button class="r1562-change" type="button" data-r1551-back>تغيير الموظف</button></div><div class="r1562-pills"><span class="r1562-pill"><i class="fas fa-graduation-cap"></i> التحصيل <b>'+esc(missing(emp.education)?'غير مكتمل':emp.education)+'</b></span><span class="r1562-pill"><i class="fas fa-id-badge"></i> الرقم <b>'+esc(missing(emp.employeeNo||emp.num)?'—':(emp.employeeNo||emp.num))+'</b></span><span class="r1562-pill"><i class="fas fa-layer-group"></i> الحالة <b>'+esc(a.status==='verified'?'صريحة':(a.status==='ambiguous'?'تحتاج تحديدًا':(a.status==='unmapped'?'غير مربوطة':'تحتاج مراجعة')) )+'</b></span></div><div class="r1562-context"><i class="fas fa-circle-info"></i> التحصيل ظاهر للتحقق والسياق فقط، ولا توجد قاعدة ربط رسمية داخل المصدر الحالي تربطه بدرجة بداية محددة.</div></section>'+statusHTML(a)+path+details+ambiguity+'<details class="r1560-details"><summary><i class="fas fa-circle-question"></i> لماذا ظهرت هذه النتيجة؟</summary><div class="r1560-detailbody">'+esc(why)+'</div></details><details class="r1560-details"><summary><i class="fas fa-database"></i> البيانات المستخدمة</summary><div class="r1560-detailbody">'+facts(emp)+'</div></details></div>'}
 function filteredEmployees(){var q=String(state.q||'').trim();if(!q)return [];var arr=allEmployees(),base=[];try{if(typeof smartSearch==='function')base=smartSearch(state.q,arr)||[]}catch(e){base=[]}var qn=norm(q),seen={},out=[];function add(e){if(!e)return;var k=String(e.id||e.employeeNo||e.num||e.name||'');if(seen[k])return;seen[k]=1;out.push(e)}base.forEach(add);if(qn)arr.forEach(function(e){if(norm(e.jobTitle||'').indexOf(qn)>=0)add(e)});return out.slice(0,80)}
-function searchHTML(){var rows=filteredEmployees(),count=rows.length;return '<section class="r1560-surface"><div class="r1560-head"><div class="r1560-head-main"><i class="fas fa-magnifying-glass"></i><div><b>اختيار موظف</b><small>الاسم أو الرقم الوظيفي أو العنوان</small></div></div>'+(state.q?'<span class="r1560-count">'+count+' نتيجة</span>':'')+'</div><div class="r1551-search"><div class="r1551-searchbox"><i class="fas fa-magnifying-glass"></i><input id="r1551-q" class="r1551-input" type="search" value="'+esc(state.q)+'" placeholder="ابحث عن موظف"></div><button class="r1551-clear" type="button" id="r1551-clear" aria-label="مسح"><i class="fas fa-xmark"></i></button></div><div class="r1560-searchhint">البحث لا يحدد المسار؛ المطابقة تتم بعد اختيار الموظف.</div><div class="r1551-results">'+(!state.q?'<div class="r1560-empty"><i class="fas fa-user-magnifying-glass"></i>اكتب الاسم أو الرقم لبدء البحث.</div>':(!rows.length?'<div class="r1560-empty"><i class="fas fa-user-slash"></i>لا توجد نتيجة مطابقة.</div>':rows.map(function(e){return '<button class="r1551-result" type="button" data-r1551-emp="'+esc(String(e.id||e.employeeNo||e.num||''))+'"><span class="r1551-rico"><i class="fas fa-user"></i></span><span><span class="r1551-rname">'+esc(e.name||'—')+'</span><span class="r1551-rmeta">'+esc(e.jobTitle||'بدون عنوان')+' • '+esc(e.education||'بدون تحصيل')+'</span></span><span class="r1551-rgrade">'+esc(gradeNum(e.grade)?degreeName(gradeNum(e.grade)):'—')+'</span></button>'}).join('')))+'</div></section>'}
-function guideHTML(){var chains=(state.map.chains||[]).slice().sort(function(a,b){return String(a.name||'').localeCompare(String(b.name||''),'ar')}),full=[],partial=[];chains.forEach(function(c){(c.reachesFirst?full:partial).push(c)});function card(c){var steps=(c.steps||[]).slice().sort(function(a,b){return Number(b.grade)-Number(a.grade)}),upper=!!c.upperSegment;return '<details class="r1560-chain"><summary><div><div class="r1560-chainname">'+esc(c.name)+'</div><div class="r1560-chainmeta">'+steps.length+' خطوات • '+esc(c.coverageStartDegree)+' ← '+esc(c.coverageEndDegree)+'</div></div><span class="r1560-tag '+(upper?'upper':'')+'">'+(upper?'مقطع علوي':(c.reachesFirst?'إلى الأولى':'جزئي'))+'</span></summary><div class="r1560-chainbody">'+timeline(c,0)+'<details class="r1560-details"><summary>حدود هذا المسار</summary><div class="r1560-detailbody">'+esc(c.startReason||'بداية التغطية لا تعني بداية التعيين.')+(c.stopReason?'<div class="r1560-alert">'+esc(c.stopReason)+'</div>':'')+'</div></details></div></details>'}function group(title,desc,list,open){return '<details class="r1560-guide-group" '+(open?'open':'')+'><summary><div class="r1560-guide-label">'+title+'<small>'+desc+'</small></div><span class="r1560-guide-count">'+list.length+'</span></summary><div>'+list.map(card).join('')+'</div></details>'}var audit=state.map.remainingAudit||{};return '<section class="r1560-surface"><div class="r1560-head"><div class="r1560-head-main"><i class="fas fa-diagram-project"></i><div><b>دليل السلاسل</b><small>التفاصيل تظهر عند فتح السلسلة فقط</small></div></div><span class="r1560-count">'+chains.length+' مسار</span></div>'+group('تمتد إلى الدرجة الأولى','المسارات ذات نهاية مثبتة عند الأولى',full,true)+group('مسارات جزئية','تشمل المقاطع العليا والمسارات المتوقفة قبل الأولى',partial,false)+'<details class="r1560-details" style="margin-top:8px"><summary><i class="fas fa-clipboard-check"></i> حالة العناوين قيد التدقيق</summary><div class="r1560-detailbody">'+esc(audit.totalTitles||466)+' عنوانًا قيد التدقيق • '+esc(audit.twoConsecutiveCandidateFamilies||73)+' عائلة من درجتين متتاليتين • '+esc(audit.ambiguousFamilies||17)+' ملتبسة • '+esc(audit.gapFamilies||27)+' فيها فجوات.<div class="r1560-auditline">هذه المعلومات تنظيمية فقط ولم تدخل في التدرج الآلي.</div></div></details></section>'}
-function shell(){var page=ensureView();if(!state.ready){page.innerHTML='<div class="r1551-page"><section class="r1560-surface"><div class="r1560-empty"><i class="fas fa-spinner fa-spin"></i>جاري تجهيز التدرج…</div></section></div>';return}var cov=state.map.coverage||{},profiles=state.map.coverageProfiles||{},chainCount=Number(state.map.validatedChainCount||197),mapped=Number(cov.mappedTitles||850),unmapped=Number(cov.unmappedTitles||466),sourceTotal=Number(state.map.sourceTotal||1316),pct=Number(cov.exactCoveragePercent||64.6);var body=state.selected&&state.mode==='employee'?employeeDetail(state.selected):(state.mode==='guide'?guideHTML():searchHTML());page.innerHTML='<div class="r1551-page"><section class="r1560-top"><div class="r1560-topline"><div class="r1560-icon"><i class="fas fa-arrow-trend-up"></i></div><div><div class="r1560-title">التدرج الوظيفي</div><div class="r1560-sub">واجهة مختصرة • المعلومات الضرورية فقط</div></div></div><div class="r1560-meta"><span><b>'+chainCount+'</b> مسار</span><span><b>'+mapped+'</b> مربوط</span><span><b>'+unmapped+'</b> قيد التدقيق</span><span><b>'+pct.toFixed(1)+'%</b> تغطية</span><span class="safe"><i class="fas fa-shield-halved"></i> بدون تخمين</span></div><div class="r1560-note"><i class="fas fa-circle-info"></i> بداية التغطية لا تعني بداية التعيين، والتحصيل لا يُستخدم للحسم دون مصدر رسمي.</div></section><section class="r1560-tabs"><button type="button" class="r1551-mode '+(state.mode==='employee'?'active':'')+'" data-r1551-mode="employee"><i class="fas fa-user"></i> تدرج موظف</button><button type="button" class="r1551-mode '+(state.mode==='guide'?'active':'')+'" data-r1551-mode="guide"><i class="fas fa-route"></i> دليل السلاسل</button></section>'+body+'<div class="r1560-source">'+esc(sourceTotal)+' عنوانًا في المصدر • قراءة وتحليل فقط • لا تعديل على بيانات الموظف</div></div>';bind()}
+function searchHTML(){var rows=filteredEmployees(),count=rows.length;return '<section class="r1562-surface"><div class="r1562-head"><div><h3>اختيار موظف</h3><p>ابحث بالاسم أو الرقم أو العنوان، ثم اختر الموظف لعرض المسار.</p></div>'+(state.q?'<span class="r1562-badge"><i class="fas fa-magnifying-glass"></i> '+count+' نتيجة</span>':'')+'</div><div class="r1562-searchWrap"><div class="r1551-search"><div class="r1551-searchbox"><i class="fas fa-magnifying-glass"></i><input id="r1551-q" class="r1551-input" type="search" value="'+esc(state.q)+'" placeholder="ابحث عن موظف"></div><button class="r1551-clear" type="button" id="r1551-clear" aria-label="مسح"><i class="fas fa-xmark"></i></button></div><div class="r1562-searchHelp"><span><i class="fas fa-shield-halved"></i> المطابقة تتم بعد اختيار الموظف فقط</span><span><i class="fas fa-arrow-up-right-dots"></i> القراءة استشارية منظمة</span></div><div class="r1551-results">'+(!state.q?'<div class="r1562-empty"><i class="fas fa-user-magnifying-glass"></i>اكتب الاسم أو الرقم لبدء البحث.</div>':(!rows.length?'<div class="r1562-empty"><i class="fas fa-user-slash"></i>لا توجد نتيجة مطابقة.</div>':rows.map(function(e){return '<button class="r1551-result" type="button" data-r1551-emp="'+esc(String(e.id||e.employeeNo||e.num||''))+'"><span class="r1551-rico"><i class="fas fa-user"></i></span><span><span class="r1551-rname">'+esc(e.name||'—')+'</span><span class="r1551-rmeta">'+esc(e.jobTitle||'بدون عنوان')+' • '+esc(e.education||'بدون تحصيل')+'</span></span><span class="r1551-rgrade">'+esc(gradeNum(e.grade)?degreeName(gradeNum(e.grade)):'—')+'</span></button>'}).join('')))+'</div></div></section>'}
+function guideHTML(){var chains=(state.map.chains||[]).slice().sort(function(a,b){return String(a.name||'').localeCompare(String(b.name||''),'ar')}),full=[],partial=[];chains.forEach(function(c){(c.reachesFirst?full:partial).push(c)});function card(c){var steps=(c.steps||[]).slice().sort(function(a,b){return Number(b.grade)-Number(a.grade)}),upper=!!c.upperSegment;return '<details class="r1560-chain"><summary><div><div class="r1560-chainname">'+esc(c.name)+'</div><div class="r1560-chainmeta">'+steps.length+' خطوات • '+esc(c.coverageStartDegree)+' ← '+esc(c.coverageEndDegree)+'</div></div><span class="r1560-tag '+(upper?'upper':'')+'">'+(upper?'مقطع علوي':(c.reachesFirst?'إلى الأولى':'جزئي'))+'</span></summary><div class="r1560-chainbody">'+timeline(c,0)+'<details class="r1560-details"><summary>حدود هذا المسار</summary><div class="r1560-detailbody">'+esc(c.startReason||'بداية التغطية لا تعني بداية التعيين.')+(c.stopReason?'<div class="r1560-alert">'+esc(c.stopReason)+'</div>':'')+'</div></details></div></details>'}function group(title,desc,list,open){return '<details class="r1560-guide-group" '+(open?'open':'')+'><summary><div class="r1560-guide-label">'+title+'<small>'+desc+'</small></div><span class="r1560-guide-count">'+list.length+'</span></summary><div>'+list.map(card).join('')+'</div></details>'}var audit=state.map.remainingAudit||{},cov=state.map.coverage||{},sourceTotal=Number(state.map.sourceTotal||1316);return '<section class="r1562-surface"><div class="r1562-head"><div><h3>دليل السلاسل</h3><p>قائمة مرجعية مضغوطة؛ افتح السلسلة عند الحاجة فقط.</p></div><span class="r1562-badge"><i class="fas fa-route"></i> '+chains.length+' مسار</span></div><div class="r1562-about"><div class="r1562-aboutTop"><div class="r1562-aboutTitle">عن الدليل</div><span class="r1562-badge"><i class="fas fa-shield-halved"></i> صريح فقط</span></div><div class="r1562-aboutText">هذا الدليل مبني على السلاسل الصريحة الموثقة فقط، ولا يستخدم أي تخمين للوصول إلى عنوان تالٍ أو ربط غير مثبت.</div><div class="r1562-aboutPills"><span>'+Number(cov.mappedTitles||850)+' مربوط</span><span>'+Number(cov.unmappedTitles||466)+' قيد التدقيق</span><span>'+sourceTotal+' في المصدر</span></div></div>'+group('تمتد إلى الدرجة الأولى','المسارات ذات نهاية مثبتة عند الأولى',full,true)+group('مسارات جزئية','تشمل المقاطع العليا والمسارات المتوقفة قبل الأولى',partial,false)+'<details class="r1560-details" style="margin-top:8px"><summary><i class="fas fa-clipboard-check"></i> حالة العناوين قيد التدقيق</summary><div class="r1560-detailbody">'+esc(audit.totalTitles||466)+' عنوانًا قيد التدقيق • '+esc(audit.twoConsecutiveCandidateFamilies||73)+' عائلة من درجتين متتاليتين • '+esc(audit.ambiguousFamilies||17)+' ملتبسة • '+esc(audit.gapFamilies||27)+' فيها فجوات.<div class="r1560-auditline">هذه المعلومات تنظيمية فقط ولم تدخل في التدرج الآلي.</div></div></details></section>'}
+function shell(){var page=ensureView();if(!state.ready){page.innerHTML='<div class="r1551-page"><section class="r1562-surface"><div class="r1562-empty"><i class="fas fa-spinner fa-spin"></i>جاري تجهيز التدرج…</div></section></div>';return}var cov=state.map.coverage||{},chainCount=Number(state.map.validatedChainCount||197),mapped=Number(cov.mappedTitles||850),unmapped=Number(cov.unmappedTitles||466),pct=Number(cov.exactCoveragePercent||64.6),body=state.selected&&state.mode==='employee'?employeeDetail(state.selected):(state.mode==='guide'?guideHTML():searchHTML());page.innerHTML='<div class="r1551-page"><section class="r1562-stage"><div class="r1562-kicker"><span><i class="fas fa-compass"></i> قراءة استشارية منظمة</span><div class="r1562-mark"><i class="fas fa-arrow-trend-up"></i></div></div><div class="r1562-title">التدرج الوظيفي</div><div class="r1562-sub">واجهة أكثر تركيزًا وأناقة، مبنية على المطابقة الصريحة فقط، وتعرض ما يحتاجه المستخدم أولًا ثم تُخفي التفاصيل الثانوية عند الطلب.</div><div class="r1562-hero-tags"><span class="r1562-tag"><b>'+chainCount+'</b> مسار صريح</span><span class="r1562-tag"><b>'+pct.toFixed(1)+'%</b> تغطية مثبتة</span><span class="r1562-tag"><b>'+mapped+'</b> عنوانًا مربوطًا</span><span class="r1562-tag safe"><i class="fas fa-shield-halved"></i> بدون تخمين</span></div><div class="r1562-note"><i class="fas fa-circle-info"></i> بداية التغطية لا تعني بداية التعيين، والتحصيل لا يُستخدم للحسم دون مصدر رسمي.</div></section><section class="r1562-tabs"><button type="button" class="r1551-mode '+(state.mode==='employee'?'active':'')+'" data-r1551-mode="employee"><i class="fas fa-user"></i> تدرج موظف</button><button type="button" class="r1551-mode '+(state.mode==='guide'?'active':'')+'" data-r1551-mode="guide"><i class="fas fa-route"></i> دليل السلاسل</button></section>'+body+'<div class="r1562-footer">'+unmapped+' عنوانًا ما زال قيد التدقيق • قراءة وتحليل فقط • لا تعديل على بيانات الموظف</div></div>';bind()}
 function renderError(msg){var page=ensureView();page.innerHTML='<div class="r1551-page"><section class="r1551-panel"><div class="r1551-status warn"><i class="fas fa-triangle-exclamation"></i><div><b>تعذر تشغيل التدرج بأمان</b><span>'+esc(msg||state.error||'خطأ غير معروف')+'</span></div></div><div class="r1551-source" style="margin-top:10px">لم يتم عرض أي عنوان مقترح لأن التحقق من المصدر لم يكتمل.</div></section></div>'}
 function findEmployee(id){return allEmployees().find(function(e){return String(e.id||e.employeeNo||e.num||'')===String(id)})||null}
 function bind(){var page=ensureView();page.querySelectorAll('[data-r1551-mode]').forEach(function(b){b.onclick=function(){state.mode=this.getAttribute('data-r1551-mode')||'employee';state.selected=null;state.selectedChain='';shell()}});var q=$('r1551-q');if(q){q.oninput=function(){state.q=this.value||'';shell();var x=$('r1551-q');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(e){}}}}var clear=$('r1551-clear');if(clear)clear.onclick=function(){state.q='';shell();var x=$('r1551-q');if(x)x.focus()};page.querySelectorAll('[data-r1551-emp]').forEach(function(b){b.onclick=function(){var e=findEmployee(this.getAttribute('data-r1551-emp'));if(e){state.selected=e;shell();var sc=$('scroll');if(sc)sc.scrollTo({top:0,behavior:'smooth'})}}});var back=page.querySelector('[data-r1551-back]');if(back)back.onclick=function(){state.selected=null;shell()};page.querySelectorAll('[data-r1551-chain]').forEach(function(b){b.onclick=function(){state.selectedChain=this.getAttribute('data-r1551-chain')||'';shell()}});var gb=page.querySelector('[data-r1551-guide-back]');if(gb)gb.onclick=function(){state.selectedChain='';shell()}}
@@ -12053,13 +11758,13 @@ window.r1551CareerProgression={release:RELEASE,open:openCareer,analyze:function(
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.61-CAREER-VISUAL-POLISH';
+var RELEASE='MOBILE-R1.5.62-CAREER-UI-REBUILD';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
-async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1561');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
+async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1562');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
 async function checkUpdate(showMessage){setRelease();if(navigator.onLine===false){if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');return false}try{if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث'}catch(e){}if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');return has}catch(e){try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');return false}}
-async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1561&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1561');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
-setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1561',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1562&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1562');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
+setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1562',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
 document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});window.r1551CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
 })();
 </script>
