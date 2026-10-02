@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.64",
-  "short_name": "HR Mobile R1.5.64",
+  "name": "سجل الموظفين - Mobile R1.5.65",
+  "short_name": "HR Mobile R1.5.65",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.64 merges 23 manually audited adjacent career-family segments without adding titles or fuzzy inference, and highlights the employee current grade/title in gold.",
+  "description": "R1.5.65 promotes 73 manually audited exact job-title steps from the unmapped queue while preserving no-guessing rules and R1.5.64 gold current-position styling.",
   "icons": [
     {
       "src": "assets/icon-192.png",
