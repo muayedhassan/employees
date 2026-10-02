@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.65",
-  "short_name": "HR Mobile R1.5.65",
+  "name": "سجل الموظفين - Mobile R1.5.66",
+  "short_name": "HR Mobile R1.5.66",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.65 promotes 73 manually audited exact job-title steps from the unmapped queue while preserving no-guessing rules and R1.5.64 gold current-position styling.",
+  "description": "R1.5.66 preserves exact grade-10 current titles as anchors while intentionally withholding an unverified next-title relation.",
   "icons": [
     {
       "src": "assets/icon-192.png",

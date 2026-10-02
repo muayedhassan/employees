@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.65-CAREER-UNMAPPED-TITLES-AUDIT",
+  "release": "MOBILE-R1.5.66-CAREER-CURRENT-TITLE-ANCHORS",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
   "sourceTotal": 1316,
-  "validatedChainCount": 187,
-  "validatedStepCount": 923,
+  "validatedChainCount": 189,
+  "validatedStepCount": 925,
   "policy": {
     "allowHeuristicInference": false,
     "requireEducationPresence": true,
@@ -25,7 +25,9 @@
     "familyBridgeMode": "manual-audited-adjacent-only",
     "allowAutomaticFamilyBridgeInference": false,
     "unmappedPromotionMode": "manual-audited-exact-consecutive-only",
-    "allowAutomaticUnmappedPromotion": false
+    "allowAutomaticUnmappedPromotion": false,
+    "currentTitleAnchorMode": "exact-current-title-unverified-next",
+    "allowAnchorNextInference": false
   },
   "notes": [
     "لا ينشئ النظام أي عنوان وظيفي بالاستنتاج أو التشابه.",
@@ -36,7 +38,8 @@
     "الاختصاص معروض فقط في هذه المرحلة ولا يدخل في القرار حتى اكتمال مصدره.",
     "R1.5.56 Batch 1 أضاف 24 سلسلة صريحة و165 خطوة حرفية من دليل العناوين، وتوقفت السلاسل الجزئية عند آخر درجة مثبتة دون استنتاج أي عنوان مفقود.",
     "R1.5.64 دمج 23 زوجًا من المقاطع الوظيفية المتجاورة بعد تدقيق صريح لحدود الدرجات والعائلة، دون إضافة أي عنوان أو استخدام استنتاج تقريبي.",
-    "R1.5.65: تمت ترقية 73 عنوانًا من قائمة الـ466 بعد تدقيق يدوي؛ 32 خطوة وسعت 17 سلسلة موجودة، و41 خطوة أنشأت 13 مقطعًا صريحًا جديدًا. بقيت الحالات الملتبسة خارج التدرج."
+    "R1.5.65: تمت ترقية 73 عنوانًا من قائمة الـ466 بعد تدقيق يدوي؛ 32 خطوة وسعت 17 سلسلة موجودة، و41 خطوة أنشأت 13 مقطعًا صريحًا جديدًا. بقيت الحالات الملتبسة خارج التدرج.",
+    "R1.5.66: تمت إضافة «حرفي» و«معاون حرفي» في الدرجة العاشرة كنقطتي حال مثبتتين مستقلتين. لا يتم ربط أي منهما تلقائيًا بـ«حرفي اول» في الدرجة التاسعة."
   ],
   "chains": [
     {
@@ -8763,20 +8766,88 @@
       "upperSegment": false,
       "coverageClass": "wide-coverage",
       "startReason": "هذه بداية المقطع الصريح الذي أمكن إثباته من دليل العناوين الحالي، ولا تعني بداية التعيين."
+    },
+    {
+      "id": "r1566_current_anchor_craft",
+      "name": "حرفي — عنوان حالي مثبت",
+      "status": "explicit-current-anchor-unverified-next",
+      "releaseAdded": "R1.5.66",
+      "auditBasis": "exact current title + exact employee grade / next-grade relation intentionally unverified",
+      "familyKey": "حرفي",
+      "startReason": "عنوان حالي مثبت من دليل العناوين؛ هذه ليست قاعدة لبداية التعيين ولا إثباتًا للعنوان التالي.",
+      "stopReason": "العنوان «حرفي» مثبت حرفيًا في الدرجة العاشرة، لكن وجود «معاون حرفي» في الدرجة نفسها يمنع حسم اتصال الدرجة العاشرة بعنوان الدرجة التاسعة تلقائيًا. لذلك لا يتم اقتراح عنوان قادم من هذه النقطة.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "حرفي"
+        }
+      ],
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 10,
+      "coverageEndDegree": "العاشرة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "current-title-anchor",
+      "currentTitleAnchor": {
+        "release": "MOBILE-R1.5.66-CAREER-CURRENT-TITLE-ANCHORS",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "sameGradeAlternatives": [
+          "حرفي",
+          "معاون حرفي"
+        ],
+        "message": "العنوان «حرفي» مثبت حرفيًا في الدرجة العاشرة، لكن وجود «معاون حرفي» في الدرجة نفسها يمنع حسم اتصال الدرجة العاشرة بعنوان الدرجة التاسعة تلقائيًا."
+      }
+    },
+    {
+      "id": "r1566_current_anchor_assistant_craft",
+      "name": "معاون حرفي — عنوان حالي مثبت",
+      "status": "explicit-current-anchor-unverified-next",
+      "releaseAdded": "R1.5.66",
+      "auditBasis": "exact current title + exact employee grade / next-grade relation intentionally unverified",
+      "familyKey": "حرفي",
+      "startReason": "عنوان حالي مثبت من دليل العناوين؛ هذه ليست قاعدة لبداية التعيين ولا إثباتًا للعنوان التالي.",
+      "stopReason": "العنوان «معاون حرفي» مثبت حرفيًا في الدرجة العاشرة، لكن لا يوجد في المصدر الحالي ما يحسم انتقاله إلى «حرفي أول» في الدرجة التاسعة. لذلك لا يتم اقتراح عنوان قادم من هذه النقطة.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "معاون حرفي"
+        }
+      ],
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 10,
+      "coverageEndDegree": "العاشرة",
+      "reachesFirst": false,
+      "upperSegment": false,
+      "coverageClass": "current-title-anchor",
+      "currentTitleAnchor": {
+        "release": "MOBILE-R1.5.66-CAREER-CURRENT-TITLE-ANCHORS",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "sameGradeAlternatives": [
+          "حرفي",
+          "معاون حرفي"
+        ],
+        "message": "العنوان «معاون حرفي» مثبت حرفيًا في الدرجة العاشرة، لكن لا يوجد في المصدر الحالي ما يحسم انتقاله إلى «حرفي أول» في الدرجة التاسعة."
+      }
     }
   ],
   "coverage": {
     "directoryTitles": 1316,
-    "mappedTitles": 923,
-    "unmappedTitles": 393,
-    "exactCoveragePercent": 70.1,
+    "mappedTitles": 925,
+    "unmappedTitles": 391,
+    "exactCoveragePercent": 70.3,
     "batchAddedChains": 157,
     "batchAddedSteps": 583,
-    "rule": "R1.5.65 adds only manually audited exact consecutive titles/segments; no fuzzy matching, no gap crossing, no same-grade candidate choice"
+    "rule": "R1.5.66 adds exact current-title anchors for same-grade ambiguous entry points; current title is verified while next relation remains unverified"
   },
   "coverageProfiles": {
     "extendsToFirst": 76,
-    "partial": 111,
+    "partial": 113,
     "upperSegments": 40,
     "startGradeDistribution": {
       "3": 15,
@@ -8786,19 +8857,19 @@
       "7": 76,
       "8": 38,
       "9": 9,
-      "10": 7
+      "10": 9
     },
-    "note": "R1.5.65: 73 exact directory titles were promoted from audit after manual review; ambiguous same-grade choices remain outside active progression."
+    "note": "R1.5.66 adds two grade-10 current-title anchors without asserting either anchor progresses to grade 9."
   },
   "remainingAudit": {
-    "totalTitles": 393,
-    "familyCount": 268,
+    "totalTitles": 391,
+    "familyCount": 267,
     "isolatedFamilies": 191,
     "twoConsecutiveCandidateFamilies": 37,
-    "ambiguousFamilies": 16,
+    "ambiguousFamilies": 15,
     "gapFamilies": 24,
     "status": "review-only-not-active",
-    "note": "R1.5.65: بعد ترقية 73 عنوانًا مدققًا، تبقى هذه العناوين خارج التدرج الفعال حتى إكمال المراجعة أو توفر عامل حسم."
+    "note": "R1.5.66: «حرفي» و«معاون حرفي» خرجا من قائمة غير المربوط لأنهما أصبحا عنوانين حاليين مثبتين، لكن العلاقة بالدرجة التاسعة ما زالت غير محسومة."
   },
   "familyBridgeAudit": {
     "release": "MOBILE-R1.5.64-CAREER-FAMILY-BRIDGE-AUDIT",
@@ -9791,6 +9862,40 @@
       "لا يتم تجاوز فجوة في الدرجات.",
       "إذا وجد أكثر من عنوان محتمل في الدرجة نفسها يبقى خارج المسار.",
       "العناوين الجديدة لا تعدّل بيانات الموظف؛ التدرج استشاري فقط."
+    ]
+  },
+  "currentTitleAnchorAudit": {
+    "release": "MOBILE-R1.5.66-CAREER-CURRENT-TITLE-ANCHORS",
+    "anchorCount": 2,
+    "mappedBefore": 923,
+    "mappedAfter": 925,
+    "remainingBefore": 393,
+    "remainingAfter": 391,
+    "anchors": [
+      {
+        "id": "r1566_current_anchor_craft",
+        "grade": 10,
+        "degree": "العاشرة",
+        "title": "حرفي",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "reason": "العنوان «حرفي» مثبت حرفيًا في الدرجة العاشرة، لكن وجود «معاون حرفي» في الدرجة نفسها يمنع حسم اتصال الدرجة العاشرة بعنوان الدرجة التاسعة تلقائيًا."
+      },
+      {
+        "id": "r1566_current_anchor_assistant_craft",
+        "grade": 10,
+        "degree": "العاشرة",
+        "title": "معاون حرفي",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "reason": "العنوان «معاون حرفي» مثبت حرفيًا في الدرجة العاشرة، لكن لا يوجد في المصدر الحالي ما يحسم انتقاله إلى «حرفي أول» في الدرجة التاسعة."
+      }
+    ],
+    "safeguards": [
+      "وجود عنوانين في الدرجة نفسها لا يمنع إظهار العنوان الحالي المطابق للموظف.",
+      "لا يتم اختيار عنوان الدرجة التالية تلقائيًا عند غياب علاقة موثقة.",
+      "لا fuzzy matching ولا تشابه جزئي.",
+      "لا تعديل على بيانات الموظف."
     ]
   }
 }
