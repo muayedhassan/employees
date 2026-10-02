@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.62-CAREER-UI-REBUILD",
+  "release": "MOBILE-R1.5.63-CAREER-MATCH-INTEGRITY",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
@@ -18,7 +18,10 @@
     "educationRole": "required-context",
     "educationMappingSourceAvailable": false,
     "educationDecisionMode": "context-only-until-authoritative-map",
-    "educationDecisionNote": "التحصيل الدراسي موجود في سجل الموظف ويظهر في التحليل، لكن دليل العناوين الحالي لا يحتوي جدول ربط رسمي بين التحصيل ودرجة البداية/العنوان؛ لذلك لا يستخدم للحسم الآلي."
+    "educationDecisionNote": "التحصيل الدراسي موجود في سجل الموظف ويظهر في التحليل، لكن دليل العناوين الحالي لا يحتوي جدول ربط رسمي بين التحصيل ودرجة البداية/العنوان؛ لذلك لا يستخدم للحسم الآلي.",
+    "titleMatchingMode": "CANONICAL_EXACT_ONLY",
+    "fuzzyTitleMatching": false,
+    "canonicalTitleNormalization": "NFKC + invisible/space cleanup + Arabic/Persian letter form normalization + existing Arabic orthographic normalization"
   },
   "notes": [
     "لا ينشئ النظام أي عنوان وظيفي بالاستنتاج أو التشابه.",

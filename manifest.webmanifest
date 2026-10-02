@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.62",
-  "short_name": "HR Mobile R1.5.62",
+  "name": "سجل الموظفين - Mobile R1.5.63",
+  "short_name": "HR Mobile R1.5.63",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.62 rebuilds the Career interface layout with a stronger premium structure while preserving explicit-only career logic.",
+  "description": "R1.5.63 strengthens exact career title matching with Unicode-safe canonical equality and explicit diagnostics, without fuzzy inference.",
   "icons": [
     {
       "src": "assets/icon-192.png",
