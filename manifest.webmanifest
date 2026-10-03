@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.66",
-  "short_name": "HR Mobile R1.5.66",
+  "name": "سجل الموظفين - Mobile R1.5.67",
+  "short_name": "HR Mobile R1.5.67",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.66 preserves exact grade-10 current titles as anchors while intentionally withholding an unverified next-title relation.",
+  "description": "R1.5.67 adds a compact qualification-entry reference layer without changing employee grade, title, or career matching.",
   "icons": [
     {
       "src": "assets/icon-192.png",

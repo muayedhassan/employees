@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.66-CAREER-CURRENT-TITLE-ANCHORS",
+  "release": "MOBILE-R1.5.67-QUALIFICATION-REFERENCE-LAYER",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
@@ -27,7 +27,9 @@
     "unmappedPromotionMode": "manual-audited-exact-consecutive-only",
     "allowAutomaticUnmappedPromotion": false,
     "currentTitleAnchorMode": "exact-current-title-unverified-next",
-    "allowAnchorNextInference": false
+    "allowAnchorNextInference": false,
+    "qualificationReferenceMode": "reference-only-no-progression-effect",
+    "allowQualificationToAlterCareerMatch": false
   },
   "notes": [
     "لا ينشئ النظام أي عنوان وظيفي بالاستنتاج أو التشابه.",
@@ -39,7 +41,8 @@
     "R1.5.56 Batch 1 أضاف 24 سلسلة صريحة و165 خطوة حرفية من دليل العناوين، وتوقفت السلاسل الجزئية عند آخر درجة مثبتة دون استنتاج أي عنوان مفقود.",
     "R1.5.64 دمج 23 زوجًا من المقاطع الوظيفية المتجاورة بعد تدقيق صريح لحدود الدرجات والعائلة، دون إضافة أي عنوان أو استخدام استنتاج تقريبي.",
     "R1.5.65: تمت ترقية 73 عنوانًا من قائمة الـ466 بعد تدقيق يدوي؛ 32 خطوة وسعت 17 سلسلة موجودة، و41 خطوة أنشأت 13 مقطعًا صريحًا جديدًا. بقيت الحالات الملتبسة خارج التدرج.",
-    "R1.5.66: تمت إضافة «حرفي» و«معاون حرفي» في الدرجة العاشرة كنقطتي حال مثبتتين مستقلتين. لا يتم ربط أي منهما تلقائيًا بـ«حرفي اول» في الدرجة التاسعة."
+    "R1.5.66: تمت إضافة «حرفي» و«معاون حرفي» في الدرجة العاشرة كنقطتي حال مثبتتين مستقلتين. لا يتم ربط أي منهما تلقائيًا بـ«حرفي اول» في الدرجة التاسعة.",
+    "R1.5.67: أضيف مرجع بصري لبداية التعيين بحسب المؤهل. المرجع لا يغيّر مطابقة المسار أو درجة الموظف ولا يفترض أن التحصيل الحالي هو مؤهل التعيين."
   ],
   "chains": [
     {
@@ -9896,6 +9899,109 @@
       "لا يتم اختيار عنوان الدرجة التالية تلقائيًا عند غياب علاقة موثقة.",
       "لا fuzzy matching ولا تشابه جزئي.",
       "لا تعديل على بيانات الموظف."
+    ]
+  },
+  "qualificationReference": {
+    "release": "MOBILE-R1.5.67-QUALIFICATION-REFERENCE-LAYER",
+    "mode": "reference-only-no-progression-effect",
+    "legalBasis": "المادة (4) من قانون رواتب موظفي الدولة والقطاع العام رقم (22) لسنة 2008 المعدل",
+    "scope": "مرجع لبداية التعيين بحسب المؤهل الذي تم التعيين على أساسه، مع مراعاة الوصف الوظيفي",
+    "currentEducationIsAppointmentEducation": false,
+    "affectsCareerMatching": false,
+    "affectsEmployeeGrade": false,
+    "affectsEmployeeData": false,
+    "rules": [
+      {
+        "id": "no_certificate",
+        "label": "بدون شهادة",
+        "grade": 10,
+        "degree": "العاشرة",
+        "rank": 1,
+        "rankLabel": "الأولى",
+        "display": "العاشرة / المرتبة الأولى"
+      },
+      {
+        "id": "primary",
+        "label": "ابتدائية",
+        "grade": 10,
+        "degree": "العاشرة",
+        "rank": 4,
+        "rankLabel": "الرابعة",
+        "display": "العاشرة / المرتبة الرابعة"
+      },
+      {
+        "id": "middle",
+        "label": "متوسطة",
+        "grade": 9,
+        "degree": "التاسعة",
+        "rank": 1,
+        "rankLabel": "الأولى",
+        "display": "التاسعة / المرتبة الأولى"
+      },
+      {
+        "id": "secondary",
+        "label": "إعدادية بفروعها",
+        "grade": 8,
+        "degree": "الثامنة",
+        "rank": 1,
+        "rankLabel": "الأولى",
+        "display": "الثامنة / المرتبة الأولى"
+      },
+      {
+        "id": "institute_2y",
+        "label": "معهد سنتان بعد الإعدادية",
+        "grade": 8,
+        "degree": "الثامنة",
+        "rank": 5,
+        "rankLabel": "الخامسة",
+        "display": "الثامنة / المرتبة الخامسة"
+      },
+      {
+        "id": "bachelor_standard",
+        "label": "بكالوريوس اعتيادي",
+        "grade": 7,
+        "degree": "السابعة",
+        "rank": 1,
+        "rankLabel": "الأولى",
+        "display": "السابعة / المرتبة الأولى"
+      },
+      {
+        "id": "bachelor_5plus",
+        "label": "دراسة جامعية أولية خمس سنوات فأكثر ضمن الحالات المشمولة قانونًا",
+        "grade": 6,
+        "degree": "السادسة",
+        "rank": 1,
+        "rankLabel": "الأولى",
+        "display": "السادسة / المرتبة الأولى"
+      },
+      {
+        "id": "master",
+        "label": "ماجستير أو ما يعادله",
+        "grade": 6,
+        "degree": "السادسة",
+        "rank": 3,
+        "rankLabel": "الثالثة",
+        "display": "السادسة / المرتبة الثالثة"
+      },
+      {
+        "id": "doctorate",
+        "label": "دكتوراه",
+        "grade": 5,
+        "degree": "الخامسة",
+        "rank": 3,
+        "rankLabel": "الثالثة",
+        "display": "الخامسة / المرتبة الثالثة"
+      }
+    ],
+    "displayPolicy": {
+      "bachelor": "إذا كان حقل التحصيل يذكر «بكالوريوس» فقط فلا يختار التطبيق بين البكالوريوس الاعتيادي ومسار الخمس سنوات؛ يعرض الاحتمالين كمرجع ويطلب التحقق من مدة/نوع الدراسة.",
+      "diploma": "إذا كان حقل التحصيل يذكر «دبلوم» فقط فيُعرض حكم معهد السنتين بصورة مشروطة، ولا يُعامل كحكم نهائي قبل التحقق من نوع ومدة الدراسة.",
+      "unknown": "إذا لم يمكن تصنيف التحصيل صراحةً فلا يتم إنشاء درجة مرجعية له."
+    },
+    "notes": [
+      "هذا المرجع لا يثبت أن التحصيل الحالي هو نفسه المؤهل الذي تم التعيين بموجبه.",
+      "لا يغير هذا المرجع الدرجة الحالية أو العنوان أو المسار الوظيفي للموظف.",
+      "لا يستخدم المرجع لتجاوز الغموض في العنوان الوظيفي أو الاختصاص."
     ]
   }
 }
