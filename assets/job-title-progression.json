@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.70-QUALIFICATION-INFOGRAPHIC-REFERENCE",
+  "release": "MOBILE-R1.5.71-REFERENCE-CENTER-NAVIGATION-GATE",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
@@ -47,7 +47,8 @@
     "R1.5.67: أضيف مرجع بصري لبداية التعيين بحسب المؤهل. المرجع لا يغيّر مطابقة المسار أو درجة الموظف ولا يفترض أن التحصيل الحالي هو مؤهل التعيين.",
     "R1.5.68: نُقل عرض مرجع المؤهلات إلى «ملاحظاتي» وأضيف تخزين شخصي مستقل للملاحظات.",
     "R1.5.69: إصلاح رجوع «ملاحظاتي» إلى أقسام البرنامج، دعم زر Back للهاتف، صفحة قراءة، ملاحظات مرتبطة بالموظف، وتصدير/استيراد JSON.",
-    "R1.5.70: تحويل دليل بداية التعيين حسب المؤهل داخل ملاحظاتي إلى إنفوغرافيك مقسم وواضح، من دون تغيير على البيانات أو Career Matching."
+    "R1.5.70: تحويل دليل بداية التعيين حسب المؤهل داخل ملاحظاتي إلى إنفوغرافيك مقسم وواضح، من دون تغيير على البيانات أو Career Matching.",
+    "R1.5.71: فصل المعهد عن الإعدادية والجامعة، منع ظهور قائمة الموظفين أثناء انتقال الواجهات، وإضافة مركز مراجع وظيفية V2 داخل ملاحظاتي."
   ],
   "chains": [
     {
@@ -10012,7 +10013,7 @@
     "visibleInsideCareerEmployeeDetail": false
   },
   "notesWorkspace": {
-    "release": "MOBILE-R1.5.70-QUALIFICATION-INFOGRAPHIC-REFERENCE",
+    "release": "MOBILE-R1.5.71-REFERENCE-CENTER-NAVIGATION-GATE",
     "title": "ملاحظاتي",
     "storage": "IndexedDB-local-only",
     "databaseName": "hr_mobile_personal_notes",
@@ -10029,11 +10030,24 @@
     "pinning": true,
     "categories": true,
     "v2": true,
-    "referencePresentation": "qualification-infographic-v1",
+    "referencePresentation": "reference-center-v2",
     "referenceSections": [
-      "pre-university",
-      "post-secondary-and-undergraduate",
+      "general-education",
+      "institute-diploma",
+      "undergraduate",
       "postgraduate"
+    ],
+    "referenceCount": 4,
+    "navigationGate": {
+      "listFlashPrevention": true,
+      "dashboardPointerGate": true,
+      "routerGate": true
+    },
+    "legalReferences": [
+      "المادة 4: بداية التعيين",
+      "المادة 11: مخصصات الشهادة والحرفة",
+      "المادة 14: الإعالة والأطفال",
+      "المواد 5 و6 و7: العلاوة والترفيع"
     ]
   }
 }
