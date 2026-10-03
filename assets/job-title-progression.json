@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.71-REFERENCE-CENTER-NAVIGATION-GATE",
+  "release": "MOBILE-R1.5.73-CAREER-INFOGRAPHIC-CSS-SAFE",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
@@ -31,7 +31,9 @@
     "qualificationReferenceMode": "reference-only-no-progression-effect",
     "allowQualificationToAlterCareerMatch": false,
     "notesWorkspaceMode": "personal-local-only-v2",
-    "notesAffectEmployeeData": false
+    "notesAffectEmployeeData": false,
+    "careerPresentationMode": "CSS_ONLY_INFOGRAPHIC",
+    "careerLogicChanged": false
   },
   "notes": [
     "لا ينشئ النظام أي عنوان وظيفي بالاستنتاج أو التشابه.",
@@ -48,7 +50,8 @@
     "R1.5.68: نُقل عرض مرجع المؤهلات إلى «ملاحظاتي» وأضيف تخزين شخصي مستقل للملاحظات.",
     "R1.5.69: إصلاح رجوع «ملاحظاتي» إلى أقسام البرنامج، دعم زر Back للهاتف، صفحة قراءة، ملاحظات مرتبطة بالموظف، وتصدير/استيراد JSON.",
     "R1.5.70: تحويل دليل بداية التعيين حسب المؤهل داخل ملاحظاتي إلى إنفوغرافيك مقسم وواضح، من دون تغيير على البيانات أو Career Matching.",
-    "R1.5.71: فصل المعهد عن الإعدادية والجامعة، منع ظهور قائمة الموظفين أثناء انتقال الواجهات، وإضافة مركز مراجع وظيفية V2 داخل ملاحظاتي."
+    "R1.5.71: فصل المعهد عن الإعدادية والجامعة، منع ظهور قائمة الموظفين أثناء انتقال الواجهات، وإضافة مركز مراجع وظيفية V2 داخل ملاحظاتي.",
+    "R1.5.73: تطوير بصري CSS-only لواجهة التدرج والعناوين، دون JavaScript إضافي أو مراقبة DOM أو تغيير لمنطق المطابقة."
   ],
   "chains": [
     {
@@ -10013,7 +10016,7 @@
     "visibleInsideCareerEmployeeDetail": false
   },
   "notesWorkspace": {
-    "release": "MOBILE-R1.5.71-REFERENCE-CENTER-NAVIGATION-GATE",
+    "release": "MOBILE-R1.5.73-CAREER-INFOGRAPHIC-CSS-SAFE",
     "title": "ملاحظاتي",
     "storage": "IndexedDB-local-only",
     "databaseName": "hr_mobile_personal_notes",
@@ -10049,5 +10052,20 @@
       "المادة 14: الإعالة والأطفال",
       "المواد 5 و6 و7: العلاوة والترفيع"
     ]
+  },
+  "careerInfographicCSS": {
+    "release": "MOBILE-R1.5.73-CAREER-INFOGRAPHIC-CSS-SAFE",
+    "enabled": true,
+    "mode": "CSS_ONLY",
+    "javascriptAdded": false,
+    "observerAdded": false,
+    "domRewrite": false,
+    "style": "professional-infographic-v1",
+    "preservedCareerMap": {
+      "chains": 189,
+      "mapped": 925,
+      "auditQueue": 391,
+      "coveragePercent": 70.3
+    }
   }
 }

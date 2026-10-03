@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.71",
-  "short_name": "HR Mobile R1.5.71",
+  "name": "سجل الموظفين - Mobile R1.5.73",
+  "short_name": "HR Mobile R1.5.73",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Reference Center V2 and clean navigation: separates institute placement, adds verified employee references, and prevents employee-list flash while opening sections.",
+  "description": "Career Infographic CSS Safe: professional career visualization using CSS only, with no runtime observer or DOM rewrite.",
   "icons": [
     {
       "src": "assets/icon-192.png",
