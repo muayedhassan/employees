@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.69-MY-NOTES-NAVIGATION-PRODUCTIVITY-V2",
+  "release": "MOBILE-R1.5.70-QUALIFICATION-INFOGRAPHIC-REFERENCE",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
@@ -46,7 +46,8 @@
     "R1.5.66: تمت إضافة «حرفي» و«معاون حرفي» في الدرجة العاشرة كنقطتي حال مثبتتين مستقلتين. لا يتم ربط أي منهما تلقائيًا بـ«حرفي اول» في الدرجة التاسعة.",
     "R1.5.67: أضيف مرجع بصري لبداية التعيين بحسب المؤهل. المرجع لا يغيّر مطابقة المسار أو درجة الموظف ولا يفترض أن التحصيل الحالي هو مؤهل التعيين.",
     "R1.5.68: نُقل عرض مرجع المؤهلات إلى «ملاحظاتي» وأضيف تخزين شخصي مستقل للملاحظات.",
-    "R1.5.69: إصلاح رجوع «ملاحظاتي» إلى أقسام البرنامج، دعم زر Back للهاتف، صفحة قراءة، ملاحظات مرتبطة بالموظف، وتصدير/استيراد JSON."
+    "R1.5.69: إصلاح رجوع «ملاحظاتي» إلى أقسام البرنامج، دعم زر Back للهاتف، صفحة قراءة، ملاحظات مرتبطة بالموظف، وتصدير/استيراد JSON.",
+    "R1.5.70: تحويل دليل بداية التعيين حسب المؤهل داخل ملاحظاتي إلى إنفوغرافيك مقسم وواضح، من دون تغيير على البيانات أو Career Matching."
   ],
   "chains": [
     {
@@ -10011,7 +10012,7 @@
     "visibleInsideCareerEmployeeDetail": false
   },
   "notesWorkspace": {
-    "release": "MOBILE-R1.5.69-MY-NOTES-NAVIGATION-PRODUCTIVITY-V2",
+    "release": "MOBILE-R1.5.70-QUALIFICATION-INFOGRAPHIC-REFERENCE",
     "title": "ملاحظاتي",
     "storage": "IndexedDB-local-only",
     "databaseName": "hr_mobile_personal_notes",
@@ -10027,6 +10028,12 @@
     "search": true,
     "pinning": true,
     "categories": true,
-    "v2": true
+    "v2": true,
+    "referencePresentation": "qualification-infographic-v1",
+    "referenceSections": [
+      "pre-university",
+      "post-secondary-and-undergraduate",
+      "postgraduate"
+    ]
   }
 }

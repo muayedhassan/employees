@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.69-MY-NOTES-NAVIGATION-PRODUCTIVITY-V2">
+<meta name="app-release" content="MOBILE-R1.5.70-QUALIFICATION-INFOGRAPHIC-REFERENCE">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -5832,7 +5832,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   }
   function setActive(v){var isPerm=mode==='perm',isCont=mode==='cont',cls=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){var t=document.getElementById(x==='titlematch'?TAB_ID:'stab-'+x);if(t){var on=v===x;t.className='sub-tab'+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');}});}
   function clearMatch(){document.body.classList.remove('subview-titlematch');var v=document.getElementById(VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
-  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1569'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
+  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1570'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
   function buildIndex(data){var rows=(data&&data.rows)||[],by={},any={};rows.forEach(function(r){var d=degLabel(r.degree),t=String(r.title||'').trim(),n=norm(t);if(!d||!n)return;(by[d]=by[d]||{});(by[d][n]=by[d][n]||[]).push(t);(any[n]=any[n]||[]).push(d);});return{by:by,any:any,rows:rows};}
   function suggest(title,degree,idx){var n=norm(title),words=n.split(' ').filter(Boolean),src=(idx.rows||[]).filter(function(r){return degLabel(r.degree)===degree;});var scored=[];src.forEach(function(r){var rn=norm(r.title||'');if(!rn)return;var score=0;words.forEach(function(w){if(w.length>2&&rn.indexOf(w)>=0)score+=2;});if(rn.indexOf(n)>=0||n.indexOf(rn)>=0)score+=5;if(score>0)scored.push({t:r.title,s:score});});return scored.sort(function(a,b){return b.s-a.s;}).slice(0,3).map(function(x){return x.t;});}
   function analyze(){return loadTitles().then(function(data){var idx=buildIndex(data),emps=allEmployees();state.rows=emps.map(function(e,i){var title=String(e.jobTitle||'').trim(),degree=degLabel(e.grade),nt=norm(title),cls='unknown',label='غير موجود',note='العنوان غير موجود في دليل العناوين الوظيفية.',sugg=[];if(!title||!degree){cls='missing';label='نقص بيانات';note=!title&&!degree?'لا يوجد عنوان وظيفي ولا درجة.':(!title?'لا يوجد عنوان وظيفي.':'لا توجد درجة وظيفية واضحة.');}
@@ -8945,8 +8945,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1569';
-  var KEEP_CACHE='employee-registry-ui-r1569';
+  var SW_URL='service-worker.js?v=1570';
+  var KEEP_CACHE='employee-registry-ui-r1570';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -11840,7 +11840,7 @@ body.light-mode #view-career .r1567-qname{color:#425c72}
 // R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.69-MY-NOTES-NAVIGATION-PRODUCTIVITY-V2';
+var RELEASE='MOBILE-R1.5.70-QUALIFICATION-INFOGRAPHIC-REFERENCE';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -11893,8 +11893,8 @@ window.r1551CareerProgression={release:RELEASE,open:openCareer,analyze:function(
 })();
 </script>
 
-<style id="r1569-my-notes-v2-style">
-/* R1569_MY_NOTES_NAVIGATION_PRODUCTIVITY_V2 */
+<style id="r1570-my-notes-v2-style">
+/* R1570_MY_NOTES_NAVIGATION_PRODUCTIVITY_V2 */
 body.subview-notes #view-notes{display:block!important}
 body:not(.subview-notes) #view-notes{display:none!important}
 body.subview-notes #search-sec,
@@ -11906,24 +11906,24 @@ body.subview-notes #r1502-dashboard{display:none!important}
   padding:8px 10px 52px;
   font-family:var(--hr-body-font,'Zain','Tajawal',sans-serif);
 }
-.r1569-page{max-width:980px;margin:auto;display:grid;gap:11px}
-.r1569-topbar{
+.r1570-page{max-width:980px;margin:auto;display:grid;gap:11px}
+.r1570-topbar{
   display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:9px;
   min-height:58px;padding:9px 10px;border-radius:22px;
   border:1px solid rgba(140,190,230,.14);
   background:linear-gradient(145deg,rgba(7,27,58,.96),rgba(5,16,37,.97));
   box-shadow:0 14px 34px rgba(0,0,0,.18);
 }
-.r1569-back,.r1569-quick{
+.r1570-back,.r1570-quick{
   width:40px;height:40px;border-radius:14px;border:1px solid rgba(136,192,230,.14);
   background:rgba(255,255,255,.035);color:#bfeef5;display:grid;place-items:center;
 }
-.r1569-quick{color:#ffe098;border-color:rgba(244,201,110,.16)}
-.r1569-topcopy{min-width:0}
-.r1569-topcopy b{display:block;color:#f5fbff;font:950 17px var(--hr-title-font,'Zain',sans-serif);line-height:1.2}
-.r1569-topcopy small{display:block;margin-top:3px;color:#7890aa;font-size:8.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r1570-quick{color:#ffe098;border-color:rgba(244,201,110,.16)}
+.r1570-topcopy{min-width:0}
+.r1570-topcopy b{display:block;color:#f5fbff;font:950 17px var(--hr-title-font,'Zain',sans-serif);line-height:1.2}
+.r1570-topcopy small{display:block;margin-top:3px;color:#7890aa;font-size:8.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-.r1569-overview{
+.r1570-overview{
   position:relative;overflow:hidden;padding:15px;border-radius:24px;
   border:1px solid rgba(137,190,230,.13);
   background:
@@ -11931,180 +11931,212 @@ body.subview-notes #r1502-dashboard{display:none!important}
     radial-gradient(circle at 0% 110%,rgba(244,201,110,.08),transparent 33%),
     linear-gradient(145deg,rgba(7,25,54,.97),rgba(4,14,32,.98));
 }
-.r1569-overview-main{display:flex;align-items:center;gap:10px}
-.r1569-overview-icon{
+.r1570-overview-main{display:flex;align-items:center;gap:10px}
+.r1570-overview-icon{
   width:48px;height:48px;border-radius:18px;display:grid;place-items:center;
   color:#e8fcff;font-size:19px;background:linear-gradient(145deg,rgba(105,220,239,.13),rgba(57,130,246,.06));
   border:1px solid rgba(105,220,239,.17)
 }
-.r1569-overview-title{color:#fff;font:950 16px var(--hr-title-font,'Zain',sans-serif)}
-.r1569-overview-sub{margin-top:3px;color:#829ab4;font-size:9px;line-height:1.55}
-.r1569-stats{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
-.r1569-stat{
+.r1570-overview-title{color:#fff;font:950 16px var(--hr-title-font,'Zain',sans-serif)}
+.r1570-overview-sub{margin-top:3px;color:#829ab4;font-size:9px;line-height:1.55}
+.r1570-stats{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.r1570-stat{
   display:flex;align-items:center;gap:5px;padding:6px 9px;border-radius:999px;
   border:1px solid rgba(146,193,228,.09);background:rgba(255,255,255,.03);
   color:#8096ad;font-size:8.5px;font-weight:850
 }
-.r1569-stat b{color:#edf8ff;font-size:10.5px}
-.r1569-stat i{color:#72dae8}.r1569-stat.gold i{color:#efc86e}
+.r1570-stat b{color:#edf8ff;font-size:10.5px}
+.r1570-stat i{color:#72dae8}.r1570-stat.gold i{color:#efc86e}
 
-.r1569-tools{
+.r1570-tools{
   display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;
   padding:9px;border-radius:20px;border:1px solid rgba(138,187,225,.11);
   background:rgba(7,24,52,.66)
 }
-.r1569-search{
+.r1570-search{
   height:44px;display:flex;align-items:center;gap:8px;padding:0 11px;
   border:1px solid rgba(105,220,239,.16);border-radius:15px;background:rgba(4,19,43,.52)
 }
-.r1569-search i{color:#6fd6e3}
-.r1569-search input{
+.r1570-search i{color:#6fd6e3}
+.r1570-search input{
   min-width:0;width:100%;border:0;outline:0;background:transparent;color:#eef8ff;
   font:750 10.5px var(--hr-body-font,'Zain',sans-serif)
 }
-.r1569-add{
+.r1570-add{
   height:44px;padding:0 13px;border-radius:15px;border:1px solid rgba(105,220,239,.20);
   background:linear-gradient(145deg,rgba(67,181,204,.13),rgba(36,91,142,.12));
   color:#e4fbff;font:900 9.7px var(--hr-body-font,'Zain',sans-serif)
 }
 
-.r1569-tabs{
+.r1570-tabs{
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:5px;
   border-radius:17px;border:1px solid rgba(138,187,225,.10);background:rgba(7,23,50,.58)
 }
-.r1569-tab{
+.r1570-tab{
   min-height:37px;border:1px solid transparent;border-radius:11px;background:transparent;
   color:#7188a1;font:900 9.7px var(--hr-body-font,'Zain',sans-serif)
 }
-.r1569-tab.active{color:#e9fbff;background:rgba(105,220,239,.08);border-color:rgba(105,220,239,.14)}
+.r1570-tab.active{color:#e9fbff;background:rgba(105,220,239,.08);border-color:rgba(105,220,239,.14)}
 
-.r1569-panel{
+.r1570-panel{
   padding:13px;border-radius:22px;border:1px solid rgba(138,187,225,.11);
   background:rgba(7,24,52,.69)
 }
-.r1569-panelhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
-.r1569-paneltitle{color:#edf7ff;font:950 12.5px var(--hr-title-font,'Zain',sans-serif)}
-.r1569-paneltitle i{color:#72dae8;margin-left:5px}
-.r1569-count{color:#6f859d;font-size:8.3px}
-.r1569-list{display:grid;gap:7px}
+.r1570-panelhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
+.r1570-paneltitle{color:#edf7ff;font:950 12.5px var(--hr-title-font,'Zain',sans-serif)}
+.r1570-paneltitle i{color:#72dae8;margin-left:5px}
+.r1570-count{color:#6f859d;font-size:8.3px}
+.r1570-list{display:grid;gap:7px}
 
-.r1569-note{
+.r1570-note{
   display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:11px;
   border-radius:16px;border:1px solid rgba(139,184,222,.09);background:rgba(5,21,46,.37);
   cursor:pointer;transition:transform .14s ease,border-color .14s ease,background .14s ease;
 }
-.r1569-note:active{transform:scale(.992)}
-.r1569-note.pinned{
+.r1570-note:active{transform:scale(.992)}
+.r1570-note.pinned{
   border-color:rgba(242,199,110,.17);
   background:linear-gradient(145deg,rgba(242,199,110,.035),rgba(5,21,46,.37))
 }
-.r1569-note-title{display:flex;align-items:center;gap:6px;color:#eff7ff;font-size:11.5px;font-weight:900}
-.r1569-note-title .pin{color:#efc86e;font-size:8px}
-.r1569-note-body{
+.r1570-note-title{display:flex;align-items:center;gap:6px;color:#eff7ff;font-size:11.5px;font-weight:900}
+.r1570-note-title .pin{color:#efc86e;font-size:8px}
+.r1570-note-body{
   margin-top:4px;color:#8ca0b6;font-size:9.2px;line-height:1.62;white-space:pre-line;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
 }
-.r1569-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px;color:#617991;font-size:7.7px}
-.r1569-cat,.r1569-employee-tag{
+.r1570-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px;color:#617991;font-size:7.7px}
+.r1570-cat,.r1570-employee-tag{
   padding:2px 6px;border-radius:999px;border:1px solid rgba(105,220,239,.08);
   background:rgba(105,220,239,.045);color:#79aebe
 }
-.r1569-employee-tag{color:#cab574;border-color:rgba(239,200,110,.10);background:rgba(239,200,110,.04)}
-.r1569-actions{display:flex;align-items:flex-start;gap:3px}
-.r1569-icon{
+.r1570-employee-tag{color:#cab574;border-color:rgba(239,200,110,.10);background:rgba(239,200,110,.04)}
+.r1570-actions{display:flex;align-items:flex-start;gap:3px}
+.r1570-icon{
   width:31px;height:31px;border-radius:10px;border:1px solid rgba(143,185,222,.09);
   background:rgba(255,255,255,.02);color:#718aa4
 }
-.r1569-icon.on{color:#efc86e}.r1569-icon.del{color:#b87a83}
+.r1570-icon.on{color:#efc86e}.r1570-icon.del{color:#b87a83}
 
-.r1569-empty{
+.r1570-empty{
   padding:26px 14px;text-align:center;border-radius:17px;border:1px dashed rgba(135,180,217,.12);
   color:#6e849d;font-size:9.7px;line-height:1.7
 }
-.r1569-empty i{display:block;font-size:22px;color:#526f89;margin-bottom:7px}
+.r1570-empty i{display:block;font-size:22px;color:#526f89;margin-bottom:7px}
 
-.r1569-ref{
-  overflow:hidden;border-radius:17px;border:1px solid rgba(105,220,239,.14);
-  background:linear-gradient(145deg,rgba(52,144,168,.055),rgba(4,18,40,.20))
-}
-.r1569-ref>summary{
-  list-style:none;cursor:pointer;padding:12px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center
-}
-.r1569-ref>summary::-webkit-details-marker{display:none}
-.r1569-refico{width:36px;height:36px;border-radius:13px;display:grid;place-items:center;background:rgba(105,220,239,.08);color:#77ddea}
-.r1569-refcopy b{display:block;color:#eefaff;font-size:11.2px}.r1569-refcopy small{display:block;margin-top:2px;color:#7c94ad;font-size:8px}
-.r1569-reftag{padding:4px 7px;border-radius:999px;border:1px solid rgba(105,220,239,.14);color:#7fdee9;font-size:7.8px}
-.r1569-refbody{padding:0 12px 12px;display:grid;gap:5px}
-.r1569-refrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;padding:8px 9px;border-radius:10px;background:rgba(3,18,40,.27);font-size:9px}
-.r1569-refrow span:first-child{color:#c6d7e6;font-weight:800}.r1569-refrow span:last-child{color:#879fb7;font-weight:900}
-.r1569-refnote{margin-top:3px;padding:8px 9px;border-radius:10px;background:rgba(105,220,239,.038);color:#798fa7;font-size:8.5px;line-height:1.6}
 
-.r1569-backup{
+.r1570-refpanel{
+  overflow:hidden;border-radius:21px;border:1px solid rgba(105,220,239,.14);
+  background:
+    radial-gradient(circle at 100% 0%,rgba(105,220,239,.10),transparent 36%),
+    radial-gradient(circle at 0% 100%,rgba(239,200,110,.07),transparent 32%),
+    linear-gradient(145deg,rgba(8,27,59,.86),rgba(4,17,38,.94));
+}
+.r1570-refhero{
+  padding:14px 14px 10px;display:grid;gap:9px;border-bottom:1px solid rgba(120,174,216,.10)
+}
+.r1570-refhero-top{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:9px;align-items:center}
+.r1570-refhero-ico{
+  width:42px;height:42px;border-radius:15px;display:grid;place-items:center;
+  background:linear-gradient(145deg,rgba(107,220,239,.14),rgba(53,117,174,.08));
+  color:#90edf4;border:1px solid rgba(105,220,239,.16)
+}
+.r1570-refhero-copy b{display:block;color:#f4fbff;font-size:12.2px;line-height:1.3}
+.r1570-refhero-copy small{display:block;margin-top:2px;color:#89a2ba;font-size:8.3px;line-height:1.6}
+.r1570-ref-fixed{padding:4px 8px;border-radius:999px;border:1px solid rgba(239,200,110,.16);color:#f0d58a;background:rgba(239,200,110,.05);font-size:7.7px;font-weight:900}
+.r1570-reflegend{display:flex;gap:6px;flex-wrap:wrap}
+.r1570-legend-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:999px;border:1px solid rgba(132,182,221,.09);background:rgba(255,255,255,.03);color:#8ba1b6;font-size:7.8px;font-weight:850}
+.r1570-legend-pill b{color:#eef8ff;font-size:8.3px}
+.r1570-refgroups{padding:12px;display:grid;gap:11px}
+.r1570-refgroup{padding:11px;border-radius:18px;border:1px solid rgba(136,183,221,.10);background:rgba(4,19,43,.28)}
+.r1570-refgroup-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.r1570-refgroup-title{display:flex;align-items:center;gap:7px;color:#eef8ff;font-size:10.5px;font-weight:950}
+.r1570-refgroup-title i{color:#72dae8}
+.r1570-refgroup small{color:#7188a1;font-size:7.8px}
+.r1570-refgrid{display:grid;gap:8px}
+.r1570-refitem{
+  position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;align-items:center;
+  padding:10px;border-radius:14px;border:1px solid rgba(143,186,224,.09);
+  background:linear-gradient(145deg,rgba(255,255,255,.02),rgba(7,25,54,.34));
+}
+.r1570-refitem:before{content:'';position:absolute;right:0;top:8px;bottom:8px;width:3px;border-radius:99px;background:linear-gradient(180deg,rgba(105,220,239,.95),rgba(56,210,143,.9))}
+.r1570-reflabel{min-width:0;padding-inline-end:2px}
+.r1570-reflabel b{display:block;color:#f2f8ff;font-size:10px;line-height:1.55}
+.r1570-reflabel small{display:block;margin-top:2px;color:#7d95ad;font-size:7.9px;line-height:1.55}
+.r1570-refbadges{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.r1570-degree,.r1570-step{
+  display:inline-flex;align-items:center;justify-content:center;min-width:66px;padding:5px 8px;border-radius:999px;font-weight:950
+}
+.r1570-degree{border:1px solid rgba(239,200,110,.16);background:rgba(239,200,110,.08);color:#f4d98f;font-size:8.8px}
+.r1570-step{border:1px solid rgba(105,220,239,.13);background:rgba(105,220,239,.05);color:#90dfeb;font-size:8.2px}
+.r1570-refarrow{width:30px;height:30px;border-radius:11px;display:grid;place-items:center;border:1px solid rgba(127,181,221,.10);background:rgba(255,255,255,.025);color:#79dbe8}
+.r1570-refnote{margin:0 12px 12px;padding:10px 11px;border-radius:14px;border:1px solid rgba(239,200,110,.10);background:rgba(239,200,110,.035);color:#aebbc8;font-size:8.6px;line-height:1.75}
+.r1570-refnote b{color:#fff3cb}
+.r1570-backup{
   display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;align-items:center;
   padding:10px;border-radius:16px;border:1px solid rgba(138,187,225,.09);background:rgba(5,21,46,.29)
 }
-.r1569-backup-copy b{display:block;color:#dceaf5;font-size:10.5px}.r1569-backup-copy small{display:block;margin-top:2px;color:#70869e;font-size:7.9px;line-height:1.45}
-.r1569-backup-btn{
+.r1570-backup-copy b{display:block;color:#dceaf5;font-size:10.5px}.r1570-backup-copy small{display:block;margin-top:2px;color:#70869e;font-size:7.9px;line-height:1.45}
+.r1570-backup-btn{
   height:35px;padding:0 9px;border-radius:11px;border:1px solid rgba(105,220,239,.12);
   background:rgba(105,220,239,.045);color:#91cfd8;font:900 8.2px var(--hr-body-font,'Zain',sans-serif)
 }
-.r1569-backup-btn.import{color:#c9b16f;border-color:rgba(239,200,110,.12);background:rgba(239,200,110,.035)}
-.r1569-foot{display:flex;align-items:center;gap:6px;color:#5e748b;font-size:8px;line-height:1.55;padding:0 2px}.r1569-foot i{color:#65c7d4}
+.r1570-backup-btn.import{color:#c9b16f;border-color:rgba(239,200,110,.12);background:rgba(239,200,110,.035)}
+.r1570-foot{display:flex;align-items:center;gap:6px;color:#5e748b;font-size:8px;line-height:1.55;padding:0 2px}.r1570-foot i{color:#65c7d4}
 
 /* reader/editor sheets */
-.r1569-sheet{
+.r1570-sheet{
   display:none;position:fixed;inset:0;z-index:99999;padding:12px;align-items:flex-end;justify-content:center;
   background:rgba(1,8,20,.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)
 }
-.r1569-sheet.open{display:flex}
-.r1569-sheet-card{
+.r1570-sheet.open{display:flex}
+.r1570-sheet-card{
   width:min(660px,100%);max-height:87dvh;overflow:auto;border-radius:27px;padding:15px;
   background:linear-gradient(155deg,#0a1f3f,#07152f);border:1px solid rgba(144,196,236,.17);
   box-shadow:0 28px 70px rgba(0,0,0,.42)
 }
-.r1569-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:12px}
-.r1569-sheet-head b{color:#f2f8ff;font:950 15px var(--hr-title-font,'Zain',sans-serif)}
-.r1569-close{width:36px;height:36px;border-radius:12px;border:1px solid rgba(143,185,222,.10);background:rgba(255,255,255,.02);color:#89a0b7}
-.r1569-field{display:grid;gap:5px;margin-bottom:9px}.r1569-field label{color:#7f94ac;font-size:8.8px;font-weight:900}
-.r1569-field input,.r1569-field textarea,.r1569-field select{
+.r1570-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:12px}
+.r1570-sheet-head b{color:#f2f8ff;font:950 15px var(--hr-title-font,'Zain',sans-serif)}
+.r1570-close{width:36px;height:36px;border-radius:12px;border:1px solid rgba(143,185,222,.10);background:rgba(255,255,255,.02);color:#89a0b7}
+.r1570-field{display:grid;gap:5px;margin-bottom:9px}.r1570-field label{color:#7f94ac;font-size:8.8px;font-weight:900}
+.r1570-field input,.r1570-field textarea,.r1570-field select{
   box-sizing:border-box;width:100%;border:1px solid rgba(129,183,224,.12);border-radius:14px;
   background:rgba(3,18,41,.53);color:#eef7ff;padding:10px 11px;outline:0;font:700 10.8px var(--hr-body-font,'Zain',sans-serif)
 }
-.r1569-field textarea{min-height:145px;resize:vertical;line-height:1.72}
-.r1569-editorrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
-.r1569-pincheck{height:42px;padding:0 10px;border-radius:13px;border:1px solid rgba(239,200,110,.12);display:flex;align-items:center;gap:6px;color:#d4ba77;font-size:8.8px}
-.r1569-editor-actions,.r1569-reader-actions{display:grid;grid-template-columns:1fr auto;gap:7px;margin-top:11px}
-.r1569-save,.r1569-cancel,.r1569-reader-btn{
+.r1570-field textarea{min-height:145px;resize:vertical;line-height:1.72}
+.r1570-editorrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
+.r1570-pincheck{height:42px;padding:0 10px;border-radius:13px;border:1px solid rgba(239,200,110,.12);display:flex;align-items:center;gap:6px;color:#d4ba77;font-size:8.8px}
+.r1570-editor-actions,.r1570-reader-actions{display:grid;grid-template-columns:1fr auto;gap:7px;margin-top:11px}
+.r1570-save,.r1570-cancel,.r1570-reader-btn{
   height:42px;border-radius:13px;font:900 9px var(--hr-body-font,'Zain',sans-serif)
 }
-.r1569-save{border:1px solid rgba(105,220,239,.18);background:rgba(67,181,204,.12);color:#e6fbff}
-.r1569-cancel{padding:0 13px;border:1px solid rgba(143,185,222,.09);background:rgba(255,255,255,.02);color:#8096ae}
-.r1569-reader-title{color:#fff;font:950 17px var(--hr-title-font,'Zain',sans-serif);line-height:1.45}
-.r1569-reader-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;color:#6d849c;font-size:8px}
-.r1569-reader-body{margin-top:13px;padding:13px;border-radius:16px;background:rgba(3,18,41,.40);border:1px solid rgba(135,183,221,.08);color:#c4d4e3;font-size:10.3px;line-height:1.9;white-space:pre-wrap}
-.r1569-reader-emp{margin-top:10px;padding:9px 10px;border-radius:13px;border:1px solid rgba(239,200,110,.10);background:rgba(239,200,110,.035);color:#a9996c;font-size:8.8px;line-height:1.6}
-.r1569-reader-btn{border:1px solid rgba(105,220,239,.13);background:rgba(105,220,239,.045);color:#91ccd5;padding:0 11px}.r1569-reader-btn.pin{color:#d5b96f;border-color:rgba(239,200,110,.11)}.r1569-reader-btn.del{color:#bd7d86;border-color:rgba(189,125,134,.10)}
+.r1570-save{border:1px solid rgba(105,220,239,.18);background:rgba(67,181,204,.12);color:#e6fbff}
+.r1570-cancel{padding:0 13px;border:1px solid rgba(143,185,222,.09);background:rgba(255,255,255,.02);color:#8096ae}
+.r1570-reader-title{color:#fff;font:950 17px var(--hr-title-font,'Zain',sans-serif);line-height:1.45}
+.r1570-reader-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;color:#6d849c;font-size:8px}
+.r1570-reader-body{margin-top:13px;padding:13px;border-radius:16px;background:rgba(3,18,41,.40);border:1px solid rgba(135,183,221,.08);color:#c4d4e3;font-size:10.3px;line-height:1.9;white-space:pre-wrap}
+.r1570-reader-emp{margin-top:10px;padding:9px 10px;border-radius:13px;border:1px solid rgba(239,200,110,.10);background:rgba(239,200,110,.035);color:#a9996c;font-size:8.8px;line-height:1.6}
+.r1570-reader-btn{border:1px solid rgba(105,220,239,.13);background:rgba(105,220,239,.045);color:#91ccd5;padding:0 11px}.r1570-reader-btn.pin{color:#d5b96f;border-color:rgba(239,200,110,.11)}.r1570-reader-btn.del{color:#bd7d86;border-color:rgba(189,125,134,.10)}
 
-.r1569-employee-note-btn{
+.r1570-employee-note-btn{
   width:100%;margin-top:9px;min-height:43px;border-radius:14px;border:1px solid rgba(105,220,239,.15);
   background:linear-gradient(145deg,rgba(74,190,212,.10),rgba(26,83,130,.08));
   color:#dff9fd;font:900 9.4px var(--hr-body-font,'Zain',sans-serif);
   display:flex;align-items:center;justify-content:center;gap:7px
 }
-.r1569-employee-note-btn i{color:#70d8e6}
+.r1570-employee-note-btn i{color:#70d8e6}
 @media(max-width:430px){
-  .r1569-tools{grid-template-columns:1fr}.r1569-add{justify-content:center}
-  .r1569-backup{grid-template-columns:1fr 1fr}.r1569-backup-copy{grid-column:1/-1}
-  .r1569-refrow,.r1569-editorrow{grid-template-columns:1fr}
+  .r1570-tools{grid-template-columns:1fr}.r1570-add{justify-content:center}
+  .r1570-backup{grid-template-columns:1fr 1fr}.r1570-backup-copy{grid-column:1/-1}
+  .r1570-refrow,.r1570-editorrow{grid-template-columns:1fr}
 }
 </style>
 
-<script id="r1569-my-notes-v2-script">
-// R1569_MY_NOTES_NAVIGATION_PRODUCTIVITY_V2
+<script id="r1570-my-notes-v2-script">
+// R1570_MY_NOTES_NAVIGATION_PRODUCTIVITY_V2
 (function(){
 'use strict';
 
-var RELEASE='MOBILE-R1.5.69-MY-NOTES-NAVIGATION-PRODUCTIVITY-V2';
+var RELEASE='MOBILE-R1.5.70-QUALIFICATION-INFOGRAPHIC-REFERENCE';
 var PAGE_ID='view-notes';
 var DB_NAME='hr_mobile_personal_notes';
 var DB_VERSION=1;
@@ -12222,33 +12254,68 @@ function filtered(){
     return String(y.updatedAt||y.createdAt||'').localeCompare(String(x.updatedAt||x.createdAt||''));
   });
 }
+
+function qualificationGroups(rules){
+  var order=['pre','post','graduate'];
+  var meta={
+    pre:{title:'قبل الدراسة الجامعية',icon:'fa-school',hint:'مستويات التعيين الأولية قبل المعهد والجامعة'},
+    post:{title:'بعد الإعدادية والدراسة الجامعية',icon:'fa-building-columns',hint:'المعهد والدبلوم والبكالوريوس والدراسة الجامعية الأولية'},
+    graduate:{title:'الدراسات العليا',icon:'fa-user-graduate',hint:'مرجع استرشادي لشهادات الماجستير والدكتوراه'}
+  };
+  var buckets={pre:[],post:[],graduate:[]};
+  (rules||[]).forEach(function(x){
+    var l=String(x.label||'');
+    var key='post';
+    if(/بدون شهادة|ابتدائية|متوسطة|إعدادية/.test(l)) key='pre';
+    else if(/ماجستير|دكتوراه/.test(l)) key='graduate';
+    buckets[key].push(x);
+  });
+  return order.filter(function(k){return buckets[k].length}).map(function(k){return {key:k,meta:meta[k],items:buckets[k]};});
+}
+function parseDisplay(display){
+  var t=String(display||'').replace(/\s+/g,' ').trim();
+  var m=t.match(/^([^\/]+)\/\s*(.+)$/);
+  if(m)return {degree:m[1].trim(),step:m[2].trim()};
+  return {degree:t,step:''};
+}
 function refHTML(){
   var r=state.reference||fallbackRef();
-  var rows=(r.rules||[]).map(function(x){
-    return '<div class="r1569-refrow"><span>'+esc(x.label)+'</span><span>'+esc(x.display)+'</span></div>';
+  var groups=qualificationGroups(r.rules||[]).map(function(g){
+    var items=g.items.map(function(x){
+      var parts=parseDisplay(x.display||'');
+      return '<article class="r1570-refitem">'
+        +'<div class="r1570-reflabel"><b>'+esc(x.label)+'</b><small>بداية التعيين المرجعية حسب المؤهل</small></div>'
+        +'<span class="r1570-refarrow"><i class="fas fa-arrow-left"></i></span>'
+        +'<div class="r1570-refbadges"><span class="r1570-degree">'+esc(parts.degree||'—')+'</span>'+(parts.step?'<span class="r1570-step">'+esc(parts.step)+'</span>':'')+'</div>'
+        +'</article>';
+    }).join('');
+    return '<section class="r1570-refgroup">'
+      +'<div class="r1570-refgroup-head"><div class="r1570-refgroup-title"><i class="fas '+g.meta.icon+'"></i><span>'+g.meta.title+'</span></div><small>'+g.meta.hint+'</small></div>'
+      +'<div class="r1570-refgrid">'+items+'</div>'
+      +'</section>';
   }).join('');
-  return '<section class="r1569-panel"><div class="r1569-panelhead"><div class="r1569-paneltitle"><i class="fas fa-book-bookmark"></i> المراجع</div></div><details class="r1569-ref" '+(state.tab==='references'?'open':'')+'><summary><span class="r1569-refico"><i class="fas fa-graduation-cap"></i></span><span class="r1569-refcopy"><b>دليل بداية التعيين حسب المؤهل</b><small>مرجع نظام ثابت • لا يغير بيانات الموظف</small></span><span class="r1569-reftag">مثبت</span></summary><div class="r1569-refbody">'+rows+'<div class="r1569-refnote"><b>مهم:</b> '+esc(r.legalBasis||'مرجع نظام')+'. يرتبط الحكم بالمؤهل الذي تم التعيين على أساسه ومع مراعاة الوصف الوظيفي؛ التحصيل الحالي وحده لا يثبت أساس التعيين.</div></div></details></section>';
+  return '<section class="r1570-panel"><div class="r1570-panelhead"><div class="r1570-paneltitle"><i class="fas fa-book-bookmark"></i> المراجع</div></div><div class="r1570-refpanel"><div class="r1570-refhero"><div class="r1570-refhero-top"><span class="r1570-refhero-ico"><i class="fas fa-graduation-cap"></i></span><span class="r1570-refhero-copy"><b>دليل بداية التعيين حسب المؤهل</b><small>مرجع نظام ثابت معروض كإنفوغرافيك مبسط وواضح داخل ملاحظاتي • لا يغير بيانات الموظف</small></span><span class="r1570-ref-fixed">مثبت</span></div><div class="r1570-reflegend"><span class="r1570-legend-pill"><i class="fas fa-layer-group"></i><b>'+(r.rules&&r.rules.length||0)+'</b> مؤهلات مرجعية</span><span class="r1570-legend-pill"><i class="fas fa-medal"></i><b>الدرجة</b> بداية التعيين</span><span class="r1570-legend-pill"><i class="fas fa-ranking-star"></i><b>المرتبة</b> موضع البداية</span></div></div><div class="r1570-refgroups">'+groups+'</div><div class="r1570-refnote"><b>مهم:</b> '+esc(r.legalBasis||'مرجع نظام')+'. هذا الدليل مرجع استرشادي ثابت ويُقرأ مع المؤهل الذي تم التعيين على أساسه ومع الوصف الوظيفي، لذلك لا يثبت التحصيل الحالي وحده أساس التعيين ولا يغيّر أي بيانات تلقائيًا.</div></div></section>';
 }
 function backupHTML(){
-  return '<section class="r1569-panel"><div class="r1569-panelhead"><div class="r1569-paneltitle"><i class="fas fa-box-archive"></i> النسخ الاحتياطي</div></div><div class="r1569-backup"><div class="r1569-backup-copy"><b>نسخة ملاحظاتك الشخصية</b><small>تصدير JSON للاستعادة لاحقًا على هذا الجهاز أو جهاز آخر.</small></div><button class="r1569-backup-btn" type="button" data-export-notes><i class="fas fa-file-export"></i> تصدير</button><button class="r1569-backup-btn import" type="button" data-import-notes><i class="fas fa-file-import"></i> استيراد</button><input type="file" id="r1569-import-file" accept="application/json,.json" hidden></div></section>';
+  return '<section class="r1570-panel"><div class="r1570-panelhead"><div class="r1570-paneltitle"><i class="fas fa-box-archive"></i> النسخ الاحتياطي</div></div><div class="r1570-backup"><div class="r1570-backup-copy"><b>نسخة ملاحظاتك الشخصية</b><small>تصدير JSON للاستعادة لاحقًا على هذا الجهاز أو جهاز آخر.</small></div><button class="r1570-backup-btn" type="button" data-export-notes><i class="fas fa-file-export"></i> تصدير</button><button class="r1570-backup-btn import" type="button" data-import-notes><i class="fas fa-file-import"></i> استيراد</button><input type="file" id="r1570-import-file" accept="application/json,.json" hidden></div></section>';
 }
 function notesHTML(){
   if(state.tab==='references')return '';
   var a=filtered();
   var body=a.length?a.map(function(n){
-    return '<article class="r1569-note '+(n.pinned?'pinned':'')+'" data-open-note="'+esc(n.id)+'"><div><div class="r1569-note-title">'+(n.pinned?'<i class="fas fa-thumbtack pin"></i>':'')+'<span>'+esc(n.title||'ملاحظة')+'</span></div><div class="r1569-note-body">'+esc(n.body||'')+'</div><div class="r1569-meta"><span class="r1569-cat">'+esc(n.category||'عام')+'</span>'+(n.employeeRef?'<span class="r1569-employee-tag"><i class="fas fa-user"></i> '+esc(n.employeeRef.name||'موظف')+'</span>':'')+'<span>'+esc(fmtDate(n.updatedAt||n.createdAt))+'</span></div></div><div class="r1569-actions"><button class="r1569-icon '+(n.pinned?'on':'')+'" type="button" data-pin="'+esc(n.id)+'"><i class="fas fa-thumbtack"></i></button><button class="r1569-icon" type="button" data-edit="'+esc(n.id)+'"><i class="fas fa-pen"></i></button><button class="r1569-icon del" type="button" data-delete="'+esc(n.id)+'"><i class="fas fa-trash"></i></button></div></article>';
-  }).join(''):'<div class="r1569-empty"><i class="fas fa-note-sticky"></i>'+(state.q?'لا توجد ملاحظات تطابق البحث.':'لا توجد ملاحظات شخصية بعد.<br>اضغط «ملاحظة جديدة» لإضافة أول ملاحظة.')+'</div>';
-  return '<section class="r1569-panel"><div class="r1569-panelhead"><div class="r1569-paneltitle"><i class="fas fa-note-sticky"></i> ملاحظاتي الشخصية</div><span class="r1569-count">'+a.length+' نتيجة</span></div><div class="r1569-list">'+body+'</div></section>';
+    return '<article class="r1570-note '+(n.pinned?'pinned':'')+'" data-open-note="'+esc(n.id)+'"><div><div class="r1570-note-title">'+(n.pinned?'<i class="fas fa-thumbtack pin"></i>':'')+'<span>'+esc(n.title||'ملاحظة')+'</span></div><div class="r1570-note-body">'+esc(n.body||'')+'</div><div class="r1570-meta"><span class="r1570-cat">'+esc(n.category||'عام')+'</span>'+(n.employeeRef?'<span class="r1570-employee-tag"><i class="fas fa-user"></i> '+esc(n.employeeRef.name||'موظف')+'</span>':'')+'<span>'+esc(fmtDate(n.updatedAt||n.createdAt))+'</span></div></div><div class="r1570-actions"><button class="r1570-icon '+(n.pinned?'on':'')+'" type="button" data-pin="'+esc(n.id)+'"><i class="fas fa-thumbtack"></i></button><button class="r1570-icon" type="button" data-edit="'+esc(n.id)+'"><i class="fas fa-pen"></i></button><button class="r1570-icon del" type="button" data-delete="'+esc(n.id)+'"><i class="fas fa-trash"></i></button></div></article>';
+  }).join(''):'<div class="r1570-empty"><i class="fas fa-note-sticky"></i>'+(state.q?'لا توجد ملاحظات تطابق البحث.':'لا توجد ملاحظات شخصية بعد.<br>اضغط «ملاحظة جديدة» لإضافة أول ملاحظة.')+'</div>';
+  return '<section class="r1570-panel"><div class="r1570-panelhead"><div class="r1570-paneltitle"><i class="fas fa-note-sticky"></i> ملاحظاتي الشخصية</div><span class="r1570-count">'+a.length+' نتيجة</span></div><div class="r1570-list">'+body+'</div></section>';
 }
 function editorHTML(){
-  return '<div class="r1569-sheet" id="r1569-editor-sheet"><div class="r1569-sheet-card"><div class="r1569-sheet-head"><b id="r1569-editor-label">ملاحظة جديدة</b><button class="r1569-close" type="button" data-close-editor><i class="fas fa-xmark"></i></button></div><div class="r1569-field"><label>العنوان</label><input id="r1569-title" maxlength="120" placeholder="عنوان مختصر"></div><div class="r1569-field"><label>الملاحظة</label><textarea id="r1569-body" maxlength="10000" placeholder="اكتب ملاحظتك هنا..."></textarea></div><div class="r1569-editorrow"><div class="r1569-field" style="margin:0"><label>التصنيف</label><select id="r1569-category"><option>عام</option><option>عمل</option><option>موظف</option><option>متابعة</option></select></div><label class="r1569-pincheck"><input type="checkbox" id="r1569-pinned"> <i class="fas fa-thumbtack"></i> تثبيت</label></div><div class="r1569-editor-actions"><button class="r1569-save" type="button" data-save-note><i class="fas fa-check"></i> حفظ الملاحظة</button><button class="r1569-cancel" type="button" data-close-editor>إلغاء</button></div></div></div>';
+  return '<div class="r1570-sheet" id="r1570-editor-sheet"><div class="r1570-sheet-card"><div class="r1570-sheet-head"><b id="r1570-editor-label">ملاحظة جديدة</b><button class="r1570-close" type="button" data-close-editor><i class="fas fa-xmark"></i></button></div><div class="r1570-field"><label>العنوان</label><input id="r1570-title" maxlength="120" placeholder="عنوان مختصر"></div><div class="r1570-field"><label>الملاحظة</label><textarea id="r1570-body" maxlength="10000" placeholder="اكتب ملاحظتك هنا..."></textarea></div><div class="r1570-editorrow"><div class="r1570-field" style="margin:0"><label>التصنيف</label><select id="r1570-category"><option>عام</option><option>عمل</option><option>موظف</option><option>متابعة</option></select></div><label class="r1570-pincheck"><input type="checkbox" id="r1570-pinned"> <i class="fas fa-thumbtack"></i> تثبيت</label></div><div class="r1570-editor-actions"><button class="r1570-save" type="button" data-save-note><i class="fas fa-check"></i> حفظ الملاحظة</button><button class="r1570-cancel" type="button" data-close-editor>إلغاء</button></div></div></div>';
 }
 function readerHTML(){
-  return '<div class="r1569-sheet" id="r1569-reader-sheet"><div class="r1569-sheet-card"><div class="r1569-sheet-head"><b>عرض الملاحظة</b><button class="r1569-close" type="button" data-close-reader><i class="fas fa-xmark"></i></button></div><div id="r1569-reader-content"></div></div></div>';
+  return '<div class="r1570-sheet" id="r1570-reader-sheet"><div class="r1570-sheet-card"><div class="r1570-sheet-head"><b>عرض الملاحظة</b><button class="r1570-close" type="button" data-close-reader><i class="fas fa-xmark"></i></button></div><div id="r1570-reader-content"></div></div></div>';
 }
 function render(){
   var p=ensureView(),pin=state.notes.filter(function(n){return !!n.pinned}).length;
-  p.innerHTML='<div class="r1569-page"><section class="r1569-topbar"><button class="r1569-back" type="button" data-notes-back aria-label="رجوع"><i class="fas fa-arrow-right"></i></button><div class="r1569-topcopy"><b>ملاحظاتي</b><small>ملاحظات شخصية • مراجع • نسخ احتياطي</small></div><button class="r1569-quick" type="button" data-new-note aria-label="ملاحظة جديدة"><i class="fas fa-plus"></i></button></section><section class="r1569-overview"><div class="r1569-overview-main"><div class="r1569-overview-icon"><i class="fas fa-pen-to-square"></i></div><div><div class="r1569-overview-title">مساحتك الشخصية</div><div class="r1569-overview-sub">اكتب ما تحتاجه أثناء العمل واحتفظ بالمراجع في مكان واحد بدون المساس بسجل الموظفين.</div></div></div><div class="r1569-stats"><span class="r1569-stat"><i class="fas fa-note-sticky"></i><b>'+state.notes.length+'</b> ملاحظة</span><span class="r1569-stat gold"><i class="fas fa-thumbtack"></i><b>'+pin+'</b> مثبتة</span><span class="r1569-stat"><i class="fas fa-book-bookmark"></i><b>1</b> مرجع</span></div></section><section class="r1569-tools"><label class="r1569-search"><i class="fas fa-magnifying-glass"></i><input id="r1569-q" value="'+esc(state.q)+'" placeholder="ابحث في ملاحظاتك"></label><button class="r1569-add" type="button" data-new-note><i class="fas fa-plus"></i> ملاحظة جديدة</button></section><section class="r1569-tabs"><button class="r1569-tab '+(state.tab==='all'?'active':'')+'" data-tab="all">الكل</button><button class="r1569-tab '+(state.tab==='pinned'?'active':'')+'" data-tab="pinned">المثبتة</button><button class="r1569-tab '+(state.tab==='references'?'active':'')+'" data-tab="references">المراجع</button></section>'+notesHTML()+refHTML()+backupHTML()+'<div class="r1569-foot"><i class="fas fa-database"></i><span>الملاحظات في IndexedDB مستقل على الجهاز؛ لا تعدّل بيانات الموظفين ولا تُرفع إلى GitHub.</span></div>'+editorHTML()+readerHTML()+'</div>';
+  p.innerHTML='<div class="r1570-page"><section class="r1570-topbar"><button class="r1570-back" type="button" data-notes-back aria-label="رجوع"><i class="fas fa-arrow-right"></i></button><div class="r1570-topcopy"><b>ملاحظاتي</b><small>ملاحظات شخصية • مراجع • إنفوغرافيك</small></div><button class="r1570-quick" type="button" data-new-note aria-label="ملاحظة جديدة"><i class="fas fa-plus"></i></button></section><section class="r1570-overview"><div class="r1570-overview-main"><div class="r1570-overview-icon"><i class="fas fa-pen-to-square"></i></div><div><div class="r1570-overview-title">مساحتك الشخصية</div><div class="r1570-overview-sub">اكتب ملاحظاتك الشخصية واطّلع على المراجع الرسمية من مساحة واحدة واضحة ومنظمة بدون المساس بسجل الموظفين.</div></div></div><div class="r1570-stats"><span class="r1570-stat"><i class="fas fa-note-sticky"></i><b>'+state.notes.length+'</b> ملاحظة</span><span class="r1570-stat gold"><i class="fas fa-thumbtack"></i><b>'+pin+'</b> مثبتة</span><span class="r1570-stat"><i class="fas fa-book-bookmark"></i><b>1</b> مرجع</span><span class="r1570-stat gold"><i class="fas fa-diagram-project"></i><b>9</b> مؤهلات</span></div></section><section class="r1570-tools"><label class="r1570-search"><i class="fas fa-magnifying-glass"></i><input id="r1570-q" value="'+esc(state.q)+'" placeholder="ابحث في ملاحظاتك"></label><button class="r1570-add" type="button" data-new-note><i class="fas fa-plus"></i> ملاحظة جديدة</button></section><section class="r1570-tabs"><button class="r1570-tab '+(state.tab==='all'?'active':'')+'" data-tab="all">الكل</button><button class="r1570-tab '+(state.tab==='pinned'?'active':'')+'" data-tab="pinned">المثبتة</button><button class="r1570-tab '+(state.tab==='references'?'active':'')+'" data-tab="references">المراجع</button></section>'+notesHTML()+refHTML()+backupHTML()+'<div class="r1570-foot"><i class="fas fa-database"></i><span>الملاحظات في IndexedDB مستقل على الجهاز؛ لا تعدّل بيانات الموظفين ولا تُرفع إلى GitHub.</span></div>'+editorHTML()+readerHTML()+'</div>';
   bind();
 }
 async function reload(){state.notes=await allNotes();render()}
@@ -12257,22 +12324,22 @@ function openEditor(id,preset){
   state.editId=id||'';
   var n=id?state.notes.find(function(x){return x.id===id}):null;
   state.draftEmployeeRef=n&&n.employeeRef?n.employeeRef:(preset&&preset.employeeRef?preset.employeeRef:null);
-  var sh=$('r1569-editor-sheet');if(!sh)return;
-  $('r1569-editor-label').textContent=n?'تعديل الملاحظة':(preset&&preset.employeeRef?'ملاحظة مرتبطة بموظف':'ملاحظة جديدة');
-  $('r1569-title').value=n?String(n.title||''):String(preset&&preset.title||'');
-  $('r1569-body').value=n?String(n.body||''):String(preset&&preset.body||'');
-  $('r1569-category').value=n?String(n.category||'عام'):String(preset&&preset.category||'عام');
-  $('r1569-pinned').checked=!!(n&&n.pinned);
+  var sh=$('r1570-editor-sheet');if(!sh)return;
+  $('r1570-editor-label').textContent=n?'تعديل الملاحظة':(preset&&preset.employeeRef?'ملاحظة مرتبطة بموظف':'ملاحظة جديدة');
+  $('r1570-title').value=n?String(n.title||''):String(preset&&preset.title||'');
+  $('r1570-body').value=n?String(n.body||''):String(preset&&preset.body||'');
+  $('r1570-category').value=n?String(n.category||'عام'):String(preset&&preset.category||'عام');
+  $('r1570-pinned').checked=!!(n&&n.pinned);
   sh.classList.add('open');
-  setTimeout(function(){var x=$('r1569-title');if(x)x.focus()},60);
+  setTimeout(function(){var x=$('r1570-title');if(x)x.focus()},60);
 }
 function closeEditor(){
-  var sh=$('r1569-editor-sheet');if(sh)sh.classList.remove('open');
+  var sh=$('r1570-editor-sheet');if(sh)sh.classList.remove('open');
   state.editId='';state.draftEmployeeRef=null;
 }
 async function saveEditor(){
-  var title=String(($('r1569-title')||{}).value||'').trim();
-  var body=String(($('r1569-body')||{}).value||'').trim();
+  var title=String(($('r1570-title')||{}).value||'').trim();
+  var body=String(($('r1570-body')||{}).value||'').trim();
   if(!title&&!body){toast('اكتب عنوانًا أو نصًا للملاحظة','warn');return}
   var old=state.editId?state.notes.find(function(x){return x.id===state.editId}):null;
   var t=now();
@@ -12280,8 +12347,8 @@ async function saveEditor(){
     id:old?old.id:uid(),
     title:title||'ملاحظة بدون عنوان',
     body:body,
-    category:String(($('r1569-category')||{}).value||'عام'),
-    pinned:!!(($('r1569-pinned')||{}).checked),
+    category:String(($('r1570-category')||{}).value||'عام'),
+    pinned:!!(($('r1570-pinned')||{}).checked),
     createdAt:old&&old.createdAt?old.createdAt:t,
     updatedAt:t,
     source:'personal',
@@ -12309,10 +12376,10 @@ function deleteById(id){
 function openReader(id){
   var n=state.notes.find(function(x){return x.id===id});if(!n)return;
   state.readerId=id;
-  var emp=n.employeeRef?'<div class="r1569-reader-emp"><i class="fas fa-user"></i> مرتبطة بالموظف: <b>'+esc(n.employeeRef.name||'—')+'</b>'+(n.employeeRef.employeeNo?' • الرقم '+esc(n.employeeRef.employeeNo):'')+(n.employeeRef.jobTitle?' • '+esc(n.employeeRef.jobTitle):'')+(n.employeeRef.grade?' • الدرجة '+esc(n.employeeRef.grade):'')+'</div>':'';
-  var c=$('r1569-reader-content');if(!c)return;
-  c.innerHTML='<div class="r1569-reader-title">'+esc(n.title||'ملاحظة')+'</div><div class="r1569-reader-meta"><span class="r1569-cat">'+esc(n.category||'عام')+'</span>'+(n.pinned?'<span><i class="fas fa-thumbtack"></i> مثبتة</span>':'')+'<span>'+esc(fmtDate(n.updatedAt||n.createdAt))+'</span></div>'+emp+'<div class="r1569-reader-body">'+esc(n.body||'')+'</div><div class="r1569-reader-actions"><button class="r1569-reader-btn" type="button" data-reader-edit><i class="fas fa-pen"></i> تعديل</button><button class="r1569-reader-btn pin" type="button" data-reader-pin><i class="fas fa-thumbtack"></i> '+(n.pinned?'إلغاء التثبيت':'تثبيت')+'</button><button class="r1569-reader-btn del" type="button" data-reader-delete><i class="fas fa-trash"></i> حذف</button></div>';
-  $('r1569-reader-sheet').classList.add('open');
+  var emp=n.employeeRef?'<div class="r1570-reader-emp"><i class="fas fa-user"></i> مرتبطة بالموظف: <b>'+esc(n.employeeRef.name||'—')+'</b>'+(n.employeeRef.employeeNo?' • الرقم '+esc(n.employeeRef.employeeNo):'')+(n.employeeRef.jobTitle?' • '+esc(n.employeeRef.jobTitle):'')+(n.employeeRef.grade?' • الدرجة '+esc(n.employeeRef.grade):'')+'</div>':'';
+  var c=$('r1570-reader-content');if(!c)return;
+  c.innerHTML='<div class="r1570-reader-title">'+esc(n.title||'ملاحظة')+'</div><div class="r1570-reader-meta"><span class="r1570-cat">'+esc(n.category||'عام')+'</span>'+(n.pinned?'<span><i class="fas fa-thumbtack"></i> مثبتة</span>':'')+'<span>'+esc(fmtDate(n.updatedAt||n.createdAt))+'</span></div>'+emp+'<div class="r1570-reader-body">'+esc(n.body||'')+'</div><div class="r1570-reader-actions"><button class="r1570-reader-btn" type="button" data-reader-edit><i class="fas fa-pen"></i> تعديل</button><button class="r1570-reader-btn pin" type="button" data-reader-pin><i class="fas fa-thumbtack"></i> '+(n.pinned?'إلغاء التثبيت':'تثبيت')+'</button><button class="r1570-reader-btn del" type="button" data-reader-delete><i class="fas fa-trash"></i> حذف</button></div>';
+  $('r1570-reader-sheet').classList.add('open');
   bindReaderActions();
 }
 function bindReaderActions(){
@@ -12322,7 +12389,7 @@ function bindReaderActions(){
   if(d)d.onclick=function(){deleteById(state.readerId)};
 }
 function closeReader(){
-  var sh=$('r1569-reader-sheet');if(sh)sh.classList.remove('open');
+  var sh=$('r1570-reader-sheet');if(sh)sh.classList.remove('open');
   state.readerId='';
 }
 
@@ -12400,14 +12467,14 @@ function leaveNotes(options){
 }
 function notesBack(){
   try{
-    if(state.active&&history.state&&history.state.r1569Notes){history.back();return}
+    if(state.active&&history.state&&history.state.r1570Notes){history.back();return}
   }catch(e){}
   leaveNotes({source:'button'});
 }
 function armHistory(){
   try{
     if(!state.historyArmed){
-      history.pushState({r1569Notes:true},'',location.href);
+      history.pushState({r1570Notes:true},'',location.href);
       state.historyArmed=true;
     }
   }catch(e){}
@@ -12462,19 +12529,19 @@ function injectEmployeeNoteButton(emp){
   if(!emp||!emp.name)return;
   var panel=document.querySelector('#modal-inner [data-profile-panel="job"]')||document.querySelector('#modal-inner [data-profile-panel="basic"]');
   if(!panel)return;
-  var old=panel.querySelector('#r1569-employee-note-btn');if(old)old.remove();
+  var old=panel.querySelector('#r1570-employee-note-btn');if(old)old.remove();
   var b=document.createElement('button');
-  b.id='r1569-employee-note-btn';b.type='button';b.className='r1569-employee-note-btn';
+  b.id='r1570-employee-note-btn';b.type='button';b.className='r1570-employee-note-btn';
   b.innerHTML='<i class="fas fa-note-sticky"></i><span>إضافة ملاحظة عن هذا الموظف</span>';
   b.onclick=function(){openEmployeeNote(emp)};
   panel.appendChild(b);
 }
 
 function bind(){
-  var page=ensureView(),q=$('r1569-q');
+  var page=ensureView(),q=$('r1570-q');
   if(q)q.oninput=function(){
     state.q=this.value||'';render();
-    var x=$('r1569-q');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(e){}}
+    var x=$('r1570-q');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length)}catch(e){}}
   };
   page.querySelectorAll('[data-tab]').forEach(function(b){b.onclick=function(){state.tab=this.getAttribute('data-tab')||'all';render()}});
   page.querySelectorAll('[data-new-note]').forEach(function(b){b.onclick=function(){openEditor()}});
@@ -12487,11 +12554,11 @@ function bind(){
   var save=page.querySelector('[data-save-note]');if(save)save.onclick=function(){saveEditor().catch(function(){toast('تعذر حفظ الملاحظة','warn')})};
   var back=page.querySelector('[data-notes-back]');if(back)back.onclick=notesBack;
   var exp=page.querySelector('[data-export-notes]');if(exp)exp.onclick=function(){exportNotes().catch(function(){toast('تعذر تصدير الملاحظات','warn')})};
-  var imp=page.querySelector('[data-import-notes]'),file=$('r1569-import-file');
+  var imp=page.querySelector('[data-import-notes]'),file=$('r1570-import-file');
   if(imp&&file)imp.onclick=function(){file.value='';file.click()};
   if(file)file.onchange=function(){var f=this.files&&this.files[0];importBackupFile(f).catch(function(){toast('ملف النسخة غير صالح','warn')})};
-  var es=$('r1569-editor-sheet');if(es)es.onclick=function(e){if(e.target===es)closeEditor()};
-  var rs=$('r1569-reader-sheet');if(rs)rs.onclick=function(e){if(e.target===rs)closeReader()};
+  var es=$('r1570-editor-sheet');if(es)es.onclick=function(e){if(e.target===es)closeEditor()};
+  var rs=$('r1570-reader-sheet');if(rs)rs.onclick=function(e){if(e.target===rs)closeReader()};
 }
 
 /* Navigation integration: capture previous routing layer and close Notes on any external navigation. */
@@ -12538,7 +12605,7 @@ if(typeof baseOpenModal==='function'){
 }
 
 ensureView();
-window.r1569MyNotes={
+window.r1570MyNotes={
   release:RELEASE,
   open:openNotes,
   back:notesBack,
@@ -12551,16 +12618,17 @@ window.r1569MyNotes={
 })();
 </script>
 
+
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.69-MY-NOTES-NAVIGATION-PRODUCTIVITY-V2';
+var RELEASE='MOBILE-R1.5.70-QUALIFICATION-INFOGRAPHIC-REFERENCE';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
-async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1569');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
+async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1570');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
 async function checkUpdate(showMessage){setRelease();if(navigator.onLine===false){if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');return false}try{if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث'}catch(e){}if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');return has}catch(e){try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');return false}}
-async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1569&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1569');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
-setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1569',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1570&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1570');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
+setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1570',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
 document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});window.r1551CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
 })();
 </script>
@@ -12576,3 +12644,5 @@ document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(
 <!-- R1568_MY_NOTES_WORKSPACE_RELEASE -->
 
 <!-- R1569_MY_NOTES_NAVIGATION_PRODUCTIVITY_V2_RELEASE -->
+
+<!-- R1570_QUALIFICATION_INFOGRAPHIC_REFERENCE_RELEASE -->
