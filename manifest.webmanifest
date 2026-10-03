@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.74",
-  "short_name": "HR Mobile R1.5.74",
+  "name": "سجل الموظفين - Mobile R1.5.75",
+  "short_name": "HR Mobile R1.5.75",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Career Visual Focus Rebuild: CSS-only redesign for career UI with coverage start/end focus and a stronger directory/search infographic presentation.",
+  "description": "Direct startup hotfix for R1.5.74 visual focus: preserves CSS design while repairing its insertion location in index.html.",
   "icons": [
     {
       "src": "assets/icon-192.png",

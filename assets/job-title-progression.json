@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.74-CAREER-VISUAL-FOCUS-REBUILD",
+  "release": "MOBILE-R1.5.75-R1574-STARTUP-HOTFIX-VISUAL-FOCUS",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
@@ -52,7 +52,8 @@
     "R1.5.70: تحويل دليل بداية التعيين حسب المؤهل داخل ملاحظاتي إلى إنفوغرافيك مقسم وواضح، من دون تغيير على البيانات أو Career Matching.",
     "R1.5.71: فصل المعهد عن الإعدادية والجامعة، منع ظهور قائمة الموظفين أثناء انتقال الواجهات، وإضافة مركز مراجع وظيفية V2 داخل ملاحظاتي.",
     "R1.5.73: تطوير بصري CSS-only لواجهة التدرج والعناوين، دون JavaScript إضافي أو مراقبة DOM أو تغيير لمنطق المطابقة.",
-    "R1.5.74: إعادة بناء التصميم للتدرج الوظيفي ودليل السلاسل بطريقة CSS-only مع إزالة الشروحات الزائدة والتركيز على بداية/نهاية التغطية."
+    "R1.5.74: إعادة بناء التصميم للتدرج الوظيفي ودليل السلاسل بطريقة CSS-only مع إزالة الشروحات الزائدة والتركيز على بداية/نهاية التغطية.",
+    "R1.5.75: إصلاح مباشر لموضع CSS الخاص بـR1.5.74؛ نُقل من منطقة JavaScript لطباعة التقرير إلى رأس التطبيق الحقيقي، دون تغيير تصميم أو منطق التدرج."
   ],
   "chains": [
     {
@@ -10017,7 +10018,7 @@
     "visibleInsideCareerEmployeeDetail": false
   },
   "notesWorkspace": {
-    "release": "MOBILE-R1.5.74-CAREER-VISUAL-FOCUS-REBUILD",
+    "release": "MOBILE-R1.5.75-R1574-STARTUP-HOTFIX-VISUAL-FOCUS",
     "title": "ملاحظاتي",
     "storage": "IndexedDB-local-only",
     "databaseName": "hr_mobile_personal_notes",
@@ -10070,7 +10071,7 @@
     }
   },
   "careerVisualFocusRebuild": {
-    "release": "MOBILE-R1.5.74-CAREER-VISUAL-FOCUS-REBUILD",
+    "release": "MOBILE-R1.5.75-R1574-STARTUP-HOTFIX-VISUAL-FOCUS",
     "enabled": true,
     "mode": "css-only",
     "focus": [
@@ -10087,5 +10088,11 @@
       "coveragePercent": 70.3
     },
     "notes": "هذا الإصدار يعيد بناء التصميم بصرياً فقط، مع حذف الشروحات الزائدة والتركيز على بداية التغطية ونهاية التغطية ودليل السلاسل."
+  },
+  "startupHotfixR1575": {
+    "release": "MOBILE-R1.5.75-R1574-STARTUP-HOTFIX-VISUAL-FOCUS",
+    "fix": "move-r1574-css-out-of-report-js-region-into-real-document-head",
+    "structuralVerification": true,
+    "careerLogicChanged": false
   }
 }
