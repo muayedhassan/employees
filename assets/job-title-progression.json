@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.73-CAREER-INFOGRAPHIC-CSS-SAFE",
+  "release": "MOBILE-R1.5.74-CAREER-VISUAL-FOCUS-REBUILD",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
@@ -32,7 +32,7 @@
     "allowQualificationToAlterCareerMatch": false,
     "notesWorkspaceMode": "personal-local-only-v2",
     "notesAffectEmployeeData": false,
-    "careerPresentationMode": "CSS_ONLY_INFOGRAPHIC",
+    "careerPresentationMode": "VISUAL_FOCUS_CSS_ONLY",
     "careerLogicChanged": false
   },
   "notes": [
@@ -51,7 +51,8 @@
     "R1.5.69: إصلاح رجوع «ملاحظاتي» إلى أقسام البرنامج، دعم زر Back للهاتف، صفحة قراءة، ملاحظات مرتبطة بالموظف، وتصدير/استيراد JSON.",
     "R1.5.70: تحويل دليل بداية التعيين حسب المؤهل داخل ملاحظاتي إلى إنفوغرافيك مقسم وواضح، من دون تغيير على البيانات أو Career Matching.",
     "R1.5.71: فصل المعهد عن الإعدادية والجامعة، منع ظهور قائمة الموظفين أثناء انتقال الواجهات، وإضافة مركز مراجع وظيفية V2 داخل ملاحظاتي.",
-    "R1.5.73: تطوير بصري CSS-only لواجهة التدرج والعناوين، دون JavaScript إضافي أو مراقبة DOM أو تغيير لمنطق المطابقة."
+    "R1.5.73: تطوير بصري CSS-only لواجهة التدرج والعناوين، دون JavaScript إضافي أو مراقبة DOM أو تغيير لمنطق المطابقة.",
+    "R1.5.74: إعادة بناء التصميم للتدرج الوظيفي ودليل السلاسل بطريقة CSS-only مع إزالة الشروحات الزائدة والتركيز على بداية/نهاية التغطية."
   ],
   "chains": [
     {
@@ -10016,7 +10017,7 @@
     "visibleInsideCareerEmployeeDetail": false
   },
   "notesWorkspace": {
-    "release": "MOBILE-R1.5.73-CAREER-INFOGRAPHIC-CSS-SAFE",
+    "release": "MOBILE-R1.5.74-CAREER-VISUAL-FOCUS-REBUILD",
     "title": "ملاحظاتي",
     "storage": "IndexedDB-local-only",
     "databaseName": "hr_mobile_personal_notes",
@@ -10067,5 +10068,24 @@
       "auditQueue": 391,
       "coveragePercent": 70.3
     }
+  },
+  "careerVisualFocusRebuild": {
+    "release": "MOBILE-R1.5.74-CAREER-VISUAL-FOCUS-REBUILD",
+    "enabled": true,
+    "mode": "css-only",
+    "focus": [
+      "coverage-start-end-only",
+      "hide-why-result",
+      "hide-used-data",
+      "bigger-directory-search",
+      "infographic-directory-cards"
+    ],
+    "preservedCareerMap": {
+      "chains": 189,
+      "mapped": 925,
+      "auditQueue": 391,
+      "coveragePercent": 70.3
+    },
+    "notes": "هذا الإصدار يعيد بناء التصميم بصرياً فقط، مع حذف الشروحات الزائدة والتركيز على بداية التغطية ونهاية التغطية ودليل السلاسل."
   }
 }

@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.73",
-  "short_name": "HR Mobile R1.5.73",
+  "name": "سجل الموظفين - Mobile R1.5.74",
+  "short_name": "HR Mobile R1.5.74",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Career Infographic CSS Safe: professional career visualization using CSS only, with no runtime observer or DOM rewrite.",
+  "description": "Career Visual Focus Rebuild: CSS-only redesign for career UI with coverage start/end focus and a stronger directory/search infographic presentation.",
   "icons": [
     {
       "src": "assets/icon-192.png",

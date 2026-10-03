@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.73-CAREER-INFOGRAPHIC-CSS-SAFE">
+<meta name="app-release" content="MOBILE-R1.5.74-CAREER-VISUAL-FOCUS-REBUILD">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3060,7 +3060,81 @@ function printCurrentReport(){
   var ds=reportDataset(),cols=reportColumns();if(!ds.length){showToast('لا توجد نتائج للطباعة','warn');return;}if(!cols.length){showToast('اختر عمودًا واحدًا على الأقل','warn');return;}
   var w=window.open('','_blank','width=1200,height=900');if(!w){showToast('اسمح بالنوافذ المنبثقة للطباعة','warn');return;}
   var rows=ds.map(function(e){return '<tr>'+cols.map(function(c){return '<td>'+escapeHTML(reportValue(e,c.k))+'</td>';}).join('')+'</tr>';}).join(''),title=REPORT_STATE.title||reportTypeLabel(REPORT_STATE.type),latest=latestUpdateSummary(),lc=latest.counts||{};
-  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+escapeHTML(title)+'</title><style>@page{size:A4 landscape;margin:10mm 8mm 13mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#17213d;margin:0}.official{border:1px solid #ccd2e6}.head{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:3px solid #1a237e;background:#f7f8ff}.emblem{width:50px;height:50px;border:2px solid #1a237e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#1a237e}.min{font-size:10px;color:#68739b}.title{font-size:20px;font-weight:800;color:#1a237e;margin:3px 0}.meta{margin-right:auto;text-align:left;direction:ltr;font-size:9px;color:#68739b}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:9px 12px;background:#fafbff;border-bottom:1px solid #e5e8f2}.s{padding:7px;text-align:center;border:1px solid #e1e5f0;border-radius:8px;background:#fff}.sv{font-size:16px;font-weight:bold;color:#1a237e}.sl{font-size:8px;color:#7781a4}.scope{padding:8px 12px;font-size:9px;color:#5e688e;border-bottom:1px solid #eceef5}table{border-collapse:collapse;width:100%;font-size:7.5px}th,td{border:1px solid #dfe3ef;padding:5px;text-align:right}th{background:#1a237e;color:#fff;font-weight:bold}tbody tr:nth-child(even){background:#fafbff}tr{page-break-inside:avoid}.sign{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:20px 40px 8px;font-size:9px;color:#68739b}.line{border-top:1px solid #8d96b3;padding-top:6px;text-align:center;margin-top:20px}.foot{font-size:7px;color:#7c85a3;padding:7px 12px;border-top:1px solid #e6e9f2}.page:after{content:counter(page)}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="official"><div class="head"><div class="emblem">🌱</div><div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — '+escapeHTML(title)+'</div><div class="min">'+escapeHTML(reportScopeText())+'</div></div><div class="meta">'+escapeHTML(DATA_VERSION||'—')+'<br>'+escapeHTML(new Date().toLocaleString('ar-IQ'))+'</div></div><div class="summary"><div class="s"><div class="sv">'+ds.length+'</div><div class="sl">عدد السجلات</div></div><div class="s"><div class="sv">'+(lc.modified||0)+'</div><div class="sl">معدل بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.added||0)+'</div><div class="sl">جديد بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.missing||0)+'</div><div class="sl">للمراجعة</div></div></div><div class="scope"><strong>نطاق التقرير:</strong> '+escapeHTML(reportScopeText())+' • <strong>الحقول الحساسة:</strong> '+(REPORT_STATE.includeSensitive?'مشمولة':'مخفية')+'</div><table><thead><tr>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table><div class="sign"><div><div class="line">إعداد / تدقيق</div></div><div><div class="line">المصادقة</div></div></div><div class="foot">تم إنشاء التقرير من نظام سجل موظفي مديرية زراعة صلاح الدين • إصدار البيانات '+escapeHTML(DATA_VERSION||'—')+' • صفحة <span class="page"></span></div></div><script>setTimeout(function(){window.print()},650)<\/script></body></html>';
+  var doc='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+escapeHTML(title)+'</title><style>@page{size:A4 landscape;margin:10mm 8mm 13mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#17213d;margin:0}.official{border:1px solid #ccd2e6}.head{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:3px solid #1a237e;background:#f7f8ff}.emblem{width:50px;height:50px;border:2px solid #1a237e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#1a237e}.min{font-size:10px;color:#68739b}.title{font-size:20px;font-weight:800;color:#1a237e;margin:3px 0}.meta{margin-right:auto;text-align:left;direction:ltr;font-size:9px;color:#68739b}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:9px 12px;background:#fafbff;border-bottom:1px solid #e5e8f2}.s{padding:7px;text-align:center;border:1px solid #e1e5f0;border-radius:8px;background:#fff}.sv{font-size:16px;font-weight:bold;color:#1a237e}.sl{font-size:8px;color:#7781a4}.scope{padding:8px 12px;font-size:9px;color:#5e688e;border-bottom:1px solid #eceef5}table{border-collapse:collapse;width:100%;font-size:7.5px}th,td{border:1px solid #dfe3ef;padding:5px;text-align:right}th{background:#1a237e;color:#fff;font-weight:bold}tbody tr:nth-child(even){background:#fafbff}tr{page-break-inside:avoid}.sign{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:20px 40px 8px;font-size:9px;color:#68739b}.line{border-top:1px solid #8d96b3;padding-top:6px;text-align:center;margin-top:20px}.foot{font-size:7px;color:#7c85a3;padding:7px 12px;border-top:1px solid #e6e9f2}.page:after{content:counter(page)}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="official"><div class="head"><div class="emblem">🌱</div><div><div class="min">جمهورية العراق • وزارة الزراعة</div><div class="title">مديرية زراعة صلاح الدين — '+escapeHTML(title)+'</div><div class="min">'+escapeHTML(reportScopeText())+'</div></div><div class="meta">'+escapeHTML(DATA_VERSION||'—')+'<br>'+escapeHTML(new Date().toLocaleString('ar-IQ'))+'</div></div><div class="summary"><div class="s"><div class="sv">'+ds.length+'</div><div class="sl">عدد السجلات</div></div><div class="s"><div class="sv">'+(lc.modified||0)+'</div><div class="sl">معدل بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.added||0)+'</div><div class="sl">جديد بآخر تحديث</div></div><div class="s"><div class="sv">'+(lc.missing||0)+'</div><div class="sl">للمراجعة</div></div></div><div class="scope"><strong>نطاق التقرير:</strong> '+escapeHTML(reportScopeText())+' • <strong>الحقول الحساسة:</strong> '+(REPORT_STATE.includeSensitive?'مشمولة':'مخفية')+'</div><table><thead><tr>'+cols.map(function(c){return '<th>'+escapeHTML(c.l)+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table><div class="sign"><div><div class="line">إعداد / تدقيق</div></div><div><div class="line">المصادقة</div></div></div><div class="foot">تم إنشاء التقرير من نظام سجل موظفي مديرية زراعة صلاح الدين • إصدار البيانات '+escapeHTML(DATA_VERSION||'—')+' • صفحة <span class="page"></span></div></div><script>setTimeout(function(){window.print()},650)<\/script><style id="r1574-career-visual-focus-style">
+/* R1574_CAREER_VISUAL_FOCUS_REBUILD / CSS ONLY */
+#view-career{direction:rtl}
+#view-career .r1562-stage,
+#view-career .r1562-surface,
+#view-career .r1562-profile,
+#view-career .r1562-path,
+#view-career .r1551-page{border-radius:26px !important;box-shadow:0 20px 45px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.02) !important}
+#view-career .r1562-about,
+#view-career .r1562-note,
+#view-career .r1562-context,
+#view-career .r1560-details,
+#view-career .r1560-detailgrid,
+#view-career .r1560-alert,
+#view-career .r1560-auditline{display:none !important}
+#view-career .r1562-title{font-size:22px !important;line-height:1.35 !important;letter-spacing:.1px}
+#view-career .r1562-sub{font-size:10px !important;line-height:1.8 !important;color:#8aa3c0 !important}
+#view-career .r1562-name{font-size:15px !important;line-height:1.45 !important}
+#view-career .r1562-role{font-size:9.2px !important;line-height:1.7 !important}
+#view-career .r1562-avatar{box-shadow:0 14px 28px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.03)}
+#view-career .r1562-badge,#view-career .r1562-pill,#view-career .r1562-tag{border-radius:999px !important;font-weight:900 !important}
+#view-career .r1562-now,#view-career .r1562-nextMini{border-radius:18px !important;padding:12px 14px !important;background:linear-gradient(145deg, rgba(8,25,51,.92), rgba(6,18,40,.98)) !important;border:1px solid rgba(126,185,228,.12) !important}
+#view-career .r1562-now{background:linear-gradient(145deg, rgba(255,216,116,.17), rgba(111,78,15,.08)) !important;border-color:rgba(255,216,116,.28) !important}
+#view-career .r1562-now b,#view-career .r1562-nextMini b,#view-career .r1562-profile .r1562-role b,#view-career .r1562-currentGrade,#view-career .r1560-line.current .r1560-node,#view-career .r1560-current{color:#fff1bf !important;text-shadow:0 0 18px rgba(255,215,110,.18)}
+#view-career .r1551-page{padding:16px !important;background:linear-gradient(145deg, rgba(7,25,54,.96), rgba(4,15,34,.98)) !important;border:1px solid rgba(138,187,225,.12) !important}
+#view-career .r1551-search{gap:12px !important}
+#view-career .r1551-searchbox{min-height:60px !important;border-radius:20px !important;padding:0 16px !important;background:linear-gradient(145deg, rgba(8,29,58,.98), rgba(5,19,42,.98)) !important;border:1px solid rgba(110,213,238,.20) !important;box-shadow:0 14px 30px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.03) !important}
+#view-career .r1551-searchbox:focus-within{border-color:rgba(255,215,110,.34) !important;box-shadow:0 0 0 3px rgba(255,215,110,.08), 0 18px 34px rgba(0,0,0,.16) !important}
+#view-career .r1551-input{font:900 12.4px var(--hr-body-font,'Zain',Tahoma,sans-serif) !important;color:#f7fbff !important;line-height:1.5 !important}
+#view-career .r1551-input::placeholder{color:rgba(220,234,252,.46) !important}
+#view-career .r1551-clear{width:42px !important;height:42px !important;border-radius:14px !important;background:rgba(255,255,255,.035) !important;border:1px solid rgba(255,255,255,.06) !important;color:#bfeef5 !important}
+#view-career .r1551-searchHelp{font-size:8.7px !important;line-height:1.75 !important;color:#86a0bc !important}
+#view-career .r1562-title:after{content:' — دليل السلاسل';display:inline-block;margin-inline-start:8px;color:#77ddec;font-size:13px;font-weight:900}
+#view-career .r1551-results{display:grid !important;gap:10px !important}
+#view-career .r1551-result{position:relative;overflow:hidden !important;min-height:96px !important;padding:15px 14px !important;border-radius:22px !important;background:linear-gradient(145deg, rgba(9,30,56,.97), rgba(7,21,43,.99)) !important;border:1px solid rgba(116,198,255,.11) !important;box-shadow:0 16px 34px rgba(0,0,0,.13), inset 0 1px 0 rgba(255,255,255,.02) !important;transition:transform .16s ease, border-color .16s ease, box-shadow .16s ease, background .16s ease !important}
+#view-career .r1551-result:before{content:'';position:absolute;top:10px;bottom:10px;right:0;width:4px;border-radius:4px;background:linear-gradient(180deg,#ffd76e,#7ce8ff)}
+#view-career .r1551-result:hover,#view-career .r1551-result:active{transform:translateY(-1px);border-color:rgba(255,215,110,.24) !important;box-shadow:0 18px 36px rgba(0,0,0,.16), 0 0 0 1px rgba(255,215,110,.06) !important}
+#view-career .r1551-rico{width:50px !important;height:50px !important;border-radius:17px !important}
+#view-career .r1551-rname{font:950 12.8px var(--hr-title-font,'Zain',Tahoma,sans-serif) !important;color:#f6fbff !important;line-height:1.5 !important}
+#view-career .r1551-rmeta{font-size:8.2px !important;line-height:1.8 !important;color:rgba(225,238,255,.72) !important;margin-top:5px !important}
+#view-career .r1551-rgrade{min-width:84px !important;padding:7px 10px !important;border-radius:12px !important;border:1px solid rgba(255,215,110,.18) !important;background:linear-gradient(145deg, rgba(255,216,116,.13), rgba(125,87,14,.07)) !important;color:#fff0c7 !important;font-size:7.8px !important;font-weight:900 !important}
+#view-career .r1560-guide-group{margin-top:10px !important;border:1px solid rgba(130,185,230,.10) !important;border-radius:20px !important;background:linear-gradient(145deg, rgba(7,24,51,.82), rgba(5,16,37,.92)) !important;overflow:hidden !important}
+#view-career .r1560-guide-group:first-of-type{margin-top:0 !important}
+#view-career .r1560-guide-group>summary{padding:14px 42px 14px 12px !important;min-height:62px !important;background:linear-gradient(145deg, rgba(255,255,255,.018), rgba(255,255,255,.01)) !important}
+#view-career .r1560-guide-group>summary:after{right:12px !important;font-size:18px !important;color:#7ce8ff !important}
+#view-career .r1560-guide-label{font:950 11.4px var(--hr-title-font,'Zain',Tahoma,sans-serif) !important;color:#f4fbff !important;line-height:1.55 !important}
+#view-career .r1560-guide-label small{margin-top:3px !important;font-size:7.5px !important;line-height:1.7 !important;color:#92a9c3 !important}
+#view-career .r1560-guide-count{min-width:44px !important;height:28px !important;padding:0 10px !important;border-radius:999px !important;background:linear-gradient(145deg, rgba(255,216,116,.16), rgba(124,232,255,.06)) !important;border:1px solid rgba(255,215,110,.16) !important;color:#fff0c7 !important;font-size:7.8px !important}
+#view-career .r1562-path{padding:14px !important;background:linear-gradient(145deg, rgba(8,27,56,.97), rgba(4,16,37,.99)) !important;border:1px solid rgba(135,188,229,.12) !important}
+#view-career .r1562-pathHead{margin-bottom:12px !important}
+#view-career .r1562-pathHead h4{font:950 13.6px var(--hr-title-font,'Zain',Tahoma,sans-serif) !important;color:#f6fbff !important;line-height:1.45 !important}
+#view-career .r1562-pathHead .r1562-badge{display:none !important}
+#view-career .r1560-timeline{display:grid !important;gap:9px !important}
+#view-career .r1560-line{grid-template-columns:46px minmax(0,1fr) !important;gap:10px !important}
+#view-career .r1560-line:not(:last-child):before{right:22px !important;top:42px !important;bottom:-11px !important;border-right:2px solid rgba(110,213,238,.15) !important}
+#view-career .r1560-node{width:42px !important;height:42px !important;border-radius:15px !important;font:900 11px var(--hr-number-font,'Arial',sans-serif) !important;background:rgba(255,255,255,.03) !important;border:1px solid rgba(255,255,255,.06) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.03) !important}
+#view-career .r1560-linebody{position:relative;overflow:hidden !important;min-height:78px !important;padding:14px 14px 13px !important;border-radius:20px !important;background:linear-gradient(145deg, rgba(255,255,255,.022), rgba(255,255,255,.012)) !important;border:1px solid rgba(255,255,255,.045) !important}
+#view-career .r1560-linetitle{font:950 11px var(--hr-title-font,'Zain',Tahoma,sans-serif) !important;color:#f6fbff !important;line-height:1.55 !important}
+#view-career .r1560-linemeta{font-size:7.2px !important;line-height:1.75 !important;color:rgba(225,238,255,.68) !important;margin-top:4px !important}
+#view-career .r1560-line.past .r1560-linebody{background:linear-gradient(145deg, rgba(255,255,255,.018), rgba(255,255,255,.01)) !important;border-color:rgba(255,255,255,.04) !important}
+#view-career .r1560-line.future .r1560-linebody{background:linear-gradient(145deg, rgba(124,232,255,.07), rgba(62,96,180,.04)) !important;border-color:rgba(124,232,255,.14) !important}
+#view-career .r1560-line.future .r1560-node{background:linear-gradient(145deg, rgba(124,232,255,.14), rgba(66,126,225,.05)) !important;border-color:rgba(124,232,255,.18) !important;color:#d5fbff !important}
+#view-career .r1560-line.current .r1560-linebody{background:linear-gradient(145deg, rgba(255,216,116,.14), rgba(127,89,14,.06)) !important;border-color:rgba(255,216,116,.24) !important;box-shadow:0 0 0 1px rgba(255,216,116,.08), 0 12px 24px rgba(111,78,15,.10) !important}
+#view-career .r1560-line.current .r1560-node{background:linear-gradient(145deg, rgba(255,216,116,.24), rgba(160,112,18,.12)) !important;border-color:rgba(255,216,116,.34) !important}
+#view-career .r1560-line:first-child .r1560-linebody,#view-career .r1560-line:last-child .r1560-linebody{background:linear-gradient(145deg, rgba(255,216,116,.16), rgba(95,68,12,.07)) !important;border-color:rgba(255,216,116,.25) !important;box-shadow:0 0 0 1px rgba(255,216,116,.06), 0 14px 28px rgba(111,78,15,.08) !important}
+#view-career .r1560-line:first-child .r1560-linebody:before,#view-career .r1560-line:last-child .r1560-linebody:before{position:absolute;top:10px;left:12px;display:inline-flex;align-items:center;justify-content:center;min-width:90px;height:24px;padding:0 10px;border-radius:999px;border:1px solid rgba(255,216,116,.24);background:linear-gradient(145deg, rgba(255,216,116,.22), rgba(124,90,14,.08));color:#fff0c7;font-size:7px;font-weight:900;letter-spacing:.1px}
+#view-career .r1560-line:first-child .r1560-linebody{padding-top:40px !important}
+#view-career .r1560-line:last-child .r1560-linebody{padding-top:40px !important}
+#view-career .r1560-line:first-child .r1560-linebody:before{content:'بداية التغطية'}
+#view-career .r1560-line:last-child .r1560-linebody:before{content:'نهاية التغطية'}
+#view-career .r1551-result,#view-career .r1560-guide-group,#view-career .r1560-linebody,#view-career .r1562-now,#view-career .r1562-nextMini{transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease !important}
+#view-career .r1560-guide-group:active,#view-career .r1560-linebody:active,#view-career .r1562-now:active,#view-career .r1562-nextMini:active{transform:scale(.995)}
+@media (max-width:640px){#view-career .r1562-title{font-size:19px !important}#view-career .r1560-linebody{min-height:72px !important;padding:13px 12px 12px !important}#view-career .r1551-result{min-height:90px !important;padding:14px 12px !important}#view-career .r1551-searchbox{min-height:56px !important}}
+</style>
+</body></html>';
   w.document.open();w.document.write(doc);w.document.close();
 }
 
@@ -6029,7 +6103,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   }
   function setActive(v){var isPerm=mode==='perm',isCont=mode==='cont',cls=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){var t=document.getElementById(x==='titlematch'?TAB_ID:'stab-'+x);if(t){var on=v===x;t.className='sub-tab'+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');}});}
   function clearMatch(){document.body.classList.remove('subview-titlematch');var v=document.getElementById(VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
-  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1573'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
+  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1574'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
   function buildIndex(data){var rows=(data&&data.rows)||[],by={},any={};rows.forEach(function(r){var d=degLabel(r.degree),t=String(r.title||'').trim(),n=norm(t);if(!d||!n)return;(by[d]=by[d]||{});(by[d][n]=by[d][n]||[]).push(t);(any[n]=any[n]||[]).push(d);});return{by:by,any:any,rows:rows};}
   function suggest(title,degree,idx){var n=norm(title),words=n.split(' ').filter(Boolean),src=(idx.rows||[]).filter(function(r){return degLabel(r.degree)===degree;});var scored=[];src.forEach(function(r){var rn=norm(r.title||'');if(!rn)return;var score=0;words.forEach(function(w){if(w.length>2&&rn.indexOf(w)>=0)score+=2;});if(rn.indexOf(n)>=0||n.indexOf(rn)>=0)score+=5;if(score>0)scored.push({t:r.title,s:score});});return scored.sort(function(a,b){return b.s-a.s;}).slice(0,3).map(function(x){return x.t;});}
   function analyze(){return loadTitles().then(function(data){var idx=buildIndex(data),emps=allEmployees();state.rows=emps.map(function(e,i){var title=String(e.jobTitle||'').trim(),degree=degLabel(e.grade),nt=norm(title),cls='unknown',label='غير موجود',note='العنوان غير موجود في دليل العناوين الوظيفية.',sugg=[];if(!title||!degree){cls='missing';label='نقص بيانات';note=!title&&!degree?'لا يوجد عنوان وظيفي ولا درجة.':(!title?'لا يوجد عنوان وظيفي.':'لا توجد درجة وظيفية واضحة.');}
@@ -9142,8 +9216,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1573';
-  var KEEP_CACHE='employee-registry-ui-r1573';
+  var SW_URL='service-worker.js?v=1574';
+  var KEEP_CACHE='employee-registry-ui-r1574';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -12037,7 +12111,7 @@ body.light-mode #view-career .r1567-qname{color:#425c72}
 // R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.73-CAREER-INFOGRAPHIC-CSS-SAFE';
+var RELEASE='MOBILE-R1.5.74-CAREER-VISUAL-FOCUS-REBUILD';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -12348,7 +12422,7 @@ body.subview-notes #r1502-dashboard{display:none!important}
 (function(){
 'use strict';
 
-var RELEASE='MOBILE-R1.5.73-CAREER-INFOGRAPHIC-CSS-SAFE';
+var RELEASE='MOBILE-R1.5.74-CAREER-VISUAL-FOCUS-REBUILD';
 var PAGE_ID='view-notes';
 var DB_NAME='hr_mobile_personal_notes';
 var DB_VERSION=1;
@@ -12917,13 +12991,13 @@ window.r1571MyNotes={
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.73-CAREER-INFOGRAPHIC-CSS-SAFE';
+var RELEASE='MOBILE-R1.5.74-CAREER-VISUAL-FOCUS-REBUILD';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
-async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1573');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
+async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1574');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
 async function checkUpdate(showMessage){setRelease();if(navigator.onLine===false){if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');return false}try{if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث'}catch(e){}if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');return has}catch(e){try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');return false}}
-async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1573&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1573');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
-setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1573',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1574&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1574');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
+setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1574',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
 document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});window.r1551CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
 })();
 </script>
@@ -12945,3 +13019,5 @@ document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(
 <!-- R1571_REFERENCE_CENTER_NAVIGATION_GATE_RELEASE -->
 
 <!-- R1573_CAREER_INFOGRAPHIC_CSS_SAFE_RELEASE -->
+
+<!-- R1574_CAREER_VISUAL_FOCUS_REBUILD_RELEASE -->
