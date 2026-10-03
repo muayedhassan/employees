@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.67-QUALIFICATION-REFERENCE-LAYER",
+  "release": "MOBILE-R1.5.68-MY-NOTES-WORKSPACE",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
@@ -29,7 +29,9 @@
     "currentTitleAnchorMode": "exact-current-title-unverified-next",
     "allowAnchorNextInference": false,
     "qualificationReferenceMode": "reference-only-no-progression-effect",
-    "allowQualificationToAlterCareerMatch": false
+    "allowQualificationToAlterCareerMatch": false,
+    "notesWorkspaceMode": "personal-local-only",
+    "notesAffectEmployeeData": false
   },
   "notes": [
     "لا ينشئ النظام أي عنوان وظيفي بالاستنتاج أو التشابه.",
@@ -42,7 +44,8 @@
     "R1.5.64 دمج 23 زوجًا من المقاطع الوظيفية المتجاورة بعد تدقيق صريح لحدود الدرجات والعائلة، دون إضافة أي عنوان أو استخدام استنتاج تقريبي.",
     "R1.5.65: تمت ترقية 73 عنوانًا من قائمة الـ466 بعد تدقيق يدوي؛ 32 خطوة وسعت 17 سلسلة موجودة، و41 خطوة أنشأت 13 مقطعًا صريحًا جديدًا. بقيت الحالات الملتبسة خارج التدرج.",
     "R1.5.66: تمت إضافة «حرفي» و«معاون حرفي» في الدرجة العاشرة كنقطتي حال مثبتتين مستقلتين. لا يتم ربط أي منهما تلقائيًا بـ«حرفي اول» في الدرجة التاسعة.",
-    "R1.5.67: أضيف مرجع بصري لبداية التعيين بحسب المؤهل. المرجع لا يغيّر مطابقة المسار أو درجة الموظف ولا يفترض أن التحصيل الحالي هو مؤهل التعيين."
+    "R1.5.67: أضيف مرجع بصري لبداية التعيين بحسب المؤهل. المرجع لا يغيّر مطابقة المسار أو درجة الموظف ولا يفترض أن التحصيل الحالي هو مؤهل التعيين.",
+    "R1.5.68: نُقل عرض مرجع المؤهلات إلى «ملاحظاتي» وأضيف تخزين شخصي مستقل للملاحظات."
   ],
   "chains": [
     {
@@ -10002,6 +10005,19 @@
       "هذا المرجع لا يثبت أن التحصيل الحالي هو نفسه المؤهل الذي تم التعيين بموجبه.",
       "لا يغير هذا المرجع الدرجة الحالية أو العنوان أو المسار الوظيفي للموظف.",
       "لا يستخدم المرجع لتجاوز الغموض في العنوان الوظيفي أو الاختصاص."
-    ]
+    ],
+    "presentationLocation": "my-notes-workspace",
+    "visibleInsideCareerEmployeeDetail": false
+  },
+  "notesWorkspace": {
+    "release": "MOBILE-R1.5.68-MY-NOTES-WORKSPACE",
+    "title": "ملاحظاتي",
+    "storage": "IndexedDB-local-only",
+    "databaseName": "hr_mobile_personal_notes",
+    "systemReferences": [
+      "qualification-entry-reference"
+    ],
+    "employeeDataWriteBack": false,
+    "githubSync": false
   }
 }

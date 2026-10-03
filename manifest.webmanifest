@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.67",
-  "short_name": "HR Mobile R1.5.67",
+  "name": "سجل الموظفين - Mobile R1.5.68",
+  "short_name": "HR Mobile R1.5.68",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "R1.5.67 adds a compact qualification-entry reference layer without changing employee grade, title, or career matching.",
+  "description": "Standalone local-only My Notes workspace.",
   "icons": [
     {
       "src": "assets/icon-192.png",
