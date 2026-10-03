@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.68",
-  "short_name": "HR Mobile R1.5.68",
+  "name": "سجل الموظفين - Mobile R1.5.69",
+  "short_name": "HR Mobile R1.5.69",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Standalone local-only My Notes workspace.",
+  "description": "My Notes Navigation & Productivity V2: reliable dashboard return, Android back, reader, employee-linked notes, and JSON backup.",
   "icons": [
     {
       "src": "assets/icon-192.png",
