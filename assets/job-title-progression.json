@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.75-R1574-STARTUP-HOTFIX-VISUAL-FOCUS",
+  "release": "MOBILE-R1.5.76-CAREER-DIRECTORY-SEARCH-INFOGRAPHIC-REFINEMENT",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
@@ -32,7 +32,7 @@
     "allowQualificationToAlterCareerMatch": false,
     "notesWorkspaceMode": "personal-local-only-v2",
     "notesAffectEmployeeData": false,
-    "careerPresentationMode": "VISUAL_FOCUS_CSS_ONLY",
+    "careerPresentationMode": "DIRECTORY_SEARCH_INFOGRAPHIC_V2",
     "careerLogicChanged": false
   },
   "notes": [
@@ -53,7 +53,8 @@
     "R1.5.71: فصل المعهد عن الإعدادية والجامعة، منع ظهور قائمة الموظفين أثناء انتقال الواجهات، وإضافة مركز مراجع وظيفية V2 داخل ملاحظاتي.",
     "R1.5.73: تطوير بصري CSS-only لواجهة التدرج والعناوين، دون JavaScript إضافي أو مراقبة DOM أو تغيير لمنطق المطابقة.",
     "R1.5.74: إعادة بناء التصميم للتدرج الوظيفي ودليل السلاسل بطريقة CSS-only مع إزالة الشروحات الزائدة والتركيز على بداية/نهاية التغطية.",
-    "R1.5.75: إصلاح مباشر لموضع CSS الخاص بـR1.5.74؛ نُقل من منطقة JavaScript لطباعة التقرير إلى رأس التطبيق الحقيقي، دون تغيير تصميم أو منطق التدرج."
+    "R1.5.75: إصلاح مباشر لموضع CSS الخاص بـR1.5.74؛ نُقل من منطقة JavaScript لطباعة التقرير إلى رأس التطبيق الحقيقي، دون تغيير تصميم أو منطق التدرج.",
+    "R1.5.76: تطوير دليل السلاسل ببحث عربي نصي مباشر داخل أسماء السلاسل والعناوين، مع تكبير الخطوط والدرجات وإعادة تنظيم الإنفوغرافيك؛ دون تغيير منطق التدرج."
   ],
   "chains": [
     {
@@ -10018,7 +10019,7 @@
     "visibleInsideCareerEmployeeDetail": false
   },
   "notesWorkspace": {
-    "release": "MOBILE-R1.5.75-R1574-STARTUP-HOTFIX-VISUAL-FOCUS",
+    "release": "MOBILE-R1.5.76-CAREER-DIRECTORY-SEARCH-INFOGRAPHIC-REFINEMENT",
     "title": "ملاحظاتي",
     "storage": "IndexedDB-local-only",
     "databaseName": "hr_mobile_personal_notes",
@@ -10071,7 +10072,7 @@
     }
   },
   "careerVisualFocusRebuild": {
-    "release": "MOBILE-R1.5.75-R1574-STARTUP-HOTFIX-VISUAL-FOCUS",
+    "release": "MOBILE-R1.5.76-CAREER-DIRECTORY-SEARCH-INFOGRAPHIC-REFINEMENT",
     "enabled": true,
     "mode": "css-only",
     "focus": [
@@ -10094,5 +10095,24 @@
     "fix": "move-r1574-css-out-of-report-js-region-into-real-document-head",
     "structuralVerification": true,
     "careerLogicChanged": false
+  },
+  "careerDirectoryRefinementR1576": {
+    "release": "MOBILE-R1.5.76-CAREER-DIRECTORY-SEARCH-INFOGRAPHIC-REFINEMENT",
+    "enabled": true,
+    "searchMode": "canonical-arabic-token-filter",
+    "searchScope": [
+      "chain-name",
+      "job-titles",
+      "degree-labels"
+    ],
+    "visualMode": "directory-infographic-v2",
+    "runtimeObserver": false,
+    "careerLogicChanged": false,
+    "preservedCareerMap": {
+      "chains": 189,
+      "mapped": 925,
+      "auditQueue": 391,
+      "coveragePercent": 70.3
+    }
   }
 }
