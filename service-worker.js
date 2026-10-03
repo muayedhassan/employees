@@ -1,7 +1,7 @@
-/* MOBILE-R1.5.71-SERVICE-WORKER-NO-STALE-UI */
-const SW_RELEASE='MOBILE-R1.5.71-SERVICE-WORKER-NO-STALE-UI',UI_CACHE='employee-registry-ui-r1571',LEGACY_PREFIX='employee-registry-',OFFLINE_INDEX=new Request(new URL('./__offline_index_r1571__',self.registration.scope).toString());
+/* MOBILE-R1.5.72-SERVICE-WORKER-NO-STALE-UI */
+const SW_RELEASE='MOBILE-R1.5.72-SERVICE-WORKER-NO-STALE-UI',UI_CACHE='employee-registry-ui-r1572',LEGACY_PREFIX='employee-registry-',OFFLINE_INDEX=new Request(new URL('./__offline_index_r1572__',self.registration.scope).toString());
 self.addEventListener('install',e=>e.waitUntil(self.skipWaiting()));
 self.addEventListener('activate',e=>e.waitUntil((async()=>{try{const k=await caches.keys();await Promise.all(k.filter(x=>x.indexOf(LEGACY_PREFIX)===0&&x!==UI_CACHE).map(x=>caches.delete(x)))}catch(_){}await self.clients.claim()})()));
-self.addEventListener('message',e=>{try{if(e.data&&e.data.type==='SKIP_WAITING')self.skipWaiting()}catch(_){}});
+self.addEventListener('message',e=>{try{if(e.data&&e.data.type==='SKIP_WAITING')self.skipWaiting()}catch(_){} });
 async function fresh(r){try{const x=await fetch(r,{cache:'no-store'});if(x&&x.ok){try{const c=await caches.open(UI_CACHE);await c.put(r,x.clone())}catch(_){}}return x}catch(e){const c=await caches.match(r);if(c)return c;throw e}}
-self.addEventListener('fetch',e=>{const r=e.request;if(!r||r.method!=='GET')return;if(r.mode==='navigate'){e.respondWith((async()=>{const u=new URL(r.url);u.searchParams.set('_sw_bust',Date.now());try{const x=await fetch(u,{cache:'no-store'});if(x&&x.ok){const c=await caches.open(UI_CACHE);await c.put(OFFLINE_INDEX,x.clone())}return x}catch(err){const c=await caches.match(OFFLINE_INDEX);if(c)return c;throw err}})());return}try{if(new URL(r.url).origin===self.location.origin)e.respondWith(fresh(r))}catch(_){}});
+self.addEventListener('fetch',e=>{const r=e.request;if(!r||r.method!=='GET')return;if(r.mode==='navigate'){e.respondWith((async()=>{const u=new URL(r.url);u.searchParams.set('_sw_bust',Date.now());try{const x=await fetch(u,{cache:'no-store'});if(x&&x.ok){const c=await caches.open(UI_CACHE);await c.put(OFFLINE_INDEX,x.clone())}return x}catch(err){const c=await caches.match(OFFLINE_INDEX);if(c)return c;throw err}})());return}try{if(new URL(r.url).origin===self.location.origin)e.respondWith(fresh(r))}catch(_){} });
