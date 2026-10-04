@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.84",
-  "short_name": "HR Mobile R1.5.84",
+  "name": "سجل الموظفين - Mobile R1.5.85",
+  "short_name": "HR Mobile R1.5.85",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Dashboard Content Routing Capture Fix: captures dashboard intent before legacy stopPropagation, opens selected content in the real scroll area, prevents blank scope-only screens, and preserves R1.5.82/R1.5.83 UI with 1011 mapped career titles unchanged.",
+  "description": "Home Stability & Real Floating Control Fix: retires obsolete broad chrome/dashboard observers that caused repeated UI resync/flicker, and makes the actual R1.5.07 floating control return to Dashboard Home while content is open. Career remains 201 chains / 1011 mapped / 305 audit / 76.8%.",
   "icons": [
     {
       "src": "assets/icon-192.png",
