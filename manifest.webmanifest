@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.82",
-  "short_name": "HR Mobile R1.5.82",
+  "name": "سجل الموظفين - Mobile R1.5.83",
+  "short_name": "HR Mobile R1.5.83",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Dashboard Cleanup, Compact Header & Professional Unified Scroll: removes the duplicated employee-summary card, compresses the top header, unifies dashboard title typography and preserves one smooth scroll from record scope to the last tool card, with 1011 mapped career titles unchanged.",
+  "description": "Dashboard Home & Employee List Isolation Fix: restores the explicit List card, prevents employee records and pagination from rendering behind the dashboard, opens content only after a module card is selected, and preserves the R1.5.82 compact header/pro scroll with 1011 mapped career titles unchanged.",
   "icons": [
     {
       "src": "assets/icon-192.png",
