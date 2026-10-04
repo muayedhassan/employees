@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX">
+<meta name="app-release" content="MOBILE-R1.5.80-COMPACT-PROFESSIONAL-UI-ORIGINAL-FONTS">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -6174,7 +6174,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   }
   function setActive(v){var isPerm=mode==='perm',isCont=mode==='cont',cls=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){var t=document.getElementById(x==='titlematch'?TAB_ID:'stab-'+x);if(t){var on=v===x;t.className='sub-tab'+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');}});}
   function clearMatch(){document.body.classList.remove('subview-titlematch');var v=document.getElementById(VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
-  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1579'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
+  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1580'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
   function buildIndex(data){var rows=(data&&data.rows)||[],by={},any={};rows.forEach(function(r){var d=degLabel(r.degree),t=String(r.title||'').trim(),n=norm(t);if(!d||!n)return;(by[d]=by[d]||{});(by[d][n]=by[d][n]||[]).push(t);(any[n]=any[n]||[]).push(d);});return{by:by,any:any,rows:rows};}
   function suggest(title,degree,idx){var n=norm(title),words=n.split(' ').filter(Boolean),src=(idx.rows||[]).filter(function(r){return degLabel(r.degree)===degree;});var scored=[];src.forEach(function(r){var rn=norm(r.title||'');if(!rn)return;var score=0;words.forEach(function(w){if(w.length>2&&rn.indexOf(w)>=0)score+=2;});if(rn.indexOf(n)>=0||n.indexOf(rn)>=0)score+=5;if(score>0)scored.push({t:r.title,s:score});});return scored.sort(function(a,b){return b.s-a.s;}).slice(0,3).map(function(x){return x.t;});}
   function analyze(){return loadTitles().then(function(data){var idx=buildIndex(data),emps=allEmployees();state.rows=emps.map(function(e,i){var title=String(e.jobTitle||'').trim(),degree=degLabel(e.grade),nt=norm(title),cls='unknown',label='غير موجود',note='العنوان غير موجود في دليل العناوين الوظيفية.',sugg=[];if(!title||!degree){cls='missing';label='نقص بيانات';note=!title&&!degree?'لا يوجد عنوان وظيفي ولا درجة.':(!title?'لا يوجد عنوان وظيفي.':'لا توجد درجة وظيفية واضحة.');}
@@ -9287,8 +9287,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1579';
-  var KEEP_CACHE='employee-registry-ui-r1579';
+  var SW_URL='service-worker.js?v=1580';
+  var KEEP_CACHE='employee-registry-ui-r1580';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -12182,7 +12182,7 @@ body.light-mode #view-career .r1567-qname{color:#425c72}
 // R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX';
+var RELEASE='MOBILE-R1.5.80-COMPACT-PROFESSIONAL-UI-ORIGINAL-FONTS';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -12496,7 +12496,7 @@ body.subview-notes #r1502-dashboard{display:none!important}
 (function(){
 'use strict';
 
-var RELEASE='MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX';
+var RELEASE='MOBILE-R1.5.80-COMPACT-PROFESSIONAL-UI-ORIGINAL-FONTS';
 var PAGE_ID='view-notes';
 var DB_NAME='hr_mobile_personal_notes';
 var DB_VERSION=1;
@@ -13065,13 +13065,13 @@ window.r1571MyNotes={
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX';
+var RELEASE='MOBILE-R1.5.80-COMPACT-PROFESSIONAL-UI-ORIGINAL-FONTS';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
-async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1579');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
+async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1580');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
 async function checkUpdate(showMessage){setRelease();if(navigator.onLine===false){if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');return false}try{if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث'}catch(e){}if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');return has}catch(e){try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');return false}}
-async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1579&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1579');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
-setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1579',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1580&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1580');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
+setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1580',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
 document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});window.r1551CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
 })();
 </script>
@@ -13205,7 +13205,7 @@ body.light-mode #r1502-dashboard.r1579-dashboard .r1579-scope-card,body.light-mo
 // R1579_FIRST_TAP_ROUTER — explicit startup intent queue; no MutationObserver.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX';
+var RELEASE='MOBILE-R1.5.80-COMPACT-PROFESSIONAL-UI-ORIGINAL-FONTS';
 var state={bootReady:false,pending:null,routing:false,userIntent:null,lastRoute:'',readyReason:''};
 var MODULES={
   employees:[
@@ -13319,3 +13319,200 @@ window.r1579FirstTapRouter={release:RELEASE,markReady:markReady,protectStartupLi
 </script>
 
 <!-- R1579_DASHBOARD_VISUAL_SYSTEM_FIRST_TAP_NAVIGATION_FIX_RELEASE -->
+<style id="r1580-compact-professional-ui-style">
+/* R1580_COMPACT_PROFESSIONAL_UI — compact professional dashboard using the app's existing font system only. */
+/* No external typography import. Titles use --hr-title-font, body uses --hr-body-font, numbers use --hr-number-font. */
+:root{
+  --r1580-bg:#06101f;
+  --r1580-panel:#0b1b31;
+  --r1580-panel2:#0e223d;
+  --r1580-line:rgba(156,202,242,.12);
+  --r1580-text:#f5f8fd;
+  --r1580-muted:#8fa0b7;
+  --r1580-gold:#f4c965;
+  --r1580-cyan:#6bdff1;
+  --r1580-teal:#46d7bd;
+  --r1580-violet:#b8a3ee;
+  --r1580-green:#58d68d;
+}
+#r1502-dashboard.r1579-dashboard.r1580-compact{
+  gap:6px!important;margin:6px 8px 8px!important;padding:0!important;
+  font-family:var(--hr-body-font,'Zain','Tajawal',sans-serif)!important;
+}
+#r1502-dashboard.r1580-compact:before{height:125px!important;opacity:.72!important}
+#r1502-dashboard.r1580-compact .r1579-hero{
+  min-height:70px!important;padding:8px 9px!important;border-radius:18px!important;
+  grid-template-columns:36px minmax(0,1fr) auto!important;gap:8px!important;
+  background:linear-gradient(145deg,rgba(12,32,60,.98),rgba(6,18,36,.99))!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#r1502-dashboard.r1580-compact .r1579-hero:after{width:100px!important;height:100px!important;right:-30px!important;bottom:-48px!important}
+#r1502-dashboard.r1580-compact .r1579-hero-icon{
+  width:36px!important;height:36px!important;border-radius:13px!important;font-size:14px!important;
+  color:#08213a!important;background:linear-gradient(145deg,#fff0aa,#f4c965 55%,#e6a935)!important;
+  box-shadow:0 8px 16px rgba(230,169,53,.15),inset 0 1px 0 rgba(255,255,255,.65)!important;
+}
+#r1502-dashboard.r1580-compact .r1579-eyebrow{font-size:6.8px!important;color:#85dcea!important;gap:4px!important}
+#r1502-dashboard.r1580-compact .r1579-eyebrow:before{width:9px!important;height:1px!important}
+#r1502-dashboard.r1580-compact .r1579-hero h2{
+  margin:1px 0 0!important;font:800 13px/1.28 var(--hr-title-font,'Ya Modern Pro','Zain','Tajawal',sans-serif)!important;
+  letter-spacing:0!important;
+}
+#r1502-dashboard.r1580-compact .r1579-hero p{margin:2px 0 0!important;font:500 7.2px/1.45 var(--hr-body-font,'Zain','Tajawal',sans-serif)!important;color:#8599b0!important}
+#r1502-dashboard.r1580-compact .r1579-ready-pill{
+  min-width:58px!important;padding:5px 7px!important;font-size:6.8px!important;border-radius:999px!important;
+  background:rgba(88,214,141,.055)!important;border-color:rgba(88,214,141,.14)!important;color:#aeeec7!important;
+}
+#r1502-dashboard.r1580-compact .r1579-ready-pill i{font-size:5.5px!important;color:var(--r1580-green)!important}
+.r1580-hero-stats{
+  grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:1px;
+}
+.r1580-stat{
+  min-height:34px;padding:5px 4px;border-radius:10px;text-align:center;background:rgba(255,255,255,.022);
+  border:1px solid rgba(255,255,255,.045);display:grid;align-content:center;gap:0;
+}
+.r1580-stat b{font:850 13px/1 var(--hr-number-font,'Stencil','Inter',sans-serif);direction:ltr;color:#f5f8fd}
+.r1580-stat small{margin-top:2px;color:#74879f;font:700 6.1px var(--hr-body-font,'Zain','Tajawal',sans-serif)}
+#r1502-dashboard.r1580-compact .r1579-scope-wrap{
+  padding:7px!important;border-radius:17px!important;background:linear-gradient(145deg,rgba(9,24,47,.97),rgba(5,16,32,.99))!important;
+  box-shadow:0 9px 22px rgba(0,0,0,.14)!important;
+}
+#r1502-dashboard.r1580-compact .r1579-section-head{margin:0 1px 5px!important;gap:5px!important}
+#r1502-dashboard.r1580-compact .r1579-section-title{
+  gap:6px!important;font:800 9.5px var(--hr-title-font,'Ya Modern Pro','Zain','Tajawal',sans-serif)!important;
+}
+#r1502-dashboard.r1580-compact .r1579-section-title .r1579-mini-ico{
+  width:21px!important;height:21px!important;border-radius:8px!important;font-size:8px!important;
+}
+#r1502-dashboard.r1580-compact .r1579-section-note{font-size:6.3px!important;color:#697d96!important}
+#r1502-dashboard.r1580-compact .r1579-scope-grid{gap:5px!important}
+#r1502-dashboard.r1580-compact .r1579-scope-card{
+  min-height:56px!important;border-radius:15px!important;grid-template-columns:30px minmax(0,1fr) auto!important;
+  gap:6px!important;padding:7px!important;background:linear-gradient(145deg,rgba(13,31,56,.97),rgba(7,19,36,.99))!important;
+  box-shadow:0 6px 14px rgba(0,0,0,.11)!important;
+}
+#r1502-dashboard.r1580-compact .r1579-scope-card[data-main="admin"]{min-height:51px!important}
+#r1502-dashboard.r1580-compact .r1579-scope-card .r1579-card-ico{
+  width:30px!important;height:30px!important;border-radius:10px!important;font-size:11px!important;
+}
+#r1502-dashboard.r1580-compact .r1579-card-copy{gap:1px!important}
+#r1502-dashboard.r1580-compact .r1579-card-copy b{
+  font:800 9.3px/1.25 var(--hr-title-font,'Ya Modern Pro','Zain','Tajawal',sans-serif)!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+#r1502-dashboard.r1580-compact .r1579-card-copy small{
+  font:500 6.4px/1.25 var(--hr-body-font,'Zain','Tajawal',sans-serif)!important;color:#768aa2!important;
+}
+#r1502-dashboard.r1580-compact .r1579-scope-count{
+  min-width:29px!important;height:20px!important;padding:0 5px!important;font:800 8px var(--hr-number-font,'Stencil','Inter',sans-serif)!important;
+}
+#r1502-dashboard.r1580-compact .r1579-scope-card[data-main="admin"] .r1579-scope-count{font:800 6.4px var(--hr-body-font,'Zain','Tajawal',sans-serif)!important}
+#r1502-dashboard.r1580-compact .r1579-groups{
+  gap:6px!important;max-height:clamp(275px,52dvh,490px)!important;padding:0 0 6px!important;
+}
+#r1502-dashboard.r1580-compact .r1579-group{
+  padding:7px!important;border-radius:17px!important;background:linear-gradient(145deg,rgba(8,23,45,.97),rgba(5,15,30,.99))!important;
+  box-shadow:0 8px 20px rgba(0,0,0,.11)!important;
+}
+#r1502-dashboard.r1580-compact .r1579-module-grid{gap:5px!important}
+#r1502-dashboard.r1580-compact .r1579-module-card{
+  min-height:62px!important;border-radius:15px!important;grid-template-columns:30px minmax(0,1fr) 15px!important;
+  gap:6px!important;padding:7px!important;background:linear-gradient(145deg,rgba(13,31,56,.97),rgba(7,19,36,.99))!important;
+  box-shadow:0 6px 14px rgba(0,0,0,.09)!important;
+}
+#r1502-dashboard.r1580-compact .r1579-module-card .r1579-card-ico{
+  width:30px!important;height:30px!important;border-radius:10px!important;font-size:11px!important;
+}
+#r1502-dashboard.r1580-compact .r1579-module-card .r1579-arrow{
+  width:15px!important;height:15px!important;border-radius:6px!important;font-size:5.5px!important;
+}
+#r1502-dashboard.r1580-compact .r1579-group-career [data-key="career"]{
+  grid-column:1/-1!important;order:-1!important;min-height:62px!important;border-color:rgba(244,201,101,.14)!important;
+  background:radial-gradient(circle at 100% 0%,rgba(244,201,101,.06),transparent 42%),linear-gradient(145deg,rgba(14,31,54,.99),rgba(7,18,34,.99))!important;
+}
+#r1502-dashboard.r1580-compact .r1579-group-system [data-key="notes"]{order:1}
+#r1502-dashboard.r1580-compact .r1579-group-system [data-key="managernotes"]{order:2}
+#r1502-dashboard.r1580-compact .r1579-group-system [data-key="service"]{order:3}
+#r1502-dashboard.r1580-compact .r1579-group-system [data-key="system"]{order:4}
+#r1502-dashboard.r1580-compact [data-key="list"].r1580-hidden-list{display:none!important}
+#r1502-dashboard.r1580-compact .r1579-module-grid>.r1579-module-card:last-child:nth-child(odd){grid-column:auto!important;min-height:62px!important}
+#r1502-dashboard.r1580-compact .r1579-scope-card.is-active,
+#r1502-dashboard.r1580-compact .r1579-module-card.is-active{
+  border-color:rgba(107,223,241,.24)!important;background:linear-gradient(145deg,rgba(13,55,76,.86),rgba(7,31,52,.95))!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.15),0 0 0 1px rgba(107,223,241,.035) inset!important;
+}
+body.light-mode #r1502-dashboard.r1580-compact .r1579-hero,
+body.light-mode #r1502-dashboard.r1580-compact .r1579-scope-wrap,
+body.light-mode #r1502-dashboard.r1580-compact .r1579-group{background:linear-gradient(145deg,#fbfdff,#eff5fc)!important;border-color:rgba(48,104,182,.11)!important}
+body.light-mode #r1502-dashboard.r1580-compact .r1579-scope-card,
+body.light-mode #r1502-dashboard.r1580-compact .r1579-module-card{background:linear-gradient(145deg,#fff,#f4f8fd)!important;border-color:rgba(48,104,182,.09)!important}
+body.light-mode #r1502-dashboard.r1580-compact .r1580-stat{background:rgba(23,50,90,.025)!important;border-color:rgba(48,104,182,.07)!important}
+body.light-mode #r1502-dashboard.r1580-compact .r1580-stat b{color:#17325a!important}
+@media(max-width:380px){
+  #r1502-dashboard.r1580-compact{margin-inline:6px!important;gap:5px!important}
+  #r1502-dashboard.r1580-compact .r1579-hero{grid-template-columns:33px minmax(0,1fr) auto!important;padding:7px!important;border-radius:16px!important}
+  #r1502-dashboard.r1580-compact .r1579-hero-icon{width:33px!important;height:33px!important;border-radius:12px!important}
+  #r1502-dashboard.r1580-compact .r1579-hero h2{font-size:12px!important}
+  #r1502-dashboard.r1580-compact .r1579-ready-pill{min-width:52px!important;padding:4px 6px!important;font-size:6.2px!important}
+  #r1502-dashboard.r1580-compact .r1579-scope-wrap,#r1502-dashboard.r1580-compact .r1579-group{padding:6px!important;border-radius:15px!important}
+  #r1502-dashboard.r1580-compact .r1579-scope-card,#r1502-dashboard.r1580-compact .r1579-module-card{min-height:58px!important;padding:6px!important;grid-template-columns:28px minmax(0,1fr) 14px!important}
+  #r1502-dashboard.r1580-compact .r1579-scope-card .r1579-card-ico,#r1502-dashboard.r1580-compact .r1579-module-card .r1579-card-ico{width:28px!important;height:28px!important;border-radius:9px!important;font-size:10px!important}
+  #r1502-dashboard.r1580-compact .r1579-card-copy b{font-size:8.7px!important}
+  #r1502-dashboard.r1580-compact .r1579-card-copy small{font-size:6px!important}
+  #r1502-dashboard.r1580-compact .r1579-groups{max-height:clamp(260px,51dvh,450px)!important}
+}
+@media(prefers-reduced-motion:reduce){#r1502-dashboard.r1580-compact .r1579-scope-card,#r1502-dashboard.r1580-compact .r1579-module-card{transition:none!important}}
+</style>
+
+<script id="r1580-compact-professional-ui-script">
+// R1580_COMPACT_PROFESSIONAL_UI
+// R1580_ORIGINAL_FONT_IDENTITY — existing local app font variables only; no new external font dependency.
+// R1580_VECTOR_ICON_SYSTEM — preserves the existing Font Awesome vector icon set.
+(function(){
+'use strict';
+var RELEASE='MOBILE-R1.5.80-COMPACT-PROFESSIONAL-UI-ORIGINAL-FONTS';
+function $(s,r){return (r||document).querySelector(s)}
+function all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function numFromScope(key){var e=$('#r1502-dashboard [data-main="'+key+'"] .r1579-scope-count');var n=Number(String(e&&e.textContent||'').replace(/[^0-9]/g,''));return isFinite(n)?n:0}
+function ensureStats(box){
+  var hero=$('.r1579-hero',box);if(!hero)return;
+  var stats=$('.r1580-hero-stats',hero);if(!stats){stats=document.createElement('div');stats.className='r1580-hero-stats';hero.appendChild(stats)}
+  var perm=numFromScope('perm'),cont=numFromScope('cont'),total=perm+cont;
+  stats.innerHTML='<span class="r1580-stat"><b>'+total+'</b><small>الإجمالي</small></span><span class="r1580-stat"><b>'+perm+'</b><small>الدائميون</small></span><span class="r1580-stat"><b>'+cont+'</b><small>العقود</small></span>';
+}
+function arrangeCards(box){
+  var employees=$('.r1579-group-employees .r1579-module-grid',box),career=$('.r1579-group-career .r1579-module-grid',box),system=$('.r1579-group-system .r1579-module-grid',box);
+  var list=$('[data-key="list"]',box);if(list)list.classList.add('r1580-hidden-list');
+  if(system){['notes','managernotes','service','system'].forEach(function(k){var c=$('[data-key="'+k+'"]',box);if(c)system.appendChild(c)})}
+  if(career){var c=$('[data-key="career"]',box);if(c)career.insertBefore(c,career.firstChild)}
+  if(employees){var r=$('[data-key="reports"]',box),u=$('[data-key="updates"]',box);if(r)employees.appendChild(r);if(u)employees.appendChild(u)}
+}
+function polishLabels(box){
+  var h=$('.r1579-hero h2',box),p=$('.r1579-hero p',box),eye=$('.r1579-eyebrow',box);
+  if(h)h.textContent='لوحة الموظفين';if(p)p.textContent='مديرية زراعة صلاح الدين';if(eye)eye.textContent='نظام إدارة الموظفين';
+  var notes=[['.r1579-group-employees .r1579-section-note','السجلات الأساسية'],['.r1579-group-career .r1579-section-note','العناوين والتدرج'],['.r1579-group-system .r1579-section-note','الخدمات والإدارة']];
+  notes.forEach(function(x){var e=$(x[0],box);if(e)e.textContent=x[1]});
+}
+function enhance(){
+  var box=$('#r1502-dashboard');if(!box||!box.classList.contains('r1579-dashboard'))return false;
+  box.classList.add('r1580-compact');document.body&&document.body.classList.add('r1580-compact-professional');
+  polishLabels(box);arrangeCards(box);ensureStats(box);return true;
+}
+function wrapRender(obj,key){
+  if(!obj||typeof obj[key]!=='function'||obj[key].__r1580Wrapped)return false;
+  var old=obj[key],wrapped=function(){var out=old.apply(this,arguments);setTimeout(enhance,0);return out};
+  wrapped.__r1580Wrapped=true;wrapped.__r1580Base=old;obj[key]=wrapped;return true;
+}
+function install(){
+  enhance();wrapRender(window.r1579FirstTapRouter,'render');wrapRender(window.r1502DashboardRadicalRebuild,'render');
+  setTimeout(enhance,80);setTimeout(enhance,450);setTimeout(enhance,1200);
+}
+document.addEventListener('DOMContentLoaded',install);
+window.addEventListener('load',install);
+window.addEventListener('pageshow',install);
+document.addEventListener('click',function(ev){if(ev.target&&ev.target.closest&&ev.target.closest('#r1502-dashboard'))setTimeout(enhance,120)},true);
+window.r1580CompactProfessionalUI={release:RELEASE,enhance:enhance,install:install,fontPolicy:'existing-local-app-fonts-only',icons:'existing-font-awesome-vector'};
+})();
+</script>
+
+<!-- R1580_COMPACT_PROFESSIONAL_UI_ORIGINAL_FONTS_RELEASE -->

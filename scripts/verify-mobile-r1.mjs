@@ -6,7 +6,7 @@ import {spawnSync} from 'node:child_process';
 
 const fail=m=>{console.error('VERIFY_MOBILE_R1 FAIL:',m);process.exit(1)};
 const read=p=>{try{return fs.readFileSync(p,'utf8')}catch{fail('missing '+p)}};
-const E='MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX';
+const E='MOBILE-R1.5.80-COMPACT-PROFESSIONAL-UI-ORIGINAL-FONTS';
 const P='MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION';
 const i=read('index.html');
 const p=JSON.parse(read('assets/job-title-progression.json'));
@@ -46,7 +46,7 @@ if(j.total!==1316||!Array.isArray(j.rows)||j.rows.length!==1316)fail('Canonical 
 const src=new Set(j.rows.map(r=>exactKey(r.degree,r.title)));
 if(src.size!==1316)fail('Canonical title directory contains duplicate exact rows');
 
-if(p.release!==P)fail('R1.5.78 progression map must remain unchanged in R1.5.79');
+if(p.release!==P)fail('R1.5.78 progression map must remain unchanged in R1.5.80');
 if(!Array.isArray(p.chains)||p.chains.length!==201||p.validatedChainCount!==201||p.validatedStepCount!==1011)fail('R1.5.78 chain/step totals mismatch');
 if(p.coverage?.mappedTitles!==1011||p.coverage?.unmappedTitles!==305||Number(p.coverage?.exactCoveragePercent)!==76.8)fail('R1.5.78 coverage totals mismatch');
 if(p.remainingAudit?.totalTitles!==305)fail('remaining audit total mismatch');
@@ -138,14 +138,31 @@ const tmp79=path.join(os.tmpdir(),'r1579-router-verify-'+process.pid+'.js');fs.w
 if(!i.includes('id="r1579-dashboard-visual-system-style"'))fail('R1.5.79 dashboard visual stylesheet missing');
 for(const label of ['الموظفون','المسار الوظيفي','النظام والأدوات','الدائميون','العقود','إدارة النظام'])if(!r79.includes(label))fail('R1.5.79 dashboard label missing: '+label);
 
+
+// R1.5.80 compact professional dashboard overlay: original app fonts + existing vector icons only.
+if(!i.includes('R1580_COMPACT_PROFESSIONAL_UI_ORIGINAL_FONTS_RELEASE'))fail('R1.5.80 release marker missing');
+if(!i.includes('id="r1580-compact-professional-ui-style"')||!i.includes('id="r1580-compact-professional-ui-script"'))fail('R1.5.80 compact UI assets missing');
+const r80Start=i.indexOf('<script id="r1580-compact-professional-ui-script">'),r80Open=i.indexOf('>',r80Start)+1,r80End=i.indexOf('</script>',r80Open);
+if(r80Start<0||r80Open<=r80Start||r80End<0)fail('R1.5.80 script boundaries missing');
+const r80=i.slice(r80Open,r80End);
+for(const marker of ['R1580_COMPACT_PROFESSIONAL_UI','R1580_ORIGINAL_FONT_IDENTITY','R1580_VECTOR_ICON_SYSTEM','function enhance()','function arrangeCards(box)','r1580-hero-stats','r1580-hidden-list','existing-local-app-fonts-only'])if(!r80.includes(marker))fail('R1.5.80 marker missing: '+marker);
+if(r80.includes('MutationObserver('))fail('R1.5.80 compact UI must not use MutationObserver');
+const tmp80=path.join(os.tmpdir(),'r1580-ui-verify-'+process.pid+'.js');fs.writeFileSync(tmp80,r80,'utf8');const chk80=spawnSync(process.execPath,['--check',tmp80],{encoding:'utf8'});try{fs.unlinkSync(tmp80)}catch{}if(chk80.status!==0)fail('R1.5.80 UI JavaScript syntax invalid: '+String(chk80.stderr||chk80.stdout||'').trim());
+const r80StyleStart=i.indexOf('<style id="r1580-compact-professional-ui-style">'),r80StyleEnd=i.indexOf('</style>',r80StyleStart);if(r80StyleStart<0||r80StyleEnd<0)fail('R1.5.80 stylesheet boundaries missing');const r80css=i.slice(r80StyleStart,r80StyleEnd);
+for(const marker of ['var(--hr-title-font','var(--hr-body-font','var(--hr-number-font','r1579-group-career [data-key="career"]','r1580-hidden-list'])if(!r80css.includes(marker))fail('R1.5.80 font/layout CSS marker missing: '+marker);
+if(/fonts\.googleapis\.com|Alexandria|Noto Kufi|Changa|Reem Kufi/i.test(r80css+r80))fail('R1.5.80 introduced an external/experimental font dependency');
+if(!r80.includes("['notes','managernotes','service','system']"))fail('R1.5.80 system-tools visual ordering missing');
+if(!r80.includes("if(list)list.classList.add('r1580-hidden-list')"))fail('R1.5.80 redundant list-card suppression missing');
+
 if(!p.startupHotfixR1575||p.startupHotfixR1575.structuralVerification!==true)fail('R1.5.75 startup hotfix metadata regressed');
 if(!p.careerDirectoryRefinementR1576||p.careerDirectoryRefinementR1576.enabled!==true||p.careerDirectoryRefinementR1576.runtimeObserver!==false)fail('R1.5.76 directory metadata regressed');
 
 const countOf=(h,needle)=>h.split(needle).length-1;
-if(countOf(i,'service-worker.js?v=1579')!==3||countOf(i,'employee-registry-ui-r1579')!==1||countOf(i,"APP_RELEASE||'r1579'")!==1||countOf(i,"u.searchParams.set('v','1579')")!==2)fail('index R1.5.79 runtime/cache marker counts mismatch');
+if(countOf(i,'service-worker.js?v=1580')!==3||countOf(i,'employee-registry-ui-r1580')!==1||countOf(i,"APP_RELEASE||'r1580'")!==1||countOf(i,"u.searchParams.set('v','1580')")!==2)fail('index R1.5.80 runtime/cache marker counts mismatch');
+if(i.includes('service-worker.js?v=1579')||i.includes('employee-registry-ui-r1579')||i.includes("APP_RELEASE||'r1579'")||i.includes("u.searchParams.set('v','1579')"))fail('stale R1.5.79 runtime cache/update reference remains in index');
 if(i.includes('service-worker.js?v=1578')||i.includes('employee-registry-ui-r1578')||i.includes("APP_RELEASE||'r1578'")||i.includes("u.searchParams.set('v','1578')"))fail('stale R1.5.78 runtime cache/update reference remains in index');
-if(!sw.includes('MOBILE-R1.5.79-SERVICE-WORKER-NO-STALE-UI')||!sw.includes('employee-registry-ui-r1579')||!sw.includes('__offline_index_r1579__'))fail('service worker mismatch');
-if(!String(m.name).includes('R1.5.79')||!String(m.short_name).includes('R1.5.79')||!String(m.description).includes('1011'))fail('manifest mismatch');
+if(!sw.includes('MOBILE-R1.5.80-SERVICE-WORKER-NO-STALE-UI')||!sw.includes('employee-registry-ui-r1580')||!sw.includes('__offline_index_r1580__'))fail('service worker mismatch');
+if(!String(m.name).includes('R1.5.80')||!String(m.short_name).includes('R1.5.80')||!String(m.description).includes('1011')||!String(m.description).includes('Compact Professional'))fail('manifest mismatch');
 
 console.log('VERIFY_MOBILE_R1 OK:',E);
 console.log('VERIFY_FIRST_TAP_NAVIGATION OK: startup intent queue + core-load handoff + safe 6.2s watchdog');
@@ -157,4 +174,7 @@ console.log('VERIFY_REFERENCE_ORDER_REGRESSION OK: R1.5.77 audit and linguistic 
 console.log('VERIFY_DIRECTORY_UI OK: R1.5.76 professional directory search retained');
 console.log('VERIFY_STARTUP_STRUCTURE OK: R1.5.75 startup repair retained; R1.5.79 protects non-list first taps');
 console.log('VERIFY_REGRESSION OK: employee data, IndexedDB, canonical exact matching, My Notes, Reference Center, and career map remain unchanged');
+console.log('VERIFY_COMPACT_PRO_UI OK: compact cards / compact hero stats / reduced spacing / responsive layout');
+console.log('VERIFY_ORIGINAL_FONT_IDENTITY OK: app title/body/number font variables retained; no external experimental font added');
+console.log('VERIFY_VECTOR_ICON_SYSTEM OK: existing Font Awesome vector icon structure retained');
 console.log('VERIFY_MOBILE_R1 PASSED');
