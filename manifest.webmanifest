@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.81",
-  "short_name": "HR Mobile R1.5.81",
+  "name": "سجل الموظفين - Mobile R1.5.82",
+  "short_name": "HR Mobile R1.5.82",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Unified Dashboard Scroll, Title Clarity & Admin Navigation Fix: one continuous dashboard scroll, uniform readable card titles, cross-mode module routing after Administration, preserved R1.5.79 first-tap fix and 1011 mapped career titles.",
+  "description": "Dashboard Cleanup, Compact Header & Professional Unified Scroll: removes the duplicated employee-summary card, compresses the top header, unifies dashboard title typography and preserves one smooth scroll from record scope to the last tool card, with 1011 mapped career titles unchanged.",
   "icons": [
     {
       "src": "assets/icon-192.png",
