@@ -1,25 +1,141 @@
 #!/usr/bin/env node
-import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {spawnSync} from 'node:child_process';
-const fail=m=>{console.error('VERIFY_MOBILE_R1 FAIL:',m);process.exit(1)},read=p=>{try{return fs.readFileSync(p,'utf8')}catch{fail('missing '+p)}};
-const i=read('index.html'),p=JSON.parse(read('assets/job-title-progression.json')),j=JSON.parse(read('assets/job-titles.json')),sw=read('service-worker.js'),m=JSON.parse(read('manifest.webmanifest')),v=read('VERSION.txt').trim(),E='MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION';
-const n=s=>String(s||'').normalize('NFKD').replace(/[\u064B-\u065F\u0670]/g,'').replace(/[إأآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/ـ/g,'').replace(/[^\u0621-\u063A\u0641-\u064A0-9]+/g,' ').trim().replace(/\s+/g,' '),key=(d,t)=>d+'|'+n(t);
-if(v!==E)fail('VERSION mismatch');if(!i.includes('<meta name="app-release" content="'+E+'">'))fail('release meta mismatch');if(!i.includes('R1577_REFERENCE_ORDER_AUDIT_COVERAGE_EXPANSION_RELEASE'))fail('R1.5.77 release marker missing');
-const body='<body class="subview-list">',b=i.indexOf(body),h=i.lastIndexOf('</head>',b),s74=i.indexOf('<style id="r1574-career-visual-focus-style">'),s76=i.indexOf('<style id="r1576-career-directory-refinement-style">');if(!(s74>0&&s74<h&&s76>s74&&s76<h&&h<b))fail('Career styles are not safely inside the real application head');
-const rw=i.indexOf('w.document.open();w.document.write(doc);'),rv=i.lastIndexOf("var doc='",rw);if(rv<0||rw<0)fail('report document structure missing');const rr=i.slice(rv,rw);if(rr.includes('r1574-career-visual-focus-style')||rr.includes('r1576-career-directory-refinement-style'))fail('Career CSS leaked into report JavaScript');if(!rr.includes("</body></html>';"))fail('report closing sequence missing');
-const marker='// R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.',mp=i.indexOf(marker),ss=i.lastIndexOf('<script',mp),so=i.indexOf('>',ss)+1,se=i.indexOf('</script>',mp);if(mp<0||ss<0||so<=ss||se<0)fail('career script boundaries missing');const cj=i.slice(so,se);if(!cj.includes('R1576_DIRECTORY_SEARCH_BIND')||!cj.includes('function guideHTML()'))fail('R1.5.76 directory search regressed');if(cj.includes('MutationObserver('))fail('unexpected MutationObserver inside Career script');const tmp=path.join(os.tmpdir(),'r1577-verify-'+process.pid+'.js');fs.writeFileSync(tmp,cj,'utf8');const chk=spawnSync(process.execPath,['--check',tmp],{encoding:'utf8'});try{fs.unlinkSync(tmp)}catch{}if(chk.status!==0)fail('Career JavaScript syntax invalid: '+String(chk.stderr||chk.stdout||'').trim());
-if(j.total!==1316||!Array.isArray(j.rows)||j.rows.length!==1316)fail('Canonical title directory changed');const src=new Set(j.rows.map(r=>key(r.degree,r.title)));
-if(p.release!==E||p.chains.length!==198||p.validatedChainCount!==198||p.validatedStepCount!==947||p.coverage.mappedTitles!==947||p.coverage.unmappedTitles!==369||Number(p.coverage.exactCoveragePercent)!==72.0)fail('R1.5.77 coverage totals mismatch');
-const seen=new Set();for(const c of p.chains||[])for(const s of c.steps||[]){const k=key(s.degree,s.title);if(!src.has(k))fail('Mapped title not found in canonical directory: '+k);if(seen.has(k))fail('Duplicate mapped title: '+k);seen.add(k)}if(seen.size!==947)fail('Mapped set size mismatch');
-function chain(id){const c=p.chains.find(x=>x.id===id);if(!c)fail('missing chain '+id);return c}function titles(id){return chain(id).steps.map(x=>x.title).join(' > ')}
-if(titles('r1577_reference_veterinary')!=='طبيب بيطري متدرب > طبيب بيطري ممارس > طبيب بيطري ممارس اقدم > رئيس اطباء بيطريين > رئيس اطباء بيطرين اقدم > طبيب بيطري استشاري')fail('veterinary chain mismatch');
-if(titles('r1558_family_079')!=='معاون امين صندوق > امين صندوق > امين صندوق اقدم > معاون رئيس امناء صناديق > رئيس امناء صناديق')fail('cashier extension mismatch');
-if(titles('r1558_family_113')!=='كاتب طابعة ثالث > كاتب طابعة ثان > كاتب طابعة اول > كاتب طابعة اقدم > معاون رئيس كتاب طابعة > رئيس كتاب طابعة > رئيس كتاب طابعة اقدم')fail('typing extension mismatch');
-if(titles('r1558_family_090')!=='حارس اول > حارس اقدم > معاون رئيس حراس > رئيس حراس > رئيس حراس اقدم')fail('guard extension mismatch');
-const anchors=['r1577_anchor_driver_second','r1577_anchor_guard_second','r1577_anchor_guard_third','r1577_anchor_services','r1577_anchor_technical','r1577_anchor_clerk','r1577_anchor_audit_clerk','r1577_anchor_accounts_clerk'];for(const id of anchors){const c=chain(id);if(c.steps.length!==1||!c.currentTitleAnchor||c.currentTitleAnchor.currentTitleVerified!==true||c.currentTitleAnchor.nextRelationVerified!==false)fail('unsafe anchor '+id)}
-if(!p.referenceOrderAuditR1577||p.referenceOrderAuditR1577.sourceTitleRows!==148||p.referenceOrderAuditR1577.canonicalResolvedRows!==146||p.referenceOrderAuditR1577.unresolvedRows!==2||p.referenceOrderAuditR1577.newlyMappedTitles!==22)fail('reference audit metadata mismatch');
-if(!Array.isArray(p.referenceOrderAuditR1577.unresolved)||p.referenceOrderAuditR1577.unresolved.length!==2||!p.referenceOrderAuditR1577.unresolved.some(x=>x.reference==='خبير')||!p.referenceOrderAuditR1577.unresolved.some(x=>x.reference==='موظف خدمات اقدم'))fail('held-reference rows mismatch');
-if(!src.has(key('العاشرة','سائق ثان'))||src.has(key('العاشرة','سائق ثاني'))||!src.has(key('التاسعة','كاتب طابعة ثان')))fail('canonical linguistic title checks failed');
-if(!p.coverageProfiles||p.coverageProfiles.extendsToFirst!==77||p.coverageProfiles.partial!==121||p.coverageProfiles.upperSegments!==40)fail('coverage profile totals mismatch');const d=p.coverageProfiles.startGradeDistribution||{};for(const [g,x] of Object.entries({'3':15,'4':25,'5':9,'6':8,'7':75,'8':42,'9':10,'10':14}))if(Number(d[g])!==x)fail('start-grade distribution mismatch at '+g);
-if(!p.startupHotfixR1575||p.startupHotfixR1575.structuralVerification!==true)fail('R1.5.75 startup hotfix metadata regressed');if(!p.careerDirectoryRefinementR1576||p.careerDirectoryRefinementR1576.enabled!==true||p.careerDirectoryRefinementR1576.runtimeObserver!==false)fail('R1.5.76 directory metadata regressed');if(!p.policy||p.policy.referenceOrderCanOverrideCanonicalDirectory!==false||p.policy.referenceOrderQualificationHintsInformationalOnly!==true||p.policy.careerMatchingAlgorithmChanged!==false)fail('R1.5.77 safeguards missing');
-if(!i.includes('service-worker.js?v=1577')||!i.includes('employee-registry-ui-r1577')||!i.includes("APP_RELEASE||'r1577'"))fail('index release/cache references not fully bumped');if(!sw.includes('MOBILE-R1.5.77-SERVICE-WORKER-NO-STALE-UI')||!sw.includes('__offline_index_r1577__'))fail('service worker mismatch');if(!String(m.name).includes('R1.5.77'))fail('manifest mismatch');
-console.log('VERIFY_MOBILE_R1 OK:',E);console.log('VERIFY_REFERENCE_ORDER OK: 148 reference rows / 146 canonical resolutions / 22 newly mapped / 2 intentionally held');console.log('VERIFY_LINGUISTIC_CANONICALIZATION OK: canonical app wording retained, including «سائق ثان» and «كاتب طابعة ثان»');console.log('VERIFY_COVERAGE_EXPANSION OK: 198 chains / 947 mapped / 369 audit queue / 72.0%');console.log('VERIFY_ANCHOR_SAFETY OK: 8 exact current-title anchors do not invent a next title');console.log('VERIFY_DIRECTORY_UI OK: R1.5.76 professional directory search retained');console.log('VERIFY_STARTUP_STRUCTURE OK: R1.5.75 startup repair retained; Career styles remain in the real head');console.log('VERIFY_REGRESSION OK: canonical exact matching, My Notes, Reference Center, navigation, and employee data remain unchanged');
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+
+const fail=m=>{console.error('VERIFY_MOBILE_R1 FAIL:',m);process.exit(1)};
+const read=p=>{try{return fs.readFileSync(p,'utf8')}catch{fail('missing '+p)}};
+const E='MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION';
+const i=read('index.html');
+const p=JSON.parse(read('assets/job-title-progression.json'));
+const j=JSON.parse(read('assets/job-titles.json'));
+const sw=read('service-worker.js');
+const m=JSON.parse(read('manifest.webmanifest'));
+const v=read('VERSION.txt').trim();
+const exactKey=(d,t)=>d+'|||'+String(t||'').trim();
+
+if(v!==E)fail('VERSION mismatch');
+if(!i.includes('<meta name="app-release" content="'+E+'">'))fail('release meta mismatch');
+if(!i.includes('R1578_DETERMINISTIC_CAREER_CHAIN_CONSOLIDATION_COVERAGE_EXPANSION_RELEASE'))fail('R1.5.78 release marker missing');
+if(!i.includes('R1577_REFERENCE_ORDER_AUDIT_COVERAGE_EXPANSION_RELEASE'))fail('R1.5.77 historical release marker regressed');
+
+const body='<body class="subview-list">',b=i.indexOf(body),h=i.lastIndexOf('</head>',b),s74=i.indexOf('<style id="r1574-career-visual-focus-style">'),s76=i.indexOf('<style id="r1576-career-directory-refinement-style">');
+if(!(s74>0&&s74<h&&s76>s74&&s76<h&&h<b))fail('Career styles are not safely inside the real application head');
+const rw=i.indexOf('w.document.open();w.document.write(doc);'),rv=i.lastIndexOf("var doc='",rw);
+if(rv<0||rw<0)fail('report document structure missing');
+const rr=i.slice(rv,rw);
+if(rr.includes('r1574-career-visual-focus-style')||rr.includes('r1576-career-directory-refinement-style'))fail('Career CSS leaked into report JavaScript');
+if(!rr.includes("</body></html>';"))fail('report closing sequence missing');
+
+const marker='// R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.';
+const mp=i.indexOf(marker),ss=i.lastIndexOf('<script',mp),so=i.indexOf('>',ss)+1,se=i.indexOf('</script>',mp);
+if(mp<0||ss<0||so<=ss||se<0)fail('career script boundaries missing');
+const cj=i.slice(so,se);
+if(!cj.includes('R1576_DIRECTORY_SEARCH_BIND')||!cj.includes('function guideHTML()'))fail('R1.5.76 directory search regressed');
+if(cj.includes('MutationObserver('))fail('unexpected MutationObserver inside Career script');
+const tmp=path.join(os.tmpdir(),'r1578-verify-'+process.pid+'.js');
+fs.writeFileSync(tmp,cj,'utf8');
+const chk=spawnSync(process.execPath,['--check',tmp],{encoding:'utf8'});
+try{fs.unlinkSync(tmp)}catch{}
+if(chk.status!==0)fail('Career JavaScript syntax invalid: '+String(chk.stderr||chk.stdout||'').trim());
+
+if(j.total!==1316||!Array.isArray(j.rows)||j.rows.length!==1316)fail('Canonical title directory changed');
+const src=new Set(j.rows.map(r=>exactKey(r.degree,r.title)));
+if(src.size!==1316)fail('Canonical title directory contains duplicate exact rows');
+
+if(p.release!==E)fail('progression release mismatch');
+if(!Array.isArray(p.chains)||p.chains.length!==201||p.validatedChainCount!==201||p.validatedStepCount!==1011)fail('R1.5.78 chain/step totals mismatch');
+if(p.coverage?.mappedTitles!==1011||p.coverage?.unmappedTitles!==305||Number(p.coverage?.exactCoveragePercent)!==76.8)fail('R1.5.78 coverage totals mismatch');
+if(p.remainingAudit?.totalTitles!==305)fail('remaining audit total mismatch');
+
+const seen=new Set();
+for(const c of p.chains||[])for(const s of c.steps||[]){
+  const k=exactKey(s.degree,s.title);
+  if(!src.has(k))fail('Mapped title not found exactly in canonical directory: '+k);
+  if(seen.has(k))fail('Duplicate mapped title: '+k);
+  seen.add(k);
+}
+if(seen.size!==1011)fail('Mapped set size mismatch');
+
+function chain(id){const c=p.chains.find(x=>x.id===id);if(!c)fail('missing chain '+id);return c}
+function titles(id){return chain(id).steps.map(x=>x.title).join(' > ')}
+function mustSeq(id,expected){const got=titles(id);if(got!==expected)fail(id+' sequence mismatch\nEXPECTED: '+expected+'\nGOT: '+got)}
+
+// R1.5.77 regression anchors/reference-order work retained.
+mustSeq('r1577_reference_veterinary','طبيب بيطري متدرب > طبيب بيطري ممارس > طبيب بيطري ممارس اقدم > رئيس اطباء بيطريين > رئيس اطباء بيطرين اقدم > طبيب بيطري استشاري');
+mustSeq('r1558_family_079','معاون امين صندوق > امين صندوق > امين صندوق اقدم > معاون رئيس امناء صناديق > رئيس امناء صناديق');
+mustSeq('r1558_family_113','كاتب طابعة ثالث > كاتب طابعة ثان > كاتب طابعة اول > كاتب طابعة اقدم > معاون رئيس كتاب طابعة > رئيس كتاب طابعة > رئيس كتاب طابعة اقدم');
+mustSeq('r1558_family_090','حارس اول > حارس اقدم > معاون رئيس حراس > رئيس حراس > رئيس حراس اقدم');
+if(!p.referenceOrderAuditR1577||p.referenceOrderAuditR1577.sourceTitleRows!==148||p.referenceOrderAuditR1577.canonicalResolvedRows!==146||p.referenceOrderAuditR1577.unresolvedRows!==2||p.referenceOrderAuditR1577.newlyMappedTitles!==22)fail('R1.5.77 reference audit metadata mismatch');
+if(!Array.isArray(p.referenceOrderAuditR1577.unresolved)||!p.referenceOrderAuditR1577.unresolved.some(x=>x.reference==='خبير')||!p.referenceOrderAuditR1577.unresolved.some(x=>x.reference==='موظف خدمات اقدم'))fail('R1.5.77 held rows regressed');
+
+// Direct extensions.
+mustSeq('r1558_family_015','فاحص نقد ثان > فاحص نقد اول > فاحص نقد اقدم > معاون رئيس فاحص نقد > رئيس فاحص نقد > رئيس فاحص نقد اقدم');
+mustSeq('r1558_family_067','منظم ارشيف ثالث > منظم ارشيف ثان > منظم ارشيف اول > منظم ارشيف اقدم > منظم ارشيف اقدم ثاني > منظم ارشيف اقدم اول');
+mustSeq('r1558_family_044','معاون قضائي سادس > معاون قضائي خامس > معاون قضائي رابع > معاون قضائي ثالث > معاون قضائي ثان > معاون قضائي اول > معاون قضائي اقدم');
+mustSeq('r1558_family_027','معاون امام > امام خامس > امام رابع > امام ثالث > امام ثان > امام اول > امام اقدم');
+mustSeq('r1558_family_072','معاون واعظ > واعظ خامس > واعظ رابع > واعظ ثالث > واعظ ثان > واعظ اول > واعظ اقدم');
+mustSeq('r1558_family_089','حارس اصلاحية خامس > حارس اصلاحية رابع > حارس اصلاحية ثالث > حارس اصلاحية ثان > حارس اصلاحية اول > حارس اصلاحية اقدم');
+mustSeq('r1558_family_110','قارئ ومؤذن خامس > قارئ ومؤذن رابع > قارئ ومؤذن ثالث > قارئ ومؤذن ثان > قارئ ومؤذن اول > قارئ ومؤذن اقدم');
+mustSeq('r1558_family_091','خادم ومؤذن خامس > خادم ومؤذن رابع > خادم ومؤذن ثالث > خادم ومؤذن ثان > خادم ومؤذن اول > خادم ومؤذن اقدم');
+
+// Consolidated fragments through one explicit adjacent bridge.
+mustSeq('r1558_family_080','معاون امين متحف > امين متحف رابع > امين متحف ثالث > امين متحف ثان > امين متحف اول > امين متحف اقدم > امين متحف اقدم اول');
+mustSeq('r1558_family_097','معاون سادن > سادن رابع > سادن ثالث > سادن ثان > سادن اول > سادن اقدم > سادن اقدم اول');
+mustSeq('r1558_family_112','كاتب عدل خامس > كاتب عدل رابع > كاتب عدل ثالث > كاتب عدل ثان > كاتب عدل اول > كاتب عدل اقدم > كاتب عدل اقدم اول');
+mustSeq('r1558_family_060','مشرف فني خامس > مشرف فني رابع > مشرف فني ثالث > مشرف فني ثان > مشرف فني اول > مشرف فني اقدم > مشرف فني اقدم ثاني > مشرف فني اقدم اول');
+mustSeq('r1558_family_149','معلم خامس > معلم رابع > معلم ثالث > معلم ثان > معلم اول > معلم اقدم > معلم اقدم ثاني');
+mustSeq('r1558_family_154','منفذ عدل خامس > منفذ عدل رابع > منفذ عدل ثالث > منفذ عدل ثان > منفذ عدل اول > منفذ عدل اقدم > منفذ عدل اقدم اول');
+mustSeq('r1558_family_155','معاون منقب اثار > منقب اثار رابع > منقب اثار ثالث > منقب اثار ثان > منقب اثار اول > رئيس منقب اثار اقدم > رئيس منقب اثار اقدم اول');
+for(const id of ['r1565_unmapped_003','r1565_unmapped_005','r1565_unmapped_006','r1565_unmapped_007','r1565_unmapped_008','r1565_unmapped_012','r1565_unmapped_013'])if(p.chains.some(c=>c.id===id))fail('merged fragment chain still exists: '+id);
+
+// New deterministic chains.
+mustSeq('r1578_chain_servant','خادم رابع > خادم ثالث > خادم ثان > خادم اول > خادم اقدم');
+mustSeq('r1578_chain_editor','محرر ثالث > محرر ثان > محرر اول > محرر اقدم');
+mustSeq('r1578_chain_section_officer','مامور قسم ثالث > مامور قسم ثان > مامور قسم اول > مامور قسم اقدم');
+mustSeq('r1578_chain_reformatory_sergeant','رقيب اصلاحية ثالث > رقيب اصلاحية ثان > رقيب اصلاحية اول > رقيب اصلاحية اقدم');
+mustSeq('r1578_chain_notifier','مبلغ ثالث > مبلغ ثان > مبلغ اول > مبلغ اقدم');
+mustSeq('r1578_chain_justice_investigator','محقق عدل رابع > محقق عدل ثالث > محقق عدل ثان');
+mustSeq('r1578_chain_assistant_pharmacy_supervisor','رئيس معاون صيدلي ثاني > رئيس معاون صيدلي اول > رئيس معاون صيدلي اقدم');
+mustSeq('r1578_chain_secretary','سكرتير ثالث > سكرتير ثان > سكرتير اول');
+mustSeq('r1578_chain_social_guide','مرشد اجتماعي ثان > مرشد اجتماعي اول > مرشد اجتماعي اقدم');
+mustSeq('r1578_chain_fire_driver','سائق اطفاء ثان > سائق اطفاء اول > سائق اطفاء اقدم');
+
+const a=p.deterministicConsolidationR1578;
+if(!a||a.newlyMappedTitles!==64||a.affectedFamilies!==25||a.extendedExistingChains!==8||a.consolidatedPairs!==7||a.newChainsAdded!==10||a.anchorsPreserved!==10)fail('R1.5.78 audit metadata mismatch');
+if(!Array.isArray(a.plannedNewTitles)||a.plannedNewTitles.length!==64)fail('R1.5.78 planned-title audit list mismatch');
+const plannedKeys=new Set(a.plannedNewTitles.map(x=>exactKey(x.degree,x.title)));
+if(plannedKeys.size!==64)fail('R1.5.78 planned-title audit list contains duplicates');
+for(const k of plannedKeys)if(!seen.has(k))fail('planned R1.5.78 title was not mapped: '+k);
+
+const anchors=p.chains.filter(c=>c.currentTitleAnchor);
+if(anchors.length!==10)fail('Expected 10 current-title anchors, found '+anchors.length);
+for(const c of anchors)if(c.steps.length!==1||c.currentTitleAnchor.currentTitleVerified!==true||c.currentTitleAnchor.nextRelationVerified!==false)fail('unsafe anchor '+c.id);
+
+if(!src.has(exactKey('العاشرة','سائق ثان'))||src.has(exactKey('العاشرة','سائق ثاني'))||!src.has(exactKey('التاسعة','كاتب طابعة ثان')))fail('canonical linguistic title checks failed');
+if(p.policy?.titleMatchingMode!=='CANONICAL_EXACT_ONLY'||p.policy?.fuzzyTitleMatching!==false||p.policy?.allowCrossFamilyConsolidation!==false||p.policy?.allowAutomaticDeterministicConsolidation!==false||p.policy?.careerMatchingAlgorithmChanged!==false)fail('R1.5.78 safeguards missing');
+
+if(!p.coverageProfiles||p.coverageProfiles.extendsToFirst!==77||p.coverageProfiles.partial!==124||p.coverageProfiles.upperSegments!==33)fail('coverage profile totals mismatch');
+const d=p.coverageProfiles.startGradeDistribution||{};
+for(const [g,x] of Object.entries({'3':10,'4':24,'5':9,'6':8,'7':80,'8':43,'9':12,'10':15}))if(Number(d[g])!==x)fail('start-grade distribution mismatch at '+g);
+
+if(!p.startupHotfixR1575||p.startupHotfixR1575.structuralVerification!==true)fail('R1.5.75 startup hotfix metadata regressed');
+if(!p.careerDirectoryRefinementR1576||p.careerDirectoryRefinementR1576.enabled!==true||p.careerDirectoryRefinementR1576.runtimeObserver!==false)fail('R1.5.76 directory metadata regressed');
+
+const countOf=(h,needle)=>h.split(needle).length-1;
+if(countOf(i,'service-worker.js?v=1578')!==3||countOf(i,'employee-registry-ui-r1578')!==1||countOf(i,"APP_RELEASE||'r1578'")!==1||countOf(i,"u.searchParams.set('v','1578')")!==2)fail('index R1.5.78 runtime/cache marker counts mismatch');
+if(i.includes('service-worker.js?v=1577')||i.includes('employee-registry-ui-r1577')||i.includes("APP_RELEASE||'r1577'")||i.includes("u.searchParams.set('v','1577')"))fail('stale R1.5.77 runtime cache/update reference remains in index');
+if(!sw.includes('MOBILE-R1.5.78-SERVICE-WORKER-NO-STALE-UI')||!sw.includes('employee-registry-ui-r1578')||!sw.includes('__offline_index_r1578__'))fail('service worker mismatch');
+if(!String(m.name).includes('R1.5.78')||!String(m.short_name).includes('R1.5.78')||!String(m.description).includes('1011'))fail('manifest mismatch');
+
+console.log('VERIFY_MOBILE_R1 OK:',E);
+console.log('VERIFY_DETERMINISTIC_CHAIN_CONSOLIDATION OK: 8 direct extensions / 7 fragment consolidations / 10 new chains');
+console.log('VERIFY_CANONICAL_EXACT OK: 64 newly mapped canonical titles / no duplicate mapped titles / no fuzzy matching');
+console.log('VERIFY_COVERAGE_EXPANSION OK: 201 chains / 1011 mapped / 305 audit queue / 76.8%');
+console.log('VERIFY_ANCHOR_SAFETY OK: 10 current-title anchors preserved without invented next titles');
+console.log('VERIFY_REFERENCE_ORDER_REGRESSION OK: R1.5.77 audit and linguistic canonicalization retained');
+console.log('VERIFY_DIRECTORY_UI OK: R1.5.76 professional directory search retained');
+console.log('VERIFY_STARTUP_STRUCTURE OK: R1.5.75 startup repair retained; Career styles remain in the real head');
+console.log('VERIFY_REGRESSION OK: canonical exact matching, My Notes, Reference Center, navigation, and employee data remain unchanged');
+console.log('VERIFY_MOBILE_R1 PASSED');

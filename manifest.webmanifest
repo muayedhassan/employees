@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.77",
-  "short_name": "HR Mobile R1.5.77",
+  "name": "سجل الموظفين - Mobile R1.5.78",
+  "short_name": "HR Mobile R1.5.78",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Reference Order Audit & Coverage Expansion: canonical career-title coverage expanded to 947 mapped titles with exact-source safeguards.",
+  "description": "Deterministic Career Chain Consolidation & Coverage Expansion: 1011 canonical titles mapped, 305 remain in review, with exact-only safeguards.",
   "icons": [
     {
       "src": "assets/icon-192.png",

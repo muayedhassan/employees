@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+  "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
   "sourceTotal": 1316,
-  "validatedChainCount": 198,
-  "validatedStepCount": 947,
+  "validatedChainCount": 201,
+  "validatedStepCount": 1011,
   "policy": {
     "allowHeuristicInference": false,
     "requireEducationPresence": true,
@@ -38,9 +38,13 @@
     "careerMatchingAlgorithmChanged": false,
     "referenceOrderAudit": "USER_SUPPLIED_CANONICAL_EXACT",
     "referenceOrderCanOverrideCanonicalDirectory": false,
-    "referenceOrderQualificationHintsInformationalOnly": true
+    "referenceOrderQualificationHintsInformationalOnly": true,
+    "deterministicConsolidationR1578": "MANUAL_CANONICAL_EXACT_SAME_ROOT_CONSECUTIVE_ONLY",
+    "allowAutomaticDeterministicConsolidation": false,
+    "allowCrossFamilyConsolidation": false
   },
   "notes": [
+    "R1.5.78: 64 additional canonical titles mapped through explicit same-root consecutive chains, exact adjacent extensions, or explicit fragment consolidation; no fuzzy matching and no employee-data mutation.",
     "لا ينشئ النظام أي عنوان وظيفي بالاستنتاج أو التشابه.",
     "تكرار العنوان بين أكثر من سلسلة لا يعطل الخريطة؛ يصبح حالة غموض تخص الموظف ولا يظهر معها عنوان قادم حتى حسم الاختصاص أو المراجعة.",
     "أي عنوان له أكثر من تطابق لا يعطل واجهة التدرج؛ يعالج كغموض خاص بالموظف ولا يظهر معه عنوان قادم.",
@@ -2769,6 +2773,11 @@
       "stopReason": "تتوقف سلسلة «فاحص نقد» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
       "steps": [
         {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "فاحص نقد ثان"
+        },
+        {
           "grade": 6,
           "degree": "السادسة",
           "title": "فاحص نقد اول"
@@ -2794,14 +2803,26 @@
           "title": "رئيس فاحص نقد اقدم"
         }
       ],
-      "coverageStartGrade": 6,
-      "coverageStartDegree": "السادسة",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
       "coverageEndGrade": 2,
       "coverageEndDegree": "الثانية",
       "reachesFirst": false,
       "upperSegment": false,
-      "coverageClass": "mid-segment",
-      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين.",
+      "deterministicExtensionR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "addedSteps": [
+          {
+            "grade": 7,
+            "degree": "السابعة",
+            "title": "فاحص نقد ثان"
+          }
+        ],
+        "note": "امتداد مباشر بنفس الجذر إلى الدرجة السابعة.",
+        "safeguard": "canonical exact + same explicit root + adjacent grades only"
+      }
     },
     {
       "id": "r1558_family_016",
@@ -3372,16 +3393,53 @@
           "grade": 5,
           "degree": "الخامسة",
           "title": "امام ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "امام ثان"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "امام اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "امام اقدم"
         }
       ],
       "coverageStartGrade": 8,
       "coverageStartDegree": "الثامنة",
-      "coverageEndGrade": 5,
-      "coverageEndDegree": "الخامسة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
       "reachesFirst": false,
       "upperSegment": false,
       "coverageClass": "wide-coverage",
-      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي.",
+      "deterministicExtensionR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "addedSteps": [
+          {
+            "grade": 4,
+            "degree": "الرابعة",
+            "title": "امام ثان"
+          },
+          {
+            "grade": 3,
+            "degree": "الثالثة",
+            "title": "امام اول"
+          },
+          {
+            "grade": 2,
+            "degree": "الثانية",
+            "title": "امام اقدم"
+          }
+        ],
+        "note": "استكمال صريح لنفس سلسلة امام.",
+        "safeguard": "canonical exact + same explicit root + adjacent grades only"
+      }
     },
     {
       "id": "r1558_family_029",
@@ -4074,16 +4132,53 @@
           "grade": 5,
           "degree": "الخامسة",
           "title": "معاون قضائي ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "معاون قضائي ثان"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "معاون قضائي اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "معاون قضائي اقدم"
         }
       ],
       "coverageStartGrade": 8,
       "coverageStartDegree": "الثامنة",
-      "coverageEndGrade": 5,
-      "coverageEndDegree": "الخامسة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
       "reachesFirst": false,
       "upperSegment": false,
       "coverageClass": "wide-coverage",
-      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي.",
+      "deterministicExtensionR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "addedSteps": [
+          {
+            "grade": 4,
+            "degree": "الرابعة",
+            "title": "معاون قضائي ثان"
+          },
+          {
+            "grade": 3,
+            "degree": "الثالثة",
+            "title": "معاون قضائي اول"
+          },
+          {
+            "grade": 2,
+            "degree": "الثانية",
+            "title": "معاون قضائي اقدم"
+          }
+        ],
+        "note": "استكمال صريح لنفس سلسلة معاون قضائي.",
+        "safeguard": "canonical exact + same explicit root + adjacent grades only"
+      }
     },
     {
       "id": "r1558_family_046",
@@ -4682,12 +4777,32 @@
     {
       "id": "r1558_family_060",
       "name": "مشرف فني",
-      "status": "explicit-audited-family-segment",
+      "status": "explicit-consolidated-consecutive-chain",
       "releaseAdded": "R1.5.58",
-      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "auditBasis": "canonical exact titles / explicit same-family fragments / exact adjacent bridge / no fuzzy inference",
       "familyKey": "مشرف فني",
-      "stopReason": "",
+      "stopReason": "تنتهي السلسلة عند آخر درجة مثبتة صراحةً؛ لا يتم استنتاج ما بعدها.",
       "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "مشرف فني خامس"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مشرف فني رابع"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مشرف فني ثالث"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مشرف فني ثان"
+        },
         {
           "grade": 4,
           "degree": "الرابعة",
@@ -4709,14 +4824,28 @@
           "title": "مشرف فني اقدم اول"
         }
       ],
-      "coverageStartGrade": 4,
-      "coverageStartDegree": "الرابعة",
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
       "coverageEndGrade": 1,
       "coverageEndDegree": "الأولى",
       "reachesFirst": true,
-      "upperSegment": true,
-      "coverageClass": "upper-segment",
-      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تم توحيد مقطعين مثبتين من العائلة نفسها عبر عنوان وسيط صريح.",
+      "mergedLegacyChainIds": [
+        "r1565_unmapped_007"
+      ],
+      "deterministicConsolidationR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "mergedFragment": "r1565_unmapped_007",
+        "bridge": {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مشرف فني ثان"
+        },
+        "family": "مشرف فني",
+        "note": "تم التوحيد عبر عنوان وسيط صريح في الدرجة الملاصقة، دون fuzzy أو قفزة."
+      }
     },
     {
       "id": "r1558_family_063",
@@ -4845,6 +4974,16 @@
       "stopReason": "تتوقف سلسلة «منظم ارشيف» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
       "steps": [
         {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "منظم ارشيف ثالث"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "منظم ارشيف ثان"
+        },
+        {
           "grade": 5,
           "degree": "الخامسة",
           "title": "منظم ارشيف اول"
@@ -4865,14 +5004,31 @@
           "title": "منظم ارشيف اقدم اول"
         }
       ],
-      "coverageStartGrade": 5,
-      "coverageStartDegree": "الخامسة",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
       "coverageEndGrade": 2,
       "coverageEndDegree": "الثانية",
       "reachesFirst": false,
       "upperSegment": false,
-      "coverageClass": "mid-segment",
-      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الخامسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
+      "coverageClass": "wide-coverage",
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الخامسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين.",
+      "deterministicExtensionR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "addedSteps": [
+          {
+            "grade": 7,
+            "degree": "السابعة",
+            "title": "منظم ارشيف ثالث"
+          },
+          {
+            "grade": 6,
+            "degree": "السادسة",
+            "title": "منظم ارشيف ثان"
+          }
+        ],
+        "note": "امتداد مباشر متتابع إلى السابعة والسادسة.",
+        "safeguard": "canonical exact + same explicit root + adjacent grades only"
+      }
     },
     {
       "id": "r1558_family_068",
@@ -5057,16 +5213,53 @@
           "grade": 5,
           "degree": "الخامسة",
           "title": "واعظ ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "واعظ ثان"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "واعظ اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "واعظ اقدم"
         }
       ],
       "coverageStartGrade": 8,
       "coverageStartDegree": "الثامنة",
-      "coverageEndGrade": 5,
-      "coverageEndDegree": "الخامسة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
       "reachesFirst": false,
       "upperSegment": false,
       "coverageClass": "wide-coverage",
-      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة الثامنة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي.",
+      "deterministicExtensionR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "addedSteps": [
+          {
+            "grade": 4,
+            "degree": "الرابعة",
+            "title": "واعظ ثان"
+          },
+          {
+            "grade": 3,
+            "degree": "الثالثة",
+            "title": "واعظ اول"
+          },
+          {
+            "grade": 2,
+            "degree": "الثانية",
+            "title": "واعظ اقدم"
+          }
+        ],
+        "note": "استكمال صريح لنفس سلسلة واعظ.",
+        "safeguard": "canonical exact + same explicit root + adjacent grades only"
+      }
     },
     {
       "id": "r1558_family_073",
@@ -5336,12 +5529,32 @@
     {
       "id": "r1558_family_080",
       "name": "امين متحف",
-      "status": "explicit-audited-family-segment",
+      "status": "explicit-consolidated-consecutive-chain",
       "releaseAdded": "R1.5.58",
-      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "auditBasis": "canonical exact titles / explicit same-family fragments / exact adjacent bridge / no fuzzy inference",
       "familyKey": "امين متحف",
-      "stopReason": "",
+      "stopReason": "تنتهي السلسلة عند آخر درجة مثبتة صراحةً؛ لا يتم استنتاج ما بعدها.",
       "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون امين متحف"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "امين متحف رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "امين متحف ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "امين متحف ثان"
+        },
         {
           "grade": 3,
           "degree": "الثالثة",
@@ -5358,14 +5571,28 @@
           "title": "امين متحف اقدم اول"
         }
       ],
-      "coverageStartGrade": 3,
-      "coverageStartDegree": "الثالثة",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
       "coverageEndGrade": 1,
       "coverageEndDegree": "الأولى",
       "reachesFirst": true,
-      "upperSegment": true,
-      "coverageClass": "upper-segment",
-      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تم توحيد مقطعين مثبتين من العائلة نفسها عبر عنوان وسيط صريح.",
+      "mergedLegacyChainIds": [
+        "r1565_unmapped_003"
+      ],
+      "deterministicConsolidationR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "mergedFragment": "r1565_unmapped_003",
+        "bridge": {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "امين متحف ثان"
+        },
+        "family": "امين متحف",
+        "note": "تم التوحيد عبر عنوان وسيط صريح في الدرجة الملاصقة، دون fuzzy أو قفزة."
+      }
     },
     {
       "id": "r1558_family_081",
@@ -5664,16 +5891,53 @@
           "grade": 8,
           "degree": "الثامنة",
           "title": "حارس اصلاحية ثالث"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "حارس اصلاحية ثان"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "حارس اصلاحية اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "حارس اصلاحية اقدم"
         }
       ],
       "coverageStartGrade": 10,
       "coverageStartDegree": "العاشرة",
-      "coverageEndGrade": 8,
-      "coverageEndDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
       "reachesFirst": false,
       "upperSegment": false,
       "coverageClass": "wide-coverage",
-      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي.",
+      "deterministicExtensionR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "addedSteps": [
+          {
+            "grade": 7,
+            "degree": "السابعة",
+            "title": "حارس اصلاحية ثان"
+          },
+          {
+            "grade": 6,
+            "degree": "السادسة",
+            "title": "حارس اصلاحية اول"
+          },
+          {
+            "grade": 5,
+            "degree": "الخامسة",
+            "title": "حارس اصلاحية اقدم"
+          }
+        ],
+        "note": "استكمال صريح لنفس سلسلة حارس اصلاحية.",
+        "safeguard": "canonical exact + same explicit root + adjacent grades only"
+      }
     },
     {
       "id": "r1558_family_090",
@@ -5759,16 +6023,53 @@
           "grade": 8,
           "degree": "الثامنة",
           "title": "خادم ومؤذن ثالث"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "خادم ومؤذن ثان"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "خادم ومؤذن اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "خادم ومؤذن اقدم"
         }
       ],
       "coverageStartGrade": 10,
       "coverageStartDegree": "العاشرة",
-      "coverageEndGrade": 8,
-      "coverageEndDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
       "reachesFirst": false,
       "upperSegment": false,
       "coverageClass": "wide-coverage",
-      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي.",
+      "deterministicExtensionR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "addedSteps": [
+          {
+            "grade": 7,
+            "degree": "السابعة",
+            "title": "خادم ومؤذن ثان"
+          },
+          {
+            "grade": 6,
+            "degree": "السادسة",
+            "title": "خادم ومؤذن اول"
+          },
+          {
+            "grade": 5,
+            "degree": "الخامسة",
+            "title": "خادم ومؤذن اقدم"
+          }
+        ],
+        "note": "استكمال صريح لنفس سلسلة خادم ومؤذن.",
+        "safeguard": "canonical exact + same explicit root + adjacent grades only"
+      }
     },
     {
       "id": "r1558_family_092",
@@ -5972,12 +6273,32 @@
     {
       "id": "r1558_family_097",
       "name": "سادن",
-      "status": "explicit-audited-family-segment",
+      "status": "explicit-consolidated-consecutive-chain",
       "releaseAdded": "R1.5.58",
-      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "auditBasis": "canonical exact titles / explicit same-family fragments / exact adjacent bridge / no fuzzy inference",
       "familyKey": "سادن",
-      "stopReason": "",
+      "stopReason": "تنتهي السلسلة عند آخر درجة مثبتة صراحةً؛ لا يتم استنتاج ما بعدها.",
       "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون سادن"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "سادن رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "سادن ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "سادن ثان"
+        },
         {
           "grade": 3,
           "degree": "الثالثة",
@@ -5994,14 +6315,28 @@
           "title": "سادن اقدم اول"
         }
       ],
-      "coverageStartGrade": 3,
-      "coverageStartDegree": "الثالثة",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
       "coverageEndGrade": 1,
       "coverageEndDegree": "الأولى",
       "reachesFirst": true,
-      "upperSegment": true,
-      "coverageClass": "upper-segment",
-      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تم توحيد مقطعين مثبتين من العائلة نفسها عبر عنوان وسيط صريح.",
+      "mergedLegacyChainIds": [
+        "r1565_unmapped_005"
+      ],
+      "deterministicConsolidationR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "mergedFragment": "r1565_unmapped_005",
+        "bridge": {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "سادن ثان"
+        },
+        "family": "سادن",
+        "note": "تم التوحيد عبر عنوان وسيط صريح في الدرجة الملاصقة، دون fuzzy أو قفزة."
+      }
     },
     {
       "id": "r1558_family_098",
@@ -6482,16 +6817,53 @@
           "grade": 8,
           "degree": "الثامنة",
           "title": "قارئ ومؤذن ثالث"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "قارئ ومؤذن ثان"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "قارئ ومؤذن اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "قارئ ومؤذن اقدم"
         }
       ],
       "coverageStartGrade": 10,
       "coverageStartDegree": "العاشرة",
-      "coverageEndGrade": 8,
-      "coverageEndDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
       "reachesFirst": false,
       "upperSegment": false,
       "coverageClass": "wide-coverage",
-      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة العاشرة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي.",
+      "deterministicExtensionR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "addedSteps": [
+          {
+            "grade": 7,
+            "degree": "السابعة",
+            "title": "قارئ ومؤذن ثان"
+          },
+          {
+            "grade": 6,
+            "degree": "السادسة",
+            "title": "قارئ ومؤذن اول"
+          },
+          {
+            "grade": 5,
+            "degree": "الخامسة",
+            "title": "قارئ ومؤذن اقدم"
+          }
+        ],
+        "note": "استكمال صريح لنفس سلسلة قارئ ومؤذن.",
+        "safeguard": "canonical exact + same explicit root + adjacent grades only"
+      }
     },
     {
       "id": "r1558_family_111",
@@ -6530,12 +6902,32 @@
     {
       "id": "r1558_family_112",
       "name": "كاتب عدل",
-      "status": "explicit-audited-family-segment",
+      "status": "explicit-consolidated-consecutive-chain",
       "releaseAdded": "R1.5.58",
-      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "auditBasis": "canonical exact titles / explicit same-family fragments / exact adjacent bridge / no fuzzy inference",
       "familyKey": "كاتب عدل",
-      "stopReason": "",
+      "stopReason": "تنتهي السلسلة عند آخر درجة مثبتة صراحةً؛ لا يتم استنتاج ما بعدها.",
       "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "كاتب عدل خامس"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "كاتب عدل رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "كاتب عدل ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "كاتب عدل ثان"
+        },
         {
           "grade": 3,
           "degree": "الثالثة",
@@ -6552,14 +6944,28 @@
           "title": "كاتب عدل اقدم اول"
         }
       ],
-      "coverageStartGrade": 3,
-      "coverageStartDegree": "الثالثة",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
       "coverageEndGrade": 1,
       "coverageEndDegree": "الأولى",
       "reachesFirst": true,
-      "upperSegment": true,
-      "coverageClass": "upper-segment",
-      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تم توحيد مقطعين مثبتين من العائلة نفسها عبر عنوان وسيط صريح.",
+      "mergedLegacyChainIds": [
+        "r1565_unmapped_006"
+      ],
+      "deterministicConsolidationR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "mergedFragment": "r1565_unmapped_006",
+        "bridge": {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "كاتب عدل ثان"
+        },
+        "family": "كاتب عدل",
+        "note": "تم التوحيد عبر عنوان وسيط صريح في الدرجة الملاصقة، دون fuzzy أو قفزة."
+      }
     },
     {
       "id": "r1558_family_113",
@@ -8079,12 +8485,32 @@
     {
       "id": "r1558_family_149",
       "name": "معلم",
-      "status": "explicit-audited-family-segment",
+      "status": "explicit-consolidated-consecutive-chain",
       "releaseAdded": "R1.5.58",
-      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "auditBasis": "canonical exact titles / explicit same-family fragments / exact adjacent bridge / no fuzzy inference",
       "familyKey": "معلم",
-      "stopReason": "تتوقف سلسلة «معلم» عند الدرجة الثانية. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الأولى، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
+      "stopReason": "تنتهي السلسلة عند آخر درجة مثبتة صراحةً؛ لا يتم استنتاج ما بعدها.",
       "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "معلم خامس"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معلم رابع"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معلم ثالث"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معلم ثان"
+        },
         {
           "grade": 4,
           "degree": "الرابعة",
@@ -8101,14 +8527,28 @@
           "title": "معلم اقدم ثاني"
         }
       ],
-      "coverageStartGrade": 4,
-      "coverageStartDegree": "الرابعة",
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
       "coverageEndGrade": 2,
       "coverageEndDegree": "الثانية",
       "reachesFirst": false,
-      "upperSegment": true,
-      "coverageClass": "upper-segment",
-      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الرابعة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تم توحيد مقطعين مثبتين من العائلة نفسها عبر عنوان وسيط صريح.",
+      "mergedLegacyChainIds": [
+        "r1565_unmapped_008"
+      ],
+      "deterministicConsolidationR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "mergedFragment": "r1565_unmapped_008",
+        "bridge": {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "معلم ثان"
+        },
+        "family": "معلم",
+        "note": "تم التوحيد عبر عنوان وسيط صريح في الدرجة الملاصقة، دون fuzzy أو قفزة."
+      }
     },
     {
       "id": "r1558_family_150",
@@ -8268,12 +8708,32 @@
     {
       "id": "r1558_family_154",
       "name": "منفذ عدل",
-      "status": "explicit-audited-family-segment",
+      "status": "explicit-consolidated-consecutive-chain",
       "releaseAdded": "R1.5.58",
-      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "auditBasis": "canonical exact titles / explicit same-family fragments / exact adjacent bridge / no fuzzy inference",
       "familyKey": "منفذ عدل",
-      "stopReason": "",
+      "stopReason": "تنتهي السلسلة عند آخر درجة مثبتة صراحةً؛ لا يتم استنتاج ما بعدها.",
       "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "منفذ عدل خامس"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "منفذ عدل رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "منفذ عدل ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "منفذ عدل ثان"
+        },
         {
           "grade": 3,
           "degree": "الثالثة",
@@ -8290,24 +8750,58 @@
           "title": "منفذ عدل اقدم اول"
         }
       ],
-      "coverageStartGrade": 3,
-      "coverageStartDegree": "الثالثة",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
       "coverageEndGrade": 1,
       "coverageEndDegree": "الأولى",
       "reachesFirst": true,
-      "upperSegment": true,
-      "coverageClass": "upper-segment",
-      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تم توحيد مقطعين مثبتين من العائلة نفسها عبر عنوان وسيط صريح.",
+      "mergedLegacyChainIds": [
+        "r1565_unmapped_012"
+      ],
+      "deterministicConsolidationR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "mergedFragment": "r1565_unmapped_012",
+        "bridge": {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "منفذ عدل ثان"
+        },
+        "family": "منفذ عدل",
+        "note": "تم التوحيد عبر عنوان وسيط صريح في الدرجة الملاصقة، دون fuzzy أو قفزة."
+      }
     },
     {
       "id": "r1558_family_155",
       "name": "منقب اثار",
-      "status": "explicit-audited-family-segment",
+      "status": "explicit-consolidated-consecutive-chain",
       "releaseAdded": "R1.5.58",
-      "auditBasis": "same-family exact titles / unique per grade / >=3 consecutive grades / no cross-gap bridging",
+      "auditBasis": "canonical exact titles / explicit same-family fragments / exact adjacent bridge / no fuzzy inference",
       "familyKey": "منقب اثار",
-      "stopReason": "",
+      "stopReason": "تنتهي السلسلة عند آخر درجة مثبتة صراحةً؛ لا يتم استنتاج ما بعدها.",
       "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "معاون منقب اثار"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "منقب اثار رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "منقب اثار ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "منقب اثار ثان"
+        },
         {
           "grade": 3,
           "degree": "الثالثة",
@@ -8324,14 +8818,28 @@
           "title": "رئيس منقب اثار اقدم اول"
         }
       ],
-      "coverageStartGrade": 3,
-      "coverageStartDegree": "الثالثة",
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
       "coverageEndGrade": 1,
       "coverageEndDegree": "الأولى",
       "reachesFirst": true,
-      "upperSegment": true,
-      "coverageClass": "upper-segment",
-      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة الثالثة. هذا لا يعني أن التعيين يبدأ من هذه الدرجة؛ المقطع علوي، وقد تكون الدرجات الأدنى تحت مسمى مهني مختلف أو تحتاج علاقة ربط رسمية غير موجودة في المصدر الحالي."
+      "upperSegment": false,
+      "coverageClass": "wide-coverage",
+      "startReason": "تم توحيد مقطعين مثبتين من العائلة نفسها عبر عنوان وسيط صريح.",
+      "mergedLegacyChainIds": [
+        "r1565_unmapped_013"
+      ],
+      "deterministicConsolidationR1578": {
+        "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+        "mergedFragment": "r1565_unmapped_013",
+        "bridge": {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "منقب اثار ثان"
+        },
+        "family": "منقب اثار",
+        "note": "تم التوحيد عبر عنوان وسيط صريح في الدرجة الملاصقة، دون fuzzy أو قفزة."
+      }
     },
     {
       "id": "r1558_family_156",
@@ -8516,40 +9024,6 @@
       "startReason": "هذه بداية المقطع الصريح الذي أمكن إثباته من دليل العناوين الحالي، ولا تعني بداية التعيين."
     },
     {
-      "id": "r1565_unmapped_003",
-      "name": "امين متحف",
-      "status": "explicit-audited-unmapped-segment",
-      "releaseAdded": "R1.5.65",
-      "auditBasis": "manual review / exact source titles / one title per included grade / consecutive segment / no fuzzy inference",
-      "familyKey": "امين متحف",
-      "stopReason": "مقطع صريح مضاف من قائمة العناوين غير المربوطة بعد التدقيق؛ يتوقف عند آخر درجة مثبتة ولا يتجاوز أي فجوة أو حالة غموض.",
-      "steps": [
-        {
-          "grade": 7,
-          "degree": "السابعة",
-          "title": "معاون امين متحف"
-        },
-        {
-          "grade": 6,
-          "degree": "السادسة",
-          "title": "امين متحف رابع"
-        },
-        {
-          "grade": 5,
-          "degree": "الخامسة",
-          "title": "امين متحف ثالث"
-        }
-      ],
-      "coverageStartGrade": 7,
-      "coverageStartDegree": "السابعة",
-      "coverageEndGrade": 5,
-      "coverageEndDegree": "الخامسة",
-      "reachesFirst": false,
-      "upperSegment": false,
-      "coverageClass": "wide-coverage",
-      "startReason": "هذه بداية المقطع الصريح الذي أمكن إثباته من دليل العناوين الحالي، ولا تعني بداية التعيين."
-    },
-    {
       "id": "r1565_unmapped_004",
       "name": "باحث علوم جو",
       "status": "explicit-audited-unmapped-segment",
@@ -8578,142 +9052,6 @@
       "coverageStartDegree": "السابعة",
       "coverageEndGrade": 5,
       "coverageEndDegree": "الخامسة",
-      "reachesFirst": false,
-      "upperSegment": false,
-      "coverageClass": "wide-coverage",
-      "startReason": "هذه بداية المقطع الصريح الذي أمكن إثباته من دليل العناوين الحالي، ولا تعني بداية التعيين."
-    },
-    {
-      "id": "r1565_unmapped_005",
-      "name": "سادن",
-      "status": "explicit-audited-unmapped-segment",
-      "releaseAdded": "R1.5.65",
-      "auditBasis": "manual review / exact source titles / one title per included grade / consecutive segment / no fuzzy inference",
-      "familyKey": "سادن",
-      "stopReason": "مقطع صريح مضاف من قائمة العناوين غير المربوطة بعد التدقيق؛ يتوقف عند آخر درجة مثبتة ولا يتجاوز أي فجوة أو حالة غموض.",
-      "steps": [
-        {
-          "grade": 7,
-          "degree": "السابعة",
-          "title": "معاون سادن"
-        },
-        {
-          "grade": 6,
-          "degree": "السادسة",
-          "title": "سادن رابع"
-        },
-        {
-          "grade": 5,
-          "degree": "الخامسة",
-          "title": "سادن ثالث"
-        }
-      ],
-      "coverageStartGrade": 7,
-      "coverageStartDegree": "السابعة",
-      "coverageEndGrade": 5,
-      "coverageEndDegree": "الخامسة",
-      "reachesFirst": false,
-      "upperSegment": false,
-      "coverageClass": "wide-coverage",
-      "startReason": "هذه بداية المقطع الصريح الذي أمكن إثباته من دليل العناوين الحالي، ولا تعني بداية التعيين."
-    },
-    {
-      "id": "r1565_unmapped_006",
-      "name": "كاتب عدل",
-      "status": "explicit-audited-unmapped-segment",
-      "releaseAdded": "R1.5.65",
-      "auditBasis": "manual review / exact source titles / one title per included grade / consecutive segment / no fuzzy inference",
-      "familyKey": "كاتب عدل",
-      "stopReason": "مقطع صريح مضاف من قائمة العناوين غير المربوطة بعد التدقيق؛ يتوقف عند آخر درجة مثبتة ولا يتجاوز أي فجوة أو حالة غموض.",
-      "steps": [
-        {
-          "grade": 7,
-          "degree": "السابعة",
-          "title": "كاتب عدل خامس"
-        },
-        {
-          "grade": 6,
-          "degree": "السادسة",
-          "title": "كاتب عدل رابع"
-        },
-        {
-          "grade": 5,
-          "degree": "الخامسة",
-          "title": "كاتب عدل ثالث"
-        }
-      ],
-      "coverageStartGrade": 7,
-      "coverageStartDegree": "السابعة",
-      "coverageEndGrade": 5,
-      "coverageEndDegree": "الخامسة",
-      "reachesFirst": false,
-      "upperSegment": false,
-      "coverageClass": "wide-coverage",
-      "startReason": "هذه بداية المقطع الصريح الذي أمكن إثباته من دليل العناوين الحالي، ولا تعني بداية التعيين."
-    },
-    {
-      "id": "r1565_unmapped_007",
-      "name": "مشرف فني",
-      "status": "explicit-audited-unmapped-segment",
-      "releaseAdded": "R1.5.65",
-      "auditBasis": "manual review / exact source titles / one title per included grade / consecutive segment / no fuzzy inference",
-      "familyKey": "مشرف فني",
-      "stopReason": "مقطع صريح مضاف من قائمة العناوين غير المربوطة بعد التدقيق؛ يتوقف عند آخر درجة مثبتة ولا يتجاوز أي فجوة أو حالة غموض.",
-      "steps": [
-        {
-          "grade": 8,
-          "degree": "الثامنة",
-          "title": "مشرف فني خامس"
-        },
-        {
-          "grade": 7,
-          "degree": "السابعة",
-          "title": "مشرف فني رابع"
-        },
-        {
-          "grade": 6,
-          "degree": "السادسة",
-          "title": "مشرف فني ثالث"
-        }
-      ],
-      "coverageStartGrade": 8,
-      "coverageStartDegree": "الثامنة",
-      "coverageEndGrade": 6,
-      "coverageEndDegree": "السادسة",
-      "reachesFirst": false,
-      "upperSegment": false,
-      "coverageClass": "wide-coverage",
-      "startReason": "هذه بداية المقطع الصريح الذي أمكن إثباته من دليل العناوين الحالي، ولا تعني بداية التعيين."
-    },
-    {
-      "id": "r1565_unmapped_008",
-      "name": "معلم",
-      "status": "explicit-audited-unmapped-segment",
-      "releaseAdded": "R1.5.65",
-      "auditBasis": "manual review / exact source titles / one title per included grade / consecutive segment / no fuzzy inference",
-      "familyKey": "معلم",
-      "stopReason": "مقطع صريح مضاف من قائمة العناوين غير المربوطة بعد التدقيق؛ يتوقف عند آخر درجة مثبتة ولا يتجاوز أي فجوة أو حالة غموض.",
-      "steps": [
-        {
-          "grade": 8,
-          "degree": "الثامنة",
-          "title": "معلم خامس"
-        },
-        {
-          "grade": 7,
-          "degree": "السابعة",
-          "title": "معلم رابع"
-        },
-        {
-          "grade": 6,
-          "degree": "السادسة",
-          "title": "معلم ثالث"
-        }
-      ],
-      "coverageStartGrade": 8,
-      "coverageStartDegree": "الثامنة",
-      "coverageEndGrade": 6,
-      "coverageEndDegree": "السادسة",
       "reachesFirst": false,
       "upperSegment": false,
       "coverageClass": "wide-coverage",
@@ -8810,74 +9148,6 @@
           "grade": 5,
           "degree": "الخامسة",
           "title": "رئيس ملاحظين فني"
-        }
-      ],
-      "coverageStartGrade": 7,
-      "coverageStartDegree": "السابعة",
-      "coverageEndGrade": 5,
-      "coverageEndDegree": "الخامسة",
-      "reachesFirst": false,
-      "upperSegment": false,
-      "coverageClass": "wide-coverage",
-      "startReason": "هذه بداية المقطع الصريح الذي أمكن إثباته من دليل العناوين الحالي، ولا تعني بداية التعيين."
-    },
-    {
-      "id": "r1565_unmapped_012",
-      "name": "منفذ عدل",
-      "status": "explicit-audited-unmapped-segment",
-      "releaseAdded": "R1.5.65",
-      "auditBasis": "manual review / exact source titles / one title per included grade / consecutive segment / no fuzzy inference",
-      "familyKey": "منفذ عدل",
-      "stopReason": "مقطع صريح مضاف من قائمة العناوين غير المربوطة بعد التدقيق؛ يتوقف عند آخر درجة مثبتة ولا يتجاوز أي فجوة أو حالة غموض.",
-      "steps": [
-        {
-          "grade": 7,
-          "degree": "السابعة",
-          "title": "منفذ عدل خامس"
-        },
-        {
-          "grade": 6,
-          "degree": "السادسة",
-          "title": "منفذ عدل رابع"
-        },
-        {
-          "grade": 5,
-          "degree": "الخامسة",
-          "title": "منفذ عدل ثالث"
-        }
-      ],
-      "coverageStartGrade": 7,
-      "coverageStartDegree": "السابعة",
-      "coverageEndGrade": 5,
-      "coverageEndDegree": "الخامسة",
-      "reachesFirst": false,
-      "upperSegment": false,
-      "coverageClass": "wide-coverage",
-      "startReason": "هذه بداية المقطع الصريح الذي أمكن إثباته من دليل العناوين الحالي، ولا تعني بداية التعيين."
-    },
-    {
-      "id": "r1565_unmapped_013",
-      "name": "منقب اثار",
-      "status": "explicit-audited-unmapped-segment",
-      "releaseAdded": "R1.5.65",
-      "auditBasis": "manual review / exact source titles / one title per included grade / consecutive segment / no fuzzy inference",
-      "familyKey": "منقب اثار",
-      "stopReason": "مقطع صريح مضاف من قائمة العناوين غير المربوطة بعد التدقيق؛ يتوقف عند آخر درجة مثبتة ولا يتجاوز أي فجوة أو حالة غموض.",
-      "steps": [
-        {
-          "grade": 7,
-          "degree": "السابعة",
-          "title": "معاون منقب اثار"
-        },
-        {
-          "grade": 6,
-          "degree": "السادسة",
-          "title": "منقب اثار رابع"
-        },
-        {
-          "grade": 5,
-          "degree": "الخامسة",
-          "title": "منقب اثار ثالث"
         }
       ],
       "coverageStartGrade": 7,
@@ -9273,43 +9543,413 @@
       "coverageEndDegree": "الثامنة",
       "reachesFirst": false,
       "upperSegment": false
+    },
+    {
+      "id": "r1578_chain_servant",
+      "name": "خادم",
+      "status": "explicit-deterministic-consecutive-chain",
+      "releaseAdded": "R1.5.78",
+      "auditBasis": "canonical exact titles / same explicit lexical root / unique per grade / consecutive grades / no fuzzy inference / no cross-family bridge",
+      "familyKey": "خادم",
+      "steps": [
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "خادم رابع"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "خادم ثالث"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "خادم ثان"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "خادم اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "خادم اقدم"
+        }
+      ],
+      "startReason": "سلسلة مستقلة مثبتة من عناوين الدليل نفسها بمراتب صريحة ودرجات متجاورة.",
+      "stopReason": "تتوقف عند آخر درجة مثبتة صراحةً؛ لا يتم تجاوز نهاية المقطع أو استنتاج عنوان تالٍ.",
+      "coverageClass": "wide-coverage",
+      "upperSegment": false,
+      "coverageStartGrade": 9,
+      "coverageStartDegree": "التاسعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false
+    },
+    {
+      "id": "r1578_chain_editor",
+      "name": "محرر",
+      "status": "explicit-deterministic-consecutive-chain",
+      "releaseAdded": "R1.5.78",
+      "auditBasis": "canonical exact titles / same explicit lexical root / unique per grade / consecutive grades / no fuzzy inference / no cross-family bridge",
+      "familyKey": "محرر",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "محرر ثالث"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "محرر ثان"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "محرر اول"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "محرر اقدم"
+        }
+      ],
+      "startReason": "سلسلة مستقلة مثبتة من عناوين الدليل نفسها بمراتب صريحة ودرجات متجاورة.",
+      "stopReason": "تتوقف عند آخر درجة مثبتة صراحةً؛ لا يتم تجاوز نهاية المقطع أو استنتاج عنوان تالٍ.",
+      "coverageClass": "mid-segment",
+      "upperSegment": false,
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false
+    },
+    {
+      "id": "r1578_chain_section_officer",
+      "name": "مامور قسم",
+      "status": "explicit-deterministic-consecutive-chain",
+      "releaseAdded": "R1.5.78",
+      "auditBasis": "canonical exact titles / same explicit lexical root / unique per grade / consecutive grades / no fuzzy inference / no cross-family bridge",
+      "familyKey": "مامور قسم",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مامور قسم ثالث"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مامور قسم ثان"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مامور قسم اول"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "مامور قسم اقدم"
+        }
+      ],
+      "startReason": "سلسلة مستقلة مثبتة من عناوين الدليل نفسها بمراتب صريحة ودرجات متجاورة.",
+      "stopReason": "تتوقف عند آخر درجة مثبتة صراحةً؛ لا يتم تجاوز نهاية المقطع أو استنتاج عنوان تالٍ.",
+      "coverageClass": "mid-segment",
+      "upperSegment": false,
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false
+    },
+    {
+      "id": "r1578_chain_reformatory_sergeant",
+      "name": "رقيب اصلاحية",
+      "status": "explicit-deterministic-consecutive-chain",
+      "releaseAdded": "R1.5.78",
+      "auditBasis": "canonical exact titles / same explicit lexical root / unique per grade / consecutive grades / no fuzzy inference / no cross-family bridge",
+      "familyKey": "رقيب اصلاحية",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "رقيب اصلاحية ثالث"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "رقيب اصلاحية ثان"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "رقيب اصلاحية اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رقيب اصلاحية اقدم"
+        }
+      ],
+      "startReason": "سلسلة مستقلة مثبتة من عناوين الدليل نفسها بمراتب صريحة ودرجات متجاورة.",
+      "stopReason": "تتوقف عند آخر درجة مثبتة صراحةً؛ لا يتم تجاوز نهاية المقطع أو استنتاج عنوان تالٍ.",
+      "coverageClass": "mid-segment",
+      "upperSegment": false,
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false
+    },
+    {
+      "id": "r1578_chain_notifier",
+      "name": "مبلغ",
+      "status": "explicit-deterministic-consecutive-chain",
+      "releaseAdded": "R1.5.78",
+      "auditBasis": "canonical exact titles / same explicit lexical root / unique per grade / consecutive grades / no fuzzy inference / no cross-family bridge",
+      "familyKey": "مبلغ",
+      "steps": [
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "مبلغ ثالث"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "مبلغ ثان"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مبلغ اول"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مبلغ اقدم"
+        }
+      ],
+      "startReason": "سلسلة مستقلة مثبتة من عناوين الدليل نفسها بمراتب صريحة ودرجات متجاورة.",
+      "stopReason": "تتوقف عند آخر درجة مثبتة صراحةً؛ لا يتم تجاوز نهاية المقطع أو استنتاج عنوان تالٍ.",
+      "coverageClass": "mid-segment",
+      "upperSegment": false,
+      "coverageStartGrade": 9,
+      "coverageStartDegree": "التاسعة",
+      "coverageEndGrade": 6,
+      "coverageEndDegree": "السادسة",
+      "reachesFirst": false
+    },
+    {
+      "id": "r1578_chain_justice_investigator",
+      "name": "محقق عدل",
+      "status": "explicit-deterministic-consecutive-chain",
+      "releaseAdded": "R1.5.78",
+      "auditBasis": "canonical exact titles / same explicit lexical root / unique per grade / consecutive grades / no fuzzy inference / no cross-family bridge",
+      "familyKey": "محقق عدل",
+      "steps": [
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "محقق عدل رابع"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "محقق عدل ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "محقق عدل ثان"
+        }
+      ],
+      "startReason": "سلسلة مستقلة مثبتة من عناوين الدليل نفسها بمراتب صريحة ودرجات متجاورة.",
+      "stopReason": "تتوقف عند آخر درجة مثبتة صراحةً؛ لا يتم تجاوز نهاية المقطع أو استنتاج عنوان تالٍ.",
+      "coverageClass": "mid-segment",
+      "upperSegment": false,
+      "coverageStartGrade": 6,
+      "coverageStartDegree": "السادسة",
+      "coverageEndGrade": 4,
+      "coverageEndDegree": "الرابعة",
+      "reachesFirst": false
+    },
+    {
+      "id": "r1578_chain_assistant_pharmacy_supervisor",
+      "name": "رئيس معاون صيدلي",
+      "status": "explicit-deterministic-consecutive-chain",
+      "releaseAdded": "R1.5.78",
+      "auditBasis": "canonical exact titles / same explicit lexical root / unique per grade / consecutive grades / no fuzzy inference / no cross-family bridge",
+      "familyKey": "رئيس معاون صيدلي",
+      "steps": [
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "رئيس معاون صيدلي ثاني"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس معاون صيدلي اول"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس معاون صيدلي اقدم"
+        }
+      ],
+      "startReason": "سلسلة مستقلة مثبتة من عناوين الدليل نفسها بمراتب صريحة ودرجات متجاورة.",
+      "stopReason": "تتوقف عند آخر درجة مثبتة صراحةً؛ لا يتم تجاوز نهاية المقطع أو استنتاج عنوان تالٍ.",
+      "coverageClass": "mid-segment",
+      "upperSegment": false,
+      "coverageStartGrade": 4,
+      "coverageStartDegree": "الرابعة",
+      "coverageEndGrade": 2,
+      "coverageEndDegree": "الثانية",
+      "reachesFirst": false
+    },
+    {
+      "id": "r1578_chain_secretary",
+      "name": "سكرتير",
+      "status": "explicit-deterministic-consecutive-chain",
+      "releaseAdded": "R1.5.78",
+      "auditBasis": "canonical exact titles / same explicit lexical root / unique per grade / consecutive grades / no fuzzy inference / no cross-family bridge",
+      "familyKey": "سكرتير",
+      "steps": [
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "سكرتير ثالث"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "سكرتير ثان"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "سكرتير اول"
+        }
+      ],
+      "startReason": "سلسلة مستقلة مثبتة من عناوين الدليل نفسها بمراتب صريحة ودرجات متجاورة.",
+      "stopReason": "تتوقف عند آخر درجة مثبتة صراحةً؛ لا يتم تجاوز نهاية المقطع أو استنتاج عنوان تالٍ.",
+      "coverageClass": "mid-segment",
+      "upperSegment": false,
+      "coverageStartGrade": 5,
+      "coverageStartDegree": "الخامسة",
+      "coverageEndGrade": 3,
+      "coverageEndDegree": "الثالثة",
+      "reachesFirst": false
+    },
+    {
+      "id": "r1578_chain_social_guide",
+      "name": "مرشد اجتماعي",
+      "status": "explicit-deterministic-consecutive-chain",
+      "releaseAdded": "R1.5.78",
+      "auditBasis": "canonical exact titles / same explicit lexical root / unique per grade / consecutive grades / no fuzzy inference / no cross-family bridge",
+      "familyKey": "مرشد اجتماعي",
+      "steps": [
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "مرشد اجتماعي ثان"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "مرشد اجتماعي اول"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "مرشد اجتماعي اقدم"
+        }
+      ],
+      "startReason": "سلسلة مستقلة مثبتة من عناوين الدليل نفسها بمراتب صريحة ودرجات متجاورة.",
+      "stopReason": "تتوقف عند آخر درجة مثبتة صراحةً؛ لا يتم تجاوز نهاية المقطع أو استنتاج عنوان تالٍ.",
+      "coverageClass": "mid-segment",
+      "upperSegment": false,
+      "coverageStartGrade": 7,
+      "coverageStartDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
+      "reachesFirst": false
+    },
+    {
+      "id": "r1578_chain_fire_driver",
+      "name": "سائق اطفاء",
+      "status": "explicit-deterministic-consecutive-chain",
+      "releaseAdded": "R1.5.78",
+      "auditBasis": "canonical exact titles / same explicit lexical root / unique per grade / consecutive grades / no fuzzy inference / no cross-family bridge",
+      "familyKey": "سائق اطفاء",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "سائق اطفاء ثان"
+        },
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "سائق اطفاء اول"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "سائق اطفاء اقدم"
+        }
+      ],
+      "startReason": "سلسلة مستقلة مثبتة من عناوين الدليل نفسها بمراتب صريحة ودرجات متجاورة.",
+      "stopReason": "تتوقف عند آخر درجة مثبتة صراحةً؛ لا يتم تجاوز نهاية المقطع أو استنتاج عنوان تالٍ.",
+      "coverageClass": "mid-segment",
+      "upperSegment": false,
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 8,
+      "coverageEndDegree": "الثامنة",
+      "reachesFirst": false
     }
   ],
   "coverage": {
     "directoryTitles": 1316,
-    "mappedTitles": 947,
-    "unmappedTitles": 369,
-    "exactCoveragePercent": 72,
-    "batchAddedChains": 157,
-    "batchAddedSteps": 583,
-    "rule": "R1.5.77 absorbs the user-supplied degree-order reference only where a canonical directory title is exact/resolvable; ambiguous next relations remain current-title anchors."
+    "mappedTitles": 1011,
+    "unmappedTitles": 305,
+    "exactCoveragePercent": 76.8,
+    "batchAddedChains": 160,
+    "batchAddedSteps": 647,
+    "rule": "R1.5.78 maps only canonical exact titles through explicit same-root consecutive sequences, direct adjacent extensions, or exact adjacent fragment bridges; ambiguity remains outside automatic progression."
   },
   "coverageProfiles": {
     "extendsToFirst": 77,
-    "partial": 121,
-    "upperSegments": 40,
+    "partial": 124,
+    "upperSegments": 33,
     "startGradeDistribution": {
-      "3": 15,
-      "4": 25,
+      "3": 10,
+      "4": 24,
       "5": 9,
       "6": 8,
-      "7": 75,
-      "8": 42,
-      "9": 10,
-      "10": 14
+      "7": 80,
+      "8": 43,
+      "9": 12,
+      "10": 15
     },
-    "note": "R1.5.77 recomputed after reference-order audit; anchors are counted as one-step partial chains and do not assert a next title."
+    "note": "R1.5.78 recomputed after deterministic chain consolidation; current-title anchors remain one-step partial chains and do not assert a next title."
   },
   "remainingAudit": {
-    "totalTitles": 369,
+    "totalTitles": 305,
     "familyCount": 267,
     "isolatedFamilies": 191,
     "twoConsecutiveCandidateFamilies": 37,
     "ambiguousFamilies": 15,
     "gapFamilies": 24,
     "status": "review-only-not-active",
-    "note": "R1.5.77: 22 canonical titles were removed from the audit queue through explicit degree-order evidence or current-title anchors. Remaining 369 titles still require independent review.",
-    "breakdownSnapshotRelease": "R1.5.66",
+    "note": "R1.5.78 removed 64 additional canonical titles from the audit queue through explicit deterministic evidence. Remaining 305 titles require independent review.",
+    "breakdownSnapshotRelease": "R1.5.66 (family-shape snapshot; stale after R1.5.78)",
     "breakdownRecomputeRequired": true
   },
   "familyBridgeAudit": {
@@ -10624,6 +11264,558 @@
       "التصحيح اللغوي استُخدم فقط لاختيار النظير الحرفي الموجود أصلًا في دليل التطبيق.",
       "عند تعدد مدخلات الدرجة نفسها أو غياب علاقة انتقال صريحة، يُنشأ current-title anchor فقط دون اقتراح تالٍ.",
       "ملاحظات المؤهل في الورقة المرجعية معلومات سياقية ولا تغيّر درجة الموظف أو عنوانه تلقائيًا."
+    ]
+  },
+  "deterministicConsolidationR1578": {
+    "release": "MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION",
+    "baseRelease": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+    "mode": "manual-canonical-exact-same-root-consecutive-only",
+    "canonicalDirectoryTotal": 1316,
+    "previousChains": 198,
+    "chainsAfter": 201,
+    "previousMappedTitles": 947,
+    "newlyMappedTitles": 64,
+    "mappedTitlesAfter": 1011,
+    "remainingAuditBefore": 369,
+    "remainingAuditAfter": 305,
+    "coverageBeforePercent": 72,
+    "coverageAfterPercent": 76.8,
+    "affectedFamilies": 25,
+    "extendedExistingChains": 8,
+    "consolidatedPairs": 7,
+    "newChainsAdded": 10,
+    "anchorsPreserved": 10,
+    "removedFragmentChainIds": [
+      "r1565_unmapped_003",
+      "r1565_unmapped_005",
+      "r1565_unmapped_006",
+      "r1565_unmapped_007",
+      "r1565_unmapped_008",
+      "r1565_unmapped_012",
+      "r1565_unmapped_013"
+    ],
+    "plannedNewTitles": [
+      {
+        "degree": "السابعة",
+        "grade": 7,
+        "title": "فاحص نقد ثان",
+        "action": "extend",
+        "chainId": "r1558_family_015",
+        "family": null
+      },
+      {
+        "degree": "السابعة",
+        "grade": 7,
+        "title": "منظم ارشيف ثالث",
+        "action": "extend",
+        "chainId": "r1558_family_067",
+        "family": null
+      },
+      {
+        "degree": "السادسة",
+        "grade": 6,
+        "title": "منظم ارشيف ثان",
+        "action": "extend",
+        "chainId": "r1558_family_067",
+        "family": null
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "معاون قضائي ثان",
+        "action": "extend",
+        "chainId": "r1558_family_044",
+        "family": null
+      },
+      {
+        "degree": "الثالثة",
+        "grade": 3,
+        "title": "معاون قضائي اول",
+        "action": "extend",
+        "chainId": "r1558_family_044",
+        "family": null
+      },
+      {
+        "degree": "الثانية",
+        "grade": 2,
+        "title": "معاون قضائي اقدم",
+        "action": "extend",
+        "chainId": "r1558_family_044",
+        "family": null
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "امام ثان",
+        "action": "extend",
+        "chainId": "r1558_family_027",
+        "family": null
+      },
+      {
+        "degree": "الثالثة",
+        "grade": 3,
+        "title": "امام اول",
+        "action": "extend",
+        "chainId": "r1558_family_027",
+        "family": null
+      },
+      {
+        "degree": "الثانية",
+        "grade": 2,
+        "title": "امام اقدم",
+        "action": "extend",
+        "chainId": "r1558_family_027",
+        "family": null
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "واعظ ثان",
+        "action": "extend",
+        "chainId": "r1558_family_072",
+        "family": null
+      },
+      {
+        "degree": "الثالثة",
+        "grade": 3,
+        "title": "واعظ اول",
+        "action": "extend",
+        "chainId": "r1558_family_072",
+        "family": null
+      },
+      {
+        "degree": "الثانية",
+        "grade": 2,
+        "title": "واعظ اقدم",
+        "action": "extend",
+        "chainId": "r1558_family_072",
+        "family": null
+      },
+      {
+        "degree": "السابعة",
+        "grade": 7,
+        "title": "حارس اصلاحية ثان",
+        "action": "extend",
+        "chainId": "r1558_family_089",
+        "family": null
+      },
+      {
+        "degree": "السادسة",
+        "grade": 6,
+        "title": "حارس اصلاحية اول",
+        "action": "extend",
+        "chainId": "r1558_family_089",
+        "family": null
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "حارس اصلاحية اقدم",
+        "action": "extend",
+        "chainId": "r1558_family_089",
+        "family": null
+      },
+      {
+        "degree": "السابعة",
+        "grade": 7,
+        "title": "قارئ ومؤذن ثان",
+        "action": "extend",
+        "chainId": "r1558_family_110",
+        "family": null
+      },
+      {
+        "degree": "السادسة",
+        "grade": 6,
+        "title": "قارئ ومؤذن اول",
+        "action": "extend",
+        "chainId": "r1558_family_110",
+        "family": null
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "قارئ ومؤذن اقدم",
+        "action": "extend",
+        "chainId": "r1558_family_110",
+        "family": null
+      },
+      {
+        "degree": "السابعة",
+        "grade": 7,
+        "title": "خادم ومؤذن ثان",
+        "action": "extend",
+        "chainId": "r1558_family_091",
+        "family": null
+      },
+      {
+        "degree": "السادسة",
+        "grade": 6,
+        "title": "خادم ومؤذن اول",
+        "action": "extend",
+        "chainId": "r1558_family_091",
+        "family": null
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "خادم ومؤذن اقدم",
+        "action": "extend",
+        "chainId": "r1558_family_091",
+        "family": null
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "امين متحف ثان",
+        "action": "bridge",
+        "chainId": "r1558_family_080",
+        "family": "امين متحف"
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "سادن ثان",
+        "action": "bridge",
+        "chainId": "r1558_family_097",
+        "family": "سادن"
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "كاتب عدل ثان",
+        "action": "bridge",
+        "chainId": "r1558_family_112",
+        "family": "كاتب عدل"
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "مشرف فني ثان",
+        "action": "bridge",
+        "chainId": "r1558_family_060",
+        "family": "مشرف فني"
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "معلم ثان",
+        "action": "bridge",
+        "chainId": "r1558_family_149",
+        "family": "معلم"
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "منفذ عدل ثان",
+        "action": "bridge",
+        "chainId": "r1558_family_154",
+        "family": "منفذ عدل"
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "منقب اثار ثان",
+        "action": "bridge",
+        "chainId": "r1558_family_155",
+        "family": "منقب اثار"
+      },
+      {
+        "degree": "التاسعة",
+        "grade": 9,
+        "title": "خادم رابع",
+        "action": "new-chain",
+        "chainId": "r1578_chain_servant",
+        "family": "خادم"
+      },
+      {
+        "degree": "الثامنة",
+        "grade": 8,
+        "title": "خادم ثالث",
+        "action": "new-chain",
+        "chainId": "r1578_chain_servant",
+        "family": "خادم"
+      },
+      {
+        "degree": "السابعة",
+        "grade": 7,
+        "title": "خادم ثان",
+        "action": "new-chain",
+        "chainId": "r1578_chain_servant",
+        "family": "خادم"
+      },
+      {
+        "degree": "السادسة",
+        "grade": 6,
+        "title": "خادم اول",
+        "action": "new-chain",
+        "chainId": "r1578_chain_servant",
+        "family": "خادم"
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "خادم اقدم",
+        "action": "new-chain",
+        "chainId": "r1578_chain_servant",
+        "family": "خادم"
+      },
+      {
+        "degree": "السابعة",
+        "grade": 7,
+        "title": "محرر ثالث",
+        "action": "new-chain",
+        "chainId": "r1578_chain_editor",
+        "family": "محرر"
+      },
+      {
+        "degree": "السادسة",
+        "grade": 6,
+        "title": "محرر ثان",
+        "action": "new-chain",
+        "chainId": "r1578_chain_editor",
+        "family": "محرر"
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "محرر اول",
+        "action": "new-chain",
+        "chainId": "r1578_chain_editor",
+        "family": "محرر"
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "محرر اقدم",
+        "action": "new-chain",
+        "chainId": "r1578_chain_editor",
+        "family": "محرر"
+      },
+      {
+        "degree": "السابعة",
+        "grade": 7,
+        "title": "مامور قسم ثالث",
+        "action": "new-chain",
+        "chainId": "r1578_chain_section_officer",
+        "family": "مامور قسم"
+      },
+      {
+        "degree": "السادسة",
+        "grade": 6,
+        "title": "مامور قسم ثان",
+        "action": "new-chain",
+        "chainId": "r1578_chain_section_officer",
+        "family": "مامور قسم"
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "مامور قسم اول",
+        "action": "new-chain",
+        "chainId": "r1578_chain_section_officer",
+        "family": "مامور قسم"
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "مامور قسم اقدم",
+        "action": "new-chain",
+        "chainId": "r1578_chain_section_officer",
+        "family": "مامور قسم"
+      },
+      {
+        "degree": "الثامنة",
+        "grade": 8,
+        "title": "رقيب اصلاحية ثالث",
+        "action": "new-chain",
+        "chainId": "r1578_chain_reformatory_sergeant",
+        "family": "رقيب اصلاحية"
+      },
+      {
+        "degree": "السابعة",
+        "grade": 7,
+        "title": "رقيب اصلاحية ثان",
+        "action": "new-chain",
+        "chainId": "r1578_chain_reformatory_sergeant",
+        "family": "رقيب اصلاحية"
+      },
+      {
+        "degree": "السادسة",
+        "grade": 6,
+        "title": "رقيب اصلاحية اول",
+        "action": "new-chain",
+        "chainId": "r1578_chain_reformatory_sergeant",
+        "family": "رقيب اصلاحية"
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "رقيب اصلاحية اقدم",
+        "action": "new-chain",
+        "chainId": "r1578_chain_reformatory_sergeant",
+        "family": "رقيب اصلاحية"
+      },
+      {
+        "degree": "التاسعة",
+        "grade": 9,
+        "title": "مبلغ ثالث",
+        "action": "new-chain",
+        "chainId": "r1578_chain_notifier",
+        "family": "مبلغ"
+      },
+      {
+        "degree": "الثامنة",
+        "grade": 8,
+        "title": "مبلغ ثان",
+        "action": "new-chain",
+        "chainId": "r1578_chain_notifier",
+        "family": "مبلغ"
+      },
+      {
+        "degree": "السابعة",
+        "grade": 7,
+        "title": "مبلغ اول",
+        "action": "new-chain",
+        "chainId": "r1578_chain_notifier",
+        "family": "مبلغ"
+      },
+      {
+        "degree": "السادسة",
+        "grade": 6,
+        "title": "مبلغ اقدم",
+        "action": "new-chain",
+        "chainId": "r1578_chain_notifier",
+        "family": "مبلغ"
+      },
+      {
+        "degree": "السادسة",
+        "grade": 6,
+        "title": "محقق عدل رابع",
+        "action": "new-chain",
+        "chainId": "r1578_chain_justice_investigator",
+        "family": "محقق عدل"
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "محقق عدل ثالث",
+        "action": "new-chain",
+        "chainId": "r1578_chain_justice_investigator",
+        "family": "محقق عدل"
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "محقق عدل ثان",
+        "action": "new-chain",
+        "chainId": "r1578_chain_justice_investigator",
+        "family": "محقق عدل"
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "رئيس معاون صيدلي ثاني",
+        "action": "new-chain",
+        "chainId": "r1578_chain_assistant_pharmacy_supervisor",
+        "family": "رئيس معاون صيدلي"
+      },
+      {
+        "degree": "الثالثة",
+        "grade": 3,
+        "title": "رئيس معاون صيدلي اول",
+        "action": "new-chain",
+        "chainId": "r1578_chain_assistant_pharmacy_supervisor",
+        "family": "رئيس معاون صيدلي"
+      },
+      {
+        "degree": "الثانية",
+        "grade": 2,
+        "title": "رئيس معاون صيدلي اقدم",
+        "action": "new-chain",
+        "chainId": "r1578_chain_assistant_pharmacy_supervisor",
+        "family": "رئيس معاون صيدلي"
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "سكرتير ثالث",
+        "action": "new-chain",
+        "chainId": "r1578_chain_secretary",
+        "family": "سكرتير"
+      },
+      {
+        "degree": "الرابعة",
+        "grade": 4,
+        "title": "سكرتير ثان",
+        "action": "new-chain",
+        "chainId": "r1578_chain_secretary",
+        "family": "سكرتير"
+      },
+      {
+        "degree": "الثالثة",
+        "grade": 3,
+        "title": "سكرتير اول",
+        "action": "new-chain",
+        "chainId": "r1578_chain_secretary",
+        "family": "سكرتير"
+      },
+      {
+        "degree": "السابعة",
+        "grade": 7,
+        "title": "مرشد اجتماعي ثان",
+        "action": "new-chain",
+        "chainId": "r1578_chain_social_guide",
+        "family": "مرشد اجتماعي"
+      },
+      {
+        "degree": "السادسة",
+        "grade": 6,
+        "title": "مرشد اجتماعي اول",
+        "action": "new-chain",
+        "chainId": "r1578_chain_social_guide",
+        "family": "مرشد اجتماعي"
+      },
+      {
+        "degree": "الخامسة",
+        "grade": 5,
+        "title": "مرشد اجتماعي اقدم",
+        "action": "new-chain",
+        "chainId": "r1578_chain_social_guide",
+        "family": "مرشد اجتماعي"
+      },
+      {
+        "degree": "العاشرة",
+        "grade": 10,
+        "title": "سائق اطفاء ثان",
+        "action": "new-chain",
+        "chainId": "r1578_chain_fire_driver",
+        "family": "سائق اطفاء"
+      },
+      {
+        "degree": "التاسعة",
+        "grade": 9,
+        "title": "سائق اطفاء اول",
+        "action": "new-chain",
+        "chainId": "r1578_chain_fire_driver",
+        "family": "سائق اطفاء"
+      },
+      {
+        "degree": "الثامنة",
+        "grade": 8,
+        "title": "سائق اطفاء اقدم",
+        "action": "new-chain",
+        "chainId": "r1578_chain_fire_driver",
+        "family": "سائق اطفاء"
+      }
+    ],
+    "safeguards": [
+      "Canonical Exact Matching only.",
+      "No fuzzy matching or similarity-based title resolution.",
+      "No cross-family semantic bridge.",
+      "No grade-gap bridging.",
+      "Current-title anchors remain anchors unless an explicit next relation is proven.",
+      "Employee data remains read-only and employee grade/title are never rewritten.",
+      "Canonical application wording remains authoritative over reference-sheet wording."
     ]
   }
 }
