@@ -6,7 +6,8 @@ import {spawnSync} from 'node:child_process';
 
 const fail=m=>{console.error('VERIFY_MOBILE_R1 FAIL:',m);process.exit(1)};
 const read=p=>{try{return fs.readFileSync(p,'utf8')}catch{fail('missing '+p)}};
-const E='MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION';
+const E='MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX';
+const P='MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION';
 const i=read('index.html');
 const p=JSON.parse(read('assets/job-title-progression.json'));
 const j=JSON.parse(read('assets/job-titles.json'));
@@ -17,7 +18,8 @@ const exactKey=(d,t)=>d+'|||'+String(t||'').trim();
 
 if(v!==E)fail('VERSION mismatch');
 if(!i.includes('<meta name="app-release" content="'+E+'">'))fail('release meta mismatch');
-if(!i.includes('R1578_DETERMINISTIC_CAREER_CHAIN_CONSOLIDATION_COVERAGE_EXPANSION_RELEASE'))fail('R1.5.78 release marker missing');
+if(!i.includes('R1579_DASHBOARD_VISUAL_SYSTEM_FIRST_TAP_NAVIGATION_FIX_RELEASE'))fail('R1.5.79 release marker missing');
+if(!i.includes('R1578_DETERMINISTIC_CAREER_CHAIN_CONSOLIDATION_COVERAGE_EXPANSION_RELEASE'))fail('R1.5.78 historical release marker regressed');
 if(!i.includes('R1577_REFERENCE_ORDER_AUDIT_COVERAGE_EXPANSION_RELEASE'))fail('R1.5.77 historical release marker regressed');
 
 const body='<body class="subview-list">',b=i.indexOf(body),h=i.lastIndexOf('</head>',b),s74=i.indexOf('<style id="r1574-career-visual-focus-style">'),s76=i.indexOf('<style id="r1576-career-directory-refinement-style">');
@@ -34,7 +36,7 @@ if(mp<0||ss<0||so<=ss||se<0)fail('career script boundaries missing');
 const cj=i.slice(so,se);
 if(!cj.includes('R1576_DIRECTORY_SEARCH_BIND')||!cj.includes('function guideHTML()'))fail('R1.5.76 directory search regressed');
 if(cj.includes('MutationObserver('))fail('unexpected MutationObserver inside Career script');
-const tmp=path.join(os.tmpdir(),'r1578-verify-'+process.pid+'.js');
+const tmp=path.join(os.tmpdir(),'r1579-career-verify-'+process.pid+'.js');
 fs.writeFileSync(tmp,cj,'utf8');
 const chk=spawnSync(process.execPath,['--check',tmp],{encoding:'utf8'});
 try{fs.unlinkSync(tmp)}catch{}
@@ -44,7 +46,7 @@ if(j.total!==1316||!Array.isArray(j.rows)||j.rows.length!==1316)fail('Canonical 
 const src=new Set(j.rows.map(r=>exactKey(r.degree,r.title)));
 if(src.size!==1316)fail('Canonical title directory contains duplicate exact rows');
 
-if(p.release!==E)fail('progression release mismatch');
+if(p.release!==P)fail('R1.5.78 progression map must remain unchanged in R1.5.79');
 if(!Array.isArray(p.chains)||p.chains.length!==201||p.validatedChainCount!==201||p.validatedStepCount!==1011)fail('R1.5.78 chain/step totals mismatch');
 if(p.coverage?.mappedTitles!==1011||p.coverage?.unmappedTitles!==305||Number(p.coverage?.exactCoveragePercent)!==76.8)fail('R1.5.78 coverage totals mismatch');
 if(p.remainingAudit?.totalTitles!==305)fail('remaining audit total mismatch');
@@ -120,22 +122,39 @@ if(!p.coverageProfiles||p.coverageProfiles.extendsToFirst!==77||p.coverageProfil
 const d=p.coverageProfiles.startGradeDistribution||{};
 for(const [g,x] of Object.entries({'3':10,'4':24,'5':9,'6':8,'7':80,'8':43,'9':12,'10':15}))if(Number(d[g])!==x)fail('start-grade distribution mismatch at '+g);
 
+
+
+// R1.5.79 dashboard visual system + first-tap startup route fix.
+if(!i.includes('R1579_DASHBOARD_VISUAL_SYSTEM')||!i.includes('R1579_FIRST_TAP_ROUTER'))fail('R1.5.79 dashboard/router markers missing');
+if(!i.includes("window.r1579FirstTapRouter.markReady('core-load');"))fail('core-load readiness handoff missing');
+if(!i.includes('R1579_STARTUP_WATCHDOG_SAFE'))fail('safe startup watchdog marker missing');
+if(i.includes("new MutationObserver(function(){clearTimeout(window.__r1502DashT)"))fail('legacy broad R1.5.02 dashboard MutationObserver was not retired');
+const r79Start=i.indexOf('<script id="r1579-dashboard-first-tap-router-script">'),r79Open=i.indexOf('>',r79Start)+1,r79End=i.indexOf('</script>',r79Open);
+if(r79Start<0||r79Open<=r79Start||r79End<0)fail('R1.5.79 router script boundaries missing');
+const r79=i.slice(r79Open,r79End);
+for(const marker of ['function protectStartupList()','function requestRoute(kind,key,btn)','function markReady(reason)','r1579-group-employees','r1579-group-career','r1579-group-system','data-main','data-key'])if(!r79.includes(marker))fail('R1.5.79 router/dashboard marker missing: '+marker);
+if(r79.includes('MutationObserver('))fail('R1.5.79 must not use MutationObserver');
+const tmp79=path.join(os.tmpdir(),'r1579-router-verify-'+process.pid+'.js');fs.writeFileSync(tmp79,r79,'utf8');const chk79=spawnSync(process.execPath,['--check',tmp79],{encoding:'utf8'});try{fs.unlinkSync(tmp79)}catch{}if(chk79.status!==0)fail('R1.5.79 router JavaScript syntax invalid: '+String(chk79.stderr||chk79.stdout||'').trim());
+if(!i.includes('id="r1579-dashboard-visual-system-style"'))fail('R1.5.79 dashboard visual stylesheet missing');
+for(const label of ['الموظفون','المسار الوظيفي','النظام والأدوات','الدائميون','العقود','إدارة النظام'])if(!r79.includes(label))fail('R1.5.79 dashboard label missing: '+label);
+
 if(!p.startupHotfixR1575||p.startupHotfixR1575.structuralVerification!==true)fail('R1.5.75 startup hotfix metadata regressed');
 if(!p.careerDirectoryRefinementR1576||p.careerDirectoryRefinementR1576.enabled!==true||p.careerDirectoryRefinementR1576.runtimeObserver!==false)fail('R1.5.76 directory metadata regressed');
 
 const countOf=(h,needle)=>h.split(needle).length-1;
-if(countOf(i,'service-worker.js?v=1578')!==3||countOf(i,'employee-registry-ui-r1578')!==1||countOf(i,"APP_RELEASE||'r1578'")!==1||countOf(i,"u.searchParams.set('v','1578')")!==2)fail('index R1.5.78 runtime/cache marker counts mismatch');
-if(i.includes('service-worker.js?v=1577')||i.includes('employee-registry-ui-r1577')||i.includes("APP_RELEASE||'r1577'")||i.includes("u.searchParams.set('v','1577')"))fail('stale R1.5.77 runtime cache/update reference remains in index');
-if(!sw.includes('MOBILE-R1.5.78-SERVICE-WORKER-NO-STALE-UI')||!sw.includes('employee-registry-ui-r1578')||!sw.includes('__offline_index_r1578__'))fail('service worker mismatch');
-if(!String(m.name).includes('R1.5.78')||!String(m.short_name).includes('R1.5.78')||!String(m.description).includes('1011'))fail('manifest mismatch');
+if(countOf(i,'service-worker.js?v=1579')!==3||countOf(i,'employee-registry-ui-r1579')!==1||countOf(i,"APP_RELEASE||'r1579'")!==1||countOf(i,"u.searchParams.set('v','1579')")!==2)fail('index R1.5.79 runtime/cache marker counts mismatch');
+if(i.includes('service-worker.js?v=1578')||i.includes('employee-registry-ui-r1578')||i.includes("APP_RELEASE||'r1578'")||i.includes("u.searchParams.set('v','1578')"))fail('stale R1.5.78 runtime cache/update reference remains in index');
+if(!sw.includes('MOBILE-R1.5.79-SERVICE-WORKER-NO-STALE-UI')||!sw.includes('employee-registry-ui-r1579')||!sw.includes('__offline_index_r1579__'))fail('service worker mismatch');
+if(!String(m.name).includes('R1.5.79')||!String(m.short_name).includes('R1.5.79')||!String(m.description).includes('1011'))fail('manifest mismatch');
 
 console.log('VERIFY_MOBILE_R1 OK:',E);
-console.log('VERIFY_DETERMINISTIC_CHAIN_CONSOLIDATION OK: 8 direct extensions / 7 fragment consolidations / 10 new chains');
-console.log('VERIFY_CANONICAL_EXACT OK: 64 newly mapped canonical titles / no duplicate mapped titles / no fuzzy matching');
-console.log('VERIFY_COVERAGE_EXPANSION OK: 201 chains / 1011 mapped / 305 audit queue / 76.8%');
+console.log('VERIFY_FIRST_TAP_NAVIGATION OK: startup intent queue + core-load handoff + safe 6.2s watchdog');
+console.log('VERIFY_DASHBOARD_VISUAL_SYSTEM OK: 3 organized groups / redesigned scope cards / responsive premium palette');
+console.log('VERIFY_DASHBOARD_OBSERVER_SAFETY OK: legacy broad dashboard MutationObserver retired; R1.5.79 uses event-driven sync');
+console.log('VERIFY_R1578_CAREER_REGRESSION OK: 201 chains / 1011 mapped / 305 audit queue / 76.8% unchanged');
 console.log('VERIFY_ANCHOR_SAFETY OK: 10 current-title anchors preserved without invented next titles');
 console.log('VERIFY_REFERENCE_ORDER_REGRESSION OK: R1.5.77 audit and linguistic canonicalization retained');
 console.log('VERIFY_DIRECTORY_UI OK: R1.5.76 professional directory search retained');
-console.log('VERIFY_STARTUP_STRUCTURE OK: R1.5.75 startup repair retained; Career styles remain in the real head');
-console.log('VERIFY_REGRESSION OK: canonical exact matching, My Notes, Reference Center, navigation, and employee data remain unchanged');
+console.log('VERIFY_STARTUP_STRUCTURE OK: R1.5.75 startup repair retained; R1.5.79 protects non-list first taps');
+console.log('VERIFY_REGRESSION OK: employee data, IndexedDB, canonical exact matching, My Notes, Reference Center, and career map remain unchanged');
 console.log('VERIFY_MOBILE_R1 PASSED');

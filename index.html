@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION">
+<meta name="app-release" content="MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -5069,6 +5069,7 @@ window.addEventListener('load',async function(){
     ]);
   }catch(e){}
   r122StartAutoUpdateWatchers();
+  try{if(window.r1579FirstTapRouter)window.r1579FirstTapRouter.markReady('core-load');}catch(e){}
 
   setTimeout(function(){
     var sp=document.getElementById('splash');
@@ -5082,9 +5083,14 @@ setTimeout(function(){
   try{
     var sp=document.getElementById('splash');
     if(sp)sp.classList.add('hide');
-    if(document.body && !/subview-/.test(document.body.className))document.body.classList.add('subview-list');
-    var vl=document.getElementById('view-list');
-    if(vl && (!vl.style.display || vl.style.display==='none'))vl.style.display='block';
+    /* R1579_STARTUP_WATCHDOG_SAFE — never reopen employee list over an explicit first-tap route. */
+    var protectedRoute=false;
+    try{protectedRoute=!!(window.r1579FirstTapRouter&&window.r1579FirstTapRouter.protectStartupList&&window.r1579FirstTapRouter.protectStartupList());}catch(x){}
+    if(!protectedRoute){
+      if(document.body && !/subview-/.test(document.body.className))document.body.classList.add('subview-list');
+      var vl=document.getElementById('view-list');
+      if(vl && (!vl.style.display || vl.style.display==='none'))vl.style.display='block';
+    }
   }catch(e){}
 },6200);
 </script>
@@ -6168,7 +6174,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
   }
   function setActive(v){var isPerm=mode==='perm',isCont=mode==='cont',cls=isPerm?'perm-sub-active':isCont?'cont-sub-active':'admin-sub-active';['list','updates','reports','alerts','system','service','jobtitles','titlematch'].forEach(function(x){var t=document.getElementById(x==='titlematch'?TAB_ID:'stab-'+x);if(t){var on=v===x;t.className='sub-tab'+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');}});}
   function clearMatch(){document.body.classList.remove('subview-titlematch');var v=document.getElementById(VIEW_ID);if(v)v.style.display='none';var t=document.getElementById(TAB_ID);if(t){t.className='sub-tab';t.setAttribute('aria-selected','false');}}
-  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1578'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
+  function loadTitles(){if(state.data)return Promise.resolve(state.data);if(state.loading)return new Promise(function(res){var n=0;(function wait(){if(state.data)return res(state.data);if(++n>80)return res(null);setTimeout(wait,60);})();});state.loading=true;return fetch('assets/job-titles.json?v='+encodeURIComponent(APP_RELEASE||'r1579'),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('titles');return r.json();}).then(function(d){state.data=d;state.loading=false;return d;}).catch(function(){state.loading=false;return null;});}
   function buildIndex(data){var rows=(data&&data.rows)||[],by={},any={};rows.forEach(function(r){var d=degLabel(r.degree),t=String(r.title||'').trim(),n=norm(t);if(!d||!n)return;(by[d]=by[d]||{});(by[d][n]=by[d][n]||[]).push(t);(any[n]=any[n]||[]).push(d);});return{by:by,any:any,rows:rows};}
   function suggest(title,degree,idx){var n=norm(title),words=n.split(' ').filter(Boolean),src=(idx.rows||[]).filter(function(r){return degLabel(r.degree)===degree;});var scored=[];src.forEach(function(r){var rn=norm(r.title||'');if(!rn)return;var score=0;words.forEach(function(w){if(w.length>2&&rn.indexOf(w)>=0)score+=2;});if(rn.indexOf(n)>=0||n.indexOf(rn)>=0)score+=5;if(score>0)scored.push({t:r.title,s:score});});return scored.sort(function(a,b){return b.s-a.s;}).slice(0,3).map(function(x){return x.t;});}
   function analyze(){return loadTitles().then(function(data){var idx=buildIndex(data),emps=allEmployees();state.rows=emps.map(function(e,i){var title=String(e.jobTitle||'').trim(),degree=degLabel(e.grade),nt=norm(title),cls='unknown',label='غير موجود',note='العنوان غير موجود في دليل العناوين الوظيفية.',sugg=[];if(!title||!degree){cls='missing';label='نقص بيانات';note=!title&&!degree?'لا يوجد عنوان وظيفي ولا درجة.':(!title?'لا يوجد عنوان وظيفي.':'لا توجد درجة وظيفية واضحة.');}
@@ -7905,7 +7911,7 @@ function render(){var box=$('r1502-dashboard');if(!box){box=document.createEleme
 function bind(){var board=$('r1502-dashboard');if(!board)return;Array.prototype.forEach.call(board.querySelectorAll('[data-main]'),function(btn){btn.onclick=function(){var k=this.getAttribute('data-main');try{if(typeof window.switchMain==='function')window.switchMain(k);else if(typeof switchMain==='function')switchMain(k)}catch(e){}setTimeout(sync,70);setTimeout(sync,220)}});Array.prototype.forEach.call(board.querySelectorAll('[data-key]'),function(btn){btn.onclick=function(){var k=this.getAttribute('data-key');try{if(typeof window.switchSub==='function')window.switchSub(k);else if(typeof switchSub==='function')switchSub(k)}catch(e){}setTimeout(sync,70);setTimeout(sync,260)}})}
 function sync(){var board=$('r1502-dashboard');if(!board)return;var m=currentMode(),s=currentSub();Array.prototype.forEach.call(board.querySelectorAll('[data-main]'),function(b){b.classList.toggle('is-active',b.getAttribute('data-main')===m)});Array.prototype.forEach.call(board.querySelectorAll('[data-key]'),function(b){b.classList.toggle('is-active',b.getAttribute('data-key')===s)});var gate=!!document.querySelector('#r1475-page .r1492-lock,.r1492-lock');var hasRole=false;try{hasRole=!!sessionStorage.getItem('admin_movements_role_r1492')}catch(e){}document.body.classList.toggle('r1502-pass-modal-open',gate&&!hasRole)}
 function tick(){render();sync();setTimeout(sync,80);setTimeout(sync,280);setTimeout(sync,800)}
-document.addEventListener('DOMContentLoaded',tick);window.addEventListener('load',tick);window.addEventListener('pageshow',tick);document.addEventListener('click',function(ev){var t=ev.target;if(!t||!t.closest)return;if(t.closest('#mobile-chrome-toggle,#sub-tabs,.main-tabs,#stab-managernotes,#r1492-unlock,#r1492-lockout,#r1416-nav-card,#r1502-dashboard'))setTimeout(sync,90)},true);document.addEventListener('focusin',function(ev){if(ev.target&&ev.target.id==='r1492-pass')setTimeout(sync,40)},true);try{new MutationObserver(function(){clearTimeout(window.__r1502DashT);window.__r1502DashT=setTimeout(sync,70)}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']})}catch(e){}window.r1502DashboardRadicalRebuild={release:RELEASE,render:render,sync:sync};
+document.addEventListener('DOMContentLoaded',tick);window.addEventListener('load',tick);window.addEventListener('pageshow',tick);document.addEventListener('click',function(ev){var t=ev.target;if(!t||!t.closest)return;if(t.closest('#mobile-chrome-toggle,#sub-tabs,.main-tabs,#stab-managernotes,#r1492-unlock,#r1492-lockout,#r1416-nav-card,#r1502-dashboard'))setTimeout(sync,90)},true);document.addEventListener('focusin',function(ev){if(ev.target&&ev.target.id==='r1492-pass')setTimeout(sync,40)},true);/* R1579_DASHBOARD_OBSERVER_RETIRED — event-driven dashboard sync only. */window.r1502DashboardRadicalRebuild={release:RELEASE,render:render,sync:sync};
 })();
 </script>
 
@@ -9281,8 +9287,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1578';
-  var KEEP_CACHE='employee-registry-ui-r1578';
+  var SW_URL='service-worker.js?v=1579';
+  var KEEP_CACHE='employee-registry-ui-r1579';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -12176,7 +12182,7 @@ body.light-mode #view-career .r1567-qname{color:#425c72}
 // R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION';
+var RELEASE='MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -12490,7 +12496,7 @@ body.subview-notes #r1502-dashboard{display:none!important}
 (function(){
 'use strict';
 
-var RELEASE='MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION';
+var RELEASE='MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX';
 var PAGE_ID='view-notes';
 var DB_NAME='hr_mobile_personal_notes';
 var DB_VERSION=1;
@@ -13059,13 +13065,13 @@ window.r1571MyNotes={
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.78-DETERMINISTIC-CAREER-CHAIN-CONSOLIDATION-COVERAGE-EXPANSION';
+var RELEASE='MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
-async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1578');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
+async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1579');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
 async function checkUpdate(showMessage){setRelease();if(navigator.onLine===false){if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');return false}try{if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث'}catch(e){}if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');return has}catch(e){try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');return false}}
-async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1578&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1578');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
-setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1578',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1579&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1579');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
+setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1579',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
 document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});window.r1551CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
 })();
 </script>
@@ -13097,3 +13103,219 @@ document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(
 <!-- R1577_REFERENCE_ORDER_AUDIT_COVERAGE_EXPANSION_RELEASE -->
 
 <!-- R1578_DETERMINISTIC_CAREER_CHAIN_CONSOLIDATION_COVERAGE_EXPANSION_RELEASE -->
+<style id="r1579-dashboard-visual-system-style">
+/* MOBILE R1.5.79 — Dashboard Visual System + First-Tap Navigation Fix */
+:root{
+  --r1579-bg:#061126;
+  --r1579-panel:#0a1a38;
+  --r1579-panel2:#0d2349;
+  --r1579-line:rgba(142,197,255,.14);
+  --r1579-text:#f5f9ff;
+  --r1579-muted:#8ea5c3;
+  --r1579-gold:#ffd166;
+  --r1579-cyan:#6fe6ff;
+  --r1579-teal:#5ee6c3;
+  --r1579-violet:#c4a7ff;
+}
+#r1502-dashboard.r1579-dashboard{
+  position:relative!important;display:grid!important;gap:10px!important;
+  margin:9px 10px 10px!important;padding:0!important;direction:rtl!important;
+  font-family:var(--hr-body-font,'Zain','Tajawal',sans-serif)!important;
+}
+#r1502-dashboard.r1579-dashboard:before{
+  content:'';position:absolute;inset:-8px -6px auto;height:190px;pointer-events:none;z-index:0;
+  background:radial-gradient(circle at 85% 0%,rgba(111,230,255,.13),transparent 43%),radial-gradient(circle at 8% 10%,rgba(255,209,102,.08),transparent 36%);
+  filter:blur(2px);
+}
+#r1502-dashboard.r1579-dashboard>*{position:relative;z-index:1}
+.r1579-hero{
+  display:grid;grid-template-columns:50px minmax(0,1fr) auto;align-items:center;gap:11px;
+  min-height:82px;padding:13px 14px;border:1px solid rgba(139,199,255,.16);border-radius:27px;
+  background:linear-gradient(145deg,rgba(9,28,61,.98),rgba(4,14,33,.98));
+  box-shadow:0 18px 42px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.045)!important;
+  overflow:hidden;
+}
+.r1579-hero:after{content:'';position:absolute;inset:auto -44px -68px auto;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(111,230,255,.13),transparent 68%);pointer-events:none}
+.r1579-hero-icon{width:50px;height:50px;border-radius:20px;display:grid;place-items:center;font-size:20px;color:#061126;background:linear-gradient(145deg,#fff2ac,#ffd166 52%,#f3a61b);box-shadow:0 12px 24px rgba(243,166,27,.20),inset 0 1px 0 rgba(255,255,255,.78)}
+.r1579-eyebrow{display:flex;align-items:center;gap:6px;color:var(--r1579-cyan);font-size:8.4px;font-weight:900;letter-spacing:.2px}
+.r1579-eyebrow:before{content:'';width:14px;height:2px;border-radius:999px;background:linear-gradient(90deg,var(--r1579-cyan),transparent)}
+.r1579-hero h2{margin:2px 0 0;color:#fff;font:950 18px/1.25 var(--hr-title-font,'Zain','Tajawal',sans-serif);letter-spacing:-.25px}
+.r1579-hero p{margin:3px 0 0;color:#839bb9;font-size:8.5px;line-height:1.55}
+.r1579-ready-pill{min-width:82px;display:flex;align-items:center;justify-content:center;gap:6px;padding:7px 9px;border:1px solid rgba(111,230,255,.13);border-radius:999px;background:rgba(111,230,255,.05);color:#a9c2dc;font-size:8px;font-weight:900;white-space:nowrap}
+.r1579-ready-pill i{font-size:7px;color:#f7c85a;text-shadow:0 0 10px rgba(247,200,90,.45)}
+body.r1579-boot-ready .r1579-ready-pill{color:#9cf4d8;border-color:rgba(94,230,195,.20);background:rgba(94,230,195,.06)}
+body.r1579-boot-ready .r1579-ready-pill i{color:#5ee6c3;text-shadow:0 0 10px rgba(94,230,195,.42)}
+.r1579-scope-wrap{padding:11px;border:1px solid var(--r1579-line);border-radius:25px;background:linear-gradient(145deg,rgba(8,24,52,.96),rgba(5,16,36,.97));box-shadow:0 14px 34px rgba(0,0,0,.18)}
+.r1579-section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 2px 9px}
+.r1579-section-title{display:flex;align-items:center;gap:8px;color:#edf6ff;font:950 11.5px var(--hr-title-font,'Zain','Tajawal',sans-serif)}
+.r1579-section-title .r1579-mini-ico{width:27px;height:27px;border-radius:10px;display:grid;place-items:center;background:rgba(111,230,255,.07);border:1px solid rgba(111,230,255,.11);color:var(--r1579-cyan);font-size:10px}
+.r1579-section-note{color:#6f88a6;font-size:7.4px;font-weight:800;white-space:nowrap}
+.r1579-scope-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.r1579-scope-card{
+  appearance:none;-webkit-appearance:none;border:1px solid rgba(255,255,255,.085);border-radius:21px;min-height:72px;
+  display:grid;grid-template-columns:39px minmax(0,1fr) auto;align-items:center;gap:9px;padding:10px;
+  background:linear-gradient(145deg,rgba(15,36,75,.94),rgba(7,20,44,.98));color:#fff;text-align:right;
+  box-shadow:0 9px 22px rgba(0,0,0,.15);transition:transform .14s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.r1579-scope-card[data-main="admin"]{grid-column:1/-1;min-height:66px;background:linear-gradient(145deg,rgba(39,29,75,.78),rgba(13,20,48,.97))}
+.r1579-scope-card .r1579-card-ico{width:39px;height:39px;border-radius:15px;display:grid;place-items:center;background:rgba(111,230,255,.08);border:1px solid rgba(111,230,255,.12);color:var(--r1579-cyan);font-size:15px}
+.r1579-scope-card[data-main="cont"] .r1579-card-ico{color:var(--r1579-teal);background:rgba(94,230,195,.07);border-color:rgba(94,230,195,.13)}
+.r1579-scope-card[data-main="admin"] .r1579-card-ico{color:#d8c3ff;background:rgba(196,167,255,.07);border-color:rgba(196,167,255,.14)}
+.r1579-card-copy{min-width:0;display:grid;gap:2px}
+.r1579-card-copy b{color:#f6fbff;font:950 11.6px/1.3 var(--hr-title-font,'Zain','Tajawal',sans-serif);white-space:normal}
+.r1579-card-copy small{color:#7e96b4;font-size:7.6px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r1579-scope-count{min-width:33px;height:24px;padding:0 7px;border-radius:999px;display:grid;place-items:center;border:1px solid rgba(255,209,102,.16);background:rgba(255,209,102,.055);color:#ffe49a;font:950 10px var(--hr-number-font,'Inter',sans-serif);direction:ltr}
+.r1579-scope-card[data-main="admin"] .r1579-scope-count{color:#d9c8ff;border-color:rgba(196,167,255,.17);background:rgba(196,167,255,.05);font-size:7.4px;direction:rtl}
+.r1579-scope-card.is-active{border-color:rgba(255,209,102,.38)!important;background:linear-gradient(145deg,rgba(33,66,104,.96),rgba(12,34,68,.99))!important;box-shadow:0 12px 28px rgba(0,0,0,.21),0 0 0 1px rgba(255,209,102,.06) inset!important}
+.r1579-groups{display:grid;gap:9px;max-height:clamp(300px,48dvh,475px);overflow:auto;padding:0 1px 8px;scrollbar-width:none;overscroll-behavior:contain}
+.r1579-groups::-webkit-scrollbar{display:none}
+.r1579-group{padding:11px;border:1px solid rgba(139,198,255,.12);border-radius:24px;background:linear-gradient(145deg,rgba(7,22,49,.95),rgba(4,14,32,.98));box-shadow:0 12px 28px rgba(0,0,0,.14)}
+.r1579-group-career{background:radial-gradient(circle at 100% 0%,rgba(255,209,102,.055),transparent 33%),linear-gradient(145deg,rgba(9,24,50,.97),rgba(5,14,31,.98))}
+.r1579-group-system{background:radial-gradient(circle at 0 0,rgba(196,167,255,.055),transparent 32%),linear-gradient(145deg,rgba(8,22,48,.97),rgba(5,14,31,.98))}
+.r1579-module-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.r1579-module-card{
+  appearance:none;-webkit-appearance:none;position:relative;overflow:hidden;min-height:78px;border:1px solid rgba(255,255,255,.075);border-radius:20px;
+  display:grid;grid-template-columns:38px minmax(0,1fr) 18px;align-items:center;gap:8px;padding:10px 9px;
+  background:linear-gradient(145deg,rgba(13,32,67,.91),rgba(6,18,40,.96));color:#fff;text-align:right;
+  box-shadow:0 8px 19px rgba(0,0,0,.12);transition:transform .14s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.r1579-module-grid>.r1579-module-card:last-child:nth-child(odd){grid-column:1/-1;min-height:72px}
+.r1579-module-card:before{content:'';position:absolute;inset:auto -28px -34px auto;width:88px;height:88px;border-radius:50%;background:radial-gradient(circle,rgba(111,230,255,.055),transparent 70%);pointer-events:none}
+.r1579-module-card .r1579-card-ico{width:38px;height:38px;border-radius:15px;display:grid;place-items:center;color:#8deaff;background:rgba(111,230,255,.07);border:1px solid rgba(111,230,255,.10);font-size:14px}
+.r1579-module-card[data-key="career"] .r1579-card-ico,.r1579-module-card[data-key="jobtitles"] .r1579-card-ico,.r1579-module-card[data-key="titlematch"] .r1579-card-ico{color:#ffe197;background:rgba(255,209,102,.065);border-color:rgba(255,209,102,.12)}
+.r1579-module-card[data-key="notes"] .r1579-card-ico,.r1579-module-card[data-key="system"] .r1579-card-ico{color:#d8c5ff;background:rgba(196,167,255,.065);border-color:rgba(196,167,255,.12)}
+.r1579-module-card .r1579-arrow{width:18px;height:18px;border-radius:7px;display:grid;place-items:center;color:#5e7898;background:rgba(255,255,255,.025);font-size:7px;transition:transform .14s ease,color .14s ease}
+.r1579-module-card.is-active{border-color:rgba(111,230,255,.30)!important;background:linear-gradient(145deg,rgba(10,88,112,.70),rgba(8,48,78,.86))!important;box-shadow:0 12px 27px rgba(0,0,0,.20),0 0 0 1px rgba(111,230,255,.05) inset!important}
+.r1579-module-card.is-active .r1579-arrow{color:#dffbff;transform:translateX(-2px)}
+.r1579-scope-card:active,.r1579-module-card:active,.r1579-scope-card.is-routing,.r1579-module-card.is-routing{transform:scale(.975)}
+.r1579-scope-card.is-routing,.r1579-module-card.is-routing{border-color:rgba(255,209,102,.42)!important;box-shadow:0 0 0 1px rgba(255,209,102,.08),0 12px 28px rgba(0,0,0,.20)!important}
+html.r1579-route-lock #view-list,html.r1579-route-lock #search-sec,html.r1579-route-lock #pg{visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+body.light-mode #r1502-dashboard.r1579-dashboard .r1579-hero,body.light-mode #r1502-dashboard.r1579-dashboard .r1579-scope-wrap,body.light-mode #r1502-dashboard.r1579-dashboard .r1579-group{background:linear-gradient(145deg,#f9fbff,#edf4ff)!important;border-color:rgba(48,104,182,.13)!important;box-shadow:0 12px 26px rgba(24,70,135,.08)!important}
+body.light-mode #r1502-dashboard.r1579-dashboard .r1579-hero h2,body.light-mode #r1502-dashboard.r1579-dashboard .r1579-section-title,body.light-mode #r1502-dashboard.r1579-dashboard .r1579-card-copy b{color:#17325a!important}
+body.light-mode #r1502-dashboard.r1579-dashboard .r1579-hero p,body.light-mode #r1502-dashboard.r1579-dashboard .r1579-card-copy small,body.light-mode #r1502-dashboard.r1579-dashboard .r1579-section-note{color:#667a94!important}
+body.light-mode #r1502-dashboard.r1579-dashboard .r1579-scope-card,body.light-mode #r1502-dashboard.r1579-dashboard .r1579-module-card{background:linear-gradient(145deg,#fff,#f4f8ff)!important;border-color:rgba(48,104,182,.11)!important;box-shadow:0 7px 17px rgba(24,70,135,.06)!important}
+@media(max-width:380px){
+  #r1502-dashboard.r1579-dashboard{margin-inline:8px!important;gap:8px!important}.r1579-hero{grid-template-columns:43px minmax(0,1fr);padding:11px;border-radius:23px;min-height:74px}.r1579-hero-icon{width:43px;height:43px;border-radius:17px;font-size:17px}.r1579-ready-pill{grid-column:1/-1;justify-self:stretch;min-height:26px}.r1579-hero h2{font-size:16px}.r1579-scope-wrap,.r1579-group{padding:9px;border-radius:21px}.r1579-scope-card{min-height:66px;grid-template-columns:35px minmax(0,1fr) auto;padding:8px}.r1579-scope-card .r1579-card-ico,.r1579-module-card .r1579-card-ico{width:35px;height:35px;border-radius:14px}.r1579-module-card{min-height:72px;grid-template-columns:35px minmax(0,1fr) 16px;padding:8px;gap:7px}.r1579-card-copy b{font-size:10.6px}.r1579-card-copy small{font-size:7px}.r1579-groups{max-height:clamp(275px,45dvh,420px)}
+}
+@media(prefers-reduced-motion:reduce){.r1579-scope-card,.r1579-module-card,.r1579-module-card .r1579-arrow{transition:none!important}}
+</style>
+
+<script id="r1579-dashboard-first-tap-router-script">
+// R1579_DASHBOARD_VISUAL_SYSTEM
+// R1579_FIRST_TAP_ROUTER — explicit startup intent queue; no MutationObserver.
+(function(){
+'use strict';
+var RELEASE='MOBILE-R1.5.79-DASHBOARD-VISUAL-SYSTEM-FIRST-TAP-NAVIGATION-FIX';
+var state={bootReady:false,pending:null,routing:false,userIntent:null,lastRoute:'',readyReason:''};
+var MODULES={
+  employees:[
+    {key:'list',name:'القائمة',desc:'سجل الموظفين والبحث',icon:'fa-list-ul'},
+    {key:'reports',name:'التقارير',desc:'الكشوفات والطباعة',icon:'fa-file-lines'},
+    {key:'updates',name:'آخر التحديثات',desc:'الإضافات والتعديلات',icon:'fa-clock-rotate-left'},
+    {key:'managernotes',name:'الحركات الإدارية',desc:'واجهة الإدارة المحمية',icon:'fa-comments'},
+    {key:'service',name:'حاسبة الخدمة',desc:'حساب مدة الخدمة',icon:'fa-calculator'}
+  ],
+  career:[
+    {key:'jobtitles',name:'العناوين الوظيفية',desc:'بحث العنوان والدرجة',icon:'fa-briefcase'},
+    {key:'titlematch',name:'مطابقة العناوين',desc:'فحص التطابق الوظيفي',icon:'fa-check-double'},
+    {key:'career',name:'التدرج الوظيفي',desc:'المسار والترفيع الوظيفي',icon:'fa-arrow-trend-up'}
+  ],
+  system:[
+    {key:'notes',name:'ملاحظاتي',desc:'ملاحظات ومراجع محلية',icon:'fa-pen-to-square'},
+    {key:'system',name:'حالة النظام',desc:'التحديث والمزامنة',icon:'fa-gauge-high'}
+  ]
+};
+function $(id){return document.getElementById(id)}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function count(type){try{return Array.isArray(BASE&&BASE[type])?BASE[type].length:0}catch(e){return 0}}
+function currentMode(){try{if(window.mode)return String(window.mode)}catch(e){}var a=document.querySelector('#mtab-perm.perm-active,#mtab-cont.cont-active,#mtab-admin.admin-active');return a?String(a.id||'').replace('mtab-',''):'perm'}
+function currentSub(){try{if(window.subView)return String(window.subView)}catch(e){}var m=String(document.body&&document.body.className||'').match(/subview-([a-z0-9-]+)/i);return m?m[1]:'list'}
+function card(x){return '<button type="button" class="r1579-module-card r1502-module-card" data-key="'+esc(x.key)+'"><span class="r1579-card-ico"><i class="fas '+esc(x.icon)+'"></i></span><span class="r1579-card-copy"><b class="r1502-name">'+esc(x.name)+'</b><small class="r1502-desc">'+esc(x.desc)+'</small></span><span class="r1579-arrow"><i class="fas fa-chevron-left"></i></span></button>'}
+function scopeCard(key,name,desc,icon,value){return '<button type="button" class="r1579-scope-card r1502-scope-card" data-main="'+key+'"><span class="r1579-card-ico"><i class="fas '+icon+'"></i></span><span class="r1579-card-copy"><b class="r1502-name">'+name+'</b><small class="r1502-desc">'+desc+'</small></span><span class="r1579-scope-count">'+value+'</span></button>'}
+function group(cls,icon,title,note,rows){return '<section class="r1579-group '+cls+'"><div class="r1579-section-head"><div class="r1579-section-title"><span class="r1579-mini-ico"><i class="fas '+icon+'"></i></span><span>'+title+'</span></div><span class="r1579-section-note">'+note+'</span></div><div class="r1579-module-grid">'+rows.map(card).join('')+'</div></section>'}
+function statusText(){if(state.pending)return 'تم حفظ الاختيار';return state.bootReady?'جاهز للتنقل':'جاري التهيئة'}
+function renderDashboard(){
+  var box=$('r1502-dashboard');
+  if(!box){box=document.createElement('div');box.id='r1502-dashboard';var anchor=$('r1416-nav-card')||$('mobile-chrome-bar')||$('scroll')||document.body.firstElementChild;if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(box,anchor);else document.body.insertBefore(box,document.body.firstChild)}
+  box.className='r1579-dashboard';
+  var total=count('perm')+count('cont');
+  box.innerHTML='<section class="r1579-hero"><span class="r1579-hero-icon"><i class="fas fa-layer-group"></i></span><div><div class="r1579-eyebrow">نظام الموظفين</div><h2>لوحة العمل</h2><p>وصول منظم للسجلات والمسار الوظيفي وأدوات النظام</p></div><div class="r1579-ready-pill"><i class="fas fa-circle"></i><span data-r1579-status>'+statusText()+'</span></div></section>'+ 
+    '<section class="r1579-scope-wrap"><div class="r1579-section-head"><div class="r1579-section-title"><span class="r1579-mini-ico"><i class="fas fa-users-viewfinder"></i></span><span>نطاق السجل</span></div><span class="r1579-section-note">'+total+' سجل</span></div><div class="r1579-scope-grid">'+
+    scopeCard('perm','الدائميون','الموظفون الدائمون','fa-id-card',count('perm'))+
+    scopeCard('cont','العقود','موظفو العقود','fa-file-contract',count('cont'))+
+    scopeCard('admin','إدارة النظام','لوحة الإدارة والصلاحيات','fa-shield-halved','إدارة')+'</div></section>'+ 
+    '<div class="r1579-groups">'+
+      group('r1579-group-employees','fa-address-book','الموظفون','السجلات والمتابعة',MODULES.employees)+
+      group('r1579-group-career','fa-route','المسار الوظيفي','العناوين والتدرج',MODULES.career)+
+      group('r1579-group-system','fa-sliders','النظام والأدوات','الملاحظات والتحديث',MODULES.system)+
+    '</div>';
+  bind();syncActive();
+  document.body.classList.add('r1502-ready','r1579-dashboard-ready');
+  document.body.classList.toggle('r1579-boot-ready',state.bootReady);
+}
+function setStatus(txt){var el=document.querySelector('#r1502-dashboard [data-r1579-status]');if(el)el.textContent=txt||statusText()}
+function clearRoutingClass(){document.querySelectorAll('#r1502-dashboard .is-routing').forEach(function(x){x.classList.remove('is-routing')})}
+function isNonListIntent(intent){if(!intent)return false;if(intent.kind==='module')return intent.key!=='list';if(intent.kind==='main')return intent.key==='admin';return false}
+function protectStartupList(){
+  if(isNonListIntent(state.userIntent)||isNonListIntent(state.pending))return true;
+  var cls=String(document.body&&document.body.className||'');
+  var m=cls.match(/(?:^|\s)subview-([a-z0-9-]+)/i);
+  return !!(m&&m[1]&&m[1]!=='list');
+}
+function unlockRouteSoon(nonList){
+  var done=function(){state.routing=false;clearRoutingClass();if(nonList)document.documentElement.classList.remove('r1579-route-lock');syncActive();setStatus()};
+  try{requestAnimationFrame(function(){requestAnimationFrame(function(){setTimeout(done,120)})})}catch(e){setTimeout(done,150)}
+}
+function routeNow(kind,key){
+  state.pending=null;state.userIntent={kind:kind,key:key};state.lastRoute=kind+':'+key;state.routing=true;
+  var nonList=isNonListIntent(state.userIntent);if(nonList)document.documentElement.classList.add('r1579-route-lock');
+  setStatus('جاري فتح القسم');
+  try{
+    if(kind==='main'){
+      if(typeof window.switchMain!=='function')throw new Error('switchMain unavailable');
+      window.switchMain(key);
+    }else{
+      if(typeof window.switchSub!=='function')throw new Error('switchSub unavailable');
+      window.switchSub(key);
+    }
+  }catch(e){
+    state.routing=false;document.documentElement.classList.remove('r1579-route-lock');clearRoutingClass();setStatus('تعذر فتح القسم');
+    try{if(typeof showToast==='function')showToast('تعذر فتح القسم، أعد المحاولة بعد اكتمال التحميل','warn')}catch(_){}
+    return false;
+  }
+  setTimeout(syncActive,45);setTimeout(syncActive,180);setTimeout(syncActive,480);unlockRouteSoon(nonList);return true;
+}
+function requestRoute(kind,key,btn){
+  state.userIntent={kind:kind,key:key};clearRoutingClass();if(btn)btn.classList.add('is-routing');
+  if(!state.bootReady){state.pending={kind:kind,key:key};setStatus('تم حفظ الاختيار');return false}
+  return routeNow(kind,key);
+}
+function bind(){
+  var board=$('r1502-dashboard');if(!board)return;
+  board.querySelectorAll('[data-main]').forEach(function(btn){btn.onclick=function(ev){if(ev){ev.preventDefault();ev.stopPropagation()}return requestRoute('main',this.getAttribute('data-main'),this)}});
+  board.querySelectorAll('[data-key]').forEach(function(btn){btn.onclick=function(ev){if(ev){ev.preventDefault();ev.stopPropagation()}return requestRoute('module',this.getAttribute('data-key'),this)}});
+}
+function syncActive(){
+  var board=$('r1502-dashboard');if(!board)return;var m=currentMode(),s=currentSub();
+  board.querySelectorAll('[data-main]').forEach(function(b){b.classList.toggle('is-active',b.getAttribute('data-main')===m)});
+  board.querySelectorAll('[data-key]').forEach(function(b){b.classList.toggle('is-active',b.getAttribute('data-key')===s)});
+  document.body.classList.toggle('r1579-boot-ready',state.bootReady);setStatus();
+}
+function markReady(reason){
+  if(state.bootReady){syncActive();return true}
+  state.bootReady=true;state.readyReason=String(reason||'ready');document.body&&document.body.classList.add('r1579-boot-ready');setStatus('جاهز للتنقل');
+  var p=state.pending;if(p){state.pending=null;setTimeout(function(){routeNow(p.kind,p.key)},0)}else syncActive();return true;
+}
+function install(){
+  renderDashboard();
+  if(window.r1502DashboardRadicalRebuild){window.r1502DashboardRadicalRebuild.render=renderDashboard;window.r1502DashboardRadicalRebuild.sync=syncActive}
+}
+document.addEventListener('DOMContentLoaded',function(){install();setTimeout(syncActive,180);setTimeout(syncActive,700)});
+window.addEventListener('load',function(){install();setTimeout(syncActive,220);setTimeout(function(){if(!state.bootReady)markReady('safe-load-fallback')},4800)});
+window.addEventListener('pageshow',function(){install();setTimeout(syncActive,160)});
+document.addEventListener('click',function(ev){if(ev.target&&ev.target.closest&&ev.target.closest('#r1502-dashboard'))return;setTimeout(syncActive,90)},true);
+window.r1579FirstTapRouter={release:RELEASE,markReady:markReady,protectStartupList:protectStartupList,isReady:function(){return state.bootReady},isRouting:function(){return state.routing||!!state.pending},state:state,render:renderDashboard,sync:syncActive};
+})();
+</script>
+
+<!-- R1579_DASHBOARD_VISUAL_SYSTEM_FIRST_TAP_NAVIGATION_FIX_RELEASE -->
