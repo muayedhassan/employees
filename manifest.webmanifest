@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.80",
-  "short_name": "HR Mobile R1.5.80",
+  "name": "سجل الموظفين - Mobile R1.5.81",
+  "short_name": "HR Mobile R1.5.81",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Compact Professional UI & Original Font Identity: smaller organized dashboard cards, existing app fonts and vector icons, preserved first-tap navigation, and unchanged career coverage with 1011 mapped titles.",
+  "description": "Unified Dashboard Scroll, Title Clarity & Admin Navigation Fix: one continuous dashboard scroll, uniform readable card titles, cross-mode module routing after Administration, preserved R1.5.79 first-tap fix and 1011 mapped career titles.",
   "icons": [
     {
       "src": "assets/icon-192.png",
