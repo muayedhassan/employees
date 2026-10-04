@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.76",
-  "short_name": "HR Mobile R1.5.76",
+  "name": "سجل الموظفين - Mobile R1.5.77",
+  "short_name": "HR Mobile R1.5.77",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Career Directory Search & Infographic Refinement: precise Arabic token search across career chains and contained job titles with stronger professional infographic presentation.",
+  "description": "Reference Order Audit & Coverage Expansion: canonical career-title coverage expanded to 947 mapped titles with exact-source safeguards.",
   "icons": [
     {
       "src": "assets/icon-192.png",

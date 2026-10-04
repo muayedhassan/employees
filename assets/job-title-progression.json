@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "release": "MOBILE-R1.5.76-CAREER-DIRECTORY-SEARCH-INFOGRAPHIC-REFINEMENT",
+  "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
   "sourceJobTitlesRelease": "MOBILE-R1.5.41-JOB-TITLES-REVIEW-SYNC-FIX",
   "sourceFile": "العناوين_الوظيفية_حسب_الدرجة.xlsx",
   "sourceSheet": "قائمة موحدة",
   "sourceTotal": 1316,
-  "validatedChainCount": 189,
-  "validatedStepCount": 925,
+  "validatedChainCount": 198,
+  "validatedStepCount": 947,
   "policy": {
     "allowHeuristicInference": false,
     "requireEducationPresence": true,
@@ -33,7 +33,12 @@
     "notesWorkspaceMode": "personal-local-only-v2",
     "notesAffectEmployeeData": false,
     "careerPresentationMode": "DIRECTORY_SEARCH_INFOGRAPHIC_V2",
-    "careerLogicChanged": false
+    "careerLogicChanged": false,
+    "careerMapChanged": true,
+    "careerMatchingAlgorithmChanged": false,
+    "referenceOrderAudit": "USER_SUPPLIED_CANONICAL_EXACT",
+    "referenceOrderCanOverrideCanonicalDirectory": false,
+    "referenceOrderQualificationHintsInformationalOnly": true
   },
   "notes": [
     "لا ينشئ النظام أي عنوان وظيفي بالاستنتاج أو التشابه.",
@@ -54,7 +59,8 @@
     "R1.5.73: تطوير بصري CSS-only لواجهة التدرج والعناوين، دون JavaScript إضافي أو مراقبة DOM أو تغيير لمنطق المطابقة.",
     "R1.5.74: إعادة بناء التصميم للتدرج الوظيفي ودليل السلاسل بطريقة CSS-only مع إزالة الشروحات الزائدة والتركيز على بداية/نهاية التغطية.",
     "R1.5.75: إصلاح مباشر لموضع CSS الخاص بـR1.5.74؛ نُقل من منطقة JavaScript لطباعة التقرير إلى رأس التطبيق الحقيقي، دون تغيير تصميم أو منطق التدرج.",
-    "R1.5.76: تطوير دليل السلاسل ببحث عربي نصي مباشر داخل أسماء السلاسل والعناوين، مع تكبير الخطوط والدرجات وإعادة تنظيم الإنفوغرافيك؛ دون تغيير منطق التدرج."
+    "R1.5.76: تطوير دليل السلاسل ببحث عربي نصي مباشر داخل أسماء السلاسل والعناوين، مع تكبير الخطوط والدرجات وإعادة تنظيم الإنفوغرافيك؛ دون تغيير منطق التدرج.",
+    "R1.5.77: تدقيق ترتيب 148 عنوانًا من المرجع المرفق؛ حُلّت 146 صيغة إلى عناوين الدليل المعتمدة، وأضيف 22 عنوانًا للتغطية (14 داخل سلاسل صريحة + 8 عناوين حالية مثبتة بلا انتقال مفترض)، مع إبقاء «خبير» و«موظف خدمات اقدم» خارج الربط لعدم وجود مطابق حرفي آمن."
   ],
   "chains": [
     {
@@ -5289,16 +5295,43 @@
           "grade": 7,
           "degree": "السابعة",
           "title": "امين صندوق اقدم"
+        },
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "معاون رئيس امناء صناديق"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "رئيس امناء صناديق"
         }
       ],
       "coverageStartGrade": 9,
       "coverageStartDegree": "التاسعة",
-      "coverageEndGrade": 7,
-      "coverageEndDegree": "السابعة",
+      "coverageEndGrade": 5,
+      "coverageEndDegree": "الخامسة",
       "reachesFirst": false,
       "upperSegment": false,
       "coverageClass": "wide-coverage",
-      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة التاسعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة التاسعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي.",
+      "referenceOrderExtensionR1577": {
+        "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+        "addedSteps": [
+          {
+            "grade": 6,
+            "degree": "السادسة",
+            "title": "معاون رئيس امناء صناديق"
+          },
+          {
+            "grade": 5,
+            "degree": "الخامسة",
+            "title": "رئيس امناء صناديق"
+          }
+        ],
+        "source": "user-supplied degree-order reference + canonical directory exact titles",
+        "note": "تم وصل التدرج حتى الدرجة الخامسة لأن العنوانين مثبتان حرفيًا في الدليل ووردا في ترتيب الدرجات المرجعي."
+      }
     },
     {
       "id": "r1558_family_080",
@@ -5652,6 +5685,16 @@
       "stopReason": "تتوقف سلسلة «حراس» عند الدرجة الخامسة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الرابعة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
       "steps": [
         {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "حارس اول"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "حارس اقدم"
+        },
+        {
           "grade": 7,
           "degree": "السابعة",
           "title": "معاون رئيس حراس"
@@ -5667,14 +5710,31 @@
           "title": "رئيس حراس اقدم"
         }
       ],
-      "coverageStartGrade": 7,
-      "coverageStartDegree": "السابعة",
+      "coverageStartGrade": 9,
+      "coverageStartDegree": "التاسعة",
       "coverageEndGrade": 5,
       "coverageEndDegree": "الخامسة",
       "reachesFirst": false,
       "upperSegment": false,
       "coverageClass": "wide-coverage",
-      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي."
+      "startReason": "تبدأ التغطية المثبتة لهذه السلسلة عند الدرجة السابعة. هذه بداية ما أمكن إثباته من دليل العناوين الحالي، وليست قاعدة تلقائية لدرجة التعيين المرتبطة بالتحصيل الدراسي.",
+      "referenceOrderExtensionR1577": {
+        "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+        "addedSteps": [
+          {
+            "grade": 9,
+            "degree": "التاسعة",
+            "title": "حارس اول"
+          },
+          {
+            "grade": 8,
+            "degree": "الثامنة",
+            "title": "حارس اقدم"
+          }
+        ],
+        "source": "user-supplied degree-order reference + canonical directory exact titles",
+        "note": "الدرجة العاشرة بقيت خارج الربط التلقائي لوجود أكثر من عنوان دخول في الدرجة نفسها."
+      }
     },
     {
       "id": "r1558_family_091",
@@ -6511,6 +6571,26 @@
       "stopReason": "تتوقف سلسلة «كتاب طابعة» عند الدرجة الرابعة. لا يوجد عنوان صريح وحيد من نفس العائلة في الدرجة الثالثة، لذلك لم تُنشأ خطوة تالية بالاستنتاج.",
       "steps": [
         {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "كاتب طابعة ثالث"
+        },
+        {
+          "grade": 9,
+          "degree": "التاسعة",
+          "title": "كاتب طابعة ثان"
+        },
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "كاتب طابعة اول"
+        },
+        {
+          "grade": 7,
+          "degree": "السابعة",
+          "title": "كاتب طابعة اقدم"
+        },
+        {
           "grade": 6,
           "degree": "السادسة",
           "title": "معاون رئيس كتاب طابعة"
@@ -6526,14 +6606,41 @@
           "title": "رئيس كتاب طابعة اقدم"
         }
       ],
-      "coverageStartGrade": 6,
-      "coverageStartDegree": "السادسة",
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
       "coverageEndGrade": 4,
       "coverageEndDegree": "الرابعة",
       "reachesFirst": false,
       "upperSegment": false,
       "coverageClass": "mid-segment",
-      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين."
+      "startReason": "تبدأ التغطية المثبتة لهذا المقطع عند الدرجة السادسة. لا تُعرض درجات أدنى منها داخل هذا المقطع لأن المصدر الحالي لم يثبت اتصالًا صريحًا تحت الاسم نفسه، وبداية التغطية لا تعني بداية التعيين.",
+      "referenceOrderExtensionR1577": {
+        "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+        "addedSteps": [
+          {
+            "grade": 10,
+            "degree": "العاشرة",
+            "title": "كاتب طابعة ثالث"
+          },
+          {
+            "grade": 9,
+            "degree": "التاسعة",
+            "title": "كاتب طابعة ثان"
+          },
+          {
+            "grade": 8,
+            "degree": "الثامنة",
+            "title": "كاتب طابعة اول"
+          },
+          {
+            "grade": 7,
+            "degree": "السابعة",
+            "title": "كاتب طابعة اقدم"
+          }
+        ],
+        "source": "user-supplied degree-order reference + canonical directory exact titles",
+        "canonicalLanguageNote": "اعتمد «كاتب طابعة ثان» كما هو مثبت في دليل التطبيق بدل «كاتب طابعة ثاني»."
+      }
     },
     {
       "id": "r1558_family_114",
@@ -8849,42 +8956,361 @@
         ],
         "message": "العنوان «معاون حرفي» مثبت حرفيًا في الدرجة العاشرة، لكن لا يوجد في المصدر الحالي ما يحسم انتقاله إلى «حرفي أول» في الدرجة التاسعة."
       }
+    },
+    {
+      "id": "r1577_reference_veterinary",
+      "name": "الأطباء البيطريون",
+      "status": "explicit-reference-order-audited",
+      "releaseAdded": "R1.5.77",
+      "auditBasis": "user-supplied degree-order reference + canonical directory exact titles / no fuzzy inference",
+      "familyKey": "طبيب بيطري",
+      "steps": [
+        {
+          "grade": 6,
+          "degree": "السادسة",
+          "title": "طبيب بيطري متدرب"
+        },
+        {
+          "grade": 5,
+          "degree": "الخامسة",
+          "title": "طبيب بيطري ممارس"
+        },
+        {
+          "grade": 4,
+          "degree": "الرابعة",
+          "title": "طبيب بيطري ممارس اقدم"
+        },
+        {
+          "grade": 3,
+          "degree": "الثالثة",
+          "title": "رئيس اطباء بيطريين"
+        },
+        {
+          "grade": 2,
+          "degree": "الثانية",
+          "title": "رئيس اطباء بيطرين اقدم"
+        },
+        {
+          "grade": 1,
+          "degree": "الأولى",
+          "title": "طبيب بيطري استشاري"
+        }
+      ],
+      "coverageClass": "wide-coverage",
+      "startReason": "السلسلة مثبتة من ترتيب الدرجات المرجعي الذي زوّد به المستخدم، مع مطابقة كل خطوة حرفيًا إلى دليل العناوين الرسمي داخل التطبيق.",
+      "stopReason": "تنتهي السلسلة عند الدرجة الأولى بعنوان «طبيب بيطري استشاري».",
+      "coverageStartGrade": 6,
+      "coverageStartDegree": "السادسة",
+      "coverageEndGrade": 1,
+      "coverageEndDegree": "الأولى",
+      "reachesFirst": true,
+      "upperSegment": false
+    },
+    {
+      "id": "r1577_anchor_driver_second",
+      "name": "سائق ثان — عنوان حالي مثبت",
+      "status": "explicit-current-anchor-unverified-next",
+      "releaseAdded": "R1.5.77",
+      "auditBasis": "exact canonical directory title + user supplied degree-order reference / next relation intentionally unverified",
+      "familyKey": "سايق ثان",
+      "startReason": "عنوان حالي مثبت حرفيًا في دليل العناوين الرسمي للتطبيق؛ لا يُستعمل هذا الإثبات وحده لتوليد عنوان تالٍ.",
+      "stopReason": "يوجد في الدرجة العاشرة أيضًا «سائق ثالث»، لذلك لا يُفرض عنوان الدرجة التاسعة على «سائق ثان» دون دليل تعيين نوعي إضافي.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "سائق ثان"
+        }
+      ],
+      "coverageClass": "current-title-anchor",
+      "currentTitleAnchor": {
+        "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "sameGradeAlternatives": [
+          "سائق ثان",
+          "سائق ثالث"
+        ],
+        "message": "يوجد في الدرجة العاشرة أيضًا «سائق ثالث»، لذلك لا يُفرض عنوان الدرجة التاسعة على «سائق ثان» دون دليل تعيين نوعي إضافي."
+      },
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 10,
+      "coverageEndDegree": "العاشرة",
+      "reachesFirst": false,
+      "upperSegment": false
+    },
+    {
+      "id": "r1577_anchor_guard_second",
+      "name": "حارس ثاني — عنوان حالي مثبت",
+      "status": "explicit-current-anchor-unverified-next",
+      "releaseAdded": "R1.5.77",
+      "auditBasis": "exact canonical directory title + user supplied degree-order reference / next relation intentionally unverified",
+      "familyKey": "حارس ثاني",
+      "startReason": "عنوان حالي مثبت حرفيًا في دليل العناوين الرسمي للتطبيق؛ لا يُستعمل هذا الإثبات وحده لتوليد عنوان تالٍ.",
+      "stopReason": "يوجد في الدرجة العاشرة أكثر من مدخل للحراسة؛ يثبت العنوان الحالي فقط ولا يُحسم الانتقال منه تلقائيًا.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "حارس ثاني"
+        }
+      ],
+      "coverageClass": "current-title-anchor",
+      "currentTitleAnchor": {
+        "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "sameGradeAlternatives": [
+          "حارس ثاني",
+          "حارس ثالث"
+        ],
+        "message": "يوجد في الدرجة العاشرة أكثر من مدخل للحراسة؛ يثبت العنوان الحالي فقط ولا يُحسم الانتقال منه تلقائيًا."
+      },
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 10,
+      "coverageEndDegree": "العاشرة",
+      "reachesFirst": false,
+      "upperSegment": false
+    },
+    {
+      "id": "r1577_anchor_guard_third",
+      "name": "حارس ثالث — عنوان حالي مثبت",
+      "status": "explicit-current-anchor-unverified-next",
+      "releaseAdded": "R1.5.77",
+      "auditBasis": "exact canonical directory title + user supplied degree-order reference / next relation intentionally unverified",
+      "familyKey": "حارس ثالث",
+      "startReason": "عنوان حالي مثبت حرفيًا في دليل العناوين الرسمي للتطبيق؛ لا يُستعمل هذا الإثبات وحده لتوليد عنوان تالٍ.",
+      "stopReason": "يوجد في الدرجة العاشرة أكثر من مدخل للحراسة؛ يثبت العنوان الحالي فقط ولا يُحسم الانتقال منه تلقائيًا.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "حارس ثالث"
+        }
+      ],
+      "coverageClass": "current-title-anchor",
+      "currentTitleAnchor": {
+        "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "sameGradeAlternatives": [
+          "حارس ثاني",
+          "حارس ثالث"
+        ],
+        "message": "يوجد في الدرجة العاشرة أكثر من مدخل للحراسة؛ يثبت العنوان الحالي فقط ولا يُحسم الانتقال منه تلقائيًا."
+      },
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 10,
+      "coverageEndDegree": "العاشرة",
+      "reachesFirst": false,
+      "upperSegment": false
+    },
+    {
+      "id": "r1577_anchor_services",
+      "name": "موظف خدمات — عنوان حالي مثبت",
+      "status": "explicit-current-anchor-unverified-next",
+      "releaseAdded": "R1.5.77",
+      "auditBasis": "exact canonical directory title + user supplied degree-order reference / next relation intentionally unverified",
+      "familyKey": "موظف خدمات",
+      "startReason": "عنوان حالي مثبت حرفيًا في دليل العناوين الرسمي للتطبيق؛ لا يُستعمل هذا الإثبات وحده لتوليد عنوان تالٍ.",
+      "stopReason": "العنوان مثبت في الدليل، لكن صيغة «موظف خدمات اقدم» الواردة في الورقة المرجعية لا تطابق عنوان الدرجة التاسعة في الدليل، لذلك لا يُنشأ انتقال تلقائي.",
+      "steps": [
+        {
+          "grade": 10,
+          "degree": "العاشرة",
+          "title": "موظف خدمات"
+        }
+      ],
+      "coverageClass": "current-title-anchor",
+      "currentTitleAnchor": {
+        "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "sameGradeAlternatives": [
+          "موظف خدمات",
+          "معاون موظف خدمات"
+        ],
+        "message": "العنوان مثبت في الدليل، لكن صيغة «موظف خدمات اقدم» الواردة في الورقة المرجعية لا تطابق عنوان الدرجة التاسعة في الدليل، لذلك لا يُنشأ انتقال تلقائي."
+      },
+      "coverageStartGrade": 10,
+      "coverageStartDegree": "العاشرة",
+      "coverageEndGrade": 10,
+      "coverageEndDegree": "العاشرة",
+      "reachesFirst": false,
+      "upperSegment": false
+    },
+    {
+      "id": "r1577_anchor_technical",
+      "name": "فني — عنوان حالي مثبت",
+      "status": "explicit-current-anchor-unverified-next",
+      "releaseAdded": "R1.5.77",
+      "auditBasis": "exact canonical directory title + user supplied degree-order reference / next relation intentionally unverified",
+      "familyKey": "فني",
+      "startReason": "عنوان حالي مثبت حرفيًا في دليل العناوين الرسمي للتطبيق؛ لا يُستعمل هذا الإثبات وحده لتوليد عنوان تالٍ.",
+      "stopReason": "العنوان مثبت حرفيًا، ولا يوجد في المرجع ما يحسم عنوان الدرجة السابعة لهذه الصيغة العامة دون خلطها بعائلات فنية متخصصة.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "فني"
+        }
+      ],
+      "coverageClass": "current-title-anchor",
+      "currentTitleAnchor": {
+        "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "sameGradeAlternatives": [
+          "فني"
+        ],
+        "message": "العنوان مثبت حرفيًا، ولا يوجد في المرجع ما يحسم عنوان الدرجة السابعة لهذه الصيغة العامة دون خلطها بعائلات فنية متخصصة."
+      },
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 8,
+      "coverageEndDegree": "الثامنة",
+      "reachesFirst": false,
+      "upperSegment": false
+    },
+    {
+      "id": "r1577_anchor_clerk",
+      "name": "كاتب — عنوان حالي مثبت",
+      "status": "explicit-current-anchor-unverified-next",
+      "releaseAdded": "R1.5.77",
+      "auditBasis": "exact canonical directory title + user supplied degree-order reference / next relation intentionally unverified",
+      "familyKey": "كاتب",
+      "startReason": "عنوان حالي مثبت حرفيًا في دليل العناوين الرسمي للتطبيق؛ لا يُستعمل هذا الإثبات وحده لتوليد عنوان تالٍ.",
+      "stopReason": "العنوان العام «كاتب» مثبت حرفيًا، لكن لا يوجد انتقال تالٍ وحيد يمكن إثباته دون استنتاج.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "كاتب"
+        }
+      ],
+      "coverageClass": "current-title-anchor",
+      "currentTitleAnchor": {
+        "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "sameGradeAlternatives": [
+          "كاتب"
+        ],
+        "message": "العنوان العام «كاتب» مثبت حرفيًا، لكن لا يوجد انتقال تالٍ وحيد يمكن إثباته دون استنتاج."
+      },
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 8,
+      "coverageEndDegree": "الثامنة",
+      "reachesFirst": false,
+      "upperSegment": false
+    },
+    {
+      "id": "r1577_anchor_audit_clerk",
+      "name": "كاتب تدقيق — عنوان حالي مثبت",
+      "status": "explicit-current-anchor-unverified-next",
+      "releaseAdded": "R1.5.77",
+      "auditBasis": "exact canonical directory title + user supplied degree-order reference / next relation intentionally unverified",
+      "familyKey": "كاتب تدقيق",
+      "startReason": "عنوان حالي مثبت حرفيًا في دليل العناوين الرسمي للتطبيق؛ لا يُستعمل هذا الإثبات وحده لتوليد عنوان تالٍ.",
+      "stopReason": "العنوان مثبت حرفيًا في الدرجة الثامنة، لكن ربطه تلقائيًا بعائلة «مدقق» يحتاج نصًا صريحًا إضافيًا؛ لذلك يثبت الحالي فقط.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "كاتب تدقيق"
+        }
+      ],
+      "coverageClass": "current-title-anchor",
+      "currentTitleAnchor": {
+        "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "sameGradeAlternatives": [
+          "كاتب تدقيق"
+        ],
+        "message": "العنوان مثبت حرفيًا في الدرجة الثامنة، لكن ربطه تلقائيًا بعائلة «مدقق» يحتاج نصًا صريحًا إضافيًا؛ لذلك يثبت الحالي فقط."
+      },
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 8,
+      "coverageEndDegree": "الثامنة",
+      "reachesFirst": false,
+      "upperSegment": false
+    },
+    {
+      "id": "r1577_anchor_accounts_clerk",
+      "name": "كاتب حسابات — عنوان حالي مثبت",
+      "status": "explicit-current-anchor-unverified-next",
+      "releaseAdded": "R1.5.77",
+      "auditBasis": "exact canonical directory title + user supplied degree-order reference / next relation intentionally unverified",
+      "familyKey": "كاتب حسابات",
+      "startReason": "عنوان حالي مثبت حرفيًا في دليل العناوين الرسمي للتطبيق؛ لا يُستعمل هذا الإثبات وحده لتوليد عنوان تالٍ.",
+      "stopReason": "العنوان مثبت حرفيًا في الدرجة الثامنة، لكن ربطه تلقائيًا بعائلة «محاسب» يحتاج نصًا صريحًا إضافيًا؛ لذلك يثبت الحالي فقط.",
+      "steps": [
+        {
+          "grade": 8,
+          "degree": "الثامنة",
+          "title": "كاتب حسابات"
+        }
+      ],
+      "coverageClass": "current-title-anchor",
+      "currentTitleAnchor": {
+        "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+        "currentTitleVerified": true,
+        "nextRelationVerified": false,
+        "sameGradeAlternatives": [
+          "كاتب حسابات"
+        ],
+        "message": "العنوان مثبت حرفيًا في الدرجة الثامنة، لكن ربطه تلقائيًا بعائلة «محاسب» يحتاج نصًا صريحًا إضافيًا؛ لذلك يثبت الحالي فقط."
+      },
+      "coverageStartGrade": 8,
+      "coverageStartDegree": "الثامنة",
+      "coverageEndGrade": 8,
+      "coverageEndDegree": "الثامنة",
+      "reachesFirst": false,
+      "upperSegment": false
     }
   ],
   "coverage": {
     "directoryTitles": 1316,
-    "mappedTitles": 925,
-    "unmappedTitles": 391,
-    "exactCoveragePercent": 70.3,
+    "mappedTitles": 947,
+    "unmappedTitles": 369,
+    "exactCoveragePercent": 72,
     "batchAddedChains": 157,
     "batchAddedSteps": 583,
-    "rule": "R1.5.66 adds exact current-title anchors for same-grade ambiguous entry points; current title is verified while next relation remains unverified"
+    "rule": "R1.5.77 absorbs the user-supplied degree-order reference only where a canonical directory title is exact/resolvable; ambiguous next relations remain current-title anchors."
   },
   "coverageProfiles": {
-    "extendsToFirst": 76,
-    "partial": 113,
+    "extendsToFirst": 77,
+    "partial": 121,
     "upperSegments": 40,
     "startGradeDistribution": {
       "3": 15,
       "4": 25,
       "5": 9,
       "6": 8,
-      "7": 76,
-      "8": 38,
-      "9": 9,
-      "10": 9
+      "7": 75,
+      "8": 42,
+      "9": 10,
+      "10": 14
     },
-    "note": "R1.5.66 adds two grade-10 current-title anchors without asserting either anchor progresses to grade 9."
+    "note": "R1.5.77 recomputed after reference-order audit; anchors are counted as one-step partial chains and do not assert a next title."
   },
   "remainingAudit": {
-    "totalTitles": 391,
+    "totalTitles": 369,
     "familyCount": 267,
     "isolatedFamilies": 191,
     "twoConsecutiveCandidateFamilies": 37,
     "ambiguousFamilies": 15,
     "gapFamilies": 24,
     "status": "review-only-not-active",
-    "note": "R1.5.66: «حرفي» و«معاون حرفي» خرجا من قائمة غير المربوط لأنهما أصبحا عنوانين حاليين مثبتين، لكن العلاقة بالدرجة التاسعة ما زالت غير محسومة."
+    "note": "R1.5.77: 22 canonical titles were removed from the audit queue through explicit degree-order evidence or current-title anchors. Remaining 369 titles still require independent review.",
+    "breakdownSnapshotRelease": "R1.5.66",
+    "breakdownRecomputeRequired": true
   },
   "familyBridgeAudit": {
     "release": "MOBILE-R1.5.64-CAREER-FAMILY-BRIDGE-AUDIT",
@@ -10019,7 +10445,7 @@
     "visibleInsideCareerEmployeeDetail": false
   },
   "notesWorkspace": {
-    "release": "MOBILE-R1.5.76-CAREER-DIRECTORY-SEARCH-INFOGRAPHIC-REFINEMENT",
+    "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
     "title": "ملاحظاتي",
     "storage": "IndexedDB-local-only",
     "databaseName": "hr_mobile_personal_notes",
@@ -10072,7 +10498,7 @@
     }
   },
   "careerVisualFocusRebuild": {
-    "release": "MOBILE-R1.5.76-CAREER-DIRECTORY-SEARCH-INFOGRAPHIC-REFINEMENT",
+    "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
     "enabled": true,
     "mode": "css-only",
     "focus": [
@@ -10097,7 +10523,7 @@
     "careerLogicChanged": false
   },
   "careerDirectoryRefinementR1576": {
-    "release": "MOBILE-R1.5.76-CAREER-DIRECTORY-SEARCH-INFOGRAPHIC-REFINEMENT",
+    "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
     "enabled": true,
     "searchMode": "canonical-arabic-token-filter",
     "searchScope": [
@@ -10114,5 +10540,90 @@
       "auditQueue": 391,
       "coveragePercent": 70.3
     }
+  },
+  "referenceOrderAuditR1577": {
+    "release": "MOBILE-R1.5.77-REFERENCE-ORDER-AUDIT-COVERAGE-EXPANSION",
+    "sourceLabel": "العناوين الوظيفية .xlsx — user supplied reference",
+    "sourceTitleRows": 148,
+    "canonicalDirectoryTotal": 1316,
+    "canonicalResolvedRows": 146,
+    "unresolvedRows": 2,
+    "previousMappedTitles": 925,
+    "newlyMappedTitles": 22,
+    "mappedTitlesAfter": 947,
+    "remainingAuditAfter": 369,
+    "coverageBeforePercent": 70.3,
+    "coverageAfterPercent": 72,
+    "existingChainsExtended": 3,
+    "newChainsAdded": 9,
+    "promotedByExplicitChains": 14,
+    "promotedAsCurrentAnchors": 8,
+    "linguisticCanonicalization": [
+      {
+        "reference": "سائق ثاني",
+        "canonical": "سائق ثان"
+      },
+      {
+        "reference": "كاتب طابعة ثاني",
+        "canonical": "كاتب طابعة ثان"
+      },
+      {
+        "reference": "رئيس أطباء بيطرين",
+        "canonical": "رئيس اطباء بيطريين"
+      },
+      {
+        "reference": "رئيس فيزياوي",
+        "canonical": "رئيس فيزياويين"
+      },
+      {
+        "reference": "رئيس كيمياوي",
+        "canonical": "رئيس كيمياويين"
+      },
+      {
+        "reference": "رئيس كاتب طابعة",
+        "canonical": "رئيس كتاب طابعة"
+      }
+    ],
+    "unresolved": [
+      {
+        "degree": "الأولى",
+        "reference": "خبير",
+        "reason": "لا يوجد عنوان عام مطابق حرفيًا في دليل 1316؛ الموجود عناوين متخصصة مثل «خبير جودة»."
+      },
+      {
+        "degree": "التاسعة",
+        "reference": "موظف خدمات اقدم",
+        "reason": "لا يوجد هذا العنوان حرفيًا في الدرجة التاسعة؛ الدليل يحتوي «موظف خدمة اول»، لذلك لم تُفترض المساواة."
+      }
+    ],
+    "qualificationHintsInformationalOnly": [
+      {
+        "degree": "العاشرة",
+        "reference": "حارس ثالث",
+        "hint": "دون الابتدائية"
+      },
+      {
+        "degree": "العاشرة",
+        "reference": "حارس ثاني",
+        "hint": "ابتدائية"
+      },
+      {
+        "degree": "العاشرة",
+        "reference": "سائق ثالث",
+        "hint": "دون الابتدائية"
+      },
+      {
+        "degree": "العاشرة",
+        "reference": "سائق ثان",
+        "hint": "ابتدائية"
+      }
+    ],
+    "safeguards": [
+      "العنوان داخل دليل التطبيق هو النص القانوني/المرجعي المعتمد للعرض والمطابقة.",
+      "لا fuzzy matching ولا تحويل لغوي داخل Career Matching.",
+      "التصحيح اللغوي استُخدم فقط لاختيار النظير الحرفي الموجود أصلًا في دليل التطبيق.",
+      "عند تعدد مدخلات الدرجة نفسها أو غياب علاقة انتقال صريحة، يُنشأ current-title anchor فقط دون اقتراح تالٍ.",
+      "ملاحظات المؤهل في الورقة المرجعية معلومات سياقية ولا تغيّر درجة الموظف أو عنوانه تلقائيًا."
+    ]
   }
 }
