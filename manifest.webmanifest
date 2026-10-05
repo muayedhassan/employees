@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.85",
-  "short_name": "HR Mobile R1.5.85",
+  "name": "سجل الموظفين - Mobile R1.5.86",
+  "short_name": "HR Mobile R1.5.86",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Home Stability & Real Floating Control Fix: retires obsolete broad chrome/dashboard observers that caused repeated UI resync/flicker, and makes the actual R1.5.07 floating control return to Dashboard Home while content is open. Career remains 201 chains / 1011 mapped / 305 audit / 76.8%.",
+  "description": "Home-Only Floating Control Cleanup: removes the obsolete Hide/Show Interface action from Dashboard Home and shows the floating control only inside opened content as a Dashboard Home return button. R1.5.85 stability and the 201-chain / 1011-mapped career map remain unchanged.",
   "icons": [
     {
       "src": "assets/icon-192.png",
