@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "release": "MOBILE-R1.5.93-CAREER-LEGISLATION-REFERENCE-CENTER",
+  "lastVerified": "2026-10-06",
+  "scope": "career-legislation-reference-only",
+  "policy": {
+    "readOnly": true,
+    "noEmployeeMutation": true,
+    "noCareerMapMutation": true,
+    "noDirectoryMutation": true,
+    "pendingLegislationCannotChangeCareerLogic": true,
+    "canonicalExactOnly": true
+  },
+  "records": [
+    {
+      "id": "staffing-law-25-1960",
+      "type": "base-law",
+      "title": "قانون الملاك رقم (25) لسنة 1960",
+      "shortTitle": "قانون الملاك 25/1960",
+      "status": "base_as_amended",
+      "statusLabel": "القانون الأساس — بصيغته المعدلة",
+      "effectiveUse": "مرجع أساس",
+      "note": "يمثل القانون الأساس الذي تعاقبت عليه تعديلات قانونية لاحقة."
+    },
+    {
+      "id": "amendment-21-law-19-2024",
+      "type": "published-amendment",
+      "title": "قانون رقم (19) لسنة 2024 — التعديل الحادي والعشرون لقانون الملاك رقم (25) لسنة 1960",
+      "shortTitle": "التعديل 21 — قانون 19/2024",
+      "status": "officially_published",
+      "statusLabel": "نافذ ومنشور رسميًا",
+      "voteOrIssueDate": "2024-08-26",
+      "gazetteIssue": "4790",
+      "officialSource": "وزارة العدل / الوقائع العراقية",
+      "officialUrl": "https://www.moj.gov.iq/view.8400/",
+      "useInApp": "مرجع تشريعي معتمد للمراجعة",
+      "note": "المرجع الذي بُنيت عليه المرفقات (1) و(2) و(3) المعروضة حاليًا."
+    },
+    {
+      "id": "amendment-22-2026",
+      "type": "voted-pending-publication",
+      "title": "مقترح قانون التعديل الثاني والعشرين لقانون الملاك رقم (25) لسنة 1960",
+      "shortTitle": "التعديل 22 — 2026",
+      "status": "voted_pending_official_publication",
+      "statusLabel": "مصوّت عليه — بانتظار توثيق النشر الرسمي",
+      "parliamentVoteDate": "2026-10-04",
+      "officialSource": "مجلس النواب العراقي",
+      "officialUrl": "https://iq.parliament.iq/",
+      "lastPublicationCheck": "2026-10-06",
+      "useInApp": "متابعة فقط — لا يغيّر التدرج",
+      "note": "صوّت مجلس النواب على التعديل بتاريخ 4/10/2026. لا يغيّر التطبيق أي عنوان أو درجة أو سلسلة إلى أن يتوفر النص المنشور رسميًا ومرفقاته."
+    }
+  ]
+}
