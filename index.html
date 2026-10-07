@@ -7,13 +7,13 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY">
+<meta name="app-release" content="MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0b1437">
 <link rel="manifest" href="manifest.webmanifest">
-<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.98</title>
+<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.99</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/fonts/hr-fonts.css?v=r1411">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -9287,8 +9287,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=1598';
-  var KEEP_CACHE='employee-registry-ui-r1598';
+  var SW_URL='service-worker.js?v=1599';
+  var KEEP_CACHE='employee-registry-ui-r1599';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -9322,7 +9322,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   async function maintain(){
     await purgeLegacyInterfaceCaches();
     await installFreshWorker();
-    try{localStorage.setItem('hr_mobile_ui_cache_release','1598'');}catch(e){}
+    try{localStorage.setItem('hr_mobile_ui_cache_release','1599');}catch(e){}
   }
 
   if(document.readyState==='complete')setTimeout(maintain,0);
@@ -12554,6 +12554,211 @@ body.r1598-salary-open #view-career .r1597-sourcebar span{font-size:clamp(9.5px,
  body.r1598-salary-open #view-career .r1597-appointment-row>em{grid-column:1/-1!important}
 }
 </style>
+<style id="r1599-career-full-width-unified-typography-style">
+/* R1599_CAREER_FULL_WIDTH_GUARD */
+/* R1599_CAREER_UNIFIED_MOBILE_TYPOGRAPHY */
+/* R1599_CAREER_COMPACT_HOME_CONTROL */
+body.subview-career #scroll{overflow-x:hidden!important;max-width:100%!important}
+#view-career,#view-career *{box-sizing:border-box}
+#view-career{width:100%!important;max-width:100%!important;min-width:0!important;overflow-x:hidden!important;padding-left:max(0px,env(safe-area-inset-left))!important;padding-right:max(0px,env(safe-area-inset-right))!important}
+#view-career .r1551-page{width:100%!important;max-width:900px!important;min-width:0!important;margin:0 auto!important;overflow-x:hidden!important;padding-left:clamp(8px,2.6vw,12px)!important;padding-right:clamp(8px,2.6vw,12px)!important}
+#view-career .r1551-page>:not(.r1596-title-modal),
+#view-career .r1562-stage,#view-career .r1562-tabs,#view-career .r1562-surface,
+#view-career .r1590-law,#view-career .r1592-law,#view-career .r1593-refcenter,
+#view-career .r1594-workspace,#view-career .r1595-workspace,#view-career .r1597-workspace{
+ min-width:0!important;max-width:100%!important
+}
+#view-career .r1551-page p,#view-career .r1551-page small,#view-career .r1551-page span,
+#view-career .r1551-page b,#view-career .r1551-page strong,#view-career .r1551-page em{
+ overflow-wrap:anywhere
+}
+#view-career .r1551-results,#view-career .r1560-chain,#view-career .r1560-guide-group,
+#view-career .r1576-directory,#view-career .r1589-nextreq,#view-career .r1590-card,
+#view-career .r1592-reference,#view-career .r1592-lawexplain,#view-career .r1592-annex,
+#view-career .r1593-refcard,#view-career .r1593-titlelookup,#view-career .r1593-titlefile,
+#view-career .r1594-hero,#view-career .r1594-lawsummary,#view-career .r1594-sequences,
+#view-career .r1594-deleted,#view-career .r1594-browser,#view-career .r1594-card,
+#view-career .r1595-titlefile,#view-career .r1597-calc,#view-career .r1597-details{
+ min-width:0!important;max-width:100%!important
+}
+#view-career .r1597-stage-strip,
+#view-career .r1590-filters,
+#view-career .r1594-degree-filters,
+#view-career .r1594-kind-filters{
+ max-width:100%!important;min-width:0!important;-webkit-overflow-scrolling:touch
+}
+/* Home remains available without covering a large part of career content. */
+body.subview-career.r1583-content-open #r1507-chrome-toggle{
+ width:46px!important;min-width:46px!important;max-width:46px!important;height:46px!important;
+ padding:0!important;gap:0!important;inset-inline-end:8px!important;
+ bottom:calc(var(--safe-bottom,0px) + 82px)!important;border-radius:50%!important;opacity:.94!important
+}
+body.subview-career.r1583-content-open #r1507-chrome-toggle .r1507-txt{display:none!important}
+body.subview-career.r1583-content-open #r1507-chrome-toggle .r1507-ico{width:29px!important;height:29px!important}
+body.subview-career.r1583-content-open #r1507-chrome-toggle .r1507-dot{width:8px!important;height:8px!important}
+
+@media(max-width:700px){
+ #view-career .r1562-tabs{grid-template-columns:repeat(2,minmax(0,1fr))!important;width:100%!important;max-width:100%!important}
+ #view-career .r1562-tabs .r1551-mode:last-child{grid-column:1/-1}
+ #view-career .r1551-mode{min-width:0!important;white-space:normal!important;font-size:clamp(11px,3vw,12.5px)!important;line-height:1.45!important;padding:8px 6px!important}
+ #view-career .r1562-title{font-size:clamp(21px,5.6vw,24px)!important;line-height:1.35!important}
+ #view-career .r1562-sub{font-size:clamp(10.5px,2.9vw,12px)!important;line-height:1.75!important}
+ #view-career .r1562-name{font-size:clamp(16px,4.2vw,18px)!important;line-height:1.45!important}
+ #view-career .r1562-role,#view-career .r1562-head p,#view-career .r1562-searchHelp,
+ #view-career .r1551-rmeta,#view-career .r1560-chainmeta,#view-career .r1560-linemeta,
+ #view-career .r1562-footer,#view-career .r1562-note,#view-career .r1562-context{
+   font-size:clamp(10px,2.7vw,11.5px)!important;line-height:1.7!important
+ }
+ #view-career .r1562-head h3,#view-career .r1551-rname,#view-career .r1560-chainname,
+ #view-career .r1560-linetitle,#view-career .r1576-directory-heading h3{
+   font-size:clamp(12.5px,3.35vw,14px)!important;line-height:1.5!important
+ }
+ #view-career .r1562-badge,#view-career .r1562-pill,#view-career .r1562-tag,
+ #view-career .r1560-tag,#view-career .r1560-status,#view-career .r1567-qbadge,
+ #view-career .r1551-status,#view-career .r1551-source{
+   font-size:clamp(9.5px,2.55vw,10.8px)!important;line-height:1.45!important;white-space:normal!important
+ }
+ #view-career .r1551-input,#view-career .r1576-guide-searchbox input{
+   font-size:clamp(12px,3.2vw,13.5px)!important
+ }
+ #view-career .r1551-result{grid-template-columns:44px minmax(0,1fr)!important}
+ #view-career .r1551-rgrade{grid-column:2;justify-self:start;min-width:0!important;font-size:clamp(10px,2.7vw,11.5px)!important;padding:7px 9px!important}
+ #view-career .r1551-rgrade:before{display:none!important}
+ #view-career .r1560-chain summary,#view-career .r1560-guide-group summary{flex-wrap:wrap!important}
+ #view-career .r1560-guide-label,#view-career .r1560-guide-count,
+ #view-career .r1576-directory-total,#view-career .r1576-guide-searchmeta{
+   font-size:clamp(10px,2.7vw,11.5px)!important;line-height:1.55!important
+ }
+ #view-career .r1560-node,#view-career .r1560-current,#view-career .r1557-stage-degree{
+   font-size:clamp(10.5px,2.85vw,12px)!important
+ }
+ #view-career .r1557-stage-label,#view-career .r1557-profile-career-state,
+ #view-career .r1557-fact small{font-size:clamp(9.5px,2.55vw,10.8px)!important}
+ #view-career .r1557-stage-title,#view-career .r1557-profile-career-body,
+ #view-career .r1557-fact b{font-size:clamp(11px,3vw,12.5px)!important;line-height:1.6!important}
+ #view-career .r1557-profile-career-head,#view-career .r1557-profile-career-btn{
+   font-size:clamp(10.5px,2.85vw,12px)!important
+ }
+
+ #view-career .r1589-reqtop small,#view-career .r1589-reqtop>span,
+ #view-career .r1589-reqhead,#view-career .r1589-reqblock li,
+ #view-career .r1589-reqsource,#view-career .r1589-reqwarn,#view-career .r1589-pending{
+   font-size:clamp(10px,2.7vw,11.5px)!important;line-height:1.7!important
+ }
+ #view-career .r1589-reqtop b{font-size:clamp(13px,3.5vw,15px)!important}
+
+ #view-career .r1590-lawtitle small,#view-career .r1590-readonly,#view-career .r1590-lawnote,
+ #view-career .r1590-kpi span,#view-career .r1590-status,#view-career .r1590-badge,
+ #view-career .r1590-chip,#view-career .r1590-cardnote,#view-career .r1590-guard,
+ #view-career .r1590-filter,#view-career .r1590-empty{
+   font-size:clamp(9.8px,2.65vw,11px)!important;line-height:1.65!important;white-space:normal!important
+ }
+ #view-career .r1590-lawtitle b,#view-career .r1590-critical-title,
+ #view-career .r1590-critical-card b,#view-career .r1590-cardtitle{
+   font-size:clamp(12px,3.2vw,13.8px)!important;line-height:1.5!important
+ }
+ #view-career .r1590-critical-card span{font-size:clamp(10px,2.75vw,11.5px)!important;line-height:1.7!important}
+ #view-career .r1590-search{font-size:clamp(11.5px,3.05vw,13px)!important;min-height:44px!important}
+
+ #view-career .r1592-reftext small,#view-career .r1592-reftext span,#view-career .r1592-reftext em,
+ #view-career .r1592-lawexplain summary small,#view-career .r1592-article b,#view-career .r1592-article span,
+ #view-career .r1592-annex>span,#view-career .r1592-annex>p,#view-career .r1592-info span,
+ #view-career .r1592-guidegrid span,#view-career .r1592-summary span{
+   font-size:clamp(9.8px,2.65vw,11px)!important;line-height:1.65!important
+ }
+ #view-career .r1592-reftext b,#view-career .r1592-lawexplain summary span,
+ #view-career .r1592-annex>b,#view-career .r1592-info b,#view-career .r1592-guidehead,
+ #view-career .r1592-summary b{font-size:clamp(11.5px,3.1vw,13px)!important;line-height:1.5!important}
+ #view-career .r1592-article{grid-template-columns:1fr!important}
+ #view-career .r1592-annexes,#view-career .r1592-infogrid{grid-template-columns:1fr!important}
+
+ #view-career .r1593-refhead small,#view-career .r1593-refhead>span,
+ #view-career .r1593-refcardtop,#view-career .r1593-refcard>p,#view-career .r1593-refmeta span,
+ #view-career .r1593-pendingrule,#view-career .r1593-titlelookup-head small,
+ #view-career .r1593-titlelookup-head>span,#view-career .r1593-titlehint,
+ #view-career .r1593-readonly,#view-career .r1593-titleguard,
+ #view-career .r1593-titlegrid span,#view-career .r1593-titlegrid small,
+ #view-career .r1593-reviewrow span{
+   font-size:clamp(9.8px,2.65vw,11px)!important;line-height:1.65!important;white-space:normal!important
+ }
+ #view-career .r1593-refhead b,#view-career .r1593-refcard>b,
+ #view-career .r1593-titlelookup-head b,#view-career .r1593-titlefile b,
+ #view-career .r1593-titlegrid b,#view-career .r1593-reviewrow b{
+   font-size:clamp(11.5px,3.1vw,13px)!important;line-height:1.5!important
+ }
+ #view-career .r1593-titlelookup-box{grid-template-columns:1fr!important}
+ #view-career .r1593-titlelookup-box input{min-height:44px!important;font-size:clamp(11.5px,3.05vw,13px)!important}
+ #view-career .r1593-titlelookup-box button{min-height:42px!important;font-size:clamp(10.5px,2.85vw,12px)!important}
+ #view-career .r1593-refcards{grid-template-columns:1fr!important}
+
+ #view-career .r1594-hero{align-items:flex-start!important;flex-wrap:wrap!important}
+ #view-career .r1594-hero-copy small,#view-career .r1594-hero-copy span,#view-career .r1594-hero-copy em,
+ #view-career .r1594-pending,#view-career .r1594-warning b,#view-career .r1594-warning span,
+ #view-career .r1594-lawsummary summary small,#view-career .r1594-lawsummary-body b,
+ #view-career .r1594-lawsummary-body span,#view-career .r1594-stats span,
+ #view-career .r1594-source-note span,#view-career .r1594-section-head small,
+ #view-career .r1594-section-head>span,#view-career .r1594-seq summary small,
+ #view-career .r1594-seq summary>span,#view-career .r1594-seq-body b,
+ #view-career .r1594-seq-body p,#view-career .r1594-delete-card span,
+ #view-career .r1594-delete-card p,#view-career .r1594-card-main .r1594-grade,
+ #view-career .r1594-state,#view-career .r1594-card-grid span,
+ #view-career .r1594-card-grid small,#view-career .r1594-card-note,
+ #view-career .r1595-seq-state,#view-career .r1595-title-open{
+   font-size:clamp(9.6px,2.6vw,10.8px)!important;line-height:1.65!important;white-space:normal!important
+ }
+ #view-career .r1594-hero-copy b{font-size:clamp(16px,4.3vw,19px)!important;line-height:1.4!important}
+ #view-career .r1594-lawsummary summary span,#view-career .r1594-section-head b,
+ #view-career .r1594-seq summary b,#view-career .r1594-card-main b,
+ #view-career .r1594-card-grid b,#view-career .r1594-delete-card b{
+   font-size:clamp(11.5px,3.1vw,13px)!important;line-height:1.5!important
+ }
+ #view-career .r1594-search input{font-size:clamp(11.5px,3.05vw,13px)!important;min-height:42px!important}
+ #view-career .r1594-degree-filters button,#view-career .r1594-kind-filters button{
+   font-size:clamp(10px,2.7vw,11.3px)!important;padding:7px 9px!important
+ }
+ #view-career .r1594-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #view-career .r1594-lawsummary-body>div{grid-template-columns:1fr!important}
+ #view-career .r1594-card summary{align-items:flex-start!important;flex-wrap:wrap!important}
+
+ #view-career .r1595-titlefile-head{grid-template-columns:32px minmax(0,1fr)!important}
+ #view-career .r1595-titlefile-head>em{grid-column:2;justify-self:start}
+ #view-career .r1595-titlefile-head small,#view-career .r1595-titlefile-head span,
+ #view-career .r1595-titlefile-head>em,#view-career .r1595-titlefile-grid span,
+ #view-career .r1595-titlefile-grid small,#view-career .r1595-titlefile-status b,
+ #view-career .r1595-titlefile-status span,#view-career .r1595-titlefile-decision b,
+ #view-career .r1595-titlefile-decision span{
+   font-size:clamp(9.8px,2.65vw,11px)!important;line-height:1.65!important
+ }
+ #view-career .r1595-titlefile-head b,#view-career .r1595-titlefile-grid b{
+   font-size:clamp(11.5px,3.1vw,13px)!important;line-height:1.5!important
+ }
+ #view-career .r1595-titlefile-grid{grid-template-columns:1fr!important}
+
+ #view-career .r1596-modal-head small,#view-career .r1596-modal-head span,#view-career .r1596-modal-head em,
+ #view-career .r1596-modal-grid span,#view-career .r1596-modal-grid small,
+ #view-career .r1596-modal-status b,#view-career .r1596-modal-status span,
+ #view-career .r1596-modal-decision b,#view-career .r1596-modal-decision span{
+   font-size:clamp(9.8px,2.65vw,11px)!important;line-height:1.65!important;white-space:normal!important
+ }
+ #view-career .r1596-modal-head b,#view-career .r1596-modal-grid b{
+   font-size:clamp(11.5px,3.1vw,13px)!important;line-height:1.5!important
+ }
+ #view-career .r1596-modal-head{grid-template-columns:minmax(0,1fr) 32px!important}
+ #view-career .r1596-modal-head>em{grid-column:1;justify-self:start}
+ #view-career .r1596-modal-grid{grid-template-columns:1fr!important}
+
+ /* Salary keeps the successful R1.5.98 scale, with stronger edge protection. */
+ #view-career .r1597-workspace{width:100%!important;max-width:100%!important;min-width:0!important;overflow-x:hidden!important}
+ #view-career .r1597-stage-strip{display:flex!important;width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important}
+ #view-career .r1597-stage-strip button{flex:0 0 64px!important;min-width:64px!important}
+}
+@media(max-width:430px){
+ #view-career .r1551-page{padding-left:8px!important;padding-right:8px!important}
+ #view-career .r1562-stage,#view-career .r1562-surface{padding:11px!important}
+ #view-career .r1589-reqgrid,#view-career .r1590-kpis,#view-career .r1594-stats{grid-template-columns:1fr!important}
+}
+</style>
+
 <script id="r1551-career-progression-script">
 // R1555_CAREER_PROFESSIONAL_UI | presentation-only professional career interface; R1.5.54 search and matching logic retained.
 // R1556_CAREER_MAP_EXPANSION_BATCH1 | 24 explicit chains / 165 exact steps added; no heuristic inference.
@@ -12566,7 +12771,7 @@ body.r1598-salary-open #view-career .r1597-sourcebar span{font-size:clamp(9.5px,
 // R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY';
+var RELEASE='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -12953,7 +13158,7 @@ body.subview-notes #r1502-dashboard{display:none!important}
 (function(){
 'use strict';
 
-var RELEASE='MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY';
+var RELEASE='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY';
 var PAGE_ID='view-notes';
 var DB_NAME='hr_mobile_personal_notes';
 var DB_VERSION=1;
@@ -13522,13 +13727,13 @@ window.r1571MyNotes={
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY';
+var RELEASE='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
-async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1598');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
+async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','1599');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
 async function checkUpdate(showMessage){setRelease();if(navigator.onLine===false){if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');return false}try{if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث'}catch(e){}if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');return has}catch(e){try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');return false}}
-async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1598&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1598');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
-setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1598',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=1599&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','1599');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
+setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=1599',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
 document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});window.r1551CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
 })();
 </script>
@@ -13662,7 +13867,7 @@ body.light-mode #r1502-dashboard.r1579-dashboard .r1579-scope-card,body.light-mo
 // R1579_FIRST_TAP_ROUTER — explicit startup intent queue; no MutationObserver.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY';
+var RELEASE='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY';
 var state={bootReady:false,pending:null,routing:false,userIntent:null,lastRoute:'',readyReason:''};
 var MODULES={
   employees:[
@@ -13927,7 +14132,7 @@ body.light-mode #r1502-dashboard.r1580-compact .r1580-stat b{color:#17325a!impor
 // R1580_VECTOR_ICON_SYSTEM — preserves the existing Font Awesome vector icon set.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY';
+var RELEASE='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY';
 function $(s,r){return (r||document).querySelector(s)}
 function all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
 function numFromScope(key){var e=$('#r1502-dashboard [data-main="'+key+'"] .r1579-scope-count');var n=Number(String(e&&e.textContent||'').replace(/[^0-9]/g,''));return isFinite(n)?n:0}
@@ -14041,7 +14246,7 @@ window.r1580CompactProfessionalUI={release:RELEASE,enhance:enhance,install:insta
 // R1581_UNIFORM_CARD_TITLE_CLARITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY';
+var RELEASE='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY';
 var lastDataMode='perm';
 var routeBusy=false;
 function qs(s,r){return (r||document).querySelector(s)}
@@ -14314,7 +14519,7 @@ body.light-mode.r1582-ui #r1502-dashboard.r1580-compact .r1579-module-card .r157
 // R1582_PROFESSIONAL_SINGLE_SCROLL
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY';
+var RELEASE='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY';
 var resizeTimer=0;
 
 function q(s,r){return (r||document).querySelector(s)}
@@ -14506,7 +14711,7 @@ body.r1583-dashboard-home #r1502-dashboard.r1580-compact{
 // R1583_CONTENT_MODE_SWITCH
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY';
+var RELEASE='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY';
 var contentKey='';
 var adminWrapped=false;
 
@@ -14677,7 +14882,7 @@ body.r1583-content-open.chrome-collapsed #scroll{display:block!important}
 // R1584_CAPTURED_CONTENT_MODE_FIX
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY',pendingKey='',pendingTimer=0;
+var RELEASE='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY',pendingKey='',pendingTimer=0;
 function q(s,r){return (r||document).querySelector(s)}
 function forceChromeExpanded(){
  try{
@@ -14744,7 +14949,7 @@ body.r1583-content-open #r1507-chrome-toggle .r1507-dot{background:#37f0a5!impor
 // R1585_HOME_STABILITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY';
+var RELEASE='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY';
 function returnHome(){
  if(!document.body)return false;
  try{if(window.r1507ChromeSafeFloatingToggle&&typeof window.r1507ChromeSafeFloatingToggle.set==='function')window.r1507ChromeSafeFloatingToggle.set(false)}catch(e){}
@@ -14782,7 +14987,7 @@ body.r1583-content-open:not(.r1583-dashboard-home) #r1507-chrome-toggle{
 // R1586_HOME_NO_HIDE_SHOW
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.98-SALARY-SERVICE-MOBILE-FIT-TYPOGRAPHY';
+var RELEASE='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY';
 function normalizeDashboardHome(){
   if(!document.body)return false;
   if(document.body.classList.contains('r1583-dashboard-home')&&!document.body.classList.contains('r1583-content-open')){

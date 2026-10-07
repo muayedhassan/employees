@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.98",
-  "short_name": "HR Mobile R1.5.98",
+  "name": "سجل الموظفين - Mobile R1.5.99",
+  "short_name": "HR Mobile R1.5.99",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Salary & Service Mobile Fit & Typography: larger fluid Arabic typography, viewport-safe salary/service layout, and horizontal scrolling isolated to the 11-stage salary strip. Employee data, IndexedDB, career mapping and reference values remain unchanged.",
+  "description": "Career Full Width & Unified Typography: viewport-safe career progression, larger unified mobile typography across all career workspaces, compact Home control, salary stage scrolling preserved. Employee data and IndexedDB unchanged.",
   "icons": [
     {
       "src": "assets/icon-192.png",
