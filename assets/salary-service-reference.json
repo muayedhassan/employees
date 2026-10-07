@@ -1,0 +1,439 @@
+{
+  "release": "MOBILE-R1.5.97-SALARY-SERVICE-REFERENCE-CENTER",
+  "schema": "salary-service-reference.v1",
+  "status": "REFERENCE_READ_ONLY",
+  "title": "الراتب والخدمة",
+  "subtitle": "مركز مرجعي لسلم الراتب والمرحلة والعلاوة والمخصصات والتقاعد",
+  "policy": {
+    "readOnly": true,
+    "doesNotModifyEmployeeData": true,
+    "doesNotInferEmployeeGrade": true,
+    "doesNotInferEmployeeStage": true,
+    "doesNotGrantAllowanceEntitlement": true,
+    "doesNotDecidePromotionEligibility": true,
+    "pensionCalculatorEnabled": false,
+    "higherGradesCalculatorEnabled": false,
+    "salaryScaleLockedToReference": true
+  },
+  "sources": [
+    {
+      "id": "salary-scale-2020",
+      "label": "سلم الرواتب المرسل",
+      "file": "سلم الرواتب 2020.pdf",
+      "use": "مصفوفة الدرجات 1–10 والمراحل 1–11 والعلاوة السنوية"
+    },
+    {
+      "id": "salary-table",
+      "label": "جدول سلم الرواتب لموظفي الملاك الدائم",
+      "file": "جدول سلم الرواتب.pdf",
+      "use": "مرجع بدايات التعيين والعنوان ومخصصات الشهادة الواردة في المادة"
+    },
+    {
+      "id": "salary-explainer",
+      "label": "شرح حساب سلم الرواتب للموظفين",
+      "file": "شرح حساب سلم الرواتب للموظفين.pdf",
+      "use": "شرح المرحلة والتسكين والمخصصات وأمثلة الخدمة والترفيع"
+    },
+    {
+      "id": "pension-explainer",
+      "label": "حساب الراتب التقاعدي",
+      "file": "حساب الراتب التقاعدي.pdf",
+      "use": "مرجع حسابي تعليمي للتقاعد يحتاج مطابقة مع التشريع النافذ قبل الاعتماد"
+    },
+    {
+      "id": "allowances-sheet",
+      "label": "جدول العلاوات والدرجات",
+      "file": "العلاوات.png",
+      "use": "تأكيد سلم الدرجات الاعتيادي ورصد جدول مستقل للدرجات العليا"
+    }
+  ],
+  "salaryScale": {
+    "gradeCount": 10,
+    "stageCount": 11,
+    "valueCount": 110,
+    "currency": "IQD",
+    "formula": "راتب المرحلة = راتب المرحلة الأولى + (المرحلة - 1) × العلاوة السنوية",
+    "rows": [
+      {
+        "grade": 1,
+        "degree": "الأولى",
+        "firstStageSalary": 910000,
+        "annualIncrement": 20000,
+        "promotionYearsReference": null,
+        "stages": [
+          910000,
+          930000,
+          950000,
+          970000,
+          990000,
+          1010000,
+          1030000,
+          1050000,
+          1070000,
+          1090000,
+          1110000
+        ]
+      },
+      {
+        "grade": 2,
+        "degree": "الثانية",
+        "firstStageSalary": 723000,
+        "annualIncrement": 17000,
+        "promotionYearsReference": 5,
+        "stages": [
+          723000,
+          740000,
+          757000,
+          774000,
+          791000,
+          808000,
+          825000,
+          842000,
+          859000,
+          876000,
+          893000
+        ]
+      },
+      {
+        "grade": 3,
+        "degree": "الثالثة",
+        "firstStageSalary": 600000,
+        "annualIncrement": 10000,
+        "promotionYearsReference": 5,
+        "stages": [
+          600000,
+          610000,
+          620000,
+          630000,
+          640000,
+          650000,
+          660000,
+          670000,
+          680000,
+          690000,
+          700000
+        ]
+      },
+      {
+        "grade": 4,
+        "degree": "الرابعة",
+        "firstStageSalary": 509000,
+        "annualIncrement": 8000,
+        "promotionYearsReference": 5,
+        "stages": [
+          509000,
+          517000,
+          525000,
+          533000,
+          541000,
+          549000,
+          557000,
+          565000,
+          573000,
+          581000,
+          589000
+        ]
+      },
+      {
+        "grade": 5,
+        "degree": "الخامسة",
+        "firstStageSalary": 429000,
+        "annualIncrement": 6000,
+        "promotionYearsReference": 5,
+        "stages": [
+          429000,
+          435000,
+          441000,
+          447000,
+          453000,
+          459000,
+          465000,
+          471000,
+          477000,
+          483000,
+          489000
+        ]
+      },
+      {
+        "grade": 6,
+        "degree": "السادسة",
+        "firstStageSalary": 362000,
+        "annualIncrement": 6000,
+        "promotionYearsReference": 4,
+        "stages": [
+          362000,
+          368000,
+          374000,
+          380000,
+          386000,
+          392000,
+          398000,
+          404000,
+          410000,
+          416000,
+          422000
+        ]
+      },
+      {
+        "grade": 7,
+        "degree": "السابعة",
+        "firstStageSalary": 296000,
+        "annualIncrement": 6000,
+        "promotionYearsReference": 4,
+        "stages": [
+          296000,
+          302000,
+          308000,
+          314000,
+          320000,
+          326000,
+          332000,
+          338000,
+          344000,
+          350000,
+          356000
+        ]
+      },
+      {
+        "grade": 8,
+        "degree": "الثامنة",
+        "firstStageSalary": 260000,
+        "annualIncrement": 3000,
+        "promotionYearsReference": 4,
+        "stages": [
+          260000,
+          263000,
+          266000,
+          269000,
+          272000,
+          275000,
+          278000,
+          281000,
+          284000,
+          287000,
+          290000
+        ]
+      },
+      {
+        "grade": 9,
+        "degree": "التاسعة",
+        "firstStageSalary": 210000,
+        "annualIncrement": 3000,
+        "promotionYearsReference": 4,
+        "stages": [
+          210000,
+          213000,
+          216000,
+          219000,
+          222000,
+          225000,
+          228000,
+          231000,
+          234000,
+          237000,
+          240000
+        ]
+      },
+      {
+        "grade": 10,
+        "degree": "العاشرة",
+        "firstStageSalary": 170000,
+        "annualIncrement": 3000,
+        "promotionYearsReference": 4,
+        "stages": [
+          170000,
+          173000,
+          176000,
+          179000,
+          182000,
+          185000,
+          188000,
+          191000,
+          194000,
+          197000,
+          200000
+        ]
+      }
+    ]
+  },
+  "appointmentReference": [
+    {
+      "education": "يقرأ ويكتب",
+      "grade": 10,
+      "stage": 1,
+      "salary": 170000,
+      "certificateAllowancePct": 15,
+      "note": "بداية واردة في الجدول المرسل"
+    },
+    {
+      "education": "الابتدائية",
+      "grade": 10,
+      "stage": 4,
+      "salary": 179000,
+      "certificateAllowancePct": 15,
+      "note": "بداية واردة في الجدول المرسل"
+    },
+    {
+      "education": "المتوسطة",
+      "grade": 9,
+      "stage": 1,
+      "salary": 210000,
+      "certificateAllowancePct": 15,
+      "note": "بداية واردة في الجدول المرسل"
+    },
+    {
+      "education": "الإعدادية",
+      "grade": 8,
+      "stage": 1,
+      "salary": 260000,
+      "certificateAllowancePct": 25,
+      "note": "بداية واردة في الجدول المرسل"
+    },
+    {
+      "education": "الدبلوم",
+      "grade": 8,
+      "stage": 5,
+      "salary": 272000,
+      "certificateAllowancePct": 35,
+      "note": "بداية واردة في الجدول المرسل"
+    },
+    {
+      "education": "البكالوريوس",
+      "grade": 7,
+      "stage": 1,
+      "salary": 296000,
+      "certificateAllowancePct": 45,
+      "note": "بداية واردة في الجدول المرسل"
+    },
+    {
+      "education": "بكالوريوس / دبلوم عالٍ كما ورد",
+      "grade": 6,
+      "stage": 1,
+      "salary": 362000,
+      "certificateAllowancePct": 55,
+      "note": "فئة واردة بالنص نفسه في المادة المرسلة"
+    },
+    {
+      "education": "الماجستير / كلية الطب كما ورد",
+      "grade": 6,
+      "stage": 3,
+      "salary": 374000,
+      "certificateAllowancePct": 75,
+      "note": "فئة واردة بالنص نفسه في المادة المرسلة"
+    },
+    {
+      "education": "الدكتوراه كما ورد",
+      "grade": 5,
+      "stage": 3,
+      "salary": 441000,
+      "certificateAllowancePct": 100,
+      "note": "مرجع المادة المرسلة فقط"
+    }
+  ],
+  "allowancesReference": {
+    "status": "REFERENCE_ONLY_NOT_ENTITLEMENT",
+    "warning": "القيم أدناه واردة في مادة الشرح المرسلة ولا تُحوّل إلى استحقاق آلي للموظف.",
+    "family": {
+      "marriageAmount": 50000,
+      "childAmount": 10000,
+      "maxChildren": 4
+    },
+    "riskPct": 30,
+    "position": [
+      {
+        "role": "معاون مدير عام",
+        "pct": 30
+      },
+      {
+        "role": "المشرفون الاختصاصيون والتربويون ومدراء المدارس والمعاهد",
+        "pct": 25
+      },
+      {
+        "role": "مدير التشكيل دون مستوى الدائرة",
+        "pct": 25
+      },
+      {
+        "role": "مدير القسم",
+        "pct": 20
+      },
+      {
+        "role": "معاونو مدراء المدارس ومسؤولو الشعب",
+        "pct": 15
+      }
+    ],
+    "transport": [
+      {
+        "area": "المناطق النائية",
+        "amount": 60000
+      },
+      {
+        "area": "المناطق الريفية",
+        "amount": 50000
+      },
+      {
+        "area": "مركز النواحي",
+        "amount": 40000
+      },
+      {
+        "area": "مركز القضاء",
+        "amount": 30000
+      },
+      {
+        "area": "مركز المدينة أو المحافظة",
+        "amount": 20000,
+        "condition": "لمن لا يملك نقلًا مجانيًا"
+      }
+    ]
+  },
+  "servicePromotionNotes": [
+    {
+      "title": "التقدم الأفقي داخل الدرجة",
+      "text": "تورد مادة الشرح أمثلة يستمر فيها الموظف داخل مراحل الدرجة عند عدم تحقق الترفيع؛ لا تستخدم هذه الأمثلة لتغيير درجة الموظف آليًا."
+    },
+    {
+      "title": "عدم توفر درجة وظيفية",
+      "text": "ورد مثال يوضح استمرار الراتب أفقيًا ثم معالجة الترفيع لاحقًا عند توفر الدرجة؛ يبقى هذا شرحًا مرجعيًا لا قرارًا آليًا."
+    },
+    {
+      "title": "قيد الترفيع في السنة الواحدة",
+      "text": "ورد في مادة الشرح نص بعدم جواز الترفيع لأكثر من درجتين في السنة؛ يعرض للتنبيه والمراجعة فقط إلى حين ربطه بمصدر تشريعي معتمد."
+    }
+  ],
+  "pensionReference": {
+    "status": "REFERENCE_ONLY_NEEDS_CURRENT_LAW_VERIFICATION",
+    "heading": "مرجع حساب تقاعدي وارد في المادة المرسلة",
+    "averageSalaryMonths": 36,
+    "cumulativeRatePctPerServiceYear": 2.5,
+    "formula": "معدل آخر 36 شهرًا × سنوات الخدمة التقاعدية × 2.5 ÷ 100",
+    "roundingReference": {
+      "sixMonthsOrMore": "تُجبر إلى سنة كاملة وفق الشرح المرسل",
+      "lessThanSixMonths": "لا تُجبر إلى سنة وفق الشرح المرسل"
+    },
+    "pensionCertificateAllowancePct": {
+      "دبلوم": 5,
+      "بكالوريوس": 10,
+      "ماجستير": 15,
+      "دكتوراه": 20
+    },
+    "contributionsReference": {
+      "totalPct": 25,
+      "employeePct": 10,
+      "treasuryPct": 15
+    },
+    "minimumPensionReference": 400000,
+    "minimumServiceYearsReference": 15,
+    "paymentAgeReference": 45,
+    "endOfServiceRewardReference": "ورد في الشرح: آخر راتب مستلم مع المخصصات × 12، مع إشارة إلى خدمة لا تقل عن 25 سنة.",
+    "warning": "هذه القواعد معروضة كما وردت في مادة حساب التقاعد المرسلة، ولا تعتمد كاستحقاق نهائي قبل مراجعة قانون التقاعد النافذ وتعديلاته."
+  },
+  "higherGradesPending": {
+    "status": "PENDING_SOURCE_VERIFICATION",
+    "calculatorEnabled": false,
+    "categories": [
+      "وكيل الوزارة ومن بدرجته",
+      "الدرجة الخاصة",
+      "المدير العام ومن بدرجته"
+    ],
+    "note": "ورد جدول مستقل لهذه الفئات في المادة المرسلة. لا تدخل قيمه في أي حساب داخل التطبيق إلى حين توثيق مصدره وتاريخ نفاذه."
+  }
+}
