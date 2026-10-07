@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.87",
-  "short_name": "HR Mobile R1.5.87",
+  "name": "سجل الموظفين - Mobile R1.5.98",
+  "short_name": "HR Mobile R1.5.98",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Compact Header & Gold Typography Sections: a materially slimmer top header and clear gold typographic section headings using only the app's existing local font system. Navigation, unified scroll, employee data and the 201-chain / 1011-mapped career map remain unchanged.",
+  "description": "Salary & Service Mobile Fit & Typography: larger fluid Arabic typography, viewport-safe salary/service layout, and horizontal scrolling isolated to the 11-stage salary strip. Employee data, IndexedDB, career mapping and reference values remain unchanged.",
   "icons": [
     {
       "src": "assets/icon-192.png",
