@@ -15,3 +15,7 @@ INSTALL_PATCH_R*.cmd
 REPAIR_R*.cmd
 REPAIR_R*.ps1
 README_REPAIR_R*.txt
+
+# Patch-generated local backup archives (keep locally; never commit)
+/.patch-backups/
+/patch-backups/

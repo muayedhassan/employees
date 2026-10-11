@@ -3,7 +3,7 @@ import fs from 'node:fs';
 
 const fail=m=>{console.error('VERIFY_MOBILE_R1 FAIL:',m);process.exit(1)};
 const read=p=>fs.readFileSync(p,'utf8');
-const E='MOBILE-R1.5.99-CAREER-FULL-WIDTH-UNIFIED-TYPOGRAPHY';
+const E='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD';
 const CAREER='MOBILE-R1.5.88-REFERENCE-BACKED-CAREER-PROGRESSION-CONSOLIDATION';
 const countOf=(h,n)=>h.split(n).length-1;
 const key=(d,t)=>d+'|||'+String(t||'').trim();
@@ -19,7 +19,7 @@ const m=JSON.parse(read('manifest.webmanifest'));
 const v=read('VERSION.txt').trim();
 
 if(v!==E||!i.includes('<meta name="app-release" content="'+E+'">'))fail('release mismatch');
-if(!String(m.name||'').includes('R1.5.99')||!String(m.short_name||'').includes('R1.5.99'))fail('manifest release mismatch');
+if(!String(m.name||'').includes('R1.5.100')||!String(m.short_name||'').includes('R1.5.100'))fail('manifest release mismatch');
 
 for(const x of [
  'R1579_DASHBOARD_VISUAL_SYSTEM_FIRST_TAP_NAVIGATION_FIX_RELEASE',
@@ -59,17 +59,17 @@ for(const x of [
  'grid-template-columns:repeat(2,minmax(0,1fr))!important',
  'body.subview-career.r1583-content-open #r1507-chrome-toggle',
  '#view-career .r1597-stage-strip'
-]) if(!i.includes(x)) fail('R1.5.99 marker missing: '+x);
+]) if(!i.includes(x)) fail('R1.5.100 marker missing: '+x);
 
-if(countOf(i,'service-worker.js?v=1599')!==3)fail('service worker URL marker count');
-if(countOf(i,'employee-registry-ui-r1599')!==1)fail('UI cache marker count');
-if(countOf(i,"u.searchParams.set('v','1599')")!==2)fail('manual update marker count');
-if(countOf(i,"hr_mobile_ui_cache_release','1599')")!==1)fail('local cache marker count');
+if(countOf(i,'service-worker.js?v=15100')!==3)fail('service worker URL marker count');
+if(countOf(i,'employee-registry-ui-r15100')!==1)fail('UI cache marker count');
+if(countOf(i,"u.searchParams.set('v','15100')")!==2)fail('manual update marker count');
+if(countOf(i,"hr_mobile_ui_cache_release','15100')")!==1)fail('local cache marker count');
 for(const old of ['service-worker.js?v=1598','employee-registry-ui-r1598',"u.searchParams.set('v','1598')","hr_mobile_ui_cache_release','1598''"])if(i.includes(old))fail('stale/broken R1.5.98 runtime marker '+old);
 
-if(!sw.includes('MOBILE-R1.5.99-SERVICE-WORKER-NO-STALE-UI')||!sw.includes('employee-registry-ui-r1599')||!sw.includes('__offline_index_r1599__'))fail('service worker mismatch');
+if(!sw.includes('MOBILE-R1.5.100-SERVICE-WORKER-NO-STALE-UI')||!sw.includes('employee-registry-ui-r15100')||!sw.includes('__offline_index_r15100__'))fail('service worker mismatch');
 
-/* Compile every inline classic script. R1.5.99 also closes the isolated R1.5.98 cache-script quote error. */
+/* Compile every inline classic script. R1.5.100 also closes the isolated R1.5.98 cache-script quote error. */
 let scriptCount=0;
 for(const sm of i.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)){
   scriptCount++;
@@ -89,4 +89,10 @@ console.log('VERIFY_DIRECTORY OK: 1316 unchanged');
 console.log('VERIFY_STAFFING_WORKSPACE OK: 150 visible cases unchanged');
 console.log('VERIFY_REQUIREMENTS OK: 17 cards unchanged');
 console.log('VERIFY_NO_EMPLOYEE_DATA_MUTATION OK');
+if(i.includes('api.qrserver.com')||i.includes('https://wa.me/?text=')||i.includes('navigator.share('))fail('R1.5.100: external QR or sharing remains');
+if(!i.includes('R15100_NO_REMOTE_QR_NO_EMPLOYEE_SHARING_PDF_EXCEL_UNCHANGED')||!i.includes('data:image/gif;base64,')||!i.includes('#report-csv-btn'))fail('R1.5.100 guard missing');
+for(const q of ['function r1427EnsurePdfLib()','async function r1427BuildEmployeePdf(','async function r1424ExportStyledExcel()','async function r1434BuildReportPdf()'])if(!i.includes(q))fail('R1.5.100 export function missing: '+q);
+if(!fs.readFileSync('.gitignore','utf8').includes('/.patch-backups/'))fail('R1.5.100 backup ignore rule missing');
+console.log('VERIFY_R15100_PRIVACY OK: no external QR or share paths');
+console.log('VERIFY_R15100_EXPORT_GUARD OK: PDF and Excel retained');
 console.log('VERIFY_MOBILE_R1 PASSED');
