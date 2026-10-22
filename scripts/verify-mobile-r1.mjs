@@ -3,7 +3,7 @@ import fs from 'node:fs';
 
 const fail=m=>{console.error('VERIFY_MOBILE_R1 FAIL:',m);process.exit(1)};
 const read=p=>fs.readFileSync(p,'utf8');
-const E='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
+const E='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
 const CAREER='MOBILE-R1.5.88-REFERENCE-BACKED-CAREER-PROGRESSION-CONSOLIDATION';
 const countOf=(h,n)=>h.split(n).length-1;
 const key=(d,t)=>d+'|||'+String(t||'').trim();
@@ -19,7 +19,7 @@ const m=JSON.parse(read('manifest.webmanifest'));
 const v=read('VERSION.txt').trim();
 
 if(v!==E||!i.includes('<meta name="app-release" content="'+E+'">'))fail('release mismatch');
-if(!String(m.name||'').includes('R1.5.101')||!String(m.short_name||'').includes('R1.5.101'))fail('manifest release mismatch');
+if(!String(m.name||'').includes('R1.5.102')||!String(m.short_name||'').includes('R1.5.102'))fail('manifest release mismatch');
 
 for(const x of [
  'R1579_DASHBOARD_VISUAL_SYSTEM_FIRST_TAP_NAVIGATION_FIX_RELEASE',
@@ -61,13 +61,22 @@ for(const x of [
  '#view-career .r1597-stage-strip'
 ]) if(!i.includes(x)) fail('R1.5.100 marker missing: '+x);
 
-if(countOf(i,'service-worker.js?v=15101')!==3)fail('service worker URL marker count');
-if(countOf(i,'employee-registry-ui-r15101')!==1)fail('UI cache marker count');
-if(countOf(i,"u.searchParams.set('v','15101')")!==2)fail('manual update marker count');
-if(countOf(i,"hr_mobile_ui_cache_release','15101')")!==1)fail('local cache marker count');
+if(countOf(i,'service-worker.js?v=15102')!==3)fail('service worker URL marker count');
+if(countOf(i,'employee-registry-ui-r15102')!==1)fail('UI cache marker count');
+if(countOf(i,"u.searchParams.set('v','15102')")!==2)fail('manual update marker count');
+if(countOf(i,"hr_mobile_ui_cache_release','15102')")!==1)fail('local cache marker count');
 for(const old of ['service-worker.js?v=1598','employee-registry-ui-r1598',"u.searchParams.set('v','1598')","hr_mobile_ui_cache_release','1598''"])if(i.includes(old))fail('stale/broken R1.5.98 runtime marker '+old);
 
-if(!sw.includes('MOBILE-R1.5.101-SERVICE-WORKER-NO-STALE-UI')||!sw.includes('employee-registry-ui-r15101')||!sw.includes('__offline_index_r15101__'))fail('service worker mismatch');
+if(!sw.includes('MOBILE-R1.5.102-SERVICE-WORKER-NO-STALE-UI')||!sw.includes('employee-registry-ui-r15102')||!sw.includes('__offline_index_r15102__'))fail('service worker mismatch');
+
+// R1.5.102: regression guard — order 25162 must remain text, not Excel date 1968/11/20.
+for(const q of [
+ "if(field==='appointmentOrderNo')return old.apply(this,arguments);",
+ "if(field==='appointmentOrderNo')return oldHistorySemantic?oldHistorySemantic.apply(this,arguments):strip(v);",
+ "if(field==='appointmentOrderNo')return oldCleanHistoryValue?oldCleanHistoryValue.apply(this,arguments)",
+ 'R1.5.102: Appointment order numbers are identifiers',
+]) if(!i.includes(q))fail('R1.5.102 order-number-as-text guard missing: '+q);
+if(countOf(i,String.raw`/رقم\s+أمر\s+التعيين/.test(`)<3)fail('R1.5.102 order number label exclusion missing');
 
 /* Compile every inline classic script. R1.5.100 also closes the isolated R1.5.98 cache-script quote error. */
 let scriptCount=0;
@@ -79,7 +88,7 @@ for(const sm of i.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)){
 }
 
 
-// R1.5.101: assert Secure API mapping, modal integration for both employment types and date handling.
+// R1.5.102: assert Secure API mapping, modal integration for both employment types and date handling.
 for(const q of [
  "obj.appointmentOrderNo=hr1508Str(hr1508Pick(row,['رقم أمر التعيين','appointmentOrderNo']))",
  "obj.appointmentOrderDate=hr1508Date(hr1508Pick(row,['تاريخ أمر التعيين','appointmentOrderDate']))",
@@ -88,8 +97,8 @@ for(const q of [
  "'تاريخ أمر التعيين','appointmentOrderDate'",
  "appointmentOrderDate:1",
  'R15101_APPOINTMENT_ORDER_PROFILE: display-only',
-]) if(!i.includes(q))fail('R1.5.101 appointment field invariant missing: '+q);
-if(countOf(i,'+r15101AppointmentOrderSection(emp)')!==2)fail('R1.5.101: appointment section must be in full and limited profiles exactly once each');
+]) if(!i.includes(q))fail('R1.5.102 appointment field invariant missing: '+q);
+if(countOf(i,'+r15101AppointmentOrderSection(emp)')!==2)fail('R1.5.102: appointment section must be in full and limited profiles exactly once each');
 
 console.log('VERIFY_MOBILE_R1 OK:',E);
 console.log('VERIFY_R1599_FULL_WIDTH OK: career root/page constrained to WebView width');
@@ -108,4 +117,5 @@ for(const q of ['function r1427EnsurePdfLib()','async function r1427BuildEmploye
 if(!fs.readFileSync('.gitignore','utf8').includes('/.patch-backups/'))fail('R1.5.100 backup ignore rule missing');
 console.log('VERIFY_R15100_PRIVACY OK: no external QR or share paths');
 console.log('VERIFY_R15100_EXPORT_GUARD OK: PDF and Excel retained');
+console.log('VERIFY_R15102_ORDER_NUMBER_TEXT OK: appointment order serial-looking identifiers remain opaque');
 console.log('VERIFY_MOBILE_R1 PASSED');

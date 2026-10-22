@@ -7,13 +7,13 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE">
+<meta name="app-release" content="MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0b1437">
 <link rel="manifest" href="manifest.webmanifest">
-<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.101</title>
+<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.102</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/fonts/hr-fonts.css?v=r1411">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -4374,7 +4374,8 @@ mobileR14BuildHome=function(){
 function mobileR147ProfileHero(emp,hist){var ser=mobileR14Serial(emp),job=mobileR11SafeValue('jobTitle',emp.jobTitle,emp.type==='cont'?'موظف عقد':'موظف دائمي');return '<div class="r147-profile-hero"><div class="r147-profile-head"><div class="r147-profile-avatar">'+escapeHTML(cardInitials(emp.name))+'</div><div class="r147-profile-title"><div class="r147-profile-name">'+escapeHTML(emp.name||'—')+'</div><div class="r147-profile-role">'+escapeHTML(job)+' • المصدر المركزي HRSystem</div></div></div><div class="r147-profile-pills"><div class="r147-pill gold"><span>رقم الاضبارة</span><b>'+escapeHTML(emp.num||'—')+'</b></div><div class="r147-pill"><span>التسلسل</span><b>'+escapeHTML(ser)+'</b></div><div class="r147-pill"><span>التغييرات</span><b>'+escapeHTML((hist||[]).length)+'</b></div></div></div>';}
 function mobileR147Section(title,icon,content){return '<div class="profile-section r147-section"><div class="profile-section-title"><i class="fas '+icon+'"></i>'+title+'</div>'+content+'</div>';}
 function mobileR147Panel(id,html,active){return '<div class="profile-tab-panel '+(active?'active':'')+'" data-profile-panel="'+id+'">'+html+'</div>';}
-// R1.5.101: Appointment orders already arrive from Secure Sheets; display only populated values.
+// R1.5.102: Appointment order numbers are identifiers (never Excel dates), preserving actual date fields.
+// R1.5.102: Appointment orders already arrive from Secure Sheets; display only populated values.
 // Never infer an order number from hireDate, and do not change employee data.
 function r15101AppointmentOrderSection(emp){
   var no=emp&&emp.appointmentOrderNo, date=emp&&emp.appointmentOrderDate;
@@ -8872,6 +8873,8 @@ function installProfilePatch(){
     if(typeof profileDisplayValue==='function'&&!profileDisplayValue.__r1520DateSanitizer){
       var old=profileDisplayValue;
       profileDisplayValue=function(field,value){
+        // An appointment order number is an opaque identifier, even if it has five digits.
+        if(field==='appointmentOrderNo')return old.apply(this,arguments);
         if(DATE_FIELDS[field]){
           try{if(typeof bridgeFieldPublished==='function'&&!bridgeFieldPublished(field))return 'محجوب من نسخة الهاتف'}catch(e){}
           var f=fixDate(value);return f||'غير متوفر';
@@ -8897,6 +8900,7 @@ function sanitizeModalDates(){
     var root=document.getElementById('modal');if(!root)return false;
     root.querySelectorAll('.m-row').forEach(function(row){
       var label=(row.querySelector('.m-lbl')||{}).textContent||'';
+      if(/رقم\s+أمر\s+التعيين/.test(label))return;
       var val=row.querySelector('.m-val');if(!val)return;
       var raw=val.textContent||'';
       if(isDateLabel(label)||looksLikeRawDate(raw)){
@@ -9119,8 +9123,8 @@ function excel(n){n=Number(n);if(!isFinite(n)||n<15000||n>80000)return '';var dt
 function fixDate(v){if(v===null||v===undefined)return '';if(v instanceof Date&&!isNaN(v.getTime()))return out(v.getFullYear(),v.getMonth()+1,v.getDate());var s=strip(v);if(!s||s==='—'||s==='36'||s==='غير متوفر')return '';var serial=s.replace(/\.0+$/,'');if(/^\d{5}$/.test(serial)){var ex=excel(serial);if(ex)return ex;}var m=s.match(/(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})(?:[T\s].*)?/);if(m)return out(m[1],m[2],m[3]);m=s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})$/);if(m)return out(m[3],m[2],m[1]);m=s.match(/Date\s*\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})/i);if(m)return out(m[1],Number(m[2])+1,m[3]);var p=Date.parse(s);if(!isNaN(p)){var d=new Date(p);return out(d.getFullYear(),d.getMonth()+1,d.getDate());}return s;}
 function isDateLabel(t){return /تاريخ|الميلاد|التولد|التعيين|الهوية|إصدار|المباشرة|الترقية|العلاوة/i.test(String(t||''));}
 function rawDate(t){return /["']?\d{4}-\d{1,2}-\d{1,2}(?:T|\s|["']|$)|^["']?\d{5}["']?$|Date\s*\(/.test(String(t||''));}
-function sanitizeModalDates(){try{var roots=[];var modal=document.getElementById('modal');if(modal)roots.push(modal);var body=document.getElementById('m-profile-body');if(body&&roots.indexOf(body)<0)roots.push(body);roots.forEach(function(root){root.querySelectorAll('.m-row').forEach(function(row){var lbl=(row.querySelector('.m-lbl')||{}).textContent||'';var val=row.querySelector('.m-val');if(!val)return;var raw=val.textContent||'';if(isDateLabel(lbl)||rawDate(raw)){var f=fixDate(raw);if(f&&f!==raw.trim())val.textContent=f;if(f)val.classList.add('num-font','r1527-date-fixed');}});root.querySelectorAll('.m-val,.r11-profile-badge b,.profile-status-v').forEach(function(val){var raw=val.textContent||'';if(rawDate(raw)){var f=fixDate(raw);if(f&&f!==raw.trim()){val.textContent=f;val.classList.add('num-font','r1527-date-fixed');}}});});}catch(e){}}
-function installProfileDisplayPatch(){try{if(typeof profileDisplayValue==='function'&&!profileDisplayValue.__r1527HardDate){var old=profileDisplayValue;profileDisplayValue=function(field,value){if(DATE_FIELDS[field]){try{if(typeof bridgeFieldPublished==='function'&&!bridgeFieldPublished(field))return 'محجوب من نسخة الهاتف';}catch(e){}var f=fixDate(value);return f||'غير متوفر';}var v=old.apply(this,arguments);if(rawDate(v)){var f2=fixDate(v);if(f2)return f2;}return v;};profileDisplayValue.__r1527HardDate=true;}}catch(e){}}
+function sanitizeModalDates(){try{var roots=[];var modal=document.getElementById('modal');if(modal)roots.push(modal);var body=document.getElementById('m-profile-body');if(body&&roots.indexOf(body)<0)roots.push(body);roots.forEach(function(root){root.querySelectorAll('.m-row').forEach(function(row){var lbl=(row.querySelector('.m-lbl')||{}).textContent||'';if(/رقم\s+أمر\s+التعيين/.test(lbl))return;var val=row.querySelector('.m-val');if(!val)return;var raw=val.textContent||'';if(isDateLabel(lbl)||rawDate(raw)){var f=fixDate(raw);if(f&&f!==raw.trim())val.textContent=f;if(f)val.classList.add('num-font','r1527-date-fixed');}});root.querySelectorAll('.m-val,.r11-profile-badge b,.profile-status-v').forEach(function(val){var row=val.closest&&val.closest('.m-row');var lbl=row?((row.querySelector('.m-lbl')||{}).textContent||''):'';if(/رقم\s+أمر\s+التعيين/.test(lbl))return;var raw=val.textContent||'';if(rawDate(raw)){var f=fixDate(raw);if(f&&f!==raw.trim()){val.textContent=f;val.classList.add('num-font','r1527-date-fixed');}}});});}catch(e){}}
+function installProfileDisplayPatch(){try{if(typeof profileDisplayValue==='function'&&!profileDisplayValue.__r1527HardDate){var old=profileDisplayValue;profileDisplayValue=function(field,value){if(field==='appointmentOrderNo')return old.apply(this,arguments);if(DATE_FIELDS[field]){try{if(typeof bridgeFieldPublished==='function'&&!bridgeFieldPublished(field))return 'محجوب من نسخة الهاتف';}catch(e){}var f=fixDate(value);return f||'غير متوفر';}var v=old.apply(this,arguments);if(rawDate(v)){var f2=fixDate(v);if(f2)return f2;}return v;};profileDisplayValue.__r1527HardDate=true;}}catch(e){}}
 function installOpenModalPatch(){try{if(typeof openModal==='function'&&!openModal.__r1527HardDate){var old=openModal;openModal=function(){installProfileDisplayPatch();var r=old.apply(this,arguments);setTimeout(sanitizeModalDates,0);setTimeout(sanitizeModalDates,80);setTimeout(sanitizeModalDates,240);setTimeout(sanitizeModalDates,700);return r;};openModal.__r1527HardDate=true;}}catch(e){}}
 function install(){installProfileDisplayPatch();installOpenModalPatch();sanitizeModalDates();}
 install();document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,250);setTimeout(sanitizeModalDates,900);});window.addEventListener('load',function(){setTimeout(install,250);setTimeout(sanitizeModalDates,1200);});document.addEventListener('click',function(e){if(e.target&&e.target.closest&&e.target.closest('#modal,#profile-tabs-live,.profile-tab')){setTimeout(sanitizeModalDates,0);setTimeout(sanitizeModalDates,120);setTimeout(sanitizeModalDates,350);}},true);try{var mo=new MutationObserver(function(){sanitizeModalDates();});document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('modal')||document.body;if(b)mo.observe(b,{childList:true,subtree:true,characterData:true});});}catch(e){}
@@ -9148,6 +9152,7 @@ function looksLikeDateValue(v){var s=strip(v);return /^\d{4}[-\/]\d{1,2}[-\/]\d{
 function isDateField(field){field=String(field||'');return !!(DATE_FIELDS[field]||/date$/i.test(field)||/Date$/i.test(field)||/تاريخ|الميلاد|التولد|التعيين|المباشرة|الهوية|إصدار|العلاوة|الترقية|الترفيع/i.test(field));}
 var oldHistorySemantic=(typeof historySemanticValue==='function')?historySemanticValue:null;
 historySemanticValue=function(field,v){
+  if(field==='appointmentOrderNo')return oldHistorySemantic?oldHistorySemantic.apply(this,arguments):strip(v);
   try{var c=(isDateField(field)||looksLikeDateValue(v))?dateCanonical(v):'';if(c)return c;}catch(e){}
   if(oldHistorySemantic)return oldHistorySemantic.apply(this,arguments);
   var s=(v===null||v===undefined)?'':String(v).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim();
@@ -9157,6 +9162,7 @@ historySemanticValue=function(field,v){
 try{window.historySemanticValue=historySemanticValue;}catch(e){}
 var oldCleanHistoryValue=(typeof cleanHistoryValue==='function')?cleanHistoryValue:null;
 cleanHistoryValue=function(field,v){
+  if(field==='appointmentOrderNo')return oldCleanHistoryValue?oldCleanHistoryValue.apply(this,arguments):(v==null||String(v).trim()===''?'فارغ':String(v));
   try{var c=(isDateField(field)||looksLikeDateValue(v))?dateCanonical(v):'';if(c)return display(c);}catch(e){}
   if(oldCleanHistoryValue)return oldCleanHistoryValue.apply(this,arguments);
   if(v===null||v===undefined||String(v).trim()===''||String(v).trim()==='—')return 'فارغ';
@@ -9297,8 +9303,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=15101';
-  var KEEP_CACHE='employee-registry-ui-r15101';
+  var SW_URL='service-worker.js?v=15102';
+  var KEEP_CACHE='employee-registry-ui-r15102';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -9332,7 +9338,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   async function maintain(){
     await purgeLegacyInterfaceCaches();
     await installFreshWorker();
-    try{localStorage.setItem('hr_mobile_ui_cache_release','15101');}catch(e){}
+    try{localStorage.setItem('hr_mobile_ui_cache_release','15102');}catch(e){}
   }
 
   if(document.readyState==='complete')setTimeout(maintain,0);
@@ -12787,7 +12793,7 @@ body.subview-career.r1583-content-open #r1507-chrome-toggle .r1507-dot{width:8px
 // R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
+var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -13174,7 +13180,7 @@ body.subview-notes #r1502-dashboard{display:none!important}
 (function(){
 'use strict';
 
-var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
+var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
 var PAGE_ID='view-notes';
 var DB_NAME='hr_mobile_personal_notes';
 var DB_VERSION=1;
@@ -13736,13 +13742,13 @@ window.r1571MyNotes={
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
+var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
-async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','15101');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
+async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','15102');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
 async function checkUpdate(showMessage){setRelease();if(navigator.onLine===false){if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');return false}try{if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث'}catch(e){}if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');return has}catch(e){try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');return false}}
-async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=15101&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','15101');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
-setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=15101',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=15102&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','15102');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
+setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=15102',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
 document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});window.r1551CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
 })();
 </script>
@@ -13876,7 +13882,7 @@ body.light-mode #r1502-dashboard.r1579-dashboard .r1579-scope-card,body.light-mo
 // R1579_FIRST_TAP_ROUTER — explicit startup intent queue; no MutationObserver.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
+var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
 var state={bootReady:false,pending:null,routing:false,userIntent:null,lastRoute:'',readyReason:''};
 var MODULES={
   employees:[
@@ -14141,7 +14147,7 @@ body.light-mode #r1502-dashboard.r1580-compact .r1580-stat b{color:#17325a!impor
 // R1580_VECTOR_ICON_SYSTEM — preserves the existing Font Awesome vector icon set.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
+var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
 function $(s,r){return (r||document).querySelector(s)}
 function all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
 function numFromScope(key){var e=$('#r1502-dashboard [data-main="'+key+'"] .r1579-scope-count');var n=Number(String(e&&e.textContent||'').replace(/[^0-9]/g,''));return isFinite(n)?n:0}
@@ -14255,7 +14261,7 @@ window.r1580CompactProfessionalUI={release:RELEASE,enhance:enhance,install:insta
 // R1581_UNIFORM_CARD_TITLE_CLARITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
+var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
 var lastDataMode='perm';
 var routeBusy=false;
 function qs(s,r){return (r||document).querySelector(s)}
@@ -14528,7 +14534,7 @@ body.light-mode.r1582-ui #r1502-dashboard.r1580-compact .r1579-module-card .r157
 // R1582_PROFESSIONAL_SINGLE_SCROLL
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
+var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
 var resizeTimer=0;
 
 function q(s,r){return (r||document).querySelector(s)}
@@ -14720,7 +14726,7 @@ body.r1583-dashboard-home #r1502-dashboard.r1580-compact{
 // R1583_CONTENT_MODE_SWITCH
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
+var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
 var contentKey='';
 var adminWrapped=false;
 
@@ -14891,7 +14897,7 @@ body.r1583-content-open.chrome-collapsed #scroll{display:block!important}
 // R1584_CAPTURED_CONTENT_MODE_FIX
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE',pendingKey='',pendingTimer=0;
+var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX',pendingKey='',pendingTimer=0;
 function q(s,r){return (r||document).querySelector(s)}
 function forceChromeExpanded(){
  try{
@@ -14958,7 +14964,7 @@ body.r1583-content-open #r1507-chrome-toggle .r1507-dot{background:#37f0a5!impor
 // R1585_HOME_STABILITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
+var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
 function returnHome(){
  if(!document.body)return false;
  try{if(window.r1507ChromeSafeFloatingToggle&&typeof window.r1507ChromeSafeFloatingToggle.set==='function')window.r1507ChromeSafeFloatingToggle.set(false)}catch(e){}
@@ -14996,7 +15002,7 @@ body.r1583-content-open:not(.r1583-dashboard-home) #r1507-chrome-toggle{
 // R1586_HOME_NO_HIDE_SHOW
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
+var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
 function normalizeDashboardHome(){
   if(!document.body)return false;
   if(document.body.classList.contains('r1583-dashboard-home')&&!document.body.classList.contains('r1583-content-open')){
