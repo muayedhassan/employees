@@ -1,6 +1,6 @@
 {
-  "name": "سجل الموظفين - Mobile R1.5.100",
-  "short_name": "HR Mobile R1.5.100",
+  "name": "سجل الموظفين - Mobile R1.5.101",
+  "short_name": "HR Mobile R1.5.101",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#061024",
   "theme_color": "#10265f",
-  "description": "Privacy guard: external employee QR and sharing disabled; PDF and Excel export preserved. No employee data changes.",
+  "description": "Displays published appointment order number and date in employee profiles when available. Existing privacy and PDF/Excel protections preserved.",
   "icons": [
     {
       "src": "assets/icon-192.png",

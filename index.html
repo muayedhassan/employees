@@ -7,13 +7,13 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD">
+<meta name="app-release" content="MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0b1437">
 <link rel="manifest" href="manifest.webmanifest">
-<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.100</title>
+<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.101</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/fonts/hr-fonts.css?v=r1411">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -1241,6 +1241,14 @@ body.light-mode .r1416-nav-card{background:linear-gradient(145deg,#f7f9ff,#eef3f
 .r1418-download-ready{display:none!important}
 .r1417-pdf-btn span{line-height:1.2!important}
 </style>
+<style id="r15101-appointment-order-style">
+/* R15101_APPOINTMENT_ORDER_PROFILE: display-only; never changes employee records. */
+#modal .r15101-appointment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#modal .r15101-appointment-grid .m-row,#modal .r15101-appointment-grid .m-field{min-width:0}
+#modal .r15101-appointment-grid .m-val{overflow-wrap:anywhere;word-break:normal;unicode-bidi:plaintext;text-align:right;line-height:1.65}
+@media(max-width:380px){#modal .r15101-appointment-grid{grid-template-columns:minmax(0,1fr)}}
+</style>
+
 <style>
 /* Mobile R1.4.23 - Updates + Quality merge. The existing Updates Center remains unchanged; only non-duplicated quality audits are appended inside Gaps. */
 .r1423-quality-extra{scroll-margin-top:12px}.r1423-quality-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;padding:10px}.r1423-quality-kpi{min-height:66px;border-radius:13px;padding:9px 6px;text-align:center;background:rgba(255,255,255,.035);border:1px solid rgba(126,164,255,.12);display:flex;flex-direction:column;justify-content:center;gap:3px}.r1423-quality-kpi b{font:800 19px var(--hr-number-font);color:#dbe8ff}.r1423-quality-kpi span{font-size:8px;color:var(--text2);line-height:1.35}.r1423-quality-kpi.score b{color:#80deea}.r1423-quality-kpi.warn b{color:#ffb74d}.r1423-quality-kpi.good b{color:#81c784}.r1423-quality-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:0 10px 10px}.r1423-quality-check{border:1px solid rgba(92,107,192,.16);background:rgba(255,255,255,.025);color:var(--text);border-radius:13px;padding:9px;display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:8px;text-align:right;font-family:var(--hr-body-font);cursor:pointer}.r1423-quality-check.active{background:linear-gradient(135deg,rgba(17,94,89,.42),rgba(30,136,168,.28));border-color:rgba(128,222,234,.34);box-shadow:0 8px 20px rgba(0,0,0,.12)}.r1423-quality-check-ico{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;color:#80deea;background:rgba(128,222,234,.09)}.r1423-quality-check-copy{min-width:0;display:flex;flex-direction:column;gap:2px}.r1423-quality-check-copy b{font-size:9.5px}.r1423-quality-check-copy small{font-size:7px;color:var(--text2);line-height:1.4}.r1423-quality-check strong{font:800 15px var(--hr-number-font);color:var(--gold)}.r1423-quality-results-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 11px 6px;border-top:1px solid rgba(92,107,192,.10)}.r1423-quality-results-head>div{display:flex;flex-direction:column;gap:2px}.r1423-quality-results-head b{font-size:10px}.r1423-quality-results-head small{font-size:7px;color:var(--text2)}.r1423-quality-results-head>span{font:700 9px var(--hr-number-font);color:var(--gold)}.r1423-quality-search{padding:0 10px 8px}.r1423-quality-list{padding:0 10px 10px}.r1423-quality-clean,.r1423-quality-hint{margin:0 10px 10px;border-radius:12px;padding:10px 11px;display:flex;align-items:center;gap:8px;font-size:8.5px;line-height:1.6}.r1423-quality-clean{background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.18);color:#a5d6a7}.r1423-quality-clean div{display:flex;flex-direction:column;gap:2px}.r1423-quality-clean b{font-size:9.5px}.r1423-quality-clean span{color:var(--text2)}.r1423-quality-hint{background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.15);color:var(--text2)}
@@ -4366,6 +4374,16 @@ mobileR14BuildHome=function(){
 function mobileR147ProfileHero(emp,hist){var ser=mobileR14Serial(emp),job=mobileR11SafeValue('jobTitle',emp.jobTitle,emp.type==='cont'?'موظف عقد':'موظف دائمي');return '<div class="r147-profile-hero"><div class="r147-profile-head"><div class="r147-profile-avatar">'+escapeHTML(cardInitials(emp.name))+'</div><div class="r147-profile-title"><div class="r147-profile-name">'+escapeHTML(emp.name||'—')+'</div><div class="r147-profile-role">'+escapeHTML(job)+' • المصدر المركزي HRSystem</div></div></div><div class="r147-profile-pills"><div class="r147-pill gold"><span>رقم الاضبارة</span><b>'+escapeHTML(emp.num||'—')+'</b></div><div class="r147-pill"><span>التسلسل</span><b>'+escapeHTML(ser)+'</b></div><div class="r147-pill"><span>التغييرات</span><b>'+escapeHTML((hist||[]).length)+'</b></div></div></div>';}
 function mobileR147Section(title,icon,content){return '<div class="profile-section r147-section"><div class="profile-section-title"><i class="fas '+icon+'"></i>'+title+'</div>'+content+'</div>';}
 function mobileR147Panel(id,html,active){return '<div class="profile-tab-panel '+(active?'active':'')+'" data-profile-panel="'+id+'">'+html+'</div>';}
+// R1.5.101: Appointment orders already arrive from Secure Sheets; display only populated values.
+// Never infer an order number from hireDate, and do not change employee data.
+function r15101AppointmentOrderSection(emp){
+  var no=emp&&emp.appointmentOrderNo, date=emp&&emp.appointmentOrderDate;
+  function available(value){var s=String(value===null||value===undefined?'':value).trim();return !!s&&s!=='—'&&s!=='غير متوفر'&&s!=='36';}
+  var rows='';
+  if(available(no))rows+=profileRow('fas fa-file-signature','رقم أمر التعيين','appointmentOrderNo',no,false,false);
+  if(available(date))rows+=profileRow('fas fa-calendar-day','تاريخ أمر التعيين','appointmentOrderDate',date,false,false);
+  return rows?mobileR147Section('أمر التعيين','fa-file-circle-check','<div class="r147-profile-grid r15101-appointment-grid">'+rows+'</div>'):'';
+}
 openModal=function(emp){
   var isPerm=emp.type==='perm';currentEmp=emp;currentEmp.isPerm=isPerm;currentEmp.typeLabel=isPerm?'موظف دائمي':'موظف عقد';document.getElementById('modal-inner').className='modal '+(isPerm?'perm-modal':'cont-modal');document.getElementById('m-name').textContent=emp.name||'—';document.getElementById('m-type-tag').textContent=currentEmp.typeLabel;
   var oldStatus=document.getElementById('profile-status-live');if(oldStatus)oldStatus.remove();var fullProfile=isPerm||bridgeIsWindowsMaster(),hist=employeeHistoryEvents(emp);
@@ -4374,13 +4392,13 @@ openModal=function(emp){
   if(fullProfile){
     var hero=mobileR147ProfileHero(emp,hist);
     var basic=hero+mobileR147Section('البيانات الأساسية','fa-user-shield','<div class="r147-profile-grid">'+profileRow('fas fa-folder-open','رقم الاضبارة','num',emp.num,false,true)+profileRow('fas fa-list-ol','التسلسل','serial',mobileR14Serial(emp),false,true)+profileRow('fas fa-fingerprint','الرقم الوظيفي','employeeNo',emp.employeeNo,false,false)+profileRow('fas fa-person','اسم الأم','motherName',emp.motherName,false,false)+profileRow('fas fa-venus-mars','الجنس','gender',emp.gender,false,false)+profileRow('fas fa-cake-candles','تاريخ التولد','birthDate',emp.birthDate,false,false)+'</div>');
-    var job=mobileR147Section('المعلومات الوظيفية','fa-briefcase','<div class="r147-profile-grid">'+profileRow('fas fa-user-check','الحالة الوظيفية','employmentStatus',emp.employmentStatus,false,false)+profileRow('fas fa-calendar-check','تاريخ التعيين','hireDate',emp.hireDate,false,false)+profileRow('fas fa-layer-group','الدرجة','grade',emp.grade,false,false)+profileRow('fas fa-stairs','المرحلة','step',emp.step,false,false)+profileRow('fas fa-money-bill-wave','الراتب','salary',emp.salary,false,false)+profileRow('fas fa-graduation-cap','التحصيل الدراسي','education',emp.education,false,false)+'</div>'+profileRow('fas fa-sitemap','الشعبة / القسم','division',emp.division,true,false)+profileRow('fas fa-user-tie','العنوان الوظيفي','jobTitle',emp.jobTitle,true,false)+profileRow('fas fa-book-open','الاختصاص','specialization',emp.specialization,true,false));
+    var job=mobileR147Section('المعلومات الوظيفية','fa-briefcase','<div class="r147-profile-grid">'+profileRow('fas fa-user-check','الحالة الوظيفية','employmentStatus',emp.employmentStatus,false,false)+profileRow('fas fa-calendar-check','تاريخ التعيين','hireDate',emp.hireDate,false,false)+profileRow('fas fa-layer-group','الدرجة','grade',emp.grade,false,false)+profileRow('fas fa-stairs','المرحلة','step',emp.step,false,false)+profileRow('fas fa-money-bill-wave','الراتب','salary',emp.salary,false,false)+profileRow('fas fa-graduation-cap','التحصيل الدراسي','education',emp.education,false,false)+'</div>'+profileRow('fas fa-sitemap','الشعبة / القسم','division',emp.division,true,false)+profileRow('fas fa-user-tie','العنوان الوظيفي','jobTitle',emp.jobTitle,true,false)+profileRow('fas fa-book-open','الاختصاص','specialization',emp.specialization,true,false))+r15101AppointmentOrderSection(emp);
     var identity=mobileR147Section('معلومات الهوية','fa-id-card','<div class="r147-profile-grid">'+profileRow('fas fa-hashtag','رقم الهوية','identityNo',emp.identityNo,false,false)+profileRow('fas fa-calendar-day','تاريخ إصدار الهوية','identityIssueDate',emp.identityIssueDate,false,false)+'</div>'+profileRow('fas fa-building-columns','جهة إصدار الهوية','identityIssuer',emp.identityIssuer,true,false));
     var publicationNote=bridgeIsWindowsMaster()?'<div class="r147-publish-note" style="padding:10px 12px;margin-bottom:9px;border-radius:17px;background:rgba(255,209,102,.075);border:1px solid rgba(255,209,102,.16);color:var(--r14-muted);font-size:10px;line-height:1.8"><i class="fas fa-database" style="margin-left:5px;color:var(--r147-gold)"></i>المصدر: HRSystem / SQL Server • '+escapeHTML(bridgeProfileLabel())+(bridgeSensitiveIncluded()?' • الحقول الحساسة منشورة':' • الحقول الحساسة محجوبة')+'</div>':'';
     var notes=mobileR147Section('الملاحظات ومعلومات النشر','fa-note-sticky',publicationNote+profileRow('fas fa-note-sticky','الملاحظات','notes',emp.notes,true,false));
     html=mobileR147Panel('basic',basic,true)+mobileR147Panel('job',job,false)+mobileR147Panel('identity',identity,false)+mobileR147Panel('more',notes,false)+mobileR147Panel('history',mobileR147Section('سجل تغييرات الموظف','fa-clock-rotate-left',employeeHistoryHTML(emp)),false);
   }else{
-    html=mobileR147Panel('basic',mobileR147ProfileHero(emp,employeeHistoryEvents(emp))+mobileR147Section('البيانات المتوفرة','fa-address-card','<div class="r147-profile-grid">'+profileRow('fas fa-folder-open','رقم الاضبارة','num',emp.num,false,true)+profileRow('fas fa-list-ol','التسلسل','serial',mobileR14Serial(emp),false,true)+profileRow('fas fa-briefcase','نوع التوظيف','employmentStatus',emp.employmentStatus||'عقد',false,false)+'</div>'+profileRow('fas fa-landmark','الجهة','org','مديرية زراعة صلاح الدين',true,false)),true);
+    html=mobileR147Panel('basic',mobileR147ProfileHero(emp,employeeHistoryEvents(emp))+mobileR147Section('البيانات المتوفرة','fa-address-card','<div class="r147-profile-grid">'+profileRow('fas fa-folder-open','رقم الاضبارة','num',emp.num,false,true)+profileRow('fas fa-list-ol','التسلسل','serial',mobileR14Serial(emp),false,true)+profileRow('fas fa-briefcase','نوع التوظيف','employmentStatus',emp.employmentStatus||'عقد',false,false)+'</div>'+profileRow('fas fa-landmark','الجهة','org','مديرية زراعة صلاح الدين',true,false))+r15101AppointmentOrderSection(emp),true);
   }
   var oldTabs=document.getElementById('profile-tabs-live');if(oldTabs)oldTabs.remove();var wrap=document.createElement('div');wrap.id='profile-tabs-live';wrap.innerHTML=tabs;var body=document.getElementById('m-profile-body');body.parentNode.insertBefore(wrap,body);body.innerHTML=html;body.scrollTop=0;bindProfileTabs();document.getElementById('modal').classList.add('open');
 };
@@ -9279,8 +9297,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=15100';
-  var KEEP_CACHE='employee-registry-ui-r15100';
+  var SW_URL='service-worker.js?v=15101';
+  var KEEP_CACHE='employee-registry-ui-r15101';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -9314,7 +9332,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   async function maintain(){
     await purgeLegacyInterfaceCaches();
     await installFreshWorker();
-    try{localStorage.setItem('hr_mobile_ui_cache_release','15100');}catch(e){}
+    try{localStorage.setItem('hr_mobile_ui_cache_release','15101');}catch(e){}
   }
 
   if(document.readyState==='complete')setTimeout(maintain,0);
@@ -12769,7 +12787,7 @@ body.subview-career.r1583-content-open #r1507-chrome-toggle .r1507-dot{width:8px
 // R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD';
+var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -13156,7 +13174,7 @@ body.subview-notes #r1502-dashboard{display:none!important}
 (function(){
 'use strict';
 
-var RELEASE='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD';
+var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
 var PAGE_ID='view-notes';
 var DB_NAME='hr_mobile_personal_notes';
 var DB_VERSION=1;
@@ -13718,13 +13736,13 @@ window.r1571MyNotes={
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD';
+var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
-async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','15100');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
+async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','15101');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
 async function checkUpdate(showMessage){setRelease();if(navigator.onLine===false){if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');return false}try{if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث'}catch(e){}if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');return has}catch(e){try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');return false}}
-async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=15100&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','15100');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
-setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=15100',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=15101&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','15101');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
+setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=15101',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
 document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});window.r1551CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
 })();
 </script>
@@ -13858,7 +13876,7 @@ body.light-mode #r1502-dashboard.r1579-dashboard .r1579-scope-card,body.light-mo
 // R1579_FIRST_TAP_ROUTER — explicit startup intent queue; no MutationObserver.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD';
+var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
 var state={bootReady:false,pending:null,routing:false,userIntent:null,lastRoute:'',readyReason:''};
 var MODULES={
   employees:[
@@ -14123,7 +14141,7 @@ body.light-mode #r1502-dashboard.r1580-compact .r1580-stat b{color:#17325a!impor
 // R1580_VECTOR_ICON_SYSTEM — preserves the existing Font Awesome vector icon set.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD';
+var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
 function $(s,r){return (r||document).querySelector(s)}
 function all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
 function numFromScope(key){var e=$('#r1502-dashboard [data-main="'+key+'"] .r1579-scope-count');var n=Number(String(e&&e.textContent||'').replace(/[^0-9]/g,''));return isFinite(n)?n:0}
@@ -14237,7 +14255,7 @@ window.r1580CompactProfessionalUI={release:RELEASE,enhance:enhance,install:insta
 // R1581_UNIFORM_CARD_TITLE_CLARITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD';
+var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
 var lastDataMode='perm';
 var routeBusy=false;
 function qs(s,r){return (r||document).querySelector(s)}
@@ -14510,7 +14528,7 @@ body.light-mode.r1582-ui #r1502-dashboard.r1580-compact .r1579-module-card .r157
 // R1582_PROFESSIONAL_SINGLE_SCROLL
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD';
+var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
 var resizeTimer=0;
 
 function q(s,r){return (r||document).querySelector(s)}
@@ -14702,7 +14720,7 @@ body.r1583-dashboard-home #r1502-dashboard.r1580-compact{
 // R1583_CONTENT_MODE_SWITCH
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD';
+var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
 var contentKey='';
 var adminWrapped=false;
 
@@ -14873,7 +14891,7 @@ body.r1583-content-open.chrome-collapsed #scroll{display:block!important}
 // R1584_CAPTURED_CONTENT_MODE_FIX
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD',pendingKey='',pendingTimer=0;
+var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE',pendingKey='',pendingTimer=0;
 function q(s,r){return (r||document).querySelector(s)}
 function forceChromeExpanded(){
  try{
@@ -14940,7 +14958,7 @@ body.r1583-content-open #r1507-chrome-toggle .r1507-dot{background:#37f0a5!impor
 // R1585_HOME_STABILITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD';
+var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
 function returnHome(){
  if(!document.body)return false;
  try{if(window.r1507ChromeSafeFloatingToggle&&typeof window.r1507ChromeSafeFloatingToggle.set==='function')window.r1507ChromeSafeFloatingToggle.set(false)}catch(e){}
@@ -14978,7 +14996,7 @@ body.r1583-content-open:not(.r1583-dashboard-home) #r1507-chrome-toggle{
 // R1586_HOME_NO_HIDE_SHOW
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.100-PRIVACY-SURFACE-EXPORT-GUARD';
+var RELEASE='MOBILE-R1.5.101-APPOINTMENT-ORDER-PROFILE';
 function normalizeDashboardHome(){
   if(!document.body)return false;
   if(document.body.classList.contains('r1583-dashboard-home')&&!document.body.classList.contains('r1583-content-open')){
