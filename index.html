@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX">
+<meta name="app-release" content="MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -6337,84 +6337,7 @@ body.light-mode .r1416-nav-card #sub-tabs.r1470-program-grid .sub-tab.perm-sub-a
 @media(max-width:380px){.r1475-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.r1475-identity-grid,.r1475-two{grid-template-columns:1fr}.r1475-note-card{grid-template-columns:36px minmax(0,1fr)}.r1475-note-icon{width:36px;height:36px;border-radius:14px}}
 body.light-mode .r1475-panel,body.light-mode .r1475-note-card{background:#fff;border-color:rgba(15,23,42,.08);box-shadow:0 10px 28px rgba(15,23,42,.08)}body.light-mode .r1475-panel-title,body.light-mode .r1475-title,body.light-mode .r1475-note-name{color:#0f172a}body.light-mode .r1475-field input,body.light-mode .r1475-field select,body.light-mode .r1475-field textarea{background:#f8fafc;color:#0f172a;border-color:rgba(15,23,42,.10)}body.light-mode .r1475-note-text{color:#334155}body.light-mode .r1475-empty{color:#64748b;border-color:rgba(15,23,42,.12)}
 </style>
-<script id="r1476-manager-notes-sync-script">
-// MOBILE R1.4.76: Manager Notes Shared Sync - Google Apps Script bridge, safe isolated module.
-(function(){
-  var VIEW_ID='view-managernotes',TAB_ID='stab-managernotes',STORE='hr_manager_notes_r1475',IDENT='hr_device_identity_r1475',SYNC='hr_manager_notes_sync_r1476';
-  var ENDPOINT='https://script.google.com/macros/s/AKfycbwRRarKpQd5KCyKu7XDlEN7QI6BdF_IDm8aqNG07M0AW0wBuM54SmGTMkWTmRmaXwhE/exec';
-  var API_KEY='HR_NOTES_2026';
-  var state={filter:'all',q:'',syncing:false,lastError:''};
-  // MOBILE R1.5.06: smart sync throttle - avoid repeated automatic note sync while keeping manual sync and send confirmation.
-  var R1506_AUTO_SYNC_MS=10*60*1000,R1506_LAST='hr_manager_notes_last_sync_ms_r1506';
-  function r1506LastSyncMs(){try{return Number(localStorage.getItem(R1506_LAST)||0)||0;}catch(e){return 0;}}
-  function r1506MarkSync(){try{localStorage.setItem(R1506_LAST,String(Date.now()));}catch(e){}}
-  function r1506CanAutoSync(){return Date.now()-r1506LastSyncMs()>R1506_AUTO_SYNC_MS;}
-  function $(id){return document.getElementById(id);}function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  function allEmployees(){try{return (BASE.perm||[]).concat(BASE.cont||[]);}catch(e){return [];}}
-  function norm(v){return String(v||'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim();}
-  function nowText(){var d=new Date(),pad=function(n){return String(n).padStart(2,'0')};return d.getFullYear()+'/'+pad(d.getMonth()+1)+'/'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes());}
-  function loadIdentity(){try{return JSON.parse(localStorage.getItem(IDENT)||'{}')||{};}catch(e){return {};}}
-  function saveIdentity(x){try{localStorage.setItem(IDENT,JSON.stringify(x||{}));}catch(e){}}
-  function loadNotes(){try{var a=JSON.parse(localStorage.getItem(STORE)||'[]');return Array.isArray(a)?a:[];}catch(e){return [];}}
-  function saveNotes(a){try{localStorage.setItem(STORE,JSON.stringify(a||[]));}catch(e){}}
-  function loadSync(){try{return JSON.parse(localStorage.getItem(SYNC)||'{}')||{};}catch(e){return {};}}
-  function saveSync(x){try{localStorage.setItem(SYNC,JSON.stringify(x||{}));}catch(e){}}
-  function roleLabel(r){return r==='manager'?'مدير الموارد البشرية':'مسؤول النظام';}
-  function typeLabel(t){return t==='transfer'?'نقل':t==='assignment'?'تنسيب':t==='return'?'إنهاء تنسيب':'ملاحظة';}
-  function typeIcon(t){return t==='transfer'?'fa-right-left':t==='assignment'?'fa-user-clock':t==='return'?'fa-rotate-left':'fa-note-sticky';}
-  function remoteType(t){t=String(t||'note').trim();if(t==='نقل')return'transfer';if(t==='تنسيب')return'assignment';if(t==='إنهاء تنسيب')return'return';if(['transfer','assignment','return','note'].indexOf(t)>=0)return t;return'note';}
-  function counts(notes){var c={new:0,transfer:0,assignment:0,note:0,total:notes.length};notes.forEach(function(n){if(n.status!=='reviewed')c.new++;if(n.type==='transfer')c.transfer++;else if(n.type==='assignment')c.assignment++;else c.note++;});return c;}
-  function employeeOptions(){return allEmployees().slice(0,1200).map(function(e){return '<option value="'+esc(e.name||e.fullName||e['الاسم الكامل']||'')+'"></option>';}).join('');}
-  function deviceId(){var x=localStorage.getItem('hr_device_id_r1476');if(!x){x='DEV-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);try{localStorage.setItem('hr_device_id_r1476',x);}catch(e){}}return x;}
-  function signature(n){return [norm(n.employeeName),norm(n.type),norm(n.fromBranch),norm(n.toBranch),norm(n.text)].join('|').toLowerCase();}
-  function normalizeRemote(r){var type=remoteType(r.movementType||r.type);return {id:norm(r.id)||('REMOTE-'+signature(r)),employeeName:norm(r.employeeName),type:type,fromBranch:norm(r.fromBranch),toBranch:norm(r.toBranch),text:norm(r.note||r.text),sender:norm(r.senderName||r.sender)||'مدير الموارد البشرية',senderRole:norm(r.senderRole)||'manager',createdAt:norm(r.createdAt)||'',status:norm(r.status)||'new',source:'remote',deviceId:norm(r.deviceId)};}
-  function mergeNotes(remote){
-    var local=loadNotes(),out=[],seen={},deleted={};
-    try{(JSON.parse(localStorage.getItem('hr_manager_notes_deleted_r1480')||'[]')||[]).forEach(function(k){deleted[k]=1;});}catch(e){}
-    function senderFix(n){if((n.senderRole==='manager'||/مدير/.test(String(n.senderRole||'')))&&/مسؤول النظام/.test(String(n.sender||'')))n.sender='مدير الموارد البشرية';if(!n.sender&&n.senderRole==='manager')n.sender='مدير الموارد البشرية';return n;}
-    var byId={},bySig={};local.forEach(function(n){senderFix(n);var k=n.id||signature(n),sg=signature(n);if(k)byId[k]=n;if(sg)bySig[sg]=n;});
-    (remote||[]).map(normalizeRemote).forEach(function(n){if(!n.employeeName&&!n.text)return;senderFix(n);var k=n.id||signature(n),sg=signature(n);var old=byId[k]||bySig[sg];if(old){if(old.senderRole==='manager')n.senderRole='manager';if(old.senderRole==='manager'&&/مسؤول النظام/.test(String(n.sender||'')))n.sender='مدير الموارد البشرية';}
-      if(seen[k]||seen[sg])return;seen[k]=seen[sg]=1;out.push(n);});
-    local.forEach(function(n){senderFix(n);var k=n.id||signature(n),sg=signature(n);if(deleted[k]||deleted[sg])return;if(seen[k]||seen[sg])return;seen[k]=seen[sg]=1;out.push(n);});
-    saveNotes(out);return out;
-  }
-  function jsonp(url,ok,fail){var cb='__hrNotesCb_'+Date.now()+'_'+Math.random().toString(36).slice(2),done=false,sc=document.createElement('script'),timer;window[cb]=function(data){done=true;clearTimeout(timer);try{delete window[cb];}catch(e){window[cb]=undefined;}try{sc.remove();}catch(e){}ok(data||{});};sc.onerror=function(){if(done)return;done=true;clearTimeout(timer);try{delete window[cb];}catch(e){}try{sc.remove();}catch(e){}fail&&fail(new Error('jsonp failed'));};timer=setTimeout(function(){if(done)return;done=true;try{delete window[cb];}catch(e){}try{sc.remove();}catch(e){}fail&&fail(new Error('sync timeout'));},12000);sc.src=url+(url.indexOf('?')>=0?'&':'?')+'callback='+encodeURIComponent(cb)+'&t='+Date.now();document.head.appendChild(sc);}
-  function fetchShared(done,opts){opts=opts||{};var manual=!!opts.manual,force=!!opts.force;if(state.syncing){if(done)done(false);return Promise.resolve(false);}if(!manual&&!force&&!r1506CanAutoSync()){if(done)done(false);return Promise.resolve(false);}state.syncing=true;state.lastError='';r1506MarkSync();if(manual)render(false);var url=ENDPOINT+'?key='+encodeURIComponent(API_KEY)+'&includeReviewed=1';return fetch(url+'&t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json();}).then(function(data){if(!data||data.ok===false)throw new Error((data&&data.error)||'sync failed');var notes=mergeNotes(Array.isArray(data.notes)?data.notes:[]);saveSync({lastSync:nowText(),count:notes.length});state.syncing=false;state.lastError='';render(false);if(manual)try{showToast('تمت مزامنة الحركات الإدارية','ok');}catch(e){}if(done)done(true);return true;}).catch(function(){return new Promise(function(resolve){jsonp(url,function(data){if(!data||data.ok===false){state.lastError=(data&&data.error)||'فشل المزامنة';state.syncing=false;render(false);if(done)done(false);resolve(false);return;}var notes=mergeNotes(Array.isArray(data.notes)?data.notes:[]);saveSync({lastSync:nowText(),count:notes.length});state.syncing=false;state.lastError='';render(false);if(manual)try{showToast('تمت مزامنة الحركات الإدارية','ok');}catch(e){}if(done)done(true);resolve(true);},function(){state.syncing=false;state.lastError='تعذر الاتصال بسجل الملاحظات المشترك';if(manual){render(false);try{showToast('تعذر مزامنة الملاحظات','warn');}catch(e){}}else{state.lastError='';}if(done)done(false);resolve(false);});});});}
-  function postShared(note){var payload={key:API_KEY,id:note.id,senderName:note.sender,senderRole:note.senderRole,employeeName:note.employeeName,movementType:typeLabel(note.type),fromBranch:note.fromBranch,toBranch:note.toBranch,note:note.text,deviceId:deviceId(),status:'new'};return fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});}function postReviewStatus(note){if(!note||!note.id)return Promise.reject(new Error('missing note id'));var payload={key:API_KEY,action:'review',id:note.id,noteId:note.id,status:'reviewed',deviceId:deviceId()};return fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});}
-  function ensureTab(){var tabs=$('sub-tabs');if(tabs&&!$(TAB_ID)){var el=document.createElement('div');el.className='sub-tab r1472-module-card r1475-managernotes';el.id=TAB_ID;el.setAttribute('role','tab');el.setAttribute('aria-selected','false');el.onclick=function(){openNotes();};el.innerHTML='<i class="fas fa-comments"></i><span class="r1472-module-title">الحركات الإدارية</span><small class="r1472-module-desc">مشتركة</small>';tabs.appendChild(el);}var scroll=$('scroll');if(scroll&&!$(VIEW_ID)){var v=document.createElement('div');v.id=VIEW_ID;v.style.display='none';v.innerHTML='<div class="r1475-page" id="r1475-page"></div>';scroll.appendChild(v);}}
-  function setActiveTab(){['list','updates','reports','alerts','system','service','jobtitles','titlematch','managernotes'].forEach(function(x){var t=x==='managernotes'?$(TAB_ID):$('stab-'+x);if(!t)return;var on=x==='managernotes';var cls=(mode==='cont')?'cont-sub-active':(mode==='admin')?'admin-sub-active':'perm-sub-active';t.className='sub-tab'+(x==='managernotes'?' r1472-module-card r1475-managernotes':'')+(on?' '+cls:'');t.setAttribute('aria-selected',on?'true':'false');});}
-  function hideOtherViews(){['view-list','view-updates','view-quality','view-reports','view-alerts','view-system','view-service','view-jobtitles','view-titlematch'].forEach(function(id){var x=$(id);if(x)x.style.display='none';});var v=$(VIEW_ID);if(v)v.style.display='block';}
-  function identityHTML(id){var role=id.role||'admin',name=id.name||roleLabel(role),sync=loadSync();return '<section class="r1475-panel"><div class="r1475-panel-head"><div class="r1475-panel-title"><i class="fas fa-user-shield"></i><span>هوية هذا الجهاز</span></div><span class="r1475-chip r1475-sync-chip '+(sync.lastSync?'ok':'warn')+'"><i class="fas fa-cloud"></i>'+(sync.lastSync?'آخر مزامنة: '+esc(sync.lastSync):'لم تتم المزامنة بعد')+'</span></div><div class="r1475-identity-grid"><button type="button" class="r1475-role-btn '+(role==='admin'?'active':'')+'" data-r1475-role="admin"><i class="fas fa-user-gear"></i><span>مسؤول النظام</span></button><button type="button" class="r1475-role-btn '+(role==='manager'?'active':'')+'" data-r1475-role="manager"><i class="fas fa-user-tie"></i><span>مدير الموارد البشرية</span></button></div><div class="r1475-field" style="margin-top:9px"><label>اسم المرسل الظاهر في الملاحظات</label><input id="r1475-sender-name" type="text" value="'+esc(name)+'" placeholder="مثال: مدير الموارد البشرية"></div><div class="r1475-actions"><button class="r1475-btn" id="r1475-save-identity" type="button"><i class="fas fa-check"></i> حفظ هوية الجهاز</button><button class="r1475-btn secondary" id="r1475-sync" type="button"><i class="fas fa-arrows-rotate"></i> مزامنة الملاحظات</button></div><div class="r1475-local-note"><i class="fas fa-circle-info"></i> الملاحظات تُحفظ في سجل Google Sheet المشترك. الهاتف يعرض وينبه فقط، ولا يغيّر بيانات الموظفين الرسمية.</div></section>';}
-  function formHTML(id){var can=(id.role==='manager');return '<section class="r1475-panel '+(!can?'r1475-hidden':'')+'" id="r1475-add-panel"><div class="r1475-panel-head"><div class="r1475-panel-title"><i class="fas fa-pen-to-square"></i><span>إرسال ملاحظة إدارية</span></div><span class="r1475-chip"><i class="fas fa-paper-plane"></i> مرسلها: '+esc(id.name||'مدير الموارد البشرية')+'</span></div><div class="r1475-field-grid"><div class="r1475-field"><label>اسم الموظف</label><input id="r1475-emp" type="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="اكتب حروف اسم الموظف فقط"><div id="r1480-emp-results" class="r1480-emp-results"></div><div id="r1492-current-division" class="r1492-current-division"></div></div><div class="r1475-two"><div class="r1475-field"><label>نوع الملاحظة</label><select id="r1475-type"><option value="transfer">نقل</option><option value="assignment">تنسيب</option><option value="return">إنهاء تنسيب</option><option value="note">ملاحظة</option></select></div><div class="r1475-field"><label>تاريخ الإرسال</label><input id="r1475-date" type="text" value="'+esc(nowText())+'" readonly></div></div><div class="r1475-two"><div class="r1475-field"><label>من شعبة / قسم، اختياري</label><input id="r1475-from" type="text" placeholder="الشعبة الحالية"></div><div class="r1475-field"><label>إلى شعبة / قسم، اختياري</label><input id="r1475-to" type="text" placeholder="الشعبة الجديدة"></div></div><div class="r1475-field"><label>الملاحظة المختصرة</label><textarea id="r1475-text" placeholder="اكتب الملاحظة التي تريد إرسالها..."></textarea></div></div><div class="r1475-actions"><button class="r1475-btn" id="r1475-add" type="button"><i class="fas fa-paper-plane"></i> إرسال إلى السجل المشترك</button><button class="r1475-btn secondary" id="r1475-clear-form" type="button"><i class="fas fa-rotate-right"></i> تفريغ</button></div></section>';}
-  function noteCard(n){
-    var src=n.source==='remote'?'مشترك':(n.source==='pending'?'بانتظار المزامنة':'محلي');
-    var srcCls=n.source==='remote'?'src-remote':(n.source==='pending'?'src-pending':'');
-    if((n.senderRole==='manager'||/مدير/.test(String(n.senderRole||'')))&&/مسؤول النظام/.test(String(n.sender||'')))n.sender='مدير الموارد البشرية';
-    var reviewed=n.status==='reviewed';
-    var actions= reviewed ? '<button type="button" class="r1475-mini-btn" data-r1475-delete="'+esc(n.id)+'"><i class="fas fa-box-archive"></i> حذف من الأرشيف المحلي</button>' : '<button type="button" class="r1475-mini-btn done" data-r1475-review="'+esc(n.id)+'"><i class="fas fa-check"></i> تمت المراجعة</button>'+(n.source==='remote'?'':'<button type="button" class="r1475-mini-btn" data-r1475-delete="'+esc(n.id)+'"><i class="fas fa-trash-can"></i> حذف محلي</button>');
-    return '<article class="r1475-note-card '+esc(n.type||'note')+' '+esc(n.source||'local')+' '+(reviewed?'reviewed':'')+'"><div class="r1475-note-icon"><i class="fas '+esc(typeIcon(n.type))+'"></i></div><div><div class="r1475-note-name">'+esc(n.employeeName||'موظف غير محدد')+'</div><div class="r1475-note-meta"><span>'+esc(typeLabel(n.type))+'</span><span>'+esc(n.createdAt||'—')+'</span><span>المرسل: '+esc(n.sender||'—')+'</span><span class="'+srcCls+'">'+src+'</span><span>'+(reviewed?'تمت المراجعة':'جديد')+'</span></div>'+((n.fromBranch||n.toBranch)?'<div class="r1475-note-route"><i class="fas fa-route"></i><span>من: <b>'+esc(n.fromBranch||'—')+'</b></span><i class="fas fa-arrow-left"></i><span>إلى: <b>'+esc(n.toBranch||'—')+'</b></span></div>':'')+'<div class="r1475-note-text">'+esc(n.text||'—')+'</div><div class="r1475-note-status">'+actions+'</div></div></article>';
-  }
-  function notesHTML(notes){
-    var q=norm(state.q),f=state.filter;
-    var rows=notes.filter(function(n){
-      var reviewed=n.status==='reviewed';
-      var ok=f==='archive'?reviewed:(f==='all'?!reviewed:(f==='new'?!reviewed:(n.type===f&&!reviewed)));
-      if(!ok)return false;
-      if(!q)return true;
-      return (norm(n.employeeName)+' '+norm(n.text)+' '+norm(n.fromBranch)+' '+norm(n.toBranch)+' '+norm(typeLabel(n.type))+' '+norm(n.sender)).indexOf(q)>=0;
-    }).sort(function(a,b){return String(b.createdAt||'').localeCompare(String(a.createdAt||''));});
-    return '<section class="r1475-panel"><div class="r1475-panel-head"><div class="r1475-panel-title"><i class="fas fa-list-check"></i><span>'+(state.filter==='archive'?'أرشيف الملاحظات المراجعة':'سجل الملاحظات النشطة')+'</span></div><span class="r1475-chip"><i class="fas fa-database"></i>'+rows.length+' نتيجة</span></div><div class="r1475-field"><label>بحث داخل الملاحظات</label><input id="r1475-q" type="search" value="'+esc(state.q)+'" placeholder="ابحث بالاسم أو الملاحظة أو الشعبة"></div><div class="r1475-toolbar" id="r1475-filters"><button class="r1475-filter '+(state.filter==='all'?'active':'')+'" data-r1475-filter="all">النشطة</button><button class="r1475-filter '+(state.filter==='new'?'active':'')+'" data-r1475-filter="new">الجديد</button><button class="r1475-filter '+(state.filter==='transfer'?'active':'')+'" data-r1475-filter="transfer">نقل</button><button class="r1475-filter '+(state.filter==='assignment'?'active':'')+'" data-r1475-filter="assignment">تنسيب</button><button class="r1475-filter '+(state.filter==='return'?'active':'')+'" data-r1475-filter="return">إنهاء تنسيب</button><button class="r1475-filter '+(state.filter==='note'?'active':'')+'" data-r1475-filter="note">ملاحظات</button><button class="r1475-filter '+(state.filter==='archive'?'active':'')+'" data-r1475-filter="archive"><i class="fas fa-box-archive"></i> الأرشيف</button></div><div class="r1475-note-list" id="r1475-notes">'+(rows.length?rows.map(noteCard).join(''):'<div class="r1475-empty"><i class="fas fa-inbox"></i>'+(state.filter==='archive'?'لا توجد ملاحظات مراجعة في الأرشيف المحلي.':'لا توجد ملاحظات نشطة حاليًا. اضغط مزامنة الملاحظات لجلب السجل المشترك.')+'</div>')+'</div></section>';
-  }
-  function render(doBind){ensureTab();var page=$('r1475-page');if(!page)return;var id=loadIdentity();if(!id.role){id={role:'admin',name:'مسؤول النظام'};saveIdentity(id);}var notes=loadNotes(),c=counts(notes),sync=loadSync();page.innerHTML='<section class="r1475-hero"><div class="r1475-hero-row"><div class="r1475-hero-ico"><i class="fas fa-comments"></i></div><div><div class="r1475-title">الحركات الإدارية</div><div class="r1475-sub">مزامنة مشتركة بين هاتف مدير الموارد وهاتف مسؤول النظام، دون تعديل بيانات الموظفين الرسمية.</div></div></div><div class="r1475-kpis"><div class="r1475-kpi new"><i class="fas fa-bell"></i><b>'+c.new+'</b><span>جديد</span></div><div class="r1475-kpi transfer"><i class="fas fa-right-left"></i><b>'+c.transfer+'</b><span>نقل</span></div><div class="r1475-kpi assign"><i class="fas fa-user-clock"></i><b>'+c.assignment+'</b><span>تنسيب</span></div><div class="r1475-kpi note"><i class="fas fa-note-sticky"></i><b>'+c.note+'</b><span>ملاحظات</span></div></div>'+(state.syncing?'<div class="r1475-local-note"><i class="fas fa-spinner fa-spin"></i> جاري مزامنة السجل المشترك...</div>':state.lastError?'<div class="r1475-local-note"><i class="fas fa-triangle-exclamation"></i> '+esc(state.lastError)+'</div>':(sync.lastSync?'<div class="r1475-local-note"><i class="fas fa-cloud-check"></i> آخر مزامنة: '+esc(sync.lastSync)+'</div>':''))+'</section>'+identityHTML(id)+formHTML(id)+notesHTML(notes);if(doBind!==false)bind();}
-  function bind(){document.querySelectorAll('[data-r1475-role]').forEach(function(b){b.onclick=function(){var role=this.getAttribute('data-r1475-role');var inp=$('r1475-sender-name');if(inp)inp.value=roleLabel(role);document.querySelectorAll('[data-r1475-role]').forEach(function(x){x.classList.toggle('active',x===b);});};});var save=$('r1475-save-identity');if(save)save.onclick=function(){var active=document.querySelector('[data-r1475-role].active'),role=active?active.getAttribute('data-r1475-role'):'admin',name=norm(($('r1475-sender-name')||{}).value)||roleLabel(role);saveIdentity({role:role,name:name,updatedAt:nowText()});try{showToast('تم حفظ هوية الجهاز: '+roleLabel(role),'ok');}catch(e){}render();};var sync=$('r1475-sync');if(sync)sync.onclick=function(){fetchShared(null,{manual:true,force:true});};var clear=$('r1475-clear-form');if(clear)clear.onclick=function(){['r1475-emp','r1475-from','r1475-to','r1475-text'].forEach(function(id){var x=$(id);if(x)x.value='';});var d=$('r1475-date');if(d)d.value=nowText();};var add=$('r1475-add');if(add)add.onclick=function(){var id=loadIdentity(),emp=norm(($('r1475-emp')||{}).value),text=norm(($('r1475-text')||{}).value),type=($('r1475-type')||{}).value||'note';if(!emp){try{showToast('اكتب اسم الموظف أولًا','warn');}catch(e){}return;}if(!text){try{showToast('اكتب الملاحظة المختصرة','warn');}catch(e){}return;}var note={id:'LOCAL-'+Date.now(),employeeName:emp,type:type,fromBranch:norm(($('r1475-from')||{}).value),toBranch:norm(($('r1475-to')||{}).value),text:text,sender:id.name||roleLabel(id.role),senderRole:id.role||'manager',createdAt:nowText(),status:'new',source:'pending'};add.disabled=true;add.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الإرسال';postShared(note).then(function(){var notes=loadNotes();notes.push(note);saveNotes(notes);try{showToast('تم إرسال الملاحظة إلى السجل المشترك','ok');}catch(e){}state.filter='new';render();setTimeout(function(){fetchShared(null,{force:true});},1500);}).catch(function(){var notes=loadNotes();notes.push(note);saveNotes(notes);try{showToast('تعذر التأكد من الإرسال، حُفظت محليًا','warn');}catch(e){}state.filter='new';render();});};var q=$('r1475-q');if(q)q.oninput=function(){state.q=this.value||'';render();setTimeout(function(){var x=$('r1475-q');if(x){x.focus();try{x.setSelectionRange(x.value.length,x.value.length);}catch(e){}}},0);};document.querySelectorAll('[data-r1475-filter]').forEach(function(b){b.onclick=function(){state.filter=this.getAttribute('data-r1475-filter')||'all';render();};});document.querySelectorAll('[data-r1475-review]').forEach(function(b){b.onclick=function(){var id=this.getAttribute('data-r1475-review'),notes=loadNotes(),note=notes.find(function(n){return n.id===id;});notes.forEach(function(n){if(n.id===id)n.status='reviewed';});saveNotes(notes);render();if(note&&note.source==='remote'&&note.id){postReviewStatus(note).then(function(){setTimeout(function(){try{if(window.r1479ManagerNotesSyncNow)window.r1479ManagerNotesSyncNow(false,true);else fetchShared(null,{force:true});}catch(e){}},900);}).catch(function(){try{if(typeof showToast==='function')showToast('\u062a\u0645\u062a \u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0629 \u0645\u062d\u0644\u064a\u0627\u064b\u060c \u0648\u062a\u0639\u0630\u0631 \u062a\u062d\u062f\u064a\u062b \u0627\u0644\u0633\u062c\u0644 \u0627\u0644\u0645\u0634\u062a\u0631\u0643','warn');}catch(e){}});}else{setTimeout(function(){try{fetchShared(null,{force:true});}catch(e){}},500);}};});document.querySelectorAll('[data-r1475-delete]').forEach(function(b){b.onclick=function(){var id=this.getAttribute('data-r1475-delete'),notes=loadNotes(),gone=notes.find(function(n){return n.id===id;});try{var del=JSON.parse(localStorage.getItem('hr_manager_notes_deleted_r1480')||'[]')||[];if(gone){var sg=signature(gone);[id,sg].forEach(function(k){if(k&&del.indexOf(k)<0)del.push(k);});localStorage.setItem('hr_manager_notes_deleted_r1480',JSON.stringify(del));}}catch(e){}notes=notes.filter(function(n){return n.id!==id;});saveNotes(notes);render();};});}
-  function openNotes(){ensureTab();subView='managernotes';try{document.body.classList.remove('subview-list','subview-updates','subview-quality','subview-reports','subview-alerts','subview-system','subview-service','subview-jobtitles','subview-titlematch','subview-managernotes');document.body.classList.add('subview-managernotes');}catch(e){}hideOtherViews();setActiveTab();render();try{mobileR146SyncChrome();}catch(e){}var sc=$('scroll');if(sc)try{sc.scrollTo({top:0,behavior:'smooth'});}catch(e){sc.scrollTop=0;}setTimeout(function(){try{if(window.r1479ManagerNotesSyncNow)window.r1479ManagerNotesSyncNow(false,true);else fetchShared(null,{force:true});}catch(e){}},600);}
-  var oldSwitch=window.switchSub;window.switchSub=function(v){if(v==='managernotes'){openNotes();return;}return oldSwitch?oldSwitch.apply(this,arguments):undefined;};
-  var oldLabel=window.mobileR146SubLabel;window.mobileR146SubLabel=function(){if(subView==='managernotes')return 'الحركات الإدارية';return typeof oldLabel==='function'?oldLabel():'';};
-  function syncTabs(){ensureTab();var t=$(TAB_ID);if(t){t.onclick=function(){openNotes();};if(!/r1475-managernotes/.test(t.className))t.className+=' r1475-managernotes';}}
-  document.addEventListener('DOMContentLoaded',syncTabs);window.addEventListener('load',syncTabs);window.addEventListener('pageshow',syncTabs);[80,250,700,1500,3000].forEach(function(t){setTimeout(syncTabs,t);});try{new MutationObserver(function(){clearTimeout(window.__r1476SyncT);window.__r1476SyncT=setTimeout(syncTabs,60);}).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}
-  window.r1475OpenManagerNotes=openNotes;window.r1476SyncManagerNotes=fetchShared;
-})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1476-manager-notes-sync-script -->
 
 
 <style id="r1477-manager-notes-navigation-fix-style">
@@ -6423,62 +6346,7 @@ body:not(.subview-managernotes) #view-managernotes{display:none!important}
 body.subview-managernotes #view-managernotes{display:block!important}
 body.subview-managernotes #search-sec,body.subview-managernotes #pg{display:none!important}
 </style>
-<script id="r1477-manager-notes-navigation-fix-script">
-// MOBILE R1.4.77: Manager Notes Navigation Fix - isolates notes view when leaving the card.
-(function(){
-  var VIEW_ID='view-managernotes',TAB_ID='stab-managernotes';
-  function $(id){return document.getElementById(id);}
-  function managerActiveCls(){try{return (typeof mode!=='undefined' && mode==='cont')?'cont-sub-active':((typeof mode!=='undefined' && mode==='admin')?'admin-sub-active':'perm-sub-active');}catch(e){return 'perm-sub-active';}}
-  function clearManagerNotesView(){
-    try{document.body.classList.remove('subview-managernotes');}catch(e){}
-    var v=$(VIEW_ID);if(v)v.style.display='none';
-    var t=$(TAB_ID);if(t){
-      t.classList.remove('perm-sub-active','cont-sub-active','admin-sub-active');
-      t.setAttribute('aria-selected','false');
-    }
-  }
-  function showManagerNotesView(){
-    var v=$(VIEW_ID);if(v)v.style.display='block';
-    var t=$(TAB_ID);if(t){
-      t.classList.add(managerActiveCls());
-      t.setAttribute('aria-selected','true');
-    }
-  }
-  var baseSwitchSub=window.switchSub || (typeof switchSub==='function'?switchSub:null);
-  window.switchSub=switchSub=function(v){
-    if(v==='managernotes'){
-      var r=baseSwitchSub?baseSwitchSub.apply(this,arguments):undefined;
-      try{document.body.classList.add('subview-managernotes');}catch(e){}
-      showManagerNotesView();
-      return r;
-    }
-    clearManagerNotesView();
-    var out=baseSwitchSub?baseSwitchSub.apply(this,arguments):undefined;
-    setTimeout(clearManagerNotesView,0);
-    setTimeout(clearManagerNotesView,90);
-    return out;
-  };
-  var baseSwitchMain=window.switchMain || (typeof switchMain==='function'?switchMain:null);
-  if(baseSwitchMain){
-    window.switchMain=switchMain=function(m){
-      clearManagerNotesView();
-      var out=baseSwitchMain.apply(this,arguments);
-      setTimeout(clearManagerNotesView,0);
-      setTimeout(clearManagerNotesView,90);
-      return out;
-    };
-  }
-  document.addEventListener('click',function(ev){
-    var tab=ev.target&&ev.target.closest?ev.target.closest('.sub-tab,.main-tab,.r1472-module-card'):null;
-    if(!tab)return;
-    if(tab.id!==TAB_ID && tab.getAttribute('data-sub')!=='managernotes'){
-      setTimeout(clearManagerNotesView,0);
-      setTimeout(clearManagerNotesView,120);
-    }
-  },true);
-  window.r1477ClearManagerNotesView=clearManagerNotesView;
-})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1477-manager-notes-navigation-fix-script -->
 
 
 <style id="r1478-manager-notes-identity-switch-fix-style">
@@ -6489,24 +6357,7 @@ body.subview-managernotes #search-sec,body.subview-managernotes #pg{display:none
 .r1478-switch-note{margin-top:8px;font:800 7.8px var(--hr-body-font);line-height:1.75;color:rgba(226,237,255,.62)}
 body.light-mode .r1478-switch-title{color:#0f172a}body.light-mode .r1478-switch-current,body.light-mode .r1478-switch-note{color:#64748b}body.light-mode .r1478-switch-btn{background:#f8fafc;color:#0f172a;border-color:rgba(15,23,42,.10)}body.light-mode .r1478-switch-btn.active{background:linear-gradient(135deg,#fbbf24,#fde68a);color:#061024}
 </style>
-<script id="r1478-manager-notes-identity-switch-fix-script">
-// MOBILE R1.4.78: Manager Notes Identity Switch Fix - allows changing this device identity after first setup.
-(function(){
-  var IDENT='hr_device_identity_r1475';
-  function $(id){return document.getElementById(id);}function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  function nowText(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};return d.getFullYear()+'/'+p(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());}
-  function roleLabel(r){return r==='manager'?'مدير الموارد البشرية':'مسؤول النظام';}
-  function loadIdentity(){try{return JSON.parse(localStorage.getItem(IDENT)||'{}')||{};}catch(e){return {};}}
-  function saveIdentity(role,name){try{localStorage.setItem(IDENT,JSON.stringify({role:role,name:name||roleLabel(role),updatedAt:nowText(),changedBy:'r1478'}));}catch(e){} }
-  function openAgain(){setTimeout(function(){try{if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes();}catch(e){}},60);}
-  function toast(msg,type){try{if(typeof showToast==='function')showToast(msg,type||'ok');}catch(e){}}
-  function setRole(role){var inp=$('r1475-sender-name'),name=(inp&&inp.value?inp.value.trim():'')||roleLabel(role);saveIdentity(role,name);toast('تم تغيير هوية الجهاز إلى: '+roleLabel(role),'ok');openAgain();}
-  function enhance(){var page=$('r1475-page');if(!page)return;var identityPanel=null;Array.prototype.some.call(page.querySelectorAll('.r1475-panel'),function(p){if((p.textContent||'').indexOf('هوية هذا الجهاز')>=0){identityPanel=p;return true;}return false;});if(!identityPanel||identityPanel.querySelector('#r1478-identity-switch'))return;var id=loadIdentity(),role=id.role||'admin';var box=document.createElement('div');box.id='r1478-identity-switch';box.className='r1478-identity-switch';box.innerHTML='<div class="r1478-switch-head"><div class="r1478-switch-title"><i class="fas fa-id-badge"></i><span>تغيير هوية هذا الجهاز</span></div><div class="r1478-switch-current">الحالي: '+esc(roleLabel(role))+'</div></div><div class="r1478-switch-actions"><button type="button" class="r1478-switch-btn admin '+(role==='admin'?'active':'')+'" data-r1478-set-role="admin"><i class="fas fa-user-gear"></i> مسؤول النظام</button><button type="button" class="r1478-switch-btn manager '+(role==='manager'?'active':'')+'" data-r1478-set-role="manager"><i class="fas fa-user-tie"></i> مدير الموارد</button></div><div class="r1478-switch-note"><i class="fas fa-circle-info"></i> هذا الزر مخصص لتبديل دور الهاتف عند الخطأ في الاختيار الأول. جهاز مدير الموارد يجب أن يكون على: مدير الموارد البشرية، وجهازك يبقى: مسؤول النظام.</div>';identityPanel.appendChild(box);box.querySelectorAll('[data-r1478-set-role]').forEach(function(b){b.onclick=function(ev){ev.preventDefault();ev.stopPropagation();setRole(this.getAttribute('data-r1478-set-role')||'admin');};});}
-  document.addEventListener('click',function(ev){var b=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-role]'):null;if(!b)return;var role=b.getAttribute('data-r1475-role');if(!role)return;setTimeout(function(){var inp=$('r1475-sender-name'),name=(inp&&inp.value?inp.value.trim():'')||roleLabel(role);saveIdentity(role,name);toast('تم حفظ هوية الجهاز: '+roleLabel(role),'ok');openAgain();},80);},true);
-  document.addEventListener('DOMContentLoaded',enhance);window.addEventListener('load',enhance);window.addEventListener('pageshow',enhance);[100,300,800,1600,3000].forEach(function(t){setTimeout(enhance,t);});try{new MutationObserver(function(){clearTimeout(window.__r1478IdentityT);window.__r1478IdentityT=setTimeout(enhance,80);}).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}
-  window.r1478SetManagerNotesRole=setRole;
-})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1478-manager-notes-identity-switch-fix-script -->
 
 
 
@@ -6521,49 +6372,7 @@ body.light-mode .r1478-switch-title{color:#0f172a}body.light-mode .r1478-switch-
 .r1475-panel:has(#r1475-q){position:relative}.r1475-panel .r1475-toolbar{position:sticky;top:0;z-index:5;backdrop-filter:blur(10px);padding:6px 0}.r1475-filter{white-space:nowrap!important}.r1475-kpis{grid-template-columns:repeat(4,minmax(0,1fr))!important}.r1475-kpi{min-width:0!important}.r1475-kpi b{font-size:clamp(15px,4.4vw,22px)!important}.r1475-kpi span{white-space:nowrap!important;font-size:7.2px!important}
 body.light-mode .r1479-sync-live{background:#f8fafc;color:#0f172a;border-color:rgba(15,23,42,.10)}body.light-mode .r1475-note-card{background:#fff!important;border-color:rgba(15,23,42,.10)!important;box-shadow:0 10px 24px rgba(15,23,42,.07)!important}body.light-mode .r1475-note-name{color:#0f172a!important}body.light-mode .r1475-note-text{background:#f8fafc!important;color:#334155!important;border-color:rgba(15,23,42,.08)!important}body.light-mode .r1475-note-meta span{background:#f8fafc!important;color:#475569!important;border-color:rgba(15,23,42,.08)!important}body.light-mode .r1475-note-route{background:#f8fafc!important;color:#334155!important;border-color:rgba(15,23,42,.10)!important}body.light-mode .r1475-note-route b{color:#0f172a!important}
 </style>
-<script id="r1479-manager-notes-instant-alerts-ui-script">
-// MOBILE R1.4.79: instant manager notes UX, sound/vibration alerts, role-safe sender, and faster sync feedback.
-(function(){
-  var ENDPOINT='https://script.google.com/macros/s/AKfycbwRRarKpQd5KCyKu7XDlEN7QI6BdF_IDm8aqNG07M0AW0wBuM54SmGTMkWTmRmaXwhE/exec',API_KEY='HR_NOTES_2026';
-  var STORE='hr_manager_notes_r1475',IDENT='hr_device_identity_r1475',SYNC='hr_manager_notes_sync_r1476',DEV='hr_device_id_r1476',SEEN='hr_manager_notes_seen_remote_r1479';
-  // MOBILE R1.5.06: smart background sync limits. Auto sync is quiet and at most once each 10 minutes while the user stays inside الحركات الإدارية.
-  var R1506_AUTO_SYNC_MS=10*60*1000,R1506_MANUAL_SYNC_MS=6000,R1506_LAST='hr_manager_notes_last_sync_ms_r1506',r1506Busy=false;
-  function r1506Last(){try{return Number(localStorage.getItem(R1506_LAST)||0)||0;}catch(e){return 0;}}
-  function r1506Mark(){try{localStorage.setItem(R1506_LAST,String(Date.now()));}catch(e){}}
-  function r1506Allow(manual){var elapsed=Date.now()-r1506Last();return manual?elapsed>R1506_MANUAL_SYNC_MS:elapsed>R1506_AUTO_SYNC_MS;}
-  function $(id){return document.getElementById(id)}function norm(v){return String(v||'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function nowText(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};return d.getFullYear()+'/'+p(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())}
-  function load(k,fb){try{var x=JSON.parse(localStorage.getItem(k)||'');return x==null?fb:x}catch(e){return fb}}function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-  function notes(){var a=load(STORE,[]);return Array.isArray(a)?a:[]}function saveNotes(a){save(STORE,a||[])}function identity(){var x=load(IDENT,{});return x&&x.role?x:{role:'admin',name:'مسؤول النظام'}}
-  function roleLabel(r){return r==='manager'?'مدير الموارد البشرية':'مسؤول النظام'}function typeLabel(t){return t==='transfer'?'نقل':t==='assignment'?'تنسيب':t==='return'?'إنهاء تنسيب':'ملاحظة'}
-  function remoteType(t){t=String(t||'note').trim();if(t==='نقل')return'transfer';if(t==='تنسيب')return'assignment';if(t==='إنهاء تنسيب')return'return';if(['transfer','assignment','return','note'].indexOf(t)>=0)return t;return'note'}
-  function deviceId(){var x=localStorage.getItem(DEV);if(!x){x='DEV-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);try{localStorage.setItem(DEV,x)}catch(e){}}return x}
-  function sig(n){return [norm(n.employeeName),norm(n.type),norm(n.fromBranch),norm(n.toBranch),norm(n.text)].join('|').toLowerCase()}
-  function normalizeRemote(r){var type=remoteType(r.movementType||r.type);return {id:norm(r.id)||('REMOTE-'+sig(r)),employeeName:norm(r.employeeName),type:type,fromBranch:norm(r.fromBranch),toBranch:norm(r.toBranch),text:norm(r.note||r.text),sender:norm(r.senderName||r.sender)||'مدير الموارد البشرية',senderRole:norm(r.senderRole)||'manager',createdAt:norm(r.createdAt)||'',status:norm(r.status)||'new',source:'remote',deviceId:norm(r.deviceId)}}
-  function toast(m,t){try{if(typeof showToast==='function')showToast(m,t||'ok')}catch(e){}}
-  function playAlert(count){try{if(navigator.vibrate)navigator.vibrate([160,70,160])}catch(e){}try{var A=window.AudioContext||window.webkitAudioContext;if(!A)return;var c=new A(),g=c.createGain(),o=c.createOscillator();o.type='sine';o.frequency.value=880;g.gain.setValueAtTime(.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(.16,c.currentTime+.025);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.22);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.24);setTimeout(function(){try{var o2=c.createOscillator(),g2=c.createGain();o2.type='sine';o2.frequency.value=1174;g2.gain.setValueAtTime(.0001,c.currentTime);g2.gain.exponentialRampToValueAtTime(.12,c.currentTime+.02);g2.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.18);o2.connect(g2);g2.connect(c.destination);o2.start();o2.stop(c.currentTime+.2)}catch(e){}},210)}catch(e){}}
-  function live(msg,kind){var page=$('r1475-page');if(!page)return;var old=$('r1479-live');if(old)old.remove();if(!msg)return;var box=document.createElement('div');box.id='r1479-live';box.className='r1479-sync-live '+(kind||'');box.innerHTML='<i class="fas '+(kind==='warn'?'fa-triangle-exclamation':kind==='ok'?'fa-circle-check':'fa-arrows-rotate fa-spin')+'"></i><span>'+esc(msg)+'</span>';var hero=page.querySelector('.r1475-hero');(hero||page).appendChild(box)}
-  function saveIdentityDirect(role,name){var x={role:role||'admin',name:norm(name)||roleLabel(role||'admin'),updatedAt:nowText(),changedBy:'r1479'};save(IDENT,x);return x}
-  function mergeRemote(remote){
-    var local=notes(),out=[],seen={},before={},deleted={};
-    try{(JSON.parse(localStorage.getItem('hr_manager_notes_deleted_r1480')||'[]')||[]).forEach(function(k){deleted[k]=1;});}catch(e){}
-    function senderFix(n){if((n.senderRole==='manager'||/مدير/.test(String(n.senderRole||'')))&&/مسؤول النظام/.test(String(n.sender||'')))n.sender='مدير الموارد البشرية';if(!n.sender&&n.senderRole==='manager')n.sender='مدير الموارد البشرية';return n;}
-    var byId={},bySig={};local.forEach(function(n){senderFix(n);var k=n.id||sig(n),s=sig(n);before[k]=1;before[s]=1;if(k)byId[k]=n;if(s)bySig[s]=n;});
-    var incoming=0,breakdown={transfer:0,assignment:0,return:0,note:0};
-    (remote||[]).map(normalizeRemote).forEach(function(n){if(!n.employeeName&&!n.text)return;senderFix(n);var k=n.id||sig(n),s=sig(n);var old=byId[k]||bySig[s];if(old){if(old.senderRole==='manager')n.senderRole='manager';if(old.senderRole==='manager'&&/مسؤول النظام/.test(String(n.sender||'')))n.sender='مدير الموارد البشرية';}
-      if(seen[k]||seen[s])return;seen[k]=seen[s]=1;out.push(n);if(!before[k]&&!before[s]&&n.deviceId!==deviceId()){incoming++;breakdown[n.type]=(breakdown[n.type]||0)+1}});
-    local.forEach(function(n){senderFix(n);var k=n.id||sig(n),s=sig(n);if(deleted[k]||deleted[s])return;if(seen[k]||seen[s])return;seen[k]=seen[s]=1;out.push(n)});
-    saveNotes(out);return {notes:out,incoming:incoming,breakdown:breakdown}
-  }
-  function syncNow(manual,force){manual=!!manual;force=!!force;if(r1506Busy)return Promise.resolve(false);if(!force&&!r1506Allow(manual)){if(manual)toast('تمت المزامنة مؤخرًا، انتظر لحظات ثم أعد المحاولة','warn');return Promise.resolve(false);}r1506Busy=true;r1506Mark();var btn=$('r1475-sync');if(manual&&btn){btn.classList.add('is-loading');btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري المزامنة'}if(manual)live('جاري الاتصال بسجل الملاحظات المشترك...','');var url=ENDPOINT+'?key='+encodeURIComponent(API_KEY)+'&includeReviewed=1&t='+Date.now();return fetch(url,{cache:'no-store'}).then(function(r){return r.json()}).then(function(data){if(!data||data.ok===false)throw new Error((data&&data.error)||'فشل المزامنة');var res=mergeRemote(Array.isArray(data.notes)?data.notes:[]);save(SYNC,{lastSync:nowText(),count:res.notes.length});if(manual||res.incoming){if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes();}if(res.incoming){live('وصلت '+res.incoming+' ملاحظة جديدة من السجل المشترك','ok');if(identity().role==='admin'){playAlert(res.incoming);toast('وصلت '+res.incoming+' ملاحظة إدارية جديدة','ok')}}else if(manual){live('تمت المزامنة ولا توجد ملاحظات جديدة','ok');toast('تمت مزامنة الحركات الإدارية','ok')}return true}).catch(function(e){if(manual){live('تعذر تنفيذ المزامنة الآن. تحقق من الإنترنت أو رابط Google Script.','warn');toast('تعذر مزامنة الملاحظات','warn')}return false}).finally(function(){r1506Busy=false;var b=$('r1475-sync');if(b){b.classList.remove('is-loading');b.innerHTML='<i class="fas fa-arrows-rotate"></i> مزامنة الملاحظات'}})}
-  function sendNow(){var id=identity();if(id.role!=='manager'){toast('غيّر هوية هذا الجهاز إلى مدير الموارد البشرية قبل الإرسال','warn');return}var emp=norm(($('r1475-emp')||{}).value),text=norm(($('r1475-text')||{}).value),type=($('r1475-type')||{}).value||'note';if(!emp){toast('اكتب اسم الموظف أولًا','warn');return}if(!text){toast('اكتب الملاحظة المختصرة','warn');return}var note={id:'LOCAL-'+Date.now(),employeeName:emp,type:type,fromBranch:norm(($('r1475-from')||{}).value),toBranch:norm(($('r1475-to')||{}).value),text:text,sender:'مدير الموارد البشرية',senderRole:'manager',createdAt:nowText(),status:'new',source:'pending',deviceId:deviceId()};var arr=notes();arr.push(note);saveNotes(arr);if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes();live('تمت إضافة الملاحظة محليًا، وجاري إرسالها للسجل المشترك...','');toast('جاري إرسال الملاحظة باسم: '+(note.sender||'مدير الموارد البشرية'),'ok');var payload={key:API_KEY,id:note.id,senderName:note.sender,senderRole:'manager',employeeName:note.employeeName,movementType:typeLabel(note.type),fromBranch:note.fromBranch,toBranch:note.toBranch,note:note.text,deviceId:deviceId(),status:'new'};fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).then(function(){live('تم إرسال الملاحظة. سيتم تأكيد ظهورها بالمزامنة التالية.','ok');setTimeout(function(){syncNow(false,true)},1200)}).catch(function(){live('حُفظت الملاحظة محليًا، لكن تعذر الإرسال للسجل المشترك.','warn');toast('تعذر الإرسال للسجل المشترك','warn')})}
-  function enhance(){var id=identity();var inp=$('r1475-sender-name');if(inp&&id.role==='manager')inp.value='مدير الموارد البشرية';else if(inp&&!inp.value)inp.value=id.name||roleLabel(id.role);var chip=document.querySelector('#r1475-add-panel .r1475-chip');if(chip&&id.role==='manager')chip.innerHTML='<i class="fas fa-paper-plane"></i> مرسلها: مدير الموارد البشرية';}
-  document.addEventListener('click',function(ev){var sync=ev.target&&ev.target.closest?ev.target.closest('#r1475-sync'):null;if(sync){ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();syncNow(true);return}var add=ev.target&&ev.target.closest?ev.target.closest('#r1475-add'):null;if(add){ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();sendNow();return}var roleBtn=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-role],[data-r1478-set-role]'):null;if(roleBtn){var role=roleBtn.getAttribute('data-r1475-role')||roleBtn.getAttribute('data-r1478-set-role');if(role){var name=roleLabel(role);saveIdentityDirect(role,name);setTimeout(function(){if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes();toast('تم حفظ هوية الجهاز: '+name,'ok')},40)}}},true);
-  document.addEventListener('DOMContentLoaded',enhance);window.addEventListener('load',enhance);window.addEventListener('pageshow',enhance);try{new MutationObserver(function(){clearTimeout(window.__r1479EnhanceT);window.__r1479EnhanceT=setTimeout(enhance,80)}).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
-  setInterval(function(){try{if(document.hidden)return;var active=document.body.classList.contains('subview-managernotes');if(!active)return;syncNow(false,true)}catch(e){}},60000);
-  window.r1479ManagerNotesSyncNow=syncNow;window.r1479ManagerNotesPlayAlert=playAlert;
-})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1479-manager-notes-instant-alerts-ui-script -->
 
 
 <style id="r1480-manager-notes-review-search-fix-style">
@@ -6571,31 +6380,7 @@ body.light-mode .r1479-sync-live{background:#f8fafc;color:#0f172a;border-color:r
 .r1480-emp-picker{position:relative}.r1480-emp-results{display:none;position:absolute;z-index:50;inset-inline:0;top:100%;margin-top:6px;max-height:260px;overflow:auto;border-radius:16px;background:rgba(7,18,38,.98);border:1px solid rgba(125,211,252,.18);box-shadow:0 22px 48px rgba(0,0,0,.32);padding:6px}.r1480-emp-results.show{display:block}.r1480-emp-option{width:100%;border:0;background:transparent;color:#eaf4ff;text-align:right;border-radius:12px;padding:8px 9px;display:flex;gap:8px;align-items:center;justify-content:flex-start;direction:rtl}.r1480-emp-option:hover,.r1480-emp-option:focus{background:rgba(251,191,36,.12);outline:none}.r1480-emp-icon{width:32px;height:32px;border-radius:12px;display:grid;place-items:center;background:rgba(125,211,252,.10);color:#7dd3fc;flex:0 0 auto}.r1480-emp-main{min-width:0;flex:1}.r1480-emp-name{font:900 10px var(--hr-title-font);color:#fff;line-height:1.45;white-space:normal}.r1480-emp-division{font:800 7.5px var(--hr-body-font);color:rgba(226,237,255,.62);line-height:1.55;white-space:normal}.r1480-emp-empty{padding:10px;color:rgba(226,237,255,.62);font:850 8.5px var(--hr-body-font);text-align:center}.r1475-note-card.reviewed{opacity:.88}.r1475-note-card.reviewed:after{content:"تمت المراجعة";position:absolute;top:9px;left:9px;border-radius:999px;padding:3px 8px;background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.24);color:#bbf7d0;font:850 7px var(--hr-body-font)}.r1475-filter[data-r1475-filter="archive"]{border-color:rgba(52,211,153,.20)}
 body.light-mode .r1480-emp-results{background:#fff;border-color:rgba(15,23,42,.10);box-shadow:0 18px 42px rgba(15,23,42,.16)}body.light-mode .r1480-emp-name{color:#0f172a}body.light-mode .r1480-emp-division{color:#64748b}body.light-mode .r1480-emp-option:hover{background:#f8fafc}
 </style>
-<script id="r1480-manager-notes-review-search-fix-script">
-// MOBILE R1.4.80: fixes Manager Notes sender label, review archive behavior, and direct employee search with current division fill.
-(function(){
-  var IDENT='hr_device_identity_r1475';
-  function $(id){return document.getElementById(id)}
-  function norm(v){return String(v||'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
-  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function empName(e){return norm(e&&((e.name)||(e.fullName)||(e['الاسم الكامل'])))}
-  function empDivision(e){return norm(e&&((e.division)||(e['الشعبة'])||(e['الشعبة / القسم'])||(e.department)))}
-  function allEmployees(){try{return (BASE.perm||[]).concat(BASE.cont||[])}catch(e){return []}}
-  function identity(){try{return JSON.parse(localStorage.getItem(IDENT)||'{}')||{}}catch(e){return {}}}
-  function saveIdentity(x){try{localStorage.setItem(IDENT,JSON.stringify(x||{}))}catch(e){}}
-  function ensureManagerSender(){var id=identity();if(id.role==='manager'&&id.name!=='مدير الموارد البشرية'){id.name='مدير الموارد البشرية';saveIdentity(id)}var inp=$('r1475-sender-name');if(inp&&id.role==='manager')inp.value='مدير الموارد البشرية';var chip=document.querySelector('#r1475-add-panel .r1475-chip');if(chip&&id.role==='manager')chip.innerHTML='<i class="fas fa-paper-plane"></i> مرسلها: مدير الموارد البشرية';}
-  function ensurePicker(){var input=$('r1475-emp');if(!input||input.getAttribute('data-r1480-picker'))return;input.setAttribute('autocomplete','off');input.removeAttribute('list');input.setAttribute('data-r1480-picker','1');var field=input.closest('.r1475-field')||input.parentNode;field.classList.add('r1480-emp-picker');var box=document.createElement('div');box.id='r1480-emp-results';box.className='r1480-emp-results';field.appendChild(box);
-    function currentHint(){var h=$('r1492-current-division');if(!h){h=document.createElement('div');h.id='r1492-current-division';h.className='r1492-current-division';field.appendChild(h)}return h;}
-    function hide(){box.classList.remove('show');box.innerHTML='';}
-    function pickEmployee(e){var name=empName(e),div=empDivision(e);input.value=name;input.dataset.employeeName=name;input.dataset.employeeDivision=div;var from=$('r1475-from');if(from)from.value=div||'';var h=currentHint();h.innerHTML=div?'<i class="fas fa-location-dot"></i> الموظف المختار: <b>'+esc(name)+'</b> — الشعبة الحالية: <b>'+esc(div)+'</b>':'<i class="fas fa-circle-info"></i> الموظف المختار: <b>'+esc(name)+'</b> — الشعبة الحالية غير محددة';hide();var txt=$('r1475-text');if(txt)try{txt.focus()}catch(x){}}
-    function render(){var q=norm(input.value).toLowerCase();delete input.dataset.employeeName;delete input.dataset.employeeDivision;if(!q){var from=$('r1475-from');if(from)from.value='';var h=$('r1492-current-division');if(h)h.innerHTML='';hide();return}var rows=allEmployees().filter(function(e){var n=empName(e),d=empDivision(e);return (n+' '+d).toLowerCase().indexOf(q)>=0}).slice(0,30);box.innerHTML=rows.length?rows.map(function(e,i){return '<button type="button" class="r1480-emp-option" data-r1480-emp="'+i+'" data-r1480-name="'+esc(empName(e)||'')+'" data-r1480-division="'+esc(empDivision(e)||'')+'"><span class="r1480-emp-icon"><i class="fas fa-user"></i></span><span class="r1480-emp-main"><span class="r1480-emp-name">'+esc(empName(e)||'—')+'</span><span class="r1480-emp-division">'+esc(empDivision(e)||'الشعبة غير محددة')+'</span></span></button>'}).join(''):'<div class="r1480-emp-empty"><i class="fas fa-magnifying-glass"></i> لا توجد نتائج مطابقة</div>';box.classList.add('show');Array.prototype.forEach.call(box.querySelectorAll('[data-r1480-emp]'),function(btn){btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();var e=rows[Number(this.getAttribute('data-r1480-emp'))]||{};pickEmployee(e);};});}
-    input.addEventListener('input',render);input.addEventListener('focus',function(){hide();});input.addEventListener('click',function(){if(!norm(input.value))hide();});document.addEventListener('click',function(ev){if(!field.contains(ev.target))hide();},true);
-  }
-  function polish(){ensureManagerSender();ensurePicker();}
-  document.addEventListener('click',function(ev){var roleBtn=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-role],[data-r1478-set-role]'):null;if(roleBtn){var role=roleBtn.getAttribute('data-r1475-role')||roleBtn.getAttribute('data-r1478-set-role');if(role==='manager'){setTimeout(function(){var id=identity();id.role='manager';id.name='مدير الموارد البشرية';saveIdentity(id);polish();},30)}}},true);
-  document.addEventListener('DOMContentLoaded',polish);window.addEventListener('load',polish);window.addEventListener('pageshow',polish);try{new MutationObserver(function(){clearTimeout(window.__r1480PolishT);window.__r1480PolishT=setTimeout(polish,80)}).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
-})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1480-manager-notes-review-search-fix-script -->
 
 <style id="r1490-median-native-push-design-refresh-style">
 /* MOBILE R1.4.91: Median Push Token Callback Compatibility + R1.4.90 design refresh */
@@ -6689,45 +6474,7 @@ body.light-mode .r1492-passbox{background:#f8fafc!important}
 body.light-mode .r1492-passrow input{background:#fff!important;color:#0f172a!important}
 @media(max-width:430px){.r1492-role-preview{grid-template-columns:1fr!important}.r1492-passrow{grid-template-columns:1fr!important}.r1492-passrow button{width:100%}}
 </style>
-<script id="r1492-admin-movements-role-gate-script">
-// MOBILE R1.4.93: Administrative Movements UI, search, division pickup, and single-active-card fix.
-(function(){
-  var RELEASE='MOBILE-R1.4.93-ADMIN-MOVEMENTS-UI-SEARCH-FIX';
-  var VIEW_ID='view-managernotes',TAB_ID='stab-managernotes',PAGE_ID='r1475-page',IDENT='hr_device_identity_r1475',SESSION='hr_admin_movements_role_r1492';
-  var ADMIN_PASS='9914',MANAGER_PASS='2026';
-  function $(id){return document.getElementById(id)}
-  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function norm(v){return String(v||'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
-  function read(k,fb){try{var x=JSON.parse(localStorage.getItem(k)||'');return x==null?fb:x}catch(e){return fb}}
-  function write(k,v){try{localStorage.setItem(k,JSON.stringify(v||{}))}catch(e){}}
-  function nowText(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};return d.getFullYear()+'/'+p(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())}
-  function toast(m,t){try{if(typeof showToast==='function')showToast(m,t||'ok')}catch(e){}}
-  function roleLabel(r){return r==='manager'?'مدير الموارد البشرية':'مسؤول النظام'}
-  function activeRole(){try{return sessionStorage.getItem(SESSION)||''}catch(e){return ''}}
-  function setRole(role){try{sessionStorage.setItem(SESSION,role)}catch(e){}write(IDENT,{role:role,name:roleLabel(role),updatedAt:nowText(),changedBy:'r1492-password-gate'});}
-  function clearRole(){try{sessionStorage.removeItem(SESSION)}catch(e){}}
-  function allEmployees(){try{return (BASE.perm||[]).concat(BASE.cont||[])}catch(e){return []}}
-  function empName(e){return norm(e&&(e.name||e.fullName||e['الاسم الكامل']))}
-  function empDivision(e){return norm(e&&(e.division||e['الشعبة']||e['الشعبة / القسم']||e.branch||e.department||e.section||e.currentDivision))}
-  function findExactEmployee(name){var q=norm(name).toLowerCase();if(!q)return null;var rows=allEmployees().filter(function(e){return empName(e).toLowerCase()===q});return rows[0]||null}
-  function clearSubActives(){Array.prototype.forEach.call(document.querySelectorAll('.sub-tab'),function(t){t.classList.remove('perm-sub-active','cont-sub-active','admin-sub-active');t.setAttribute('aria-selected','false')})}
-  function ensureContainers(){var scroll=$('scroll');if(scroll&&!$(VIEW_ID)){var v=document.createElement('div');v.id=VIEW_ID;v.style.display='none';v.innerHTML='<div class="r1475-page" id="r1475-page"></div>';scroll.appendChild(v)}var tabs=$('sub-tabs');if(tabs&&!$(TAB_ID)){var el=document.createElement('div');el.className='sub-tab r1472-module-card r1475-managernotes';el.id=TAB_ID;el.setAttribute('role','tab');el.setAttribute('aria-selected','false');el.innerHTML='<i class="fas fa-right-left"></i><span class="r1472-module-title">الحركات الإدارية</span><small class="r1472-module-desc">محمي</small>';tabs.appendChild(el)}}
-  function hideOtherViews(){['view-list','view-updates','view-quality','view-reports','view-alerts','view-system','view-service','view-jobtitles','view-titlematch'].forEach(function(id){var x=$(id);if(x)x.style.display='none'});var v=$(VIEW_ID);if(v)v.style.display='block';try{document.body.classList.remove('subview-list','subview-updates','subview-quality','subview-reports','subview-alerts','subview-system','subview-service','subview-jobtitles','subview-titlematch');document.body.classList.add('subview-managernotes')}catch(e){}}
-  function setTab(){clearSubActives();var t=$(TAB_ID);if(t){t.querySelector('.r1472-module-title')&&(t.querySelector('.r1472-module-title').textContent='الحركات الإدارية');var sm=t.querySelector('.r1472-module-desc');if(sm)sm.textContent=activeRole()?roleLabel(activeRole()):'محمي';t.setAttribute('aria-selected','true');t.classList.add(mode==='cont'?'cont-sub-active':(mode==='admin'?'admin-sub-active':'perm-sub-active'))}}
-  function renderGate(message){ensureContainers();hideOtherViews();setTab();var page=$(PAGE_ID);if(!page)return;try{document.body.classList.remove('r1492-role-admin','r1492-role-manager')}catch(e){}page.innerHTML='<div class="r1492-lock"><section class="r1492-lock-card"><div class="r1492-lock-head"><div class="r1492-lock-ico"><i class="fas fa-fingerprint"></i></div><div><div class="r1492-lock-title">دخول الحركات الإدارية</div><div class="r1492-lock-sub">اكتب الرمز فقط، وسيتم فتح الواجهة الصحيحة تلقائيًا: مسؤول النظام أو مدير الموارد البشرية.</div></div></div><div class="r1492-role-preview"><div class="r1492-role-card"><i class="fas fa-user-gear"></i><b>مسؤول النظام</b><span>مراجعة، مزامنة، استلام، وأرشفة الحركات الإدارية.</span></div><div class="r1492-role-card"><i class="fas fa-user-tie"></i><b>مدير الموارد البشرية</b><span>إرسال حركة إدارية وبحث موظف مع جلب الشعبة الحالية.</span></div></div><div class="r1492-passbox"><label for="r1492-pass">رمز الدخول</label><div class="r1492-passrow"><input id="r1492-pass" type="password" inputmode="numeric" autocomplete="off" placeholder="••••" aria-label="رمز الدخول للحركات الإدارية"><button type="button" id="r1492-unlock"><i class="fas fa-unlock-keyhole"></i> فتح</button></div><div class="r1492-pass-error '+(message?'show':'')+'" id="r1492-error"><i class="fas fa-triangle-exclamation"></i> '+esc(message||'رمز الدخول غير صحيح')+'</div></div></section></div>';var input=$('r1492-pass'),btn=$('r1492-unlock');function go(){var p=norm(input&&input.value);if(p===ADMIN_PASS){setRole('admin');openMovements();return}if(p===MANAGER_PASS){setRole('manager');openMovements();return}renderGate('رمز الدخول غير صحيح. تأكد من رمز مسؤول النظام أو رمز مدير الموارد البشرية.')}if(btn)btn.onclick=go;if(input){setTimeout(function(){try{input.focus()}catch(e){}},80);input.addEventListener('keydown',function(ev){if(ev.key==='Enter')go()})}}
-    function addRoleBar(role){var page=$(PAGE_ID);if(!page)return;var old=$('r1492-rolebar');if(old)old.remove();var hero=page.querySelector('.r1475-hero');var bar=document.createElement('section');bar.id='r1492-rolebar';bar.className='r1492-rolebar';bar.innerHTML='<div><strong><i class="fas '+(role==='manager'?'fa-user-tie':'fa-user-gear')+'"></i>'+roleLabel(role)+'</strong><span>'+(role==='manager'?'واجهة إرسال الحركات الإدارية فقط، مع بحث مباشر وجلب الشعبة الحالية.':'واجهة استلام ومراجعة الحركات الإدارية فقط، دون نموذج الإرسال.')+'</span></div><button type="button" class="r1492-lockout" id="r1492-lockout"><i class="fas fa-right-from-bracket"></i> خروج</button>';if(hero&&hero.parentNode)hero.parentNode.insertBefore(bar,hero.nextSibling);else page.insertBefore(bar,page.firstChild);var b=$('r1492-lockout');if(b)b.onclick=function(){clearRole();renderGate()}}
-  function hideIdentityPanel(){var panels=document.querySelectorAll('#'+PAGE_ID+' .r1475-panel');Array.prototype.forEach.call(panels,function(p){var tx=norm(p.textContent);if(tx.indexOf('هوية هذا الجهاز')>=0||p.querySelector('#r1475-sender-name'))p.classList.add('r1492-hidden')})}
-  function filterPanels(role){var panels=document.querySelectorAll('#'+PAGE_ID+' .r1475-panel');Array.prototype.forEach.call(panels,function(p){if(p.querySelector('#r1475-sender-name'))p.classList.add('r1492-hidden');if(role==='manager'&&p.querySelector('#r1475-q'))p.classList.add('r1492-hidden');if(role==='admin'&&p.id==='r1475-add-panel')p.classList.add('r1492-hidden')})}
-  function renameVisible(role){var tab=$(TAB_ID);if(tab){var title=tab.querySelector('.r1472-module-title');if(title)title.textContent='الحركات الإدارية';var sub=tab.querySelector('.r1472-module-desc');if(sub)sub.textContent=roleLabel(role)}var page=$(PAGE_ID);if(!page)return;Array.prototype.forEach.call(page.querySelectorAll('.r1475-title,.r1475-panel-title span,.r1475-chip,.r1475-empty,.r1475-local-note,.r1475-sub'),function(el){el.innerHTML=el.innerHTML.replace(/الحركات الإدارية/g,'الحركات الإدارية').replace(/الحركات الإدارية/g,'الحركات الإدارية').replace(/مزامنة الملاحظات/g,'مزامنة الحركات')});var heroTitle=page.querySelector('.r1475-title');if(heroTitle)heroTitle.textContent='الحركات الإدارية';var heroSub=page.querySelector('.r1475-sub');if(heroSub)heroSub.textContent=role==='manager'?'إرسال حركة إدارية من مدير الموارد البشرية إلى مسؤول النظام دون تعديل بيانات الموظفين الرسمية.':'استلام ومراجعة الحركات الإدارية الواردة من مدير الموارد البشرية.'}
-  function enhanceSearch(){var input=$('r1475-emp');if(!input)return;input.removeAttribute('list');input.setAttribute('autocomplete','off');input.setAttribute('inputmode','search');input.setAttribute('placeholder','اكتب حروف اسم الموظف فقط');var dl=$('r1475-employees');if(dl)dl.remove();var field=input.closest('.r1475-field')||input.parentNode;if(field&&!$('r1492-current-division')){var hint=document.createElement('div');hint.id='r1492-current-division';hint.className='r1492-current-division';field.appendChild(hint)}function box(){return $('r1480-emp-results')}function hide(){var b=box();if(b){b.classList.remove('show');b.innerHTML=''}}function setDiv(e){if(!e)return;var name=empName(e),div=empDivision(e);var from=$('r1475-from');if(from)from.value=div||'';input.dataset.employeeName=name;input.dataset.employeeDivision=div;var h=$('r1492-current-division');if(h)h.innerHTML=div?'<i class="fas fa-location-dot"></i> الموظف المختار: <b>'+esc(name)+'</b> — الشعبة الحالية: <b>'+esc(div)+'</b>':'<i class="fas fa-circle-info"></i> الموظف المختار: <b>'+esc(name)+'</b> — الشعبة الحالية غير محددة'}if(!input.getAttribute('data-r1493-search-hardening')){input.setAttribute('data-r1493-search-hardening','1');input.addEventListener('focus',function(){setTimeout(hide,0);setTimeout(hide,25);setTimeout(hide,80)},true);input.addEventListener('click',function(){if(!norm(input.value)){setTimeout(hide,0);setTimeout(hide,25);setTimeout(hide,80)}},true);input.addEventListener('input',function(){var v=norm(input.value);if(!v){var from=$('r1475-from');if(from)from.value='';var h=$('r1492-current-division');if(h)h.innerHTML='';delete input.dataset.employeeName;delete input.dataset.employeeDivision;hide();return}var exact=findExactEmployee(v);if(exact)setDiv(exact)},true)}document.addEventListener('click',function(ev){var opt=ev.target&&ev.target.closest?ev.target.closest('.r1480-emp-option'):null;if(!opt)return;var nm=opt.getAttribute('data-r1480-name')||'';var dv=opt.getAttribute('data-r1480-division')||'';setTimeout(function(){if(nm){input.value=nm;var emp=findExactEmployee(nm)||{name:nm,division:dv};setDiv(emp)}var b=box();if(b){b.classList.remove('show');b.innerHTML=''}},0)},true)}
-    function polish(){var role=activeRole();if(!role)return;try{document.body.classList.toggle('r1492-role-admin',role==='admin');document.body.classList.toggle('r1492-role-manager',role==='manager')}catch(e){}setRole(role);renameVisible(role);addRoleBar(role);hideIdentityPanel();filterPanels(role);enhanceSearch();setTab()}
-  function openMovements(){var role=activeRole();if(!role){renderGate();return}setRole(role);if(typeof window.__r1492BaseOpenMovements==='function'){window.__r1492BaseOpenMovements()}else if(typeof window.r1475OpenManagerNotes==='function'&&window.r1475OpenManagerNotes!==openMovements){window.r1475OpenManagerNotes()}else{ensureContainers();hideOtherViews()}[0,80,220,600].forEach(function(t){setTimeout(polish,t)})}
-  function install(){ensureContainers();var tab=$(TAB_ID);if(tab){tab.onclick=function(ev){if(ev){ev.preventDefault();ev.stopPropagation()}openMovements();return false};var title=tab.querySelector('.r1472-module-title');if(title)title.textContent='الحركات الإدارية'}if(typeof window.r1475OpenManagerNotes==='function'&&window.r1475OpenManagerNotes!==openMovements&&!window.__r1492BaseOpenMovements){window.__r1492BaseOpenMovements=window.r1475OpenManagerNotes;window.r1475OpenManagerNotes=openMovements}var oldSwitch=window.switchSub;if(typeof oldSwitch==='function'&&!oldSwitch.__r1492Wrapped){var wrapped=function(v){if(v==='managernotes'){openMovements();return}return oldSwitch.apply(this,arguments)};wrapped.__r1492Wrapped=true;window.switchSub=wrapped;try{switchSub=wrapped}catch(e){}}if(activeRole()&&document.body.classList.contains('subview-managernotes'))setTimeout(polish,80)}
-  document.addEventListener('click',function(ev){var tab=ev.target&&ev.target.closest?ev.target.closest('#'+TAB_ID):null;if(tab){ev.preventDefault();ev.stopPropagation();openMovements()}},true);
-  document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,300);setTimeout(install,1200)});window.addEventListener('load',function(){install();setTimeout(install,500)});window.addEventListener('pageshow',function(){install();if(document.body.classList.contains('subview-managernotes')){activeRole()?openMovements():renderGate()}});try{new MutationObserver(function(){clearTimeout(window.__r1492InstallT);window.__r1492InstallT=setTimeout(install,90);if(document.body.classList.contains('subview-managernotes')){clearTimeout(window.__r1492PolishT);window.__r1492PolishT=setTimeout(polish,120)}}).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
-  window.r1492AdministrativeMovements={release:RELEASE,open:openMovements,lock:function(){clearRole();renderGate()},polish:polish,adminPass:ADMIN_PASS,managerPass:MANAGER_PASS};
-})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1492-admin-movements-role-gate-script -->
 
 
 <style id="r1494-admin-movements-hard-fix-style">
@@ -6760,62 +6507,7 @@ body.light-mode .r1492-passrow input{background:#fff!important;color:#0f172a!imp
 .r1472-program-grid .sub-tab::before,.r1472-program-grid .sub-tab::after,.r1472-module-card::before,.r1472-module-card::after{animation:none!important;transition:none!important}
 body.light-mode #r1480-emp-results{background:#fff;border-color:rgba(15,23,42,.12);box-shadow:0 18px 42px rgba(15,23,42,.16)}body.light-mode .r1480-emp-name{color:#0f172a}body.light-mode .r1480-emp-division{color:#64748b}body.light-mode .r1480-emp-option:active,body.light-mode .r1480-emp-option:focus{background:#f8fafc}
 </style>
-<script id="r1494-admin-movements-hard-fix-script">
-// MOBILE R1.4.94: hard patch. Native datalist is removed; only typed custom results are shown, with current division pickup.
-(function(){
-  var RELEASE='MOBILE-R1.4.94-ADMIN-MOVEMENTS-HARD-FIX';
-  var ADMIN_PASS='9914', MANAGER_PASS='2026', SESSION='hr_admin_movements_role_r1492', IDENT='hr_device_identity_r1475';
-  function $(id){return document.getElementById(id)}
-  function norm(v){return String(v==null?'':v).replace(/\\n/g,' ').replace(/\n/g,' ').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
-  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function allEmployees(){try{return (BASE.perm||[]).concat(BASE.cont||[])}catch(e){return []}}
-  function empName(e){return norm(e&&(e.name||e.fullName||e['الاسم الكامل']||e.employeeName))}
-  function empDivision(e){return norm(e&&(e.division||e.currentDivision||e.branch||e.department||e.section||e['الشعبة']||e['الشعبة / القسم']||e['القسم']))}
-  function roleLabel(r){return r==='manager'?'مدير الموارد البشرية':'مسؤول النظام'}
-  function setRole(r){try{sessionStorage.setItem(SESSION,r);localStorage.setItem(IDENT,JSON.stringify({role:r,name:roleLabel(r),updatedAt:new Date().toISOString(),changedBy:'r1494'}))}catch(e){}}
-  function activeCls(){return (typeof mode!=='undefined'&&mode==='cont')?'cont-sub-active':((typeof mode!=='undefined'&&mode==='admin')?'admin-sub-active':'perm-sub-active')}
-  function selectListDefault(){var inList=document.body.classList.contains('subview-list')||!/subview-(updates|quality|reports|alerts|system|service|jobtitles|titlematch|managernotes)/.test(document.body.className||'');if(!inList)return;Array.prototype.forEach.call(document.querySelectorAll('.sub-tab,.r1472-module-card'),function(t){t.classList.remove('perm-sub-active','cont-sub-active','admin-sub-active');t.setAttribute('aria-selected','false')});var list=$('stab-list');if(list){list.classList.add(activeCls());list.setAttribute('aria-selected','true')}}
-  function clearActives(forceAdmin){var inNotes=!!forceAdmin||document.body.classList.contains('subview-managernotes');if(!inNotes){selectListDefault();return}Array.prototype.forEach.call(document.querySelectorAll('.sub-tab,.r1472-module-card'),function(t){t.classList.remove('perm-sub-active','cont-sub-active','admin-sub-active');t.setAttribute('aria-selected','false')});var t=$('stab-managernotes');if(t){t.classList.add(activeCls());t.setAttribute('aria-selected','true')}}
-  function cleanTextNodes(root){try{Array.prototype.forEach.call((root||document).querySelectorAll('*'),function(el){if(el.childNodes&&el.childNodes.length){Array.prototype.forEach.call(el.childNodes,function(n){if(n.nodeType===3&&/\\n|\n/.test(n.nodeValue||''))n.nodeValue=String(n.nodeValue||'').replace(/\\n/g,' ').replace(/\n/g,' ')})}})}catch(e){}}
-  function minimalGate(message){
-    try{if(typeof window.r1477ClearManagerNotesView==='function'){} }catch(e){}
-    var page=$('r1475-page'), view=$('view-managernotes'), scroll=$('scroll');
-    if(!page&&scroll){if(!view){view=document.createElement('div');view.id='view-managernotes';scroll.appendChild(view)}view.style.display='block';view.innerHTML='<div class="r1475-page" id="r1475-page"></div>';page=$('r1475-page')}
-    if(!page)return false;
-    try{document.body.classList.add('subview-managernotes');document.body.classList.remove('subview-list','subview-updates','subview-quality','subview-reports','subview-alerts','subview-system','subview-service','subview-jobtitles','subview-titlematch','r1492-role-admin','r1492-role-manager')}catch(e){}
-    ['view-list','view-updates','view-quality','view-reports','view-alerts','view-system','view-service','view-jobtitles','view-titlematch'].forEach(function(id){var x=$(id);if(x)x.style.display='none'});if(view)view.style.display='block';clearActives();
-    page.innerHTML='<div class="r1492-lock"><section class="r1492-lock-card"><div class="r1492-lock-head"><div class="r1492-lock-ico"><i class="fas fa-lock"></i></div><div class="r1492-lock-title">الحركات الإدارية</div></div><div class="r1492-passbox"><label for="r1492-pass">اكتب رمز الدخول</label><div class="r1492-passrow"><input id="r1492-pass" type="password" inputmode="numeric" autocomplete="off" placeholder="••••"><button type="button" id="r1492-unlock"><i class="fas fa-unlock-keyhole"></i> دخول</button></div><div class="r1492-pass-error '+(message?'show':'')+'" id="r1492-error"><i class="fas fa-triangle-exclamation"></i> '+esc(message||'رمز الدخول غير صحيح')+'</div></div></section></div>';
-    var input=$('r1492-pass'), btn=$('r1492-unlock');
-    function go(){var p=norm(input&&input.value);if(p===ADMIN_PASS){setRole('admin');openBase();return}if(p===MANAGER_PASS){setRole('manager');openBase();return}minimalGate('رمز الدخول غير صحيح')}
-    if(btn)btn.onclick=go;if(input){setTimeout(function(){try{input.focus()}catch(e){}},60);input.addEventListener('keydown',function(ev){if(ev.key==='Enter')go()})}
-    return true;
-  }
-  function openBase(){try{if(window.r1492AdministrativeMovements&&typeof window.r1492AdministrativeMovements.open==='function'){window.r1492AdministrativeMovements.open();setTimeout(harden,80);setTimeout(harden,250);setTimeout(harden,700);return}}catch(e){}try{if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes()}catch(e){}setTimeout(harden,80);setTimeout(harden,250);setTimeout(harden,700)}
-  function hardenGateIfVisible(){var page=$('r1475-page');if(!page)return;var lock=page.querySelector('.r1492-lock');if(lock&&!sessionStorage.getItem(SESSION)){minimalGate();}}
-  function ensureSearch(){
-    var input=$('r1475-emp');if(!input)return;
-    input.removeAttribute('list');input.removeAttribute('data-r1480-picker');input.removeAttribute('data-r1493-search-hardening');input.setAttribute('type','search');input.setAttribute('autocomplete','off');input.setAttribute('inputmode','search');input.setAttribute('autocapitalize','off');input.setAttribute('spellcheck','false');input.setAttribute('placeholder','اكتب حروف اسم الموظف فقط');
-    var dl=$('r1475-employees');if(dl)dl.remove();
-    var field=input.closest('.r1475-field')||input.parentNode;if(!field)return;field.classList.add('r1480-emp-picker');
-    var box=$('r1480-emp-results');if(!box){box=document.createElement('div');box.id='r1480-emp-results';box.className='r1480-emp-results';field.appendChild(box)}else if(box.parentNode!==field){field.appendChild(box)}
-    var hint=$('r1492-current-division');if(!hint){hint=document.createElement('div');hint.id='r1492-current-division';hint.className='r1492-current-division';field.appendChild(hint)}
-    function hide(){box.classList.remove('show');box.innerHTML=''}
-    function setPicked(e){var name=empName(e), div=empDivision(e);input.value=name;input.dataset.employeeName=name;input.dataset.employeeDivision=div;var from=$('r1475-from');if(from){from.value=div||'';from.dispatchEvent(new Event('input',{bubbles:true}));from.dispatchEvent(new Event('change',{bubbles:true}))}hint.innerHTML=div?'<i class="fas fa-location-dot"></i> الموظف المختار: <b>'+esc(name)+'</b> — الشعبة الحالية: <b>'+esc(div)+'</b>':'<i class="fas fa-circle-info"></i> الموظف المختار: <b>'+esc(name)+'</b> — الشعبة الحالية غير محددة';hide();var to=$('r1475-to');if(to)try{to.focus()}catch(x){}}
-    function render(){var q=norm(input.value).toLowerCase();if(!q){var from=$('r1475-from');if(from)from.value='';hint.innerHTML='';hide();return}var rows=allEmployees().filter(function(e){var n=empName(e), d=empDivision(e), no=norm(e&&e.employeeNo), num=norm(e&&e.num);return (n+' '+d+' '+no+' '+num).toLowerCase().indexOf(q)>=0}).slice(0,35);box.innerHTML=rows.length?rows.map(function(e,i){return '<button type="button" class="r1480-emp-option" data-r1494-pick="'+i+'"><span class="r1480-emp-icon"><i class="fas fa-user"></i></span><span class="r1480-emp-main"><span class="r1480-emp-name">'+esc(empName(e)||'—')+'</span><span class="r1480-emp-division">'+esc(empDivision(e)||'الشعبة غير محددة')+'</span></span></button>'}).join(''):'<div class="r1480-emp-empty"><i class="fas fa-magnifying-glass"></i> لا توجد نتائج مطابقة</div>';box.classList.add('show');Array.prototype.forEach.call(box.querySelectorAll('[data-r1494-pick]'),function(btn){btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();setPicked(rows[Number(btn.getAttribute('data-r1494-pick'))]||{})}})}
-    if(input.__r1494Bound!==true){input.__r1494Bound=true;input.addEventListener('focus',function(){if(!norm(input.value))hide()},true);input.addEventListener('click',function(ev){if(!norm(input.value))hide()},true);input.addEventListener('input',render,true);input.addEventListener('change',function(){var q=norm(input.value).toLowerCase();var e=allEmployees().find(function(x){return empName(x).toLowerCase()===q});if(e)setPicked(e)},true);document.addEventListener('pointerdown',function(ev){if(field&&!field.contains(ev.target))hide()},true)}
-  }
-  function harden(){
-    cleanTextNodes(document);var inNotes=document.body.classList.contains('subview-managernotes');if(inNotes){hardenGateIfVisible();clearActives(true)}else{clearActives(false)}
-    var role='';try{role=sessionStorage.getItem(SESSION)||''}catch(e){}
-    if(role&&inNotes){try{document.body.classList.toggle('r1492-role-admin',role==='admin');document.body.classList.toggle('r1492-role-manager',role==='manager')}catch(e){}ensureSearch();}
-    var tab=$('stab-managernotes');if(tab){var title=tab.querySelector('.r1472-module-title');if(title)title.textContent='الحركات الإدارية';var sub=tab.querySelector('.r1472-module-desc');if(sub)sub.textContent=role&&inNotes?roleLabel(role):'محمي'}
-  }
-  document.addEventListener('click',function(ev){var tab=ev.target&&ev.target.closest?ev.target.closest('#stab-managernotes'):null;if(tab&&!sessionStorage.getItem(SESSION)){ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();minimalGate();return false}},true);
-  document.addEventListener('DOMContentLoaded',function(){setTimeout(harden,120);setTimeout(harden,600);setTimeout(harden,1400)});window.addEventListener('load',function(){setTimeout(harden,120);setTimeout(harden,900)});window.addEventListener('pageshow',function(){setTimeout(harden,160)});
-  try{new MutationObserver(function(){clearTimeout(window.__r1494HardT);window.__r1494HardT=setTimeout(harden,180)}).observe(document.documentElement,{childList:true,subtree:true,characterData:true})}catch(e){}
-  window.r1494AdminMovementsHardFix={release:RELEASE,gate:minimalGate,harden:harden};
-})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1494-admin-movements-hard-fix-script -->
 
 
 
@@ -6840,40 +6532,7 @@ body.light-mode #r1480-emp-results.r1495-show{background:#fff!important;border-c
 .r1495-search-foot{font:800 7.5px var(--hr-body-font);color:rgba(226,237,255,.58);padding:6px 8px 3px;text-align:center}
 body.light-mode .r1495-search-foot{color:#64748b}
 </style>
-<script id="r1495-admin-movements-search-gate-default-script">
-// MOBILE R1.4.95: fixes live employee search, default program card, isolated password gate, and card flicker.
-(function(){
-  var RELEASE='MOBILE-R1.4.95-ADMIN-MOVEMENTS-SEARCH-GATE-DEFAULT-FIX';
-  var SESSION='hr_admin_movements_role_r1492';
-  function $(id){return document.getElementById(id)}
-  function norm(v){return String(v==null?'':v).replace(/\\n/g,' ').replace(/\n/g,' ').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
-  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function employees(){try{return (BASE.perm||[]).concat(BASE.cont||[])}catch(e){return []}}
-  function empName(e){return norm(e&&(e.name||e.fullName||e.employeeName||e['الاسم الكامل']))}
-  function empDivision(e){return norm(e&&(e.division||e.currentDivision||e.branch||e.department||e.section||e['الشعبة']||e['الشعبة / القسم']||e['القسم']))}
-  function empKeys(e){return [empName(e),empDivision(e),norm(e&&e.employeeNo),norm(e&&e.num),norm(e&&e.integrationId),norm(e&&e.sourceEmployeeId)].join(' ').toLowerCase()}
-  function inNotes(){return document.body.classList.contains('subview-managernotes')}
-  function hasRole(){try{return !!sessionStorage.getItem(SESSION)}catch(e){return false}}
-  function activeCls(){try{return (typeof mode!=='undefined'&&mode==='cont')?'cont-sub-active':((typeof mode!=='undefined'&&mode==='admin')?'admin-sub-active':'perm-sub-active')}catch(e){return 'perm-sub-active'}}
-  function clearActiveCards(){Array.prototype.forEach.call(document.querySelectorAll('.sub-tab,.r1472-module-card'),function(t){t.classList.remove('perm-sub-active','cont-sub-active','admin-sub-active');t.setAttribute('aria-selected','false')})}
-  function selectListDefault(){if(inNotes())return;var isList=document.body.classList.contains('subview-list')||!/subview-(updates|quality|reports|alerts|system|service|jobtitles|titlematch)/.test(document.body.className||'');if(!isList)return;clearActiveCards();var list=$('stab-list');if(list){list.classList.add(activeCls());list.setAttribute('aria-selected','true')}var mv=$('stab-managernotes');if(mv){var sub=mv.querySelector('.r1472-module-desc');if(sub)sub.textContent='محمي'}}
-  function gateOnly(){var gate=document.querySelector('#r1475-page .r1492-lock');var on=inNotes()&&gate&&!hasRole();document.body.classList.toggle('r1495-pass-gate',!!on);if(on){['view-list','view-updates','view-quality','view-reports','view-alerts','view-system','view-service','view-jobtitles','view-titlematch'].forEach(function(id){var x=$(id);if(x)x.style.display='none'});var v=$('view-managernotes');if(v)v.style.display='block';clearActiveCards();var m=$('stab-managernotes');if(m){m.classList.add(activeCls());m.setAttribute('aria-selected','true')}}}
-  function showSearchBox(input,rows){var field=input.closest('.r1475-field')||input.parentNode;if(!field)return;field.classList.add('r1480-emp-picker');var box=$('r1480-emp-results');if(!box){box=document.createElement('div');box.id='r1480-emp-results';box.className='r1480-emp-results';field.appendChild(box)}else if(box.parentNode!==field){field.appendChild(box)}box.classList.remove('show');box.classList.add('r1495-show');box.innerHTML=rows.length?rows.map(function(e,i){return '<button type="button" class="r1480-emp-option" data-r1495-pick="'+i+'"><span class="r1480-emp-icon"><i class="fas fa-user"></i></span><span class="r1480-emp-main"><span class="r1480-emp-name">'+esc(empName(e)||'—')+'</span><span class="r1480-emp-division">'+esc(empDivision(e)||'الشعبة غير محددة')+'</span></span></button>'}).join('')+'<div class="r1495-search-foot">اختر الاسم من النتائج حتى يتم جلب الشعبة الحالية تلقائيًا</div>':'<div class="r1480-emp-empty"><i class="fas fa-magnifying-glass"></i> لا توجد نتائج مطابقة</div>';
-    Array.prototype.forEach.call(box.querySelectorAll('[data-r1495-pick]'),function(btn){btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();pick(rows[Number(btn.getAttribute('data-r1495-pick'))]||{})}})
-  }
-  function hideSearch(){var b=$('r1480-emp-results');if(b){b.classList.remove('show','r1495-show');b.innerHTML=''}}
-  function pick(e){var input=$('r1475-emp');if(!input)return;var name=empName(e),div=empDivision(e);input.value=name;input.dataset.employeeName=name;input.dataset.employeeDivision=div;var from=$('r1475-from');if(from){from.value=div||'';try{from.dispatchEvent(new Event('input',{bubbles:true}));from.dispatchEvent(new Event('change',{bubbles:true}))}catch(x){}}var hint=$('r1492-current-division');if(!hint){var field=input.closest('.r1475-field')||input.parentNode;hint=document.createElement('div');hint.id='r1492-current-division';hint.className='r1492-current-division';if(field)field.appendChild(hint)}if(hint)hint.innerHTML=div?'<i class="fas fa-location-dot"></i> الموظف المختار: <b>'+esc(name)+'</b> — الشعبة الحالية: <b>'+esc(div)+'</b>':'<i class="fas fa-circle-info"></i> الموظف المختار: <b>'+esc(name)+'</b> — الشعبة الحالية غير محددة';hideSearch();var to=$('r1475-to');if(to)try{to.focus()}catch(x){}
-  }
-  function renderSearch(){var input=$('r1475-emp');if(!input)return;input.removeAttribute('list');input.setAttribute('autocomplete','off');input.setAttribute('inputmode','search');input.setAttribute('type','search');var q=norm(input.value).toLowerCase();if(!q){delete input.dataset.employeeName;delete input.dataset.employeeDivision;var from=$('r1475-from');if(from)from.value='';var hint=$('r1492-current-division');if(hint)hint.innerHTML='';hideSearch();return}var rows=employees().filter(function(e){return empKeys(e).indexOf(q)>=0}).sort(function(a,b){var an=empName(a).toLowerCase(),bn=empName(b).toLowerCase(),as=an.indexOf(q)===0,bs=bn.indexOf(q)===0;return as===bs?an.localeCompare(bn,'ar'):as?-1:1}).slice(0,40);showSearchBox(input,rows)}
-  function bindSearch(){var input=$('r1475-emp');if(!input||input.__r1495Bound)return;if(input.__r1494Bound)input.__r1494Bound=false;input.__r1495Bound=true;input.removeAttribute('list');input.setAttribute('autocomplete','off');input.addEventListener('focus',function(){if(!norm(input.value))hideSearch()},true);input.addEventListener('input',function(){setTimeout(renderSearch,0)},true);input.addEventListener('keyup',function(){setTimeout(renderSearch,0)},true);input.addEventListener('compositionend',function(){setTimeout(renderSearch,0)},true)}
-  document.addEventListener('input',function(ev){if(ev.target&&ev.target.id==='r1475-emp')setTimeout(renderSearch,0)},true);
-  document.addEventListener('click',function(ev){var mv=ev.target&&ev.target.closest?ev.target.closest('#stab-managernotes'):null;if(mv){setTimeout(gateOnly,0);setTimeout(gateOnly,80);setTimeout(gateOnly,250);return}var list=ev.target&&ev.target.closest?ev.target.closest('#stab-list'):null;if(list){setTimeout(selectListDefault,0);setTimeout(selectListDefault,120)}},true);
-  document.addEventListener('pointerdown',function(ev){var f=$('r1475-emp');var b=$('r1480-emp-results');if(f&&b&&b.classList.contains('r1495-show')){var field=f.closest('.r1475-field')||f.parentNode;if(field&&!field.contains(ev.target))hideSearch()}},true);
-  function tick(){if(inNotes()){gateOnly();bindSearch()}else{document.body.classList.remove('r1495-pass-gate');selectListDefault()} }
-  document.addEventListener('DOMContentLoaded',function(){setTimeout(tick,80);setTimeout(tick,500);setTimeout(tick,1200)});window.addEventListener('load',function(){setTimeout(tick,100);setTimeout(tick,900)});window.addEventListener('pageshow',function(){setTimeout(tick,100)});try{new MutationObserver(function(){clearTimeout(window.__r1495FixT);window.__r1495FixT=setTimeout(tick,90)}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']})}catch(e){}
-  window.r1495AdminMovementsSearchGateDefaultFix={release:RELEASE,renderSearch:renderSearch,selectListDefault:selectListDefault,gateOnly:gateOnly};
-})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1495-admin-movements-search-gate-default-script -->
 
 
 <style id="r1496-program-cards-scroll-style">
@@ -7220,7 +6879,7 @@ body.light-mode:not(.r1495-pass-gate) #r1416-nav-card.r1472-dashboard-pro.r1498-
   function activeClass(){try{return mode==='cont'?'cont-sub-active':(mode==='admin'?'admin-sub-active':'perm-sub-active')}catch(e){return 'perm-sub-active'}}
   function clearActive(){Array.prototype.forEach.call(document.querySelectorAll('#sub-tabs .sub-tab'),function(t){t.classList.remove('perm-sub-active','cont-sub-active','admin-sub-active');t.setAttribute('aria-selected','false')})}
   function moduleHTML(m){return '<i class="fas '+m.icon+'"></i><span class="r1472-module-title">'+m.label+'</span><small class="r1472-module-desc">'+m.desc+'</small>'+(m.id==='alerts'?'<span class="sub-alert-badge" id="sub-alert-badge">0</span>':'')+(m.id==='system'?'<span class="system-dot" id="system-tab-dot"></span>':'')}
-  function ensureModule(grid,m){var id=m.id==='managernotes'?'stab-managernotes':'stab-'+m.id;var el=$(id);if(!el){el=document.createElement('div');el.id=id;el.setAttribute('role','tab');grid.appendChild(el)}else if(el.parentNode!==grid){grid.appendChild(el)}el.classList.add('sub-tab','r1472-module-card','r1472-'+m.id);if(m.id==='managernotes')el.classList.add('r1475-managernotes');if(!el.querySelector('.r1472-module-title')||!el.querySelector('i'))el.innerHTML=moduleHTML(m);else{var title=el.querySelector('.r1472-module-title');if(title)title.textContent=m.label;var desc=el.querySelector('.r1472-module-desc');if(desc)desc.textContent=m.id==='managernotes'?'محمي':m.desc}el.style.display='';el.style.visibility='';el.style.opacity='';el.style.transform='';el.setAttribute('aria-selected',el.className.indexOf('sub-active')>=0?'true':'false');el.onclick=function(ev){if(m.id==='managernotes'){ev.preventDefault();ev.stopPropagation();try{var has=!!sessionStorage.getItem(SESSION);if(has&&window.r1492AdministrativeMovements&&typeof window.r1492AdministrativeMovements.open==='function'){window.r1492AdministrativeMovements.open();return}if(window.r1494AdminMovementsHardFix&&typeof window.r1494AdminMovementsHardFix.gate==='function'){window.r1494AdminMovementsHardFix.gate();return}if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes();}catch(e){}return false}try{if(typeof switchSub==='function')switchSub(m.id)}catch(e){}setTimeout(fix,50)};return el}
+  function ensureModule(grid,m){var id=m.id==='managernotes'?'stab-managernotes':'stab-'+m.id;var el=$(id);if(!el){el=document.createElement('div');el.id=id;el.setAttribute('role','tab');grid.appendChild(el)}else if(el.parentNode!==grid){grid.appendChild(el)}el.classList.add('sub-tab','r1472-module-card','r1472-'+m.id);if(m.id==='managernotes')el.classList.add('r1475-managernotes');if(!el.querySelector('.r1472-module-title')||!el.querySelector('i'))el.innerHTML=moduleHTML(m);else{var title=el.querySelector('.r1472-module-title');if(title)title.textContent=m.label;var desc=el.querySelector('.r1472-module-desc');if(desc)desc.textContent=m.id==='managernotes'?'محمي':m.desc}el.style.display='';el.style.visibility='';el.style.opacity='';el.style.transform='';el.setAttribute('aria-selected',el.className.indexOf('sub-active')>=0?'true':'false');el.onclick=function(ev){if(m.id==='managernotes'){ev.preventDefault();ev.stopPropagation();if(typeof window.hrSecureNotesOpen==='function')window.hrSecureNotesOpen();return false}try{if(typeof switchSub==='function')switchSub(m.id)}catch(e){}setTimeout(fix,50)};return el}
   function selectListIfNone(){var grid=$('sub-tabs');if(!grid||inGate())return;var active=grid.querySelector('.perm-sub-active,.cont-sub-active,.admin-sub-active');if(!active||active.id==='stab-managernotes'){clearActive();var list=$('stab-list');if(list){list.classList.add(activeClass());list.setAttribute('aria-selected','true')}}}
   function fix(){var nav=$('r1416-nav-card'), grid=$('sub-tabs'), mod=$('r1416-module-section');if(!nav||!grid||!mod)return;if(inGate())return;nav.classList.add('r1472-dashboard-pro','r1497-split-dashboard','r1498-visible-split');mod.classList.add('r1497-modules-section','r1498-modules-panel');var sections=Array.prototype.filter.call(nav.children||[],function(el){return el&&el.classList&&el.classList.contains('r1416-nav-section')});if(sections[0])sections[0].classList.add('r1497-scope-section','r1498-scope-panel');grid.classList.add('r1472-program-grid','r1497-modules-scrollbox','r1498-program-scrollbox');grid.setAttribute('data-r1498-scroll','visible-hard-enabled');grid.removeAttribute('hidden');grid.style.display='';grid.style.visibility='';grid.style.opacity='';grid.style.transform='';MODULES.forEach(function(m){ensureModule(grid,m)});selectListIfNone();var cap=mod.querySelector('.r1416-nav-caption');if(cap){var old=cap.querySelector('.r1496-scroll-note,.r1497-scroll-note,.r1498-scroll-note');if(old&&old.className!=='r1498-scroll-note')old.remove();if(!cap.querySelector('.r1498-scroll-note')){var note=document.createElement('small');note.className='r1498-scroll-note';note.innerHTML='<i class="fas fa-up-down"></i> مرّر كروت الأقسام هنا';cap.appendChild(note)}}}
   document.addEventListener('DOMContentLoaded',function(){setTimeout(fix,40);setTimeout(fix,260);setTimeout(fix,900);setTimeout(fix,1800)});
@@ -8123,9 +7782,7 @@ window.r1505NotesChromeCountsHeaderFix={release:RELEASE,fix:tick,visibleLog:visi
 
 
 <!-- MOBILE R1.5.06: manager notes smart sync throttle -->
-<script id="r1506-manager-notes-smart-sync-throttle-script">
-(function(){window.r1506ManagerNotesSmartSyncThrottle={release:'MOBILE-R1.5.06',autoSyncMinutes:10,manualCooldownSeconds:6,mode:'quiet-auto-manual-force'};})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1506-manager-notes-smart-sync-throttle-script -->
 
 <!-- MOBILE R1.5.07: safe independent floating show/hide toggle for top/bottom chrome -->
 <style id="r1507-chrome-safe-floating-toggle-style">
@@ -9304,7 +8961,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
   var SW_URL='service-worker.js?v=15102';
-  var KEEP_CACHE='employee-registry-ui-r15102';
+  var KEEP_CACHE='employee-registry-ui-r15103';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -10126,217 +9783,7 @@ window.r1546OfficialDataContract={
 })();
 </script>\n
 <!-- MOBILE R1.5.47: shared review state across all HR manager devices -->
-<script id="r1547-manager-notes-shared-review-state-script">
-(function(){
-'use strict';
-var RELEASE='MOBILE-R1.5.47-SHARED-REVIEW-STATE';
-var STORE='hr_manager_notes_r1475';
-var IDENT='hr_device_identity_r1475';
-var SYNC='hr_manager_notes_sync_r1476';
-var DEV='hr_device_id_r1476';
-var DELETED='hr_manager_notes_deleted_r1480';
-var suppressSyncUntil=0;
-var busy=false;
-
-function cfg(){
-  var sc=document.getElementById('r1476-manager-notes-sync-script');
-  var txt=sc?String(sc.textContent||''):'';
-  var em=txt.match(/var\s+ENDPOINT='([^']+)'/);
-  var km=txt.match(/var\s+API_KEY='([^']+)'/);
-  return {endpoint:em&&em[1]?em[1]:'',key:km&&km[1]?km[1]:''};
-}
-function load(k,fb){try{var x=JSON.parse(localStorage.getItem(k)||'');return x==null?fb:x}catch(e){return fb}}
-function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-function notes(){var a=load(STORE,[]);return Array.isArray(a)?a:[]}
-function norm(v){return String(v==null?'':v).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
-function nowText(){var d=new Date(),p=function(n){return String(n).padStart(2,'0')};return d.getFullYear()+'/'+p(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())}
-function identity(){var x=load(IDENT,{});return x&&x.role?x:{role:'admin',name:'مسؤول النظام'}}
-function deviceId(){var x='';try{x=localStorage.getItem(DEV)||''}catch(e){}return x}
-function toast(m,t){try{if(typeof showToast==='function')showToast(m,t||'ok')}catch(e){}}
-function remoteType(t){t=norm(t);if(t==='نقل')return'transfer';if(t==='تنسيب')return'assignment';if(t==='إنهاء تنسيب')return'return';if(['transfer','assignment','return','note'].indexOf(t)>=0)return t;return'note'}
-function typeLabel(t){return t==='transfer'?'نقل':t==='assignment'?'تنسيب':t==='return'?'إنهاء تنسيب':'ملاحظة'}
-function sig(n){return [norm(n.employeeName),norm(n.type),norm(n.fromBranch),norm(n.toBranch),norm(n.text)].join('|').toLowerCase()}
-function normalizeRemote(r){
-  var type=remoteType(r.movementType||r.type);
-  return {
-    id:norm(r.id)||('REMOTE-'+sig(r)),
-    employeeName:norm(r.employeeName),
-    type:type,
-    fromBranch:norm(r.fromBranch),
-    toBranch:norm(r.toBranch),
-    text:norm(r.note||r.text),
-    sender:norm(r.senderName||r.sender)||'مدير الموارد البشرية',
-    senderRole:norm(r.senderRole)||'manager',
-    createdAt:norm(r.createdAt)||'',
-    status:norm(r.status)==='reviewed'?'reviewed':'new',
-    source:'remote',
-    deviceId:norm(r.deviceId),
-    reviewedAt:norm(r.reviewedAt),
-    reviewedBy:norm(r.reviewedBy)
-  };
-}
-function deletedMap(){
-  var m={};var a=load(DELETED,[]);
-  if(Array.isArray(a))a.forEach(function(k){if(k)m[String(k)]=1});
-  return m;
-}
-function mergeAuthoritative(remote){
-  var local=notes(),out=[],seen={},deleted=deletedMap();
-  (remote||[]).map(normalizeRemote).forEach(function(n){
-    if(!n.employeeName&&!n.text)return;
-    var k=n.id||sig(n),s=sig(n);
-    if(seen[k]||seen[s])return;
-    seen[k]=1;seen[s]=1;
-    out.push(n);
-  });
-
-  // Keep only truly local/pending notes that have not yet appeared on the server.
-  // Remote-source rows absent from the server are not resurrected from stale local cache.
-  local.forEach(function(n){
-    var source=String(n&&n.source||'');
-    if(source==='remote')return;
-    if(n&&n.status==='reviewed')return;
-    var k=n&&n.id?n.id:sig(n),s=sig(n||{});
-    if(deleted[k]||deleted[s])return;
-    if(seen[k]||seen[s])return;
-    seen[k]=1;seen[s]=1;
-    out.push(n);
-  });
-
-  save(STORE,out);
-  return out;
-}
-function jsonp(params,timeoutMs){
-  timeoutMs=timeoutMs||15000;
-  return new Promise(function(resolve,reject){
-    var c=cfg();
-    if(!c.endpoint||!c.key){reject(new Error('manager notes config missing'));return}
-    var cb='__r1547Notes_'+Date.now()+'_'+Math.random().toString(36).slice(2);
-    var sc=document.createElement('script'),done=false,timer;
-    params=params||{};
-    params.key=c.key;
-    params.callback=cb;
-    params.t=Date.now();
-    function cleanup(){try{delete window[cb]}catch(e){window[cb]=undefined}try{sc.remove()}catch(e){}}
-    window[cb]=function(data){if(done)return;done=true;clearTimeout(timer);cleanup();resolve(data||{})};
-    sc.onerror=function(){if(done)return;done=true;clearTimeout(timer);cleanup();reject(new Error('manager notes request failed'))};
-    timer=setTimeout(function(){if(done)return;done=true;cleanup();reject(new Error('manager notes request timeout'))},timeoutMs);
-    var q=Object.keys(params).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(params[k]==null?'':params[k])}).join('&');
-    sc.async=true;
-    sc.src=c.endpoint+(c.endpoint.indexOf('?')>=0?'&':'?')+q;
-    document.head.appendChild(sc);
-  });
-}
-function refreshView(){
-  if(!document.body.classList.contains('subview-managernotes'))return;
-  if(typeof window.r1475OpenManagerNotes!=='function')return;
-  suppressSyncUntil=Date.now()+1300;
-  try{window.r1475OpenManagerNotes()}catch(e){}
-}
-async function syncNow(manual,force){
-  if(Date.now()<suppressSyncUntil&&!manual)return true;
-  if(busy)return false;
-  busy=true;
-  try{
-    var id=identity();
-    var data=await jsonp({
-      includeReviewed:'1',
-      role:id.role==='manager'?'hr_manager':'system_admin'
-    },18000);
-    if(!data||data.ok===false)throw new Error((data&&data.error)||'sync failed');
-    var merged=mergeAuthoritative(Array.isArray(data.notes)?data.notes:[]);
-    save(SYNC,{lastSync:nowText(),count:merged.length,sharedState:true,release:'R1.5.47'});
-    refreshView();
-    if(manual)toast('تمت مزامنة الحركات الإدارية بين جميع الأجهزة','ok');
-    return true;
-  }catch(e){
-    if(manual)toast('تعذر مزامنة الحركات الإدارية الآن','warn');
-    return false;
-  }finally{busy=false}
-}
-function findLocalNote(id){
-  var a=notes();
-  for(var i=0;i<a.length;i++)if(String(a[i].id||'')===String(id||''))return a[i];
-  return null;
-}
-async function confirmReview(note,button){
-  var id=identity();
-  if(id.role!=='admin'){
-    toast('اعتماد تمت المراجعة مخصص لمسؤول النظام','warn');
-    return false;
-  }
-  if(!note){toast('تعذر العثور على الملاحظة','warn');return false}
-  if(button){button.disabled=true;button.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الاعتماد'}
-
-  try{
-    var data=await jsonp({
-      action:'review',
-      id:note.id||'',
-      noteId:note.id||'',
-      status:'reviewed',
-      reviewedBy:id.name||'مسؤول النظام',
-      employeeName:note.employeeName||'',
-      movementType:typeLabel(note.type),
-      fromBranch:note.fromBranch||'',
-      toBranch:note.toBranch||'',
-      note:note.text||'',
-      deviceId:deviceId()
-    },18000);
-
-    if(!data||data.ok!==true||String(data.status||'')!=='reviewed'){
-      throw new Error((data&&data.error)||'review not confirmed');
-    }
-
-    var a=notes();
-    a.forEach(function(n){
-      if(String(n.id||'')===String(note.id||'')||sig(n)===sig(note)){
-        n.status='reviewed';
-        n.source='remote';
-        if(data.id)n.id=String(data.id);
-        n.reviewedAt=data.reviewedAt||new Date().toISOString();
-        n.reviewedBy=data.reviewedBy||id.name||'مسؤول النظام';
-      }
-    });
-    save(STORE,a);
-    toast('تم اعتماد المراجعة في السجل المشترك','ok');
-    await syncNow(false,true);
-    refreshView();
-    return true;
-  }catch(e){
-    toast('لم يتم اعتماد المراجعة مركزيًا، الملاحظة بقيت نشطة','warn');
-    if(button){button.disabled=false;button.innerHTML='<i class="fas fa-check"></i> تمت المراجعة'}
-    return false;
-  }
-}
-
-// Capture review before the legacy local-only handler can mark it reviewed.
-document.addEventListener('click',function(ev){
-  var b=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-review]'):null;
-  if(!b)return;
-  ev.preventDefault();
-  ev.stopPropagation();
-  ev.stopImmediatePropagation();
-  var note=findLocalNote(b.getAttribute('data-r1475-review'));
-  confirmReview(note,b);
-},true);
-
-// Make open-screen sync use the authoritative R1.5.47 path.
-window.r1479ManagerNotesSyncNow=syncNow;
-window.r1476SyncManagerNotes=function(done,opts){
-  opts=opts||{};
-  return syncNow(!!opts.manual,!!opts.force).then(function(ok){if(done)done(ok);return ok});
-};
-
-/* R1.5.50: no periodic/pageshow/visibility auto-sync. Open/manual/action sync only. */
-
-window.r1547ManagerNotesSharedReview={
-  release:RELEASE,
-  sync:syncNow,
-  review:confirmReview,
-  merge:mergeAuthoritative
-};
-})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1547-manager-notes-shared-review-state-script -->
 
 <!-- R1547_SHARED_REVIEW_STATE -->
 <!-- MOBILE-R1.5.47-SHARED-REVIEW-STATE
@@ -10558,192 +10005,7 @@ body.r1549-hr-manager [data-r1475-filter="archive"],
 body.r1549-hr-manager .r1475-note-card.reviewed,
 body.r1549-hr-manager [data-r1475-delete]{display:none!important}
 </style>
-<script id="r1549-admin-archive-shared-delete-script">
-(function(){
-'use strict';
-var RELEASE='MOBILE-R1.5.49-ADMIN-ARCHIVE-SHARED-DELETE';
-var STORE='hr_manager_notes_r1475';
-var IDENT='hr_device_identity_r1475';
-var DELETED='hr_manager_notes_deleted_r1480';
-var busyDelete=false;
-
-function load(k,fb){try{var x=JSON.parse(localStorage.getItem(k)||'');return x==null?fb:x}catch(e){return fb}}
-function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-function identity(){var x=load(IDENT,{});return x&&x.role?x:{role:'admin',name:'مسؤول النظام'}}
-function notes(){var a=load(STORE,[]);return Array.isArray(a)?a:[]}
-function norm(v){return String(v==null?'':v).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
-function typeLabel(t){return t==='transfer'?'نقل':t==='assignment'?'تنسيب':t==='return'?'إنهاء تنسيب':'ملاحظة'}
-function sig(n){return [norm(n.employeeName),norm(n.type),norm(n.fromBranch),norm(n.toBranch),norm(n.text)].join('|').toLowerCase()}
-function toast(m,t){try{if(typeof showToast==='function')showToast(m,t||'ok')}catch(e){}}
-function cfg(){
-  var sc=document.getElementById('r1476-manager-notes-sync-script');
-  var txt=sc?String(sc.textContent||''):'';
-  var em=txt.match(/var\s+ENDPOINT='([^']+)'/);
-  var km=txt.match(/var\s+API_KEY='([^']+)'/);
-  return {endpoint:em&&em[1]?em[1]:'',key:km&&km[1]?km[1]:''};
-}
-function jsonp(params,timeoutMs){
-  timeoutMs=timeoutMs||18000;
-  return new Promise(function(resolve,reject){
-    var c=cfg();
-    if(!c.endpoint||!c.key){reject(new Error('manager notes config missing'));return}
-    var cb='__r1549Notes_'+Date.now()+'_'+Math.random().toString(36).slice(2);
-    var sc=document.createElement('script'),done=false,timer;
-    params=params||{};
-    params.key=c.key;
-    params.callback=cb;
-    params.t=Date.now();
-    function cleanup(){try{delete window[cb]}catch(e){window[cb]=undefined}try{sc.remove()}catch(e){}}
-    window[cb]=function(data){if(done)return;done=true;clearTimeout(timer);cleanup();resolve(data||{})};
-    sc.onerror=function(){if(done)return;done=true;clearTimeout(timer);cleanup();reject(new Error('manager notes request failed'))};
-    timer=setTimeout(function(){if(done)return;done=true;cleanup();reject(new Error('manager notes request timeout'))},timeoutMs);
-    var q=Object.keys(params).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(params[k]==null?'':params[k])}).join('&');
-    sc.async=true;
-    sc.src=c.endpoint+(c.endpoint.indexOf('?')>=0?'&':'?')+q;
-    document.head.appendChild(sc);
-  });
-}
-function findNote(id){
-  var a=notes();
-  for(var i=0;i<a.length;i++)if(String(a[i].id||'')===String(id||''))return a[i];
-  return null;
-}
-function cleanLocalAfterDelete(note,serverId){
-  var a=notes().filter(function(n){
-    if(serverId&&String(n.id||'')===String(serverId))return false;
-    if(note&&String(n.id||'')===String(note.id||''))return false;
-    if(note&&sig(n)===sig(note))return false;
-    return true;
-  });
-  save(STORE,a);
-  try{
-    var d=load(DELETED,[]);
-    if(Array.isArray(d)){
-      var remove={};
-      if(serverId)remove[String(serverId)]=1;
-      if(note&&note.id)remove[String(note.id)]=1;
-      if(note)remove[sig(note)]=1;
-      d=d.filter(function(k){return !remove[String(k)]});
-      save(DELETED,d);
-    }
-  }catch(e){}
-}
-async function sharedSync(){
-  try{
-    if(window.r1547ManagerNotesSharedReview&&typeof window.r1547ManagerNotesSharedReview.sync==='function'){
-      await window.r1547ManagerNotesSharedReview.sync(false,true);
-      return true;
-    }
-    if(typeof window.r1479ManagerNotesSyncNow==='function'){
-      await window.r1479ManagerNotesSyncNow(false,true);
-      return true;
-    }
-  }catch(e){}
-  return false;
-}
-function enforceRoleUi(){
-  var role=identity().role||'admin';
-  var manager=role==='manager';
-  document.body.classList.toggle('r1549-hr-manager',manager);
-  document.body.classList.toggle('r1549-system-admin',!manager);
-
-  var archive=document.querySelector('[data-r1475-filter="archive"]');
-  if(manager&&archive&&archive.classList.contains('active')){
-    var all=document.querySelector('[data-r1475-filter="all"]');
-    if(all)try{all.click()}catch(e){}
-  }
-
-  if(!manager){
-    document.querySelectorAll('.r1475-note-card.reviewed [data-r1475-delete]').forEach(function(b){
-      b.innerHTML='<i class="fas fa-trash-can"></i> حذف نهائي من الأرشيف';
-      b.setAttribute('title','يحذف الحركة من السجل المشترك ومن جميع الأجهزة');
-    });
-  }
-}
-async function deleteReviewed(note,button){
-  var id=identity();
-  if(id.role!=='admin'){
-    toast('الأرشيف والحذف النهائي مخصصان لمسؤول النظام','warn');
-    return false;
-  }
-  if(!note||note.status!=='reviewed'){
-    toast('الحذف المركزي متاح للحركات المراجعة فقط','warn');
-    return false;
-  }
-  if(busyDelete)return false;
-  busyDelete=true;
-  if(button){button.disabled=true;button.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الحذف'}
-  try{
-    var data=await jsonp({
-      action:'delete',
-      role:'system_admin',
-      id:note.id||'',
-      noteId:note.id||'',
-      employeeName:note.employeeName||'',
-      movementType:typeLabel(note.type),
-      fromBranch:note.fromBranch||'',
-      toBranch:note.toBranch||'',
-      note:note.text||'',
-      deletedBy:id.name||'مسؤول النظام'
-    });
-    if(!data||data.ok!==true||String(data.status||'')!=='deleted'){
-      throw new Error((data&&data.error)||'delete not confirmed');
-    }
-    cleanLocalAfterDelete(note,data.id||note.id);
-    toast('تم حذف الحركة من الأرشيف المشترك ومن جميع الأجهزة','ok');
-    await sharedSync();
-    try{if(typeof window.r1475OpenManagerNotes==='function')window.r1475OpenManagerNotes()}catch(e){}
-    return true;
-  }catch(e){
-    toast('تعذر الحذف المركزي؛ لم يتم حذف الحركة محليًا','warn');
-    if(button){button.disabled=false;button.innerHTML='<i class="fas fa-trash-can"></i> حذف نهائي من الأرشيف'}
-    return false;
-  }finally{
-    busyDelete=false;
-    setTimeout(enforceRoleUi,80);
-  }
-}
-document.addEventListener('click',function(ev){
-  var b=ev.target&&ev.target.closest?ev.target.closest('[data-r1475-delete]'):null;
-  if(!b)return;
-  var note=findNote(b.getAttribute('data-r1475-delete'));
-  if(!note||note.status!=='reviewed')return;
-
-  ev.preventDefault();
-  ev.stopPropagation();
-  ev.stopImmediatePropagation();
-
-  var run=function(){deleteReviewed(note,b)};
-  if(typeof showConfirm==='function'){
-    showConfirm(
-      'حذف الحركة من الأرشيف',
-      'سيتم حذف هذه الحركة نهائيًا من السجل المشترك، وستختفي من جميع الأجهزة.',
-      run
-    );
-  }else if(window.confirm('حذف هذه الحركة نهائيًا من جميع الأجهزة؟')){
-    run();
-  }
-},true);
-
-document.addEventListener('DOMContentLoaded',function(){enforceRoleUi();setTimeout(enforceRoleUi,250)});
-window.addEventListener('load',function(){enforceRoleUi();setTimeout(enforceRoleUi,700)});
-window.addEventListener('pageshow',function(){setTimeout(enforceRoleUi,120)});
-document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(enforceRoleUi,150)});
-try{
-  new MutationObserver(function(){
-    clearTimeout(window.__r1549RoleT);
-    window.__r1549RoleT=setTimeout(enforceRoleUi,70);
-  }).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
-}catch(e){}
-
-window.r1549AdminArchiveSharedDelete={
-  release:RELEASE,
-  enforce:enforceRoleUi,
-  deleteReviewed:deleteReviewed,
-  sync:sharedSync
-};
-})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1549-admin-archive-shared-delete-script -->
 
 <!-- MOBILE-R1.5.49-ADMIN-ARCHIVE-SHARED-DELETE
      Archive is visible only to system admin; archive deletion is shared and server-confirmed. -->
@@ -10851,23 +10113,7 @@ window.r1549CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdat
 <!-- R1550_QUIET_MANAGER_NOTES_SYNC -->
 <!-- MOBILE-R1.5.50-QUIET-MANAGER-NOTES-SYNC
      Manager notes sync only on screen-open, manual sync, send, review and shared delete. -->
-<script id="r1550-quiet-manager-notes-sync-script">
-(function(){
-'use strict';
-var RELEASE='MOBILE-R1.5.50-QUIET-MANAGER-NOTES-SYNC';
-function mark(){try{document.body.classList.add('r1550-quiet-notes-sync')}catch(e){}}
-mark();
-document.addEventListener('DOMContentLoaded',mark);
-window.addEventListener('load',mark);
-window.r1550QuietManagerNotesSync={
-  release:RELEASE,
-  mode:'open-manual-action-only',
-  periodic:false,
-  focusSync:false,
-  visibilitySync:false
-};
-})();
-</script>
+<!-- R1.5.103: obsolete manager notes script disabled and removed: r1550-quiet-manager-notes-sync-script -->
 
 <!-- MOBILE-R1.5.50-QUIET-MANAGER-NOTES-SYNC -->
 <script id="r1550-canonical-release">
@@ -12793,7 +12039,7 @@ body.subview-career.r1583-content-open #r1507-chrome-toggle .r1507-dot{width:8px
 // R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
+var RELEASE='MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -13180,7 +12426,7 @@ body.subview-notes #r1502-dashboard{display:none!important}
 (function(){
 'use strict';
 
-var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
+var RELEASE='MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE';
 var PAGE_ID='view-notes';
 var DB_NAME='hr_mobile_personal_notes';
 var DB_VERSION=1;
@@ -13742,7 +12988,7 @@ window.r1571MyNotes={
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
+var RELEASE='MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
 async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','15102');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
@@ -13882,7 +13128,7 @@ body.light-mode #r1502-dashboard.r1579-dashboard .r1579-scope-card,body.light-mo
 // R1579_FIRST_TAP_ROUTER — explicit startup intent queue; no MutationObserver.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
+var RELEASE='MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE';
 var state={bootReady:false,pending:null,routing:false,userIntent:null,lastRoute:'',readyReason:''};
 var MODULES={
   employees:[
@@ -14147,7 +13393,7 @@ body.light-mode #r1502-dashboard.r1580-compact .r1580-stat b{color:#17325a!impor
 // R1580_VECTOR_ICON_SYSTEM — preserves the existing Font Awesome vector icon set.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
+var RELEASE='MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE';
 function $(s,r){return (r||document).querySelector(s)}
 function all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
 function numFromScope(key){var e=$('#r1502-dashboard [data-main="'+key+'"] .r1579-scope-count');var n=Number(String(e&&e.textContent||'').replace(/[^0-9]/g,''));return isFinite(n)?n:0}
@@ -14261,7 +13507,7 @@ window.r1580CompactProfessionalUI={release:RELEASE,enhance:enhance,install:insta
 // R1581_UNIFORM_CARD_TITLE_CLARITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
+var RELEASE='MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE';
 var lastDataMode='perm';
 var routeBusy=false;
 function qs(s,r){return (r||document).querySelector(s)}
@@ -14534,7 +13780,7 @@ body.light-mode.r1582-ui #r1502-dashboard.r1580-compact .r1579-module-card .r157
 // R1582_PROFESSIONAL_SINGLE_SCROLL
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
+var RELEASE='MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE';
 var resizeTimer=0;
 
 function q(s,r){return (r||document).querySelector(s)}
@@ -14726,7 +13972,7 @@ body.r1583-dashboard-home #r1502-dashboard.r1580-compact{
 // R1583_CONTENT_MODE_SWITCH
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
+var RELEASE='MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE';
 var contentKey='';
 var adminWrapped=false;
 
@@ -14897,7 +14143,7 @@ body.r1583-content-open.chrome-collapsed #scroll{display:block!important}
 // R1584_CAPTURED_CONTENT_MODE_FIX
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX',pendingKey='',pendingTimer=0;
+var RELEASE='MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE',pendingKey='',pendingTimer=0;
 function q(s,r){return (r||document).querySelector(s)}
 function forceChromeExpanded(){
  try{
@@ -14964,7 +14210,7 @@ body.r1583-content-open #r1507-chrome-toggle .r1507-dot{background:#37f0a5!impor
 // R1585_HOME_STABILITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
+var RELEASE='MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE';
 function returnHome(){
  if(!document.body)return false;
  try{if(window.r1507ChromeSafeFloatingToggle&&typeof window.r1507ChromeSafeFloatingToggle.set==='function')window.r1507ChromeSafeFloatingToggle.set(false)}catch(e){}
@@ -15002,7 +14248,7 @@ body.r1583-content-open:not(.r1583-dashboard-home) #r1507-chrome-toggle{
 // R1586_HOME_NO_HIDE_SHOW
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.102-APPOINTMENT-NUMBER-TEXT-FIX';
+var RELEASE='MOBILE-R1.5.103-SECURE-NOTES-PRODUCTION-BRIDGE';
 function normalizeDashboardHome(){
   if(!document.body)return false;
   if(document.body.classList.contains('r1583-dashboard-home')&&!document.body.classList.contains('r1583-content-open')){
@@ -15267,3 +14513,55 @@ body.light-mode.r1582-ui #r1502-dashboard.r1580-compact .r1579-section-title .r1
 </style>
 
 <!-- R1587_COMPACT_HEADER_GOLD_TYPOGRAPHY_SECTIONS_RELEASE -->
+
+
+<!-- R15103_SECURE_MANAGER_NOTES_PORTAL_BRIDGE: candidate, not yet released -->
+<style id="hr-secure-notes-launcher-style">
+#hr-secure-notes-launcher[hidden]{display:none!important}
+#hr-secure-notes-launcher{position:fixed!important;inset:0!important;z-index:2147483600!important;overflow:auto!important;direction:rtl!important;padding:calc(env(safe-area-inset-top, 0px) + 20px) 16px calc(env(safe-area-inset-bottom, 0px) + 20px)!important;background:#081528!important;color:#eef5ff!important;font-family:Tahoma,Arial,sans-serif!important;box-sizing:border-box!important}
+#hr-secure-notes-launcher *{box-sizing:border-box!important}
+#hr-secure-notes-launcher .hrsn-card{width:min(100%,520px);margin:8vh auto 0;background:#132440;border:1px solid #385174;border-radius:24px;padding:24px;box-shadow:0 15px 35px #0005}
+#hr-secure-notes-launcher h2{font-size:22px;font-weight:800;margin:0 0 14px}
+#hr-secure-notes-launcher p{font-size:14px;line-height:1.95;color:#d1def2;margin:0 0 18px}
+#hr-secure-notes-launcher a,#hr-secure-notes-launcher button{min-height:48px;width:100%;display:block;text-align:center;border-radius:14px;border:1px solid #547195;font-size:15px;font-weight:800;padding:13px 10px;cursor:pointer;text-decoration:none;margin-top:11px}
+#hr-secure-notes-launcher .hrsn-primary{background:#ebc567;color:#0c1d38;border-color:#ebc567}
+#hr-secure-notes-launcher .hrsn-alt{background:#213b60;color:white}
+#hr-secure-notes-launcher .hrsn-hint{font-size:12px;color:#a9bedc;margin-top:15px}
+</style>
+<script id="hr-secure-notes-launcher-script">
+(function(){
+ 'use strict';
+ var PORTAL='https://script.google.com/macros/s/AKfycbzyxA4Eh7_RK9RGAla2A04MqHMQkFkCR5V1IbYg2Wf_0koayj46Pi51VRitu93bbkj9/exec';
+ var overlay=null;
+ function make(){
+   if(overlay)return overlay;
+   overlay=document.createElement('section');
+   overlay.id='hr-secure-notes-launcher';
+   overlay.hidden=true;
+   overlay.setAttribute('role','dialog');
+   overlay.setAttribute('aria-modal','true');
+   overlay.setAttribute('aria-label','سجل الحركات الإدارية الآمن');
+   overlay.innerHTML='<div class="hrsn-card"><h2>الحركات الإدارية الآمنة</h2><p>انتقل إلى السجل المحمي بتسجيل الدخول عبر حساب Firebase المعتمد. لا تُستخدم كلمات مرور أو صلاحيات الجهاز المحلية القديمة.</p><a class="hrsn-primary" id="hrsn-open-browser" target="_blank" rel="noopener noreferrer" href="'+PORTAL+'">فتح السجل الآمن</a><button type="button" class="hrsn-alt" id="hrsn-open-here">فتح السجل داخل التطبيق</button><button type="button" class="hrsn-alt" id="hrsn-close">العودة إلى الموظفين</button><p class="hrsn-hint">إذا لم يعمل زر الفتح الخارجي في WebView، استخدم زر الفتح داخل التطبيق. لا تدخل بيانات الموظفين قبل النشر النهائي.</p></div>';
+   document.body.appendChild(overlay);
+   document.getElementById('hrsn-close').addEventListener('click',close);
+   document.getElementById('hrsn-open-here').addEventListener('click',function(){window.location.assign(PORTAL);});
+   return overlay;
+ }
+ function open(){make().hidden=false;}
+ function close(){if(overlay)overlay.hidden=true;}
+ window.hrSecureNotesOpen=open;
+ window.hrSecureNotesClose=close;
+ // Capture old dashboard-card clicks before legacy/tab bubble listeners.
+ document.addEventListener('click',function(ev){
+   var tab=ev.target&&ev.target.closest&&ev.target.closest('#stab-managernotes,[data-key="managernotes"]');
+   if(!tab)return;
+   ev.preventDefault();ev.stopImmediatePropagation();open();
+ },true);
+ var previousSwitch=window.switchSub;
+ if(typeof previousSwitch==='function')window.switchSub=function(name){
+   if(name==='managernotes'){open();return;}
+   return previousSwitch.apply(this,arguments);
+ };
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+</script>
