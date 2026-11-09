@@ -1,0 +1,317 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>تجربة الدخول الموحد R1.5.105 — بدون بيانات موظفين</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link href="https://muayedhassan.github.io/employees/assets/fonts/hr-fonts.css?v=r1411" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>:root{--hr-title-font:'HRTitleArabic','Ya Modern Pro','Cairo',sans-serif;--hr-body-font:'HRBodyArabic','Zain','Tajawal','Cairo',sans-serif}
+body{margin:0;background:#0a2040;color:#fff;font-family:var(--hr-body-font);direction:rtl}
+#main-header{padding:20px;background:#103052}.hdr-controls{display:flex;justify-content:flex-end;gap:10px}
+.test-note{margin:28px 14px;border:1px solid #aebdcfaa;border-radius:15px;padding:18px;line-height:1.9}</style>
+<style id="hr105-login-style">
+/* R1.5.105 — APPROVED IRAQI MINISTRY MOBILE LOGIN, implemented as editable HTML/CSS.
+   Built on original HR fonts, no full-screen mockup, no fake client-side role.
+ */
+#hr105-auth[hidden],#hr105-notes-layer[hidden]{display:none!important}
+#hr105-auth{position:fixed;z-index:2147483600;inset:0;overflow:auto;overscroll-behavior:contain;isolation:isolate;direction:rtl;color:#071d3f;background:#06234b;font-family:var(--hr-body-font,'Zain','Cairo',sans-serif);-webkit-font-smoothing:antialiased}
+#hr105-auth *,#hr105-auth *::before,#hr105-auth *::after{box-sizing:border-box}
+#hr105-auth .hr105-screen{min-height:100%;width:100%;position:relative;overflow:hidden;background:radial-gradient(ellipse at 35% 55%,#115184 0%,transparent 64%),linear-gradient(155deg,#062247,#063a70 75%,#04182f 100%)}
+#hr105-auth .hr105-screen::before{content:"";position:absolute;left:-14%;bottom:-142px;width:128%;height:155px;border-top:2px solid #d2a23f;border-radius:50% 55% 0 0;transform:rotate(-11deg);background:linear-gradient(170deg,transparent 0%,#03142b 66%);pointer-events:none}
+#hr105-auth .hr105-screen::after{content:"";position:absolute;left:-20%;bottom:-174px;width:125%;height:125px;border-top:4px solid #e8b740;border-radius:48% 38% 0 0;transform:rotate(-11deg);pointer-events:none}
+#hr105-auth .hr105-header{position:relative;z-index:2;min-height:calc(env(safe-area-inset-top,0px) + 73px);padding:calc(env(safe-area-inset-top,0px) + 14px) 22px 20px;color:white;background:linear-gradient(105deg,#052448,#041d3b 70%,#061b37);box-shadow:0 5px 30px #0002}
+#hr105-auth .hr105-header-row{display:flex;align-items:center;justify-content:flex-start;gap:12px;max-width:550px;margin:0 auto;min-height:42px}
+#hr105-auth .hr105-brand{width:40px;height:40px;object-fit:contain;flex:none;filter:drop-shadow(0 1px 6px #00a2df28)}
+#hr105-auth .hr105-header strong{font:900 clamp(16px,4.7vw,23px)/1.4 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif);color:#fff;white-space:nowrap}
+#hr105-auth .hr105-header-wave{position:absolute;bottom:-7px;left:0;width:100%;height:18px;pointer-events:none}
+#hr105-auth .hr105-login-content{position:relative;z-index:1;width:min(100%,510px);padding:clamp(77px,11vh,98px) 18px 52px;margin:0 auto}
+#hr105-auth .hr105-card{position:relative;border:1px solid #d5a33c;border-bottom:3px solid #deb24c;border-radius:30px;background:linear-gradient(143deg,#fff 0%,#f9faff 49%,#e9f0fb 100%);box-shadow:0 20px 45px #0005,inset 0 0 30px #cbd7eb33;padding:96px clamp(21px,6.4vw,36px) 32px;text-align:center}
+#hr105-auth .hr105-emblem-wrap{position:absolute;top:-69px;left:50%;transform:translateX(-50%);width:148px;height:148px;display:grid;place-items:center;border-radius:50%;background:#fff;box-shadow:0 9px 16px #081e3a33;overflow:hidden;border:3px solid #f7f9fa}
+#hr105-auth .hr105-emblem{display:block;width:100%;height:100%;object-fit:contain}
+#hr105-auth .hr105-org{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 auto 2px;color:#0b2a55;font:850 clamp(12px,3.8vw,18px)/1.7 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif)}
+#hr105-auth .hr105-org::before,#hr105-auth .hr105-org::after{content:"";width:24px;height:1px;background:#d5a33c;opacity:.8}
+#hr105-auth h1.hr105-app-name{margin:0;color:#071f41;font:900 clamp(20px,5.6vw,28px)/1.5 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif)}
+#hr105-auth .hr105-ornament{display:flex;justify-content:center;align-items:center;gap:7px;margin:10px 0 19px}
+#hr105-auth .hr105-ornament span{width:53px;height:2px;background:linear-gradient(90deg,transparent,#c79627)}
+#hr105-auth .hr105-ornament span:last-child{transform:rotate(180deg)}
+#hr105-auth .hr105-ornament b{width:11px;height:11px;transform:rotate(45deg);background:linear-gradient(145deg,#ffe68b,#d0a12b)}
+#hr105-auth .hr105-form-title{display:flex;align-items:center;justify-content:center;gap:11px;margin:0 0 23px;font:900 clamp(25px,7vw,34px)/1.5 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif);color:#08244a}
+#hr105-auth .hr105-title-lock{display:grid;place-items:center;width:43px;height:43px;flex:none;border:1px solid #cbd8e9;border-radius:12px;color:#123c73;font-size:20px;background:linear-gradient(140deg,#f5f9ff,#dce9fa);box-shadow:0 3px 8px #09295512}
+#hr105-auth .hr105-login-form{display:flex;flex-direction:column;gap:13px}
+#hr105-auth .hr105-field{width:100%;height:57px;display:flex;align-items:center;gap:10px;flex-direction:row;border:1px solid #c6d6e9;border-radius:18px;background:linear-gradient(110deg,#fff,#f4f8ff);box-shadow:0 5px 9px #113b6110;transition:border-color .22s,box-shadow .22s,transform .22s}
+#hr105-auth .hr105-field:focus-within{border-color:#307ddd;box-shadow:0 0 0 3px #3e8ee622,0 6px 19px #2459a52a;transform:translateY(-1px)}
+#hr105-auth .hr105-field-icon{height:44px;width:43px;margin-right:5px;display:grid;place-items:center;flex:none;border-radius:13px;background:#e7f0fc;color:#123c72;font-size:19px}
+#hr105-auth .hr105-field input{min-width:0;flex:1;outline:none;border:0;background:transparent;color:#132a4b;font:750 14px/1.5 var(--hr-body-font,'Zain','Cairo',sans-serif);text-align:right;direction:rtl;padding:0 0 0 8px;height:100%}
+#hr105-auth .hr105-field input::placeholder{color:#64768e;opacity:1}
+#hr105-auth .hr105-field input:-webkit-autofill{-webkit-text-fill-color:#132a4b!important;box-shadow:0 0 0 80px #f6faff inset!important}
+#hr105-auth .hr105-eye{flex:none;border:0;background:transparent;margin-left:7px;padding:10px;color:#123d76;font-size:17px;cursor:pointer;min-width:40px;min-height:42px}
+#hr105-auth .hr105-eye:focus-visible,#hr105-auth .hr105-submit:focus-visible{outline:3px solid #2d84eb;outline-offset:2px}
+#hr105-auth .hr105-alert{font-size:12px;line-height:1.7;text-align:right;color:#ad2532;margin:0 4px}
+#hr105-auth .hr105-alert:empty{display:none}
+#hr105-auth .hr105-submit{position:relative;overflow:hidden;isolation:isolate;width:100%;min-height:58px;margin-top:9px;display:flex;justify-content:center;align-items:center;gap:12px;border:3px solid #eac045;border-radius:21px;background:linear-gradient(180deg,#164d81 0%,#062b5c 54%,#051b3c 100%);box-shadow:0 8px 15px #05275d30;color:white;font:900 clamp(15px,4.8vw,20px)/1.4 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif);cursor:pointer;transition:transform .2s,filter .2s,box-shadow .2s}
+#hr105-auth .hr105-submit>i{color:#f7c948;font-size:21px}
+#hr105-auth .hr105-submit::before{content:"";position:absolute;inset:-60px;width:35px;left:-80px;transform:rotate(24deg);background:linear-gradient(90deg,transparent,#fff9,transparent);animation:hr105-sweep 6.5s ease-in-out infinite;pointer-events:none}
+#hr105-auth .hr105-submit:not(:disabled):active{transform:scale(.985)}
+#hr105-auth .hr105-submit:not(:disabled):hover{filter:brightness(1.09);box-shadow:0 11px 22px #062b5a44}
+#hr105-auth .hr105-submit:disabled{opacity:.75;cursor:wait}
+#hr105-auth .hr105-spinner{display:none;width:18px;height:18px;border-radius:50%;border:2px solid #ffffff80;border-top-color:white;animation:hr105-spin .7s linear infinite}
+#hr105-auth .hr105-submit.loading .hr105-spinner{display:inline-block}
+#hr105-auth .hr105-status{color:#365173;text-align:center;font-size:11px;line-height:1.6;margin-top:8px}
+#hr105-auth .hr105-status:empty{display:none}
+#hr105-auth .hr105-credit{margin:21px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#f4f8ff;text-align:center;font:800 clamp(11px,3.7vw,15px)/1.5 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif);text-shadow:0 1px 2px #0006}
+#hr105-auth .hr105-credit strong{color:#f6cb58;font:inherit}
+#hr105-auth .hr105-credit-ornament{display:flex;align-items:center;gap:11px;color:#f5c74e;font-size:16px}
+#hr105-auth .hr105-credit-ornament span{width:46px;height:1px;background:linear-gradient(90deg,transparent,#f7d46b)}
+#hr105-auth .hr105-credit-ornament span:last-child{transform:rotate(180deg)}
+#hr105-auth .hr105-sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@keyframes hr105-sweep{0%,74%{left:-80px}94%,100%{left:calc(100% + 100px)}}
+@keyframes hr105-spin{to{transform:rotate(360deg)}}
+/* secure notes overlay: preserve existing behavior, redesign does not grant rights */
+#hr105-notes-layer{position:fixed;inset:0;z-index:2147483500;display:flex;flex-direction:column;background:#081225;color:#fff;font-family:var(--hr-body-font,'Zain','Cairo',sans-serif);direction:rtl}
+#hr105-notes-layer .hr105-notes-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:60px;padding:calc(env(safe-area-inset-top,0px) + 6px) 16px 9px;background:linear-gradient(115deg,#102c5e,#142547);border-bottom:1px solid #e7c2734a}
+#hr105-notes-layer .hr105-notes-bar strong{font:900 15px var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif)}
+#hr105-notes-layer .hr105-notes-back{background:#e8c46a;border:0;color:#17294d;padding:10px 14px;border-radius:11px;font:850 12px var(--hr-body-font,'Zain',sans-serif);cursor:pointer}
+#hr105-notes-frame{width:100%;height:100%;flex:1;border:0;background:#081225}
+#hr105-session{border:1px solid #e8c46a80;border-radius:11px;background:#dbb85b1c;color:#f5da96;font:750 10px var(--hr-body-font,'Zain',sans-serif);display:flex;gap:6px;align-items:center;padding:9px;cursor:pointer}
+@media(min-width:660px){#hr105-auth .hr105-login-content{width:min(100%,500px);padding-top:101px}#hr105-auth .hr105-card{padding-top:106px;padding-bottom:35px}#hr105-auth .hr105-header-row{min-height:45px}}
+@media(max-width:380px){#hr105-auth .hr105-header{padding-left:15px;padding-right:15px}#hr105-auth .hr105-login-content{padding-left:13px;padding-right:13px;padding-top:78px}#hr105-auth .hr105-card{padding-left:18px;padding-right:18px;padding-top:88px}#hr105-auth .hr105-emblem-wrap{width:135px;height:135px;top:-61px}#hr105-auth .hr105-form-title{margin-bottom:18px}#hr105-auth .hr105-field{height:53px}}
+@media(max-height:750px){#hr105-auth .hr105-login-content{padding-top:76px;padding-bottom:35px}#hr105-auth .hr105-card{padding-top:88px;padding-bottom:26px}#hr105-auth .hr105-form-title{margin-bottom:16px}#hr105-auth .hr105-org{font-size:12px}#hr105-auth .hr105-ornament{margin:7px 0 11px}#hr105-auth .hr105-field{height:50px}#hr105-auth .hr105-credit{margin-top:13px}}
+@media(prefers-reduced-motion:reduce){#hr105-auth *,#hr105-auth *::before,#hr105-auth *::after{animation:none!important;transition:none!important}}
+
+/* Embedded icons keep the interface legible offline and without Font Awesome. */
+#hr105-auth svg:not(.hr105-header-wave){width:22px;height:22px;display:block;flex-shrink:0}
+#hr105-auth .hr105-eye{display:grid;place-items:center}
+#hr105-auth .hr105-eye .hr105-eye-closed{display:none!important}
+#hr105-auth .hr105-eye[aria-pressed="true"] .hr105-eye-open{display:none!important}
+#hr105-auth .hr105-eye[aria-pressed="true"] .hr105-eye-closed{display:block!important}
+#hr105-auth .hr105-submit svg{color:#f6c748;width:25px!important;height:25px!important}
+#hr105-auth .hr105-credit-ornament svg{color:#f6d053;width:24px!important;height:24px!important}
+
+</style></head><body>
+<div id="main-header"><div class="hdr-controls"></div></div>
+<div class="test-note"><h2>اختبار الدخول الموحد فقط</h2><p>هذه الصفحة لا تحتوي بيانات موظفين، ولا تستخدم واجهات النظام الإنتاجية. اختبر دخول الحساب، فتح الحركات المدمجة، وتسجيل الخروج.</p><button type="button" onclick="window.hrSecureNotesOpen && window.hrSecureNotesOpen()">فتح الحركات المدمجة</button></div>
+<section aria-label="تسجيل الدخول إلى نظام شؤون الموظفين" dir="rtl" id="hr105-auth" lang="ar">
+<div class="hr105-screen">
+<header class="hr105-header">
+<div class="hr105-header-row">
+<img alt="شعار نظام الموظفين" class="hr105-brand" height="42" src="assets/hr-login-brand-r.png" width="42"/>
+<strong>نظام شؤون الموظفين</strong>
+</div>
+<svg aria-hidden="true" class="hr105-header-wave" preserveaspectratio="none" viewbox="0 0 400 19">
+<path d="M0 3 H95 C122 3 125 14 153 14 H400" fill="none" stroke="#ffffff" stroke-width="9"></path>
+<path d="M0 3 H95 C122 3 125 14 153 14 H400" fill="none" stroke="#eabd47" stroke-width="4.5"></path>
+</svg>
+</header>
+<main class="hr105-login-content">
+<div class="hr105-card">
+<div class="hr105-emblem-wrap">
+<img alt="شعار جمهورية العراق ووزارة الزراعة" class="hr105-emblem" height="150" src="assets/hr-login-ministry-emblem.png" width="150"/>
+</div>
+<div class="hr105-org"><span>مديرية زراعة صلاح الدين</span></div>
+<h1 class="hr105-app-name">نظام شؤون الموظفين</h1>
+<div aria-hidden="true" class="hr105-ornament"><span></span><b></b><span></span></div>
+<h2 class="hr105-form-title"><span aria-hidden="true" class="hr105-title-lock"><svg aria-hidden="true" fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg"><rect height="11" rx="2" width="14" x="5" y="10"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path><circle cx="12" cy="15" fill="currentColor" r=".7"></circle></svg></span>تسجيل الدخول</h2>
+<form class="hr105-login-form" id="hr105-login-form" novalidate="">
+<label class="hr105-sr-only" for="hr105-email">البريد الإلكتروني المعتمد</label>
+<div class="hr105-field">
+<span aria-hidden="true" class="hr105-field-icon"><svg aria-hidden="true" fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a8 8 0 0 1 16 0v2"></path></svg></span>
+<input autocomplete="username" dir="ltr" id="hr105-email" inputmode="email" name="email" placeholder="البريد الإلكتروني" required="" spellcheck="false" type="email">
+</input></div>
+<label class="hr105-sr-only" for="hr105-password">كلمة المرور</label>
+<div class="hr105-field">
+<span aria-hidden="true" class="hr105-field-icon"><svg aria-hidden="true" fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg"><rect height="11" rx="2" width="14" x="5" y="10"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path><circle cx="12" cy="15" fill="currentColor" r=".7"></circle></svg></span>
+<input autocomplete="current-password" dir="rtl" id="hr105-password" name="password" placeholder="كلمة المرور" required="" type="password">
+<button aria-label="إظهار كلمة المرور" aria-pressed="false" class="hr105-eye" id="hr105-toggle" type="button"><svg aria-hidden="true" class="hr105-eye-open" fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"></path><circle cx="12" cy="12" r="2.6"></circle></svg><svg aria-hidden="true" class="hr105-eye-closed" fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg"><path d="M3 3 21 21M10.5 6.1A12 12 0 0 1 12 6c6.4 0 10 6 10 6a17 17 0 0 1-4.2 4.5M6 8a16 16 0 0 0-4 4s3.6 6 10 6a12 12 0 0 0 2.5-.26"></path><path d="M10.3 10.3a2.5 2.5 0 0 0 3.4 3.4"></path></svg></button>
+</input></div>
+<div aria-live="polite" class="hr105-alert" id="hr105-error" role="alert"></div>
+<button class="hr105-submit" id="hr105-submit" type="submit">
+<span aria-hidden="true" class="hr105-spinner"></span>
+<svg aria-hidden="true" fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg"><path d="M11 17l5-5-5-5M16 12H3"></path><path d="M12 3h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-6"></path></svg>
+<span id="hr105-submit-label">تسجيل الدخول</span>
+</button>
+</form>
+<div aria-live="polite" class="hr105-status" id="hr105-status"></div>
+</div>
+<footer class="hr105-credit">
+<div aria-hidden="true" class="hr105-credit-ornament"><span></span><svg aria-hidden="true" fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg"><path d="M8 8 4 12l4 4M16 8l4 4-4 4M14 4l-4 16"></path></svg><span></span></div>
+<span>المبرمج المتواضع <strong>مؤيد الحسن</strong></span>
+</footer>
+</main>
+</div>
+</section><section aria-label="الحركات الإدارية" hidden="" id="hr105-notes-layer">
+<div class="hr105-notes-bar"><strong><i aria-hidden="true" class="fas fa-clipboard-check"></i> الحركات الإدارية</strong><button class="hr105-notes-back" id="hr105-notes-back" type="button"><i aria-hidden="true" class="fas fa-arrow-right"></i> الرجوع للموظفين</button></div>
+<iframe id="hr105-notes-frame" loading="eager" referrerpolicy="origin" title="سجل الحركات الإدارية الآمن"></iframe>
+</section>
+<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
+<script id="hr105-unified-auth-script">
+/* HR R1.5.105 Unified Firebase sign-in + secure Apps Script notes bridge.
+   Candidate only; never publish until hosted iframe + RPC end-to-end tests pass.
+   API key is public Firebase browser configuration (NOT a server credential).
+   Role enforcement for notes is ALWAYS rechecked in secureNotesRpc server-side.
+ */
+(function(){
+ 'use strict';
+ const CFG={
+   projectId:'hr-admin-production',
+   apiKey:'AIzaSyAmXrne_uWVNGiLKARATvpl1t0fME_zQZk',
+   authDomain:'hr-admin-production.firebaseapp.com',
+   portal:'https://script.google.com/macros/s/AKfycbwlzpiJHVPuYeZymFOBXTpdLpcPd9FIvrsLiXUBoeoJpQft3gl9OwfswigYxGPz4a6lDA/exec'
+ };
+ // The server determines the role from the verified Firebase UID; no UID allowlist is published in the app.
+ const HOST_ORIGIN=window.location.origin;
+ const LOCAL_TEST=/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(HOST_ORIGIN);
+ const LIVE_HOST=HOST_ORIGIN==='https://muayedhassan.github.io';
+ const el=id=>document.getElementById(id);
+ const shell=el('hr105-auth'),form=el('hr105-login-form'),sub=el('hr105-submit');
+ const frame=el('hr105-notes-frame'),notes=el('hr105-notes-layer');
+ let auth=null,authReady=Promise.resolve(),verified=false,role='',portalWindow=null,portalOrigin='',nonce='',pending=null;
+ let sessionTimeout=0;
+ const msg=text=>el('hr105-status').textContent=String(text||'');
+ function error(text){el('hr105-error').textContent=String(text||'');}
+ function busy(v){sub.disabled=!!v;sub.classList.toggle('loading',!!v);el('hr105-submit-label').textContent=v?'جاري التحقق من الهوية…':'تسجيل الدخول';}
+ function newNonce(){
+   if(!crypto||typeof crypto.getRandomValues!=='function')throw Error('المتصفح لا يدعم إنشاء جلسة آمنة');
+   const data=new Uint8Array(20);crypto.getRandomValues(data);
+   return Array.from(data,b=>b.toString(16).padStart(2,'0')).join('');
+ }
+ function portalOriginOk(v){
+   try{const p=new URL(v);return p.protocol==='https:' &&(p.hostname==='script.google.com'||p.hostname.endsWith('.googleusercontent.com'));}catch(_){return false;}
+ }
+ function roleName(k){return k==='SYSTEM_ADMIN'?'مدير النظام':'مدير الموارد البشرية';}
+ function post(type,other){
+   if(!portalWindow||!portalOrigin)return;
+   try{portalWindow.postMessage(Object.assign({hr105:'v1',nonce:nonce,type:type},other||{}),portalOrigin);}catch(_){ }
+ }
+ function openFrame(){
+   if(!nonce)nonce=newNonce();
+   portalWindow=null;portalOrigin='';
+   frame.src=CFG.portal+'?embed=1&nonce='+encodeURIComponent(nonce);
+ }
+ function finishError(reason){
+   clearTimeout(sessionTimeout);
+   if(pending){pending.reject(new Error(reason));pending=null;}
+ }
+ function waitPortal(){
+   return new Promise(function(resolve,reject){
+     if(pending){reject(new Error('طلب دخول آخر قيد التنفيذ'));return;}
+     pending={resolve:resolve,reject:reject};
+     sessionTimeout=setTimeout(function(){finishError('تعذر التحقق من ربط الحركات داخل التطبيق. تأكد من نشر تحديث Portal الآمن واختبر التضمين أولًا.');},19000);
+     openFrame();
+   });
+ }
+ async function tokenToPortal(){
+   if(!auth||!auth.currentUser)return;
+   const idToken=await auth.currentUser.getIdToken();
+   post('TOKEN',{idToken:idToken});
+ }
+ function showSession(){
+   let pill=el('hr105-session');
+   if(!pill){
+     const controls=document.querySelector('#main-header .hdr-controls')||document.querySelector('#main-header');
+     if(!controls)return;
+     pill=document.createElement('button');pill.id='hr105-session';pill.type='button';
+     pill.addEventListener('click',function(){if(window.confirm('تسجيل الخروج من نظام الموظفين؟'))logout();});
+     controls.prepend(pill);
+   }
+   pill.innerHTML='<i class="fas fa-user-shield" aria-hidden="true"></i> '+roleName(role)+' <i class="fas fa-right-from-bracket" aria-hidden="true"></i>';
+ }
+ function enableApp(){
+   verified=true;clearTimeout(sessionTimeout);error('');busy(false);
+   shell.hidden=true;showSession();
+   if(pending){pending.resolve();pending=null;}
+ }
+ async function logout(){
+   verified=false;role='';
+   notes.hidden=true;shell.hidden=false;
+   const p=el('hr105-session');if(p)p.remove();
+   post('SIGN_OUT');portalWindow=null;portalOrigin='';nonce='';
+   frame.removeAttribute('src');
+   try{if(auth)await auth.signOut();}catch(_){ }
+   el('hr105-password').value='';busy(false);msg('تم تسجيل الخروج بأمان');
+ }
+ async function openNotes(){
+   if(!verified){shell.hidden=false;error('سجّل الدخول إلى النظام أولًا');return;}
+   notes.hidden=false;
+   post('SHOW_NOTES');
+ }
+ function closeNotes(){notes.hidden=true;post('HIDE_NOTES');}
+ window.addEventListener('message',async function(e){
+   const d=e.data;
+   if(!d||d.hr105!=='v1'||d.nonce!==nonce||!portalOriginOk(e.origin))return;
+   if(!LIVE_HOST&&!LOCAL_TEST)return;
+   if(d.type==='READY'){
+     // The nested Apps Script HtmlService frame may be a child of an outer Google wrapper.
+     // Reply to the actual sending frame, never to an unverified window or wildcard origin.
+     portalWindow=e.source;portalOrigin=e.origin;
+     try{await tokenToPortal();}catch(_){finishError('فشل الحصول على رمز جلسة Firebase');}
+   }else if(d.type==='GET_TOKEN'){
+     if(e.source!==portalWindow)return;
+     try{await tokenToPortal();}catch(_){finishError('انتهت جلسة Firebase');}
+   }else if(d.type==='AUTHORIZED'){
+     if(e.source!==portalWindow||!auth||!auth.currentUser)return;
+     if(d.role!=='SYSTEM_ADMIN'&&d.role!=='HR_MANAGER'){finishError('صلاحية الخادم غير معروفة');return;}
+     role=d.role;enableApp();
+   }else if(d.type==='REJECTED'){
+     if(e.source!==portalWindow)return;
+     finishError('رفض الخادم صلاحية هذا الحساب: '+String(d.reason||'AUTH_DENIED'));
+   }else if(d.type==='SIGNED_OUT'||d.type==='REQUEST_SIGN_OUT'){
+     if(e.source!==portalWindow)return;
+     if(verified)logout();
+   }
+ });
+ async function signIn(ev){
+   ev.preventDefault();if(pending||sub.disabled)return;
+   error('');msg('');busy(true);
+   try{
+     if(!auth)throw Error('مكتبة المصادقة غير متاحة؛ تحقق من اتصال الإنترنت');
+     const email=el('hr105-email').value.trim(), password=el('hr105-password').value;
+     if(!email||!password)throw Error('أدخل البريد الإلكتروني وكلمة المرور');
+     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw Error('صيغة البريد الإلكتروني غير صحيحة');
+     if(!await authReady)throw Error('تعذر إعداد جلسة المصادقة');
+     const cred=await auth.signInWithEmailAndPassword(email,password);
+     el('hr105-password').value='';
+     if(!cred.user||!cred.user.emailVerified)throw Error('يجب تأكيد البريد الإلكتروني أولًا');
+     msg('تم التحقق من الحساب، يجري فحص صلاحيات الخادم…');
+     await waitPortal(); // Fails closed; actual server WHOAMI required for all notes privileges.
+   }catch(e){
+     const k=String(e&&e.code||'');
+     const map={'auth/invalid-credential':'البريد أو كلمة المرور غير صحيحة','auth/invalid-email':'صيغة البريد الإلكتروني غير صحيحة',
+       'auth/too-many-requests':'محاولات كثيرة؛ حاول لاحقًا','auth/network-request-failed':'تعذر الاتصال بخدمة المصادقة'};
+     error(map[k]||String(e&&e.message||'تعذر تسجيل الدخول'));
+     try{if(auth)await auth.signOut();}catch(_){ }
+     frame.removeAttribute('src');nonce='';portalWindow=null;portalOrigin='';
+     busy(false);msg('');
+   }
+ }
+ form.addEventListener('submit',signIn);
+ el('hr105-toggle').addEventListener('click',function(){
+   const x=el('hr105-password'),visible=x.type==='password';x.type=visible?'text':'password';
+   this.setAttribute('aria-pressed',String(visible));
+   this.setAttribute('aria-label',visible?'إخفاء كلمة المرور':'إظهار كلمة المرور');
+   this.classList.toggle('hr105-eye-revealed',visible);
+ });
+ el('hr105-notes-back').addEventListener('click',closeNotes);
+ document.addEventListener('click',function(ev){
+   const tab=ev.target&&ev.target.closest&&ev.target.closest('#stab-managernotes,[data-key="managernotes"]');
+   if(!tab)return;
+   ev.preventDefault();ev.stopImmediatePropagation();openNotes();
+ },true);
+ const previous=window.switchSub;
+ if(typeof previous==='function')window.switchSub=function(n){
+   if(n==='managernotes'){openNotes();return;}
+   return previous.apply(this,arguments);
+ };
+ window.hrSecureNotesOpen=openNotes;
+ window.hrSecureNotesClose=closeNotes;
+ window.addEventListener('keydown',function(e){if(e.key==='Escape'&&!notes.hidden)closeNotes();});
+ if(!LIVE_HOST&&!LOCAL_TEST){error('هذه النسخة التجريبية مخصصة فقط لنطاق التطبيق المعتمد');busy(false);sub.disabled=true;return;}
+ if(CFG.apiKey.indexOf('__HR105_')===0){error('نسخة معاينة تصميم فقط — يجب ضبط Firebase Web API Key محليًا قبل اختبار الدخول');sub.disabled=true;return;}
+ if(!window.firebase||!firebase.auth){error('تعذر تحميل مكتبات Firebase؛ تحقق من الإنترنت');sub.disabled=true;return;}
+ try{
+   firebase.initializeApp({apiKey:CFG.apiKey,authDomain:CFG.authDomain,projectId:CFG.projectId},'HRUnifiedR15105');
+   auth=firebase.app('HRUnifiedR15105').auth();
+   authReady=auth.setPersistence(firebase.auth.Auth.Persistence.NONE).then(function(){return true;},function(){return false;});
+ }catch(_){error('تعذر تهيئة تسجيل الدخول الموحد');sub.disabled=true;}
+})();
+
+</script></body></html>
