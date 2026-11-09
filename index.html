@@ -7,13 +7,13 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX">
+<meta name="app-release" content="MOBILE-R1.5.105-UNIFIED-LOGIN">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0b1437">
 <link rel="manifest" href="manifest.webmanifest">
-<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.104</title>
+<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.105</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/fonts/hr-fonts.css?v=r1411">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -8960,8 +8960,8 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=15102';
-  var KEEP_CACHE='employee-registry-ui-r15104';
+  var SW_URL='service-worker.js?v=15105';
+  var KEEP_CACHE='employee-registry-ui-r15105';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
 
@@ -8995,13 +8995,323 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   async function maintain(){
     await purgeLegacyInterfaceCaches();
     await installFreshWorker();
-    try{localStorage.setItem('hr_mobile_ui_cache_release','15102');}catch(e){}
+    try{localStorage.setItem('hr_mobile_ui_cache_release','15105');}catch(e){}
   }
 
   if(document.readyState==='complete')setTimeout(maintain,0);
   else window.addEventListener('load',function(){setTimeout(maintain,0);},{once:true});
   window.r1537CacheServiceWorkerFix={release:RELEASE,maintain:maintain,purge:purgeLegacyInterfaceCaches,register:installFreshWorker};
 })();
+</script>
+
+<!-- HR_R15105_APPROVED_LOGIN_UI: one-column authentic interactive UI -->
+<style id="hr105-login-style">
+/* R1.5.105 — APPROVED IRAQI MINISTRY MOBILE LOGIN, implemented as editable HTML/CSS.
+   Built on original HR fonts, no full-screen mockup, no fake client-side role.
+ */
+#hr105-auth[hidden],#hr105-notes-layer[hidden]{display:none!important}
+#hr105-auth{position:fixed;z-index:2147483600;inset:0;overflow:auto;overscroll-behavior:contain;isolation:isolate;direction:rtl;color:#071d3f;background:#06234b;font-family:var(--hr-body-font,'Zain','Cairo',sans-serif);-webkit-font-smoothing:antialiased}
+#hr105-auth *,#hr105-auth *::before,#hr105-auth *::after{box-sizing:border-box}
+#hr105-auth .hr105-screen{min-height:100%;width:100%;position:relative;overflow:hidden;background:radial-gradient(ellipse at 35% 55%,#115184 0%,transparent 64%),linear-gradient(155deg,#062247,#063a70 75%,#04182f 100%)}
+#hr105-auth .hr105-screen::before{content:"";position:absolute;left:-14%;bottom:-142px;width:128%;height:155px;border-top:2px solid #d2a23f;border-radius:50% 55% 0 0;transform:rotate(-11deg);background:linear-gradient(170deg,transparent 0%,#03142b 66%);pointer-events:none}
+#hr105-auth .hr105-screen::after{content:"";position:absolute;left:-20%;bottom:-174px;width:125%;height:125px;border-top:4px solid #e8b740;border-radius:48% 38% 0 0;transform:rotate(-11deg);pointer-events:none}
+#hr105-auth .hr105-header{position:relative;z-index:2;min-height:calc(env(safe-area-inset-top,0px) + 73px);padding:calc(env(safe-area-inset-top,0px) + 14px) 22px 20px;color:white;background:linear-gradient(105deg,#052448,#041d3b 70%,#061b37);box-shadow:0 5px 30px #0002}
+#hr105-auth .hr105-header-row{display:flex;align-items:center;justify-content:flex-start;gap:12px;max-width:550px;margin:0 auto;min-height:42px}
+#hr105-auth .hr105-brand{width:40px;height:40px;object-fit:contain;flex:none;filter:drop-shadow(0 1px 6px #00a2df28)}
+#hr105-auth .hr105-header strong{font:900 clamp(16px,4.7vw,23px)/1.4 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif);color:#fff;white-space:nowrap}
+#hr105-auth .hr105-header-wave{position:absolute;bottom:-7px;left:0;width:100%;height:18px;pointer-events:none}
+#hr105-auth .hr105-login-content{position:relative;z-index:1;width:min(100%,510px);padding:clamp(77px,11vh,98px) 18px 52px;margin:0 auto}
+#hr105-auth .hr105-card{position:relative;border:1px solid #d5a33c;border-bottom:3px solid #deb24c;border-radius:30px;background:linear-gradient(143deg,#fff 0%,#f9faff 49%,#e9f0fb 100%);box-shadow:0 20px 45px #0005,inset 0 0 30px #cbd7eb33;padding:96px clamp(21px,6.4vw,36px) 32px;text-align:center}
+#hr105-auth .hr105-emblem-wrap{position:absolute;top:-69px;left:50%;transform:translateX(-50%);width:148px;height:148px;display:grid;place-items:center;border-radius:50%;background:#fff;box-shadow:0 9px 16px #081e3a33;overflow:hidden;border:3px solid #f7f9fa}
+#hr105-auth .hr105-emblem{display:block;width:100%;height:100%;object-fit:contain}
+#hr105-auth .hr105-org{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 auto 2px;color:#0b2a55;font:850 clamp(12px,3.8vw,18px)/1.7 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif)}
+#hr105-auth .hr105-org::before,#hr105-auth .hr105-org::after{content:"";width:24px;height:1px;background:#d5a33c;opacity:.8}
+#hr105-auth h1.hr105-app-name{margin:0;color:#071f41;font:900 clamp(20px,5.6vw,28px)/1.5 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif)}
+#hr105-auth .hr105-ornament{display:flex;justify-content:center;align-items:center;gap:7px;margin:10px 0 19px}
+#hr105-auth .hr105-ornament span{width:53px;height:2px;background:linear-gradient(90deg,transparent,#c79627)}
+#hr105-auth .hr105-ornament span:last-child{transform:rotate(180deg)}
+#hr105-auth .hr105-ornament b{width:11px;height:11px;transform:rotate(45deg);background:linear-gradient(145deg,#ffe68b,#d0a12b)}
+#hr105-auth .hr105-form-title{display:flex;align-items:center;justify-content:center;gap:11px;margin:0 0 23px;font:900 clamp(25px,7vw,34px)/1.5 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif);color:#08244a}
+#hr105-auth .hr105-title-lock{display:grid;place-items:center;width:43px;height:43px;flex:none;border:1px solid #cbd8e9;border-radius:12px;color:#123c73;font-size:20px;background:linear-gradient(140deg,#f5f9ff,#dce9fa);box-shadow:0 3px 8px #09295512}
+#hr105-auth .hr105-login-form{display:flex;flex-direction:column;gap:13px}
+#hr105-auth .hr105-field{width:100%;height:57px;display:flex;align-items:center;gap:10px;flex-direction:row;border:1px solid #c6d6e9;border-radius:18px;background:linear-gradient(110deg,#fff,#f4f8ff);box-shadow:0 5px 9px #113b6110;transition:border-color .22s,box-shadow .22s,transform .22s}
+#hr105-auth .hr105-field:focus-within{border-color:#307ddd;box-shadow:0 0 0 3px #3e8ee622,0 6px 19px #2459a52a;transform:translateY(-1px)}
+#hr105-auth .hr105-field-icon{height:44px;width:43px;margin-right:5px;display:grid;place-items:center;flex:none;border-radius:13px;background:#e7f0fc;color:#123c72;font-size:19px}
+#hr105-auth .hr105-field input{min-width:0;flex:1;outline:none;border:0;background:transparent;color:#132a4b;font:750 14px/1.5 var(--hr-body-font,'Zain','Cairo',sans-serif);text-align:right;direction:rtl;padding:0 0 0 8px;height:100%}
+#hr105-auth .hr105-field input::placeholder{color:#64768e;opacity:1}
+#hr105-auth .hr105-field input:-webkit-autofill{-webkit-text-fill-color:#132a4b!important;box-shadow:0 0 0 80px #f6faff inset!important}
+#hr105-auth .hr105-eye{flex:none;border:0;background:transparent;margin-left:7px;padding:10px;color:#123d76;font-size:17px;cursor:pointer;min-width:40px;min-height:42px}
+#hr105-auth .hr105-eye:focus-visible,#hr105-auth .hr105-submit:focus-visible{outline:3px solid #2d84eb;outline-offset:2px}
+#hr105-auth .hr105-alert{font-size:12px;line-height:1.7;text-align:right;color:#ad2532;margin:0 4px}
+#hr105-auth .hr105-alert:empty{display:none}
+#hr105-auth .hr105-submit{position:relative;overflow:hidden;isolation:isolate;width:100%;min-height:58px;margin-top:9px;display:flex;justify-content:center;align-items:center;gap:12px;border:3px solid #eac045;border-radius:21px;background:linear-gradient(180deg,#164d81 0%,#062b5c 54%,#051b3c 100%);box-shadow:0 8px 15px #05275d30;color:white;font:900 clamp(15px,4.8vw,20px)/1.4 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif);cursor:pointer;transition:transform .2s,filter .2s,box-shadow .2s}
+#hr105-auth .hr105-submit>i{color:#f7c948;font-size:21px}
+#hr105-auth .hr105-submit::before{content:"";position:absolute;inset:-60px;width:35px;left:-80px;transform:rotate(24deg);background:linear-gradient(90deg,transparent,#fff9,transparent);animation:hr105-sweep 6.5s ease-in-out infinite;pointer-events:none}
+#hr105-auth .hr105-submit:not(:disabled):active{transform:scale(.985)}
+#hr105-auth .hr105-submit:not(:disabled):hover{filter:brightness(1.09);box-shadow:0 11px 22px #062b5a44}
+#hr105-auth .hr105-submit:disabled{opacity:.75;cursor:wait}
+#hr105-auth .hr105-spinner{display:none;width:18px;height:18px;border-radius:50%;border:2px solid #ffffff80;border-top-color:white;animation:hr105-spin .7s linear infinite}
+#hr105-auth .hr105-submit.loading .hr105-spinner{display:inline-block}
+#hr105-auth .hr105-status{color:#365173;text-align:center;font-size:11px;line-height:1.6;margin-top:8px}
+#hr105-auth .hr105-status:empty{display:none}
+#hr105-auth .hr105-credit{margin:21px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#f4f8ff;text-align:center;font:800 clamp(11px,3.7vw,15px)/1.5 var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif);text-shadow:0 1px 2px #0006}
+#hr105-auth .hr105-credit strong{color:#f6cb58;font:inherit}
+#hr105-auth .hr105-credit-ornament{display:flex;align-items:center;gap:11px;color:#f5c74e;font-size:16px}
+#hr105-auth .hr105-credit-ornament span{width:46px;height:1px;background:linear-gradient(90deg,transparent,#f7d46b)}
+#hr105-auth .hr105-credit-ornament span:last-child{transform:rotate(180deg)}
+#hr105-auth .hr105-sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@keyframes hr105-sweep{0%,74%{left:-80px}94%,100%{left:calc(100% + 100px)}}
+@keyframes hr105-spin{to{transform:rotate(360deg)}}
+/* secure notes overlay: preserve existing behavior, redesign does not grant rights */
+#hr105-notes-layer{position:fixed;inset:0;z-index:2147483500;display:flex;flex-direction:column;background:#081225;color:#fff;font-family:var(--hr-body-font,'Zain','Cairo',sans-serif);direction:rtl}
+#hr105-notes-layer .hr105-notes-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:60px;padding:calc(env(safe-area-inset-top,0px) + 6px) 16px 9px;background:linear-gradient(115deg,#102c5e,#142547);border-bottom:1px solid #e7c2734a}
+#hr105-notes-layer .hr105-notes-bar strong{font:900 15px var(--hr-title-font,'Ya Modern Pro','Cairo',sans-serif)}
+#hr105-notes-layer .hr105-notes-back{background:#e8c46a;border:0;color:#17294d;padding:10px 14px;border-radius:11px;font:850 12px var(--hr-body-font,'Zain',sans-serif);cursor:pointer}
+#hr105-notes-frame{width:100%;height:100%;flex:1;border:0;background:#081225}
+#hr105-session{border:1px solid #e8c46a80;border-radius:11px;background:#dbb85b1c;color:#f5da96;font:750 10px var(--hr-body-font,'Zain',sans-serif);display:flex;gap:6px;align-items:center;padding:9px;cursor:pointer}
+@media(min-width:660px){#hr105-auth .hr105-login-content{width:min(100%,500px);padding-top:101px}#hr105-auth .hr105-card{padding-top:106px;padding-bottom:35px}#hr105-auth .hr105-header-row{min-height:45px}}
+@media(max-width:380px){#hr105-auth .hr105-header{padding-left:15px;padding-right:15px}#hr105-auth .hr105-login-content{padding-left:13px;padding-right:13px;padding-top:78px}#hr105-auth .hr105-card{padding-left:18px;padding-right:18px;padding-top:88px}#hr105-auth .hr105-emblem-wrap{width:135px;height:135px;top:-61px}#hr105-auth .hr105-form-title{margin-bottom:18px}#hr105-auth .hr105-field{height:53px}}
+@media(max-height:750px){#hr105-auth .hr105-login-content{padding-top:76px;padding-bottom:35px}#hr105-auth .hr105-card{padding-top:88px;padding-bottom:26px}#hr105-auth .hr105-form-title{margin-bottom:16px}#hr105-auth .hr105-org{font-size:12px}#hr105-auth .hr105-ornament{margin:7px 0 11px}#hr105-auth .hr105-field{height:50px}#hr105-auth .hr105-credit{margin-top:13px}}
+@media(prefers-reduced-motion:reduce){#hr105-auth *,#hr105-auth *::before,#hr105-auth *::after{animation:none!important;transition:none!important}}
+
+/* Embedded icons keep the interface legible offline and without Font Awesome. */
+#hr105-auth svg:not(.hr105-header-wave){width:22px;height:22px;display:block;flex-shrink:0}
+#hr105-auth .hr105-eye{display:grid;place-items:center}
+#hr105-auth .hr105-eye .hr105-eye-closed{display:none!important}
+#hr105-auth .hr105-eye[aria-pressed="true"] .hr105-eye-open{display:none!important}
+#hr105-auth .hr105-eye[aria-pressed="true"] .hr105-eye-closed{display:block!important}
+#hr105-auth .hr105-submit svg{color:#f6c748;width:25px!important;height:25px!important}
+#hr105-auth .hr105-credit-ornament svg{color:#f6d053;width:24px!important;height:24px!important}
+
+</style>
+<!-- R1.5.105: Integrated login, based on the approved Windows/mobile design -->
+<section id="hr105-auth" aria-label="تسجيل الدخول إلى نظام شؤون الموظفين" lang="ar" dir="rtl">
+  <div class="hr105-screen">
+    <header class="hr105-header">
+      <div class="hr105-header-row">
+        <img class="hr105-brand" src="assets/hr-login-brand-r.png" alt="شعار نظام الموظفين" width="42" height="42" />
+        <strong>نظام شؤون الموظفين</strong>
+      </div>
+      <svg class="hr105-header-wave" viewBox="0 0 400 19" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 3 H95 C122 3 125 14 153 14 H400" stroke="#ffffff" stroke-width="9" fill="none"/>
+        <path d="M0 3 H95 C122 3 125 14 153 14 H400" stroke="#eabd47" stroke-width="4.5" fill="none"/>
+      </svg>
+    </header>
+    <main class="hr105-login-content">
+      <div class="hr105-card">
+        <div class="hr105-emblem-wrap">
+          <img src="assets/hr-login-ministry-emblem.png" alt="شعار جمهورية العراق ووزارة الزراعة" width="150" height="150" class="hr105-emblem" />
+        </div>
+        <div class="hr105-org"><span>مديرية زراعة صلاح الدين</span></div>
+        <h1 class="hr105-app-name">نظام شؤون الموظفين</h1>
+        <div class="hr105-ornament" aria-hidden="true"><span></span><b></b><span></span></div>
+        <h2 class="hr105-form-title"><span class="hr105-title-lock" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"  aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r=".7" fill="currentColor"/></svg></span>تسجيل الدخول</h2>
+        <form id="hr105-login-form" class="hr105-login-form" novalidate>
+          <label class="hr105-sr-only" for="hr105-email">البريد الإلكتروني المعتمد</label>
+          <div class="hr105-field">
+            <span class="hr105-field-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"  aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg></span>
+            <input id="hr105-email" name="email" type="email" dir="ltr" inputmode="email" autocomplete="username" placeholder="البريد الإلكتروني" required spellcheck="false" />
+          </div>
+          <label class="hr105-sr-only" for="hr105-password">كلمة المرور</label>
+          <div class="hr105-field">
+            <span class="hr105-field-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"  aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r=".7" fill="currentColor"/></svg></span>
+            <input id="hr105-password" name="password" type="password" dir="rtl" autocomplete="current-password" placeholder="كلمة المرور" required />
+            <button type="button" id="hr105-toggle" class="hr105-eye" aria-label="إظهار كلمة المرور" aria-pressed="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="hr105-eye-open" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="hr105-eye-closed" aria-hidden="true"><path d="M3 3 21 21M10.5 6.1A12 12 0 0 1 12 6c6.4 0 10 6 10 6a17 17 0 0 1-4.2 4.5M6 8a16 16 0 0 0-4 4s3.6 6 10 6a12 12 0 0 0 2.5-.26"/><path d="M10.3 10.3a2.5 2.5 0 0 0 3.4 3.4"/></svg></button>
+          </div>
+          <div class="hr105-alert" id="hr105-error" role="alert" aria-live="polite"></div>
+          <button id="hr105-submit" class="hr105-submit" type="submit">
+            <span class="hr105-spinner" aria-hidden="true"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"  aria-hidden="true"><path d="M11 17l5-5-5-5M16 12H3"/><path d="M12 3h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-6"/></svg>
+            <span id="hr105-submit-label">تسجيل الدخول</span>
+          </button>
+        </form>
+        <div class="hr105-status" id="hr105-status" aria-live="polite"></div>
+      </div>
+      <footer class="hr105-credit">
+        <div class="hr105-credit-ornament" aria-hidden="true"><span></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"  aria-hidden="true"><path d="M8 8 4 12l4 4M16 8l4 4-4 4M14 4l-4 16"/></svg><span></span></div>
+        <span>المبرمج المتواضع <strong>مؤيد الحسن</strong></span>
+      </footer>
+    </main>
+  </div>
+</section>
+<section id="hr105-notes-layer" hidden aria-label="الحركات الإدارية">
+  <div class="hr105-notes-bar"><strong><i class="fas fa-clipboard-check" aria-hidden="true"></i> الحركات الإدارية</strong><button class="hr105-notes-back" id="hr105-notes-back" type="button"><i class="fas fa-arrow-right" aria-hidden="true"></i> الرجوع للموظفين</button></div>
+  <iframe id="hr105-notes-frame" title="سجل الحركات الإدارية الآمن" referrerpolicy="origin" loading="eager"></iframe>
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
+<script id="hr105-unified-auth-script">
+/* HR R1.5.105 Unified Firebase sign-in + secure Apps Script notes bridge.
+   Candidate only; never publish until hosted iframe + RPC end-to-end tests pass.
+   API key is public Firebase browser configuration (NOT a server credential).
+   Role enforcement for notes is ALWAYS rechecked in secureNotesRpc server-side.
+ */
+(function(){
+ 'use strict';
+ const CFG={
+   projectId:'hr-admin-production',
+   apiKey:'AIzaSyAmXrne_uWVNGiLKARATvpl1t0fME_zQZk',
+   authDomain:'hr-admin-production.firebaseapp.com',
+   portal:'https://script.google.com/macros/s/AKfycbzyxA4Eh7_RK9RGAla2A04MqHMQkFkCR5V1IbYg2Wf_0koayj46Pi51VRitu93bbkj9/exec'
+ };
+ // The server determines the role from the verified Firebase UID; no UID allowlist is published in the app.
+ const HOST_ORIGIN=window.location.origin;
+ const LOCAL_TEST=/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(HOST_ORIGIN);
+ const LIVE_HOST=HOST_ORIGIN==='https://muayedhassan.github.io';
+ const el=id=>document.getElementById(id);
+ const shell=el('hr105-auth'),form=el('hr105-login-form'),sub=el('hr105-submit');
+ const frame=el('hr105-notes-frame'),notes=el('hr105-notes-layer');
+ let auth=null,authReady=Promise.resolve(),verified=false,role='',portalWindow=null,portalOrigin='',nonce='',pending=null;
+ let sessionTimeout=0;
+ const msg=text=>el('hr105-status').textContent=String(text||'');
+ function error(text){el('hr105-error').textContent=String(text||'');}
+ function busy(v){sub.disabled=!!v;sub.classList.toggle('loading',!!v);el('hr105-submit-label').textContent=v?'جاري التحقق من الهوية…':'تسجيل الدخول';}
+ function newNonce(){
+   if(!crypto||typeof crypto.getRandomValues!=='function')throw Error('المتصفح لا يدعم إنشاء جلسة آمنة');
+   const data=new Uint8Array(20);crypto.getRandomValues(data);
+   return Array.from(data,b=>b.toString(16).padStart(2,'0')).join('');
+ }
+ function portalOriginOk(v){
+   try{const p=new URL(v);return p.protocol==='https:' &&(p.hostname==='script.google.com'||p.hostname.endsWith('.googleusercontent.com'));}catch(_){return false;}
+ }
+ function roleName(k){return k==='SYSTEM_ADMIN'?'مدير النظام':'مدير الموارد البشرية';}
+ function post(type,other){
+   if(!portalWindow||!portalOrigin)return;
+   try{portalWindow.postMessage(Object.assign({hr105:'v1',nonce:nonce,type:type},other||{}),portalOrigin);}catch(_){ }
+ }
+ function openFrame(){
+   if(!nonce)nonce=newNonce();
+   portalWindow=null;portalOrigin='';
+   frame.src=CFG.portal+'?embed=1&nonce='+encodeURIComponent(nonce);
+ }
+ function finishError(reason){
+   clearTimeout(sessionTimeout);
+   if(pending){pending.reject(new Error(reason));pending=null;}
+ }
+ function waitPortal(){
+   return new Promise(function(resolve,reject){
+     if(pending){reject(new Error('طلب دخول آخر قيد التنفيذ'));return;}
+     pending={resolve:resolve,reject:reject};
+     sessionTimeout=setTimeout(function(){finishError('تعذر التحقق من ربط الحركات داخل التطبيق. تأكد من نشر تحديث Portal الآمن واختبر التضمين أولًا.');},19000);
+     openFrame();
+   });
+ }
+ async function tokenToPortal(){
+   if(!auth||!auth.currentUser)return;
+   const idToken=await auth.currentUser.getIdToken();
+   post('TOKEN',{idToken:idToken});
+ }
+ function showSession(){
+   let pill=el('hr105-session');
+   if(!pill){
+     const controls=document.querySelector('#main-header .hdr-controls')||document.querySelector('#main-header');
+     if(!controls)return;
+     pill=document.createElement('button');pill.id='hr105-session';pill.type='button';
+     pill.addEventListener('click',function(){if(window.confirm('تسجيل الخروج من نظام الموظفين؟'))logout();});
+     controls.prepend(pill);
+   }
+   pill.innerHTML='<i class="fas fa-user-shield" aria-hidden="true"></i> '+roleName(role)+' <i class="fas fa-right-from-bracket" aria-hidden="true"></i>';
+ }
+ function enableApp(){
+   verified=true;clearTimeout(sessionTimeout);error('');busy(false);
+   shell.hidden=true;showSession();
+   if(pending){pending.resolve();pending=null;}
+ }
+ async function logout(){
+   verified=false;role='';
+   notes.hidden=true;shell.hidden=false;
+   const p=el('hr105-session');if(p)p.remove();
+   post('SIGN_OUT');portalWindow=null;portalOrigin='';nonce='';
+   frame.removeAttribute('src');
+   try{if(auth)await auth.signOut();}catch(_){ }
+   el('hr105-password').value='';busy(false);msg('تم تسجيل الخروج بأمان');
+ }
+ async function openNotes(){
+   if(!verified){shell.hidden=false;error('سجّل الدخول إلى النظام أولًا');return;}
+   notes.hidden=false;
+   post('SHOW_NOTES');
+ }
+ function closeNotes(){notes.hidden=true;post('HIDE_NOTES');}
+ window.addEventListener('message',async function(e){
+   const d=e.data;
+   if(!d||d.hr105!=='v1'||d.nonce!==nonce||!portalOriginOk(e.origin))return;
+   if(!LIVE_HOST&&!LOCAL_TEST)return;
+   if(d.type==='READY'){
+     // The nested Apps Script HtmlService frame may be a child of an outer Google wrapper.
+     // Reply to the actual sending frame, never to an unverified window or wildcard origin.
+     portalWindow=e.source;portalOrigin=e.origin;
+     try{await tokenToPortal();}catch(_){finishError('فشل الحصول على رمز جلسة Firebase');}
+   }else if(d.type==='GET_TOKEN'){
+     if(e.source!==portalWindow)return;
+     try{await tokenToPortal();}catch(_){finishError('انتهت جلسة Firebase');}
+   }else if(d.type==='AUTHORIZED'){
+     if(e.source!==portalWindow||!auth||!auth.currentUser)return;
+     if(d.role!=='SYSTEM_ADMIN'&&d.role!=='HR_MANAGER'){finishError('صلاحية الخادم غير معروفة');return;}
+     role=d.role;enableApp();
+   }else if(d.type==='REJECTED'){
+     if(e.source!==portalWindow)return;
+     finishError('رفض الخادم صلاحية هذا الحساب: '+String(d.reason||'AUTH_DENIED'));
+   }else if(d.type==='SIGNED_OUT'||d.type==='REQUEST_SIGN_OUT'){
+     if(e.source!==portalWindow)return;
+     if(verified)logout();
+   }
+ });
+ async function signIn(ev){
+   ev.preventDefault();if(pending||sub.disabled)return;
+   error('');msg('');busy(true);
+   try{
+     if(!auth)throw Error('مكتبة المصادقة غير متاحة؛ تحقق من اتصال الإنترنت');
+     const email=el('hr105-email').value.trim(), password=el('hr105-password').value;
+     if(!email||!password)throw Error('أدخل البريد الإلكتروني وكلمة المرور');
+     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw Error('صيغة البريد الإلكتروني غير صحيحة');
+     if(!await authReady)throw Error('تعذر إعداد جلسة المصادقة');
+     const cred=await auth.signInWithEmailAndPassword(email,password);
+     el('hr105-password').value='';
+     if(!cred.user||!cred.user.emailVerified)throw Error('يجب تأكيد البريد الإلكتروني أولًا');
+     msg('تم التحقق من الحساب، يجري فحص صلاحيات الخادم…');
+     await waitPortal(); // Fails closed; actual server WHOAMI required for all notes privileges.
+   }catch(e){
+     const k=String(e&&e.code||'');
+     const map={'auth/invalid-credential':'البريد أو كلمة المرور غير صحيحة','auth/invalid-email':'صيغة البريد الإلكتروني غير صحيحة',
+       'auth/too-many-requests':'محاولات كثيرة؛ حاول لاحقًا','auth/network-request-failed':'تعذر الاتصال بخدمة المصادقة'};
+     error(map[k]||String(e&&e.message||'تعذر تسجيل الدخول'));
+     try{if(auth)await auth.signOut();}catch(_){ }
+     frame.removeAttribute('src');nonce='';portalWindow=null;portalOrigin='';
+     busy(false);msg('');
+   }
+ }
+ form.addEventListener('submit',signIn);
+ el('hr105-toggle').addEventListener('click',function(){
+   const x=el('hr105-password'),visible=x.type==='password';x.type=visible?'text':'password';
+   this.setAttribute('aria-pressed',String(visible));
+   this.setAttribute('aria-label',visible?'إخفاء كلمة المرور':'إظهار كلمة المرور');
+   this.classList.toggle('hr105-eye-revealed',visible);
+ });
+ el('hr105-notes-back').addEventListener('click',closeNotes);
+ document.addEventListener('click',function(ev){
+   const tab=ev.target&&ev.target.closest&&ev.target.closest('#stab-managernotes,[data-key="managernotes"]');
+   if(!tab)return;
+   ev.preventDefault();ev.stopImmediatePropagation();openNotes();
+ },true);
+ const previous=window.switchSub;
+ if(typeof previous==='function')window.switchSub=function(n){
+   if(n==='managernotes'){openNotes();return;}
+   return previous.apply(this,arguments);
+ };
+ window.hrSecureNotesOpen=openNotes;
+ window.hrSecureNotesClose=closeNotes;
+ window.addEventListener('keydown',function(e){if(e.key==='Escape'&&!notes.hidden)closeNotes();});
+ if(!LIVE_HOST&&!LOCAL_TEST){error('هذه النسخة التجريبية مخصصة فقط لنطاق التطبيق المعتمد');busy(false);sub.disabled=true;return;}
+ if(CFG.apiKey.indexOf('__HR105_')===0){error('نسخة معاينة تصميم فقط — يجب ضبط Firebase Web API Key محليًا قبل اختبار الدخول');sub.disabled=true;return;}
+ if(!window.firebase||!firebase.auth){error('تعذر تحميل مكتبات Firebase؛ تحقق من الإنترنت');sub.disabled=true;return;}
+ try{
+   firebase.initializeApp({apiKey:CFG.apiKey,authDomain:CFG.authDomain,projectId:CFG.projectId},'HRUnifiedR15105');
+   auth=firebase.app('HRUnifiedR15105').auth();
+   authReady=auth.setPersistence(firebase.auth.Auth.Persistence.NONE).then(function(){return true;},function(){return false;});
+ }catch(_){error('تعذر تهيئة تسجيل الدخول الموحد');sub.disabled=true;}
+})();
+
 </script>
 </body>
 </html>
@@ -12039,7 +12349,7 @@ body.subview-career.r1583-content-open #r1507-chrome-toggle .r1507-dot{width:8px
 // R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX';
+var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -12426,7 +12736,7 @@ body.subview-notes #r1502-dashboard{display:none!important}
 (function(){
 'use strict';
 
-var RELEASE='MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX';
+var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
 var PAGE_ID='view-notes';
 var DB_NAME='hr_mobile_personal_notes';
 var DB_VERSION=1;
@@ -12988,13 +13298,13 @@ window.r1571MyNotes={
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX';
+var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
-async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','15102');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
+async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','15105');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
 async function checkUpdate(showMessage){setRelease();if(navigator.onLine===false){if(showMessage&&typeof showToast==='function')showToast('لا يمكن فحص تحديث النظام بدون إنترنت','warn');return false}try{if(showMessage&&typeof showToast==='function')showToast('جاري فحص تحديث النظام...');var remote=await fetchPublishedRelease(),has=!!(remote&&remote!==RELEASE);try{R71_REMOTE_RELEASE=remote||RELEASE;R71_UPDATE_STATE=has?'new':'current';R122_AUTO_STATUS=has?'تحديث متوفر يدويًا':'محدث'}catch(e){}if(showMessage&&typeof showToast==='function')showToast(has?'يوجد تحديث جديد، يمكنك ضغط حدث النظام الآن':'النظام محدث ولا يحتاج إجراء');return has}catch(e){try{R71_UPDATE_STATE='error';R122_AUTO_STATUS='تعذر الفحص'}catch(_){}if(showMessage&&typeof showToast==='function')showToast('تعذر فحص تحديث النظام حاليًا','warn');return false}}
-async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=15102&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','15102');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
-setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=15102',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
+async function applyUpdate(){setRelease();if(navigator.onLine===false){if(typeof showToast==='function')showToast('تحديث النظام يحتاج إنترنت','warn');return}var run=async function(){if(typeof showToast==='function')showToast('جاري تنزيل أحدث واجهة...');try{if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('employee-registry-')===0}).map(function(k){return caches.delete(k)}))}}catch(e){}try{if('serviceWorker' in navigator){var reg=await navigator.serviceWorker.register('service-worker.js?v=15105&_u='+Date.now(),{scope:'./',updateViaCache:'none'});try{await reg.update()}catch(e){}try{if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'})}catch(e){}}}catch(e){}var u=new URL('index.html',location.href);u.search='';u.searchParams.set('v','15105');u.searchParams.set('_manual_update',Date.now().toString());location.replace(u.toString())};if(typeof showConfirm==='function')showConfirm('تحديث النظام يدويًا','سيتم تنزيل أحدث واجهة مرة واحدة فقط. بيانات الموظفين وIndexedDB ومفتاح البيانات لن تُحذف.',run);else if(window.confirm('تحديث النظام يدويًا؟'))await run()}
+setRelease();try{r71FetchDeployedRelease=fetchPublishedRelease}catch(e){}try{r71CheckInterface=function(silent){if(silent)return Promise.resolve(false);return checkUpdate(true)}}catch(e){}try{r122CheckForAppUpdate=function(silent){if(silent){try{R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return Promise.resolve(false)}return checkUpdate(true)}}catch(e){}try{r122ApplyInterfaceUpdate=applyUpdate}catch(e){}try{r71ForceRefresh=applyUpdate}catch(e){}try{r71CheckAll=async function(){await checkUpdate(true)}}catch(e){}try{r122RefreshAppAndData=async function(){await checkUpdate(true);return false}}catch(e){}try{r122StartAutoUpdateWatchers=function(){try{R122_AUTO_WATCHERS_STARTED=true;R122_AUTO_STATUS='التحديث يدوي فقط'}catch(e){}return false}}catch(e){}try{r122RegisterServiceWorker=async function(){if(!('serviceWorker' in navigator)||location.protocol==='file:')return;try{return await navigator.serviceWorker.register('service-worker.js?v=15105',{scope:'./',updateViaCache:'none'})}catch(e){}}}catch(e){}
 document.addEventListener('DOMContentLoaded',function(){setRelease();setTimeout(setRelease,250);setTimeout(setRelease,1200)});window.addEventListener('load',function(){setRelease();setTimeout(setRelease,500)});window.r1551CanonicalRelease={release:RELEASE,check:checkUpdate,apply:applyUpdate};
 })();
 </script>
@@ -13128,7 +13438,7 @@ body.light-mode #r1502-dashboard.r1579-dashboard .r1579-scope-card,body.light-mo
 // R1579_FIRST_TAP_ROUTER — explicit startup intent queue; no MutationObserver.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX';
+var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
 var state={bootReady:false,pending:null,routing:false,userIntent:null,lastRoute:'',readyReason:''};
 var MODULES={
   employees:[
@@ -13393,7 +13703,7 @@ body.light-mode #r1502-dashboard.r1580-compact .r1580-stat b{color:#17325a!impor
 // R1580_VECTOR_ICON_SYSTEM — preserves the existing Font Awesome vector icon set.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX';
+var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
 function $(s,r){return (r||document).querySelector(s)}
 function all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
 function numFromScope(key){var e=$('#r1502-dashboard [data-main="'+key+'"] .r1579-scope-count');var n=Number(String(e&&e.textContent||'').replace(/[^0-9]/g,''));return isFinite(n)?n:0}
@@ -13507,7 +13817,7 @@ window.r1580CompactProfessionalUI={release:RELEASE,enhance:enhance,install:insta
 // R1581_UNIFORM_CARD_TITLE_CLARITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX';
+var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
 var lastDataMode='perm';
 var routeBusy=false;
 function qs(s,r){return (r||document).querySelector(s)}
@@ -13780,7 +14090,7 @@ body.light-mode.r1582-ui #r1502-dashboard.r1580-compact .r1579-module-card .r157
 // R1582_PROFESSIONAL_SINGLE_SCROLL
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX';
+var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
 var resizeTimer=0;
 
 function q(s,r){return (r||document).querySelector(s)}
@@ -13972,7 +14282,7 @@ body.r1583-dashboard-home #r1502-dashboard.r1580-compact{
 // R1583_CONTENT_MODE_SWITCH
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX';
+var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
 var contentKey='';
 var adminWrapped=false;
 
@@ -14143,7 +14453,7 @@ body.r1583-content-open.chrome-collapsed #scroll{display:block!important}
 // R1584_CAPTURED_CONTENT_MODE_FIX
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX',pendingKey='',pendingTimer=0;
+var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN',pendingKey='',pendingTimer=0;
 function q(s,r){return (r||document).querySelector(s)}
 function forceChromeExpanded(){
  try{
@@ -14210,7 +14520,7 @@ body.r1583-content-open #r1507-chrome-toggle .r1507-dot{background:#37f0a5!impor
 // R1585_HOME_STABILITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX';
+var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
 function returnHome(){
  if(!document.body)return false;
  try{if(window.r1507ChromeSafeFloatingToggle&&typeof window.r1507ChromeSafeFloatingToggle.set==='function')window.r1507ChromeSafeFloatingToggle.set(false)}catch(e){}
@@ -14248,7 +14558,7 @@ body.r1583-content-open:not(.r1583-dashboard-home) #r1507-chrome-toggle{
 // R1586_HOME_NO_HIDE_SHOW
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.104-INAPP-NOTES-WEBVIEW-FIX';
+var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
 function normalizeDashboardHome(){
   if(!document.body)return false;
   if(document.body.classList.contains('r1583-dashboard-home')&&!document.body.classList.contains('r1583-content-open')){
@@ -14513,69 +14823,3 @@ body.light-mode.r1582-ui #r1502-dashboard.r1580-compact .r1579-section-title .r1
 </style>
 
 <!-- R1587_COMPACT_HEADER_GOLD_TYPOGRAPHY_SECTIONS_RELEASE -->
-
-
-<!-- R15104_SECURE_MANAGER_NOTES_PORTAL_BRIDGE: IN-APP WEBVIEW FIX -->
-<style id="hr-secure-notes-launcher-style">
-#hr-secure-notes-launcher[hidden]{display:none!important}
-#hr-secure-notes-launcher{position:fixed!important;inset:0!important;z-index:2147483600!important;overflow:auto!important;direction:rtl!important;padding:calc(env(safe-area-inset-top, 0px) + 20px) 16px calc(env(safe-area-inset-bottom, 0px) + 20px)!important;background:#081528!important;color:#eef5ff!important;font-family:Tahoma,Arial,sans-serif!important;box-sizing:border-box!important}
-#hr-secure-notes-launcher *{box-sizing:border-box!important}
-#hr-secure-notes-launcher .hrsn-card{width:min(100%,520px);margin:8vh auto 0;background:#132440;border:1px solid #385174;border-radius:24px;padding:24px;box-shadow:0 15px 35px #0005}
-#hr-secure-notes-launcher h2{font-size:22px;font-weight:800;margin:0 0 14px}
-#hr-secure-notes-launcher p{font-size:14px;line-height:1.95;color:#d1def2;margin:0 0 18px}
-#hr-secure-notes-launcher a,#hr-secure-notes-launcher button{min-height:48px;width:100%;display:block;text-align:center;border-radius:14px;border:1px solid #547195;font-size:15px;font-weight:800;padding:13px 10px;cursor:pointer;text-decoration:none;margin-top:11px}
-#hr-secure-notes-launcher .hrsn-primary{background:#ebc567;color:#0c1d38;border-color:#ebc567}
-#hr-secure-notes-launcher .hrsn-alt{background:#213b60;color:white}
-#hr-secure-notes-launcher .hrsn-hint{font-size:12px;color:#a9bedc;margin-top:15px}
-</style>
-<script id="hr-secure-notes-launcher-script">
-(function(){
- 'use strict';
- var PORTAL='https://script.google.com/macros/s/AKfycbzyxA4Eh7_RK9RGAla2A04MqHMQkFkCR5V1IbYg2Wf_0koayj46Pi51VRitu93bbkj9/exec';
- var overlay=null;
- function openSecurePortal(){
-   // Median/GoNative: open a NEW native WebView, preserving the employee screen.
-   // Use the official bridge, not a cross-domain window.location navigation.
-   var host=window.median||window.gonative||window.Median||window.GoNative;
-   if(host&&host.window&&typeof host.window.open==='function'){
-     try{host.window.open(PORTAL,'blank');return;}catch(e){console.warn('Median bridge failed; trying the native protocol.');}
-   }
-   // Median native protocol works before the injected JS Bridge finishes loading.
-   if(/median|gonative/i.test(String(navigator.userAgent||''))){
-     window.location.href='median://window/open?url='+encodeURIComponent(PORTAL)+'&mode=blank';
-     return;
-   }
-   // Desktop browser preview only.
-   window.open(PORTAL,'_blank','noopener,noreferrer');
- }
- function make(){
-   if(overlay)return overlay;
-   overlay=document.createElement('section');
-   overlay.id='hr-secure-notes-launcher';
-   overlay.hidden=true;
-   overlay.setAttribute('role','dialog');
-   overlay.setAttribute('aria-modal','true');
-   overlay.setAttribute('aria-label','سجل الحركات الإدارية الآمن');
-   overlay.innerHTML='<div class="hrsn-card"><h2>الحركات الإدارية الآمنة</h2><p>سجل محمي بتسجيل الدخول عبر Firebase. سيُفتح داخل التطبيق في نافذة مستقلة، ويمكنك الرجوع إلى الموظفين بزر الرجوع في الهاتف.</p><button type="button" class="hrsn-primary" id="hrsn-open-secure">فتح السجل الآمن داخل التطبيق</button><button type="button" class="hrsn-alt" id="hrsn-close">العودة إلى الموظفين</button><p class="hrsn-hint">في معاينة Chrome على الحاسبة يفتح السجل في تبويب جديد؛ أما داخل تطبيق Median فيستخدم WebView جديدًا.</p></div>';
-   document.body.appendChild(overlay);
-   document.getElementById('hrsn-close').addEventListener('click',close);
-   document.getElementById('hrsn-open-secure').addEventListener('click',openSecurePortal);
-   return overlay;
- }
- function open(){make().hidden=false;}
- function close(){if(overlay)overlay.hidden=true;}
- window.hrSecureNotesOpen=open;
- window.hrSecureNotesClose=close;
- document.addEventListener('click',function(ev){
-   var tab=ev.target&&ev.target.closest&&ev.target.closest('#stab-managernotes,[data-key="managernotes"]');
-   if(!tab)return;
-   ev.preventDefault();ev.stopImmediatePropagation();open();
- },true);
- var previousSwitch=window.switchSub;
- if(typeof previousSwitch==='function')window.switchSub=function(name){
-   if(name==='managernotes'){open();return;}
-   return previousSwitch.apply(this,arguments);
- };
- document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
-})();
-</script>
