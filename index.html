@@ -1,21 +1,140 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<script id="hr106-privacy-bootstrap">
+/* HR R1.5.106 — privacy guard (stage only): block legacy employee storage.
+   It DOES NOT ERASE existing data. User-approved migration/cleanup is required before production. */
+(function(){
+ 'use strict';
+ const exact=new Set([
+  'emp_central_cache_v2','emp_local_snapshot_v2','emp_pre_excel_master_snapshot',
+  'emp_change_summary_cache_mobile_r122','emp_change_history_cache_mobile_r122',
+  'hr_persistent_change_summary_r1515','hr_persistent_change_history_r1515',
+  'hr_indexeddb_primary_store_meta_r1517','hr_official_data_contract_r1546',
+  'hr_data_change_ledger_r1544','hr_manager_notes_r1475'
+ ]);
+ function protectedKey(key){
+  const k=String(key||'');
+  return exact.has(k)||/^hr_secure_data_access_key(?:_|$)/.test(k);
+ }
+ let permitted=false;
+ const proto=Storage.prototype;
+ const originalGet=proto.getItem, originalSet=proto.setItem;
+ // Old data may exist in storage. No read/write through the new application build.
+ proto.getItem=function(key){
+  if(this===window.localStorage && protectedKey(key))return null;
+  return originalGet.apply(this,arguments);
+ };
+ proto.setItem=function(key,value){
+  if(this===window.localStorage && protectedKey(key))return undefined;
+  return originalSet.apply(this,arguments);
+ };
+ window.hr106PrivacyGuard={
+  release:'MOBILE-R1.5.106-SECURE-DATA-PRIVACY-R3',
+  isAllowed:function(){return permitted;},
+  allowVerifiedSession:function(){permitted=true;},
+  lock:function(){
+   permitted=false;
+   try{if(window.BASE){window.BASE.perm=[];window.BASE.cont=[];}}catch(_){ }
+   try{if(window.filt)window.filt=[];}catch(_){ }
+   try{window.LAST_CHANGE_SUMMARY=null;window.CHANGE_HISTORY={schemaVersion:1,versions:[]};}catch(_){ }
+   try{window.DATA_META={};}catch(_){ }
+   return true;
+  },
+  legacyInventory:function(){
+   // Existence/keys only. Does not read or return employee contents.
+   const found=[];
+   try{for(let i=0;i<window.localStorage.length;i++){
+     const k=window.localStorage.key(i);if(protectedKey(k))found.push(k);
+   }}catch(_){ }
+   return found.sort();
+  },
+  policy:'session-only, no implicit deletion, legacy offline store disabled'
+ };
+})();
+</script>
+<script id="hr106-legacy-cleanup-r3">
+/* HR R1.5.106 R3 — user-authorized retirement of OLD device-only stores.
+   NEVER touches Google Sheets, Apps Script, Windows files or cloud backups.
+   Destructive cleanup is scoped to the production /employees/ app URL ONLY.
+   Preview paths are deliberately non-destructive. Fail closed if cleanup fails. */
+(function(){
+ 'use strict';
+ var production = location.origin === 'https://muayedhassan.github.io' &&
+   /^\/employees\/(?:index\.html)?$/.test(location.pathname);
+ window.hr106LegacyCleanupState = { status: production ? 'RUNNING' : 'PREVIEW_NO_DELETE', localRemoved:0, dbRemoved:0, cacheRemoved:0 };
+ var state=window.hr106LegacyCleanupState;
+ var dbNames=['employee_registry_safety_v1','hr_mobile_data_release_ledger_v1','hr_mobile_personal_notes'];
+ function appKey(name){return /^(?:emp[_-]|hr[_-]|employee[_-]|admin_movements_role[_-]|r15\d{2}[_-])/i.test(String(name||''));}
+ function appDb(name){return /^(?:employee_registry_|hr_mobile_|hr_indexeddb_|emp_)/i.test(String(name||''));}
+ function clearStorage(storage){
+   var keys=[];
+   for(var i=0;i<storage.length;i++){
+     var k=storage.key(i);if(appKey(k))keys.push(k);
+   }
+   keys.forEach(function(k){storage.removeItem(k);state.localRemoved++;});
+ }
+ function deleteDb(name){
+   return new Promise(function(resolve,reject){
+     var complete=false, req, timeout=setTimeout(function(){finish(Error('LEGACY_DB_DELETE_TIMEOUT'));},10000);
+     function finish(err){if(complete)return;complete=true;clearTimeout(timeout);err?reject(err):resolve(true);}
+     try{
+       req=indexedDB.deleteDatabase(name);
+       req.onsuccess=function(){state.dbRemoved++;finish();};
+       req.onerror=function(){finish(Error('LEGACY_DB_DELETE_FAILED'));};
+       req.onblocked=function(){finish(Error('LEGACY_DB_DELETE_BLOCKED'));};
+     }catch(_){finish(Error('LEGACY_DB_DELETE_FAILED'));}
+   });
+ }
+ async function clean(){
+   if(!production)return state;
+   try{
+     clearStorage(localStorage);
+     clearStorage(sessionStorage);
+     if(!window.indexedDB||typeof indexedDB.deleteDatabase!=='function')throw Error('INDEXEDDB_UNAVAILABLE');
+     if(typeof indexedDB.databases==='function'){
+       var discovered=await indexedDB.databases();
+       if(!Array.isArray(discovered))throw Error('DATABASE_LIST_INVALID');
+       discovered.forEach(function(db){if(db&&appDb(db.name))dbNames.push(db.name);});
+     }
+     dbNames=Array.from(new Set(dbNames));
+     // Sequential deletion: deterministic and easier to diagnose in Android WebView.
+     for(var i=0;i<dbNames.length;i++)await deleteDb(dbNames[i]);
+     if('caches' in window){
+       var names=await caches.keys();
+       for(var j=0;j<names.length;j++){
+         if(/^(?:employee-registry-|hr-employee-|hr-mobile-)/i.test(names[j])){
+           var removed=await caches.delete(names[j]);
+           if(!removed)throw Error('LEGACY_CACHE_DELETE_FAILED');
+           state.cacheRemoved++;
+         }
+       }
+     }
+     state.status='COMPLETE';
+     return state;
+   }catch(_){state.status='FAILED';throw Error('تعذر تنظيف بيانات التطبيق القديمة؛ لن يُسمح بتسجيل الدخول حتى تُعالج المشكلة');}
+ }
+ window.hr106LegacyCleanupReady=clean();
+ // Attach a rejection handler so the browser reports the error via sign-in, not an unhandled promise.
+ window.hr106LegacyCleanupReady.catch(function(){return null;});
+})();
+
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <!-- MOBILE-R1.5.37-CACHE-HEADERS -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.105-UNIFIED-LOGIN">
+<meta name="app-release" content="MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0b1437">
-<link rel="manifest" href="manifest.webmanifest">
-<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.105</title>
+<link rel="manifest" href="/employees/manifest.webmanifest">
+<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.106</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/fonts/hr-fonts.css?v=r1411">
+<link rel="stylesheet" href="/employees/assets/fonts/hr-fonts.css?v=r1411">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root{
@@ -2190,6 +2309,9 @@ function validDataset(d){
 }
 function applyDataset(d){
   if(!validDataset(d)) return false;
+  // Do not reapply an archived employee snapshot before or after sign-out.
+  if(!window.hr106PrivacyGuard || !window.hr106PrivacyGuard.isAllowed())return false;
+  if(!window.hr106DataLoginReady || !window.hr106DataLoginReady())return false;
   DATA_META = d.meta || {};
   bridgeMergePublication(DATA_META);
   BASE.perm = d.perm.map(function(e){return bridgeNormalizeEmployee(e,'perm');});
@@ -2198,17 +2320,13 @@ function applyDataset(d){
   bridgeRefreshSensitiveUI();
   return true;
 }
-function cacheCentral(d){
-  try{localStorage.setItem(CENTRAL_CACHE_KEY, JSON.stringify(d));}catch(e){}
-}
+function cacheCentral(d){ /* privacy: do not persist employee data */ return false; }
 function saveData(){
   // R5 Central master data is read-only in the app.
   // Official changes are made in HRSystem / SQL Server and published through GitHub.
   return false;
 }
-function getLocalSnapshot(){
-  try{return safeParseJSON(localStorage.getItem(LOCAL_SNAPSHOT_KEY));}catch(e){return null;}
-}
+function getLocalSnapshot(){return null; /* protect legacy device-only snapshots */}
 // ── DATA SAFETY: IndexedDB audit / backups / trash ───────────────────────────
 var SAFETY_DB_NAME='employee_registry_safety_v1';
 var SAFETY_DB_VERSION=1;
@@ -2218,6 +2336,7 @@ function cloneJSON(v){
   return v==null?v:JSON.parse(JSON.stringify(v));
 }
 function openSafetyDB(){
+  return Promise.reject(new Error('التخزين المحلي القديم معطل في الإصدار الآمن')); // R3
   if(!('indexedDB' in window)) return Promise.reject(new Error('IndexedDB unavailable'));
   if(safetyDbPromise) return safetyDbPromise;
   safetyDbPromise=new Promise(function(resolve,reject){
@@ -2243,6 +2362,7 @@ function openSafetyDB(){
   return safetyDbPromise;
 }
 function idbRun(storeName,mode,work){
+  if(['audit','backups','trash'].includes(String(storeName)))return Promise.reject(new Error('الوصول إلى التخزين المحلي القديم معطل في الوضع الآمن'));
   return openSafetyDB().then(function(db){
     return new Promise(function(resolve,reject){
       var tx=db.transaction(storeName,mode), store=tx.objectStore(storeName), result;
@@ -2254,6 +2374,7 @@ function idbRun(storeName,mode,work){
   });
 }
 function idbAdd(storeName,value){
+  if(['audit','backups','trash'].includes(String(storeName)))return Promise.reject(new Error('الحفظ المحلي للسجلات القديمة معطل في الوضع الآمن'));
   return openSafetyDB().then(function(db){
     return new Promise(function(resolve,reject){
       var tx=db.transaction(storeName,'readwrite'), req=tx.objectStore(storeName).add(value);
@@ -2262,6 +2383,7 @@ function idbAdd(storeName,value){
   });
 }
 function idbPut(storeName,value){
+  if(['audit','backups','trash'].includes(String(storeName)))return Promise.reject(new Error('تعديل التخزين المحلي القديم معطل في الوضع الآمن'));
   return openSafetyDB().then(function(db){
     return new Promise(function(resolve,reject){
       var tx=db.transaction(storeName,'readwrite'), req=tx.objectStore(storeName).put(value);
@@ -2273,6 +2395,7 @@ function idbDelete(storeName,key){
   return idbRun(storeName,'readwrite',function(store){store.delete(key);});
 }
 function idbGetAll(storeName){
+  if(['audit','backups','trash'].includes(String(storeName)))return Promise.resolve([]);
   return openSafetyDB().then(function(db){
     return new Promise(function(resolve,reject){
       var tx=db.transaction(storeName,'readonly'), req=tx.objectStore(storeName).getAll();
@@ -2288,16 +2411,12 @@ function getRecordChanges(before,after){
   return Object.keys(keys).filter(function(k){return !['id','idStatus'].includes(k) && String(before[k]??'')!==String(after[k]??'');}).map(function(k){return {field:k,label:FIELD_LABELS[k]||k,oldValue:before[k]??'',newValue:after[k]??''};});
 }
 async function logAudit(action,beforeRecord,afterRecord,meta,undoable){
-  var ref=afterRecord||beforeRecord||{};
-  var entry={timestamp:new Date().toISOString(),action:action,employeeId:String(ref.id||''),employeeNo:ref.employeeNo||null,name:ref.name||'',beforeRecord:cloneJSON(beforeRecord),afterRecord:cloneJSON(afterRecord),changes:getRecordChanges(beforeRecord,afterRecord),meta:meta||{},undoable:!!undoable,undone:false,baseVersion:DATA_VERSION};
-  try{entry.id=await idbAdd('audit',entry);}catch(e){}
-  refreshSafetyUI();
-  return entry;
+  // No local employee records, before/after values, or undo history persisted.
+  return {action:String(action||''),timestamp:new Date().toISOString(),persisted:false};
 }
 async function createBackupFromDataset(dataset,reason){
-  if(!dataset || !Array.isArray(dataset.perm) || !Array.isArray(dataset.cont)) return null;
-  var item={createdAt:new Date().toISOString(),reason:reason||'نسخة احتياطية يدوية',sourceVersion:(dataset.meta&&dataset.meta.version)||dataset.baseVersion||DATA_VERSION,perm:cloneJSON(dataset.perm),cont:cloneJSON(dataset.cont),counts:{perm:dataset.perm.length,cont:dataset.cont.length,total:dataset.perm.length+dataset.cont.length}};
-  try{item.id=await idbAdd('backups',item); await trimBackups(8); refreshSafetyUI(); return item;}catch(e){return null;}
+  // R1.5.106 privacy R2: never create a full employee backup on this device.
+  return null;
 }
 async function createBackup(reason){
   return createBackupFromDataset({meta:{version:DATA_VERSION},perm:BASE.perm,cont:BASE.cont},reason);
@@ -2422,27 +2541,15 @@ async function fetchChangeHistory(version){
   }
 }
 
-async function migrateOldLocalEdits(){
-  if(!EXCEL_MASTER_MODE) return;
-  try{
-    if(localStorage.getItem(EXCEL_MASTER_MIGRATION_KEY)==='1') return;
-    var snap=getLocalSnapshot();
-    if(snap && Array.isArray(snap.perm) && Array.isArray(snap.cont)){
-      var archived=await createBackupFromDataset(snap,'نسخة محفوظة من تعديلات الجهاز قبل الانتقال إلى Excel Master');
-      if(!archived) localStorage.setItem('emp_pre_excel_master_snapshot',JSON.stringify(snap));
-    }
-    localStorage.removeItem(LOCAL_SNAPSHOT_KEY);
-    localStorage.setItem(EXCEL_MASTER_MIGRATION_KEY,'1');
-  }catch(e){}
-}
+async function migrateOldLocalEdits(){ return false; /* deferred until explicit approval */ }
 
 
 // ── R1.5.08 SECURE DATA SOURCE ───────────────────────────────────────────────
 // The public app shell contains no employee files. The data comes from a private
 // Google Sheets source through the user's Apps Script Web App. The secret key is
 // entered on the device once and stored locally; it is NOT hardcoded here.
-var HR_SECURE_API_URL = 'https://script.google.com/macros/s/AKfycbzjnBBnE_iGyAZpKPqV5cJ4KZEfs25Fd5UxhKIjxx6nGe2p-RZjSVvgdl8NKmTQz1FQ/exec';
-var HR_SECURE_KEY_STORE = 'hr_secure_data_access_key_r1508';
+var HR_SECURE_API_URL = ''; // Retired in the new candidate; no legacy JSONP read.
+var HR_SECURE_KEY_STORE = ''; // Shared key no longer used by this candidate.
 var HR_SECURE_SOURCE_LABEL = 'Google Sheets Secure API';
 var HR_SECURE_PENDING_PROMPT = false;
 
@@ -2522,83 +2629,130 @@ function hr1508DatasetFromApi(api){
     cont:c.map(function(r,i){return hr1508Employee(r,'cont',i);})
   };
 }
-function hr1508StoredKey(){try{return hr1508Str(localStorage.getItem(HR_SECURE_KEY_STORE));}catch(e){return '';}}
-function hr1508SaveKey(k){try{localStorage.setItem(HR_SECURE_KEY_STORE,hr1508Str(k));}catch(e){}}
-function hr1508ClearKey(){try{localStorage.removeItem(HR_SECURE_KEY_STORE);}catch(e){}}
-function hr1508AskKey(reason){
-  if(HR_SECURE_PENDING_PROMPT)throw new Error('نافذة مفتاح البيانات مفتوحة');
-  HR_SECURE_PENDING_PROMPT=true;
-  try{
-    var msg=(reason?reason+'\n\n':'')+'أدخل مفتاح البيانات الآمن الخاص بتطبيق الموظفين.\nسيُحفظ على هذا الجهاز فقط، ولا يوجد داخل ملفات التطبيق.';
-    var k=prompt(msg, '');
-    k=hr1508Str(k);
-    if(!k)throw new Error('لم يتم إدخال مفتاح البيانات الآمن');
-    hr1508SaveKey(k);
-    return k;
-  }finally{HR_SECURE_PENDING_PROMPT=false;}
-}
-function hr1508Jsonp(url,params,timeoutMs){
-  params=params||{};timeoutMs=timeoutMs||25000;
-  return new Promise(function(resolve,reject){
-    var cb='hrSecureCb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
-    var done=false,script=document.createElement('script');
-    function cleanup(){try{delete window[cb];}catch(e){window[cb]=undefined;}if(script&&script.parentNode)script.parentNode.removeChild(script);}
-    var timer=setTimeout(function(){if(done)return;done=true;cleanup();reject(new Error('انتهت مهلة الاتصال بمصدر البيانات الآمن'));},timeoutMs);
-    window[cb]=function(data){if(done)return;done=true;clearTimeout(timer);cleanup();resolve(data);};
-    var q=[];Object.keys(params).forEach(function(k){q.push(encodeURIComponent(k)+'='+encodeURIComponent(params[k]));});
-    q.push('callback='+encodeURIComponent(cb));q.push('_='+Date.now());
-    script.async=true;script.onerror=function(){if(done)return;done=true;clearTimeout(timer);cleanup();reject(new Error('تعذر الاتصال بمصدر البيانات الآمن'));};
-    script.src=url+(url.indexOf('?')>=0?'&':'?')+q.join('&');
-    document.head.appendChild(script);
-  });
-}
+
+/* HR R1.5.106 - Authenticated Employee Data Bridge (staging only)
+   The gateway URL is injected by the safe configuration builder after deployment.
+   No shared read key, JSONP, query-string credential, or persisted Firebase token.
+*/
+(function(){
+ 'use strict';
+ var GATEWAY='https://script.google.com/macros/s/AKfycbxnDBsumu_34mA3SKQA1PcXwiGu9qiXmyZpTFixn91wqhPICSjrtp227htzPAassjfs/exec';
+ var TRUSTED_PARENT='https://muayedhassan.github.io';
+ function sourceAllowed(origin){
+   try {var u=new URL(origin);return u.protocol==='https:' &&
+     (u.hostname==='script.google.com'||u.hostname.endsWith('.googleusercontent.com'));}
+   catch(_){return false;}
+ }
+ function auth(){
+   try{return window.firebase.app('HRUnifiedR15105').auth();}catch(_){return null;}
+ }
+ window.hr106SecureDataEnabled=true;
+ window.hr106DataLoginReady=function(){
+   var a=auth();return !!(a&&a.currentUser&&window.hr105VerifiedAccount&&window.hr105VerifiedAccount()&&window.hr106PrivacyGuard&&window.hr106PrivacyGuard.isAllowed());
+ };
+ var inFlight=null;
+ window.hr106FetchSecureData=function(force){
+   if(inFlight)return inFlight;
+   inFlight=fetchAuthorized();
+   return inFlight.finally(function(){inFlight=null;});
+ };
+ async function fetchAuthorized(){
+   if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(GATEWAY))
+     throw new Error('خدمة قراءة الموظفين الجديدة لم تُضبط بعد');
+   if(location.origin!==TRUSTED_PARENT)throw new Error('مصدر تطبيق غير معتمد');
+   if(!window.hr106DataLoginReady())throw new Error('يجب تسجيل الدخول والتحقق من الصلاحيات');
+   var a=auth(),user=a.currentUser,token=await user.getIdToken();
+   var bytes=new Uint8Array(20);crypto.getRandomValues(bytes);
+   var nonce=Array.from(bytes,function(b){return b.toString(16).padStart(2,'0');}).join('');
+   return new Promise(function(resolve,reject){
+     var state={begun:false,meta:null,expected:{permanent:0,contracts:0},received:{permanent:0,contracts:0},
+       all:{permanent:[],contracts:[]},sender:null,senderOrigin:''};
+     var frame=document.createElement('iframe');frame.setAttribute('aria-hidden','true');
+     frame.style.cssText='display:none!important;width:0;height:0;border:0';
+     var done=false;
+     var timer=setTimeout(function(){end(new Error('انتهت مهلة خدمة بيانات الموظفين'))},180000);
+     function end(err,value){
+       if(done)return;
+       done=true;clearTimeout(timer);
+       window.removeEventListener('message',message);
+       try{frame.removeAttribute('src');frame.remove()}catch(_){ }
+       token='';
+       if(err)reject(err);else resolve(value);
+     }
+     function message(ev){
+       if(done||!sourceAllowed(ev.origin))return;
+       var data=ev.data;
+       if(!data||data.hrData!=='v1'||data.nonce!==nonce)return;
+       if(!window.hr106DataLoginReady()||auth().currentUser!==user){end(Error('انتهت جلسة تسجيل الدخول'));return;}
+       if(data.type==='READY'){
+         if(state.sender&&state.sender!==ev.source)return;
+         state.sender=ev.source;state.senderOrigin=ev.origin;
+         try{state.sender.postMessage({hrData:'v1',nonce:nonce,type:'TOKEN',idToken:token},state.senderOrigin)}
+         catch(_){end(Error('تعذر تمرير جلسة المصادقة'));}
+         return;
+       }
+       if(!state.sender||state.sender!==ev.source)return;
+       if(data.type==='ERROR'){
+         end(Error('رفض خادم البيانات الطلب: '+String(data.error||'REQUEST_FAILED').slice(0,100)));
+       }else if(data.type==='BEGIN'){
+         if(state.begun){end(Error('استجابة بيانات مكررة'));return;}
+         var meta=data.meta||{},t=meta.totals||{};
+         if(!meta.ok||!/^DATA-\d{4}\.\d{2}\.\d{2}-\d{6}$/.test(meta.version||'')||
+           !['HR_MANAGER','SYSTEM_ADMIN'].includes(data.role)||
+           !Number.isInteger(t.permanent)||!Number.isInteger(t.contracts)||
+           t.permanent<0||t.contracts<0||t.permanent+t.contracts>20000){
+           end(Error('بيانات وصفية غير صالحة'));return;
+         }
+         state.begun=true;state.meta=meta;state.expected.permanent=t.permanent;state.expected.contracts=t.contracts;
+       }else if(data.type==='PAGE'){
+         var type=data.typeName||data.kind||data['typeOfRows']||data['type'];
+         // DataBridge sends its message type in `type`, so the row category is in `category`.
+         type=data.category||type;
+         if(!state.begun||!Object.prototype.hasOwnProperty.call(state.all,type)||
+           data.offset!==state.received[type]||!Array.isArray(data.rows)||data.rows.length>120){
+           end(Error('تسلسل صفحات البيانات غير صحيح'));return;
+         }
+         state.received[type]+=data.pageCount;
+         // pageCount counts sheet rows, even when entirely blank; validate progress independently.
+         if(!Number.isInteger(data.pageCount)||data.pageCount<1||
+            state.received[type]>state.expected[type]){
+           end(Error('حجم صفحة البيانات غير صحيح'));return;
+         }
+         Array.prototype.push.apply(state.all[type],data.rows);
+       }else if(data.type==='DONE'){
+         if(!state.begun||data.version!==state.meta.version||
+           state.received.permanent!==state.expected.permanent||
+           state.received.contracts!==state.expected.contracts){
+           end(Error('بيانات غير مكتملة أو تغير الإصدار أثناء التحميل'));return;
+         }
+         var m=state.meta;
+         end(null,{ok:true,version:m.version,publishedAt:m.publishedAt,
+           versionMeta:m.versionMeta,changeSummary:m.changeSummary,
+           changeHistory:m.changeHistory,source:m.source,
+           permanent:state.all.permanent,contracts:state.all.contracts});
+       }
+     }
+     window.addEventListener('message',message);
+     frame.src=GATEWAY+'?embed=1&nonce='+encodeURIComponent(nonce);
+     document.body.appendChild(frame);
+   });
+ }
+})();
+
+// R1.5.106: no shared read key, prompt, or JSONP data retrieval.
 async function hr1508FetchSecureDataset(forceRefresh){
-  if(new URLSearchParams(location.search).get('resetDataKey')==='1')hr1508ClearKey();
-  var lastErr=null;
-  for(var attempt=0;attempt<2;attempt++){
-    var key=hr1508StoredKey()||hr1508AskKey(attempt?'المفتاح السابق غير صحيح أو منتهي. أدخل المفتاح الجديد.':'');
-    try{
-      var api=await hr1508Jsonp(HR_SECURE_API_URL,{type:'all',key:key});
-      if(api&&api.ok){return hr1508DatasetFromApi(api);}
-      if(api&&api.error==='UNAUTHORIZED'){
-        hr1508ClearKey();lastErr=new Error('مفتاح البيانات غير صحيح');
-        continue;
-      }
-      throw new Error((api&&api.error)||'استجابة غير صحيحة من مصدر البيانات');
-    }catch(e){lastErr=e;if(String(e&&e.message||'').indexOf('مفتاح البيانات')>=0)continue;throw e;}
-  }
-  throw lastErr||new Error('تعذر تحميل مصدر البيانات الآمن');
+  var api=await window.hr106FetchSecureData(forceRefresh);
+  return hr1508DatasetFromApi(api);
 }
 
 async function loadCentralData(forceRefresh){
-  var fallback=window.FALLBACK_EMPLOYEE_DATA;
-  var cached=safeParseJSON(localStorage.getItem(CENTRAL_CACHE_KEY));
-  await migrateOldLocalEdits();
-
-  try{
-    var secure=await hr1508FetchSecureDataset(forceRefresh);
-    if(secure && applyDataset(secure)){
-      cacheCentral(secure);
-      LAST_DATA_STATUS='تم تحميل بيانات الدائمين والعقود من Google Sheets الآمنة: '+BASE.perm.length+' دائم • '+BASE.cont.length+' عقد';
-      updateExcelMasterUI();
-      return;
-    }
-  }catch(e){
-    LAST_DATA_STATUS='تعذر تحميل Google Sheets الآمنة: '+(e&&e.message?e.message:e);
-  }
-
-  if(cached && applyDataset(cached)){
-    LAST_DATA_STATUS='بدون اتصال — تم تشغيل آخر نسخة محفوظة من Google Sheets الآمنة على هذا الجهاز';
-    updateExcelMasterUI();
-    return;
-  }
-  if(fallback && applyDataset(fallback)){
-    cacheCentral(fallback);
-    LAST_DATA_STATUS='تم تشغيل النسخة الاحتياطية المحلية المرفقة داخل التطبيق';
-    updateExcelMasterUI();
-    return;
-  }
-  throw new Error(LAST_DATA_STATUS || 'تعذر تحميل بيانات الموظفين');
+  if(!window.hr106DataLoginReady||!window.hr106DataLoginReady())
+    throw new Error('يجب تسجيل الدخول قبل قراءة الموظفين');
+  const remote=await hr1508FetchSecureDataset(!!forceRefresh);
+  if(!remote || !applyDataset(remote))throw new Error('فشل التحقق من البيانات الجديدة');
+  LAST_DATA_STATUS='تم تحميل بيانات الموظفين بعد التحقق من الهوية';
+  updateExcelMasterUI();
+  return true;
 }
 
 
@@ -2672,14 +2826,8 @@ window.addEventListener('load',function(){
 // After data is loaded once from Google Sheets, the app should open instantly
 // from the local encrypted-origin browser storage, then refresh silently in the
 // background. This removes the visible empty delay at startup without changing UI.
-function r1510ReadCentralCache(){
-  try{return safeParseJSON(localStorage.getItem(CENTRAL_CACHE_KEY));}catch(e){return null;}
-}
-function r1510ApplyCachedDatasetIfReady(){
-  var cached=r1510ReadCentralCache();
-  if(!cached || !validDataset(cached))return false;
-  return r1509ApplySecureDataset(cached,'تم عرض آخر نسخة محفوظة فوراً — يتم تحديث Google Sheets بالخلفية');
-}
+function r1510ReadCentralCache(){return null;}
+function r1510ApplyCachedDatasetIfReady(){return false; /* online-only privacy */}
 function r1510RefreshSecureDataInBackground(){
   setTimeout(function(){
     if(typeof r1509RecoverSecureData!=='function')return;
@@ -8085,287 +8233,12 @@ window.r1515PersistentChangeHistory={release:RELEASE,restore:restore,persist:per
 
 
 <!-- MOBILE R1.5.16: IndexedDB foundation for future offline modules -->
-<script id="r1516-indexeddb-foundation-script">
-// MOBILE R1.5.16: IndexedDB foundation keeps large datasets and change history outside localStorage.
-(function(){
-var RELEASE='MOBILE-R1.5.16-INDEXEDDB-FOUNDATION';
-var DB_NAME='hr_mobile_secure_store_r1516';
-var DB_VERSION=1;
-var STORES={meta:'meta',datasets:'datasets',changes:'changes'};
-var dbPromise=null;
-function now(){return new Date().toISOString()}
-function hasIDB(){return !!(window.indexedDB)}
-function total(d){try{return ((d&&d.perm)||[]).length+((d&&d.cont)||[]).length}catch(e){return 0}}
-function versionOf(d){try{return (d&&d.meta&&(d.meta.version||d.meta.updatedAt))||''}catch(e){return ''}}
-function clone(v){try{return JSON.parse(JSON.stringify(v))}catch(e){return v}}
-function open(){
-  if(!hasIDB())return Promise.reject(new Error('IndexedDB غير متاح على هذا الجهاز'));
-  if(dbPromise)return dbPromise;
-  dbPromise=new Promise(function(resolve,reject){
-    var req=indexedDB.open(DB_NAME,DB_VERSION);
-    req.onupgradeneeded=function(ev){
-      var db=req.result;
-      if(!db.objectStoreNames.contains(STORES.meta))db.createObjectStore(STORES.meta,{keyPath:'key'});
-      if(!db.objectStoreNames.contains(STORES.datasets)){
-        var ds=db.createObjectStore(STORES.datasets,{keyPath:'key'});
-        try{ds.createIndex('savedAt','savedAt',{unique:false})}catch(e){}
-        try{ds.createIndex('version','version',{unique:false})}catch(e){}
-      }
-      if(!db.objectStoreNames.contains(STORES.changes)){
-        var ch=db.createObjectStore(STORES.changes,{keyPath:'key'});
-        try{ch.createIndex('savedAt','savedAt',{unique:false})}catch(e){}
-      }
-    };
-    req.onsuccess=function(){resolve(req.result)};
-    req.onerror=function(){reject(req.error||new Error('تعذر فتح IndexedDB'))};
-  });
-  return dbPromise;
-}
-async function put(store,obj){
-  var db=await open();
-  return new Promise(function(resolve,reject){
-    var tx=db.transaction(store,'readwrite');
-    tx.objectStore(store).put(obj);
-    tx.oncomplete=function(){resolve(true)};
-    tx.onerror=function(){reject(tx.error||new Error('تعذر حفظ IndexedDB'))};
-  });
-}
-async function get(store,key){
-  var db=await open();
-  return new Promise(function(resolve,reject){
-    var tx=db.transaction(store,'readonly');
-    var req=tx.objectStore(store).get(key);
-    req.onsuccess=function(){resolve(req.result||null)};
-    req.onerror=function(){reject(req.error||new Error('تعذر قراءة IndexedDB'))};
-  });
-}
-async function saveDataset(d,reason){
-  if(!d||!Array.isArray(d.perm)||!Array.isArray(d.cont))return false;
-  var rec={key:'latest',data:clone(d),savedAt:now(),version:versionOf(d),total:total(d),reason:reason||'cache'};
-  await put(STORES.datasets,rec);
-  await put(STORES.meta,{key:'lastDataset',savedAt:rec.savedAt,version:rec.version,total:rec.total,reason:rec.reason,release:RELEASE});
-  return true;
-}
-async function loadDataset(){var r=await get(STORES.datasets,'latest');return r&&r.data?r.data:null}
-async function saveChanges(summary,history,reason){
-  var rec={key:'latest',summary:clone(summary||null),history:clone(history||null),savedAt:now(),reason:reason||'change-trace'};
-  await put(STORES.changes,rec);
-  await put(STORES.meta,{key:'lastChanges',savedAt:rec.savedAt,hasSummary:!!rec.summary,release:RELEASE});
-  return true;
-}
-async function loadChanges(){return await get(STORES.changes,'latest')}
-function lsDataset(){try{return safeParseJSON(localStorage.getItem(CENTRAL_CACHE_KEY))}catch(e){return null}}
-function valid(d){try{return !!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont))}catch(e){return false}}
-function seedLocalStorageFromIndexedDB(){
-  return loadDataset().then(function(d){
-    if(valid(d)){
-      try{localStorage.setItem(CENTRAL_CACHE_KEY,JSON.stringify(d))}catch(e){}
-      return d;
-    }
-    return null;
-  }).catch(function(){return null});
-}
-function migrateFromLocalStorage(){
-  var tasks=[];
-  try{var d=lsDataset();if(valid(d))tasks.push(saveDataset(d,'localStorage-migration'))}catch(e){}
-  try{var s=safeParseJSON(localStorage.getItem(CHANGE_SUMMARY_CACHE_KEY));var h=safeParseJSON(localStorage.getItem(CHANGE_HISTORY_CACHE_KEY));if(s||h)tasks.push(saveChanges(s,h,'localStorage-migration'))}catch(e){}
-  return Promise.all(tasks).then(function(){return true}).catch(function(){return false});
-}
-function wrapCacheCentral(){
-  try{
-    if(typeof cacheCentral!=='function'||cacheCentral.__r1516Wrapped)return false;
-    var old=cacheCentral;
-    cacheCentral=function(d){
-      var r=old.apply(this,arguments);
-      try{saveDataset(d,'cacheCentral').catch(function(){})}catch(e){}
-      return r;
-    };
-    cacheCentral.__r1516Wrapped=true;
-    return true;
-  }catch(e){return false}
-}
-function wrapApply(){
-  try{
-    if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1516Wrapped)return false;
-    var old=r1509ApplySecureDataset;
-    r1509ApplySecureDataset=function(d,statusText){
-      var ok=old.apply(this,arguments);
-      try{if(ok){var ds={meta:clone(DATA_META||{}),perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])};saveDataset(ds,'apply-secure-dataset').catch(function(){})}}catch(e){}
-      return ok;
-    };
-    r1509ApplySecureDataset.__r1516Wrapped=true;
-    try{window.r1509ApplySecureDataset=r1509ApplySecureDataset}catch(e){}
-    return true;
-  }catch(e){return false}
-}
-function wrapLoadCentralData(){
-  try{
-    if(typeof loadCentralData!=='function'||loadCentralData.__r1516Wrapped)return false;
-    var old=loadCentralData;
-    loadCentralData=async function(forceRefresh){
-      if(!forceRefresh && !valid(lsDataset())){
-        var idbData=await seedLocalStorageFromIndexedDB();
-        if(valid(idbData)&&typeof r1509ApplySecureDataset==='function'){
-          r1509ApplySecureDataset(idbData,'تم عرض آخر نسخة محفوظة من IndexedDB — يتم تحديث Google Sheets بالخلفية');
-          try{if(typeof r1510RefreshSecureDataInBackground==='function')r1510RefreshSecureDataInBackground()}catch(e){}
-          return;
-        }
-      }
-      await old.apply(this,arguments);
-      try{if(total({perm:BASE.perm||[],cont:BASE.cont||[]})>0){saveDataset({meta:clone(DATA_META||{}),perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])},forceRefresh?'load-force':'load').catch(function(){})}}catch(e){}
-    };
-    loadCentralData.__r1516Wrapped=true;
-    return true;
-  }catch(e){return false}
-}
-function wrapChangePersist(){
-  try{
-    var oldPersist=(window.r1515PersistentChangeHistory&&window.r1515PersistentChangeHistory.persist)||null;
-    if(oldPersist&&!oldPersist.__r1516Wrapped){
-      window.r1515PersistentChangeHistory.persist=function(){
-        var r=oldPersist.apply(this,arguments);
-        try{saveChanges((typeof LAST_CHANGE_SUMMARY!=='undefined'?LAST_CHANGE_SUMMARY:null),(typeof CHANGE_HISTORY!=='undefined'?CHANGE_HISTORY:null),'r1515-persist').catch(function(){})}catch(e){}
-        return r;
-      };
-      window.r1515PersistentChangeHistory.persist.__r1516Wrapped=true;
-    }
-  }catch(e){}
-}
-function install(){wrapCacheCentral();wrapApply();wrapLoadCentralData();wrapChangePersist();migrateFromLocalStorage();}
-function status(){return open().then(function(){return Promise.all([get(STORES.meta,'lastDataset'),get(STORES.meta,'lastChanges')])}).then(function(v){return {ok:true,release:RELEASE,dataset:v[0]||null,changes:v[1]||null}}).catch(function(e){return {ok:false,release:RELEASE,error:String(e&&e.message||e)}})}
-window.hrIndexedDB={release:RELEASE,open:open,saveDataset:saveDataset,loadDataset:loadDataset,saveChanges:saveChanges,loadChanges:loadChanges,migrate:migrateFromLocalStorage,status:status,install:install};
-install();
-document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,500);setTimeout(install,2000)});
-window.addEventListener('load',function(){setTimeout(install,300);setTimeout(install,1500);setTimeout(function(){try{status().then(function(s){window.__hrIndexedDBStatus=s})}catch(e){}},3000)});
-})();
-</script>
+<!-- r1516-indexeddb-foundation-script: retired for authenticated online-only preview -->
 
 
 
 <!-- MOBILE R1.5.17: IndexedDB primary store over localStorage mirror -->
-<script id="r1517-indexeddb-primary-store-script">
-// MOBILE R1.5.17: IndexedDB is now the primary secure dataset store; localStorage remains a compatibility mirror for the key and legacy UI.
-(function(){
-var RELEASE='MOBILE-R1.5.17-INDEXEDDB-PRIMARY-STORE';
-var LS_MIRROR_META_KEY='hr_indexeddb_primary_store_meta_r1517';
-function now(){return new Date().toISOString()}
-function valid(d){try{return !!(d&&Array.isArray(d.perm)&&Array.isArray(d.cont))}catch(e){return false}}
-function total(d){try{return ((d&&d.perm)||[]).length+((d&&d.cont)||[]).length}catch(e){return 0}}
-function clone(v){try{return JSON.parse(JSON.stringify(v))}catch(e){return v}}
-function statusText(reason,d){return 'تم عرض البيانات من IndexedDB كمصدر أساسي: '+((d&&d.perm)||[]).length+' دائم • '+((d&&d.cont)||[]).length+' عقد'+(reason?' — '+reason:'')}
-function apiReady(){return !!(window.hrIndexedDB&&typeof window.hrIndexedDB.loadDataset==='function'&&typeof window.hrIndexedDB.saveDataset==='function')}
-async function idbLoad(){try{if(!apiReady())return null;var d=await window.hrIndexedDB.loadDataset();return valid(d)?d:null}catch(e){return null}}
-async function idbSave(d,reason){try{if(apiReady()&&valid(d))await window.hrIndexedDB.saveDataset(d,reason||'r1517-primary-store');return true}catch(e){return false}}
-function lsRead(){try{return safeParseJSON(localStorage.getItem(CENTRAL_CACHE_KEY))}catch(e){return null}}
-function lsMirror(d,reason){
-  if(!valid(d))return false;
-  // Keep a localStorage mirror for the existing R1.x UI code only. New large modules should read hrIndexedDB first.
-  try{localStorage.setItem(CENTRAL_CACHE_KEY,JSON.stringify(d))}catch(e){}
-  try{localStorage.setItem(LS_MIRROR_META_KEY,JSON.stringify({release:RELEASE,savedAt:now(),reason:reason||'',total:total(d),version:(d&&d.meta&&(d.meta.version||d.meta.updatedAt))||''}))}catch(e){}
-  return true;
-}
-function currentDataset(){try{if(total({perm:BASE.perm||[],cont:BASE.cont||[]})>0)return {meta:clone(DATA_META||{}),perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])}}catch(e){}return null}
-async function applyFromIDB(reason){
-  var d=await idbLoad();
-  if(!valid(d))return false;
-  lsMirror(d,'idb-primary-read');
-  if(typeof r1509ApplySecureDataset==='function'){
-    var ok=r1509ApplySecureDataset(d,statusText(reason||'جاهز',d));
-    try{if(ok){LAST_DATA_STATUS=statusText(reason||'جاهز',d);updateConnectivityUI&&updateConnectivityUI()}}catch(e){}
-    return !!ok;
-  }
-  try{var ok2=applyDataset(d);if(ok2){r1509RefreshVisibleUi&&r1509RefreshVisibleUi(statusText(reason||'جاهز',d));return true}}catch(e){}
-  return false;
-}
-async function promoteLocalStorageOnce(){
-  var d=lsRead();
-  if(valid(d))await idbSave(d,'r1517-promote-localStorage');
-}
-function wrapCacheCentral(){
-  try{
-    if(typeof cacheCentral!=='function'||cacheCentral.__r1517Wrapped)return false;
-    var old=cacheCentral;
-    cacheCentral=function(d){
-      // Save to IndexedDB first. localStorage is retained only as a mirror for old code paths.
-      try{if(valid(d))idbSave(d,'cacheCentral-r1517').then(function(){lsMirror(d,'cacheCentral-r1517')}).catch(function(){lsMirror(d,'cacheCentral-r1517-fallback')})}catch(e){}
-      return old.apply(this,arguments);
-    };
-    cacheCentral.__r1517Wrapped=true;
-    return true;
-  }catch(e){return false}
-}
-function wrapSecureApply(){
-  try{
-    if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1517Wrapped)return false;
-    var old=r1509ApplySecureDataset;
-    r1509ApplySecureDataset=function(d,status){
-      var ok=old.apply(this,arguments);
-      try{if(ok){var cur=currentDataset()||d;if(valid(cur))idbSave(cur,'apply-secure-r1517').then(function(){lsMirror(cur,'apply-secure-r1517')}).catch(function(){})}}catch(e){}
-      return ok;
-    };
-    r1509ApplySecureDataset.__r1517Wrapped=true;
-    try{window.r1509ApplySecureDataset=r1509ApplySecureDataset}catch(e){}
-    return true;
-  }catch(e){return false}
-}
-function wrapLoadCentralData(){
-  try{
-    if(typeof loadCentralData!=='function'||loadCentralData.__r1517Wrapped)return false;
-    var old=loadCentralData;
-    loadCentralData=async function(forceRefresh){
-      if(!forceRefresh){
-        var shown=await applyFromIDB('نسخة محلية أساسية');
-        if(shown){
-          try{if(typeof r1510RefreshSecureDataInBackground==='function')r1510RefreshSecureDataInBackground()}catch(e){}
-          return;
-        }
-      }
-      await old.apply(this,arguments);
-      try{var cur=currentDataset();if(valid(cur))await idbSave(cur,forceRefresh?'force-refresh-r1517':'load-r1517'),lsMirror(cur,forceRefresh?'force-refresh-r1517':'load-r1517')}catch(e){}
-    };
-    loadCentralData.__r1517Wrapped=true;
-    return true;
-  }catch(e){return false}
-}
-function wrapRefreshButton(){
-  try{
-    var api=window.r1513SecureDataManualRefresh;
-    if(!api||typeof api.refresh!=='function'||api.refresh.__r1517Wrapped)return false;
-    var old=api.refresh;
-    api.refresh=async function(origin){
-      var ok=await old.apply(this,arguments);
-      try{var cur=currentDataset();if(ok&&valid(cur))await idbSave(cur,'manual-refresh-r1517'),lsMirror(cur,'manual-refresh-r1517')}catch(e){}
-      return ok;
-    };
-    api.refresh.__r1517Wrapped=true;
-    return true;
-  }catch(e){return false}
-}
-function wrapPersistentChanges(){
-  try{
-    var api=window.r1515PersistentChangeHistory;
-    if(!api||typeof api.persist!=='function'||api.persist.__r1517Wrapped)return false;
-    var old=api.persist;
-    api.persist=function(){
-      var r=old.apply(this,arguments);
-      try{if(apiReady())window.hrIndexedDB.saveChanges((typeof LAST_CHANGE_SUMMARY!=='undefined'?LAST_CHANGE_SUMMARY:null),(typeof CHANGE_HISTORY!=='undefined'?CHANGE_HISTORY:null),'r1517-primary-change-history').catch(function(){})}catch(e){}
-      return r;
-    };
-    api.persist.__r1517Wrapped=true;
-    return true;
-  }catch(e){return false}
-}
-async function status(){
-  var s={ok:false,release:RELEASE,primary:'IndexedDB',mirror:'localStorage-compatibility'};
-  try{var d=await idbLoad();s.ok=valid(d);s.total=total(d);s.version=(d&&d.meta&&(d.meta.version||d.meta.updatedAt))||'';s.hasLocalStorageMirror=valid(lsRead());return s}catch(e){s.error=String(e&&e.message||e);return s}
-}
-function install(){wrapCacheCentral();wrapSecureApply();wrapLoadCentralData();wrapRefreshButton();wrapPersistentChanges();promoteLocalStorageOnce().catch(function(){})}
-install();
-document.addEventListener('DOMContentLoaded',function(){install();setTimeout(install,500);setTimeout(function(){applyFromIDB('تهيئة IndexedDB').catch(function(){})},1200)});
-window.addEventListener('load',function(){setTimeout(install,350);setTimeout(function(){status().then(function(s){window.__hrIndexedDBPrimaryStatus=s})},2600)});
-window.hrIndexedDBPrimaryStore={release:RELEASE,install:install,status:status,applyFromIDB:applyFromIDB,promote:promoteLocalStorageOnce};
-})();
-</script>
+<!-- r1517-indexeddb-primary-store-script: retired for authenticated online-only preview -->
 
 <script id="r1518-employee-modal-cleanup-script">
 // MOBILE R1.5.18: remove duplicated middle hero/quick actions from employee profile modal.
@@ -8960,7 +8833,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
 (function(){
   'use strict';
   var RELEASE='MOBILE-R1.5.37-CACHE-SERVICE-WORKER-UPDATE-FIX';
-  var SW_URL='service-worker.js?v=15105';
+  var SW_URL='service-worker.js?v=15106';
   var KEEP_CACHE='employee-registry-ui-r15105';
   try{APP_RELEASE=RELEASE;}catch(e){window.APP_RELEASE=RELEASE;}
   try{window.APP_RELEASE=RELEASE;}catch(e){}
@@ -9160,6 +9033,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
  const LOCAL_TEST=/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(HOST_ORIGIN);
  const LIVE_HOST=HOST_ORIGIN==='https://muayedhassan.github.io';
  const el=id=>document.getElementById(id);
+ window.hr105VerifiedAccount=function(){return verified;};
  const shell=el('hr105-auth'),form=el('hr105-login-form'),sub=el('hr105-submit');
  const frame=el('hr105-notes-frame'),notes=el('hr105-notes-layer');
  let auth=null,authReady=Promise.resolve(),verified=false,role='',portalWindow=null,portalOrigin='',nonce='',pending=null;
@@ -9214,18 +9088,33 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
    pill.innerHTML='<i class="fas fa-user-shield" aria-hidden="true"></i> '+roleName(role)+' <i class="fas fa-right-from-bracket" aria-hidden="true"></i>';
  }
  function enableApp(){
+   if(window.hr106PrivacyGuard)window.hr106PrivacyGuard.allowVerifiedSession();
    verified=true;clearTimeout(sessionTimeout);error('');busy(false);
+   // Read-only dataset refresh occurs after Notes WHOAMI verified the session.
+   Promise.resolve().then(function(){
+     return typeof r1509RecoverSecureData==='function'?r1509RecoverSecureData(true):loadCentralData(true);
+   }).then(function(ok){
+     if(ok!==false){
+       try{updateAdminCounts();}catch(_){ }
+       try{filt=BASE[mode==='cont'?'cont':'perm']||[];if(mode!=='admin')doFilter();}catch(_){ }
+     }
+   }).catch(function(){
+     try{showToast('تعذر تحديث بيانات الموظفين من الخادم الجديد','warn');}catch(_){ }
+   });
    shell.hidden=true;showSession();
    if(pending){pending.resolve();pending=null;}
  }
  async function logout(){
    verified=false;role='';
+   if(window.hr106PrivacyGuard)window.hr106PrivacyGuard.lock();
    notes.hidden=true;shell.hidden=false;
    const p=el('hr105-session');if(p)p.remove();
    post('SIGN_OUT');portalWindow=null;portalOrigin='';nonce='';
    frame.removeAttribute('src');
    try{if(auth)await auth.signOut();}catch(_){ }
    el('hr105-password').value='';busy(false);msg('تم تسجيل الخروج بأمان');
+   // Reload clears rendered employee DOM and prevents asynchronous legacy UI data reuse.
+   try{window.location.reload()}catch(_){ }
  }
  async function openNotes(){
    if(!verified){shell.hidden=false;error('سجّل الدخول إلى النظام أولًا');return;}
@@ -9265,6 +9154,7 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
      const email=el('hr105-email').value.trim(), password=el('hr105-password').value;
      if(!email||!password)throw Error('أدخل البريد الإلكتروني وكلمة المرور');
      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw Error('صيغة البريد الإلكتروني غير صحيحة');
+     if(window.hr106LegacyCleanupReady)await window.hr106LegacyCleanupReady;
      if(!await authReady)throw Error('تعذر إعداد جلسة المصادقة');
      const cred=await auth.signInWithEmailAndPassword(email,password);
      el('hr105-password').value='';
@@ -9339,286 +9229,10 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
   grid-column:1 / -1;
 }
 </style><script id="r1545-data-release-ledger-script">
-(function(){
-'use strict';
-var RELEASE='MOBILE-R1.5.46-OFFICIAL-DATA-CONTRACT';
-var DB_NAME='hr_mobile_data_release_ledger_v1';
-var DB_VERSION=1;
-var STORE='releases';
-var MAX_RELEASES=30;
-var MAX_SNAPSHOTS=8;
-var dbPromise=null;
-var busy=false;
-var FIELDS=['name','fourName','motherName','gender','identityNo','identityIssueDate','identityIssuer','division','employmentStatus','education','jobTitle','specialization','grade','step','salary','birthDate','hireDate','firstAssignmentDate','nextBonusDate','nextPromotionDate','notes','serviceNotes','appointmentOrderNo','appointmentOrderDate','employeeNo','num'];
-
-function clone(v){try{return JSON.parse(JSON.stringify(v))}catch(e){return v}}
-function arr(v){return Array.isArray(v)?v:[]}
-function clean(v){return v===null||v===undefined?'':String(v).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}
-function sem(field,v){var s=clean(v);if(s==='—'||s==='غير متوفر')return '';if(field==='salary'||field==='grade'||field==='step'||field==='num'){var n=Number(String(s).replace(/[^0-9.\-]/g,''));return isNaN(n)?s:String(n)}return s}
-function now(){return new Date().toISOString()}
-function currentVersion(){try{var v=clean(typeof DATA_VERSION!=='undefined'?DATA_VERSION:'');return v&&v!=='غير معروف'?v:''}catch(e){return ''}}
-function snapshot(){try{return {perm:clone(BASE.perm||[]),cont:clone(BASE.cont||[])}}catch(e){return {perm:[],cont:[]}}}
-function total(ds){return arr(ds&&ds.perm).length+arr(ds&&ds.cont).length}
-function validSnapshot(ds){return !!(ds&&Array.isArray(ds.perm)&&Array.isArray(ds.cont)&&total(ds)>0)}
-function typeOf(e,fallback){return e&&e.type?String(e.type):(fallback||'')}
-function key(e,fallbackType){if(!e)return '';var t=typeOf(e,fallbackType),emp=clean(e.employeeNo);if(emp)return t+'|emp|'+emp;var id=clean(e.integrationId||e.id||e.bridgeId);if(id)return t+'|id|'+id;var num=clean(e.num);if(num)return t+'|num|'+num;var name=clean(e.name);return name?t+'|name|'+name:''}
-function mapData(ds){var m={};arr(ds&&ds.perm).forEach(function(e){var k=key(e,'perm');if(k)m[k]=e});arr(ds&&ds.cont).forEach(function(e){var k=key(e,'cont');if(k)m[k]=e});return m}
-function ref(e){return {id:e.id||'',integrationId:e.integrationId||e.id||'',bridgeId:e.bridgeId||'',employeeNo:e.employeeNo||'',num:e.num||'',name:e.name||'',type:e.type||''}}
-function changes(a,b){var out=[];FIELDS.forEach(function(f){var x=a?a[f]:'',y=b?b[f]:'';if(sem(f,x)!==sem(f,y))out.push({field:f,oldValue:x==null?'':x,newValue:y==null?'':y})});return out}
-function summary(before,after,v,prev,stamp,source){
-  var old=mapData(before||{}),nu=mapData(after||{}),modified=[],added=[],missing=[];
-  Object.keys(nu).forEach(function(k){var n=nu[k],o=old[k];if(!o){added.push(ref(n));return}var ch=changes(o,n);if(ch.length){var x=ref(n);x.previousName=o.name||'';x.changes=ch;modified.push(x)}});
-  Object.keys(old).forEach(function(k){if(!nu[k])missing.push(ref(old[k]))});
-  var tt=total(after);
-  return {schemaVersion:1545,source:source||'data-release-ledger',__r1544CurrentDataVersion:true,__r1545DataRelease:true,dataVersion:v||'',version:v||'',previousVersion:prev||'',updatedAt:stamp||now(),counts:{modified:modified.length,added:added.length,missing:missing.length,total:tt,excelRows:tt},modified:modified,added:added,missing:missing};
-}
-function baseline(ds,v,stamp,source){
-  var s=summary({perm:[],cont:[]},{perm:[],cont:[]},v,'',stamp,source||'data-release-baseline');
-  s.counts.total=total(ds);s.counts.excelRows=total(ds);
-  return s;
-}
-function normalizeSummary(s,v){
-  var x=clone(s||{}),vv=clean(v||x.dataVersion||x.version);
-  if(!vv)return null;
-  x.schemaVersion=1545;x.__r1544CurrentDataVersion=true;x.__r1545DataRelease=true;x.dataVersion=vv;x.version=vv;x.updatedAt=x.updatedAt||now();x.counts=x.counts||{};x.modified=arr(x.modified);x.added=arr(x.added);x.missing=arr(x.missing);return x;
-}
-function openDB(){
-  if(dbPromise)return dbPromise;
-  dbPromise=new Promise(function(resolve,reject){
-    var req=indexedDB.open(DB_NAME,DB_VERSION);
-    req.onupgradeneeded=function(){
-      var db=req.result;
-      if(!db.objectStoreNames.contains(STORE)){
-        var st=db.createObjectStore(STORE,{keyPath:'version'});
-        try{st.createIndex('updatedAt','updatedAt',{unique:false})}catch(e){}
-      }
-    };
-    req.onsuccess=function(){resolve(req.result)};
-    req.onerror=function(){reject(req.error||new Error('release ledger open failed'))};
-  });
-  return dbPromise;
-}
-async function put(rec){
-  var db=await openDB();
-  return new Promise(function(resolve,reject){
-    var tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(rec);
-    tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error||new Error('release ledger write failed'))};
-  });
-}
-async function get(v){
-  var db=await openDB();
-  return new Promise(function(resolve,reject){
-    var tx=db.transaction(STORE,'readonly'),q=tx.objectStore(STORE).get(v);
-    q.onsuccess=function(){resolve(q.result||null)};q.onerror=function(){reject(q.error||new Error('release ledger read failed'))};
-  });
-}
-async function all(){
-  var db=await openDB();
-  return new Promise(function(resolve,reject){
-    var tx=db.transaction(STORE,'readonly'),q=tx.objectStore(STORE).getAll();
-    q.onsuccess=function(){resolve(arr(q.result))};q.onerror=function(){reject(q.error||new Error('release ledger list failed'))};
-  });
-}
-async function del(v){
-  var db=await openDB();
-  return new Promise(function(resolve,reject){
-    var tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(v);
-    tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error||new Error('release ledger delete failed'))};
-  });
-}
-function orderRecords(list){return arr(list).slice().sort(function(a,b){return String(a.updatedAt||a.createdAt||'').localeCompare(String(b.updatedAt||b.createdAt||''))})}
-function compatHistories(){
-  var out=[];
-  try{if(typeof CHANGE_HISTORY!=='undefined'&&CHANGE_HISTORY&&Array.isArray(CHANGE_HISTORY.versions))out.push(CHANGE_HISTORY)}catch(e){}
-  ['emp_change_history_cache_mobile_r122','hr_persistent_change_history_r1515'].forEach(function(k){try{var h=JSON.parse(localStorage.getItem(k)||'null');if(h&&Array.isArray(h.versions))out.push(h)}catch(e){}});
-  try{var st=JSON.parse(localStorage.getItem('hr_data_change_ledger_r1544')||'null');if(st&&st.history&&Array.isArray(st.history.versions))out.push(st.history)}catch(e){}
-  return out;
-}
-async function importSummary(s,source){
-  var ns=normalizeSummary(s);
-  if(!ns)return false;
-  var old=await get(ns.version);
-  var rec=old||{version:ns.version,createdAt:ns.updatedAt||now()};
-  if(!rec.summary||arr(ns.modified).length||arr(ns.added).length||arr(ns.missing).length)rec.summary=ns;
-  rec.updatedAt=rec.updatedAt||ns.updatedAt||now();
-  rec.previousVersion=rec.previousVersion||ns.previousVersion||'';
-  rec.source=rec.source||source||'compat-history';
-  await put(rec);
-  return true;
-}
-async function importCompat(){
-  var hs=compatHistories();
-  for(var i=0;i<hs.length;i++){
-    var vv=arr(hs[i].versions);
-    for(var j=0;j<vv.length;j++)await importSummary(vv[j],'compat-history');
-  }
-  try{
-    if(window.hrIndexedDB&&typeof window.hrIndexedDB.loadChanges==='function'){
-      var c=await window.hrIndexedDB.loadChanges();
-      if(c&&c.history&&Array.isArray(c.history.versions)){
-        for(var k=0;k<c.history.versions.length;k++)await importSummary(c.history.versions[k],'indexeddb-history');
-      }
-      if(c&&c.summary)await importSummary(c.summary,'indexeddb-summary');
-    }
-  }catch(e){}
-}
-async function importSafetyBackups(){
-  if(typeof idbGetAll!=='function')return 0;
-  var items=[];
-  try{items=await idbGetAll('backups')}catch(e){return 0}
-  items=arr(items).filter(function(x){return x&&clean(x.sourceVersion)&&Array.isArray(x.perm)&&Array.isArray(x.cont)}).sort(function(a,b){return String(a.createdAt||'').localeCompare(String(b.createdAt||''))});
-  var byVersion={};
-  items.forEach(function(x){byVersion[clean(x.sourceVersion)]=x});
-  var keys=Object.keys(byVersion),count=0;
-  for(var i=0;i<keys.length;i++){
-    var v=keys[i],x=byVersion[v],old=await get(v);
-    var rec=old||{version:v,createdAt:x.createdAt||now()};
-    if(!rec.snapshot)rec.snapshot={perm:clone(x.perm),cont:clone(x.cont)};
-    rec.updatedAt=rec.updatedAt||x.createdAt||now();
-    rec.source=rec.source||'safety-backup-recovery';
-    await put(rec);count++;
-  }
-  return count;
-}
-async function ensureCurrent(){
-  var v=currentVersion(),ds=snapshot();
-  if(!v||!validSnapshot(ds))return false;
-  var rec=await get(v);
-  if(!rec){
-    rec={version:v,createdAt:now(),updatedAt:now(),source:'current-data-baseline',snapshot:clone(ds),summary:null};
-    await put(rec);
-  }else if(!rec.snapshot){
-    rec.snapshot=clone(ds);rec.source=rec.source||'current-data-snapshot';await put(rec);
-  }
-  return true;
-}
-async function rebuild(){
-  var list=orderRecords(await all());
-  for(var i=0;i<list.length;i++){
-    var cur=list[i],prev=i>0?list[i-1]:null;
-    if(!cur.summary){
-      if(prev&&validSnapshot(prev.snapshot)&&validSnapshot(cur.snapshot)){
-        cur.summary=summary(prev.snapshot,cur.snapshot,cur.version,prev.version,cur.updatedAt||cur.createdAt,'snapshot-recovery');
-        cur.previousVersion=prev.version;
-      }else{
-        cur.summary=baseline(cur.snapshot||{perm:[],cont:[]},cur.version,cur.updatedAt||cur.createdAt,'release-baseline');
-        cur.previousVersion=cur.previousVersion||'';
-      }
-      await put(cur);
-    }else{
-      cur.summary=normalizeSummary(cur.summary,cur.version);
-      if(prev&&!cur.summary.previousVersion)cur.summary.previousVersion=prev.version;
-      cur.previousVersion=cur.summary.previousVersion||cur.previousVersion||'';
-      await put(cur);
-    }
-  }
-  return orderRecords(await all());
-}
-async function prune(){
-  var list=orderRecords(await all());
-  if(list.length>MAX_RELEASES){
-    var extra=list.slice(0,list.length-MAX_RELEASES);
-    for(var i=0;i<extra.length;i++)await del(extra[i].version);
-    list=orderRecords(await all());
-  }
-  var withSnap=list.filter(function(x){return validSnapshot(x.snapshot)});
-  if(withSnap.length>MAX_SNAPSHOTS){
-    var drop=withSnap.slice(0,withSnap.length-MAX_SNAPSHOTS);
-    for(var j=0;j<drop.length;j++){drop[j].snapshot=null;await put(drop[j])}
-  }
-}
-async function publish(){
-  var list=orderRecords(await all()),versions=list.map(function(x){return normalizeSummary(x.summary,x.version)}).filter(Boolean);
-  var cv=currentVersion(),cur=versions.find(function(x){return clean(x.version)===cv})||versions[versions.length-1]||null;
-  try{CHANGE_HISTORY={schemaVersion:1545,versions:clone(versions)}}catch(e){}
-  try{LAST_CHANGE_SUMMARY=cur?clone(cur):null}catch(e){}
-  try{localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(CHANGE_HISTORY))}catch(e){}
-  try{if(cur)localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(cur))}catch(e){}
-  try{localStorage.setItem('hr_persistent_change_history_r1515',JSON.stringify(CHANGE_HISTORY))}catch(e){}
-  try{if(cur)localStorage.setItem('hr_persistent_change_summary_r1515',JSON.stringify(cur))}catch(e){}
-  try{if(window.hrIndexedDB&&typeof window.hrIndexedDB.saveChanges==='function')await window.hrIndexedDB.saveChanges(cur,CHANGE_HISTORY,'r1545-data-release-ledger')}catch(e){}
-  try{if(typeof updateExcelMasterUI==='function')updateExcelMasterUI()}catch(e){}
-  return {versions:versions,current:cur};
-}
-async function recover(){
-  if(busy)return false;busy=true;
-  try{
-    await importCompat();
-    await importSafetyBackups();
-    await ensureCurrent();
-    await rebuild();
-    await prune();
-    await publish();
-    return true;
-  }catch(e){
-    try{console.warn('R1.5.45 ledger recovery skipped',e)}catch(_){}
-    return false;
-  }finally{busy=false}
-}
-async function captureTransition(beforeV,beforeData,reason){
-  var afterV=currentVersion(),afterData=snapshot();
-  if(!beforeV||!afterV||beforeV===afterV||!validSnapshot(afterData)){await recover();return false}
-  var old=await get(beforeV);
-  if(!old)old={version:beforeV,createdAt:now(),updatedAt:now(),source:'captured-before-transition'};
-  if(!old.snapshot&&validSnapshot(beforeData))old.snapshot=clone(beforeData);
-  await put(old);
-  var cur=await get(afterV);
-  if(!cur)cur={version:afterV,createdAt:now(),updatedAt:now(),source:reason||'data-version-change'};
-  cur.snapshot=clone(afterData);
-  cur.previousVersion=beforeV;
-  cur.summary=summary(old.snapshot||beforeData,afterData,afterV,beforeV,cur.updatedAt,'official-data-version-change');
-  await put(cur);
-  await rebuild();await prune();await publish();
-  try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates()}catch(e){}
-  return true;
-}
-function wrapApply(){
-  try{
-    if(typeof r1509ApplySecureDataset!=='function'||r1509ApplySecureDataset.__r1545Wrapped)return false;
-    var old=r1509ApplySecureDataset;
-    r1509ApplySecureDataset=function(){
-      var beforeV=currentVersion(),beforeData=snapshot();
-      var ok=old.apply(this,arguments),afterV=currentVersion();
-      if(ok&&beforeV&&afterV&&beforeV!==afterV)setTimeout(function(){captureTransition(beforeV,beforeData,'secure-apply')},0);
-      else if(ok)setTimeout(recover,0);
-      return ok;
-    };
-    r1509ApplySecureDataset.__r1545Wrapped=true;
-    try{window.r1509ApplySecureDataset=r1509ApplySecureDataset}catch(e){}
-    return true;
-  }catch(e){return false}
-}
-function wrapLoad(){
-  try{
-    if(typeof loadCentralData!=='function'||loadCentralData.__r1545Wrapped)return false;
-    var old=loadCentralData;
-    loadCentralData=async function(){
-      var beforeV=currentVersion(),beforeData=snapshot(),out=await old.apply(this,arguments),afterV=currentVersion();
-      if(beforeV&&afterV&&beforeV!==afterV)await captureTransition(beforeV,beforeData,'load-central');
-      else await recover();
-      return out;
-    };
-    loadCentralData.__r1545Wrapped=true;
-    return true;
-  }catch(e){return false}
-}
-function wrapBuild(){
-  try{
-    if(typeof buildUpdates!=='function'||buildUpdates.__r1545Wrapped)return false;
-    var old=buildUpdates;
-    buildUpdates=function(){var r=old.apply(this,arguments);setTimeout(recover,0);return r};
-    buildUpdates.__r1545Wrapped=true;
-    return true;
-  }catch(e){return false}
-}
-function install(){wrapApply();wrapLoad();wrapBuild()}
-function boot(){install();recover().then(function(){try{if(typeof buildUpdates==='function'&&document.getElementById('updates-page'))buildUpdates()}catch(e){}}).catch(function(){})}
-install();
-document.addEventListener('DOMContentLoaded',function(){boot();setTimeout(boot,600);setTimeout(boot,1800)});
-window.addEventListener('load',function(){setTimeout(boot,300);setTimeout(boot,1400);setTimeout(boot,3200)});
-window.addEventListener('pageshow',function(){setTimeout(boot,160)});
-document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(boot,160)});
-window.r1545DataReleaseLedger={release:RELEASE,recover:recover,list:all,currentVersion:currentVersion};
+/* R1.5.106 privacy R2: retired legacy employee release ledger.
+   Reuse official history in page memory from the secure gateway; never persist full employee snapshots. */
+(function(){'use strict';
+  window.r1545DataReleaseLedger={release:'R15106-ONLINE-MEMORY-ONLY',recover:async function(){return false;},list:async function(){return [];},currentVersion:function(){try{return String(DATA_VERSION||'')}catch(_){return ''}}};
 })();
 </script>
 <style id="r1545-dashboard-alert-removal-style">
@@ -9781,7 +9395,7 @@ function decorateDataset(dataset,api){
   if(p.history&&p.history.versions.length)dataset.changeHistory=clone(p.history);
   dataset.__r1546OfficialPacket=clone(p);
   lastPacket=clone(p);
-  try{localStorage.setItem(CACHE_KEY,JSON.stringify(p))}catch(e){}
+  // R2: no device cache of official data/change history.
   return dataset;
 }
 function packetFromDataset(d){
@@ -9790,13 +9404,9 @@ function packetFromDataset(d){
   if(p&&isDataVersion(p.version))return p;
   return packetFrom(d);
 }
-function cachedPacket(){
-  try{
-    var p=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
-    return p&&isDataVersion(p.version)?p:null;
-  }catch(e){return null}
-}
+function cachedPacket(){return null; /* Session-only secure gateway */}
 function openLedger(){
+  return Promise.reject(new Error('أرشيف إصدارات الموظفين المحلي معطل في الإصدار الآمن')); // R3
   return new Promise(function(resolve,reject){
     if(!('indexedDB' in window)){reject(new Error('IndexedDB unavailable'));return}
     var req=indexedDB.open(LEDGER_DB,1);
@@ -9812,35 +9422,13 @@ function openLedger(){
   });
 }
 async function seedLedger(history){
-  if(!history||!Array.isArray(history.versions)||!history.versions.length)return false;
-  var db=await openLedger();
-  return new Promise(function(resolve,reject){
-    var tx=db.transaction(LEDGER_STORE,'readwrite');
-    var st=tx.objectStore(LEDGER_STORE);
-    st.clear();
-    history.versions.forEach(function(s){
-      if(!s||!isDataVersion(s.version))return;
-      st.put({
-        version:s.version,
-        previousVersion:s.previousVersion||'',
-        createdAt:s.updatedAt||new Date().toISOString(),
-        updatedAt:s.updatedAt||new Date().toISOString(),
-        source:'official-windows-history-r1546',
-        summary:clone(s),
-        snapshot:null
-      });
-    });
-    tx.oncomplete=function(){resolve(true)};
-    tx.onerror=function(){reject(tx.error||new Error('ledger seed failed'))};
-  });
+  // R1.5.106 privacy R2: do not copy change history to IndexedDB.
+  return false;
 }
 function writeCompat(summary,history){
   try{LAST_CHANGE_SUMMARY=summary?clone(summary):null}catch(e){}
   try{CHANGE_HISTORY=history?clone(history):{schemaVersion:2,versions:[]}}catch(e){}
-  try{localStorage.setItem(CHANGE_SUMMARY_CACHE_KEY,JSON.stringify(LAST_CHANGE_SUMMARY))}catch(e){}
-  try{localStorage.setItem(CHANGE_HISTORY_CACHE_KEY,JSON.stringify(CHANGE_HISTORY))}catch(e){}
-  try{localStorage.setItem('hr_persistent_change_summary_r1515',JSON.stringify(LAST_CHANGE_SUMMARY))}catch(e){}
-  try{localStorage.setItem('hr_persistent_change_history_r1515',JSON.stringify(CHANGE_HISTORY))}catch(e){}
+  // No localStorage or IndexedDB persistence.
 }
 async function importPacket(p,reason){
   if(importBusy||!p||!isDataVersion(p.version))return false;
@@ -9872,7 +9460,7 @@ async function importPacket(p,reason){
     p.hasOfficialChanges=true;
     p.reason=reason||'official-import';
     lastPacket=clone(p);
-    try{localStorage.setItem(CACHE_KEY,JSON.stringify(p))}catch(e){}
+    // R2: no device cache of official data/change history.
 
     try{
       DATA_VERSION=p.version;
@@ -9886,11 +9474,7 @@ async function importPacket(p,reason){
     await seedLedger(p.history);
     writeCompat(current,p.history);
 
-    try{
-      if(window.hrIndexedDB&&typeof window.hrIndexedDB.saveChanges==='function'){
-        await window.hrIndexedDB.saveChanges(clone(current),clone(p.history),'r1546-official-windows-history');
-      }
-    }catch(e){}
+    // R2: no IndexedDB save of official history.
 
     try{updateVersionUI()}catch(e){}
     try{updateExcelMasterUI()}catch(e){}
@@ -12349,7 +11933,7 @@ body.subview-career.r1583-content-open #r1507-chrome-toggle .r1507-dot{width:8px
 // R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
+var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -12736,7 +12320,7 @@ body.subview-notes #r1502-dashboard{display:none!important}
 (function(){
 'use strict';
 
-var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
+var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
 var PAGE_ID='view-notes';
 var DB_NAME='hr_mobile_personal_notes';
 var DB_VERSION=1;
@@ -12758,6 +12342,7 @@ function toast(m,t){try{if(typeof showToast==='function')showToast(m,t)}catch(e)
 function safeScrollTop(){var sc=$('scroll');return sc?Number(sc.scrollTop||0):0}
 
 function openDB(){
+  return Promise.reject(new Error('الملاحظات المحلية القديمة معطلة لحماية بيانات الموظفين')); // R3
   if(dbPromise)return dbPromise;
   if(!window.indexedDB)return Promise.reject(new Error('IndexedDB غير متاح'));
   dbPromise=new Promise(function(resolve,reject){
@@ -13298,7 +12883,7 @@ window.r1571MyNotes={
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
+var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
 async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','15105');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
@@ -13438,7 +13023,7 @@ body.light-mode #r1502-dashboard.r1579-dashboard .r1579-scope-card,body.light-mo
 // R1579_FIRST_TAP_ROUTER — explicit startup intent queue; no MutationObserver.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
+var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
 var state={bootReady:false,pending:null,routing:false,userIntent:null,lastRoute:'',readyReason:''};
 var MODULES={
   employees:[
@@ -13703,7 +13288,7 @@ body.light-mode #r1502-dashboard.r1580-compact .r1580-stat b{color:#17325a!impor
 // R1580_VECTOR_ICON_SYSTEM — preserves the existing Font Awesome vector icon set.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
+var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
 function $(s,r){return (r||document).querySelector(s)}
 function all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
 function numFromScope(key){var e=$('#r1502-dashboard [data-main="'+key+'"] .r1579-scope-count');var n=Number(String(e&&e.textContent||'').replace(/[^0-9]/g,''));return isFinite(n)?n:0}
@@ -13817,7 +13402,7 @@ window.r1580CompactProfessionalUI={release:RELEASE,enhance:enhance,install:insta
 // R1581_UNIFORM_CARD_TITLE_CLARITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
+var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
 var lastDataMode='perm';
 var routeBusy=false;
 function qs(s,r){return (r||document).querySelector(s)}
@@ -14090,7 +13675,7 @@ body.light-mode.r1582-ui #r1502-dashboard.r1580-compact .r1579-module-card .r157
 // R1582_PROFESSIONAL_SINGLE_SCROLL
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
+var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
 var resizeTimer=0;
 
 function q(s,r){return (r||document).querySelector(s)}
@@ -14282,7 +13867,7 @@ body.r1583-dashboard-home #r1502-dashboard.r1580-compact{
 // R1583_CONTENT_MODE_SWITCH
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
+var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
 var contentKey='';
 var adminWrapped=false;
 
@@ -14453,7 +14038,7 @@ body.r1583-content-open.chrome-collapsed #scroll{display:block!important}
 // R1584_CAPTURED_CONTENT_MODE_FIX
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN',pendingKey='',pendingTimer=0;
+var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY',pendingKey='',pendingTimer=0;
 function q(s,r){return (r||document).querySelector(s)}
 function forceChromeExpanded(){
  try{
@@ -14520,7 +14105,7 @@ body.r1583-content-open #r1507-chrome-toggle .r1507-dot{background:#37f0a5!impor
 // R1585_HOME_STABILITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
+var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
 function returnHome(){
  if(!document.body)return false;
  try{if(window.r1507ChromeSafeFloatingToggle&&typeof window.r1507ChromeSafeFloatingToggle.set==='function')window.r1507ChromeSafeFloatingToggle.set(false)}catch(e){}
@@ -14558,7 +14143,7 @@ body.r1583-content-open:not(.r1583-dashboard-home) #r1507-chrome-toggle{
 // R1586_HOME_NO_HIDE_SHOW
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.105-UNIFIED-LOGIN';
+var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
 function normalizeDashboardHome(){
   if(!document.body)return false;
   if(document.body.classList.contains('r1583-dashboard-home')&&!document.body.classList.contains('r1583-content-open')){
