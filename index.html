@@ -30,7 +30,7 @@
   return originalSet.apply(this,arguments);
  };
  window.hr106PrivacyGuard={
-  release:'MOBILE-R1.5.106-SECURE-DATA-PRIVACY-R3',
+  release:'MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN',
   isAllowed:function(){return permitted;},
   allowVerifiedSession:function(){permitted=true;},
   lock:function(){
@@ -126,13 +126,13 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="app-release" content="MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY">
+<meta name="app-release" content="MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0b1437">
 <link rel="manifest" href="/employees/manifest.webmanifest">
-<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.106</title>
+<title>سجل الموظفين – مديرية زراعة صلاح الدين • Mobile R1.5.107</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/employees/assets/fonts/hr-fonts.css?v=r1411">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -9087,24 +9087,57 @@ window.r1529ManualRefreshTimeoutGuard={release:RELEASE,timeoutMs:SECURE_TIMEOUT_
    }
    pill.innerHTML='<i class="fas fa-user-shield" aria-hidden="true"></i> '+roleName(role)+' <i class="fas fa-right-from-bracket" aria-hidden="true"></i>';
  }
+ /* R1.5.107 — authorized post-login employee autoload.
+    Manual refresh remains available. Never reads data prior to server-confirmed role.
+    This helper does not persist records, credentials, or tokens. */
+ let hr107AutoLoadGeneration=0;
+ window.hr107AutoLoadState='WAITING_LOGIN';
+ function hr107StartAutoLoad(){
+   const generation=++hr107AutoLoadGeneration;
+   const account=auth&&auth.currentUser;
+   let tries=0;
+   function allowed(){
+     return generation===hr107AutoLoadGeneration && verified && account && auth&&auth.currentUser===account &&
+       window.hr106DataLoginReady&&window.hr106DataLoginReady();
+   }
+   async function attempt(){
+     if(!allowed())return;
+     tries++;
+     window.hr107AutoLoadState='LOADING';
+     try{
+       // Use the proven manual-refresh data path after WHOAMI and UI startup.
+       const ok=await r1509RecoverSecureData(true);
+       if(!allowed())return;
+       if(ok!==true || r1509DatasetTotal()===0)throw Error('DATA_NOT_APPLIED');
+       r1509RefreshVisibleUi('تم تحميل بيانات الموظفين تلقائيًا');
+       window.hr107AutoLoadState='READY';
+     }catch(_){
+       if(!allowed())return;
+       if(tries<2 && navigator.onLine!==false){
+         window.hr107AutoLoadState='RETRYING';
+         setTimeout(attempt,1500);
+       }else{
+         window.hr107AutoLoadState='FAILED';
+         try{showToast('تعذّر التحميل التلقائي؛ استخدم تحديث البيانات','warn');}catch(_){ }
+       }
+     }
+   }
+   function begin(){setTimeout(attempt,900);}
+   if(document.readyState==='complete')begin();
+   else window.addEventListener('load',begin,{once:true});
+ }
+
  function enableApp(){
    if(window.hr106PrivacyGuard)window.hr106PrivacyGuard.allowVerifiedSession();
    verified=true;clearTimeout(sessionTimeout);error('');busy(false);
-   // Read-only dataset refresh occurs after Notes WHOAMI verified the session.
-   Promise.resolve().then(function(){
-     return typeof r1509RecoverSecureData==='function'?r1509RecoverSecureData(true):loadCentralData(true);
-   }).then(function(ok){
-     if(ok!==false){
-       try{updateAdminCounts();}catch(_){ }
-       try{filt=BASE[mode==='cont'?'cont':'perm']||[];if(mode!=='admin')doFilter();}catch(_){ }
-     }
-   }).catch(function(){
-     try{showToast('تعذر تحديث بيانات الموظفين من الخادم الجديد','warn');}catch(_){ }
-   });
    shell.hidden=true;showSession();
    if(pending){pending.resolve();pending=null;}
+   hr107StartAutoLoad();
  }
  async function logout(){
+   // Cancel any pending automatic load; never apply rows after session teardown.
+   hr107AutoLoadGeneration++;
+   window.hr107AutoLoadState='SIGNED_OUT';
    verified=false;role='';
    if(window.hr106PrivacyGuard)window.hr106PrivacyGuard.lock();
    notes.hidden=true;shell.hidden=false;
@@ -11933,7 +11966,7 @@ body.subview-career.r1583-content-open #r1507-chrome-toggle .r1507-dot{width:8px
 // R1563_CAREER_MATCH_INTEGRITY | CANONICAL_EXACT_ONLY title matching + explicit source diagnostics; no fuzzy inference.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
+var RELEASE='MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN';
 var PAGE_ID='view-career';
 var MAP_URL='assets/job-title-progression.json';
 var JOB_URL='assets/job-titles.json';
@@ -12320,7 +12353,7 @@ body.subview-notes #r1502-dashboard{display:none!important}
 (function(){
 'use strict';
 
-var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
+var RELEASE='MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN';
 var PAGE_ID='view-notes';
 var DB_NAME='hr_mobile_personal_notes';
 var DB_VERSION=1;
@@ -12883,7 +12916,7 @@ window.r1571MyNotes={
 <script id="r1551-canonical-release">
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
+var RELEASE='MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN';
 function setRelease(){try{APP_RELEASE=RELEASE}catch(e){window.APP_RELEASE=RELEASE}try{window.APP_RELEASE=RELEASE}catch(e){}try{var m=document.querySelector('meta[name="app-release"]');if(m)m.setAttribute('content',RELEASE)}catch(e){}try{R122_AUTO_STATUS='التحديث يدوي فقط';R122_AUTO_CHECK_MS=0}catch(e){}}
 function canonicalFromHtml(txt){txt=String(txt||'');var m=txt.match(/<meta\\s+name=["']app-release["']\\s+content=["']([^"']+)["'][^>]*>/i);if(!m)m=txt.match(/<meta\\s+content=["']([^"']+)["']\\s+name=["']app-release["'][^>]*>/i);return m&&m[1]?m[1]:''}
 async function fetchPublishedRelease(){if(navigator.onLine===false)return '';var u=new URL('index.html',location.href);u.searchParams.set('_release_check',Date.now().toString());u.searchParams.set('v','15105');var res=await fetch(u.toString(),{cache:'no-store',headers:{'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}});if(!res.ok)throw new Error('HTTP '+res.status);return canonicalFromHtml(await res.text())}
@@ -13023,7 +13056,7 @@ body.light-mode #r1502-dashboard.r1579-dashboard .r1579-scope-card,body.light-mo
 // R1579_FIRST_TAP_ROUTER — explicit startup intent queue; no MutationObserver.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
+var RELEASE='MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN';
 var state={bootReady:false,pending:null,routing:false,userIntent:null,lastRoute:'',readyReason:''};
 var MODULES={
   employees:[
@@ -13288,7 +13321,7 @@ body.light-mode #r1502-dashboard.r1580-compact .r1580-stat b{color:#17325a!impor
 // R1580_VECTOR_ICON_SYSTEM — preserves the existing Font Awesome vector icon set.
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
+var RELEASE='MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN';
 function $(s,r){return (r||document).querySelector(s)}
 function all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
 function numFromScope(key){var e=$('#r1502-dashboard [data-main="'+key+'"] .r1579-scope-count');var n=Number(String(e&&e.textContent||'').replace(/[^0-9]/g,''));return isFinite(n)?n:0}
@@ -13402,7 +13435,7 @@ window.r1580CompactProfessionalUI={release:RELEASE,enhance:enhance,install:insta
 // R1581_UNIFORM_CARD_TITLE_CLARITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
+var RELEASE='MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN';
 var lastDataMode='perm';
 var routeBusy=false;
 function qs(s,r){return (r||document).querySelector(s)}
@@ -13675,7 +13708,7 @@ body.light-mode.r1582-ui #r1502-dashboard.r1580-compact .r1579-module-card .r157
 // R1582_PROFESSIONAL_SINGLE_SCROLL
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
+var RELEASE='MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN';
 var resizeTimer=0;
 
 function q(s,r){return (r||document).querySelector(s)}
@@ -13867,7 +13900,7 @@ body.r1583-dashboard-home #r1502-dashboard.r1580-compact{
 // R1583_CONTENT_MODE_SWITCH
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
+var RELEASE='MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN';
 var contentKey='';
 var adminWrapped=false;
 
@@ -14038,7 +14071,7 @@ body.r1583-content-open.chrome-collapsed #scroll{display:block!important}
 // R1584_CAPTURED_CONTENT_MODE_FIX
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY',pendingKey='',pendingTimer=0;
+var RELEASE='MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN',pendingKey='',pendingTimer=0;
 function q(s,r){return (r||document).querySelector(s)}
 function forceChromeExpanded(){
  try{
@@ -14105,7 +14138,7 @@ body.r1583-content-open #r1507-chrome-toggle .r1507-dot{background:#37f0a5!impor
 // R1585_HOME_STABILITY
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
+var RELEASE='MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN';
 function returnHome(){
  if(!document.body)return false;
  try{if(window.r1507ChromeSafeFloatingToggle&&typeof window.r1507ChromeSafeFloatingToggle.set==='function')window.r1507ChromeSafeFloatingToggle.set(false)}catch(e){}
@@ -14143,7 +14176,7 @@ body.r1583-content-open:not(.r1583-dashboard-home) #r1507-chrome-toggle{
 // R1586_HOME_NO_HIDE_SHOW
 (function(){
 'use strict';
-var RELEASE='MOBILE-R1.5.106-SECURE-EMPLOYEE-DATA-GATEWAY';
+var RELEASE='MOBILE-R1.5.107-AUTO-DATA-ON-LOGIN';
 function normalizeDashboardHome(){
   if(!document.body)return false;
   if(document.body.classList.contains('r1583-dashboard-home')&&!document.body.classList.contains('r1583-content-open')){
